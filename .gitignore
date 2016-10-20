@@ -1,0 +1,40 @@
+node_modules
+.tmp
+
+# IDEs and editors
+.idea
+
+#Typescript
+typings
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# SPA
+
+# compiled output
+spa/dist
+spa/tmp
+
+# misc
+spa/connect.lock
+spa/coverage/*
+spa/libpeerconnection.log
+spa/npm-debug.log
+spa/testem.log
+spa/typings
+npm-debug.log
+
+# e2e
+spa/e2e/*.js
+spa/e2e/*.map
+
+#System Files
+.DS_Store
+Thumbs.db
+
+#Dist
+dist

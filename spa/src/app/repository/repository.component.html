@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="repository-summary" *ngIf="summaryLoaded$ | async">
+        <bw-repository-summary [summary]="summary$ | async">
+        </bw-repository-summary>
+    </div>
+    <div class="repository-files" *ngIf="filesLoaded$ | async">
+        <bw-repository-files [files]="files$ | async">
+        </bw-repository-files>
+    </div>
+</div>
