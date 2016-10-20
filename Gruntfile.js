@@ -209,24 +209,23 @@ module.exports = function (grunt) {
 
         },
 
-        // compress: {
-        //     dist: {
-        //         options: {
-        //             archive: './boardwalk.zip',
-        //             mode: 'zip'
-        //         },
-        //         files: [
-        //             { src: './server/dist/**/*.js', dest: '/'},
-        //             { src: "./dist/inline.js", dest: "/" },
-        //             { src: "./dist/main.*.bundle.js", dest: "/" },
-        //             { src: "./dist/styles.*.bundle.js", dest: "/" },
-        //             // { src: './views/**/*.*', dest: '/'},
-        //             { src: './package.json', dest: '/'},
-        //             { src: './.ebextensions/*.*', dest: '/'}
-        //
-        //         ]
-        //     }
-        // },
+        compress: {
+            dist: {
+                options: {
+                    archive: './boardwalk.zip',
+                    mode: 'zip'
+                },
+                files: [
+                    { src: './package.json', dest: '/'},
+                    { src: './server/dist/**/*.js', dest: '/'},
+                    { src: './dist/**/*.*', dest: '/'},
+                    // { src: "./dist/**/*.js", dest: "/" },
+                    // { src: "./dist/**/*.html", dest: "/" },
+                    // { src: './.ebextensions/*.*', dest: '/'}
+
+                ]
+            }
+        },
 
         exec: {
             clearTests: {
@@ -276,20 +275,11 @@ module.exports = function (grunt) {
 
     // Build
     grunt.registerTask("build", "Build production ready assets and views", [
-        // "less:dev",
         "clean:dist",
         "tslint",
-        // "concurrent:dist",
-        // "useminPrepare",
-        // "imagemin",
-        // "concat",
-        // "ngmin",
-        // "copy:dist",
-        // "copy:staticDist",
-        // "rev",
-        // "usemin"
         "spawn:buildSpa",
-        "exec:buildServer"
+        "exec:buildServer",
+        "compress:dist"
     ]);
 
     // Used for delaying livereload until after server has restarted

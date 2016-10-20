@@ -3,17 +3,21 @@
  */
 import { Response as Res, NextFunction as Next, Application } from "express";
 import { Req } from "../../boardwalk";
-
-import * as serveStatic from "serve-static";
 import * as path from "path";
-import * as passport from "passport";
-import * as session from "express-session";
-// import * as favicon from "serve-favicon";
-import * as logger from "morgan";
+
 import * as bodyParser from "body-parser";
-import * as methodOverride from "method-override";
+let connect = require("connect-mongo");
 import * as cookieParser from "cookie-parser";
+import * as session from "express-session";
+let expressValidator = require("express-validator");
+import * as methodOverride from "method-override";
+let moment = require("moment-timezone");
 import * as mongoose from "mongoose";
+import * as logger from "morgan";
+import * as passport from "passport";
+// import * as favicon from "serve-favicon";
+import * as serveStatic from "serve-static";
+let UAParser = require("ua-parser-js");
 
 import * as exphbs from "express-handlebars";
 
@@ -21,14 +25,10 @@ import { handleSafariCaching, ResponseError } from "cc-express-utils";
 import apiRoutes from "../api_routes";
 import appRoutes from "../app_routes";
 
-let moment = require("moment-timezone");
-let UAParser = require("ua-parser-js");
 import { config } from "../../lib/config/config";
 
 import { PersonModel } from "../person/person";
 
-let expressValidator = require("express-validator");
-let connect = require("connect-mongo");
 let parser = new UAParser();
 let mongoStore = connect(session);
 const DEFAULT_TIMEZONE = "America/New_York";
