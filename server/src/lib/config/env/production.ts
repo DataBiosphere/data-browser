@@ -12,6 +12,6 @@ export default {
         noReplyName: ""
     },
     mongo: {
-        uri: "mongodb://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PW + "@candidate.44.mongolayer.com:10949,candidate.62.mongolayer.com:11037/ucsc-bw-dev?replicaSet=set-580930228536f8e7890003ce"
+        uri: "mongodb://" + process.env["MONGO_USERNAME"] + ":" + process.env["MONGO_PW"] + "@candidate.44.mongolayer.com:10949,candidate.62.mongolayer.com:11037/ucsc-bw-dev?replicaSet=set-580930228536f8e7890003ce"
     }
 };

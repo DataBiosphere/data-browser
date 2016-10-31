@@ -11,11 +11,11 @@ export class FileSizePipe implements PipeTransform {
 
         let val = value;
         let sigFig = 0;
-        while (val > 1024) {
+        while (val >= 1024) {
             val = val / 1024;
             sigFig += 1;
         }
-        const roundedValue = Math.round(val * 100) / 100;
+        const roundedValue = val.toFixed(2);
         return `${roundedValue} ${fileSizes[sigFig]}`;
     }
 }

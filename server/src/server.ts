@@ -19,9 +19,12 @@ import { expressConfig } from "./lib/config/express";
 process.env["NODE_ENV"] = process.env["NODE_ENV"] || "local";
 
 // Connect to database
-let db: mongoose = mongoose.connect(config.mongo.uri, config.mongo.options);
+let db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 export const app = express();
+
+import { resolve } from "path";
+console.log(resolve(__dirname, "../../dist"));
 
 // // bootstraps
 // require("./lib/person/person");

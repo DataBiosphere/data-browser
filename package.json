@@ -5,7 +5,8 @@
   "main": "server/dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-     "start": "node server/dist/server.js"
+    "start": "node server/dist/server.js",
+    "postinstall": "cd server && typings install"
   },
   "repository": {
     "type": "git",

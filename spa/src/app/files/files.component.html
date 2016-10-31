@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="repository-summary" [ngSwitch]="summaryLoading$ | async">
+        <div *ngSwitchCase="false">
+            <bw-file-summary [summary]="summary$ | async">
+            </bw-file-summary>
+        </div>
+        <div *ngSwitchDefault>
+            swirling
+        </div>
+    </div>
+    <div class="file-facets" [ngSwitch]="facetsLoading$ | async">
+        <div *ngSwitchCase="false">
+            <bw-file-facets [facets]="facets$ | async"
+                            (termSelected)="onTermSelected($event)">
+            </bw-file-facets>
+        </div>
+        <div *ngSwitchDefault>
+            swirling
+        </div>
+    </div>
+</div>

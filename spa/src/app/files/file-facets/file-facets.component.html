@@ -1,0 +1,16 @@
+<div *ngFor="let facet of facets">
+  <div>
+    <span>name: {{facet.name | camelToSpace}}</span>
+  </div>
+  <div>
+    <span>total: {{facet.total | localeString}}</span>
+  </div>
+  <div>
+    <ul *ngFor="let term of facet.terms">
+      <li (click)="selectFacetTerm(facet, term)">
+        <span>{{term.selected}} | {{term.name}}: {{term.count | localeString}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+

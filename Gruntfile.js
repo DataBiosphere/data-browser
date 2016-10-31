@@ -60,94 +60,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // Copy Config
-        // Put files not handled in other tasks here
-        // copy: {
-        //     staticDist: {
-        //         files: [
-        //             // {
-        //             //     expand: true,
-        //             //     src: ["public/**"],
-        //             //     dest: "dist/"
-        //             // }
-        //         ]
-        //     },
-        //     dist: {
-        //         files: [
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app",
-        //                 dest: "dist/assets",
-        //                 src: [
-        //                     "*.{ico,png,txt}",
-        //                     ".htaccess",
-        //                     "images/**/*.{webp,gif}",
-        //                     "styles/fonts/{,*/}*.*"
-        //                 ]
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "views",
-        //                 dest: "dist/views/",
-        //                 src: "**/*.handlebars"
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app/views",
-        //                 dest: "dist/assets/views/",
-        //                 src: "**/*.html"
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app/bower_components/font-awesome/fonts",
-        //                 dest: "dist/assets/fonts/",
-        //                 src: "*.*"
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app/scripts/vendor",
-        //                 dest: "dist/assets/scripts/vendor/",
-        //                 src: "*.*"
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app/components",
-        //                 dest: "dist/assets/components/",
-        //                 src: "**/*.html"
-        //             },
-        //             {
-        //                 expand: true,
-        //                 dot: true,
-        //                 cwd: "app/a2-components",
-        //                 dest: "dist/assets/a2-components/",
-        //                 src: "**/*.{js,map,html}"
-        //             }
-        //         ]
-        //     },
-        //     styles: {
-        //         expand: true,
-        //         dot: true,
-        //         cwd: "assets/styles",
-        //         dest: ".tmp/styles/",
-        //         src: "{,*/}*.css"
-        //     }
-        // },
-
-        // Concurrent Config
-        concurrent: {
-            // dist: [
-            //     "copy:styles",
-            //     "svgmin",
-            //     "htmlmin"
-            // ]
-        },
-
         mochaTest: {
             service: {
                 options: {
@@ -218,11 +130,7 @@ module.exports = function (grunt) {
                 files: [
                     { src: './package.json', dest: '/'},
                     { src: './server/dist/**/*.js', dest: '/'},
-                    { src: './dist/**/*.*', dest: '/'},
-                    // { src: "./dist/**/*.js", dest: "/" },
-                    // { src: "./dist/**/*.html", dest: "/" },
-                    // { src: './.ebextensions/*.*', dest: '/'}
-
+                    { src: './dist/**/*.*', dest: '/'}
                 ]
             }
         },
@@ -357,12 +265,4 @@ module.exports = function (grunt) {
         }
 
     });
-
-
-    // /**
-    //  * Dev build task - compile less files, start watcher
-    //  */
-    // grunt.registerTask("dist", "Create zip file", [
-    //     "compress:dist"
-    // ]);
 };

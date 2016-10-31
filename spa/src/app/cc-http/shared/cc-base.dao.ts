@@ -159,13 +159,13 @@ export class CCBaseDAO {
         headers.append("accept", "application/json");
     }
 
-    /**
-     * Add content type of "application/json" to headers
-     *
-     * @param headers {Headers}
-     */
-    private addContentTypeHeader(headers: Headers): void {
-
-        headers.append("content-type", "application/json;charset=UTF-8");
-    }
+    // /**
+    //  * Add content type of "application/json" to headers
+    //  *
+    //  * @param headers {Headers}
+    //  */
+    // private addContentTypeHeader(headers: Headers): void {
+    //
+    //     headers.append("content-type", "application/json;charset=UTF-8");
+    // }
 }

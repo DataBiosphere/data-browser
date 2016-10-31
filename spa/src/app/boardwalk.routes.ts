@@ -1,6 +1,6 @@
 import { Route } from "@angular/router";
 
 export const boardwalkRoutes: Route[] = [
-    { path: "", redirectTo: "/repository", pathMatch: "full" },
-    { path: "repository", loadChildren: "./repository/repository.module#RepositoryModule" }
+    { path: "", redirectTo: "/files", pathMatch: "full" },
+    { path: "files", loadChildren: "./files/files.module#FilesModule" }
 ];

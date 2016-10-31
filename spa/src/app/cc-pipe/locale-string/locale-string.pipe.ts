@@ -6,6 +6,13 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class LocaleStringPipe implements PipeTransform {
 
     transform(value: number, args?: string): string {
-        return args ? value.toLocaleString() : value.toLocaleString(args);
+        let result: string;
+        if (args) {
+            result = value.toLocaleString(args);
+        }
+        else {
+            result = value.toLocaleString();
+        }
+        return result;
     }
 }
