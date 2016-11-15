@@ -1,2 +1,3 @@
 export { ACTIONS } from "./boardwalk.actions";
-// export { reducers, BoardwalkStore } from "./boardwalk.reducer";
+export { reducers } from "./boardwalk.reducer";
+export { State } from "./boardwalk.state";

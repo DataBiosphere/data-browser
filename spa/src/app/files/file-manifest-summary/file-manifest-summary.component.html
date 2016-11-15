@@ -1,0 +1,7 @@
+<div *ngFor="let repository of manifestSummary">
+        <div><span>Repository Name: {{repository.repoName}}</span></div>
+        <div><span>File Count: {{repository.fileCount | localeString}}</span></div>
+        <div><span>Donor Count: {{repository.donorCount | localeString}}</span></div>
+        <div><span>File Size: {{repository.fileSize | fileSize}}</span></div>
+</div>
+<button (click)="requestDownloadManifest()">Download Manifest</button>

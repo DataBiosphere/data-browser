@@ -1,5 +1,16 @@
 <div class="container">
-    <div class="repository-summary" [ngSwitch]="summaryLoading$ | async">
+    <button type="button" (click)="requestManifestSummary()">Manifest</button>
+    <bw-file-search [donors]="donors$ | async"
+                    [files]="files$ | async"
+                    (search)="onSearch($event)"
+                    (termSelected)="onTermSelected($event)">
+    </bw-file-search>
+    <div class="file-manifest-summary" *ngIf="!(manifestSummaryLoading$ | async)">
+            <bw-file-manifest-summary [manifestSummary]="manifestSummary$ | async"
+                                      (downloadManifest)="onDownloadManifest($event)">
+            </bw-file-manifest-summary>
+    </div>
+    <div class="file-summary" [ngSwitch]="summaryLoading$ | async">
         <div *ngSwitchCase="false">
             <bw-file-summary [summary]="summary$ | async">
             </bw-file-summary>

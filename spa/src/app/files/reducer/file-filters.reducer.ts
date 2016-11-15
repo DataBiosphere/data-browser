@@ -40,6 +40,8 @@ const DEFAULT_STATE: State = {
     size: 1, // they don't accept zero...
     include: "facets",
     filters: {
+        id: [],
+        donorId: [],
         access: [],
         dataType: [],
         donorStudy: [],

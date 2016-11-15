@@ -6,8 +6,8 @@ import { StoreModule } from "@ngrx/store";
 import { BoardwalkComponent } from "./boardwalk.component";
 
 import { boardwalkRoutes } from "./boardwalk.routes";
-import { reducers } from "./files/reducer";
 import { FilesModule } from "./files/files.module";
+import { reducers } from "./shared/boardwalk.reducer";
 
 @NgModule({
     bootstrap: [BoardwalkComponent],
@@ -17,7 +17,6 @@ import { FilesModule } from "./files/files.module";
 
         StoreModule.provideStore(reducers),
 
-        // RepositoryModule
         FilesModule
     ],
     declarations: [

@@ -1,6 +1,7 @@
 export interface ICGCQuery {
-    from: number;
-    size: number;
-    include: string;
     filters: string;
+    include: string;
+    size: number;
+    from?: number;
+    format?: string;
 }

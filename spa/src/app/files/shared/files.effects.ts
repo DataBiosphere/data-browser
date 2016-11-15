@@ -36,4 +36,24 @@ export class FilesEffects {
         .mergeMap((filter) => {
             return this.fileService.fetchFileSummaryObs(filter);
         });
+
+    @Effect()
+    fetchManifestSummary$: Observable<Action> = this.actions$
+        .ofType(ACTIONS.REQUEST_FILE_MANIFEST_SUMMARY)
+        .mergeMap(() => {
+            return selectFiltersAsQuery(this.store).first();
+        })
+        .mergeMap((filter) => {
+            return this.fileService.fetchFileManifestSummaryObs(filter);
+        });
+
+    @Effect()
+    downloadFileManifest$: Observable<Action> = this.actions$
+        .ofType(ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST)
+        .mergeMap(() => {
+            return selectFiltersAsQuery(this.store).first();
+        })
+        .mergeMap((query) => {
+            return this.fileService.downloadFileManifest(query);
+        });
 }
