@@ -24,7 +24,7 @@ export class FilesEffects {
             return selectFiltersAsQuery(this.store).first();
         })
         .mergeMap((filter) => {
-            return this.fileService.fetchFileFacetsObs(filter);
+            return this.fileService.fetchFileFacets(filter);
         });
 
     @Effect()
@@ -34,7 +34,7 @@ export class FilesEffects {
             return selectFiltersAsQuery(this.store).first();
         })
         .mergeMap((filter) => {
-            return this.fileService.fetchFileSummaryObs(filter);
+            return this.fileService.fetchFileSummary(filter);
         });
 
     @Effect()
@@ -44,7 +44,7 @@ export class FilesEffects {
             return selectFiltersAsQuery(this.store).first();
         })
         .mergeMap((filter) => {
-            return this.fileService.fetchFileManifestSummaryObs(filter);
+            return this.fileService.fetchFileManifestSummary(filter);
         });
 
     @Effect()

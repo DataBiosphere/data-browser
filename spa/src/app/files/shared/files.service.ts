@@ -1,66 +1,14 @@
 import { Injectable } from "@angular/core";
-import { Store, Action } from "@ngrx/store";
+import { Action } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-
 import { ACTIONS } from "./../../shared";
 import { FilesDAO } from "./files.dao";
-import { State } from "../reducer/index";
 import { ICGCQuery } from "../file-filters/icgc-query";
 
 @Injectable()
 export class FilesService {
 
-    constructor(private fileDAO: FilesDAO,
-                private store: Store<State>) {}
-
-    /**
-     * Send Both Requests
-     *
-     * @param filter
-     */
-    fetchFileData(filter: Object = {}): void {
-        this.fetchFileSummary(filter);
-        this.fetchFileFacets(filter);
-    }
-
-    /**
-     * Fetch File Summary
-     *
-     * @param filter
-     */
-    fetchFileSummary(filter: Object = {}): void {
-
-        this.fetchFileSummaryObs(filter)
-            .subscribe((action) => {
-                this.store.dispatch(action);
-            });
-    }
-
-    /**
-     * Fetch File Facets
-     *
-     * @param filter
-     */
-    fetchFileFacets(filter: Object = {}): void {
-
-        this.fetchFileFacetsObs(filter)
-            .subscribe(((action) => {
-                this.store.dispatch(action);
-            }));
-    }
-
-    /**
-     * Fetch File Manifest Summary
-     *
-     * @param filter
-     */
-    fetchFileManifestSummary(filter: ICGCQuery): void {
-
-        this.fetchFileManifestSummaryObs(filter)
-            .subscribe((action) => {
-                this.store.dispatch(action);
-            });
-    }
+    constructor(private fileDAO: FilesDAO) {}
 
     /**
      * Download File Manifest
@@ -68,7 +16,7 @@ export class FilesService {
      * @param query
      * @returns {any}
      */
-    downloadFileManifest(query: ICGCQuery): Observable<Action> {
+    public downloadFileManifest(query: ICGCQuery): Observable<Action> {
 
         query.format = "tarball";
 
@@ -86,7 +34,7 @@ export class FilesService {
      * @param filter
      * @returns {Observable<Action>}
      */
-    fetchFileFacetsObs(filter = {}): Observable<Action> {
+    public fetchFileFacets(filter = {}): Observable<Action> {
         return this.fileDAO
             .fetchFileFacets(filter)
             .map((response) => {
@@ -103,7 +51,7 @@ export class FilesService {
      * @param filter
      * @returns {Observable<Action>}
      */
-    fetchFileSummaryObs(filter = {}): Observable<Action> {
+    public fetchFileSummary(filter = {}): Observable<Action> {
         return this.fileDAO
             .fetchFileSummary(filter)
             .map((response) => {
@@ -120,7 +68,7 @@ export class FilesService {
      * @param query
      * @returns {Observable<Action>}
      */
-    fetchFileManifestSummaryObs(query: ICGCQuery): Observable<Action> {
+    public fetchFileManifestSummary(query: ICGCQuery): Observable<Action> {
 
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames

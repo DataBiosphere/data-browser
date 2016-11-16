@@ -7,7 +7,7 @@ import { Component } from "@angular/core";
 })
 export class BoardwalkComponent {
 
-  title = "Boardwalk";
+  title = "UCSC Boardwalk File Browser";
 
   constructor() {}
 }

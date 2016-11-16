@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod -o ../dist",
+    "localbuild": "ng build --watch -o ../dist",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "karma start ./karma.conf.js --browsers PhantomJS --autoWatch=false --singleRun=true",
     "test:browser": "ng test",
