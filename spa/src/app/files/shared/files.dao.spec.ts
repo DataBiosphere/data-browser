@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { FileService } from './files.dao';
+import { FilesDAO } from './files.dao';
 
-describe('Service: File', () => {
+describe('FilesDAO: Test it', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FileService]
+      providers: [FilesDAO]
     });
   });
 
-  it('should ...', inject([FileService], (service: FileService) => {
+  it('should ...', inject([FilesDAO], (service: FilesDAO) => {
     expect(service).toBeTruthy();
   }));
 });

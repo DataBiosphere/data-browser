@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { KeywordsService } from './keywords.dao';
+import { KeywordsDAO } from './keywords.dao';
 
 describe('Service: Keywords', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KeywordsService]
+      providers: [KeywordsDAO]
     });
   });
 
-  it('should ...', inject([KeywordsService], (service: KeywordsService) => {
+  it('should ...', inject([KeywordsDAO], (service: KeywordsDAO) => {
     expect(service).toBeTruthy();
   }));
 });

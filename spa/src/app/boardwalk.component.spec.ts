@@ -6,7 +6,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { BoardwalkComponent } from "./boardwalk.component";
 import { StoreModule } from "@ngrx/store";
 import { boardwalkRoutes } from "./boardwalk.routes";
-import { reducers } from "./shared";
+import { boardWalkReducers } from "./shared";
 
 describe("App: Boardwalk", () => {
 
@@ -15,7 +15,7 @@ describe("App: Boardwalk", () => {
             imports: [
                 BrowserModule,
                 RouterTestingModule.withRoutes(boardwalkRoutes),
-                StoreModule.provideStore(reducers)
+                StoreModule.provideStore(boardWalkReducers)
             ],
             declarations: [
                 BoardwalkComponent

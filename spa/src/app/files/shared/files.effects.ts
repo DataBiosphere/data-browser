@@ -6,9 +6,15 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/first";
 
+
+
 import { ACTIONS } from "../../shared/boardwalk.actions";
+
 import { FilesService } from "./files.service";
+
+
 import { selectFiltersAsQuery, State } from "../reducer";
+
 
 @Injectable()
 export class FilesEffects {
@@ -25,6 +31,11 @@ export class FilesEffects {
         })
         .mergeMap((filter) => {
             return this.fileService.fetchFileFacets(filter);
+        }).map((response) => {
+            return {
+                type: ACTIONS.RECEIVE_FILE_FACETS,
+                payload: response
+            };
         });
 
     @Effect()
@@ -35,6 +46,11 @@ export class FilesEffects {
         })
         .mergeMap((filter) => {
             return this.fileService.fetchFileSummary(filter);
+        }).map((response) => {
+            return {
+                type: ACTIONS.RECEIVE_FILE_SUMMARY,
+                payload: response
+            };
         });
 
     @Effect()
@@ -45,6 +61,11 @@ export class FilesEffects {
         })
         .mergeMap((filter) => {
             return this.fileService.fetchFileManifestSummary(filter);
+        }).map((response) => {
+            return {
+                type: ACTIONS.RECEIVE_FILE_MANIFEST_SUMMARY,
+                payload: response
+            };
         });
 
     @Effect()
@@ -55,5 +76,9 @@ export class FilesEffects {
         })
         .mergeMap((query) => {
             return this.fileService.downloadFileManifest(query);
+        }).map(() => {
+            return {
+                type: ACTIONS.RECEIVE_DOWNLOAD_FILE_MANIFEST
+            };
         });
 }

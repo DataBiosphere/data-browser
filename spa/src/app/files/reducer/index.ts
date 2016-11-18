@@ -16,6 +16,9 @@ import { Selector } from "../../shared/selector";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { Dictionary } from "../../shared/dictionary";
 
+
+
+
 export interface State {
     fileSummary: fromSummary.State;
     fileFacets: fromFacets.State;
@@ -29,6 +32,7 @@ export const reducers: Dictionary<ActionReducer<any>> = {
     fileFilters: fromFilters.reducer,
     fileManifestSummary: fromManifestSummary.reducer
 };
+
 
 /**
  * File Summary Selectors

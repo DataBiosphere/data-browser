@@ -4,10 +4,11 @@ import { RouterModule } from "@angular/router";
 import { StoreModule } from "@ngrx/store";
 
 import { BoardwalkComponent } from "./boardwalk.component";
-
 import { boardwalkRoutes } from "./boardwalk.routes";
+
+
 import { FilesModule } from "./files/files.module";
-import { reducers } from "./shared/boardwalk.reducer";
+import { boardWalkReducers } from "./shared/boardwalk.reducer";
 
 @NgModule({
     bootstrap: [BoardwalkComponent],
@@ -15,7 +16,7 @@ import { reducers } from "./shared/boardwalk.reducer";
         BrowserModule,
         RouterModule.forRoot(boardwalkRoutes),
 
-        StoreModule.provideStore(reducers),
+        StoreModule.provideStore(boardWalkReducers),
 
         FilesModule
     ],
