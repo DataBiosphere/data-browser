@@ -100,6 +100,13 @@ export const selectFiltersIterable = (state$: Observable<State>) => {
             });
         });
 };
+
+/**
+ * Translate state into a ICGC-specific query format
+ *
+ * @param state$ {Observable<State>}
+ * @returns TODO revisit return type here
+ */
 export const selectFiltersAsQuery = (state$: Observable<State>) => {
     return state$
         .map((state) => {
@@ -180,6 +187,8 @@ function removeFileFilter(state: State, payload: {facet: string; term: string}):
  *
  * return JSON string of: { file: { primarySite: { is: ["Brain"] } } }
  * if there aren't any file filters, it's just { }, not { file: { } }
+ *
+ * TODO is this the ICGC workaround?
  *
  * @param filters
  * @returns {string}

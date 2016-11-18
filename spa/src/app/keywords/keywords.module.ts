@@ -10,7 +10,7 @@ import { KeywordsEffects } from "./shared/keywords.effects";
     imports: [
         CommonModule,
 
-        EffectsModule.run(KeywordsEffects)
+        // EffectsModule.run(KeywordsEffects)
     ],
     declarations: [KeywordsComponent],
     providers: [KeywordsService, KeywordsDAO]

@@ -34,7 +34,7 @@ import { FileSearchComponent } from './file-search/file-search.component';
         CcTypeaheadModule,
         KeywordsModule,
 
-        EffectsModule.run(FilesEffects)
+        // EffectsModule.run(FilesEffects)
 
     ],
     declarations: [

@@ -46,11 +46,18 @@ function selectFileSummaryState(state$: Observable<State>): Observable<fromSumma
 export const selectFileSummary = compose(fromSummary.selectFileSummary, selectFileSummaryState);
 export const selectFileSummaryLoading = compose(fromSummary.selectFileSummaryLoading, selectFileSummaryState);
 
+// /**
+//  * File Filters Selectors
+//  *
+//  * @param state$
+//  * @returns {Observable<R>}
+//  */
+
 /**
- * File Filters Selectors
+ * Select state with the key "fileFilters" from the store
  *
- * @param state$
- * @returns {Observable<R>}
+ * @param state$ {Observable<State>}
+ * @returns {Observable<State>} // TODO revisit type here - give State a more explicit name?
  */
 export function selectFileFiltersState(state$: Observable<State>): Observable<fromFilters.State> {
     return state$.select(state => state.fileFilters);

@@ -40,6 +40,7 @@ export class FilesComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        console.log("ng init - files.component");
         this.initSelectors();
         this.getQueryParams();
     }
