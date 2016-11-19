@@ -13,7 +13,7 @@ import {
 
 import { FileFacet } from "./file-facets/file-facets";
 import { FileSummary } from "./file-summary/file-summary";
-import { State } from "../shared/boardwalk.state";
+import { BoardwalkStore } from "../shared/boardwalk.model";
 import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
 import { selectKeywordsHits, selectKeywordFiles, selectKeywordDonors } from "../keywords/reducer/index";
 import { ACTIONS } from "../shared/boardwalk.actions";
@@ -35,12 +35,11 @@ export class FilesComponent implements OnInit {
     donors$: Observable<any[]>;
 
     constructor(private route: ActivatedRoute,
-                private store: Store<State>,
+                private store: Store<BoardwalkStore>,
                 private fileDispatcher: FilesDispatcher
     ) { }
 
     ngOnInit() {
-        console.log("ng init - files.component");
         this.initSelectors();
         this.getQueryParams();
     }
