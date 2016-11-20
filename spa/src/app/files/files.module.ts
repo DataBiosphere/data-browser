@@ -13,8 +13,6 @@ import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { FileFacetsComponent } from "./file-facets/file-facets.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 
-import { FilesDispatcher } from "./shared/files.dispatcher";
-
 import { FilesService } from "./shared/files.service";
 import { FilesDAO } from "./shared/files.dao";
 
@@ -47,8 +45,7 @@ console.log("files module")
     ],
     providers: [
         FilesService,
-        FilesDAO,
-        FilesDispatcher
+        FilesDAO
     ]
 })
 export class FilesModule {}

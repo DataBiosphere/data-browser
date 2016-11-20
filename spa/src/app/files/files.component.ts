@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/do";
 
-import { FilesDispatcher } from "./shared/files.dispatcher";
+
 import {
     selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
     selectUserStateFileFacets, selectManifestSummaryLoading, selectRepositoryManifestSummaries
@@ -35,8 +35,7 @@ export class FilesComponent implements OnInit {
     donors$: Observable<any[]>;
 
     constructor(private route: ActivatedRoute,
-                private store: Store<BoardwalkStore>,
-                private fileDispatcher: FilesDispatcher
+                private store: Store<BoardwalkStore>
     ) { }
 
     ngOnInit() {
@@ -60,7 +59,7 @@ export class FilesComponent implements OnInit {
      * Request Manifest Summary
      */
     requestManifestSummary() {
-        this.fileDispatcher.requestFileManifestSummary();
+        this.store.dispatch({ type: ACTIONS.REQUEST_FILE_MANIFEST_SUMMARY});
     }
 
     /**
@@ -69,14 +68,14 @@ export class FilesComponent implements OnInit {
      * @param termFacet
      */
     onTermSelected(termFacet: {facet: string; term: string}) {
-        this.fileDispatcher.addFileFilter(termFacet);
+        this.store.dispatch({ type: ACTIONS.SELECT_FILE_FILTER, payload: termFacet });
     }
 
     /**
      * Dispatch Manifest Download Request
      */
     onDownloadManifest() {
-        this.fileDispatcher.downloadFileManifest();
+        this.store.dispatch({ type: ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST });
     }
 
     /**
@@ -114,7 +113,7 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((query) => {
-                this.fileDispatcher.receiveFileFilters(query);
+                this.store.dispatch({ type: ACTIONS.RECEIVE_FILE_FILTERS, payload: query });
             });
     }
 }
