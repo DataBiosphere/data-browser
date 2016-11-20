@@ -1,4 +1,8 @@
 import * as fromFiles from "../files/reducer";
 import * as fromKeywords from "../keywords/reducer";
 
-export interface State extends fromFiles.State, fromKeywords.State {}
+console.log("boardwalk store");
+// console.log("******")
+// console.log(fromFiles, fromFiles.reducers)
+// console.log("******")
+export interface BoardwalkStore extends fromFiles.State, fromKeywords.State {}

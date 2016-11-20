@@ -18,7 +18,7 @@ import { Dictionary } from "../../shared/dictionary";
 
 
 
-
+console.log("files reducer index");
 export interface State {
     fileSummary: fromSummary.State;
     fileFacets: fromFacets.State;

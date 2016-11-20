@@ -91,7 +91,7 @@ export class FilesComponent implements OnInit {
         this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
         this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
         // this.hits$ = selectKeywordsHits(this.store);
-        this.files$ = selectKeywordFiles(this.store).do(console.log);
+        this.files$ = selectKeywordFiles(this.store);
         this.donors$ = selectKeywordDonors(this.store);
 
     }

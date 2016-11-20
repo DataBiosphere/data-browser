@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 
+console.log("boardwalk component");
 @Component({
   selector: "bw-root",
   templateUrl: "./boardwalk.component.html",

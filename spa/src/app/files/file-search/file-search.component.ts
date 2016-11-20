@@ -14,6 +14,10 @@ export class FileSearchComponent {
     @Output() search = new EventEmitter<{searchTerm: string; type: string}>();
     @Output() termSelected = new EventEmitter<{facet: string; term: string}>();
 
+    constructor() {
+        console.log("constructor");
+    }
+
     onSearchFiles(searchTerm: string) {
         this.search.emit({
             searchTerm: searchTerm,

@@ -7,7 +7,7 @@ import { Action, ActionReducer } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "@ngrx/core/add/operator/select";
 
-import { ACTIONS } from "../../shared";
+import { ACTIONS } from "../../shared/boardwalk.actions";
 import { FileSummary } from "../file-summary";
 
 /**

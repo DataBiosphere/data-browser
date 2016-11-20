@@ -22,7 +22,7 @@ import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { FileSearchComponent } from './file-search/file-search.component';
 
-
+console.log("files module")
 @NgModule({
     imports: [
         CommonModule,
