@@ -15,7 +15,8 @@
       "prefix": "bw",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "app/shared/theme/boardwalk.theme.scss"
       ],
       "scripts": [],
       "environments": {

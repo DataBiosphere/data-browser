@@ -1,0 +1,30 @@
+/*!
+ * UCSC Boardwalk
+ *
+ * Global variables.
+ */
+
+/**
+ * CGL-specific colors
+ **/
+$cgl-blue-dark: #113871;
+$cgl-green: #1A535C;
+$cgl-green-light: #F7FFF7;
+$cgl-orange: #FFA560;
+$cgl-peach: #FF6B6B;
+$cgl-purple: #5C83D0;
+$cgl-turquoise: #4CC9C0;
+$cgl-yellow: #FFE66D;
+
+
+/**
+ * Material Design media break points
+ **/
+$md-xl-min: 1920px;
+$md-lg-min: 1280px;
+$md-lg-max: $md-xl-min - 1;
+$md-md-min: 960px;
+$md-md-max: $md-lg-min - 1;
+$md-sm-min: 600px;
+$md-sm-max: $md-md-min - 1;
+$md-xs-max: $md-sm-min - 1;
