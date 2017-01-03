@@ -8,7 +8,7 @@ import { Observable } from "rxjs/Observable";
 import "@ngrx/core/add/operator/select";
 
 import { ACTIONS } from "../../shared/boardwalk.actions";
-import { FileSummary } from "../file-summary";
+import { FileSummary } from "./";
 
 /**
  * Types
@@ -17,7 +17,7 @@ import { FileSummary } from "../file-summary";
 /**
  * Reducer State
  */
-export interface State {
+export interface FileSummaryState {
     loading: boolean;
     summary: FileSummary;
 }
@@ -25,7 +25,7 @@ export interface State {
 /**
  * Default State
  */
-const DEFAULT_STATE: State = {
+const DEFAULT_STATE: FileSummaryState = {
     loading: true,
     summary: {
         fileCount: 0,
@@ -37,19 +37,20 @@ const DEFAULT_STATE: State = {
 };
 
 /**
- * File Reducer
+ * File Summary Reducer
  *
  * @param state
  * @param action
  * @returns {any}
  */
-export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Action) => {
+export const reducer: ActionReducer<FileSummaryState> = (state: FileSummaryState = DEFAULT_STATE, action: Action) => {
+
+    console.log(action.type);
 
     switch (action.type) {
-
         case ACTIONS.REQUEST_FILE_SUMMARY:
             return Object.assign({}, state, { loading: true });
-        case ACTIONS.RECEIVE_FILE_SUMMARY:
+        case ACTIONS.FILE_SUMMARY_RECEIVED:
             return Object.assign({}, state, {
                 loading: false,
                 summary: action.payload
@@ -60,14 +61,17 @@ export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Act
 };
 
 /**
- * Selectors
+ * File Summary Selectors
  */
-export const selectState = (state$: Observable<State>) => {
-    return state$.select(state => state);
+
+export const selectFileSummaryState = (fileSummaryState: Observable<FileSummaryState>) => {
+    return fileSummaryState.select(fss => fss);
 };
-export const selectFileSummary = (state$: Observable<State>) => {
-    return state$.select(state => state.summary);
+
+export const selectFileSummary = (fileSummaryState: Observable<FileSummaryState>) => {
+    return fileSummaryState.select(fss => fss.summary);
 };
-export const selectFileSummaryLoading = (state$: Observable<State>) => {
-    return state$.select(state => state.loading);
+
+export const selectFileSummaryLoading = (fileSummaryState: Observable<FileSummaryState>) => {
+    return fileSummaryState.select(fss => fss.loading);
 };

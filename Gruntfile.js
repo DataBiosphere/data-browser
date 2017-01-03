@@ -129,6 +129,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     { src: './package.json', dest: '/'},
+                    { src: './views/home.html', dest: '/'},
                     { src: './server/dist/**/*.js', dest: '/'},
                     { src: './dist/**/*.*', dest: '/'}
                 ]

@@ -19,8 +19,11 @@ export const reducers: Dictionary<ActionReducer<any>> = {
 export function selectKeywordsState(state$: Observable<State>): Observable<fromKeywords.State> {
     return state$.select(state => state.keywords);
 }
+
 export const selectKeywordsHits = compose(fromKeywords.selectHits, selectKeywordsState);
+
 export const selectKeywordsLoading = compose(fromKeywords.selectLoading, selectKeywordsState);
+
 export const selectKeywordsSearchTerm = compose(fromKeywords.selectSearchTerm, selectKeywordsState);
 
 export function selectKeywordFiles(state$: Observable<State>): Observable<any[]> {
@@ -28,6 +31,7 @@ export function selectKeywordFiles(state$: Observable<State>): Observable<any[]>
         .filter(state => state.type === "file")
         .let(fromKeywords.selectHits);
 }
+
 export function selectKeywordDonors(state$: Observable<State>): Observable<any[]> {
     return selectKeywordsState(state$)
         .filter(state => state.type === "file-donor")

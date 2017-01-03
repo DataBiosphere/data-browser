@@ -1,15 +1,15 @@
-<div *ngFor="let facet of facets">
+<div *ngFor="let fileFacet of fileFacets">
   <div>
-    <span>name: {{facet.name | camelToSpace}}</span>
+    <span>{{fileFacet.name | camelToSpace}}</span>
   </div>
   <div>
-    <span>total: {{facet.total | localeString}}</span>
+    <span>total: {{fileFacet.total | localeString}}</span>
   </div>
   <div>
-    <ul *ngFor="let term of facet.terms">
-      <li (click)="selectFacetTerm(facet, term)">
-        <span>{{term.selected}} | {{term.name}}: {{term.count | localeString}}</span>
-      </li>
+    <ul *ngFor="let term of fileFacet.terms">
+      <ul (click)="selectFacetTerm(fileFacet, term)">
+        <span style="cursor: pointer;" [style.color]=getTermStyle(term.selected)>{{term.name}}: {{term.count | localeString}} Files</span>
+      </ul>
     </ul>
   </div>
 </div>

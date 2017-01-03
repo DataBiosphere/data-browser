@@ -1,5 +1,5 @@
 export { ACTIONS } from "./boardwalk.actions";
-export { boardWalkReducers } from "./boardwalk.reducer";
+export { reducers } from "../app.reducer";
 export { BoardwalkStore } from "./boardwalk.model";
 
 

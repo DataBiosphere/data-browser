@@ -59,7 +59,7 @@ export const expressConfig = (app: Application) => {
     /**
      * STAGE/PROD
      */
-    if (app.get("env") === "stage" || app.get("env") === "production") {
+    // if (app.get("env") === "stage" || app.get("env") === "production") {
 
         // // Force HTTPS
         // app.use((req: Req, res: Res, next: Next) => {
@@ -73,8 +73,8 @@ export const expressConfig = (app: Application) => {
         // });
 
         // app.use(favicon(path.join(config.root, "dist", "favicon.ico")));
-        app.use(serveStatic(path.join(config.root, "dist")));
-    }
+
+    // }
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -159,6 +159,7 @@ export const expressConfig = (app: Application) => {
     // Router (only error handlers should come after this)
     // app.use(app.router);
 
+    app.use(serveStatic(path.join(config.root, "dist")));
     // Allow Angular to handle paths...
     app.use((req: Req, res: Res) => {
 
@@ -170,9 +171,11 @@ export const expressConfig = (app: Application) => {
         else {
             // Any paths go back to Angular and it can see if
             // it has a path.
-            if (app.get("env") === "stage" || app.get("env") === "production") {
-                res.sendFile(path.join(config.root, "dist/index.html"));
-            }
+           // if (app.get("env") === "stage" || app.get("env") === "production") {
+            console.log("sheet");
+
+                res.sendFile(path.join(config.root, "dist/home.html"));
+           // }
             // local is served with angular-cli
         }
     });

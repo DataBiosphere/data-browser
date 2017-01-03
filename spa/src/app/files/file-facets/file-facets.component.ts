@@ -1,5 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
-import { FileFacet } from "./file-facets";
+import { FileFacetSelectedEvent } from "./file-facet.events";
+import { FileFacet } from "../shared/file-facet.model";
+import { Term } from "../shared/term.model";
 
 @Component({
     selector: "bw-file-facets",
@@ -9,11 +11,21 @@ import { FileFacet } from "./file-facets";
 })
 export class FileFacetsComponent {
 
-    @Input() facets: FileFacet[];
+    @Input() fileFacets: FileFacet[];
 
-    @Output() termSelected = new EventEmitter<{facet: string; term: string}>();
+    @Output() termSelected = new EventEmitter<FileFacetSelectedEvent>();
 
-    selectFacetTerm(facet: FileFacet, term: {name: string; count: number}) {
-        this.termSelected.emit({facet: facet.name, term: term.name});
+    selectFacetTerm(fileFacet: FileFacet, term: Term) {
+
+        this.termSelected.emit(new FileFacetSelectedEvent(fileFacet,term));
+    }
+
+    getTermStyle(termSelected:boolean) {
+
+        if (termSelected) {
+            return "hotpink";
+        } else {
+            return "black";
+        }
     }
 }

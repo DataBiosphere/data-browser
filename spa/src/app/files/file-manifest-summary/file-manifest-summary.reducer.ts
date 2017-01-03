@@ -10,7 +10,7 @@ import "@ngrx/core/add/operator/select";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 
 import { Dictionary } from "../../shared/dictionary";
-import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
+import { FileManifestSummary } from "./file-manifest-summary";
 import { Selector } from "../../shared/selector";
 /**
  * Types

@@ -8,15 +8,22 @@ import "rxjs/add/operator/do";
 
 import {
     selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
-    selectUserStateFileFacets, selectManifestSummaryLoading, selectRepositoryManifestSummaries
-} from "./reducer/index";
+    selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
+} from "./files.reducer";
 
-import { FileFacet } from "./file-facets/file-facets";
 import { FileSummary } from "./file-summary/file-summary";
 import { BoardwalkStore } from "../shared/boardwalk.model";
 import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
 import { selectKeywordsHits, selectKeywordFiles, selectKeywordDonors } from "../keywords/reducer/index";
 import { ACTIONS } from "../shared/boardwalk.actions";
+
+import {
+    RequestFileManifestSummaryAction, RequestDownloadFileManifiestAction,
+    SelectFileFacetAction
+} from "./actions/file-actions";
+
+import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
+import { FileFacet } from "./shared/file-facet.model";
 
 @Component({
     selector: "bw-files",
@@ -25,25 +32,61 @@ import { ACTIONS } from "../shared/boardwalk.actions";
 })
 export class FilesComponent implements OnInit {
 
-    summaryLoading$: Observable<boolean>;
-    summary$: Observable<FileSummary>;
-    facetsLoading$: Observable<boolean>;
-    facets$: Observable<FileFacet[]>;
-    manifestSummaryLoading$: Observable<boolean>;
-    manifestSummary$: Observable<FileManifestSummary[]>;
-    files$: Observable<any[]>;
-    donors$: Observable<any[]>;
+    private route: ActivatedRoute;
+    private store: Store<BoardwalkStore>
 
-    constructor(private route: ActivatedRoute,
-                private store: Store<BoardwalkStore>
-    ) { }
+    public selectFileSummaryLoading$: Observable<boolean>;
+    public selectFileSummary$: Observable<FileSummary>;
 
-    ngOnInit() {
-        this.initSelectors();
-        this.getQueryParams();
+    public fileFacetsLoading$: Observable<boolean>;
+    public fileFacets$: Observable<FileFacet[]>;
+
+    public manifestSummaryLoading$: Observable<boolean>;
+    public manifestSummary$: Observable<FileManifestSummary[]>;
+
+    public files$: Observable<any[]>;
+    public donors$: Observable<any[]>;
+
+    constructor(route: ActivatedRoute,
+                store: Store<BoardwalkStore>) {
+
+        this.route = route;
+        this.store = store;
     }
 
-    onSearch(searchRequest: {searchTerm: string, type: string}) {
+    /**
+     *
+     */
+    public ngOnInit() {
+
+        // Setup the selectors
+
+        //File Summary
+        this.selectFileSummaryLoading$ = selectFileSummaryLoading(this.store);
+        this.selectFileSummary$ = selectFileSummary(this.store);
+
+        //File Facets
+        this.fileFacetsLoading$ = selectFileFacetsLoading(this.store);
+        this.fileFacets$ = selectFileFacets(this.store);
+
+
+        this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
+        this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
+
+        // this.hits$ = selectKeywordsHits(this.store);
+        this.files$ = selectKeywordFiles(this.store);
+        this.donors$ = selectKeywordDonors(this.store);
+
+        //initialize the filter state from the params in the route.
+        this.initQueryParams();
+
+    }
+
+    /**
+     *
+     * @param searchRequest
+     */
+    public onSearch(searchRequest: {searchTerm: string, type: string}) {
         if (searchRequest.searchTerm.length > 2) {
             return this.store.dispatch({
                 type: ACTIONS.REQUEST_KEYWORDS_QUERY,
@@ -58,8 +101,8 @@ export class FilesComponent implements OnInit {
     /**
      * Request Manifest Summary
      */
-    requestManifestSummary() {
-        this.store.dispatch({ type: ACTIONS.REQUEST_FILE_MANIFEST_SUMMARY});
+    public requestManifestSummary() {
+        this.store.dispatch(new RequestFileManifestSummaryAction());
     }
 
     /**
@@ -67,45 +110,33 @@ export class FilesComponent implements OnInit {
      *
      * @param termFacet
      */
-    onTermSelected(termFacet: {facet: string; term: string}) {
-        this.store.dispatch({ type: ACTIONS.SELECT_FILE_FILTER, payload: termFacet });
+    public onTermSelected(event: FileFacetSelectedEvent) {
+        this.store.dispatch(new SelectFileFacetAction(event));
     }
 
     /**
      * Dispatch Manifest Download Request
      */
-    onDownloadManifest() {
-        this.store.dispatch({ type: ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST });
+    public onDownloadManifest() {
+        this.store.dispatch( new RequestDownloadFileManifiestAction());
     }
 
     /**
      * PRIVATES
      */
 
-    private initSelectors() {
-        this.summaryLoading$ = selectFileSummaryLoading(this.store);
-        this.summary$ = selectFileSummary(this.store);
-        this.facetsLoading$ = selectFileFacetsLoading(this.store);
-        this.facets$ = selectUserStateFileFacets(this.store);
-        this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
-        this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
-        // this.hits$ = selectKeywordsHits(this.store);
-        this.files$ = selectKeywordFiles(this.store);
-        this.donors$ = selectKeywordDonors(this.store);
-
-    }
 
     /**
      * Parse queryParams into file filters
      */
-    private getQueryParams() {
+    private initQueryParams() {
 
         this.route.queryParams
-            .map((query) => {
+            .map((params) => {
 
-                if (query && query["filters"] && query["filters"].length) {
+                if (params && params["filters"] && params["filters"].length) {
                     return {
-                        filters: JSON.parse(decodeURIComponent(query["filters"]))
+                        filters: JSON.parse(decodeURIComponent(params["filters"]))
                     };
                 }
                 else {
@@ -113,7 +144,7 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((query) => {
-                this.store.dispatch({ type: ACTIONS.RECEIVE_FILE_FILTERS, payload: query });
+                this.store.dispatch({ type: ACTIONS.INIT_FILE_FACETS, payload: query });
             });
     }
 }

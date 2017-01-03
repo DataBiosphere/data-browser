@@ -10,23 +10,28 @@
                                       (downloadManifest)="onDownloadManifest($event)">
             </bw-file-manifest-summary>
     </div>
-    <div class="file-summary" [ngSwitch]="summaryLoading$ | async">
-        <div *ngSwitchCase="false">
-            <bw-file-summary [summary]="summary$ | async">
-            </bw-file-summary>
+    <!--<div>SelectFileSummaryLoading is: {{selectFileSummaryLoading$ | async}}</div>-->
+    <div class="file-summary" [ngSwitch]="selectFileSummaryLoading$ | async">
+
+        <div *ngSwitchCase="true">
+            summary loading
         </div>
         <div *ngSwitchDefault>
-            swirling
+            summary loaded
         </div>
     </div>
-    <div class="file-facets" [ngSwitch]="facetsLoading$ | async">
+
+    <bw-file-summary [summary]="selectFileSummary$ | async"></bw-file-summary>
+
+    <div class="file-facets" [ngSwitch]="fileFacetsLoading$ | async">
         <div *ngSwitchCase="false">
-            <bw-file-facets [facets]="facets$ | async"
-                            (termSelected)="onTermSelected($event)">
-            </bw-file-facets>
+            facets loaded
         </div>
         <div *ngSwitchDefault>
-            swirling
+            facets loading
         </div>
+        <bw-file-facets [fileFacets]="fileFacets$ | async"
+                        (termSelected)="onTermSelected($event)">
+        </bw-file-facets>
     </div>
 </div>

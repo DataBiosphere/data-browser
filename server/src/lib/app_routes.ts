@@ -1,21 +1,27 @@
 import { Application, Response as Res } from "express";
+import * as path from "path";
 import { Req } from "../boardwalk";
+import { config } from "./config/config";
 
 
 export default (app: Application) => {
 
-    //
-    // Logout
-    //
-    app.get("/logout", (req: Req, res: Res) => {
-        req.logout();
-        res.redirect("/");
-    });
 
     //
     // Home
     //
-    app.get("/app", (req: Req, res: Res) => {
-        res.render("app", { layout: "index" });
+    app.get("/", (req: Req, res: Res) => {
+        console.log("stuff");
+        res.sendFile(path.join(config.root, "views/home.html"));
     });
+
+    //
+    // Files
+    //
+    app.get("/files", (req: Req, res: Res) => {
+        res.sendFile(path.join(config.root, "dist/index.html"));
+    });
+
+
+
 };
