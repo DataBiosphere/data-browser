@@ -1,0 +1,63 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Global styles.
+ */
+
+@import "cgl.vars";
+
+/**
+ * Anchor elements, as well as clickable elements styled as anchors.
+ */
+
+@mixin a-primary() {
+    color: $cgl-turquoise;
+    &:hover {
+        color: $cgl-peach;
+    }
+}
+
+@mixin a-green() {
+    color: $cgl-green;
+    &:hover {
+        color: $cgl-turquoise;
+    }
+}
+
+@mixin a-white() {
+    color: #ffffff;
+    &:hover {
+        color: $cgl-turquoise;
+    }
+}
+
+a {
+    @include a-primary();
+    transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1) !important; /** important required for overriding MD **/
+}
+
+/**
+ * List elements.
+ */
+
+ul {
+
+    // Position bullets inline (vertically) with text
+    margin-bottom: 1.6rem;
+    padding-left: 1.6rem;
+
+    li:not(:last-child) {
+        margin-bottom: 0.8rem;
+    }
+}
+
+/**
+ * Horizontal rule
+ */
+
+hr {
+    background-color: rgba(0, 0, 0, 0.12); // MD divider
+    border: 0;
+    height: 1px;
+}

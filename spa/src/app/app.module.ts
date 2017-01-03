@@ -2,57 +2,65 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
+import { MaterialModule } from "@angular/material";
 
-//NGRX
+// NGRX
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { ActionReducer } from "@ngrx/store";
 
 import { Dictionary } from "./shared/dictionary";
 
-
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
+import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
+import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
+import { CGLNavbarComponent } from "./shared/cgl-navbar/cgl-navbar.component";
 
-//Chiled Modules
+// Child Modules
 import { FilesModule } from "./files/files.module";
 
-//Effects
+// Effects
 import { FilesEffects } from "./files/shared/files.effects";
 import { KeywordsEffects } from "./keywords/shared/keywords.effects";
 
-
-//Import and ombine all reducers to a single object.
+//Import and combine all reducers to a single object.
 import * as fromFiles from "./files/files.reducer";
 import * as fromKeywords from "./keywords/reducer";
 
 const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
     fromFiles.reducers,
-    fromKeywords.reducers)
+    fromKeywords.reducers);
 
 
-//OK lets go...
+// OK let's go...
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
 
-        //ANGULAR SETUP
+        // ANGULAR SETUP
         BrowserModule,
         RouterModule.forRoot(routes),
+        MaterialModule.forRoot(),
 
-        //NGRX SETUP MODEL/REDUCERS SETUP
+        // NGRX SETUP MODEL/REDUCERS SETUP
         StoreModule.provideStore(reducers),
 
-        //NGRX EFFECTS SETUP
+        // NGRX EFFECTS SETUP
         EffectsModule.run(KeywordsEffects),
         EffectsModule.run(FilesEffects),
 
-        //CHILD MODULES SETUP
+        // CHILD MODULES SETUP
         FilesModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+
+        // Nav components
+        CCToolbarNavComponent,
+        CCToolbarNavItemComponent,
+        CGLNavbarComponent
     ]
 })
 export class AppModule {

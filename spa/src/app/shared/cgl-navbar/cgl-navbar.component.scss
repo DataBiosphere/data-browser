@@ -1,0 +1,101 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * CGL-specific overrides of Material Design toolbar.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+/**
+ * Custom CGL-specific overrides of MD toolbar.
+ */
+
+:host {
+    display: block;
+}
+
+md-toolbar {
+
+    background: #ffffff; // Override MD default
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
+    color: $cgl-green;
+
+    // Menu is hidden by default
+    [menu-close] {
+        display: none;
+    }
+
+    /**
+     * Subheader (application header)
+     */
+    &.subheader {
+
+        background-color: $cgl-turquoise;
+
+        .md-title {
+            color: #ffffff;
+        }
+    }
+
+    // Override default MD style, Angular app only (not required in generic style sheet)
+    /deep/ [md-mini-fab] {
+        box-shadow: none;
+        background-color: transparent;
+    }
+}
+
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    md-toolbar {
+
+        // Position logo to the left and hamburger to the right
+        /deep/ md-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
+            justify-content: space-between;
+        }
+
+        // Shrink logo to match smaller toolbar height
+        /deep/ img { /* /deep/ only required by Angular app, not generic stlye sheet */
+            height: 36px;
+        }
+    }
+
+    /**
+     * Open menu state
+     */
+    .toolbar-menu-open {
+
+        // Hide hamburger
+        [menu-open] {
+            display: none;
+        }
+
+        // Display x
+        [menu-close] {
+            display: block;
+        }
+    }
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-md-min) {
+
+    // Hide hamburger
+    [menu-open] {
+        display: none;
+    }
+
+    md-toolbar {
+
+        // Add space between logo and nav items (16px + 72px)
+        img {
+            margin-right: 16px; // Image has 16px bounds (top, bottom and left are added by toolbar, must add right border to accommodate nav)
+        }
+    }
+}

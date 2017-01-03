@@ -1,0 +1,67 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Custom, CGL-specific overrides of Material Design toolbar nav. Mobile first.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+/**
+ * CGL toolbar nav
+ */
+
+:host, cc-toolbar-nav {
+
+    display: none;
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    /**
+     * Default state
+     */
+    :host, cc-toolbar-nav {
+        background-color: $cgl-green;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        text-align: center;
+        top: 64px;
+        padding-top: 64px;
+        right: 0;
+        z-index: 1;
+    }
+
+    /**
+     * Open menu state - display nav
+     */
+    .toolbar-menu-open {
+
+        // Prevent scroll
+        overflow: hidden;
+
+        :host, cc-toolbar-nav {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-md-min) {
+
+    // Always display nav on small + devices
+    :host, cc-toolbar-nav {
+
+        display: flex;
+        flex-direction: row;
+        margin-left: 72px;
+    }
+}
+

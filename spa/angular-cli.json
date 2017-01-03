@@ -16,7 +16,7 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "app/shared/theme/boardwalk.theme.scss"
+        "app/shared/theme/cgl.theme.scss"
       ],
       "scripts": [],
       "environments": {

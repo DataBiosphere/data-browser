@@ -1,0 +1,63 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Toolbar nav item styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+@import "../../shared/theme/cgl.global";
+
+$cc-toolbar-nav-item-height: 48px;
+
+:host, cc-toolbar-nav-item {
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex; // Force child anchor elements to be full height (for click area)
+    flex: 1 1 auto;
+    font-size: 14px;
+    line-height: $cc-toolbar-nav-item-height;
+    height: $cc-toolbar-nav-item-height;
+    padding: 0 12px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    :host, cc-toolbar-nav-item {
+        max-height: $cc-toolbar-nav-item-height;
+        min-height: $cc-toolbar-nav-item-height;
+
+        /deep/ a { /** "/deep/" not required in general CGL style sheet **/
+            margin: 0 auto;
+        }
+    }
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-sm-max) {
+
+    /**
+     * Anchor elements
+     */
+    :host, cc-toolbar-nav-item {
+        /deep/ a { /** "/deep/" not required in general CGL style sheet **/
+            @include a-green();
+        }
+
+        // Active nav item
+        &.active {
+            a {
+                color: $cgl-peach;
+            }
+        }
+    }
+}
+
