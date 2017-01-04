@@ -2,35 +2,11 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Global styles.
+ * Global styles, specific to CGL. Included in core cgl.theme style sheet.
  */
 
 @import "cgl.vars";
-
-/**
- * Anchor elements, as well as clickable elements styled as anchors.
- */
-
-@mixin a-primary() {
-    color: $cgl-turquoise;
-    &:hover {
-        color: $cgl-peach;
-    }
-}
-
-@mixin a-green() {
-    color: $cgl-green;
-    &:hover {
-        color: $cgl-turquoise;
-    }
-}
-
-@mixin a-white() {
-    color: #ffffff;
-    &:hover {
-        color: $cgl-turquoise;
-    }
-}
+@import "cgl.mixin";
 
 a {
     @include a-primary();

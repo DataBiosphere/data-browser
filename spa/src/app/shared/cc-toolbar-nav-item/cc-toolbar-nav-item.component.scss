@@ -53,7 +53,7 @@ $cc-toolbar-nav-item-height: 48px;
         }
 
         // Active nav item
-        &.active {
+        /deep/ &.active { /** "/deep/" not required in general CGL style sheet **/
             a {
                 color: $cgl-peach;
             }

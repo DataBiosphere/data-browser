@@ -25,3 +25,6 @@ $app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
 
 // Include theme styles for core and each component used in your app.
 @include angular-material-theme($app-theme);
+
+// Include global CGL styles.
+@import "cgl.global";

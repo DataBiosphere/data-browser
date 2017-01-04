@@ -16,7 +16,8 @@ import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
-import { CGLNavbarComponent } from "./shared/cgl-navbar/cgl-navbar.component";
+import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
+import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
 
 // Child Modules
 import { FilesModule } from "./files/files.module";
@@ -60,7 +61,8 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         // Nav components
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
-        CGLNavbarComponent
+        CGLSubnavComponent,
+        CGLToolbarComponent
     ]
 })
 export class AppModule {
