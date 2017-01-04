@@ -11,14 +11,13 @@ export default (app: Application) => {
     // Home
     //
     app.get("/", (req: Req, res: Res) => {
-        console.log("stuff");
-        res.sendFile(path.join(config.root, "views/home.html"));
+        res.sendFile(path.join(config.root, "dist/index.html"));
     });
 
     //
     // Files
     //
-    app.get("/files", (req: Req, res: Res) => {
+    app.get("/boardwalk", (req: Req, res: Res) => {
         res.sendFile(path.join(config.root, "dist/index.html"));
     });
 

@@ -3,7 +3,7 @@ import { FilesComponent } from "./files.component";
 
 export const routes: Route[] = [
     {
-        path: "files",
+        path: "boardwalk",
         component: FilesComponent
     }
 ];
