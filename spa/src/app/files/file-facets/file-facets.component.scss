@@ -14,6 +14,7 @@
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
         /deep/ .md-card-header-text {
             flex: 1;
+            margin: 0; // Remove MD's default left/right margin
         }
 
         /** Right align selected facet term count in subtitle */
@@ -60,6 +61,20 @@
                     text-align: right;
                 }
             }
+        }
+
+        /** "More" option at bottom of facet term rows */
+        .facet-more {
+
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        /** Divider above footer */
+        hr {
+            margin: 16px -24px -8px;
         }
     }
 }
