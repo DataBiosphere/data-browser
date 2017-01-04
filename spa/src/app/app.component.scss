@@ -1,0 +1,10 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * App root styles.
+ */
+
+:host {
+    display: block; // Required for forcing height 100% on files component
+}

@@ -1,0 +1,162 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Facets (grid) styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    md-card {
+
+        /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
+        /deep/ .md-card-header-text {
+            flex: 1;
+        }
+
+        /** Right align selected facet term count in subtitle */
+        /deep/ md-card-subtitle {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /** Individual facet term rows (checkbox, title, count) */
+        /deep/ .facet-term {
+
+            cursor: pointer;
+
+            md-icon {
+                color: rgba(0, 0, 0, 0.12); // Override MD border color of checkbox
+                flex-basis: 28px; // Always set width of icon to 20px (for icon) plus 8px padding;
+                flex-shrink: 0;
+                &.term-selected {
+                    color: $cgl-green;
+                }
+            }
+
+            .term-summary {
+
+                display: flex; // Spit title and count (with justify-content) to be left and right aligned
+                flex: 1; // Always set term and count to consume remaining space (excluding checkbox)
+                justify-content: space-between;
+                overflow: hidden;
+
+                .term-name {
+
+                    flex: 1; // Always title to consume remaining space (excluding count)
+                    min-width: 0; // Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/)
+
+                    /** Truncate long term names */
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .term-count {
+                    flex-basis: 56px; // Always set width of count to 56px
+                    flex-shrink: 0;
+                    text-align: right;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * XS only
+ */
+@media (max-width: $md-xs-max) {
+
+    :host {
+
+        md-card {
+
+            margin: 0 0 16px; // Add margin bottom to stacked cards TODO revisit - why is layout-margin applied to XS?
+
+            /** Override MD default margin bottom */
+            /deep/ md-card-header {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+/**
+ * Small only
+ */
+@media (min-width: $md-sm-min) and (max-width: $md-sm-max) {
+
+    :host {
+
+        .facet-wrap {
+
+            &:nth-child(even) {
+
+                md-card {
+                    margin-right: 0;
+                }
+            }
+
+            &:nth-child(odd) {
+
+                md-card {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Medium only
+ */
+@media (min-width: $md-md-min) and (max-width: $md-md-max) {
+
+    :host {
+
+        .facet-wrap {
+
+            &:nth-child(4n+1) {
+
+                md-card {
+                    margin-left: 0;
+                }
+            }
+
+            &:nth-child(4n+0) {
+
+                md-card {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Large and extra large
+ */
+@media (min-width: $md-lg-min) {
+
+    :host {
+
+        .facet-wrap {
+
+            &:nth-child(5n+1) {
+
+                md-card {
+                    margin-left: 0;
+                }
+            }
+
+            &:nth-child(5n+0) {
+
+                md-card {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}

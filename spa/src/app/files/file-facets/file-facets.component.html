@@ -1,16 +1,36 @@
-<div *ngFor="let fileFacet of fileFacets">
-  <div>
-    <span>{{fileFacet.name | camelToSpace}}</span>
-  </div>
-  <div>
-    <span>total: {{fileFacet.total | localeString}}</span>
-  </div>
-  <div>
-    <ul *ngFor="let term of fileFacet.terms">
-      <ul (click)="selectFacetTerm(fileFacet, term)">
-        <span style="cursor: pointer;" [style.color]=getTermStyle(term.selected)>{{term.name}}: {{term.count | localeString}} Files</span>
-      </ul>
-    </ul>
-  </div>
+<div class="layout-column layout-gt-xs-row layout-wrap">
+    <div class="facet-wrap flex flex-sm-50 flex-md-25 flex-gt-md-20" *ngFor="let fileFacet of fileFacets">
+        <md-card class="layout-margin">
+            <md-card-header>
+                <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
+                <md-card-subtitle>
+                    <span>
+                        {{fileFacet.total | localeString}}
+                    </span>
+                    <span>
+                        x/x
+                    </span>
+                </md-card-subtitle>
+            </md-card-header>
+            <md-card-content>
+                <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
+                     *ngFor="let term of fileFacet.terms"
+                     (click)="selectFacetTerm(fileFacet, term)">
+                    <md-icon *ngIf="!term.selected">check_box_outline_blank</md-icon>
+                    <md-icon class="term-selected" *ngIf="term.selected">check_box_outline</md-icon>
+                    <div class="term-summary">
+                        <div class="term-name">
+                            <span title="{{term.name}}">{{term.name}}</span>
+                        </div>
+                        <div class="term-count md-caption secondary">{{term.count | localeString}}</div>
+                    </div>
+                </div>
+            </md-card-content>
+            <md-card-actions>
+                <button md-button>
+                    EDIT
+                </button>
+            </md-card-actions>
+        </md-card>
+    </div>
 </div>
-

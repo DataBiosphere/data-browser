@@ -1,44 +1,39 @@
 <div class="layout-column layout-padding">
     <bw-file-summary [summary]="selectFileSummary$ | async"></bw-file-summary>
-    
-    
-    
-    
-    
-    <button type="button" (click)="requestManifestSummary()">Manifest</button>
-    <bw-file-search [donors]="donors$ | async"
-                    [files]="files$ | async"
-                    (search)="onSearch($event)"
+    <bw-file-facets [fileFacets]="fileFacets$ | async"
                     (termSelected)="onTermSelected($event)">
-    </bw-file-search>
-    <div class="file-manifest-summary" *ngIf="!(manifestSummaryLoading$ | async)">
-        <bw-file-manifest-summary [manifestSummary]="manifestSummary$ | async"
-                                  (downloadManifest)="onDownloadManifest($event)">
-        </bw-file-manifest-summary>
-    </div>
-    <!--<div>SelectFileSummaryLoading is: {{selectFileSummaryLoading$ | async}}</div>-->
-    <div class="file-summary" [ngSwitch]="selectFileSummaryLoading$ | async">
-        
-        <div *ngSwitchCase="true">
-            summary loading
-        </div>
-        <div *ngSwitchDefault>
-            summary loaded
-        </div>
-    </div>
-    
-    
-    
-    <div class="file-facets" [ngSwitch]="fileFacetsLoading$ | async">
-        <div *ngSwitchCase="false">
-            facets loaded
-        </div>
-        <div *ngSwitchDefault>
-            facets loading
-        </div>
-        <bw-file-facets [fileFacets]="fileFacets$ | async"
-                        (termSelected)="onTermSelected($event)">
-        </bw-file-facets>
-    </div>
+    </bw-file-facets>
+    <!--<button type="button" (click)="requestManifestSummary()">Manifest</button>-->
+    <!--<bw-file-search [donors]="donors$ | async"-->
+                    <!--[files]="files$ | async"-->
+                    <!--(search)="onSearch($event)"-->
+                    <!--(termSelected)="onTermSelected($event)">-->
+    <!--</bw-file-search>-->
+    <!--<div class="file-manifest-summary" *ngIf="!(manifestSummaryLoading$ | async)">-->
+        <!--<bw-file-manifest-summary [manifestSummary]="manifestSummary$ | async"-->
+                                  <!--(downloadManifest)="onDownloadManifest($event)">-->
+        <!--</bw-file-manifest-summary>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<div>SelectFileSummaryLoading is: {{selectFileSummaryLoading$ | async}}</div>&ndash;&gt;-->
+    <!--<div class="file-summary" [ngSwitch]="selectFileSummaryLoading$ | async">-->
+        <!---->
+        <!--<div *ngSwitchCase="true">-->
+            <!--summary loading-->
+        <!--</div>-->
+        <!--<div *ngSwitchDefault>-->
+            <!--summary loaded-->
+        <!--</div>-->
+    <!--</div>-->
+    <!---->
+    <!---->
+    <!---->
+    <!--<div class="file-facets" [ngSwitch]="fileFacetsLoading$ | async">-->
+        <!--<div *ngSwitchCase="false">-->
+            <!--facets loaded-->
+        <!--</div>-->
+        <!--<div *ngSwitchDefault>-->
+            <!--facets loading-->
+        <!--</div>-->
 
+    <!--</div>-->
 </div>

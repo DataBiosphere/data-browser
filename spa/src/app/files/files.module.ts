@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { EffectsModule } from "@ngrx/effects";
-import { MdCardModule } from "@angular/material";
+import { MdButtonModule, MdCardModule, MdCheckboxModule, MdIconModule } from "@angular/material";
 
 // App dependencies
 import { CCHttpModule } from "../cc-http/cc-http.module";
@@ -26,8 +26,11 @@ import { FilesService } from "./shared/files.service";
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
+        MdButtonModule,
         MdCardModule,
+        MdCheckboxModule,
+        MdIconModule,
+        RouterModule.forChild(routes),
 
         CCHttpModule,
         CcPipeModule,

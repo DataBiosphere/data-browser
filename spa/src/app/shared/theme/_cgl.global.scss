@@ -29,8 +29,19 @@ ul {
 }
 
 /**
- * Horizontal rule
+ * Typography
  */
+
+/** Add "missing" typography styles to match Sketch options */
+.md-caption {
+    &.secondary {
+        color: rgba(0, 0, 0, 0.54);
+    }
+}
+
+/**
+* Horizontal rule
+*/
 
 hr {
     background-color: rgba(0, 0, 0, 0.12); // MD divider
