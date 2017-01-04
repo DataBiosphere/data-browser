@@ -1,0 +1,59 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Custom, CGL-specific overrides of Material Design toolbar nav. Mobile first.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    md-card {
+
+        color: #ffffff;
+        padding: 0;
+
+        .summary-count {
+
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            text-align: right;
+
+            &:before {
+                font-family: "Material Icons";
+                font-size: 40px;
+                opacity: 0.7;
+            }
+
+            /** Override default MD bottom margin/padding to scoot count and label closer, and top margin/padding to vertically align correctly in card **/
+            .md-headline {
+                margin: 0;
+                padding: 0;
+            }
+
+            &.file {
+                background-color: rgba($cgl-green, 0.8);
+                &:before {
+                    content: "\E24D";
+                }
+            }
+
+            &.donor {
+                background-color: rgba($cgl-peach, 0.85);
+                &:before {
+                    content: "\E7FD";
+                }
+            }
+
+            &.size {
+                background-color: rgba($cgl-orange, 0.85);
+                &:before {
+                    content: "\E1AF";
+                }
+            }
+        }
+    }
+}

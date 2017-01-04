@@ -9,8 +9,6 @@ import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { ActionReducer } from "@ngrx/store";
 
-import { Dictionary } from "./shared/dictionary";
-
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
@@ -18,6 +16,7 @@ import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.co
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
+import { Dictionary } from "./shared/dictionary";
 
 // Child Modules
 import { FilesModule } from "./files/files.module";

@@ -1,39 +1,42 @@
+// Core dependencies
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
 import "rxjs/add/operator/do";
+import "rxjs/add/operator/map";
 
 
-import {
-    selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
-    selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
-} from "./files.reducer";
-
-import { FileSummary } from "./file-summary/file-summary";
-import { BoardwalkStore } from "../shared/boardwalk.model";
-import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
-import { selectKeywordsHits, selectKeywordFiles, selectKeywordDonors } from "../keywords/reducer/index";
-import { ACTIONS } from "../shared/boardwalk.actions";
-
+// App dependencies
 import {
     RequestFileManifestSummaryAction, RequestDownloadFileManifiestAction,
     SelectFileFacetAction
 } from "./actions/file-actions";
-
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
 import { FileFacet } from "./shared/file-facet.model";
+import { FileSummary } from "./file-summary/file-summary";
+import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
+import {
+    selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
+    selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
+} from "./files.reducer";
+import { selectKeywordsHits, selectKeywordFiles, selectKeywordDonors } from "../keywords/reducer/index";
+import { ACTIONS } from "../shared/boardwalk.actions";
+import { BoardwalkStore } from "../shared/boardwalk.model";
+
+/**
+ * Core files component, displays results summary as well as facets.
+ */
 
 @Component({
     selector: "bw-files",
     templateUrl: "files.component.html",
-    styleUrls: ["files.component.css"]
+    styleUrls: ["files.component.scss"]
 })
 export class FilesComponent implements OnInit {
 
     private route: ActivatedRoute;
-    private store: Store<BoardwalkStore>
+    private store: Store<BoardwalkStore>;
 
     public selectFileSummaryLoading$: Observable<boolean>;
     public selectFileSummary$: Observable<FileSummary>;
@@ -47,6 +50,10 @@ export class FilesComponent implements OnInit {
     public files$: Observable<any[]>;
     public donors$: Observable<any[]>;
 
+    /**
+     * @param route {ActivatedRoute}
+     * @param store {Store<BoardwalkStore>}
+     */
     constructor(route: ActivatedRoute,
                 store: Store<BoardwalkStore>) {
 
@@ -55,20 +62,17 @@ export class FilesComponent implements OnInit {
     }
 
     /**
-     *
+     * Set up selectors and request initial data set.
      */
     public ngOnInit() {
 
-        // Setup the selectors
-
-        //File Summary
+        // File Summary
         this.selectFileSummaryLoading$ = selectFileSummaryLoading(this.store);
         this.selectFileSummary$ = selectFileSummary(this.store);
 
-        //File Facets
+        // File Facets
         this.fileFacetsLoading$ = selectFileFacetsLoading(this.store);
         this.fileFacets$ = selectFileFacets(this.store);
-
 
         this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
         this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
@@ -124,7 +128,6 @@ export class FilesComponent implements OnInit {
     /**
      * PRIVATES
      */
-
 
     /**
      * Parse queryParams into file filters

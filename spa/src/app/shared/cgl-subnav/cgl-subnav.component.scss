@@ -19,6 +19,7 @@ md-toolbar {
         background-color: $cgl-turquoise;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
         color: #ffffff;
+        position: relative;
 
         a {
             @include a-white();
