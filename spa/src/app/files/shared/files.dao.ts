@@ -140,7 +140,7 @@ export class FilesDAO extends CCBaseDAO {
             const oldFacet: FileFacet = selectedFacetsByName.get(facetName);
 
 
-            let responseTerms: Term[];
+            let responseTerms: Term[]= [];
 
             // the response from ICGC is missing the terms field instead of being an empty array
             // we need to check it's existence before iterating over it.
