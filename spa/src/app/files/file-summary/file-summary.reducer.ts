@@ -32,7 +32,8 @@ const DEFAULT_STATE: FileSummaryState = {
         totalFileSize: 0,
         donorCount: 0,
         projectCount: 0,
-        primarySiteCount: 0
+        primarySiteCount: 0,
+        primarySite: 0
     }
 };
 

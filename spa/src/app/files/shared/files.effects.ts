@@ -23,6 +23,7 @@ import {
     RequestFileSummaryAction,
     ReceiveDownloadFileManifiestAction, FileFacetsReceivedAction
 } from "../actions/file-actions";
+import { FileSummary } from "../file-summary/file-summary";
 
 
 @Injectable()
@@ -63,10 +64,20 @@ export class FilesEffects {
         })
         .mergeMap((selectedFacets) => {
             return this.fileService.fetchFileSummary(selectedFacets);
-        }).map((response) => {
+        }).map((fileSummary:FileSummary) => {
+
+
+        if(typeof fileSummary.primarySite === "string"){
+                fileSummary.primarySiteCount=0;
+        }
+
+        if(typeof fileSummary.totalFileSize==="string"){
+            fileSummary.totalFileSize=0;
+        }
+
             return {
                 type: ACTIONS.FILE_SUMMARY_RECEIVED,
-                payload: response
+                payload: fileSummary
             };
         });
 

@@ -22,7 +22,7 @@ interface FilesAPIResponse {
 export class FilesDAO extends CCBaseDAO {
 
     private DOMAIN = "https://dcc.icgc.org/api/v1";
-
+    //private DOMAIN = "http://ucsc-cgl.org/api/v1"
     constructor(http: Http) {
         super(http);
     }

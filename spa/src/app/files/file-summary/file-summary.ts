@@ -4,4 +4,5 @@ export interface FileSummary {
     donorCount: number;
     projectCount: number;
     primarySiteCount: number;
+    primarySite: string|number;
 }
