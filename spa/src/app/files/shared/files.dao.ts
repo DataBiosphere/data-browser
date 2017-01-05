@@ -205,7 +205,11 @@ export class FilesDAO extends CCBaseDAO {
                 return term.name;
             });
 
-            facetAcc[facet.name] = { is: filters};
+            if(filters.length){
+                //only add the facet if there is a selected terem.
+                facetAcc[facet.name] = { is: filters};
+            }
+
             return facetAcc;
         },{});
 
