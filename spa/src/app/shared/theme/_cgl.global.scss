@@ -32,8 +32,15 @@ ul {
  * Typography
  */
 
-/** Add "missing" typography styles to match Sketch options */
+/** Add "missing" typography styles to match Sketch option for md-caption */
 .md-caption {
+    &.secondary {
+        color: rgba(0, 0, 0, 0.54);
+    }
+}
+
+/** Add "missing" typography styles to match Sketch option for md-subhead */
+.md-subhead {
     &.secondary {
         color: rgba(0, 0, 0, 0.54);
     }

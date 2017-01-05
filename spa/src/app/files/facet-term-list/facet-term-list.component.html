@@ -1,0 +1,12 @@
+<div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
+     *ngFor="let term of fileFacet.terms"
+     (click)="onClickFacetTerm(fileFacet, term)">
+    <md-icon *ngIf="!term.selected">check_box_outline_blank</md-icon>
+    <md-icon class="term-selected" *ngIf="term.selected">check_box_outline</md-icon>
+    <div class="term-summary">
+        <div class="term-name">
+            <span title="{{term.name}}">{{term.name}}</span>
+        </div>
+        <div class="term-count md-caption secondary">{{term.count | localeString}}</div>
+    </div>
+</div>

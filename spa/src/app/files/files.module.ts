@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { EffectsModule } from "@ngrx/effects";
-import { MdButtonModule, MdCardModule, MdCheckboxModule, MdIconModule } from "@angular/material";
+import { MdButtonModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule } from "@angular/material";
 
 // App dependencies
 import { CCHttpModule } from "../cc-http/cc-http.module";
@@ -11,6 +11,7 @@ import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { FilesComponent } from "./files.component";
 import { FileFacetsComponent } from "./file-facets/file-facets.component";
+import { FileFacetFormDialog } from "./file-facet-form/file-facet-form.dialog";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
 import { FileSearchComponent } from './file-search/file-search.component';
@@ -19,6 +20,7 @@ import { KeywordsModule } from "../keywords/keywords.module";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesEffects } from "./shared/files.effects";
 import { FilesService } from "./shared/files.service";
+import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 
 /**
  * Files module definition.
@@ -29,6 +31,7 @@ import { FilesService } from "./shared/files.service";
         MdButtonModule,
         MdCardModule,
         MdCheckboxModule,
+        MdDialogModule,
         MdIconModule,
         RouterModule.forChild(routes),
 
@@ -40,12 +43,21 @@ import { FilesService } from "./shared/files.service";
         // EffectsModule.run(FilesEffects)
     ],
     declarations: [
-        FilesComponent,
+
+        FacetTermListComponent,
 
         FileSummaryComponent,
         FileFacetsComponent,
         FileManifestSummaryComponent,
-        FileSearchComponent
+        FileSearchComponent,
+
+        FileFacetFormDialog,
+
+        FilesComponent
+    ],
+    entryComponents: [
+
+        FileFacetFormDialog,
     ],
     providers: [
         FilesService,

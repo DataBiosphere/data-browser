@@ -1,0 +1,18 @@
+<div md-dialog-title>
+    <h1 class="md-title">{{(fileFacet$ | async).name | camelToSpace}}</h1>
+    <div class="dialog-subtitle">
+        <span class="md-subhead secondary">
+            {{(fileFacet$ | async).total | localeString}}
+        </span>
+        <span class="md-subhead secondary">
+            x/x
+        </span>
+    </div>
+</div>
+<div md-dialog-content>
+    <facet-term-list [fileFacet]="fileFacet$ | async"
+                     (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+</div>
+<div md-dialog-actions>
+    <button md-button (click)="dialogRef.close()">DONE</button>
+</div>

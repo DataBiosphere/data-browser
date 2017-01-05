@@ -1,0 +1,31 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Facets form styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    .md-title {
+        margin: 0;
+    }
+
+    .dialog-subtitle {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button {
+
+        /** Override MD default focus style of dialog action buttons */
+        &.md-button-focus {
+
+            /deep/ .md-button-focus-overlay {
+                display: none;
+            }
+        }
+    }
+}

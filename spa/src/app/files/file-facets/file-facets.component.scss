@@ -23,50 +23,11 @@
             justify-content: space-between;
         }
 
-        /** Individual facet term rows (checkbox, title, count) */
-        /deep/ .facet-term {
-
-            cursor: pointer;
-
-            md-icon {
-                color: rgba(0, 0, 0, 0.12); // Override MD border color of checkbox
-                flex-basis: 28px; // Always set width of icon to 20px (for icon) plus 8px padding;
-                flex-shrink: 0;
-                &.term-selected {
-                    color: $cgl-green;
-                }
-            }
-
-            .term-summary {
-
-                display: flex; // Spit title and count (with justify-content) to be left and right aligned
-                flex: 1; // Always set term and count to consume remaining space (excluding checkbox)
-                justify-content: space-between;
-                overflow: hidden;
-
-                .term-name {
-
-                    flex: 1; // Always title to consume remaining space (excluding count)
-                    min-width: 0; // Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/)
-
-                    /** Truncate long term names */
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                .term-count {
-                    flex-basis: 56px; // Always set width of count to 56px
-                    flex-shrink: 0;
-                    text-align: right;
-                }
-            }
-        }
-
         /** "More" option at bottom of facet term rows */
         .facet-more {
 
             align-items: center;
+            cursor: pointer;
             display: flex;
             justify-content: flex-end;
             margin-top: 16px;
@@ -105,6 +66,7 @@
 
     :host {
 
+        /** Set up wrap and margins for 2x grid **/
         .facet-wrap {
 
             &:nth-child(even) {
@@ -131,6 +93,7 @@
 
     :host {
 
+        /** Set up wrap and margins for 4x grid **/
         .facet-wrap {
 
             &:nth-child(4n+1) {
@@ -157,6 +120,7 @@
 
     :host {
 
+        /** Set up wrap and margins for 5x grid **/
         .facet-wrap {
 
             &:nth-child(5n+1) {

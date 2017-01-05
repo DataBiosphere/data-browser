@@ -1,20 +1,20 @@
+// Core dependencies
 import { ActionReducer } from "@ngrx/store";
 import { compose } from "@ngrx/core/compose";
 import { Observable } from "rxjs/Observable";
 import "@ngrx/core/add/operator/select";
 import "rxjs/add/operator/withLatestFrom";
+import * as _ from "lodash";
 
-import * as includes from "lodash/includes";
-
-import * as fromSummary from "./file-summary/file-summary.reducer";
+// App dependencies
 import * as fromFacets from "./file-facets/file-facets.reducer";
-import * as fromManifestSummary from "./file-manifest-summary/file-manifest-summary.reducer";
-
-import { Selector } from "../shared/selector";
-import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
-import { Dictionary } from "../shared/dictionary";
 import { FileFacetsState } from "./file-facets/file-facet-state.model";
+import * as fromSummary from "./file-summary/file-summary.reducer";
+import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
+import * as fromManifestSummary from "./file-manifest-summary/file-manifest-summary.reducer";
+import { Dictionary } from "../shared/dictionary";
 import { FileFacet } from "./shared/file-facet.model";
+import { Selector } from "../shared/selector";
 
 
 export interface FilesState {
@@ -28,7 +28,6 @@ export const reducers: Dictionary<ActionReducer<any>> = {
     fileFacets: fromFacets.reducer,
     fileManifestSummary: fromManifestSummary.reducer
 };
-
 
 /**
  * File Summary Selectors
@@ -71,6 +70,24 @@ export function selectFileFacets(appState$: Observable<FilesState>): Observable<
         }
     )
 };
+
+/**
+ * Returns the file facet with the specified name.
+ *
+ * @param appState$ {Observable<FilesState>}
+ * @param fileFacetName {string}
+ * @returns Observable<FileFacet[]>
+ */
+export function selectFileFacetByName(appState$: Observable<FilesState>, fileFacetName: string): Observable<FileFacet> {
+
+    return selectFileFacetState(appState$)
+        .map((fileFacetState: FileFacetsState) => {
+
+            return _.find(fileFacetState.fileFacets, (fileFacet: FileFacet) => {
+                return fileFacet.name === fileFacetName;
+            });
+        });
+}
 
 export function selectSelectedFileFacets(appState$: Observable<FilesState>): Observable<FileFacet[]> {
     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {

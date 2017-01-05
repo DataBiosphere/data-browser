@@ -6,5 +6,7 @@
  */
 
 :host {
-    display: block; // Required for forcing height 100% on files component
+    display: flex; // Required for forcing height 100% on files component, with scroll for overflow
+    flex-direction: column;
+    height: 100%; // Required to force height to reach at least bottom of screen, before content is loaded
 }
