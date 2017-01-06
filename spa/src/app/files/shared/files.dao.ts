@@ -21,8 +21,8 @@ interface FilesAPIResponse {
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
 
-    private DOMAIN = "https://dcc.icgc.org/api/v1";
-    //private DOMAIN = "http://ucsc-cgl.org/api/v1";
+    //private DOMAIN = "https://dcc.icgc.org/api/v1";
+    private DOMAIN = "http://ucsc-cgl.org/api/v1";
     constructor(http: Http) {
         super(http);
     }
@@ -93,8 +93,8 @@ export class FilesDAO extends CCBaseDAO {
             repoNames: repoNames
         });
 
-
         const url = this.buildApiUrl("/repository/files/summary/manifest");
+
         return this.post<Dictionary<FileManifestSummary>>(url, form);
     }
 
@@ -106,6 +106,7 @@ export class FilesDAO extends CCBaseDAO {
      */
     downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
 
+        const ucsc_url = "/repository/files/export";
         const query =  new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
 
         let params = new URLSearchParams();
@@ -113,7 +114,8 @@ export class FilesDAO extends CCBaseDAO {
             params.append(paramName, query[paramName]);
         });
 
-        window.location.href = this.buildApiUrl(`/manifests?${params.toString()}`);
+       // window.location.href = this.buildApiUrl(`/manifests?${params.toString()}`);
+        window.location.href = this.buildApiUrl(`//repository/files/export?${params.toString()}`);
         return Observable.of(true); // TODO error handling? I'm not sure setting the href causes any errors
     }
 
