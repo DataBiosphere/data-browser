@@ -41,12 +41,14 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                line-height: 16px; // Hiding overflow is clipping ascenders/descenders - pump up jam on line height here to force full height of characters
             }
 
             .term-count {
                 flex-basis: 56px; // Always set width of count to 56px
                 flex-shrink: 0;
                 text-align: right;
+                line-height: 16px; // Match line height of term name (for vertical alignment)
             }
         }
     }
