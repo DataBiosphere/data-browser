@@ -10,4 +10,19 @@
     height: 100%;
     background-color: #fafafa;
     overflow-y: auto; // Enable scroll if necessary
+
+    /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
+    &.snap {
+        padding-top: 100px; // Matches height of results summary + padding (84px + 16px)
+
+        /** Handle snap of results summary element itself */
+        /deep/ bw-file-summary {
+            position: absolute;
+            left: 0;
+            padding: 0; // Remove default padding
+            right: 0;
+            top: 128px; // Must match padding top of files component (64px for toolbar, 64px for subheader)
+            z-index: 10;
+        }
+    }
 }
