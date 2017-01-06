@@ -1,5 +1,5 @@
 <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
-     *ngFor="let term of fileFacet.terms"
+     *ngFor="let term of getDisplayList()"
      (click)="onClickFacetTerm(fileFacet, term)">
     <md-icon *ngIf="!term.selected">check_box_outline_blank</md-icon>
     <md-icon class="term-selected" *ngIf="term.selected">check_box_outline</md-icon>

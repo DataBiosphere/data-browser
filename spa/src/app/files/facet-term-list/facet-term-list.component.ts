@@ -23,6 +23,9 @@ export class FacetTermListComponent {
 
     // Inputs
     @Input() fileFacet: FileFacet;
+    @Input() useShortList: boolean;
+
+    public displayList :Term[];
 
     // Outputs
     @Output() facetTermSelected = new EventEmitter<FileFacetSelectedEvent>();
@@ -41,5 +44,13 @@ export class FacetTermListComponent {
 
         // Update facet state
         this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet, term));
+    }
+
+    public getDisplayList() : Term[]{
+        if(this.useShortList){
+            return this.fileFacet.shortList;
+        } else{
+            return this.fileFacet.terms;
+        }
     }
 }

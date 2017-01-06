@@ -8,15 +8,15 @@
                         {{fileFacet.total | localeString}}
                     </span>
                     <span>
-                        x/x
+                        {{fileFacet.selectedTermCount}} /  {{fileFacet.termCount}}
                     </span>
                 </md-card-subtitle>
             </md-card-header>
             <md-card-content>
-                <facet-term-list [fileFacet]="fileFacet"
+                <facet-term-list [fileFacet]="fileFacet" [useShortList]="true"
                                  (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
-                <div class="facet-more" (click)="showEditMode(fileFacet.name)">
-                    <span class="md-caption secondary">+n</span>
+                <div *ngIf="fileFacet.moar" class="facet-more" (click)="showEditMode(fileFacet.name)">
+                    <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
                     <md-icon>expand_more</md-icon>
                 </div>
             </md-card-content>

@@ -5,12 +5,12 @@
             {{(fileFacet$ | async).total | localeString}}
         </span>
         <span class="md-subhead secondary">
-            x/x
+             {{(fileFacet$ | async).selectedTermCount}}/ {{(fileFacet$ | async).termCount}}
         </span>
     </div>
 </div>
 <div md-dialog-content>
-    <facet-term-list [fileFacet]="fileFacet$ | async"
+    <facet-term-list [fileFacet]="fileFacet$ | async" [useShortList]="false"
                      (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
 </div>
 <div md-dialog-actions>
