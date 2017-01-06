@@ -11,6 +11,9 @@
 
     md-card {
 
+        /** Override MD default padding, for all device sizes */
+        padding: 24px 16px !important;
+
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
         /deep/ .md-card-header-text {
             flex: 1;
@@ -41,7 +44,13 @@
 
         /** Divider above footer */
         hr {
-            margin: 16px -24px -8px;
+            margin: 16px -16px -8px;
+        }
+
+        /** Override default MD margin left/right to align buttons with checkboxes */
+        md-card-actions {
+            margin-left: -16px;
+            margin-right: -16px;
         }
     }
 }
@@ -60,12 +69,6 @@
             /** Override MD default margin bottom */
             /deep/ md-card-header {
                 margin-bottom: 16px;
-            }
-
-            /** Divider above footer */
-            hr {
-                margin-left: -16px;
-                margin-right: -16px;
             }
         }
     }

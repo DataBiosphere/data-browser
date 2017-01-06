@@ -47,3 +47,21 @@
         }
     }
 }
+
+/**
+ * Small only
+ */
+@media (min-width: $md-sm-min) and (max-width: $md-sm-max) {
+
+    :host {
+
+        /** Handle snap of results summary - on small devices (with shorter toolbar heights) */
+        &.snap {
+
+            /** Handle snap of results summary element itself */
+            /deep/ bw-file-summary {
+                top: 96px; // Must match padding top of files component (56px for toolbar, 56px for subheader)
+            }
+        }
+    }
+}

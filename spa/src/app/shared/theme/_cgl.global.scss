@@ -65,12 +65,31 @@ $cgl-fab-gutter-xs: 16px;
 $cgl-fab-gutter-gt-xs: 24px;
 .cgl-fab {
     background-color: $cgl-turquoise;
-    bottom: $cgl-fab-gutter-xs + 380px; /* +380 for stacked footer */
+    bottom: $cgl-fab-gutter-xs + 316px; /* +316 for stacked, squashed footer */
     right: $cgl-fab-gutter-xs;
     /** Use specific selector to overide MD defaults */
     &[md-fab] {
         color: #ffffff;
         position: fixed;
+    }
+}
+
+/** Override MD default focus style of dialog action buttons */
+button {
+
+    &.cgl-button {
+
+        color: rgba(0, 0, 0, 0.54);
+        transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &:hover, &.md-button-focus {
+
+            color: $cgl-turquoise;
+
+            .md-button-focus-overlay {
+                display: none;
+            }
+        }
     }
 }
 
@@ -82,7 +101,7 @@ $cgl-fab-gutter-gt-xs: 24px;
 
     /** Update gutter width for small devices and above */
     .cgl-fab {
-        bottom: $cgl-fab-gutter-gt-xs + 176px; /* +176 for inline footer */
+        bottom: $cgl-fab-gutter-gt-xs + 112px; /* +112 for squashed, inline footer */
         right: $cgl-fab-gutter-gt-xs;
     }
 }

@@ -22,7 +22,10 @@
             </md-card-content>
             <hr>
             <md-card-actions>
-                <button md-button (click)="showEditMode(fileFacet.name)">
+                <button class="cgl-button"
+                        md-button
+                        [disableRipple]="true"
+                        (click)="showEditMode(fileFacet.name)">
                     EDIT
                 </button>
             </md-card-actions>

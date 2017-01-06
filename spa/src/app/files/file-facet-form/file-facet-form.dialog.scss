@@ -18,14 +18,9 @@
         justify-content: space-between;
     }
 
-    button {
-
-        /** Override MD default focus style of dialog action buttons */
-        &.md-button-focus {
-
-            /deep/ .md-button-focus-overlay {
-                display: none;
-            }
-        }
+    /** Override default MD left/right margin to align DONE button with checkboxes */
+    [md-dialog-actions] {
+        margin-left: -24px;
+        margin-right: -24px;
     }
 }
