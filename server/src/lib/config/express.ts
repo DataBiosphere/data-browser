@@ -6,7 +6,7 @@ import { Req } from "../../boardwalk";
 import * as path from "path";
 
 import * as bodyParser from "body-parser";
-let connect = require("connect-mongo");
+//let connect = require("connect-mongo");
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 let expressValidator = require("express-validator");
@@ -30,7 +30,7 @@ import { config } from "../../lib/config/config";
 import { PersonModel } from "../person/person";
 
 let parser = new UAParser();
-let mongoStore = connect(session);
+//let mongoStore = connect(session);
 const DEFAULT_TIMEZONE = "America/New_York";
 
 /**
@@ -51,9 +51,9 @@ export const expressConfig = (app: Application) => {
     /**
      * LOCAL
      */
-    if (app.get("env") === "local") {
-        mongoose.set("debug", true);
-    }
+    // if (app.get("env") === "local") {
+    //     mongoose.set("debug", true);
+    // }
 
 
     /**
@@ -92,20 +92,20 @@ export const expressConfig = (app: Application) => {
     }));
 
     // Persist sessions with mongoStore
-    app.use(session({
-        secret: "love and rockets",
-        store: new mongoStore({
-            mongooseConnection: mongoose.connection,
-            defaultExpirationTime: 15 * 60 * 1000
-        }),
-        resave: true,               // TODO these are the original express 3 default values, but all recommendations
-                                    // are for "false"
-        saveUninitialized: true     // TODO same as above
-    }));
+    // app.use(session({
+    //     secret: "love and rockets",
+    //     store: new mongoStore({
+    //         mongooseConnection: mongoose.connection,
+    //         defaultExpirationTime: 15 * 60 * 1000
+    //     }),
+    //     resave: true,               // TODO these are the original express 3 default values, but all recommendations
+    //                                 // are for "false"
+    //     saveUninitialized: true     // TODO same as above
+    // }));
 
     // Use passport session
-    app.use(passport.initialize());
-    app.use(passport.session());
+//    app.use(passport.initialize());
+ //   app.use(passport.session());
 
 
     // Add local variable indicating if user is authenticated
@@ -117,17 +117,17 @@ export const expressConfig = (app: Application) => {
     });
 
     // Set the user's last seen date
-    app.use((req: Req, res: Res, next: Next) => {
-
-        if (req.user && !req.query.wasNotMe) {
-
-            let now = moment().tz(DEFAULT_TIMEZONE);
-            PersonModel.update({ _id: req.user }, { $set: { lastSeen: now } }, next);
-        }
-        else {
-            next();
-        }
-    });
+    //app.use((req: Req, res: Res, next: Next) => {
+    //
+    //     if (req.user && !req.query.wasNotMe) {
+    //
+    //         let now = moment().tz(DEFAULT_TIMEZONE);
+    //         PersonModel.update({ _id: req.user }, { $set: { lastSeen: now } }, next);
+    //     }
+    //     else {
+    //         next();
+    //     }
+    // });
 
     // Set up view engine
     app.set("view engine", "handlebars");
