@@ -21,7 +21,7 @@ import { FilesState, selectSelectedFacetsMap, selectSelectedFileFacets } from ".
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import {
     RequestFileSummaryAction,
-    ReceiveDownloadFileManifiestAction, FileFacetsReceivedAction
+    ReceiveDownloadFileManifestAction, FileFacetsReceivedAction
 } from "../actions/file-actions";
 import { FileSummary } from "../file-summary/file-summary";
 
@@ -117,6 +117,6 @@ export class FilesEffects {
         .mergeMap((query) => {
             return this.fileService.downloadFileManifest(query);
         }).map(() => {
-            return new ReceiveDownloadFileManifiestAction();
+            return new ReceiveDownloadFileManifestAction();
         });
 }

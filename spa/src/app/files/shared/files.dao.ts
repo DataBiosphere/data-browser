@@ -106,10 +106,7 @@ export class FilesDAO extends CCBaseDAO {
      */
     downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
 
-        const query =  new ICGCQuery(this.facetsToQueryString(selectedFacets));
-
-        //This is different from the others just tocreate the params for window.location.href.
-        //  query.format = "tarball";
+        const query =  new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
 
         let params = new URLSearchParams();
         Object.keys(query).forEach((paramName) => {

@@ -10,7 +10,7 @@ import "rxjs/add/operator/map";
 
 // App dependencies
 import {
-    RequestFileManifestSummaryAction, RequestDownloadFileManifiestAction,
+    RequestFileManifestSummaryAction, RequestDownloadFileManifestAction,
     SelectFileFacetAction
 } from "./actions/file-actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
@@ -108,7 +108,7 @@ export class FilesComponent implements AfterViewInit, OnInit {
      * Dispatch Manifest Download Request
      */
     public onDownloadManifest() {
-        this.store.dispatch( new RequestDownloadFileManifiestAction());
+        this.store.dispatch( new RequestDownloadFileManifestAction());
     }
 
     /**

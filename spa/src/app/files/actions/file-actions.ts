@@ -8,8 +8,8 @@ export class RequestFileManifestSummaryAction implements Action {
 }
 
 
-export class RequestDownloadFileManifiestAction implements Action {
-    public readonly type = ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST
+export class RequestDownloadFileManifestAction implements Action {
+    public readonly type = ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST;
 }
 
 export class RequestFileSummaryAction implements Action{
@@ -17,7 +17,7 @@ export class RequestFileSummaryAction implements Action{
 }
 
 
-export class ReceiveDownloadFileManifiestAction implements Action {
+export class ReceiveDownloadFileManifestAction implements Action {
     public readonly type = ACTIONS.RECEIVE_DOWNLOAD_FILE_MANIFEST;
 }
 
@@ -35,7 +35,7 @@ export class FileFacetsReceivedAction implements Action {
     public readonly type = ACTIONS.FILE_FACETS_RECEIVED;
     public readonly payload: FileFacet[];
 
-    constructor(fileFacets: FileFacet[]){
+    constructor(fileFacets: FileFacet[]) {
         this.payload = fileFacets;
     }
 }
