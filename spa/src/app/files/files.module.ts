@@ -3,7 +3,14 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { EffectsModule } from "@ngrx/effects";
-import { MdButtonModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule } from "@angular/material";
+import {
+    MdButtonModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdDialogModule,
+    MdIconModule,
+    MdTooltipModule
+} from "@angular/material";
 
 // App dependencies
 import { CCHttpModule } from "../cc-http/cc-http.module";
@@ -33,6 +40,7 @@ import { FacetTermListComponent } from "./facet-term-list/facet-term-list.compon
         MdCheckboxModule,
         MdDialogModule,
         MdIconModule,
+        MdTooltipModule,
         RouterModule.forChild(routes),
 
         CCHttpModule,

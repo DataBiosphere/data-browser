@@ -88,9 +88,10 @@ export class FilesComponent implements AfterViewInit, OnInit {
     }
 
     /**
-     * Request Manifest Summary
+     * Request manifest summary
      */
     public requestManifestSummary() {
+
         this.store.dispatch(new RequestFileManifestSummaryAction());
     }
 

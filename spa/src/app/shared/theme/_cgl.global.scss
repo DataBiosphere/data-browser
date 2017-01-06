@@ -55,3 +55,34 @@ hr {
     border: 0;
     height: 1px;
 }
+
+/**
+ * Buttons
+ */
+
+/** Style and position global FAB TODO(theme) background color spec is no longer necessary once CGL theme is implemented */
+$cgl-fab-gutter-xs: 16px;
+$cgl-fab-gutter-gt-xs: 24px;
+.cgl-fab {
+    background-color: $cgl-turquoise;
+    bottom: $cgl-fab-gutter-xs;
+    right: $cgl-fab-gutter-xs;
+    /** Use specific selector to overide MD defaults */
+    &[md-fab] {
+        color: #ffffff;
+        position: fixed;
+    }
+}
+
+
+/**
+ * Small, small+
+ */
+@media (min-width: $md-sm-min) {
+
+    /** Update gutter width for small devices and above */
+    .cgl-fab {
+        bottom: $cgl-fab-gutter-gt-xs;
+        right: $cgl-fab-gutter-gt-xs;
+    }
+}
