@@ -14,6 +14,9 @@ import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
+import { CGLFooterComponent } from "./shared/cgl-footer/cgl-footer.component";
+import { CGLFooterNavComponent } from "./shared/cgl-footer/cgl-footer-nav/cgl-footer-nav.component";
+import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-item/cgl-footer-nav-item.component";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
 import { Dictionary } from "./shared/dictionary";
@@ -60,6 +63,9 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         // Nav components
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
+        CGLFooterComponent,
+        CGLFooterNavComponent,
+        CGLFooterNavItemComponent,
         CGLSubnavComponent,
         CGLToolbarComponent
     ]

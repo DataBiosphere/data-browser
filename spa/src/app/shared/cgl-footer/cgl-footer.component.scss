@@ -1,0 +1,75 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * CGL footer styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+footer {
+
+    background-color: $cgl-green-light;
+
+    .cgl-links {
+        // Additional top/bottom padding (beyond layout-padding) for first row of links in footer
+        padding-bottom: 48px;
+        padding-top: 48px;
+    }
+
+    .cgl-disclaimer {
+        color: $cgl-green;
+        // Match .md-body-1
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        // End match .md-body-1
+        padding: 16px;
+    }
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    footer {
+
+        text-align: center;
+
+        .cgl-disclaimer {
+
+            span {
+
+                // Add vertical space between copyright and licence
+                &+span {
+
+                    margin-top: 8px;
+                }
+            }
+        }
+
+
+        /** Add vertical space between stacked navs (matches _cgl-footer-nav styles in style guide) */
+        cgl-footer-nav {
+
+            &+cgl-footer-nav {
+
+                margin-top: 24px;
+            }
+        }
+
+    }
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-md-min) {
+
+    footer {
+
+        .cgl-links {
+            justify-content: space-between;
+        }
+    }
+}

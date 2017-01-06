@@ -65,7 +65,7 @@ $cgl-fab-gutter-xs: 16px;
 $cgl-fab-gutter-gt-xs: 24px;
 .cgl-fab {
     background-color: $cgl-turquoise;
-    bottom: $cgl-fab-gutter-xs;
+    bottom: $cgl-fab-gutter-xs + 380px; /* +380 for stacked footer */
     right: $cgl-fab-gutter-xs;
     /** Use specific selector to overide MD defaults */
     &[md-fab] {
@@ -82,7 +82,7 @@ $cgl-fab-gutter-gt-xs: 24px;
 
     /** Update gutter width for small devices and above */
     .cgl-fab {
-        bottom: $cgl-fab-gutter-gt-xs;
+        bottom: $cgl-fab-gutter-gt-xs + 176px; /* +176 for inline footer */
         right: $cgl-fab-gutter-gt-xs;
     }
 }
