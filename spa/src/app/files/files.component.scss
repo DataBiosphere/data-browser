@@ -5,6 +5,8 @@
  * Files component styles.
  */
 
+@import "../shared/theme/cgl.vars";
+
 :host {
     display: block;
     height: 100%;
@@ -23,6 +25,25 @@
             right: 0;
             top: 128px; // Must match padding top of files component (64px for toolbar, 64px for subheader)
             z-index: 10;
+        }
+    }
+}
+
+/**
+ * XS only
+ */
+@media (max-width: $md-xs-max) {
+
+    :host {
+
+        /** Handle snap of results summary - on extra small devices (with shorter toolbar heights) */
+        &.snap {
+            padding-top: 268px; // Matches height of (stacked) results summary + padding (252px + 16px)
+
+            /** Handle snap of results summary element itself */
+            /deep/ bw-file-summary {
+                top: 112px; // Must match padding top of files component (48px for toolbar, 64px for subheader)
+            }
         }
     }
 }

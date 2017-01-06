@@ -23,6 +23,12 @@
             justify-content: space-between;
         }
 
+        /** Add min height to card content for consistent card height **/
+        /deep/ md-card-content {
+            min-height: 112px;
+        }
+
+
         /** "More" option at bottom of facet term rows */
         .facet-more {
 
@@ -55,6 +61,12 @@
             /deep/ md-card-header {
                 margin-bottom: 16px;
             }
+
+            /** Divider above footer */
+            hr {
+                margin-left: -16px;
+                margin-right: -16px;
+            }
         }
     }
 }
@@ -68,6 +80,8 @@
 
         /** Set up wrap and margins for 2x grid **/
         .facet-wrap {
+
+            max-width: 50%; // Max width required for "remainder children" in last row - prevent grow
 
             &:nth-child(even) {
 
@@ -96,6 +110,8 @@
         /** Set up wrap and margins for 4x grid **/
         .facet-wrap {
 
+            max-width: 25%; // Max width required for "remainder children" in last row - prevent grow
+
             &:nth-child(4n+1) {
 
                 md-card {
@@ -122,6 +138,8 @@
 
         /** Set up wrap and margins for 5x grid **/
         .facet-wrap {
+
+            max-width: 20%; // Max width required for "remainder children" in last row - prevent grow
 
             &:nth-child(5n+1) {
 
