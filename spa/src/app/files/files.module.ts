@@ -16,6 +16,8 @@ import {
 import { CCHttpModule } from "../cc-http/cc-http.module";
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
+import { FacetTermChartComponent } from "./facet-term-chart/facet-term-chart.component";
+import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 import { FilesComponent } from "./files.component";
 import { FileFacetsComponent } from "./file-facets/file-facets.component";
 import { FileFacetFormDialog } from "./file-facet-form/file-facet-form.dialog";
@@ -27,7 +29,6 @@ import { KeywordsModule } from "../keywords/keywords.module";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesEffects } from "./shared/files.effects";
 import { FilesService } from "./shared/files.service";
-import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 
 /**
  * Files module definition.
@@ -52,6 +53,7 @@ import { FacetTermListComponent } from "./facet-term-list/facet-term-list.compon
     ],
     declarations: [
 
+        FacetTermChartComponent,
         FacetTermListComponent,
 
         FileSummaryComponent,

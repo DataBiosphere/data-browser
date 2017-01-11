@@ -13,6 +13,7 @@
                 </md-card-subtitle>
             </md-card-header>
             <md-card-content>
+                <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
                 <facet-term-list [fileFacet]="fileFacet" [useShortList]="true"
                                  (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
                 <div *ngIf="fileFacet.moar" class="facet-more" (click)="showEditMode(fileFacet.name)">

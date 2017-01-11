@@ -3,6 +3,7 @@ import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from 
 import { MdDialog, MdDialogConfig, MdDialogRef } from "@angular/material";
 
 // App dependencies
+import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { FileFacetSelectedEvent } from "./file-facet.events";
 import { FileFacetFormDialog } from "../file-facet-form/file-facet-form.dialog";
 import { FileFacet } from "../shared/file-facet.model";
@@ -43,6 +44,28 @@ export class FileFacetsComponent {
      */
 
     /**
+     * Build up data model to back horizontal bar chart.
+     *
+     * @param fileFacet {FileFacet}
+     */
+    public getFacetTermChartData(fileFacet: FileFacet): FacetTermChartData {
+
+        // If no terms are selected, show data for all terms.
+        if ( !fileFacet.selected ) {
+            return new FacetTermChartData(fileFacet.name, fileFacet.terms, fileFacet.total);
+        }
+
+        // Otherwise if any terms are selected, only selected terms should be displayed in chart data.
+        let selectedTerms: Term[] = fileFacet.selectedTerms;
+        let selectedCount: number = _.reduce(selectedTerms, (total: number, term: Term) => {
+            return total + term.count;
+        }, 0);
+
+        return new FacetTermChartData(fileFacet.name, selectedTerms, selectedCount);
+    };
+
+
+    /**
      * Let parent component know of facet term has been selected by user.
      *
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
@@ -65,7 +88,7 @@ export class FileFacetsComponent {
 
         // Set up dialog config
         let dialogConfig: MdDialogConfig = new MdDialogConfig();
-        dialogConfig.width = "336px";
+        dialogConfig.width = "336px"; // TODO revisit width here
 
         // Open dialog
         let dialogRef: MdDialogRef<FileFacetFormDialog> = this.dialog.open(FileFacetFormDialog, dialogConfig);

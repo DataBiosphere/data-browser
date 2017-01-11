@@ -1,0 +1,17 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Facet chart styles.
+ */
+
+:host {
+
+    > div {
+        margin: 0 -24px 8px; // Force full bleed of chart container (ie ignore card padding)
+
+        /deep/ svg {
+            display: block;
+        }
+    }
+}
