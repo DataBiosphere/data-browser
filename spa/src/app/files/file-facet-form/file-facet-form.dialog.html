@@ -10,6 +10,7 @@
     </div>
 </div>
 <div md-dialog-content>
+    <facet-term-chart [chartData]="getFacetTermChartData((fileFacet$ | async))"></facet-term-chart>
     <facet-term-list [fileFacet]="fileFacet$ | async" [useShortList]="false"
                      (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
 </div>

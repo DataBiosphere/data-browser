@@ -6,10 +6,12 @@ import { Observable } from "rxjs/Observable";
 
 // App dependencies
 import { SelectFileFacetAction } from "../actions/file-actions";
+import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectFileFacetByName } from "../files.reducer";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
+import { Term } from "../shared/term.model";
 
 /**
  * Component for displaying facet edit mode (displayed inside MD dialog).
@@ -45,6 +47,27 @@ export class FileFacetFormDialog implements OnInit {
     /**
      * Public API
      */
+
+    /**
+     * Build up data model to back horizontal bar chart.
+     *
+     * @param fileFacet {FileFacet}
+     */
+    public getFacetTermChartData(fileFacet: FileFacet): FacetTermChartData {
+
+        // If no terms are selected, show data for all terms.
+        if ( !fileFacet.selected ) {
+            return new FacetTermChartData(fileFacet.name, fileFacet.terms, fileFacet.total);
+        }
+
+        // Otherwise if any terms are selected, only selected terms should be displayed in chart data.
+        let selectedTerms: Term[] = fileFacet.selectedTerms;
+        let selectedCount: number = _.reduce(selectedTerms, (total: number, term: Term) => {
+            return total + term.count;
+        }, 0);
+
+        return new FacetTermChartData(fileFacet.name, selectedTerms, selectedCount);
+    };
 
     /**
      * Handle selection of facet term - dispatch update of state to store.
