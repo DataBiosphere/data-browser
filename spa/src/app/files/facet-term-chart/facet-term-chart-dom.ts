@@ -10,16 +10,21 @@ export class FacetTermChartDOM {
     // Root graphics element - all SVG components are attached to this element or children of this element (not the core SVG element)
     public g;
 
+    // Tooltip element
+    public tooltip;
+
     /**
      * Generate from svg and g elements.
      *
      * @param svg
      * @param g
+     * @param tooltip
      */
-    constructor(svg, g) {
+    constructor(svg, g, tooltip) {
 
         this.svg = svg;
         this.g = g;
+        this.tooltip = tooltip;
     }
 
     /**

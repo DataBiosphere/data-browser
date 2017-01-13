@@ -61,7 +61,13 @@ export class FacetTermChartComponent {
             .append("g")
                 .attr("transform", "translate(0, 0)"); // No margin - place graphics at origin
 
-        return new FacetTermChartDOM(svg, g);
+        let d3El = d3.select(el);
+        let tooltip = d3El.selectAll(".chart-tooltip-container");
+        if ( tooltip.empty() ) {
+            tooltip = d3El.append("div").attr("class", "chart-tooltip-container");
+        }
+
+        return new FacetTermChartDOM(svg, g, tooltip);
     }
 
     /**
@@ -139,6 +145,47 @@ export class FacetTermChartComponent {
         update.enter()
             .append("g")
                 .attr("fill", (d) => { return chartScales.colorScale(d.key) as string; })
+                .on("mouseenter", (d) => {
+
+                        let x1 = d[1];
+                        let tooltipContent = chartDOM.tooltip
+                            .append("div")
+                            .attr("class", "md-tooltip")
+                            .text(d.key);
+
+                        // x coordinate - position tooltip in middle of section bar
+                        let data: number[] = d[0];
+                        let x0:number = chartScales.xScale(data[0]);
+                        let sectionWidth: number = chartScales.xScale(data[1]) - x0;
+
+                        // Calculate width of tooltip
+                        let tooltipContentEl = tooltipContent.node();
+                        let contentWidth: number =
+                            tooltipContentEl.offsetWidth + (2 * tooltipContentEl.offsetLeft);
+
+                        // Center tooltip above section bar
+                        let xCoord: number =
+                            x0 + ((sectionWidth - contentWidth) / 2);
+
+                        // Confirm tooltip is within bounds of viewport. If not, scoot tooltip to left or right.
+                        let maxX: number = chartScales.xScale.range()[1];
+                        if ( xCoord < 0 ) {
+                            xCoord = 0;
+                        }
+                        else if ( xCoord + contentWidth > maxX ) {
+                            let overage = (xCoord + contentWidth) - maxX;
+                            xCoord = xCoord - overage;
+                        }
+
+                        chartDOM.tooltip.attr("style", `left:${xCoord}px;top:-50px`); // TODO revisit height
+
+                        // Animate tooltip open
+                        tooltipContent.classed("open", true);
+                })
+                .on("mouseleave", (d) => {
+
+                    d3.select(".md-tooltip").remove();
+                })
                 .selectAll("rect")
                 .data((d) => { return d as any[]; })
                 .enter()

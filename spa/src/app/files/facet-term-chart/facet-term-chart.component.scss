@@ -9,9 +9,53 @@
 
     > div {
         margin: 0 -24px 8px; // Force full bleed of chart container (ie ignore card padding)
+        position: relative; // Required for positioning of tooltip
 
         /deep/ svg {
             display: block;
+        }
+    }
+
+    /** Tooltip */
+    /deep/ .chart-tooltip-container {
+        position: absolute;
+        z-index: 10;
+
+        /** Dupe of md-tooltip styles */
+        .md-tooltip {
+            color: #fff;
+            border-radius: 2px;
+            font-family: Roboto,"Helvetica Neue",sans-serif;
+            font-size: 10px;
+            height: 22px;
+            line-height: 22px;
+            margin: 14px;
+            opacity: 0;
+            padding: 0 8px;
+
+            /* Custom styles */
+
+            transform: scale(1);
+            transform-origin: bottom center;
+            white-space: nowrap;
+
+            &.open {
+                animation: show 400ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            }
+        }
+    }
+
+    @keyframes show {
+        0% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        1% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
         }
     }
 }
