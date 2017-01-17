@@ -41,7 +41,7 @@ export class FilesEffects {
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
-        .ofType(ACTIONS.INIT_FILE_FACETS)
+        .ofType(ACTIONS.INIT_FILE_FACETS, ACTIONS.FILE_FACET_SELECTED)
         .concatMap((action) => {
             return selectSelectedFacetsMap(this.store).first();
         })
@@ -56,27 +56,27 @@ export class FilesEffects {
         });
 
 
-    /**
-     *
-     * Trigger update of  facet counts once a facet is selected.
-     *
-     * @type {"../../Observable".Observable<R>}
-     */
-    @Effect()
-    fetchFacets$: Observable<Action> = this.actions$
-        .ofType(ACTIONS.FILE_FACET_SELECTED)
-        .concatMap((action) => {
-            return selectSelectedFacetsMap(this.store).first();
-        })
-        .concatMap((selectedFacets) => {
-            return Observable.concat(
-                Observable.of(new RequestFileSummaryAction()), //TODO dont make the observable here? do i need concat
-                                                               // map AND concat?
-                this.fileService
-                    .fetchFileFacets(selectedFacets)
-                    .map((fileFacets) => new FileFacetsReceivedAction(fileFacets))
-            );
-        });
+    // /**
+    //  *
+    //  * Trigger update of  facet counts once a facet is selected.
+    //  *
+    //  * @type {"../../Observable".Observable<R>}
+    //  */
+    // @Effect()
+    // fetchFacets$: Observable<Action> = this.actions$
+    //     .ofType(ACTIONS.FILE_FACET_SELECTED)
+    //     .concatMap((action) => {
+    //         return selectSelectedFacetsMap(this.store).first();
+    //     })
+    //     .concatMap((selectedFacets) => {
+    //         return Observable.concat(
+    //             Observable.of(new RequestFileSummaryAction()), //TODO dont make the observable here? do i need concat
+    //                                                            // map AND concat?
+    //             this.fileService
+    //                 .fetchFileFacets(selectedFacets)
+    //                 .map((fileFacets) => new FileFacetsReceivedAction(fileFacets))
+    //         );
+    //     });
 
     /**
      *
