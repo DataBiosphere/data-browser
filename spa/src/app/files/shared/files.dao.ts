@@ -11,19 +11,25 @@ import { Dictionary } from "../../shared/dictionary";
 import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
+import { ConfigService, ApiSource } from "../../shared/config.service";
 
 interface FilesAPIResponse {
     termFacets: Dictionary<{ terms: Array<{term: string; count: number}>;
                              total: number}>;
 }
 
+export interface FacetSortOrder {
+    name: string;
+    category: "file" | "donor";
+}
+
 
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
 
-    //private DOMAIN = "https://dcc.icgc.org/api/v1";
+    // private DOMAIN = "https://dcc.icgc.org/api/v1";
     private DOMAIN = "http://ucsc-cgl.org/api/v1";
-    constructor(http: Http) {
+    constructor(http: Http, private configService: ConfigService) {
         super(http);
     }
 
@@ -45,6 +51,22 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
+     * Fetch Facet Order
+     *
+     * @returns {Observable<T>}
+     */
+    fetchFacetOrdering(source: ApiSource): Observable<FacetSortOrder[]> {
+
+        const domain = this.configService.getRootUrl(source);
+        const url = `${domain}/repository/files/order`;
+        return this.get(url)
+            // TODO - delete below code when endpoint is fixed
+            .map(() => {
+                return this.configService.getTestSortFacets();
+            });
+    }
+
+    /**
      * Fetch FileFacets
      *
      * http://docs.icgc.org/portal/api-endpoints/#!/repository/findAll
@@ -52,18 +74,18 @@ export class FilesDAO extends CCBaseDAO {
      * @param filters
      * @returns {Observable<FileFacet>}
      */
-    fetchFileFacets(selectedFacetsByName: Map<string,FileFacet>): Observable<FileFacet[]> {
+    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
         const query =  new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({ include: "facets", from: 1, size:1 }, query);
+        const filterParams = Object.assign({ include: "facets", from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
-                    return this.createFileFacets(selectedFacetsByName,repositoryFiles);
+                    return this.createFileFacets(selectedFacetsByName, repositoryFiles);
                 }
             );
     }

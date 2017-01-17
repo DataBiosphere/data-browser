@@ -29,6 +29,7 @@ import { KeywordsModule } from "../keywords/keywords.module";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesEffects } from "./shared/files.effects";
 import { FilesService } from "./shared/files.service";
+import { ConfigService } from "../shared/config.service";
 
 /**
  * Files module definition.
@@ -70,6 +71,7 @@ import { FilesService } from "./shared/files.service";
         FileFacetFormDialog,
     ],
     providers: [
+        ConfigService,
         FilesService,
         FilesDAO
     ]

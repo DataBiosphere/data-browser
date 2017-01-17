@@ -172,7 +172,6 @@ export const expressConfig = (app: Application) => {
             // Any paths go back to Angular and it can see if
             // it has a path.
            // if (app.get("env") === "stage" || app.get("env") === "production") {
-            console.log("sheet");
 
                 res.sendFile(path.join(config.root, "dist/home.html"));
            // }

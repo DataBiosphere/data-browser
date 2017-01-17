@@ -8,16 +8,16 @@ import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/concatMap";
 import "rxjs/add/operator/first";
 import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/concat';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/concat';
 
 
-
 import { FilesService } from "./files.service";
 import { FilesState, selectSelectedFacetsMap, selectSelectedFileFacets } from "../files.reducer";
 
-//Actions
+// Actions
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import {
     RequestFileSummaryAction,
@@ -35,19 +35,47 @@ export class FilesEffects {
 
     /**
      *
+     * Trigger update of  facet counts on init.
+     *
+     * @type {"../../Observable".Observable<R>}
+     */
+    @Effect()
+    initFacets$: Observable<Action> = this.actions$
+        .ofType(ACTIONS.INIT_FILE_FACETS)
+        .concatMap((action) => {
+            return selectSelectedFacetsMap(this.store).first();
+        })
+        .concatMap((selectedFacets) => {
+            return Observable.concat(
+                Observable.of(new RequestFileSummaryAction()),
+                this.fileService.initFileFacets(selectedFacets)
+                    .map((fileFacets) => {
+                        return new FileFacetsReceivedAction(fileFacets);
+                    })
+            );
+        });
+
+
+    /**
+     *
      * Trigger update of  facet counts once a facet is selected.
      *
      * @type {"../../Observable".Observable<R>}
      */
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
-        .ofType(ACTIONS.FILE_FACET_SELECTED, ACTIONS.INIT_FILE_FACETS)
-        .mergeMap((action) => {
+        .ofType(ACTIONS.FILE_FACET_SELECTED)
+        .concatMap((action) => {
             return selectSelectedFacetsMap(this.store).first();
-        }).concatMap((selectedFacets) => {
-            return Observable.of(new RequestFileSummaryAction()) //TODO dont make the observable here? do i need concat map AND concat?
-                .concat( this.fileService.fetchFileFacets(selectedFacets).map((fileFacets) => {
-                return new FileFacetsReceivedAction(fileFacets)}));
+        })
+        .concatMap((selectedFacets) => {
+            return Observable.concat(
+                Observable.of(new RequestFileSummaryAction()), //TODO dont make the observable here? do i need concat
+                                                               // map AND concat?
+                this.fileService
+                    .fetchFileFacets(selectedFacets)
+                    .map((fileFacets) => new FileFacetsReceivedAction(fileFacets))
+            );
         });
 
     /**
@@ -64,16 +92,16 @@ export class FilesEffects {
         })
         .mergeMap((selectedFacets) => {
             return this.fileService.fetchFileSummary(selectedFacets);
-        }).map((fileSummary:FileSummary) => {
+        }).map((fileSummary: FileSummary) => {
 
 
-        if(typeof fileSummary.primarySite === "string"){
-                fileSummary.primarySiteCount=0;
-        }
+            if (typeof fileSummary.primarySite === "string") {
+                fileSummary.primarySiteCount = 0;
+            }
 
-        if(typeof fileSummary.totalFileSize==="string"){
-            fileSummary.totalFileSize=0;
-        }
+            if (typeof fileSummary.totalFileSize === "string") {
+                fileSummary.totalFileSize = 0;
+            }
 
             return {
                 type: ACTIONS.FILE_SUMMARY_RECEIVED,

@@ -76,7 +76,6 @@ export const selectSearchTerm = (state$: Observable<State>) => {
  */
 function requestKeywordsQuery(state: State, payload: {searchTerm: string; type: string}): State {
 
-    console.log(payload);
     return Object.assign({}, state, {
         loading: true
     }, payload);

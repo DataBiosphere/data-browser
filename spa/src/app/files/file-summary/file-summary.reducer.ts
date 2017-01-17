@@ -46,8 +46,6 @@ const DEFAULT_STATE: FileSummaryState = {
  */
 export const reducer: ActionReducer<FileSummaryState> = (state: FileSummaryState = DEFAULT_STATE, action: Action) => {
 
-    console.log(action.type);
-
     switch (action.type) {
         case ACTIONS.REQUEST_FILE_SUMMARY:
             return Object.assign({}, state, { loading: true });
