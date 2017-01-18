@@ -118,14 +118,4 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
 
         this.trigger.closeMenu();
     }
-
-    /**
-     * Handle click on term in list of terms - emit event to parent.
-     *
-     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
-     */
-    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
-
-        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
-    }
 }
