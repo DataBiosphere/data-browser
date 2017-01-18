@@ -35,6 +35,28 @@ export class FacetTermListComponent {
      */
 
     /**
+     * Return the inline style configuration for the chart legend, for the specified term.
+     *
+     * @param term {Term}
+     * @returns {any}
+     */
+    getLegendStyle(term: Term): any {
+
+        // Both selected and unselected terms have a border
+        let style = {
+            "border-color": term.color
+        };
+
+        // If term is selected, set the background color as well
+        if ( term.selected ) {
+
+            style["background-color"] = term.color;
+        }
+
+        return style;
+    }
+
+    /**
      * Handle click on individual term - emit event to parent.
      *
      * @param fileFacet {FileFacet}

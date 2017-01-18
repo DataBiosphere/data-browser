@@ -14,7 +14,7 @@
         <button md-menu-item
                 *ngFor="let term of (fileFacet$ | async).terms"
                 (click)="selectFacetTerm($event, fileFacet, term)">
-            <md-icon *ngIf="!term.selected">check_box_outline_blank</md-icon>
+            <md-icon *ngIf="!term.selected" [style.color]="term.color">check_box_outline_blank</md-icon>
             <md-icon class="term-selected" *ngIf="term.selected" [style.color]="term.color">check_box_outline</md-icon>
             <span class="with-count">
                 <span class="key">{{term.name}}</span>
