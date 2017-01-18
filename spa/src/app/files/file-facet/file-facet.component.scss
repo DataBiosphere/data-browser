@@ -11,6 +11,8 @@
 
     md-card {
 
+        cursor: pointer; // Entire card is clickable
+
         /** Override MD default padding, for all device sizes */
         padding: 24px 16px !important;
 
@@ -37,7 +39,6 @@
 
             align-items: center;
             bottom: 0;
-            cursor: pointer;
             display: flex;
             justify-content: flex-end;
             margin-top: 16px;
