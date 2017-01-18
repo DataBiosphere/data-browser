@@ -40,3 +40,10 @@ export class FileFacetsReceivedAction implements Action {
     }
 }
 
+export class ClearSelectedFacetAction implements Action {
+    public readonly type = ACTIONS.CLEAR_SELECTED_FACET;
+
+    constructor() {}
+}
+
+

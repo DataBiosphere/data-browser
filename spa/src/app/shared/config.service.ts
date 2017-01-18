@@ -57,7 +57,6 @@ export class ConfigService {
                 name: "fileFormat",
                 category: "file"
             }
-
         ];
     }
 }

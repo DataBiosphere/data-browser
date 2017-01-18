@@ -180,7 +180,7 @@ export class FilesDAO extends CCBaseDAO {
                         selected = oldTerm.selected;
                     }
 
-                    return new Term( responseTerm.term, responseTerm.count, selected); // DONE!
+                    return new Term( responseTerm.term, responseTerm.count, selected, "#444444" ); // DONE!
 
                 });
             }
@@ -189,7 +189,7 @@ export class FilesDAO extends CCBaseDAO {
                 responseFileFacet.total = 0; // their default is undefined instead of zero
             }
 
-            return new FileFacet(facetName,responseFileFacet.total,responseTerms);
+            return new FileFacet(facetName, responseFileFacet.total, responseTerms );
         });
 
         return newFileFacets;

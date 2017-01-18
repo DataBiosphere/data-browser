@@ -13,7 +13,7 @@ import { FileFacetSelectedEvent } from "./file-facet.events";
 import { FileFacetsState } from "./file-facet-state.model";
 import { FileFacet } from "../shared/file-facet.model";
 
-const DEFAULT_STATE = new FileFacetsState([] ,new Map<string,FileFacet>(),true);
+const DEFAULT_STATE = new FileFacetsState([] ,new Map<string,FileFacet>(),true, undefined);
 
 /**
  * File Facets Reducer
@@ -28,6 +28,8 @@ export const reducer: ActionReducer<FileFacetsState> = (fileFacetsState : FileFa
              return fileFacetsState.selectTerm(event.facet, event.term);
         case ACTIONS.FILE_FACETS_RECEIVED:
             return fileFacetsState.setFileFacets(action.payload);
+        case ACTIONS.CLEAR_SELECTED_FACET:
+            return fileFacetsState.clearSelectedFacet();
         default:
             return fileFacetsState;
     }
@@ -40,10 +42,17 @@ export const selectLoading = (fileFacetsState$: Observable<FileFacetsState>) => 
     return fileFacetsState$.map(fileFacetsState$ => fileFacetsState$.loading);
 };
 
-export const selectFileFacets = (fileFacetsState$: Observable<FileFacetsState>):Observable<FileFacet[]> => {
+export const selectFileFacets = (fileFacetsState$: Observable<FileFacetsState>): Observable<FileFacet[]> => {
     return fileFacetsState$
         .map((fileFacetState) => {
             return fileFacetState.fileFacets;
+        });
+};
+
+export const selectSelectedFacet = (fileFacetsState$: Observable<FileFacetsState>): Observable<FileFacet> => {
+    return fileFacetsState$
+        .map((fileFacetState) => {
+            return fileFacetState.selectedFacet;
         });
 };
 

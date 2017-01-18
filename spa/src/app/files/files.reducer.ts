@@ -66,7 +66,19 @@ export function selectSelectedFacetsMap(appState$: Observable<FilesState>): Obse
 
 export function selectFileFacets(appState$: Observable<FilesState>): Observable<FileFacet[]> {
     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {
-            return fileFacetState.fileFacets;
+
+            if ( fileFacetState.selectedFacet ) {
+                return fileFacetState.fileFacets.map((fileFacet) => {
+                    if ( fileFacet.name === fileFacetState.selectedFacet.name ) {
+                        return fileFacetState.selectedFacet;
+                    }else {
+                        return fileFacet;
+                    }
+                });
+
+            }else{
+                return fileFacetState.fileFacets;
+            }
         }
     )
 };

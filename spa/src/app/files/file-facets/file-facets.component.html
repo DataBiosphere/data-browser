@@ -1,35 +1,5 @@
 <div class="layout-column layout-gt-xs-row layout-wrap">
     <div class="facet-wrap flex flex-sm-50 flex-md-25 flex-gt-md-20" *ngFor="let fileFacet of fileFacets">
-        <md-card class="layout-margin">
-            <md-card-header>
-                <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
-                <md-card-subtitle>
-                    <span>
-                        {{fileFacet.total | localeString}}
-                    </span>
-                    <span>
-                        {{fileFacet.selectedTermCount}} /  {{fileFacet.termCount}}
-                    </span>
-                </md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
-                <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
-                <facet-term-list [fileFacet]="fileFacet" [useShortList]="true"
-                                 (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
-                <div *ngIf="fileFacet.moar" class="facet-more" (click)="showEditMode(fileFacet.name)">
-                    <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
-                    <md-icon>expand_more</md-icon>
-                </div>
-            </md-card-content>
-            <hr>
-            <md-card-actions>
-                <button class="cgl-button"
-                        md-button
-                        [disableRipple]="true"
-                        (click)="showEditMode(fileFacet.name)">
-                    EDIT
-                </button>
-            </md-card-actions>
-        </md-card>
+        <bw-file-facet [fileFacet]="fileFacet"></bw-file-facet>
     </div>
 </div>

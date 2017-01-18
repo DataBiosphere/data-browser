@@ -3,7 +3,6 @@ import { Component, ElementRef, Input, SimpleChange, ViewChild } from "@angular/
 import * as d3 from "d3";
 
 // App dependencies
-import { FileFacet } from "../shared/file-facet.model";
 import { FacetTermChartScales } from "./facet-term-chart-scales";
 import { FacetTermChartData } from "./facet-term-chart-data";
 import { FacetTermChartDOM } from "./facet-term-chart-dom";
@@ -95,25 +94,8 @@ export class FacetTermChartComponent {
             .domain([chartData.data.facetName]) // Group data by facet (we're dealing with just a single facet)
             .range([height, 0]); // Range is height of container, SVG origin is top left so reverse range values to match
 
-        // Calculate color scale TODO revisit
-        let colors: string[] = [
-            "#1A535C",
-            "#4CC9C0",
-            "#5C83D0",
-            "#FF6B6B",
-            "#FFA560",
-            "#FFE66D",
-            "#f7f7f7",
-            "#eeeeee",
-            "#cccccc",
-            "#666666",
-            "#444444",
-            "#888888",
-            "#aaaaaa",
-            "#bbbbbb",
-            "#222222",
-            "#444444"
-        ];
+        // Calculate color scale
+        let colors: string[] = chartData.colors;
 
         let colorScale = d3.scaleOrdinal()
             .domain(chartData.keys)
@@ -215,9 +197,7 @@ export class FacetTermChartComponent {
         let container = d3.select(chartDOM.svg.node().parentNode);
 
         // Add viewBox, and call resize so that SVG resizes on initial page load.
-        chartDOM.svg/*.attr("viewBox", "0 0 " + width + " " + height)*/
-            /*.attr("preserveAspectRatio", "xMinYMin")*/
-            .call(resize);
+        chartDOM.svg.call(resize);
 
         // To register multiple listeners for same event type, you need to add namespace, i.e., 'click.foo'
         // Necessary if you call invoke this function for multiple SVG

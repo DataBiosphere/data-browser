@@ -72,6 +72,13 @@ $cgl-fab-gutter-gt-xs: 24px;
         color: #ffffff;
         position: fixed;
     }
+
+    /** Update gutter width for medium devices and above */
+    @media (min-width: $md-md-min) {
+
+        bottom: $cgl-fab-gutter-gt-xs + 112px; /* +112 for squashed, inline footer */
+        right: $cgl-fab-gutter-gt-xs;
+    }
 }
 
 /** Override MD default focus style of dialog action buttons */
@@ -93,15 +100,95 @@ button {
     }
 }
 
-
 /**
- * Small, small+
+ * Override MD default menu styles when displaying file facet edit mode - this class must be defined globally for
+ * [class] input to be applied correctly. See: https://material.angular.io/components/component/menu.
  */
-@media (min-width: $md-sm-min) {
+.edit-menu {
 
-    /** Update gutter width for small devices and above */
-    .cgl-fab {
-        bottom: $cgl-fab-gutter-gt-xs + 112px; /* +112 for squashed, inline footer */
-        right: $cgl-fab-gutter-gt-xs;
+    &.md-menu-panel {
+
+        max-width: none;
+        min-width: calc(100vw - 32px);
+
+        /** Update width for small devices - 50% of viewport */
+        @media (min-width: $md-sm-min) {
+
+            min-width: calc(50vw - 24px);
+        }
+
+        /** Update width for medium devices - 25% of viewport */
+        @media (min-width: $md-md-min) {
+
+            min-width: calc(25vw - 16px);
+        }
+
+        /** Update width for large and large plus devices - 20% of viewport */
+        @media (min-width: $md-lg-min) {
+
+            min-width: calc(20vw - 16px);
+        }
+    }
+
+    .edit-menu-card-header {
+        padding: 16px 27px 0 24px;// Mimic padding of facet cards, menu (container) already has padding 8px top/bottom
+        margin-bottom: 8px;
+    }
+
+    /** Mimic MD card title **/
+    .menu-title {
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 1.4rem;
+        margin: 0 0 16px; // Match position of title in menu to title in card
+    }
+
+    /** Mimic MD card subtitle **/
+    .menu-subtitle {
+        color: rgba(0, 0, 0, 0.54);
+        display: flex;
+        font-size: 1.4rem;
+        justify-content: space-between;
+        line-height: 1.4rem;
+        margin: -8px 0 0 0; // Match position of subtitle in menu to subtitle in card
+    }
+
+    /** Force minimum height of menu content, to match card height */
+    .edit-menu-card-content {
+        min-height: 141px;
+    }
+
+    /** Mimic MD card content **/
+    [md-menu-item] {
+        font-size: 14px;
+        padding: 0px 27px 0 20px; // Match alignment to menu header/subheader
+        md-icon {
+            color: rgba(0, 0, 0, 0.12);
+        }
+
+        .with-count {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            overflow: hidden; // Force ellipsis of overflow
+
+            .key {
+                flex: 1;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+            }
+            .count {
+                text-align: right;
+                width: 56px;
+            }
+        }
+    }
+
+    /** Mimic MD card actions */
+    .edit-menu-card-actions {
+        border-top: 1px solid rgba(0, 0, 0, 0.12); // MD divider
+        margin-top: 8px;
+        padding-top: 8px;
+        text-align: right;
     }
 }

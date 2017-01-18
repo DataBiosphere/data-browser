@@ -1,0 +1,38 @@
+<md-card class="layout-margin" [cglMenuTriggerFor]="editMenu">
+    <md-card-header>
+        <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
+        <md-card-subtitle>
+            <span>
+                {{fileFacet.total | localeString}}
+            </span>
+            <span>
+                {{fileFacet.selectedTermCount}} /  {{fileFacet.termCount}}
+            </span>
+        </md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+        <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
+        <facet-term-list [fileFacet]="fileFacet"
+                         [useShortList]="true"
+                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+        <div *ngIf="fileFacet.moar" class="facet-more">
+            <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
+            <md-icon>expand_more</md-icon>
+        </div>
+    </md-card-content>
+    <hr>
+    <md-card-actions>
+        <button class="cgl-button"
+                md-button
+                [disableRipple]="true">
+            EDIT
+        </button>
+    </md-card-actions>
+</md-card>
+<md-menu #editMenu="mdMenu" [class]="'edit-menu'">
+  <bw-file-facet-menu [fileFacetName]="fileFacet.name" (closeMenu)="onCloseMenu()"></bw-file-facet-menu>
+</md-menu>
+
+
+
+

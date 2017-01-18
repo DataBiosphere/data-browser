@@ -95,14 +95,6 @@ export class FilesComponent implements AfterViewInit, OnInit {
         this.store.dispatch(new RequestFileManifestSummaryAction());
     }
 
-    /**
-     * Add/Remove Term from Facet Query
-     *
-     * @param termFacet
-     */
-    public onTermSelected(event: FileFacetSelectedEvent) {
-        this.store.dispatch(new SelectFileFacetAction(event));
-    }
 
     /**
      * Dispatch Manifest Download Request

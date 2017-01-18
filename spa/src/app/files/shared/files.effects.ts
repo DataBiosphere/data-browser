@@ -29,9 +29,36 @@ import { FileSummary } from "../file-summary/file-summary";
 @Injectable()
 export class FilesEffects {
 
-    constructor(private store: Store<FilesState>,
-                private actions$: Actions,
-                private fileService: FilesService) { }
+    private colorWheel: Map< string, string >;
+    private colorWheelSet: boolean;
+    private colors: string[];
+
+    constructor(
+
+        private store: Store<FilesState>,
+        private actions$: Actions,
+        private fileService: FilesService) {
+        this.colorWheel = new Map<string, string >();
+        this.colorWheelSet = false;
+
+       this.colors = [
+           "#1A535C",
+           "#4CC9C0",
+           "#5C83D0",
+           "#FF6B6B",
+           "#FFA560",
+           "#FFE66D",
+           "#113871", // dark blue
+           "#336C74", // light green
+           "#ABF0EB", // light turquoise
+           "#B3C9F2", // light light purple
+           "#B6D67E", // lime green
+           "#BE5951", // salmon
+           "#FFBABA", // light peach
+           "#FFD2AF", // light orange
+           "#eeeeee"
+        ];
+    }
 
     /**
      *
@@ -50,33 +77,52 @@ export class FilesEffects {
                 Observable.of(new RequestFileSummaryAction()),
                 this.fileService.initFileFacets(selectedFacets)
                     .map((fileFacets) => {
+
+                    fileFacets.forEach((fileFacet) => {
+
+                        let colorIndex = 0;
+                        fileFacet.terms.forEach((term) => {
+                            term.color = this.colors[colorIndex];
+                            const key = fileFacet.name + ":" + term.name;
+                            this.colorWheel.set(key, term.color );
+                            colorIndex++;
+                        });
+                    });
                         return new FileFacetsReceivedAction(fileFacets);
                     })
             );
         });
 
+    /**
+     *
+     * Trigger update of  facet counts once a facet is selected.
+     *
+     * @type {"../../Observable".Observable<R>}
+     */
+    @Effect()
+    fetchFacets$: Observable<Action> = this.actions$
+        .ofType(ACTIONS.FILE_FACET_SELECTED)
+        .concatMap((action) => {
+            return selectSelectedFacetsMap(this.store).first();
+        })
+        .concatMap((selectedFacets) => {
+            return Observable.concat(
+                Observable.of(new RequestFileSummaryAction()), // TODO dont make the observable here? do i need concat
+                                                               // map AND concat?
+                this.fileService
+                    .fetchFileFacets(selectedFacets)
+                    .map((fileFacets) => {
+                        fileFacets.forEach((fileFacet) => {
+                            fileFacet.terms.forEach((term) => {
+                                const key = fileFacet.name + ":" + term.name;
+                                term.color = this.colorWheel.get(key);
+                            });
+                        });
 
-    // /**
-    //  *
-    //  * Trigger update of  facet counts once a facet is selected.
-    //  *
-    //  * @type {"../../Observable".Observable<R>}
-    //  */
-    // @Effect()
-    // fetchFacets$: Observable<Action> = this.actions$
-    //     .ofType(ACTIONS.FILE_FACET_SELECTED)
-    //     .concatMap((action) => {
-    //         return selectSelectedFacetsMap(this.store).first();
-    //     })
-    //     .concatMap((selectedFacets) => {
-    //         return Observable.concat(
-    //             Observable.of(new RequestFileSummaryAction()), //TODO dont make the observable here? do i need concat
-    //                                                            // map AND concat?
-    //             this.fileService
-    //                 .fetchFileFacets(selectedFacets)
-    //                 .map((fileFacets) => new FileFacetsReceivedAction(fileFacets))
-    //         );
-    //     });
+                        return new FileFacetsReceivedAction(fileFacets);
+                })
+            );
+        });
 
     /**
      *

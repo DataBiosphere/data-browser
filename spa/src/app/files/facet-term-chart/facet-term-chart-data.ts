@@ -2,7 +2,6 @@
 import * as _ from "lodash";
 
 // App dependencies
-import { FileFacet } from "../shared/file-facet.model";
 import { Term } from "../shared/term.model";
 
 /**
@@ -20,6 +19,9 @@ export class FacetTermChartData {
     // Total count across all terms
     public totalCount: number;
 
+    // Color data, in format { termName0: color0, termName1: color1 }
+    public colors: string[];
+
     /**
      * Generate chart config from file facet, calculate chart dimensions
      *
@@ -31,6 +33,9 @@ export class FacetTermChartData {
 
         // Grab term names, required for generating stacks
         this.keys = _.map(terms, "name") as string[];
+
+        // Grab colors for the current set of terms
+        this.colors = _.map(terms, "color") as string[];
 
         // Create data in format { facetName: facetName, termName0: termCount0, termName1: termCount1 }, require
         // access for facet name during rendering of chart (to group stacks)

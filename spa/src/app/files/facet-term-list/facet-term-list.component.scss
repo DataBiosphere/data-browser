@@ -14,13 +14,11 @@
 
         cursor: pointer;
 
-        md-icon {
-            color: rgba(0, 0, 0, 0.12); // Override MD border color of checkbox
-            flex-basis: 28px; // Always set width of icon to 20px (for icon) plus 8px padding;
-            flex-shrink: 0;
-            &.term-selected {
-                color: $cgl-green;
-            }
+        .chart-legend-bar {
+            background-color: rgba(0, 0, 0, 0.12);
+            flex-basis: 2px;
+            height: 12px;
+            margin: 4px 8px 4px 0;
         }
 
         .term-summary {

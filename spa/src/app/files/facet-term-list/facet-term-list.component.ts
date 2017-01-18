@@ -46,11 +46,18 @@ export class FacetTermListComponent {
         this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet, term));
     }
 
-    public getDisplayList() : Term[]{
-        if(this.useShortList){
+    /**
+     * Return the base list of terms to display - if no facets have been selected, display up to the first
+     * three terms, otherwise display up to the first three selected terms.
+     *
+     * @returns {Term[]}
+     */
+    public getDisplayList() : Term[] {
+
+        if ( this.useShortList ) {
             return this.fileFacet.shortList;
-        } else{
-            return this.fileFacet.terms;
         }
+
+        return this.fileFacet.terms;
     }
 }
