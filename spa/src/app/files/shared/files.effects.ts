@@ -68,7 +68,7 @@ export class FilesEffects {
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
-        .ofType(ACTIONS.INIT_FILE_FACETS, ACTIONS.FILE_FACET_SELECTED)
+        .ofType(ACTIONS.INIT_FILE_FACETS)
         .concatMap((action) => {
             return selectSelectedFacetsMap(this.store).first();
         })
@@ -110,7 +110,7 @@ export class FilesEffects {
                 Observable.of(new RequestFileSummaryAction()), // TODO dont make the observable here? do i need concat
                                                                // map AND concat?
                 this.fileService
-                    .fetchFileFacets(selectedFacets)
+                    .initFileFacets(selectedFacets)
                     .map((fileFacets) => {
                         fileFacets.forEach((fileFacet) => {
                             fileFacet.terms.forEach((term) => {
