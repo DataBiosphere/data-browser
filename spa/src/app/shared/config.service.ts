@@ -30,15 +30,7 @@ export class ConfigService {
 
         return <FacetSortOrder[]>[
             {
-                name: "analysisType",
-                category: "file"
-            },
-            {
                 name: "centerName",
-                category: "file"
-            },
-            {
-                name: "fileFormat",
                 category: "file"
             },
             {
@@ -50,13 +42,22 @@ export class ConfigService {
                 category: "file"
             },
             {
+                name: "workFlow",
+                category: "file"
+            },
+            {
+                name: "analysisType",
+                category: "file"
+            },
+            {
                 name: "specimenType",
                 category: "file"
             },
             {
-                name: "workFlow",
+                name: "fileFormat",
                 category: "file"
             }
+
         ];
     }
 }
