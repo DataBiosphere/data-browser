@@ -13,7 +13,8 @@
     <md-card-content>
         <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
         <facet-term-list [fileFacet]="fileFacet"
-                         [useShortList]="true"></facet-term-list>
+                         [useShortList]="true"
+                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
             <md-icon>expand_more</md-icon>

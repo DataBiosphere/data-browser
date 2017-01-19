@@ -30,7 +30,7 @@
 
         /** Add min height to card content for consistent card height **/
         /deep/ md-card-content {
-            min-height: 128px;
+            min-height: 160px;
             position: relative; /** Required for positioning of caret */
         }
 

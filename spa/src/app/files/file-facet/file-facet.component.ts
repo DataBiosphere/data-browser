@@ -114,8 +114,18 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
     /**
      * Close the menu for this facet. This event is emitted from the child menu component.
      */
-    onCloseMenu() {
+    public onCloseMenu() {
 
         this.trigger.closeMenu();
+    }
+
+    /**
+     * Handle click on term in list of terms - emit event to parent.
+     *
+     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     */
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+
+        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
     }
 }

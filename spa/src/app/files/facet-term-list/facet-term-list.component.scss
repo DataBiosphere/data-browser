@@ -10,9 +10,19 @@
 /** Individual facet term rows (checkbox, title, count) */
 :host {
 
+    display: block;
+    margin-left: -4px; // Accommodate 4px left/right padding for each term
+    margin-right: -4px; // Accommodate 4px left/right padding for each term
+
     .facet-term {
 
         cursor: pointer;
+        padding: 4px;
+        transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &:hover {
+            background-color: rgba(26, 83, 92, 0.06);
+        }
 
         .chart-legend-bar {
             border: 1px solid transparent;
