@@ -8,6 +8,27 @@
 @import "../../shared/theme/cgl.vars";
 
 /**
+ * Variables
+ */
+
+/** Toolbar heights taken from MD toolbar component */
+$md-toolbar-height-desktop: 64px !default;
+$md-toolbar-height-mobile-portrait: 56px !default;
+$md-toolbar-height-mobile-landscape: 48px !default;
+
+/**
+ * Mixins
+ */
+
+/** Position full screen nav according to device size (and therefore toolbar height) */
+@mixin toolbar-menu-open-top($height) {
+
+    :host, cc-toolbar-nav {
+        top: $height;
+    }
+}
+
+/**
  * CGL toolbar nav
  */
 
@@ -30,8 +51,7 @@
         left: 0;
         position: fixed;
         text-align: center;
-        top: 64px;
-        padding-top: 64px;
+        padding-top: 32px;
         right: 0;
         z-index: 1;
     }
@@ -52,16 +72,55 @@
 }
 
 /**
- * Small +
+ * Extra small, small - landscape
+ */
+@media (max-width: $md-sm-max) and (orientation: landscape) {
+
+    /**
+     * Scoot menu up on extra small and small devices
+     */
+    :host, cc-toolbar-nav {
+        padding-top: 12px;
+    }
+}
+
+
+
+/**
+ * Medium +
  */
 @media (min-width: $md-md-min) {
 
-    // Always display nav on small + devices
+    // Always display nav on medium + devices
     :host, cc-toolbar-nav {
 
         display: flex;
         flex-direction: row;
+    }
+}
+
+/**
+ * Large +
+ */
+@media (min-width: $md-lg-min) {
+
+    // Always display nav on small + devices
+    :host, cc-toolbar-nav {
+
         margin-left: 72px;
     }
 }
 
+
+// Set the default position for the open menu
+@include toolbar-menu-open-top($md-toolbar-height-desktop);
+
+// Specific position for mobile devices in portrait mode.
+@media (max-width: $md-sm-min) and (orientation: portrait) {
+    @include toolbar-menu-open-top($md-toolbar-height-mobile-portrait);
+}
+
+// Specific position for mobile devices in landscape mode.
+@media (max-width: $md-md-min) and (orientation: landscape) {
+    @include toolbar-menu-open-top($md-toolbar-height-mobile-landscape);
+}

@@ -192,3 +192,19 @@ button {
         text-align: right;
     }
 }
+
+/**
+ * Open menu state - adding this here to override component-specific CSS (cgl-toolbar.component.scss)
+ */
+.toolbar-menu-open {
+
+    // Hide hamburger
+    [menu-open] {
+        display: none;
+    }
+
+    // Display x
+    [menu-close] {
+        display: block !important;
+    }
+}

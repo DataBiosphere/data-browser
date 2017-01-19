@@ -63,26 +63,10 @@ md-toolbar {
             height: 36px;
         }
     }
-
-    /**
-     * Open menu state
-     */
-    .toolbar-menu-open {
-
-        // Hide hamburger
-        [menu-open] {
-            display: none;
-        }
-
-        // Display x
-        [menu-close] {
-            display: block;
-        }
-    }
 }
 
 /**
- * Small +
+ * Medium, medium +
  */
 @media (min-width: $md-md-min) {
 

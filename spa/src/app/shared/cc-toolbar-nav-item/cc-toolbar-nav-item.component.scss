@@ -18,7 +18,7 @@ $cc-toolbar-nav-item-height: 48px;
     font-size: 14px;
     line-height: $cc-toolbar-nav-item-height;
     height: $cc-toolbar-nav-item-height;
-    padding: 0 12px;
+    padding: 0 10px; /** Not on 4x grid system such that all nav items can fit horizontally on medium devices */
     text-align: center;
     text-transform: uppercase;
     white-space: nowrap;
@@ -39,10 +39,21 @@ $cc-toolbar-nav-item-height: 48px;
     }
 }
 
+
 /**
- * Small +
+ * Extra small, small - landscape
  */
-@media (min-width: $md-sm-max) {
+@media (max-width: $md-sm-max) and (orientation: landscape) {
+
+    :host, cc-toolbar-nav-item {
+        max-height: 28px;
+        min-height: 28px;
+    }
+}
+/**
+ * Medium +
+ */
+@media (min-width: $md-md-min) {
 
     /**
      * Anchor elements
@@ -58,6 +69,17 @@ $cc-toolbar-nav-item-height: 48px;
                 color: $cgl-peach;
             }
         }
+    }
+}
+
+/**
+ * Large +
+ */
+@media (min-width: $md-lg-min) {
+
+    cc-toolbar-nav-item {
+
+        padding: 0 12px;
     }
 }
 

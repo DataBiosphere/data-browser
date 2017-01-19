@@ -84,7 +84,8 @@ import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.compon
     providers: [
         ConfigService,
         FilesService,
-        FilesDAO
+        FilesDAO,
+        { provide: "Window",  useValue: window } // Required for hamburger functionality
     ]
 })
 export class FilesModule {}

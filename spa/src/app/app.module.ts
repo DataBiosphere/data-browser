@@ -17,6 +17,7 @@ import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolb
 import { CGLFooterComponent } from "./shared/cgl-footer/cgl-footer.component";
 import { CGLFooterNavComponent } from "./shared/cgl-footer/cgl-footer-nav/cgl-footer-nav.component";
 import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-item/cgl-footer-nav-item.component";
+import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
 import { Dictionary } from "./shared/dictionary";
@@ -37,7 +38,10 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
     fromKeywords.reducers);
 
 
-// OK let's go...
+/**
+ * Code app module definition - imports shared and config modules as well as all app specific modules that must either
+ * be eager-loaded or contain app-wide singleton services.
+ */
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
@@ -66,6 +70,7 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         CGLFooterComponent,
         CGLFooterNavComponent,
         CGLFooterNavItemComponent,
+        CCHamburgerDirective,
         CGLSubnavComponent,
         CGLToolbarComponent
     ]
