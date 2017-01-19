@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>UCSC Boardwalk File Browser</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/favicon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/favicon/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-128.png" sizes="128x128" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
+
+    <link rel="stylesheet" href="/ucsc-boardwalk/spa/src/static/static.css">
+    <link rel="stylesheet" href="//clevercanary.github.io/ucsc-cgl-style-guide/styles/styles.css">
+</head>
+<body>
+<div class="layout-column layout-fill">
+    <header>
+        <md-toolbar>
+            <md-toolbar-row>
+                <img src="//clevercanary.github.io/ucsc-cgl-style-guide/images/logos/ucsc-gi/logo-ucsc-gi@1x.png" srcset="//clevercanary.github.io/ucsc-cgl-style-guide/images/logos/ucsc-gi/logo-ucsc-gi@2x.png 2x, //clevercanary.github.io/ucsc-cgl-style-guide/images/logos/ucsc-gi/logo-ucsc-gi@3x.png 3x"> <!-- Use srcset to specify responsive images -->
+                <button md-icon-button menu-open>
+                    <span class="md-button-wrapper">
+                        <md-icon role="img" class="material-icons">menu</md-icon>
+                    </span>
+                </button>
+                <button md-icon-button menu-close>
+                    <span class="md-button-wrapper">
+                        <md-icon role="img" class="material-icons">close</md-icon>
+                    </span>
+                </button>
+                <cc-toolbar-nav>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/index.html">Analysis Core</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/file_browser/index.html">File Browser</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item class="active">
+                        <a href="http://ucsc-cgl.org/boardwalk.html">Boardwalk</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/redwood.html">Redwood</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/spinnaker.html">Spinnaker</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="https://ucsc-cgl.atlassian.net/wiki/" target="_blank">Wiki</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/about.html">About</a>
+                    </cc-toolbar-nav-item>
+                    <cc-toolbar-nav-item>
+                        <a href="http://ucsc-cgl.org/help.html">Help</a>
+                    </cc-toolbar-nav-item>
+                </cc-toolbar-nav>
+            </md-toolbar-row>
+        </md-toolbar>
+    </header>
+    <main class="layout-column layout-padding flex notice-only">
+        <div class="flex flex-sm-50 flex-md-25 flex-gt-md-20">
+            <md-card>
+                <md-card-header>
+                    <md-card-title>Browser Not Supported</md-card-title>
+                </md-card-header>
+                <md-card-content>
+                    <span class="md-body-1">To use UCSC Boardwalk, we recommend using the latest version of Chrome, Firefox, Safari or IE11+.</span>
+                </md-card-content>
+            </md-card>
+        </div>
+    </main>
+    <script type="text/javascript" src="//clevercanary.github.io/ucsc-cgl-style-guide/scripts/cgl-hamburger.component.js"></script>
+</body>
+</html>
