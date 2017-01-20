@@ -9,6 +9,7 @@ import {
     MdCheckboxModule,
     MdDialogModule,
     MdIconModule,
+    MdInputModule,
     MdMenuModule,
     MdTooltipModule
 } from "@angular/material";
@@ -23,7 +24,10 @@ import { FacetTermListComponent } from "./facet-term-list/facet-term-list.compon
 import { FilesComponent } from "./files.component";
 import { CGLMenuTrigger } from "./file-facet/cgl-menu-trigger.directive";
 import { FileFacetsComponent } from "./file-facets/file-facets.component";
-import { FileFacetFormDialog } from "./file-facet-form/file-facet-form.dialog";
+import { FileFacetComponent } from './file-facet/file-facet.component';
+import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.component';
+import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
+import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
 import { FileSearchComponent } from './file-search/file-search.component';
@@ -33,8 +37,7 @@ import { FilesDAO } from "./shared/files.dao";
 import { FilesEffects } from "./shared/files.effects";
 import { FilesService } from "./shared/files.service";
 import { ConfigService } from "../shared/config.service";
-import { FileFacetComponent } from './file-facet/file-facet.component';
-import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.component';
+
 
 /**
  * Files module definition.
@@ -47,6 +50,7 @@ import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.compon
         MdCheckboxModule,
         MdDialogModule,
         MdIconModule,
+        MdInputModule,
         MdMenuModule,
         MdTooltipModule,
         RouterModule.forChild(routes),
@@ -70,17 +74,13 @@ import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.compon
         FileManifestSummaryComponent,
         FileSearchComponent,
 
-        FileFacetFormDialog,
-
         FilesComponent,
 
         FileFacetComponent,
-        CGLMenuTrigger,
-        FileFacetMenuComponent
-    ],
-    entryComponents: [
-
-        FileFacetFormDialog,
+        FileFacetMenuComponent,
+        FileFacetSearchComponent,
+        FileFacetSearchMenuComponent,
+        CGLMenuTrigger
     ],
     providers: [
         ConfigService,

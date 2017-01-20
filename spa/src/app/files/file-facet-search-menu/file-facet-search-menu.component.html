@@ -1,0 +1,26 @@
+<div cc-stop-propagation>
+    <div class="edit-menu-card-header">
+        <h2 class="menu-title">{{(fileFacet$ | async).name | camelToSpace}}</h2>
+        <div class="menu-subtitle">
+            <span>
+                {{(fileFacet$ | async).total | localeString}}
+            </span>
+        </div>
+    </div>
+    <div class="edit-menu-card-content">
+        <bw-file-search [donors]="donors$ | async"
+                        [files]="files$ | async"
+                        (search)="onSearch($event)"
+                        (termSelected)="onTermSelected($event)">
+        </bw-file-search>
+    </div>
+    <div class="edit-menu-card-actions">
+        <button class="cgl-button"
+                md-button
+                [disableRipple]="true"
+                (click)="onClickCloseMenu()">
+            CLOSE
+        </button>
+    </div>
+</div>
+

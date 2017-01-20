@@ -1,0 +1,86 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Facet (grid item) styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    md-card {
+
+        cursor: pointer; // Entire card is clickable
+
+        /** Override MD default padding, for all device sizes */
+        padding: 24px 16px !important;
+
+        /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
+        /deep/ .md-card-header-text {
+            flex: 1;
+            margin: 0; // Remove MD's default left/right margin
+        }
+
+        /** Right align selected facet term count in subtitle */
+        /deep/ md-card-subtitle {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /** Add min height to card content for consistent card height **/
+        /deep/ md-card-content {
+            min-height: 160px;
+            position: relative; /** Required for positioning of caret */
+
+            .chart-dummy {
+                background-color: rgba(0, 0, 0, 0.06);
+                height: 8px;
+                margin-left: -24px;
+                margin-right: -24px;
+            }
+        }
+
+        /** "More" option at bottom of facet term rows */
+        .facet-more {
+
+            align-items: center;
+            bottom: 0;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+            position: absolute;
+            right: 0;
+        }
+
+        /** Divider above footer */
+        hr {
+            margin: 16px -16px -8px;
+        }
+
+        /** Override default MD margin left/right to align buttons with checkboxes */
+        md-card-actions {
+            margin-left: -16px;
+            margin-right: -16px;
+        }
+    }
+}
+
+/**
+ * XS only
+ */
+@media (max-width: $md-xs-max) {
+
+    :host {
+
+        md-card {
+
+            margin: 0 0 16px; // Add margin bottom to stacked cards TODO revisit - why is layout-margin applied to XS?
+
+            /** Override MD default margin bottom */
+            /deep/ md-card-header {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}

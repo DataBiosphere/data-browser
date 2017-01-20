@@ -3,21 +3,18 @@
         <span>Search Files</span>
         <cc-typeahead (search)="onSearchFiles($event)"></cc-typeahead>
     </div>
-    <div>
-        <span>Search Donors</span>
-        <cc-typeahead (search)="onSearchDonors($event)"></cc-typeahead>
-    </div>
     <div *ngFor="let file of files">
         <div (click)="selectFilter('file', file)">
             {{file.id}}
         </div>
     </div>
-    <div>
-         -------
-    </div>
-    <div *ngFor="let donor of donors">
-        <div (click)="selectFilter('donor', donor)">
-            {{donor.id}}
-        </div>
-    </div>
+    <!--<div>-->
+    <!--<span>Search Donors</span>-->
+    <!--<cc-typeahead (search)="onSearchDonors($event)"></cc-typeahead>-->
+    <!--</div>-->
+    <!--<div *ngFor="let donor of donors">-->
+        <!--<div (click)="selectFilter('donor', donor)">-->
+            <!--{{donor.id}}-->
+        <!--</div>-->
+    <!--</div>-->
 </div>

@@ -5,10 +5,10 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 
-
 // App dependencies
 import {
-    RequestFileManifestSummaryAction, RequestDownloadFileManifestAction,
+    RequestFileManifestSummaryAction,
+    RequestDownloadFileManifestAction
 } from "./actions/file-actions";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
@@ -17,7 +17,7 @@ import {
     selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
     selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
 } from "./files.reducer";
-import { selectKeywordsHits, selectKeywordFiles, selectKeywordDonors } from "../keywords/reducer/index";
+import { selectKeywordDonors } from "../keywords/reducer/index";
 import { ACTIONS } from "../shared/boardwalk.actions";
 import { BoardwalkStore } from "../shared/boardwalk.model";
 
@@ -44,7 +44,6 @@ export class FilesComponent implements OnInit {
     public fileFacets$: Observable<FileFacet[]>;
     public manifestSummaryLoading$: Observable<boolean>;
     public manifestSummary$: Observable<FileManifestSummary[]>;
-    public files$: Observable<any[]>;
     public donors$: Observable<any[]>;
 
     /**
@@ -117,7 +116,6 @@ export class FilesComponent implements OnInit {
         this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
 
         // this.hits$ = selectKeywordsHits(this.store);
-        this.files$ = selectKeywordFiles(this.store);
         this.donors$ = selectKeywordDonors(this.store);
 
         // initialize the filter state from the params in the route.

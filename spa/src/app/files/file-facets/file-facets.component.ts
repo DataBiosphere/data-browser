@@ -21,4 +21,15 @@ export class FileFacetsComponent {
 
   // Inputs
   @Input() fileFacets: FileFacet[];
+
+    /**
+     * Return true if file facet interface type is SEARCH.
+     *
+     * @param fileFacet {FileFacet}
+     * @returns {boolean}
+     */
+    public isInterfaceTypeSearch(fileFacet: FileFacet): boolean {
+
+        return fileFacet.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+    }
 }
