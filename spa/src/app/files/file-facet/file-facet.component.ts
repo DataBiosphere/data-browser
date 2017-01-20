@@ -31,7 +31,7 @@ import { SelectFileFacetAction, ClearSelectedFacetAction } from "../actions/file
     styleUrls: ["./file-facet.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
+export class FileFacetComponent implements OnInit {
 
     // Privates
     private store: Store<BoardwalkStore>;
@@ -47,27 +47,6 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
 
         this.store = store;
     }
-
-
-
-    ngOnInit() {
-        console.log("initing file facet");
-        this.trigger.onMenuClose.subscribe(
-            (event) => {
-                this.store.dispatch(new ClearSelectedFacetAction());
-            });
-    }
-
-    ngOnDestroy() {
-      //  console.log("destroying file facet");
-    }
-
-
-    ngOnChanges(changes: { [ propName: string]: SimpleChange }) {
-     //   console.log("Change detected:", changes["fileFacet"].currentValue);
-    }
-
-
 
     /**
      * Public API
@@ -95,6 +74,17 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
     };
 
     /**
+     * Return true if file facet interface type is SEARCH.
+     *
+     * @param fileFacet {FileFacet}
+     * @returns {boolean}
+     */
+    public isInterfaceTypeSearch(fileFacet: FileFacet): boolean {
+
+        return fileFacet.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+    }
+
+    /**
      * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
      * event to parent.
      *
@@ -120,12 +110,27 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     /**
-     * Handle click on term in list of terms - emit event to parent.
+     * Handle click on term in list of terms - emit event to parent, to toggle selected value of term.
      *
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
      */
     public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
 
         this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
+    }
+
+    /**
+     * Lifecycle hooks
+     */
+
+    /**
+     * Set up initial state of component.
+     */
+    ngOnInit() {
+
+        // Clear the selected facet in the store, on close of any open menu.
+        this.trigger.onMenuClose.subscribe(() => {
+            this.store.dispatch(new ClearSelectedFacetAction());
+        });
     }
 }

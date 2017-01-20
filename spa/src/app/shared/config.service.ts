@@ -38,6 +38,10 @@ export class ConfigService {
 
         return <FileFacetMetadata[]>[
             {
+                name: "fileId",
+                category: "file"
+            },
+            {
                 name: "centerName",
                 category: "file"
             },

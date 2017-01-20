@@ -1,5 +1,9 @@
+// App dependencies
 import { Term } from "./term.model";
 
+/**
+ * Core file facet model, including name, total, terms and interface type.
+ */
 export class FileFacet {
 
     public readonly name: string;
@@ -19,11 +23,20 @@ export class FileFacet {
     public readonly shortList: Term[]; // holds the first 3 terms or the first 3 selected terms
     public readonly shortListLength: number = 4;
 
-    constructor(name: string, total: number, terms: Term[]) {
+    public readonly interfaceType: string; // Type of widget to display for facet (eg search autocomplete, checkbox list)
+
+    /**
+     * @param name {string}
+     * @param total {number}
+     * @param terms {Term[]}
+     * @param interface {string}
+     */
+    constructor(name: string, total: number, terms: Term[], interfaceType?: string) { // TODO finalize interfaceType type and optionality
 
         this.name = name;
         this.total = total;
         this.terms = terms;
+        this.interfaceType = interfaceType;
 
         this.selectedTerms = this.terms.filter((term) => {
             return term.selected;

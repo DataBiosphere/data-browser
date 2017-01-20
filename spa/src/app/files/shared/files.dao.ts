@@ -188,6 +188,11 @@ export class FilesDAO extends CCBaseDAO {
             return new FileFacet(facetName, responseFileFacet.total, responseTerms);
         });
 
+        //// TO DELETE - TEMP ONLY (START)
+        let fileIdFileFacet = new FileFacet("fileId", 9999999, [], "SEARCH");
+        newFileFacets.unshift(fileIdFileFacet);
+        //// TO DELETE - TEMP ONLY (END)
+
         return newFileFacets;
 
     }
