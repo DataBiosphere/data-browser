@@ -65,7 +65,7 @@ $cgl-fab-gutter-xs: 16px;
 $cgl-fab-gutter-gt-xs: 24px;
 .cgl-fab {
     background-color: $cgl-turquoise;
-    bottom: $cgl-fab-gutter-xs + 316px; /* +316 for stacked, squashed footer */
+    bottom: $cgl-fab-gutter-xs;
     right: $cgl-fab-gutter-xs;
     /** Use specific selector to overide MD defaults */
     &[md-fab] {
