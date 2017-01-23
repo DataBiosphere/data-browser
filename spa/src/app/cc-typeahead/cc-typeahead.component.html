@@ -1,3 +1,4 @@
-<div class="cc-form-control">
-  <input type="text" [formControl]="searchTerm" placeholder="Search" class="form-control">
-</div>
+<md-input-container>
+  <md-placeholder>{{placeholder}}</md-placeholder>
+  <input md-input type="text" [formControl]="searchTerm">
+</md-input-container>

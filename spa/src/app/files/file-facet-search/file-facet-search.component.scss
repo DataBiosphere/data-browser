@@ -11,6 +11,23 @@
 
     md-card {
 
+
+        // TODO remove once search "term" functionality is finalized
+        .chart-legend-bar {
+            border: 1px solid transparent;
+            border-radius: 2px;
+            flex-basis: 12px;
+            height: 12px;
+            margin: 4px 8px 4px 0;
+        }
+        .term-summary {
+            flex: 1;
+        }
+        // TODO end remove
+
+
+
+
         cursor: pointer; // Entire card is clickable
 
         /** Override MD default padding, for all device sizes */
@@ -36,8 +53,7 @@
             .chart-dummy {
                 background-color: rgba(0, 0, 0, 0.06);
                 height: 8px;
-                margin-left: -24px;
-                margin-right: -24px;
+                margin: 0 -24px 8px; // Match margin of D3 charts
             }
         }
 

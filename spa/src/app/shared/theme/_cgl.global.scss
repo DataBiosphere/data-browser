@@ -162,7 +162,42 @@ button {
 
     /** Force minimum height of menu content, to match card height */
     .edit-menu-card-content {
-        min-height: 108px;
+        min-height: 173px; /* TODO revisit post merge - should be 108? */
+
+        &.with-padding {
+            padding: 8px 27px 0 24px;// Mimic padding of facet cards, menu (container) already has padding 8px top/bottom
+        }
+    }
+
+    /** Mimic MD card content **/
+    [md-menu-item] {
+        font-size: 14px;
+        padding: 0px 27px 0 20px; // Match alignment to menu header/subheader
+        md-icon {
+            color: rgba(0, 0, 0, 0.12);
+        }
+
+        .with-count {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            overflow: hidden; // Force ellipsis of overflow
+
+            .key {
+                flex: 1;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+            }
+            .count {
+                text-align: right;
+                width: 56px;
+            }
+        }
+    }
+
+    /** Mimic MD card content **/
+    input {
+        font-size: 14px;
     }
 
     /** Mimic MD card actions */

@@ -7,9 +7,8 @@
             </span>
         </div>
     </div>
-    <div class="edit-menu-card-content">
-        <bw-file-search [donors]="donors$ | async"
-                        [files]="files$ | async"
+    <div class="edit-menu-card-content with-padding">
+        <bw-file-search [files]="files$ | async"
                         (search)="onSearch($event)"
                         (termSelected)="onTermSelected($event)">
         </bw-file-search>

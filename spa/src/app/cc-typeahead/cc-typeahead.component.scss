@@ -1,0 +1,28 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for typeahead.
+ */
+
+@import "../shared/theme/cgl.vars";
+
+:host {
+
+    md-input-container {
+        width: 100%;
+    }
+
+    /** Override default MD colors */
+    /deep/ .md-input-placeholder {
+        &.md-focused {
+            color: $cgl-green;
+        }
+    }
+
+    /deep/ .md-input-underline {
+        .md-input-ripple {
+            background-color: $cgl-green;
+        }
+    }
+}

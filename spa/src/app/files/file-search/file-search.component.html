@@ -1,20 +1,13 @@
-<div>
-    <div>
-        <span>Search Files</span>
-        <cc-typeahead (search)="onSearchFiles($event)"></cc-typeahead>
-    </div>
-    <div *ngFor="let file of files">
-        <div (click)="selectFilter('file', file)">
-            {{file.id}}
-        </div>
-    </div>
-    <!--<div>-->
-    <!--<span>Search Donors</span>-->
-    <!--<cc-typeahead (search)="onSearchDonors($event)"></cc-typeahead>-->
+<cc-typeahead [placeholder]="'e.g. FI123'" (search)="onSearchFiles($event)"></cc-typeahead>
+<ul *ngIf="isEmptyResultSet()">
+    <li *ngFor="let file of files" (click)="selectFilter(file)">{{file.id}}</li>
+</ul>
+<!--<div>-->
+<!--<span>Search Donors</span>-->
+<!--<cc-typeahead (search)="onSearchDonors($event)"></cc-typeahead>-->
+<!--</div>-->
+<!--<div *ngFor="let donor of donors">-->
+    <!--<div (click)="selectFilter('donor', donor)">-->
+        <!--{{donor.id}}-->
     <!--</div>-->
-    <!--<div *ngFor="let donor of donors">-->
-        <!--<div (click)="selectFilter('donor', donor)">-->
-            <!--{{donor.id}}-->
-        <!--</div>-->
-    <!--</div>-->
-</div>
+<!--</div>-->

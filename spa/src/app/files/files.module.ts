@@ -9,7 +9,6 @@ import {
     MdCheckboxModule,
     MdDialogModule,
     MdIconModule,
-    MdInputModule,
     MdMenuModule,
     MdTooltipModule
 } from "@angular/material";
@@ -50,7 +49,6 @@ import { ConfigService } from "../shared/config.service";
         MdCheckboxModule,
         MdDialogModule,
         MdIconModule,
-        MdInputModule,
         MdMenuModule,
         MdTooltipModule,
         RouterModule.forChild(routes),

@@ -9,18 +9,32 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 @Component({
     selector: "bw-file-search",
     templateUrl: "./file-search.component.html",
-    styleUrls: ["./file-search.component.css"],
+    styleUrls: ["./file-search.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileSearchComponent {
 
     // Inputs
     @Input() files: any[] = [];
-    @Input() donors: any[] = [];
+    // @Input() donors: any[] = [];
 
     // Outputs
     @Output() search = new EventEmitter<{searchTerm: string; type: string}>();
     @Output() termSelected = new EventEmitter<{facet: string; term: string}>();
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Returns true if there are no files found matching the specified search criteria.
+     *
+     * @returns {boolean}
+     */
+    isEmptyResultSet(): boolean {
+
+        return !!this.files && !!this.files.length;
+    }
 
     /**
      * Emit search event to parent component.
@@ -43,18 +57,20 @@ export class FileSearchComponent {
     //     });
     // }
 
-    selectFilter(type: string, term: any) {
+    selectFilter(term: any) {
 
         const filter = {
-            facet: "",
+            facet: "id",
             term: term.id
         };
-        if (type === "file") {
-            filter.facet = "id";
-        }
-        else if (type === "donor") {
-            filter.facet = "donorId";
-        }
+        // if (type === "file") {
+        //     filter.facet = "id";
+        // }
+        // else if (type === "donor") {
+        //     filter.facet = "donorId";
+        // }
+
+        // FileFacetSelectedEvent
         this.termSelected.emit(filter);
     }
 }

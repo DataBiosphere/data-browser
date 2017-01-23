@@ -99,7 +99,7 @@ export class FileFacetComponent implements OnInit {
     }
 
     /**
-     * Handle click on term in list of terms - emit event to parent, to toggle selected value of term.
+     * Handle click on term in list of terms - update store to toggle selected value of term.
      *
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
      */

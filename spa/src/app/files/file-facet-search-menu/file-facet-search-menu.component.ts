@@ -11,8 +11,6 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
 // App dependencies
-import { SelectFileFacetAction } from "../actions/file-actions";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectFileFacetByName } from "../files.reducer";
 import { selectKeywordFiles } from "../../keywords/reducer/index";
 import { ACTIONS } from "../../shared/boardwalk.actions";
@@ -83,11 +81,11 @@ export class FileFacetSearchMenuComponent implements OnInit {
     /**
      * Handle select of file suggestion.
      *
-     * @param termFacet
+     * @param termFacet {facet: string, term: string}
      */
-    public onTermSelected(event: FileFacetSelectedEvent) {
+    public onTermSelected(event: {facet: string, term: string}) {
 
-        this.store.dispatch(new SelectFileFacetAction(event));
+        // this.store.dispatch(new SelectFileFacetAction(event));
     }
 
     /**

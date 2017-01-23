@@ -32,13 +32,6 @@
         /deep/ md-card-content {
             min-height: 160px;
             position: relative; /** Required for positioning of caret */
-
-            .chart-dummy {
-                background-color: rgba(0, 0, 0, 0.06);
-                height: 8px;
-                margin-left: -24px;
-                margin-right: -24px;
-            }
         }
 
         /** "More" option at bottom of facet term rows */

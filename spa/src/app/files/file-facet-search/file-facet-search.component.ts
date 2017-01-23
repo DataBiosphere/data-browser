@@ -9,9 +9,10 @@ import {
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { ClearSelectedFacetAction, SelectFileFacetAction } from "../actions/file-actions";
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
-import { ClearSelectedFacetAction } from "../actions/file-actions";
 import { CGLMenuTrigger } from "../file-facet/cgl-menu-trigger.directive";
 
 
@@ -52,6 +53,16 @@ export class FileFacetSearchComponent implements OnInit {
     public onCloseMenu() {
 
         this.trigger.closeMenu();
+    }
+
+    /**
+     * Handle click on term in list of terms - update store to toggle selected value of term.
+     *
+     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     */
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+
+        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
     }
 
     /**
