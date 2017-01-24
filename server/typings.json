@@ -15,7 +15,7 @@
     "express-session": "registry:dt/express-session#0.0.0+20160930124524",
     "express-validator": "registry:dt/express-validator#2.20.4+20160818182338",
     "method-override": "registry:dt/method-override#0.0.0+20160925094606",
-    "mongoose": "https://raw.githubusercontent.com/simonxca/DefinitelyTyped/patch-mongoose/mongoose/mongoose.d.ts",
+    "mongoose": "registry:dt/mongoose#4.7.0+20170109095616",
     "morgan": "registry:dt/morgan#1.7.0+20160524142355",
     "node": "registry:env/node#6.0.0+20161015001438",
     "passport": "registry:dt/passport#0.2.0+20161013124703",

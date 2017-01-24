@@ -6,15 +6,15 @@ import { Req } from "../../boardwalk";
 import * as path from "path";
 
 import * as bodyParser from "body-parser";
-//let connect = require("connect-mongo");
+// let connect = require("connect-mongo");
 import * as cookieParser from "cookie-parser";
-import * as session from "express-session";
+// import * as session from "express-session";
 let expressValidator = require("express-validator");
 import * as methodOverride from "method-override";
-let moment = require("moment-timezone");
-import * as mongoose from "mongoose";
+// let moment = require("moment-timezone");
+// import * as mongoose from "mongoose";
 import * as logger from "morgan";
-import * as passport from "passport";
+// import * as passport from "passport";
 // import * as favicon from "serve-favicon";
 import * as serveStatic from "serve-static";
 let UAParser = require("ua-parser-js");
@@ -25,13 +25,13 @@ import { handleSafariCaching, ResponseError } from "cc-express-utils";
 import apiRoutes from "../api_routes";
 import appRoutes from "../app_routes";
 
-import { config } from "../../lib/config/config";
+import { config } from "./config";
 
-import { PersonModel } from "../person/person";
+// import { PersonModel } from "../person/person";
 
 let parser = new UAParser();
-//let mongoStore = connect(session);
-const DEFAULT_TIMEZONE = "America/New_York";
+// let mongoStore = connect(session);
+// const DEFAULT_TIMEZONE = "America/New_York";
 
 /**
  * Express configuration
@@ -61,18 +61,18 @@ export const expressConfig = (app: Application) => {
      */
     // if (app.get("env") === "stage" || app.get("env") === "production") {
 
-        // // Force HTTPS
-        // app.use((req: Req, res: Res, next: Next) => {
-        //     if ((!req.secure) && (req.get("X-Forwarded-Proto") !== "https")) {
-        //
-        //         res.redirect("https://" + req.get("Host") + req.url);
-        //     }
-        //     else {
-        //         next();
-        //     }
-        // });
+    // // Force HTTPS
+    // app.use((req: Req, res: Res, next: Next) => {
+    //     if ((!req.secure) && (req.get("X-Forwarded-Proto") !== "https")) {
+    //
+    //         res.redirect("https://" + req.get("Host") + req.url);
+    //     }
+    //     else {
+    //         next();
+    //     }
+    // });
 
-        // app.use(favicon(path.join(config.root, "dist", "favicon.ico")));
+    // app.use(favicon(path.join(config.root, "dist", "favicon.ico")));
 
     // }
 
@@ -105,7 +105,7 @@ export const expressConfig = (app: Application) => {
 
     // Use passport session
 //    app.use(passport.initialize());
- //   app.use(passport.session());
+    //   app.use(passport.session());
 
 
     // Add local variable indicating if user is authenticated
@@ -117,7 +117,7 @@ export const expressConfig = (app: Application) => {
     });
 
     // Set the user's last seen date
-    //app.use((req: Req, res: Res, next: Next) => {
+    // app.use((req: Req, res: Res, next: Next) => {
     //
     //     if (req.user && !req.query.wasNotMe) {
     //
@@ -132,19 +132,22 @@ export const expressConfig = (app: Application) => {
     // Set up view engine
     app.set("view engine", "handlebars");
 
-    // Detect and block access on IE8
     app.use((req: Req, res: Res, next: Next) => {
 
-        const ua = parser.setUA(req.headers["user-agent"]).getResult();
+        const ua = parser.setUA(req.headers["user-agent"] as string).getResult();
 
-        // Show unsupported page for < IE8
+        // Show unsupported page for <= IE10
         const browserName = ua.browser.name;
         const browserVersion = ua.browser.version;
+
         if (browserName === "IE" &&
-            (browserVersion.indexOf("9") >= 0 || browserVersion.indexOf("8") >= 0 || browserVersion.indexOf("7") >= 0 || browserVersion.indexOf("6") >= 0)) {
-            return res.render("unsupported-browser", {
-                layout: "static"
-            });
+            (browserVersion.indexOf("10") >= 0 ||
+            browserVersion.indexOf("9") >= 0 ||
+            browserVersion.indexOf("8") >= 0 ||
+            browserVersion.indexOf("7") >= 0 ||
+            browserVersion.indexOf("6") >= 0)
+        ) {
+            res.sendFile(path.join(config.root, "dist/static/browser-not-supported.html"));
         }
 
         next();
@@ -169,13 +172,7 @@ export const expressConfig = (app: Application) => {
             res.sendStatus(404);
         }
         else {
-            // Any paths go back to Angular and it can see if
-            // it has a path.
-           // if (app.get("env") === "stage" || app.get("env") === "production") {
-
-                res.sendFile(path.join(config.root, "dist/home.html"));
-           // }
-            // local is served with angular-cli
+            res.redirect("/boardwalk");
         }
     });
 
