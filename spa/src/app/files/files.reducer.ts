@@ -75,7 +75,7 @@ export function selectFileFacets(appState$: Observable<FilesState>): Observable<
                     }
                 });
 
-            }else{
+            } else {
                 return fileFacetState.fileFacets;
             }
         }

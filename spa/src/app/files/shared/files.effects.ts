@@ -3,8 +3,7 @@ import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/concatMap";
+import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/first";
 import "rxjs/add/observable/concat";
@@ -70,10 +69,10 @@ export class FilesEffects {
     @Effect()
     initFacets$: Observable<Action> = this.actions$
         .ofType(ACTIONS.INIT_FILE_FACETS)
-        .concatMap((action) => {
+        .switchMap((action) => {
             return selectSelectedFacetsMap(this.store).first();
         })
-        .concatMap((selectedFacets) => {
+        .switchMap((selectedFacets) => {
             return Observable.concat(
                 // Request Summary
                 Observable.of(new RequestFileSummaryAction()),
@@ -107,10 +106,11 @@ export class FilesEffects {
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
         .ofType(ACTIONS.FILE_FACET_SELECTED)
-        .concatMap((action) => {
+        .switchMap((action) => {
             return selectSelectedFacetsMap(this.store).first();
         })
-        .concatMap((selectedFacets) => {
+        .switchMap((selectedFacets) => {
+
             return Observable.concat(
                 Observable.of(new RequestFileSummaryAction()), // TODO dont make the observable here? do i need concat
                 // map AND concat?
@@ -137,12 +137,13 @@ export class FilesEffects {
     @Effect()
     fetchSummary$: Observable<Action> = this.actions$
         .ofType(ACTIONS.FILE_FACET_SELECTED, ACTIONS.INIT_FILE_FACETS)
-        .mergeMap((action) => {
+        .switchMap((action) => {
             return selectSelectedFileFacets(this.store).first();
         })
-        .mergeMap((selectedFacets) => {
+        .switchMap((selectedFacets) => {
             return this.fileService.fetchFileSummary(selectedFacets);
-        }).map((fileSummary: FileSummary) => {
+        })
+        .map((fileSummary: FileSummary) => {
 
 
             if (typeof fileSummary.primarySite === "string") {
@@ -168,12 +169,13 @@ export class FilesEffects {
     @Effect()
     fetchManifestSummary$: Observable<Action> = this.actions$
         .ofType(ACTIONS.REQUEST_FILE_MANIFEST_SUMMARY)
-        .mergeMap(() => {
+        .switchMap(() => {
             return selectSelectedFileFacets(this.store).first();
         })
-        .mergeMap((selectedFacets) => {
+        .switchMap((selectedFacets) => {
             return this.fileService.fetchFileManifestSummary(selectedFacets);
-        }).map((response) => {
+        })
+        .map((response) => {
             return {
                 type: ACTIONS.RECEIVE_FILE_MANIFEST_SUMMARY,
                 payload: response
@@ -189,12 +191,13 @@ export class FilesEffects {
     @Effect()
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST)
-        .mergeMap(() => {
+        .switchMap(() => {
             return selectSelectedFileFacets(this.store).first();
         })
-        .mergeMap((query) => {
+        .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
-        }).map(() => {
+        })
+        .map(() => {
             return new ReceiveDownloadFileManifestAction();
         });
 
@@ -207,7 +210,7 @@ export class FilesEffects {
     @Effect()
     fetchFacetMetadata$: Observable<Action> = this.actions$
         .ofType(ACTIONS.FILE_FACET_METADATA_SUMMARY_REQUESTED)
-        .concatMap((action) => {
+        .switchMap((action) => {
             return this.fileService.fetchFileFacetMetadata();
         }, (action, fileFacetMetadata: FileFacetMetadata[]) => {
             return new FileFacetMetadataSummaryReceivedAction(fileFacetMetadata);
