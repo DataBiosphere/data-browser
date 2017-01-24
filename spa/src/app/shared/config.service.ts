@@ -1,34 +1,42 @@
 import { Injectable } from "@angular/core";
-import { FacetSortOrder } from "../files/shared/files.dao";
+import { FileFacetMetadata } from "../files/file-facet-metadata/file-facet-metadata.model";
 
 export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC";
 
 @Injectable()
 export class ConfigService {
 
+    private source: ApiSource = "UCSC_STAGE";
+
     constructor() { }
 
-
     getSource(): ApiSource {
-        return "UCSC_STAGE";
+        return this.source;
     }
 
-    getRootUrl(source: ApiSource) {
+    setSource(source: ApiSource) {
+        this.source = source;
+    }
 
-        if (source === "UCSC_STAGE") {
-            return "http://ec2-35-167-83-191.us-west-2.compute.amazonaws.com/api/v1";
-        }
-        else if (source === "UCSC") {
-            return "http://ucsc-cgl.org/api/v1";
-        }
-        else if (source === "ICGC") {
-            return "https://dcc.icgc.org/api/v1";
+    getRootUrl(): string {
+
+        switch (this.source) {
+            case "UCSC_STAGE":
+                return "http://ec2-35-167-83-191.us-west-2.compute.amazonaws.com/api/v1";
+            case "UCSC":
+                return "http://ucsc-cgl.org/api/v1";
+            default: // "ICGC"
+                return "https://dcc.icgc.org/api/v1";
         }
     }
 
-    getTestSortFacets(): FacetSortOrder[] {
+    hasSortOrder() {
+        return this.source === "UCSC_STAGE" || this.source === "UCSC";
+    }
 
-        return <FacetSortOrder[]>[
+    getTestSortFacets(): FileFacetMetadata[] {
+
+        return <FileFacetMetadata[]>[
             {
                 name: "centerName",
                 category: "file"

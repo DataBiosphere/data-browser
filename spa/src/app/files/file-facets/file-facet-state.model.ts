@@ -96,7 +96,6 @@ export class FileFacetsState {
       }
 
       return new FileFacetsState(this.fileFacetNames, m, true, selectedFacet);
-
     }
   }
 
@@ -130,5 +129,4 @@ export class FileFacetsState {
       return fileFacet.name;
     });
   }
-
 }

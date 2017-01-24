@@ -11,9 +11,7 @@ import "rxjs/add/operator/map";
 // App dependencies
 import {
     RequestFileManifestSummaryAction, RequestDownloadFileManifestAction,
-    SelectFileFacetAction
 } from "./actions/file-actions";
-import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
 import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
@@ -27,8 +25,8 @@ import { BoardwalkStore } from "../shared/boardwalk.model";
 
 /**
  * Core files component, displays results summary as well as facets. Also handles "snap" of results summary by
- * listening to wheel event on the host element. Listener must be setup on this component due to it's overflow-y spec (and
- * it therefore can listen to the scroll event, and also determine the scroll Y).
+ * listening to wheel event on the host element. Listener must be setup on this component due to it's overflow-y spec
+ * (and it therefore can listen to the scroll event, and also determine the scroll Y).
  */
 
 @Component({
@@ -54,7 +52,7 @@ export class FilesComponent implements AfterViewInit, OnInit {
     public donors$: Observable<any[]>;
 
     /**
-     * @@param elementRef {ElementRef}
+     * @param elementRef {ElementRef}
      * @param route {ActivatedRoute}
      * @param store {Store<BoardwalkStore>}
      */
@@ -82,9 +80,11 @@ export class FilesComponent implements AfterViewInit, OnInit {
                 payload: searchRequest
             });
         }
-        return this.store.dispatch({type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
-            type: searchRequest.type
-        }});
+        return this.store.dispatch({
+            type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
+                type: searchRequest.type
+            }
+        });
     }
 
     /**
@@ -100,13 +100,13 @@ export class FilesComponent implements AfterViewInit, OnInit {
      * Dispatch Manifest Download Request
      */
     public onDownloadManifest() {
-        this.store.dispatch( new RequestDownloadFileManifestAction());
+        this.store.dispatch(new RequestDownloadFileManifestAction());
     }
 
     /**
      * Snap results summary element if beyond certain scroll point.
      *
-     * @param event
+     * @param wheelEvent
      */
     snapSummary(wheelEvent: WheelEvent) {
 
@@ -126,11 +126,11 @@ export class FilesComponent implements AfterViewInit, OnInit {
             .subscribe(() => {
 
                 let snapped = nativeElement.classList.contains("snap");
-                if ( nativeElement.scrollTop > 16 && !snapped ) {
+                if (nativeElement.scrollTop > 16 && !snapped) {
                     nativeElement.classList.add("snap");
                 }
 
-                if ( nativeElement.scrollTop < 16 && snapped ) {
+                if (nativeElement.scrollTop < 16 && snapped) {
                     nativeElement.classList.remove("snap");
                 }
             });
@@ -156,7 +156,7 @@ export class FilesComponent implements AfterViewInit, OnInit {
         this.files$ = selectKeywordFiles(this.store);
         this.donors$ = selectKeywordDonors(this.store);
 
-        //initialize the filter state from the params in the route.
+        // initialize the filter state from the params in the route.
         this.initQueryParams();
 
     }

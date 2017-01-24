@@ -12,6 +12,8 @@ import { FileFacetsState } from "./file-facets/file-facet-state.model";
 import * as fromSummary from "./file-summary/file-summary.reducer";
 import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
 import * as fromManifestSummary from "./file-manifest-summary/file-manifest-summary.reducer";
+import { FileFacetMetadataSummary } from "./file-facet-metadata-summary/file-facet-metadata-summary.model";
+import * as fromFileFacetMetadataSummary from "./file-facet-metadata-summary/file-facet-metadata-summary.reducer";
 import { Dictionary } from "../shared/dictionary";
 import { FileFacet } from "./shared/file-facet.model";
 import { Selector } from "../shared/selector";
@@ -21,19 +23,18 @@ export interface FilesState {
     fileSummary: fromSummary.FileSummaryState;
     fileFacets: FileFacetsState;
     fileManifestSummary: fromManifestSummary.State;
+    fileFacetMetadataSummary: FileFacetMetadataSummary;
 }
 
 export const reducers: Dictionary<ActionReducer<any>> = {
     fileSummary: fromSummary.reducer,
     fileFacets: fromFacets.reducer,
-    fileManifestSummary: fromManifestSummary.reducer
+    fileManifestSummary: fromManifestSummary.reducer,
+    fileFacetMetadataSummary: fromFileFacetMetadataSummary.reducer
 };
 
 /**
  * File Summary Selectors
- *
- * @param state$
- * @returns {Observable<R>}
  */
 
 export const selectFileSummary = compose(fromSummary.selectFileSummary, selectFileSummaryState);
@@ -42,27 +43,25 @@ export const selectFileSummaryLoading = compose(fromSummary.selectFileSummaryLoa
 
 function selectFileSummaryState(appState$: Observable<FilesState>): Observable<fromSummary.FileSummaryState> {
     return appState$.select(appState => appState.fileSummary);
-};
+}
 
 /**
  * File Facet Selectors
- *
- * @param state$
- * @returns {Observable<R>}
  */
 export function selectFileFacetState(appState$: Observable<FilesState>): Observable<FileFacetsState> {
     return appState$.select((appState) => {
-        return appState.fileFacets});
-};
+        return appState.fileFacets;
+    });
+}
 
 export const selectFileFacetsLoading = compose(fromFacets.selectLoading, selectFileFacetState);
 
-export function selectSelectedFacetsMap(appState$: Observable<FilesState>): Observable<Map<string,FileFacet>> {
+export function selectSelectedFacetsMap(appState$: Observable<FilesState>): Observable<Map<string, FileFacet>> {
     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {
             return fileFacetState.selectedFileFacesByName;
         }
-    )
-};
+    );
+}
 
 export function selectFileFacets(appState$: Observable<FilesState>): Observable<FileFacet[]> {
     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {
@@ -80,8 +79,8 @@ export function selectFileFacets(appState$: Observable<FilesState>): Observable<
                 return fileFacetState.fileFacets;
             }
         }
-    )
-};
+    );
+}
 
 /**
  * Returns the file facet with the specified name.
@@ -105,12 +104,12 @@ export function selectSelectedFileFacets(appState$: Observable<FilesState>): Obs
     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {
             return fileFacetState.selectedFileFacets;
         }
-    )
-};
+    );
+}
 
-
-
-
+/**
+ * File Manifest Summary Selectors
+ */
 export function selectManifestSummary(appState$: Observable<FilesState>): Observable<fromManifestSummary.State> {
     return appState$.select(appState => appState.fileManifestSummary);
 }
@@ -120,3 +119,16 @@ export const selectManifestSummaryLoading: Selector<boolean> = compose(fromManif
 
 export const selectRepositoryManifestSummaries: Selector<FileManifestSummary[]> =
     compose(fromManifestSummary.selectRepositoryManifestSummaries, selectManifestSummary);
+
+/**
+ * File Facet Metadata Summary Selectors
+ */
+export function selectFileFacetMetadataSummary(appState$: Observable<FilesState>): Observable<FileFacetMetadataSummary> {
+    return appState$.select(appState => appState.fileFacetMetadataSummary);
+}
+
+export const selectFileFacetMetadataSummaryLoading: Selector<boolean> =
+    compose(fromFileFacetMetadataSummary.selectLoading, selectFileFacetMetadataSummary);
+
+export const selectFileFacetsSortOrder: Selector<string[]> =
+    compose(fromFileFacetMetadataSummary.selectSortOrder, selectFileFacetMetadataSummary);

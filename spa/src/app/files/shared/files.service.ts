@@ -3,22 +3,22 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/combineLatest";
 import "rxjs/add/operator/catch";
 
-import { FilesDAO, FacetSortOrder } from "./files.dao";
+import { FilesDAO } from "./files.dao";
 import { FileSummary } from "../file-summary/file-summary";
 import { Dictionary } from "../../shared/dictionary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileFacet } from "./file-facet.model";
-import { ApiSource, ConfigService } from "../../shared/config.service";
+import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 
 @Injectable()
 export class FilesService {
 
-    constructor(private fileDAO: FilesDAO, private configService: ConfigService) {}
+    constructor(private fileDAO: FilesDAO) {}
 
     /**
      * Download File Manifest
      *
-     * @param query
+     * @param selectedFacets
      * @returns {any}
      */
     public downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
@@ -27,10 +27,10 @@ export class FilesService {
     }
 
     /**
-     * Fet FileFacets Observable
+     * Fetch File Facets
      *
-     * @param query
-     * @returns {Observable<Action>}
+     * @param selectedFacetsByName
+     * @returns {Observable<FileFacet[]>}
      */
     public fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
 
@@ -38,38 +38,21 @@ export class FilesService {
             .fetchFileFacets(selectedFacetsByName);
     }
 
-
     /**
-     * Fetch File Facets Init
+     * Fetch File Facet Metadata
      *
-     * @param selectedFacetsByName
-     * @returns {Observable<FileFacet[]>}
+     * @returns {Observable<FileFacetMetadata[]>}
      */
-    public initFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
+    public fetchFileFacetMetadata(): Observable<FileFacetMetadata[]> {
 
-        const source: ApiSource = this.configService.getSource();
-        const sortOrder$ = source === "UCSC_STAGE" ? this.fileDAO.fetchFacetOrdering(source) : null;
-
-        if (!sortOrder$) {
-            return this.fetchFileFacets(selectedFacetsByName);
-        }
-
-        return Observable.combineLatest(
-            sortOrder$,
-            this.fileDAO.fetchFileFacets(selectedFacetsByName),
-            (sortOrder: FacetSortOrder[], fileFacets: FileFacet[]) => {
-                // re-sort fileFacets. This will drop any that don't exist in the sort order list.
-                return sortOrder.map((order: FacetSortOrder) => {
-                    return _.find(fileFacets, { name: order.name });
-                });
-            });
+        return this.fileDAO.fetchFileFacetMetadata();
     }
 
 
     /**
      * Fetch File Summary Observable
      *
-     * @param query
+     * @param selectedFacets
      * @returns {Observable<Action>}
      */
     public fetchFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
@@ -80,7 +63,7 @@ export class FilesService {
     /**
      * Fetch File Manifest Summary Observable
      *
-     * @param query
+     * @param selectedFacets
      * @returns {Observable<Action>}
      */
     public fetchFileManifestSummary(selectedFacets: FileFacet[]): Observable<Dictionary<FileManifestSummary>> {

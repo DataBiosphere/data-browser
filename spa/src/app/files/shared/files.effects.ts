@@ -3,27 +3,30 @@ import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import "rxjs/add/operator/do";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/concatMap";
+import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/first";
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/concat';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/concat';
-
+import "rxjs/add/observable/concat";
+import "rxjs/add/observable/of";
+import * as find from "lodash/find";
 
 import { FilesService } from "./files.service";
-import { FilesState, selectSelectedFacetsMap, selectSelectedFileFacets } from "../files.reducer";
+import {
+    FilesState, selectSelectedFacetsMap, selectSelectedFileFacets,
+    selectFileFacetsSortOrder, selectFileFacetMetadataSummaryLoading
+} from "../files.reducer";
 
 // Actions
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import {
     RequestFileSummaryAction,
-    ReceiveDownloadFileManifestAction, FileFacetsReceivedAction
+    ReceiveDownloadFileManifestAction, FileFacetsReceivedAction, FileFacetMetadataSummaryRequestedAction,
+    FileFacetMetadataSummaryReceivedAction
 } from "../actions/file-actions";
 import { FileSummary } from "../file-summary/file-summary";
+import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
+import { FileFacet } from "./file-facet.model";
 
 
 @Injectable()
@@ -33,30 +36,28 @@ export class FilesEffects {
     private colorWheelSet: boolean;
     private colors: string[];
 
-    constructor(
-
-        private store: Store<FilesState>,
-        private actions$: Actions,
-        private fileService: FilesService) {
+    constructor(private store: Store<FilesState>,
+                private actions$: Actions,
+                private fileService: FilesService) {
         this.colorWheel = new Map<string, string >();
         this.colorWheelSet = false;
 
-       this.colors = [
-           "#1A535C",
-           "#4CC9C0",
-           "#5C83D0",
-           "#FF6B6B",
-           "#FFA560",
-           "#FFE66D",
-           "#113871", // dark blue
-           "#336C74", // light green
-           "#ABF0EB", // light turquoise
-           "#B3C9F2", // light light purple
-           "#B6D67E", // lime green
-           "#BE5951", // salmon
-           "#FFBABA", // light peach
-           "#FFD2AF", // light orange
-           "#eeeeee"
+        this.colors = [
+            "#1A535C",
+            "#4CC9C0",
+            "#5C83D0",
+            "#FF6B6B",
+            "#FFA560",
+            "#FFE66D",
+            "#113871", // dark blue
+            "#336C74", // light green
+            "#ABF0EB", // light turquoise
+            "#B3C9F2", // light light purple
+            "#B6D67E", // lime green
+            "#BE5951", // salmon
+            "#FFBABA", // light peach
+            "#FFD2AF", // light orange
+            "#eeeeee"
         ];
     }
 
@@ -64,7 +65,7 @@ export class FilesEffects {
      *
      * Trigger update of  facet counts on init.
      *
-     * @type {"../../Observable".Observable<R>}
+     * @type {Observable<Action>}
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
@@ -74,20 +75,24 @@ export class FilesEffects {
         })
         .concatMap((selectedFacets) => {
             return Observable.concat(
+                // Request Summary
                 Observable.of(new RequestFileSummaryAction()),
-                this.fileService.initFileFacets(selectedFacets)
+                // Request Metadata
+                Observable.of(new FileFacetMetadataSummaryRequestedAction()),
+                // Request Facets, and sort by metadata
+                this.fetchOrderedFileFacets(selectedFacets)
                     .map((fileFacets) => {
 
-                    fileFacets.forEach((fileFacet) => {
+                        fileFacets.forEach((fileFacet) => {
 
-                        let colorIndex = 0;
-                        fileFacet.terms.forEach((term) => {
-                            term.color = this.colors[colorIndex];
-                            const key = fileFacet.name + ":" + term.name;
-                            this.colorWheel.set(key, term.color );
-                            colorIndex++;
+                            let colorIndex = 0;
+                            fileFacet.terms.forEach((term) => {
+                                term.color = this.colors[colorIndex];
+                                const key = fileFacet.name + ":" + term.name;
+                                this.colorWheel.set(key, term.color);
+                                colorIndex++;
+                            });
                         });
-                    });
                         return new FileFacetsReceivedAction(fileFacets);
                     })
             );
@@ -97,7 +102,7 @@ export class FilesEffects {
      *
      * Trigger update of  facet counts once a facet is selected.
      *
-     * @type {"../../Observable".Observable<R>}
+     * @type {Observable<Action>}
      */
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
@@ -108,19 +113,18 @@ export class FilesEffects {
         .concatMap((selectedFacets) => {
             return Observable.concat(
                 Observable.of(new RequestFileSummaryAction()), // TODO dont make the observable here? do i need concat
-                                                               // map AND concat?
-                this.fileService
-                    .initFileFacets(selectedFacets)
+                // map AND concat?
+                this.fetchOrderedFileFacets(selectedFacets)
                     .map((fileFacets) => {
+
                         fileFacets.forEach((fileFacet) => {
                             fileFacet.terms.forEach((term) => {
                                 const key = fileFacet.name + ":" + term.name;
                                 term.color = this.colorWheel.get(key);
                             });
                         });
-
                         return new FileFacetsReceivedAction(fileFacets);
-                })
+                    })
             );
         });
 
@@ -128,7 +132,7 @@ export class FilesEffects {
      *
      * Trigger update of file summary if a facet changes.
      *
-     * @type {"../../Observable".Observable<R>}
+     * @type {Observable<Action>}
      */
     @Effect()
     fetchSummary$: Observable<Action> = this.actions$
@@ -159,7 +163,7 @@ export class FilesEffects {
      *
      * Trigger Fetch and display of manifest summary once manifest is requested.
      *
-     * @type {"../../Observable".Observable<R>}
+     * @type {Observable<Action>}
      */
     @Effect()
     fetchManifestSummary$: Observable<Action> = this.actions$
@@ -180,7 +184,7 @@ export class FilesEffects {
      *
      * Trigger downooad of manifest.
      *
-     * @type {"../../Observable".Observable<R>}
+     * @type {Observable<Action>}
      */
     @Effect()
     downloadFileManifest$: Observable<Action> = this.actions$
@@ -193,4 +197,51 @@ export class FilesEffects {
         }).map(() => {
             return new ReceiveDownloadFileManifestAction();
         });
+
+
+    /**
+     * Fetch Metadata For File Facets
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchFacetMetadata$: Observable<Action> = this.actions$
+        .ofType(ACTIONS.FILE_FACET_METADATA_SUMMARY_REQUESTED)
+        .concatMap((action) => {
+            return this.fileService.fetchFileFacetMetadata();
+        }, (action, fileFacetMetadata: FileFacetMetadata[]) => {
+            return new FileFacetMetadataSummaryReceivedAction(fileFacetMetadata);
+        });
+
+
+    /**
+     * PRIVATES
+     */
+
+    /**
+     * Fetch Ordered File Facets
+     *
+     * @param selectedFacets
+     * @returns {Observable<FileFacet[]>}
+     */
+    private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>): Observable<FileFacet[]> {
+
+        const sortOrderLoaded$: Observable<boolean> = selectFileFacetMetadataSummaryLoading(this.store).filter(loading => !loading);
+        const sortOrder$: Observable<string[]> = selectFileFacetsSortOrder(this.store).combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
+
+        return this.fileService
+            .fetchFileFacets(selectedFacets)
+            .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
+
+                console.log(sortOrder);
+
+                if (!sortOrder || !sortOrder.length) {
+                    return fileFacets;
+                }
+
+                return sortOrder.map((sortName) => {
+                    return find(fileFacets, { name: sortName });
+                });
+            });
+    }
 }
