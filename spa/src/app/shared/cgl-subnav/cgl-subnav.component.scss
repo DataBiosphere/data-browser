@@ -12,6 +12,10 @@
  * Custom CGL-specific overrides of MD toolbar.
  */
 
+:host {
+    display: block;
+}
+
 md-toolbar {
 
     &.subheader {

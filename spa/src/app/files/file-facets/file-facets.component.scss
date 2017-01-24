@@ -7,20 +7,16 @@
 
 @import "../../shared/theme/cgl.vars";
 
-:host {
-
-    ///** Override default left/right padding for cards, so card padding and card width is uniform and correct */
-    //padding-left: 0 !important;
-    //padding-right: 0 !important;
-}
-
-
 /**
- * Small only
+ * Small +
  */
-@media (min-width: $md-sm-min) and (max-width: $md-sm-max) {
+@media (min-width: $md-sm-min) {
 
     :host {
+
+        /** Override default left/right padding for cards, so card padding and card width is uniform and correct */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
 
         /** Set up wrap and margins for 2x grid **/
         .facet-wrap {
@@ -31,15 +27,11 @@
 }
 
 /**
- * Medium only
+ * Medium +
  */
-@media (min-width: $md-md-min) and (max-width: $md-md-max) {
+@media (min-width: $md-md-min) {
 
     :host {
-
-        /** Override default left/right padding for cards, so card padding and card width is uniform and correct */
-        padding-left: 0 !important;
-        padding-right: 0 !important;
 
         /** Set up wrap and margins for 4x grid **/
         .facet-wrap {
@@ -50,7 +42,7 @@
 }
 
 /**
- * Large and extra large
+ * Large +
  */
 @media (min-width: $md-lg-min) {
 

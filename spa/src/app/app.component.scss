@@ -5,8 +5,26 @@
  * App root styles.
  */
 
+@import "/shared/theme/cgl.vars";
+
 :host {
     display: flex; // Required for forcing height 100% on files component, with scroll for overflow
     flex-direction: column;
     height: 100%; // Required to force height to reach at least bottom of screen, before content is loaded
+
+    /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */
+    header {
+        display: block;
+        min-height: 128px; // 64px toolbar, 64px subnav
+
+        // Specific position for mobile devices in portrait mode.
+        @media (max-width: $md-sm-min) and (orientation: portrait) {
+            min-height: 112px; // 56px toolbar, 56px subnav
+        }
+
+        // Specific position for mobile devices in landscape mode.
+        @media (max-width: $md-md-min) and (orientation: landscape) {
+            min-height: 76px; // 48px toolbar, 48px subnav
+        }
+    }
 }
