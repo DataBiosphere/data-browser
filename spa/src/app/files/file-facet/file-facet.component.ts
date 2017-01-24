@@ -59,12 +59,12 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log("destroying file facet");
+      //  console.log("destroying file facet");
     }
 
 
     ngOnChanges(changes: { [ propName: string]: SimpleChange }) {
-        console.log("Change detected:", changes["fileFacet"].currentValue);
+     //   console.log("Change detected:", changes["fileFacet"].currentValue);
     }
 
 
