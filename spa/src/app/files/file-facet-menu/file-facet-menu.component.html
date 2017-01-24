@@ -11,16 +11,9 @@
         </div>
     </div>
     <div class="edit-menu-card-content">
-        <button md-menu-item
-                *ngFor="let term of (fileFacet$ | async).terms"
-                (click)="selectFacetTerm($event, fileFacet, term)">
-            <md-icon *ngIf="!term.selected" [style.color]="term.color">check_box_outline_blank</md-icon>
-            <md-icon class="term-selected" *ngIf="term.selected" [style.color]="term.color">check_box_outline</md-icon>
-            <span class="with-count">
-                <span class="key">{{term.name}}</span>
-                <span class="count md-caption secondary">{{term.count}}</span>
-            </span>
-        </button>
+        <facet-term-list [fileFacet]="fileFacet$ | async"
+                         [useShortList]="false"
+                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
     </div>
     <div class="edit-menu-card-actions">
         <button class="cgl-button"
@@ -31,4 +24,3 @@
         </button>
     </div>
 </div>
-

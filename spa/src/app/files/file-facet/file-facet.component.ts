@@ -9,6 +9,7 @@ import {
     OnDestroy,
     ViewChild
 } from "@angular/core";
+import { MdMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -18,7 +19,6 @@ import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { Term } from "../shared/term.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { SelectFileFacetAction, ClearSelectedFacetAction } from "../actions/file-actions";
-import { CGLMenuTrigger } from "./cgl-menu-trigger.directive";
 
 
 /**
@@ -38,7 +38,7 @@ export class FileFacetComponent implements OnChanges, OnInit, OnDestroy {
 
     // Inputs
     @Input() fileFacet: FileFacet;
-    @ViewChild(CGLMenuTrigger) trigger: CGLMenuTrigger;
+    @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 
     /**
      * @param store {Store<BoardwalkStore>}

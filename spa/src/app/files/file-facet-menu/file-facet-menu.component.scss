@@ -1,0 +1,14 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Facet checkbox menu styles.
+ */
+
+:host {
+
+    /** Position term list to match card position. */
+    facet-term-list {
+        margin: 28px 24px 0 20px;
+    }
+}

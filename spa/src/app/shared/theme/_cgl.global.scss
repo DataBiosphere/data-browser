@@ -155,33 +155,7 @@ button {
 
     /** Force minimum height of menu content, to match card height */
     .edit-menu-card-content {
-        min-height: 173px;
-    }
-
-    /** Mimic MD card content **/
-    [md-menu-item] {
-        font-size: 14px;
-        padding: 0px 27px 0 20px; // Match alignment to menu header/subheader
-        md-icon {
-            color: rgba(0, 0, 0, 0.12);
-        }
-
-        .with-count {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            overflow: hidden; // Force ellipsis of overflow
-
-            .key {
-                flex: 1;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-            }
-            .count {
-                text-align: right;
-                width: 56px;
-            }
-        }
+        min-height: 108px;
     }
 
     /** Mimic MD card actions */

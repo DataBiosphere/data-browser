@@ -9,9 +9,9 @@
 
 :host {
 
-    /** Override default left/right padding for cards, so card padding and card width is uniform and correct */
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    ///** Override default left/right padding for cards, so card padding and card width is uniform and correct */
+    //padding-left: 0 !important;
+    //padding-right: 0 !important;
 }
 
 
@@ -36,6 +36,10 @@
 @media (min-width: $md-md-min) and (max-width: $md-md-max) {
 
     :host {
+
+        /** Override default left/right padding for cards, so card padding and card width is uniform and correct */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
 
         /** Set up wrap and margins for 4x grid **/
         .facet-wrap {
