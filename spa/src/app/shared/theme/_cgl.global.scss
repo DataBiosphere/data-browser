@@ -162,7 +162,7 @@ button {
 
     /** Force minimum height of menu content, to match card height */
     .edit-menu-card-content {
-        min-height: 173px; /* TODO revisit post merge - should be 108? */
+        min-height: 108px;
 
         &.with-padding {
             padding: 8px 27px 0 24px;// Mimic padding of facet cards, menu (container) already has padding 8px top/bottom

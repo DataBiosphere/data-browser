@@ -53,7 +53,6 @@ export class FileFacetsState {
     public setLoading(loading: boolean): FileFacetsState {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, loading, this.selectedFacet);
     }
-<<<<<<< 38e7e695527e59589aab9c5b7786eadeff61195f
 
     public selectFacet(selectedFacet: FileFacet): FileFacetsState {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, selectedFacet);
@@ -63,17 +62,6 @@ export class FileFacetsState {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, undefined);
     }
 
-=======
-
-    public selectFacet(selectedFacet: FileFacet): FileFacetsState {
-        return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, selectedFacet);
-    }
-
-    public clearSelectedFacet() {
-        return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, undefined);
-    }
-
->>>>>>> linting
     /**
      *
      *
@@ -83,24 +71,14 @@ export class FileFacetsState {
      */
     public selectTerm(facetName: string, termName: string) {
 
-<<<<<<< 38e7e695527e59589aab9c5b7786eadeff61195f
-        const termFacet = this.fileFacetsByName.get(facetName);
-
-        if (!termFacet) {
-=======
         const facet = this.fileFacetsByName.get(facetName);
 
         if (!facet) {
->>>>>>> linting
             return this;
         }
         else {
 
-<<<<<<< 38e7e695527e59589aab9c5b7786eadeff61195f
             const m = new Map<string, FileFacet>();
-=======
-            const m = new Map<string, FileFacet>()
->>>>>>> linting
             this.fileFacetsByName.forEach((facet) => {
 
                 if (facet.name === facetName) {
@@ -114,16 +92,6 @@ export class FileFacetsState {
             });
 
             let selectedFacet: FileFacet;
-<<<<<<< 38e7e695527e59589aab9c5b7786eadeff61195f
-            if (this.selectedFacet && (termFacet.name === this.selectedFacet.name )) {
-                selectedFacet = this.selectedFacet;
-            }
-            else {
-                selectedFacet = termFacet;
-            }
-
-            return new FileFacetsState(this.fileFacetNames, m, true, selectedFacet);
-=======
             if (this.selectedFacet && (facet.name === this.selectedFacet.name )) {
                 selectedFacet = this.selectedFacet;
             }
@@ -132,8 +100,6 @@ export class FileFacetsState {
             }
 
             return new FileFacetsState(this.fileFacetNames, m, true, selectedFacet);
-
->>>>>>> linting
         }
     }
 
@@ -147,7 +113,6 @@ export class FileFacetsState {
      * @returns {Map<string, FileFacet>}
      */
     private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
-<<<<<<< 38e7e695527e59589aab9c5b7786eadeff61195f
 
         const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
 
@@ -155,27 +120,6 @@ export class FileFacetsState {
             acc.set(value.name, value);
             return acc;
         }, startValue);
-=======
-
-        const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
-
-        return fileFacets.reduce((acc: Map<string, FileFacet>, value: FileFacet): Map<string, FileFacet> => {
-            acc.set(value.name, value);
-            return acc;
-        }, startValue);
-    }
-
-    /**
-     *
-     * @param fileFacets
-     * @returns {string[]}
-     */
-    private static createFileFacetNames(fileFacets: FileFacet[]): string[] {
-
-        return fileFacets.map((fileFacet) => {
-            return fileFacet.name;
-        });
->>>>>>> linting
     }
 
     /**
