@@ -18,7 +18,9 @@ import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { Term } from "../shared/term.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
-import { SelectFileFacetAction, ClearSelectedFacetAction } from "../actions/file-actions";
+import { ClearSelectedFacetAction } from "../actions/file-actions";
+import { CGLMenuTrigger } from "./cgl-menu-trigger.directive";
+import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 
 
 /**

@@ -11,9 +11,9 @@ import { Observable } from "rxjs/Observable";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { SelectFileFacetAction } from "../actions/file-actions";
 import { Store } from "@ngrx/store";
 import { selectFileFacetByName } from "../files.reducer";
+import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 
 @Component({
     selector: "bw-file-facet-menu",

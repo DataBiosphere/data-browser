@@ -9,11 +9,12 @@ import {
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { ClearSelectedFacetAction, SelectFileFacetAction } from "../actions/file-actions";
+import { ClearSelectedFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { CGLMenuTrigger } from "../file-facet/cgl-menu-trigger.directive";
+import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 
 
 /**
