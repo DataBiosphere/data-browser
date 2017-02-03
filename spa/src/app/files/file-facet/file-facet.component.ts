@@ -89,7 +89,7 @@ export class FileFacetComponent implements OnInit {
         event.stopPropagation();
         event.preventDefault();
 
-        this.store.dispatch(new SelectFileFacetAction(new FileFacetSelectedEvent(fileFacet, term)));
+        this.store.dispatch(new SelectFileFacetAction(new FileFacetSelectedEvent(fileFacet.name, term.name)));
     }
 
     /**

@@ -75,7 +75,7 @@ export class FileFacet {
         const newTerms = this.terms.map(term => {
 
             if ( term.name === termName ) {
-                // LIP TERM SELECTED INSTEAD OF SETTING IT
+                // Flip term selected instead of setting it.
                 return new Term(termName, term.count, !term.selected, term.color);
             }else {
                 return term;

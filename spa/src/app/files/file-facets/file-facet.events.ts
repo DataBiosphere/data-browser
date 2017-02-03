@@ -7,19 +7,15 @@ import { Term } from "../shared/term.model";
  */
 export class FileFacetSelectedEvent {
 
-    // Public variables
-    public readonly facet: string;
-    public readonly term: string;
-    public readonly selected: boolean;
 
     /**
      * @param fileFacet {FileFacet}
      * @param term {Term}
      */
-    constructor(fileFacet: FileFacet, term: Term) {
+    constructor(
+        public readonly facetName: string,
+        public readonly termName: string,
+        public readonly selected = true) {
 
-        this.facet = fileFacet.name;
-        this.term = term.name;
-        this.selected = term.selected;
     }
 }

@@ -74,28 +74,31 @@ export class FileFacetsState {
         const facet = this.fileFacetsByName.get(facetName);
 
         if (!facet) {
+            // error case just return the current state.
             return this;
         }
         else {
 
             const m = new Map<string, FileFacet>();
-            this.fileFacetsByName.forEach((facet) => {
+            this.fileFacetsByName.forEach((f) => {
 
-                if (facet.name === facetName) {
-                    m.set(facet.name, facet.selectTerm(termName));
+                if (f.name === facetName) {
+                    m.set(f.name, f.selectTerm(termName));
 
                 }
                 else {
-                    m.set(facet.name, facet);
+                    m.set(f.name, f);
                 }
 
             });
 
             let selectedFacet: FileFacet;
             if (this.selectedFacet && (facet.name === this.selectedFacet.name )) {
+                // working on the same selected facet
                 selectedFacet = this.selectedFacet;
             }
             else {
+                // selected a new facet
                 selectedFacet = facet;
             }
 

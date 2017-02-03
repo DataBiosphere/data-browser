@@ -25,7 +25,7 @@ export const reducer: ActionReducer<FileFacetsState> = (fileFacetsState: FileFac
             return fileFacetsState.setLoading(true);
         case ACTIONS.FILE_FACET_SELECTED:
             const event = <FileFacetSelectedEvent> action.payload;
-            return fileFacetsState.selectTerm(event.facet, event.term);
+            return fileFacetsState.selectTerm(event.facetName, event.termName);
         case ACTIONS.FILE_FACETS_RECEIVED:
             return fileFacetsState.setFileFacets(action.payload);
         case ACTIONS.CLEAR_SELECTED_FACET:

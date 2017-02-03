@@ -65,7 +65,7 @@ export class FacetTermListComponent {
     onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
 
         // Update facet state
-        this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet, term));
+        this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
     }
 
     /**
@@ -74,7 +74,7 @@ export class FacetTermListComponent {
      *
      * @returns {Term[]}
      */
-    public getDisplayList() : Term[] {
+    public getDisplayList(): Term[] {
 
         if ( this.useShortList ) {
             return this.fileFacet.shortList;
