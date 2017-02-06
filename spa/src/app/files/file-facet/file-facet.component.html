@@ -11,10 +11,15 @@
         </md-card-subtitle>
     </md-card-header>
     <md-card-content>
-        <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
-        <facet-term-list [fileFacet]="fileFacet"
+        <div [ngSwitch]="fileFacet.interfaceType">
+            <div class="chart-dummy" *ngSwitchCase="'SEARCH'"></div>
+            <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)" *ngSwitchDefault></facet-term-chart>
+        </div>
+        <facet-term-list *ngIf="!isInterfaceTypeSearch(fileFacet)"
+                         [fileFacet]="fileFacet"
                          [useShortList]="true"
                          (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+        <p class="md-body-1 secondary" *ngIf="isInterfaceTypeSearch(fileFacet)">No files selected.</p>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
             <md-icon>expand_more</md-icon>
