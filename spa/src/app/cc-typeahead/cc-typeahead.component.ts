@@ -1,8 +1,20 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+// Core dependencies
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { MdInputDirective } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/distinctUntilChanged";
+
+// App dependencies
 import { CCTypeaheadSearchEvent } from "./cc-typeahead-search.event";
 
 
@@ -23,16 +35,30 @@ export class CcTypeaheadComponent implements OnInit {
     // Outputs
     @Output() search = new EventEmitter<CCTypeaheadSearchEvent>();
 
+    // View child/ren
+    @ViewChild(MdInputDirective) mdSearchInput: MdInputDirective;
+
     /**
      * Public API
      */
 
     /**
-     * Clear the current value of the typeahead
+     * Clear the current value of the typeahead and immediately trigger search update.
      */
     public clear(): void {
 
-        this.searchTerm.setValue("");
+        this.searchTerm.setValue("", {
+            emitEvent: false // Don't trigger valueChanges, debounce time is too long to trigger search
+        });
+        this.triggerSearchChanged("");
+    }
+
+    /**
+     * Set focus on the search input.
+     */
+    public focus(): void {
+
+        this.mdSearchInput.focus();
     }
 
     /**

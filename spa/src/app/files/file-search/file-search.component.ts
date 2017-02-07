@@ -21,7 +21,6 @@ export class FileSearchComponent {
 
     // Inputs
     @Input() files: any[] = [];
-    // @Input() donors: any[] = [];
 
     // Outputs
     @Output() search = new EventEmitter<{searchTerm: string; type: string}>();

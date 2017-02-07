@@ -12,7 +12,8 @@
                         (search)="onSearch($event)"
                         (termSelected)="onTermSelected($event)">
         </bw-file-search>
-        <facet-term-list [fileFacet]="fileFacet$ | async"
+        <facet-term-list [checkable]="false"
+                         [fileFacet]="fileFacet$ | async"
                          [useShortList]="false"
                          (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
     </div>

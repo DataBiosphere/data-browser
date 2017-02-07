@@ -79,6 +79,40 @@
             margin-left: -16px;
             margin-right: -16px;
         }
+
+        /** Override dummy search input on card */
+        /deep/ md-input-container {
+
+            display: block;
+
+            /** Override "disabled" search input, should look enabled but act as if disabled (to trigger menu). Match MD enabled input */
+            .md-input-underline {
+                &.md-disabled {
+                    background-image: none;
+                    border-top-width: 1px;
+                    border-top-style: solid;
+                    border-color: rgba(0, 0, 0, 0.12);
+                }
+            }
+
+            .md-input-wrapper {
+                margin-bottom: 0;
+            }
+
+            .md-input-placeholder {
+                &.md-empty {
+                    font-size: 10px;
+                }
+            }
+        }
+
+        /**
+          * Add space between term list and input, must do this here instead of margin bottom of input as margin bottom
+          * will push out total height of card.
+          */
+        facet-term-list {
+            margin-top: 16px;
+        }
     }
 }
 

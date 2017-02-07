@@ -72,17 +72,6 @@ export class FileFacetComponent implements OnInit {
     };
 
     /**
-     * Return true if file facet interface type is SEARCH.
-     *
-     * @param fileFacet {FileFacet}
-     * @returns {boolean}
-     */
-    public isInterfaceTypeSearch(fileFacet: FileFacet): boolean {
-
-        return fileFacet.isInterfaceTypeSearch();
-    }
-
-    /**
      * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
      * event to parent.
      *

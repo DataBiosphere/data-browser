@@ -118,6 +118,7 @@ export class FilesEffects {
                     .map((fileFacets) => {
 
                         fileFacets.forEach((fileFacet) => {
+
                             fileFacet.terms.forEach((term) => {
                                 const key = fileFacet.name + ":" + term.name;
                                 term.color = this.colorWheel.get(key);

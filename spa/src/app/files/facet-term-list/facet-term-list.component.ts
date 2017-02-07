@@ -22,6 +22,7 @@ import { Term } from "../shared/term.model";
 export class FacetTermListComponent {
 
     // Inputs
+    @Input() checkable: boolean = true;
     @Input() fileFacet: FileFacet;
     @Input() useShortList: boolean;
 

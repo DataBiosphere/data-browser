@@ -169,6 +169,13 @@ button {
         }
     }
 
+    &.edit-menu-tall {
+        /** Force minimum height of menu content to display entire typeahead suggestions menu */
+        .edit-menu-card-content {
+            min-height: 236px;
+        }
+    }
+
     /** Mimic MD card content **/
     [md-menu-item] {
         font-size: 14px;

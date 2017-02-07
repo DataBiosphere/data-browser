@@ -34,6 +34,8 @@ export class FileFacetSearchComponent implements OnInit {
 
     // Inputs
     @Input() fileFacet: FileFacet;
+
+    // View child/ren
     @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 
     /**

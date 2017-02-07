@@ -2,13 +2,13 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { EffectsModule } from "@ngrx/effects";
 import {
     MdButtonModule,
     MdCardModule,
     MdCheckboxModule,
     MdDialogModule,
     MdIconModule,
+    MdInputModule,
     MdMenuModule,
     MdTooltipModule
 } from "@angular/material";
@@ -48,6 +48,7 @@ import { ConfigService } from "../shared/config.service";
         MdCheckboxModule,
         MdDialogModule,
         MdIconModule,
+        MdInputModule,
         MdMenuModule,
         MdTooltipModule,
         RouterModule.forChild(routes),

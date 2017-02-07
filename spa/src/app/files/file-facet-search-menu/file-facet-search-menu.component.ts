@@ -28,16 +28,15 @@ import { FileFacet } from "../shared/file-facet.model";
 export class FileFacetSearchMenuComponent implements OnInit {
 
     // Privates
-    private store: Store<BoardwalkStore>;
-    private fileFacet$: Observable<FileFacet>;
     private files$: Observable<any[]>;
-
-    // Output
-    @Output() closeMenu = new EventEmitter<void>();
+    private fileFacet$: Observable<FileFacet>;
+    private store: Store<BoardwalkStore>;
 
     // Inputs
     @Input() fileFacetName: string;
 
+    // Output
+    @Output() closeMenu = new EventEmitter<void>();
 
     /**
      * @param store {Store<BoardwalkStore>}
@@ -75,7 +74,8 @@ export class FileFacetSearchMenuComponent implements OnInit {
             });
         }
 
-        return this.store.dispatch({type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
+        // Dispatch clear event.
+        this.store.dispatch({type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
             type: searchRequest.type
         }});
     }

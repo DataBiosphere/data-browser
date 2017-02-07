@@ -9,26 +9,21 @@
     </md-card-header>
     <md-card-content>
         <div class="chart-dummy"></div>
-        
-        <p class="md-body-1 secondary" *ngIf="false">No files selected.</p>
-    
-        <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center">
-            <!--<div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)"></div>-->
-            <div class="chart-legend-bar" style="border-color:rgb(26, 83, 92)"></div>
-            <div class="term-summary">
-                <div class="term-name">
-                    <!--<span title="{{term.name}}">{{term.name}}</span>-->
-                    <span title="FI337691">FI337691</span>
-                </div>
-            </div>
-        </div>
-        
-        
+        <md-input-container>
+            <md-placeholder>e.g. FI123</md-placeholder>
+            <input md-input type="text" disabled>
+        </md-input-container>
+        <facet-term-list  *ngIf="!!fileFacet.terms.length"
+                          [fileFacet]="fileFacet"
+                          [useShortList]="true"
+                          [checkable]="false"
+                          (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <md-icon>expand_more</md-icon>
         </div>
     </md-card-content>
 </md-card>
-<md-menu #editMenu="mdMenu" [class]="'edit-menu'">
-  <bw-file-facet-search-menu [fileFacetName]="fileFacet.name" (closeMenu)="onCloseMenu()"></bw-file-facet-search-menu>
+<md-menu #editMenu="mdMenu" [class]="'edit-menu edit-menu-tall'">
+    <bw-file-facet-search-menu [fileFacetName]="fileFacet.name"
+                               (closeMenu)="onCloseMenu()"></bw-file-facet-search-menu>
 </md-menu>
