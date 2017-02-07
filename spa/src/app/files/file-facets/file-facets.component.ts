@@ -30,6 +30,6 @@ export class FileFacetsComponent {
      */
     public isInterfaceTypeSearch(fileFacet: FileFacet): boolean {
 
-        return fileFacet.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+        return fileFacet.isInterfaceTypeSearch();
     }
 }

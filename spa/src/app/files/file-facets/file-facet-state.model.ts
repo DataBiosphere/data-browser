@@ -54,9 +54,9 @@ export class FileFacetsState {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, loading, this.selectedFacet);
     }
 
-    public selectFacet(selectedFacet: FileFacet): FileFacetsState {
-        return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, selectedFacet);
-    }
+    // public selectFacet(selectedFacet: FileFacet): FileFacetsState {
+    //     return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, selectedFacet);
+    // }
 
     public clearSelectedFacet() {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, undefined);

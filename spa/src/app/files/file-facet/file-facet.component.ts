@@ -79,7 +79,7 @@ export class FileFacetComponent implements OnInit {
      */
     public isInterfaceTypeSearch(fileFacet: FileFacet): boolean {
 
-        return fileFacet.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+        return fileFacet.isInterfaceTypeSearch();
     }
 
     /**

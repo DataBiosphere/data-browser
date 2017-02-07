@@ -1,5 +1,6 @@
 // App dependencies
 import { Term } from "./term.model";
+import { selectSearchTerm } from "../../keywords/reducer/keywords.reducer";
 
 /**
  * Core file facet model, including name, total, terms and interface type.
@@ -23,7 +24,8 @@ export class FileFacet {
     public readonly shortList: Term[]; // holds the first 3 terms or the first 3 selected terms
     public readonly shortListLength: number = 4;
 
-    public readonly interfaceType: string; // Type of widget to display for facet (eg search autocomplete, checkbox list)
+    public readonly interfaceType: string; // Type of widget to display for facet (eg search autocomplete, checkbox
+                                           // list)
 
     /**
      * @param name {string}
@@ -56,12 +58,13 @@ export class FileFacet {
 
 
         // Set the short list
-        if( !this.selected ) {
+        if (!this.selected) {
             // if we are not selected use the full list.
-            this.shortList = this.terms.slice(0, Math.min( this.shortListLength, this.terms.length));
-        }else {
+            this.shortList = this.terms.slice(0, Math.min(this.shortListLength, this.terms.length));
+        }
+        else {
             // if we are selected use the selected list.
-            this.shortList = this.selectedTerms.slice(0, Math.min( this.shortListLength, this.selectedTerms.length));
+            this.shortList = this.selectedTerms.slice(0, Math.min(this.shortListLength, this.selectedTerms.length));
         }
 
         // Short list length is 1 to 3 depending on number of items selected.
@@ -70,19 +73,59 @@ export class FileFacet {
 
     }
 
+    public isInterfaceTypeSearch(): boolean {
+
+        return this.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+    }
+
     public selectTerm(termName: string): FileFacet {
+
+        if (this.isInterfaceTypeSearch()) {
+            return this.selectSearchTerm(termName);
+        }
 
         const newTerms = this.terms.map(term => {
 
-            if ( term.name === termName ) {
+            if (term.name === termName) {
                 // Flip term selected instead of setting it.
                 return new Term(termName, term.count, !term.selected, term.color);
-            }else {
+            }
+            else {
                 return term;
             }
 
         });
 
-       return new FileFacet(this.name, this.total, newTerms);
+        return new FileFacet(this.name, this.total, newTerms);
     }
+
+    private selectSearchTerm(termName: string): FileFacet {
+
+        let newTerms: Term[];
+
+        let contains = this.terms.some((t) => {
+            return termName === t.name;
+        });
+
+        if (contains) {
+            // remove
+            newTerms = this.terms.filter((t) => {
+                return termName !== t.name;
+            });
+
+        }
+        else {
+            // add
+            newTerms = this.terms.slice();
+            newTerms.push(new Term(termName, newTerms.length + 1, true, "CCCCCC"));
+        }
+
+
+        // remove it if we already have it.
+
+        // add it if we dont have it
+
+        return new FileFacet(this.name, this.total, newTerms, "SEARCH");
+    }
+
 }
