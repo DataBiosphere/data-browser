@@ -14,8 +14,10 @@ import { ConfigService } from "../../shared/config.service";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 
 interface FilesAPIResponse {
-    termFacets: Dictionary<{ terms: Array<{term: string; count: number}>;
-        total: number}>;
+    termFacets: Dictionary<{
+        terms: Array<{ term: string; count: number }>;
+        total: number
+    }>;
 }
 
 
@@ -188,8 +190,13 @@ export class FilesDAO extends CCBaseDAO {
             return new FileFacet(facetName, responseFileFacet.total, responseTerms);
         });
 
+        let searchTerms = [];
+        if (selectedFacetsByName.get("fileId")) {
+            searchTerms = selectedFacetsByName.get("fileId").terms;
+        }
+
         //// TO DELETE - TEMP ONLY (START)
-        let fileIdFileFacet = new FileFacet("fileId", 9999999, [], "SEARCH");
+        let fileIdFileFacet = new FileFacet("fileId", 9999999, searchTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
         //// TO DELETE - TEMP ONLY (END)
 

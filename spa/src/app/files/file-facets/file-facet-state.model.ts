@@ -11,7 +11,6 @@ export class FileFacetsState {
     private readonly fileFacetNames: string[];
     private readonly fileFacetsByName: Map<string, FileFacet>;
 
-
     constructor(fileFacetNames: string[],
                 nameToFileFacetMap: Map<string, FileFacet>,
                 loading: boolean,
@@ -53,10 +52,6 @@ export class FileFacetsState {
     public setLoading(loading: boolean): FileFacetsState {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, loading, this.selectedFacet);
     }
-
-    // public selectFacet(selectedFacet: FileFacet): FileFacetsState {
-    //     return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, selectedFacet);
-    // }
 
     public clearSelectedFacet() {
         return new FileFacetsState(this.fileFacetNames, this.fileFacetsByName, this.loading, undefined);
@@ -116,6 +111,7 @@ export class FileFacetsState {
      * @returns {Map<string, FileFacet>}
      */
     private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
+
 
         const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
 
