@@ -4,7 +4,6 @@ import {
     EventEmitter,
     Input,
     ChangeDetectionStrategy,
-    OnDestroy,
     OnInit,
     Output
 } from "@angular/core";
@@ -24,7 +23,7 @@ import { FileFacet } from "../shared/file-facet.model";
     styleUrls: ["./file-facet-menu.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileFacetMenuComponent implements OnDestroy, OnInit {
+export class FileFacetMenuComponent implements OnInit {
 
     // Privates
     private store: Store<BoardwalkStore>;
@@ -35,8 +34,6 @@ export class FileFacetMenuComponent implements OnDestroy, OnInit {
     // Inputs
     @Input() fileFacetName: string;
     private fileFacet$: Observable<FileFacet>;
-    private fileFacet: FileFacet;
-    private subscription;
 
     /**
      * @param store {Store<BoardwalkStore>}
@@ -77,20 +74,6 @@ export class FileFacetMenuComponent implements OnDestroy, OnInit {
      */
     ngOnInit() {
 
-        // TODO revisit selector/reducer/function thingo here.
         this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
-        this.subscription = this.fileFacet$.subscribe((fileFacet) => {
-            this.fileFacet = fileFacet;
-        });
-    }
-
-    /**
-     * Tear down.
-     */
-    ngOnDestroy() {
-
-        if ( this.subscription ) {
-            this.subscription.unsubscribe();
-        }
     }
 }

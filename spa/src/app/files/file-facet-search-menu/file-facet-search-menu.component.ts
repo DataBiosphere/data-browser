@@ -102,7 +102,6 @@ export class FileFacetSearchMenuComponent implements OnInit {
         // TODO revisit selector/reducer/function thingo here.
         this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
 
-        // TODO revisit selector/reducer/function thingo here.
         this.files$ = selectKeywordFiles(this.store);
     }
 }

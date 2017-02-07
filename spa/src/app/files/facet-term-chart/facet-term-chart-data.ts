@@ -40,13 +40,13 @@ export class FacetTermChartData {
         // Create data in format { facetName: facetName, termName0: termCount0, termName1: termCount1 }, require
         // access for facet name during rendering of chart (to group stacks)
         this.data = _.reduce(terms, (result, term: Term) => {
-            result[term.name] = term.count;
+            result[term.name] = term.count < 0 ? 0 : term.count;
             return result;
         }, {
             facetName: facetName
         });
 
         // Grab total
-        this.totalCount = totalCount;
+        this.totalCount = totalCount < 0 ? 0 : totalCount;
     }
 }

@@ -97,6 +97,8 @@ export function selectFileFacetByName(appState$: Observable<FilesState>, fileFac
         .map((fileFacetState: FileFacetsState) => {
 
             return _.find(fileFacetState.fileFacets, (fileFacet: FileFacet) => {
+                if ( fileFacet.name === "fileId")
+                    console.log(fileFacet);
                 return fileFacet.name === fileFacetName;
             });
         });
