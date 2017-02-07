@@ -21,7 +21,6 @@ import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { FacetTermChartComponent } from "./facet-term-chart/facet-term-chart.component";
 import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 import { FilesComponent } from "./files.component";
-import { CGLMenuTrigger } from "./file-facet/cgl-menu-trigger.directive";
 import { FileFacetsComponent } from "./file-facets/file-facets.component";
 import { FileFacetComponent } from './file-facet/file-facet.component';
 import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.component';
@@ -77,8 +76,7 @@ import { ConfigService } from "../shared/config.service";
         FileFacetComponent,
         FileFacetMenuComponent,
         FileFacetSearchComponent,
-        FileFacetSearchMenuComponent,
-        CGLMenuTrigger
+        FileFacetSearchMenuComponent
     ],
     providers: [
         ConfigService,

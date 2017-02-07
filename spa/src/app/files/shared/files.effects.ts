@@ -236,8 +236,6 @@ export class FilesEffects {
             .fetchFileFacets(selectedFacets)
             .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
 
-                console.log(sortOrder);
-
                 if (!sortOrder || !sortOrder.length) {
                     return fileFacets;
                 }

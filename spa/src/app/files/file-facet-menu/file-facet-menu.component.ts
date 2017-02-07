@@ -1,19 +1,22 @@
+// Core dependencies
 import {
     Component,
     EventEmitter,
     Input,
     ChangeDetectionStrategy,
+    OnDestroy,
     OnInit,
     Output
 } from "@angular/core";
-
-import { Observable } from "rxjs/Observable";
-import { FileFacet } from "../shared/file-facet.model";
-import { BoardwalkStore } from "../../shared/boardwalk.model";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { Store } from "@ngrx/store";
-import { selectFileFacetByName } from "../files.reducer";
+import { Observable } from "rxjs/Observable";
+
+// App dependencies
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { selectFileFacetByName } from "../files.reducer";
+import { BoardwalkStore } from "../../shared/boardwalk.model";
+import { FileFacet } from "../shared/file-facet.model";
 
 @Component({
     selector: "bw-file-facet-menu",
@@ -21,7 +24,7 @@ import { SelectFileFacetAction } from "../actions/select-file-facet.action";
     styleUrls: ["./file-facet-menu.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileFacetMenuComponent implements OnInit {
+export class FileFacetMenuComponent implements OnDestroy, OnInit {
 
     // Privates
     private store: Store<BoardwalkStore>;
@@ -77,7 +80,17 @@ export class FileFacetMenuComponent implements OnInit {
         // TODO revisit selector/reducer/function thingo here.
         this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
         this.subscription = this.fileFacet$.subscribe((fileFacet) => {
-            this.fileFacet = fileFacet
+            this.fileFacet = fileFacet;
         });
+    }
+
+    /**
+     * Tear down.
+     */
+    ngOnDestroy() {
+
+        if ( this.subscription ) {
+            this.subscription.unsubscribe();
+        }
     }
 }

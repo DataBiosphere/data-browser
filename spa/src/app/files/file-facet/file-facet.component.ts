@@ -3,10 +3,7 @@ import {
     Component,
     Input,
     ChangeDetectionStrategy,
-    SimpleChange,
     OnInit,
-    OnChanges,
-    OnDestroy,
     ViewChild
 } from "@angular/core";
 import { MdMenuTrigger } from "@angular/material";
@@ -19,7 +16,6 @@ import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { Term } from "../shared/term.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { ClearSelectedFacetAction } from "../actions/file-actions";
-import { CGLMenuTrigger } from "./cgl-menu-trigger.directive";
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 
 

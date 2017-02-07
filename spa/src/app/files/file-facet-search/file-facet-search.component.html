@@ -1,4 +1,4 @@
-<md-card class="layout-margin" [cglMenuTriggerFor]="editMenu">
+<md-card class="layout-margin" [mdMenuTriggerFor]="editMenu">
     <md-card-header>
         <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
         <md-card-subtitle>
@@ -28,14 +28,6 @@
             <md-icon>expand_more</md-icon>
         </div>
     </md-card-content>
-    <hr>
-    <md-card-actions>
-        <button class="cgl-button"
-                md-button
-                [disableRipple]="true">
-            EDIT
-        </button>
-    </md-card-actions>
 </md-card>
 <md-menu #editMenu="mdMenu" [class]="'edit-menu'">
   <bw-file-facet-search-menu [fileFacetName]="fileFacet.name" (closeMenu)="onCloseMenu()"></bw-file-facet-search-menu>

@@ -1,5 +1,10 @@
 // Core dependencies
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from "@angular/core";
+
+// App dependencies
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { CcTypeaheadComponent } from "../../cc-typeahead/cc-typeahead.component";
+import { CCTypeaheadSearchEvent } from "../../cc-typeahead/cc-typeahead-search.event";
 
 /**
  * Component for displaying file ID autosuggest, and handling the corresponding behavior.
@@ -20,7 +25,10 @@ export class FileSearchComponent {
 
     // Outputs
     @Output() search = new EventEmitter<{searchTerm: string; type: string}>();
-    @Output() termSelected = new EventEmitter<{facet: string; term: string}>();
+    @Output() termSelected = new EventEmitter<FileFacetSelectedEvent>();
+
+    // Child/ren components
+    @ViewChild(CcTypeaheadComponent) ccTypeahead: CcTypeaheadComponent;
 
     /**
      * Public API
@@ -39,12 +47,12 @@ export class FileSearchComponent {
     /**
      * Emit search event to parent component.
      *
-     * @param searchTerm {string}
+     * @param event {CCTypeaheadSearchEvent}
      */
-    onSearchFiles(searchTerm: string) {
+    onSearchFiles(event: CCTypeaheadSearchEvent) {
 
         this.search.emit({
-            searchTerm: searchTerm,
+            searchTerm: event.searchTerm,
             type: "file"
         });
     }
@@ -57,12 +65,13 @@ export class FileSearchComponent {
     //     });
     // }
 
-    selectFilter(term: any) {
+    /**
+     * File has been selected from options, clear the current value of the typeahead and emit selected event.
+     *
+     * @param term {any}
+     */
+    onSelectFile(term: any) {
 
-        const filter = {
-            facet: "id",
-            term: term.id
-        };
         // if (type === "file") {
         //     filter.facet = "id";
         // }
@@ -70,7 +79,7 @@ export class FileSearchComponent {
         //     filter.facet = "donorId";
         // }
 
-        // FileFacetSelectedEvent
-        this.termSelected.emit(filter);
+        this.termSelected.emit(new FileFacetSelectedEvent("fileId", term.id));
+        this.ccTypeahead.clear();
     }
 }

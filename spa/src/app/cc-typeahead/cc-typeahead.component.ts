@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/distinctUntilChanged";
+import { CCTypeaheadSearchEvent } from "./cc-typeahead-search.event";
 
 
 @Component({
@@ -14,13 +15,25 @@ import "rxjs/add/operator/distinctUntilChanged";
 export class CcTypeaheadComponent implements OnInit {
 
     // Locals
-    searchTerm = new FormControl();
+    private searchTerm = new FormControl();
 
     // Inputs
     @Input() placeholder: string;
 
     // Outputs
-    @Output() search = new EventEmitter<String>();
+    @Output() search = new EventEmitter<CCTypeaheadSearchEvent>();
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Clear the current value of the typeahead
+     */
+    public clear(): void {
+
+        this.searchTerm.setValue("");
+    }
 
     /**
      * Privates
@@ -29,7 +42,7 @@ export class CcTypeaheadComponent implements OnInit {
     /**
      * Set up initial state
      */
-    initState(): void {
+    private initState(): void {
 
         // Set default placeholder value if not specified
         this.placeholder = this.placeholder || "Search";
@@ -37,11 +50,10 @@ export class CcTypeaheadComponent implements OnInit {
         // Hook up subscription to input changes
         this.searchTerm.valueChanges
             .debounceTime(333)
-            // .filter((term) => {
-            //     return term.length > 2;
-            // })
             .distinctUntilChanged()
-            .subscribe(term => this.triggerSearchChanged(term));
+            .subscribe(term => {
+                this.triggerSearchChanged(term)
+            });
     }
 
     /**
@@ -51,7 +63,7 @@ export class CcTypeaheadComponent implements OnInit {
      */
     private triggerSearchChanged(searchTerm: string) {
 
-        this.search.emit(searchTerm);
+        this.search.emit(new CCTypeaheadSearchEvent(searchTerm));
     }
 
     /**

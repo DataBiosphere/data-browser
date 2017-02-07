@@ -1,8 +1,7 @@
 <cc-typeahead [placeholder]="'e.g. FI123'" (search)="onSearchFiles($event)"></cc-typeahead>
 <ul *ngIf="isEmptyResultSet()">
-    <li *ngFor="let file of files" (click)="selectFilter(file)">{{file.id}}</li>
+    <li *ngFor="let file of files" (click)="onSelectFile(file)">{{file.id}}</li>
 </ul>
-<!--<div>-->
 <!--<span>Search Donors</span>-->
 <!--<cc-typeahead (search)="onSearchDonors($event)"></cc-typeahead>-->
 <!--</div>-->

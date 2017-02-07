@@ -12,6 +12,9 @@
                         (search)="onSearch($event)"
                         (termSelected)="onTermSelected($event)">
         </bw-file-search>
+        <facet-term-list [fileFacet]="fileFacet$ | async"
+                         [useShortList]="false"
+                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
     </div>
     <div class="edit-menu-card-actions">
         <button class="cgl-button"
