@@ -117,13 +117,9 @@ export class FileFacet {
         else {
             // add
             newTerms = this.terms.slice();
-            newTerms.push(new Term(termName, newTerms.length + 1, true, "CCCCCC"));
+            newTerms.push(new Term(termName, 1, true, "000000"));
         }
 
-
-        // remove it if we already have it.
-
-        // add it if we dont have it
 
         return new FileFacet(this.name, this.total, newTerms, "SEARCH");
     }

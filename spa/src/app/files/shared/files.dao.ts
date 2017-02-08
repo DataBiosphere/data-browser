@@ -179,7 +179,7 @@ export class FilesDAO extends CCBaseDAO {
                         selected = oldTerm.selected;
                     }
 
-                    return new Term(responseTerm.term, responseTerm.count, selected, "#444444"); // DONE!
+                    return new Term(responseTerm.term, responseTerm.count, selected, "000000");
                 });
             }
 
