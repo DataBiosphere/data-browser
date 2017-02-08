@@ -81,13 +81,23 @@ export class FileFacetSearchMenuComponent implements OnInit {
     }
 
     /**
-     * Handle select of file suggestion - update state.
+     * Handle select of file suggestion in typeahead dropdown - update state.
      *
      * @param event {FileFacetSelectedEvent}
      */
-    public onTermSelected(event: FileFacetSelectedEvent) {
+    public onSearchResultSelected(event: FileFacetSelectedEvent) {
 
         this.store.dispatch(new SelectFileFacetAction(event));
+    }
+
+    /**
+     * File has been selected from edit mode (ie file has been selected for removal) - update state.
+     *
+     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     */
+    public onFileSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+
+        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
     }
 
     /**

@@ -11,10 +11,15 @@
         </md-card-subtitle>
     </md-card-header>
     <md-card-content>
-        <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
-        <facet-term-list [fileFacet]="fileFacet"
-                         [useShortList]="true"
-                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+        <ng-container [ngSwitch]="!fileFacet.terms.length">
+            <div class="chart-dummy" *ngSwitchCase="true"></div>
+            <ng-container *ngSwitchDefault>
+                <facet-term-chart [chartData]="getFacetTermChartData(fileFacet)"></facet-term-chart>
+                <facet-term-list [fileFacet]="fileFacet"
+                                 [useShortList]="true"
+                                 (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+            </ng-container>
+        </ng-container>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
             <md-icon>expand_more</md-icon>

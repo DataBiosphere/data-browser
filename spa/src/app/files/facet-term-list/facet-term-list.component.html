@@ -1,7 +1,7 @@
 <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
      *ngFor="let term of getDisplayList()"
      (click)="onClickFacetTerm(fileFacet, term)">
-    <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)" *ngIf="checkable"></div>
+    <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)"></div>
     <div class="term-summary">
         <div class="term-name">
             <span title="{{term.name}}">{{term.name}}</span>

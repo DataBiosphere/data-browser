@@ -16,7 +16,6 @@
         <facet-term-list  *ngIf="!!fileFacet.terms.length"
                           [fileFacet]="fileFacet"
                           [useShortList]="true"
-                          [checkable]="false"
                           (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <md-icon>expand_more</md-icon>

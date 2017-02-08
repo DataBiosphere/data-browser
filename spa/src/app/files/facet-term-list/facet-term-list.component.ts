@@ -22,7 +22,6 @@ import { Term } from "../shared/term.model";
 export class FacetTermListComponent {
 
     // Inputs
-    @Input() checkable: boolean = true;
     @Input() fileFacet: FileFacet;
     @Input() useShortList: boolean;
 
@@ -43,15 +42,21 @@ export class FacetTermListComponent {
      */
     getLegendStyle(term: Term): any {
 
+        // Default to MD hint if term has no color.
+        let color = term.color;
+        if ( !color ) {
+            color = "#d6d6d8";
+        }
+
         // Both selected and unselected terms have a border
         let style = {
-            "border-color": term.color
+            "border-color": color
         };
 
         // If term is selected, set the background color as well
         if ( term.selected ) {
 
-            style["background-color"] = term.color;
+            style["background-color"] = color;
         }
 
         return style;

@@ -10,12 +10,11 @@
     <div class="edit-menu-card-content with-padding">
         <bw-file-search [files]="files$ | async"
                         (search)="onSearch($event)"
-                        (termSelected)="onTermSelected($event)">
+                        (termSelected)="onSearchResultSelected($event)">
         </bw-file-search>
-        <facet-term-list [checkable]="false"
-                         [fileFacet]="fileFacet$ | async"
+        <facet-term-list [fileFacet]="fileFacet$ | async"
                          [useShortList]="false"
-                         (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
+                         (facetTermSelected)="onFileSelected($event)"></facet-term-list>
     </div>
     <div class="edit-menu-card-actions">
         <button class="cgl-button"
