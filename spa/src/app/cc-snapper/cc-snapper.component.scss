@@ -1,0 +1,56 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * CC snapper component styles.
+ */
+
+@import "../shared/theme/cgl.vars";
+
+:host {
+
+    flex:1;
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-sm-min) {
+
+    :host {
+
+        overflow-y: auto; // Enable scroll if necessary
+
+        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
+        &.snap {
+            padding-top: 100px; // Matches height of results summary + padding (84px + 16px)
+
+            /** Handle snap of results summary element itself */
+            /deep/ bw-file-summary {
+                position: absolute;
+                left: 0;
+                padding: 0; // Remove default padding
+                right: 0;
+                top: 96px; // Must match padding top of files component (56px for toolbar, 56px for subheader)
+                z-index: 10;
+            }
+        }
+    }
+}
+
+/**
+ * Medium, medium +
+ */
+@media (min-width: $md-md-min) {
+
+    :host {
+
+        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
+        &.snap {
+            /** Handle snap of results summary element itself */
+            /deep/ bw-file-summary {
+                top: 128px; // Must match padding top of files component (64px for toolbar, 64px for subheader)
+            }
+        }
+    }
+}

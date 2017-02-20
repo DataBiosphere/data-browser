@@ -23,6 +23,7 @@ import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component"
 import { Dictionary } from "./shared/dictionary";
 
 // Child Modules
+import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
 import { FilesModule } from "./files/files.module";
 
 // Effects
@@ -59,9 +60,12 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         EffectsModule.run(FilesEffects),
 
         // CHILD MODULES SETUP
-        FilesModule
+        FilesModule,
+        CCSnapperModule
+
     ],
     declarations: [
+
         AppComponent,
 
         // Nav components

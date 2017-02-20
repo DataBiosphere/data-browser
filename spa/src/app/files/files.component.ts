@@ -1,10 +1,8 @@
 // Core dependencies
-import { AfterViewInit, Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/fromEvent";
-import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
 
 
@@ -24,9 +22,7 @@ import { ACTIONS } from "../shared/boardwalk.actions";
 import { BoardwalkStore } from "../shared/boardwalk.model";
 
 /**
- * Core files component, displays results summary as well as facets. Also handles "snap" of results summary by
- * listening to wheel event on the host element. Listener must be setup on this component due to it's overflow-y spec
- * (and it therefore can listen to the scroll event, and also determine the scroll Y).
+ * Core files component, displays results summary as well as facets.
  */
 
 @Component({
@@ -34,7 +30,7 @@ import { BoardwalkStore } from "../shared/boardwalk.model";
     templateUrl: "files.component.html",
     styleUrls: ["files.component.scss"]
 })
-export class FilesComponent implements AfterViewInit, OnInit {
+export class FilesComponent implements OnInit {
 
     // Locals
     private elementRef: ElementRef;
@@ -52,15 +48,12 @@ export class FilesComponent implements AfterViewInit, OnInit {
     public donors$: Observable<any[]>;
 
     /**
-     * @param elementRef {ElementRef}
      * @param route {ActivatedRoute}
      * @param store {Store<BoardwalkStore>}
      */
-    constructor(elementRef: ElementRef,
-                route: ActivatedRoute,
+    constructor(route: ActivatedRoute,
                 store: Store<BoardwalkStore>) {
 
-        this.elementRef = elementRef;
         this.route = route;
         this.store = store;
     }
@@ -104,37 +97,8 @@ export class FilesComponent implements AfterViewInit, OnInit {
     }
 
     /**
-     * Snap results summary element if beyond certain scroll point.
-     *
-     * @param wheelEvent
-     */
-    snapSummary(wheelEvent: WheelEvent) {
-
-    }
-
-    /**
      * Life cycle hooks
      */
-
-    /**
-     * Set up snap of results summary element
-     */
-    public ngAfterViewInit() {
-
-        let nativeElement = this.elementRef.nativeElement;
-        Observable.fromEvent(nativeElement, "wheel")
-            .subscribe(() => {
-
-                let snapped = nativeElement.classList.contains("snap");
-                if (nativeElement.scrollTop > 16 && !snapped) {
-                    nativeElement.classList.add("snap");
-                }
-
-                if (nativeElement.scrollTop < 16 && snapped) {
-                    nativeElement.classList.remove("snap");
-                }
-            });
-    }
 
     /**
      * Set up selectors and request initial data set.

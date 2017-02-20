@@ -55,7 +55,8 @@ import { FileFacetMenuComponent } from './file-facet-menu/file-facet-menu.compon
         CcPipeModule,
         CCStopPropagationModule,
         CcTypeaheadModule,
-        KeywordsModule,
+
+        KeywordsModule
 
         // EffectsModule.run(FilesEffects)
     ],
