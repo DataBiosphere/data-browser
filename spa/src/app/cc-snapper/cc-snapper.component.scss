@@ -7,9 +7,34 @@
 
 @import "../shared/theme/cgl.vars";
 
+/** Toolbar heights taken from MD toolbar component - required for calculating snap position of summary results */
+$md-toolbar-height-desktop: 64px !default;
+$md-toolbar-height-mobile-portrait: 56px !default;
+$md-toolbar-height-mobile-landscape: 48px !default;
+
+/**
+ * Mixins
+ */
+
+/** Position summary results according to device size (and therefore toolbar height) */
+@mixin snapper-top($height) {
+
+    :host {
+
+        &.snap {
+            /deep/ bw-file-summary {
+                top: ($height + $height); // Double height - one for main nav, one for sub nav
+            }
+        }
+    }
+}
+
 :host {
 
+    /** Add flex to snapper to push footer to bottom of snapper container */
+    display: flex;
     flex:1;
+    flex-direction: column;
 }
 
 /**
@@ -31,26 +56,21 @@
                 left: 0;
                 padding: 0; // Remove default padding
                 right: 0;
-                top: 96px; // Must match padding top of files component (56px for toolbar, 56px for subheader)
                 z-index: 10;
             }
         }
     }
 }
 
-/**
- * Medium, medium +
- */
-@media (min-width: $md-md-min) {
+// Set the default position for the open menu
+@include snapper-top($md-toolbar-height-desktop);
 
-    :host {
+// Specific position for mobile devices in portrait mode.
+@media (max-width: $md-sm-min) and (orientation: portrait) {
+    @include snapper-top($md-toolbar-height-mobile-portrait);
+}
 
-        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
-        &.snap {
-            /** Handle snap of results summary element itself */
-            /deep/ bw-file-summary {
-                top: 128px; // Must match padding top of files component (64px for toolbar, 64px for subheader)
-            }
-        }
-    }
+// Specific position for mobile devices in landscape mode.
+@media (max-width: $md-md-min) and (orientation: landscape) {
+    @include snapper-top($md-toolbar-height-mobile-landscape);
 }
