@@ -40,6 +40,10 @@ export class FileFacet {
         this.terms = terms;
         this.interfaceType = interfaceType;
 
+        if (this.interfaceType === "SEARCH") {
+            this.shortListLength = 3;
+        }
+
         this.selectedTerms = this.terms.filter((term) => {
             return term.selected;
         });

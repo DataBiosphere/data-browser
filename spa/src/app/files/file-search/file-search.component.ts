@@ -9,7 +9,8 @@ import { CCTypeaheadSearchEvent } from "../../cc-typeahead/cc-typeahead-search.e
 /**
  * Component for displaying file ID autosuggest, and handling the corresponding behavior.
  *
- * TODO split file and donor searches into separate components, remove donor specific code from here as well as selectFilter function. Also remove donors$-related functionality from files.component.
+ * TODO split file and donor searches into separate components, remove donor specific code from here as well as
+ * selectFilter function. Also remove donors$-related functionality from files.component.
  */
 @Component({
     selector: "bw-file-search",
@@ -19,14 +20,16 @@ import { CCTypeaheadSearchEvent } from "../../cc-typeahead/cc-typeahead-search.e
 })
 export class FileSearchComponent {
 
+    // set type
+
     // Inputs
     @Input() files: any[] = [];
 
     // Outputs
-    @Output() search = new EventEmitter<{searchTerm: string; type: string}>();
+    @Output() search = new EventEmitter<{ searchTerm: string; type: string }>();
     @Output() termSelected = new EventEmitter<FileFacetSelectedEvent>();
 
-    // Child/ren components
+    // Child/ren components focus this dude on open and clear him on close.
     @ViewChild(CcTypeaheadComponent) ccTypeahead: CcTypeaheadComponent;
 
     /**
@@ -52,7 +55,8 @@ export class FileSearchComponent {
 
         this.search.emit({
             searchTerm: event.searchTerm,
-            type: "file"
+           // type: "file"
+              type: "file"
         });
     }
 
@@ -80,5 +84,13 @@ export class FileSearchComponent {
 
         this.termSelected.emit(new FileFacetSelectedEvent("fileId", term.id));
         this.ccTypeahead.clear();
+    }
+
+    clear() {
+        this.ccTypeahead.clear();
+    }
+
+    focus() {
+        this.ccTypeahead.focus();
     }
 }

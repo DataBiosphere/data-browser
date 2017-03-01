@@ -5,7 +5,8 @@ import {
     Input,
     ChangeDetectionStrategy,
     OnInit,
-    Output
+    Output,
+    ViewChild
 } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -18,6 +19,7 @@ import { selectKeywordFiles } from "../../keywords/reducer/index";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
+import { FileSearchComponent } from "../file-search/file-search.component";
 
 @Component({
     selector: "bw-file-facet-search-menu",
@@ -38,6 +40,8 @@ export class FileFacetSearchMenuComponent implements OnInit {
     // Output
     @Output() closeMenu = new EventEmitter<void>();
 
+    @ViewChild(FileSearchComponent) fileSearchComponent: FileSearchComponent;
+
     /**
      * @param store {Store<BoardwalkStore>}
      */
@@ -57,6 +61,7 @@ export class FileFacetSearchMenuComponent implements OnInit {
     public onClickCloseMenu(): void {
 
         this.closeMenu.emit();
+        this.fileSearchComponent.clear();
     }
 
     /**
@@ -64,9 +69,9 @@ export class FileFacetSearchMenuComponent implements OnInit {
      *
      * @param searchRequest {searchTerm: string, type: string}
      */
-    public onSearch(searchRequest: {searchTerm: string, type: string}) {
+    public onSearch(searchRequest: { searchTerm: string, type: string }) {
 
-        if ( searchRequest.searchTerm.length > 2 ) {
+        if (searchRequest.searchTerm.length > 2) {
 
             return this.store.dispatch({
                 type: ACTIONS.REQUEST_KEYWORDS_QUERY,
@@ -75,9 +80,11 @@ export class FileFacetSearchMenuComponent implements OnInit {
         }
 
         // Dispatch clear event.
-        this.store.dispatch({type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
-            type: searchRequest.type
-        }});
+        this.store.dispatch({
+            type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
+                type: searchRequest.type
+            }
+        });
     }
 
     /**
@@ -113,5 +120,11 @@ export class FileFacetSearchMenuComponent implements OnInit {
         this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
 
         this.files$ = selectKeywordFiles(this.store);
+
+    }
+
+
+    focus() {
+        this.fileSearchComponent.focus();
     }
 }

@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { CCBaseDAO } from "../../cc-http/shared/cc-base.dao";
 import { Http } from "@angular/http";
+import { ConfigService } from "../../shared/config.service";
 
 @Injectable()
 export class KeywordsDAO extends CCBaseDAO {
 
-    private DOMAIN = "https://dcc.icgc.org/api/v1";
 
-    constructor(http: Http) {
+    constructor(http: Http, private configService: ConfigService) {
         super(http);
     }
 
@@ -23,6 +23,7 @@ export class KeywordsDAO extends CCBaseDAO {
      * @returns {string}
      */
     private buildApiUrl(url: string) {
-        return `${this.DOMAIN}${url}`;
+        const domain = this.configService.getRootUrl();
+        return `${domain}${url}`;
     }
 }

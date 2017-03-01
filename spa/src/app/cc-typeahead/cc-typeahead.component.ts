@@ -35,7 +35,7 @@ export class CcTypeaheadComponent implements OnInit {
     // Outputs
     @Output() search = new EventEmitter<CCTypeaheadSearchEvent>();
 
-    // View child/ren
+    // View child/ren // TODO Dave
     @ViewChild(MdInputDirective) mdSearchInput: MdInputDirective;
 
     /**
@@ -45,7 +45,7 @@ export class CcTypeaheadComponent implements OnInit {
     /**
      * Clear the current value of the typeahead and immediately trigger search update.
      */
-    public clear(): void {
+    public clear(): void { // clear on close TODO Dave
 
         this.searchTerm.setValue("", {
             emitEvent: false // Don't trigger valueChanges, debounce time is too long to trigger search
@@ -56,7 +56,7 @@ export class CcTypeaheadComponent implements OnInit {
     /**
      * Set focus on the search input.
      */
-    public focus(): void {
+    public focus(): void { // focus on open TODO Dave
 
         this.mdSearchInput.focus();
     }

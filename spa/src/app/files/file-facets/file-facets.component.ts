@@ -32,4 +32,7 @@ export class FileFacetsComponent {
 
         return fileFacet.isInterfaceTypeSearch();
     }
+
+
+
 }

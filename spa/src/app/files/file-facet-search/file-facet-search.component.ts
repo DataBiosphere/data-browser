@@ -15,6 +15,7 @@ import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
+import { FileFacetSearchMenuComponent } from "../file-facet-search-menu/file-facet-search-menu.component";
 
 
 /**
@@ -37,6 +38,7 @@ export class FileFacetSearchComponent implements OnInit {
 
     // View child/ren
     @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
+    @ViewChild(FileFacetSearchMenuComponent) fileSearchMenuComponent: FileFacetSearchMenuComponent;
 
     /**
      * @param store {Store<BoardwalkStore>}
@@ -57,6 +59,7 @@ export class FileFacetSearchComponent implements OnInit {
 
         this.trigger.closeMenu();
     }
+
 
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
@@ -81,5 +84,10 @@ export class FileFacetSearchComponent implements OnInit {
         this.trigger.onMenuClose.subscribe(() => {
             this.store.dispatch(new ClearSelectedFacetAction());
         });
+
+        this.trigger.onMenuOpen.subscribe(() => {
+            this.fileSearchMenuComponent.focus();
+        });
     }
+
 }
