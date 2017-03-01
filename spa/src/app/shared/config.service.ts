@@ -44,6 +44,10 @@ export class ConfigService {
                 category: "file"
             },
             {
+                name: "donorId",
+                category: "file"
+            },
+            {
                 name: "centerName",
                 category: "file"
             },

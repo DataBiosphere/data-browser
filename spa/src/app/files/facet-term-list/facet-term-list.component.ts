@@ -25,8 +25,6 @@ export class FacetTermListComponent {
     @Input() fileFacet: FileFacet;
     @Input() useShortList: boolean;
 
-    public displayList :Term[];
-
     // Outputs
     @Output() facetTermSelected = new EventEmitter<FileFacetSelectedEvent>();
 

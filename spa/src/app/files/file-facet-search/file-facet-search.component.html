@@ -10,7 +10,7 @@
     <md-card-content>
         <div class="chart-dummy"></div>
         <md-input-container>
-            <md-placeholder>e.g. FI123</md-placeholder>
+            <md-placeholder>{{fileSearchConfig.placeholder}}</md-placeholder>
             <input md-input type="text" disabled>
         </md-input-container>
         <facet-term-list  *ngIf="!!fileFacet.terms.length"
@@ -24,6 +24,6 @@
     </md-card-content>
 </md-card>
 <md-menu #editMenu="mdMenu" [class]="'edit-menu edit-menu-tall'">
-    <bw-file-facet-search-menu [fileFacetName]="fileFacet.name"
+    <bw-file-facet-search-menu [fileSearchConfig]="fileSearchConfig"
                                (closeMenu)="onCloseMenu()"></bw-file-facet-search-menu>
 </md-menu>

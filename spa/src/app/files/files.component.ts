@@ -17,7 +17,6 @@ import {
     selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
     selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
 } from "./files.reducer";
-import { selectKeywordDonors } from "../keywords/reducer/index";
 import { ACTIONS } from "../shared/boardwalk.actions";
 import { BoardwalkStore } from "../shared/boardwalk.model";
 
@@ -33,7 +32,6 @@ import { BoardwalkStore } from "../shared/boardwalk.model";
 export class FilesComponent implements OnInit {
 
     // Locals
-    private elementRef: ElementRef;
     private route: ActivatedRoute;
     private store: Store<BoardwalkStore>;
 
@@ -44,7 +42,6 @@ export class FilesComponent implements OnInit {
     public fileFacets$: Observable<FileFacet[]>;
     public manifestSummaryLoading$: Observable<boolean>;
     public manifestSummary$: Observable<FileManifestSummary[]>;
-    public donors$: Observable<any[]>;
 
     /**
      * @param route {ActivatedRoute}
@@ -60,24 +57,6 @@ export class FilesComponent implements OnInit {
     /**
      * Public API
      */
-
-    /**
-     *
-     * @param searchRequest
-     */
-    public onSearch(searchRequest: {searchTerm: string, type: string}) {
-        if (searchRequest.searchTerm.length > 2) {
-            return this.store.dispatch({
-                type: ACTIONS.REQUEST_KEYWORDS_QUERY,
-                payload: searchRequest
-            });
-        }
-        return this.store.dispatch({
-            type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
-                type: searchRequest.type
-            }
-        });
-    }
 
     /**
      * Request manifest summary
@@ -114,9 +93,6 @@ export class FilesComponent implements OnInit {
 
         this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
         this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
-
-        // this.hits$ = selectKeywordsHits(this.store);
-        this.donors$ = selectKeywordDonors(this.store);
 
         // initialize the filter state from the params in the route.
         this.initQueryParams();

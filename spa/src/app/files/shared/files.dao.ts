@@ -195,10 +195,15 @@ export class FilesDAO extends CCBaseDAO {
             searchTerms = selectedFacetsByName.get("fileId").terms;
         }
 
-        //// TO DELETE - TEMP ONLY (START)
-        let fileIdFileFacet = new FileFacet("fileId", 9999999, searchTerms, "SEARCH");
+        // Add donor ID search facet
+        let donorIdFileFacet = new FileFacet("donorId", 9999999, searchTerms, "SEARCH");
+        newFileFacets.unshift(donorIdFileFacet);
+
+        // Add file ID search facet
+        let fileIdFileFacet = new FileFacet("fileId", 88888888, searchTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
-        //// TO DELETE - TEMP ONLY (END)
+
+
 
         return newFileFacets;
 

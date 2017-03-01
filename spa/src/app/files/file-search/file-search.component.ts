@@ -3,14 +3,12 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewCh
 
 // App dependencies
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { FileSearchConfig } from "./file-search-config.model";
 import { CcTypeaheadComponent } from "../../cc-typeahead/cc-typeahead.component";
 import { CCTypeaheadSearchEvent } from "../../cc-typeahead/cc-typeahead-search.event";
 
 /**
- * Component for displaying file ID autosuggest, and handling the corresponding behavior.
- *
- * TODO split file and donor searches into separate components, remove donor specific code from here as well as
- * selectFilter function. Also remove donors$-related functionality from files.component.
+ * Component for displaying search, and handling the corresponding behavior.
  */
 @Component({
     selector: "bw-file-search",
@@ -20,21 +18,36 @@ import { CCTypeaheadSearchEvent } from "../../cc-typeahead/cc-typeahead-search.e
 })
 export class FileSearchComponent {
 
-    // set type
-
     // Inputs
     @Input() files: any[] = [];
+    @Input() fileSearchConfig: FileSearchConfig;
 
     // Outputs
     @Output() search = new EventEmitter<{ searchTerm: string; type: string }>();
     @Output() termSelected = new EventEmitter<FileFacetSelectedEvent>();
 
-    // Child/ren components focus this dude on open and clear him on close.
+    // Child/ren components - focus this dude on open and clear him on close.
     @ViewChild(CcTypeaheadComponent) ccTypeahead: CcTypeaheadComponent;
 
     /**
      * Public API
      */
+
+    /**
+     * Remove any user input from search box.
+     */
+    public clear(): void {
+
+        this.ccTypeahead.clear();
+    }
+
+    /**
+     * Set focus on search box.
+     */
+    public focus(): void {
+
+        this.ccTypeahead.focus();
+    }
 
     /**
      * Returns true if there are no files found matching the specified search criteria.
@@ -55,18 +68,9 @@ export class FileSearchComponent {
 
         this.search.emit({
             searchTerm: event.searchTerm,
-           // type: "file"
-              type: "file"
+              type: this.fileSearchConfig.searchType
         });
     }
-
-    // onSearchDonors(searchTerm: string) {
-    //
-    //     this.search.emit({
-    //         searchTerm: searchTerm,
-    //         type: "file-donor"
-    //     });
-    // }
 
     /**
      * File has been selected from options, clear the current value of the typeahead and emit selected event.
@@ -75,22 +79,7 @@ export class FileSearchComponent {
      */
     onSelectFile(term: any) {
 
-        // if (type === "file") {
-        //     filter.facet = "id";
-        // }
-        // else if (type === "donor") {
-        //     filter.facet = "donorId";
-        // }
-
-        this.termSelected.emit(new FileFacetSelectedEvent("fileId", term.id));
+        this.termSelected.emit(new FileFacetSelectedEvent(this.fileSearchConfig.fileFacetName, term.id));
         this.ccTypeahead.clear();
-    }
-
-    clear() {
-        this.ccTypeahead.clear();
-    }
-
-    focus() {
-        this.ccTypeahead.focus();
     }
 }

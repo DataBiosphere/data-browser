@@ -12,11 +12,11 @@ import { Store } from "@ngrx/store";
 // App dependencies
 import { ClearSelectedFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { FileFacetSearchMenuComponent } from "../file-facet-search-menu/file-facet-search-menu.component";
+import { FileSearchConfig } from "../file-search/file-search-config.model";
 import { FileFacet } from "../shared/file-facet.model";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
-import { FileFacetSearchMenuComponent } from "../file-facet-search-menu/file-facet-search-menu.component";
-
 
 /**
  * Component responsible for displaying an individual facet with a search interface, as well as functionality around
@@ -31,6 +31,7 @@ import { FileFacetSearchMenuComponent } from "../file-facet-search-menu/file-fac
 export class FileFacetSearchComponent implements OnInit {
 
     // Privates
+    private fileSearchConfig: FileSearchConfig;
     private store: Store<BoardwalkStore>;
 
     // Inputs
@@ -85,9 +86,13 @@ export class FileFacetSearchComponent implements OnInit {
             this.store.dispatch(new ClearSelectedFacetAction());
         });
 
+        // Focus search box on open of menu
         this.trigger.onMenuOpen.subscribe(() => {
             this.fileSearchMenuComponent.focus();
         });
+
+        // Set up search config - currently either file or donor
+        this.fileSearchConfig = new FileSearchConfig(this.fileFacet.name);
     }
 
 }

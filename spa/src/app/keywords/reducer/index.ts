@@ -34,6 +34,6 @@ export function selectKeywordFiles(state$: Observable<State>): Observable<any[]>
 
 export function selectKeywordDonors(state$: Observable<State>): Observable<any[]> {
     return selectKeywordsState(state$)
-        .filter(state => state.type === "file-donor")
+        .filter(state => state.type === "donor") // file-donor
         .let(fromKeywords.selectHits);
 }

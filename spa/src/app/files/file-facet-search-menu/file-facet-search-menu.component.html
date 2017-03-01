@@ -9,6 +9,7 @@
     </div>
     <div class="edit-menu-card-content with-padding">
         <bw-file-search [files]="files$ | async"
+                        [fileSearchConfig]="fileSearchConfig"
                         (search)="onSearch($event)"
                         (termSelected)="onSearchResultSelected($event)">
         </bw-file-search>

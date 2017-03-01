@@ -15,11 +15,12 @@ import { Observable } from "rxjs/Observable";
 import { SelectFileFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectFileFacetByName } from "../files.reducer";
-import { selectKeywordFiles } from "../../keywords/reducer/index";
+import { selectKeywordFiles, selectKeywordDonors } from "../../keywords/reducer/index";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileSearchComponent } from "../file-search/file-search.component";
+import { FileSearchConfig } from "../file-search/file-search-config.model";
 
 @Component({
     selector: "bw-file-facet-search-menu",
@@ -30,16 +31,17 @@ import { FileSearchComponent } from "../file-search/file-search.component";
 export class FileFacetSearchMenuComponent implements OnInit {
 
     // Privates
-    private files$: Observable<any[]>;
+    private files$: Observable<any[]>; // Search result hits
     private fileFacet$: Observable<FileFacet>;
     private store: Store<BoardwalkStore>;
 
     // Inputs
-    @Input() fileFacetName: string;
+    @Input() fileSearchConfig: FileSearchConfig;
 
     // Output
     @Output() closeMenu = new EventEmitter<void>();
 
+    // View child/ren
     @ViewChild(FileSearchComponent) fileSearchComponent: FileSearchComponent;
 
     /**
@@ -54,6 +56,14 @@ export class FileFacetSearchMenuComponent implements OnInit {
     /**
      * Public API
      */
+
+    /**
+     * Set focus on search input.
+     */
+    public focus() {
+
+        this.fileSearchComponent.focus();
+    }
 
     /**
      * Emit close menu event
@@ -117,14 +127,14 @@ export class FileFacetSearchMenuComponent implements OnInit {
     ngOnInit() {
 
         // TODO revisit selector/reducer/function thingo here.
-        this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
+        this.fileFacet$ = selectFileFacetByName(this.store, this.fileSearchConfig.fileFacetName);
 
-        this.files$ = selectKeywordFiles(this.store);
-
-    }
-
-
-    focus() {
-        this.fileSearchComponent.focus();
+        // Get the list of currently selected files or donors, depending on the type of search being executed
+        if ( this.fileSearchConfig.isFileSearch() ) {
+            this.files$ = selectKeywordFiles(this.store);
+        }
+        else {
+            this.files$ = selectKeywordDonors(this.store);
+        }
     }
 }
