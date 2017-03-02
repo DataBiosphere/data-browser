@@ -6,7 +6,7 @@ export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC";
 @Injectable()
 export class ConfigService {
 
-    private source: ApiSource = "UCSC_STAGE";
+    private source: ApiSource = "UCSC";
 
     constructor() { }
 
@@ -33,7 +33,7 @@ export class ConfigService {
     hasSortOrder() {
 
         return false;
-        //return this.source === "UCSC_STAGE" || this.source === "UCSC";
+        // return this.source === "UCSC_STAGE" || this.source === "UCSC";
     }
 
     getTestSortFacets(): FileFacetMetadata[] {
