@@ -28,6 +28,7 @@ import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.
 import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
+import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
@@ -76,7 +77,9 @@ import { ConfigService } from "../shared/config.service";
         FileFacetComponent,
         FileFacetMenuComponent,
         FileFacetSearchComponent,
-        FileFacetSearchMenuComponent
+        FileFacetSearchMenuComponent,
+
+        FileNameShortenerPipe
     ],
     providers: [
         ConfigService,

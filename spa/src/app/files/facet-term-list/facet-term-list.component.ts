@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { Term } from "../shared/term.model";
+import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
 
 /**
  * Displays list of facet terms, including checkbox indicating if term is currently selected, as well as corresponding
@@ -21,6 +22,9 @@ import { Term } from "../shared/term.model";
 })
 export class FacetTermListComponent {
 
+    // Locals
+    private fileNameShortenerPipe: FileNameShortenerPipe;
+
     // Inputs
     @Input() fileFacet: FileFacet;
     @Input() useShortList: boolean;
@@ -29,8 +33,36 @@ export class FacetTermListComponent {
     @Output() facetTermSelected = new EventEmitter<FileFacetSelectedEvent>();
 
     /**
+     * Create file name shortener pipe for formatting selected file names (for search file facets only).
+     */
+    constructor() {
+
+        this.fileNameShortenerPipe = new FileNameShortenerPipe();
+    }
+
+    /**
      * Public API
      */
+
+    /**
+     * Depending on the type of facet, return a formatted version of the term name. If facet is a search facet,
+     * term name is truncated according to pipe definition. Term names for facets that are not search, are left
+     * as is, and are truncated via CSS with an ellipsis.
+     *
+     * @param termName {string}
+     * @returns {string}
+     */
+    formatTermName(termName: string): string {
+
+        // Truncate term name if file facet is search (file ID or donor ID).
+        if ( this.fileFacet.isInterfaceTypeSearch() ) {
+
+            return this.fileNameShortenerPipe.transform(termName);
+        }
+
+        // Otherwise return term name as is
+        return termName;
+    }
 
     /**
      * Return the inline style configuration for the chart legend, for the specified term.

@@ -77,6 +77,11 @@ export class FileFacet {
 
     }
 
+    /**
+     * Returns true if file facet type is search (ie for file ID or donor ID).
+     *
+     * @returns {boolean}
+     */
     public isInterfaceTypeSearch(): boolean {
 
         return this.interfaceType === "SEARCH"; // TODO revisit interfaceType type
