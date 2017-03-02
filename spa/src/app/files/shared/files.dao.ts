@@ -190,17 +190,22 @@ export class FilesDAO extends CCBaseDAO {
             return new FileFacet(facetName, responseFileFacet.total, responseTerms);
         });
 
-        let searchTerms = [];
+        let fileIdTerms = [];
         if (selectedFacetsByName.get("fileId")) {
-            searchTerms = selectedFacetsByName.get("fileId").terms;
+            fileIdTerms = selectedFacetsByName.get("fileId").terms;
+        }
+
+        let donorIdTerms = [];
+        if (selectedFacetsByName.get("donorId")) {
+            donorIdTerms = selectedFacetsByName.get("donorId").terms;
         }
 
         // Add donor ID search facet
-        let donorIdFileFacet = new FileFacet("donorId", 9999999, searchTerms, "SEARCH");
+        let donorIdFileFacet = new FileFacet("donorId", 9999999, donorIdTerms, "SEARCH");
         newFileFacets.unshift(donorIdFileFacet);
 
         // Add file ID search facet
-        let fileIdFileFacet = new FileFacet("fileId", 88888888, searchTerms, "SEARCH");
+        let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
 
 
