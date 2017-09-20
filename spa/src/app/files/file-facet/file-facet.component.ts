@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { MdMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
+import * as _ from "lodash";
 
 // App dependencies
 import { FileFacet } from "../shared/file-facet.model";

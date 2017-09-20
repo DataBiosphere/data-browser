@@ -27,7 +27,7 @@ import { CCTypeaheadSearchEvent } from "./cc-typeahead-search.event";
 export class CcTypeaheadComponent implements OnInit {
 
     // Locals
-    private searchTerm = new FormControl();
+    searchTerm = new FormControl();
 
     // Inputs
     @Input() placeholder: string;

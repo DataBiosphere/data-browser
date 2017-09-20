@@ -8,12 +8,11 @@ import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/first";
 import "rxjs/add/observable/concat";
 import "rxjs/add/observable/of";
-import * as find from "lodash/find";
+import * as _ from "lodash";
 
 import { FilesService } from "./files.service";
 import {
-    FilesState, selectSelectedFacetsMap, selectSelectedFileFacets,
-    selectFileFacetsSortOrder, selectFileFacetMetadataSummaryLoading
+    FilesState, selectSelectedFacetsMap, selectSelectedFileFacets, selectFileFacetMetadataSummary
 } from "../files.reducer";
 
 // Actions
@@ -70,7 +69,8 @@ export class FilesEffects {
     initFacets$: Observable<Action> = this.actions$
         .ofType(ACTIONS.INIT_FILE_FACETS)
         .switchMap((action) => {
-            return selectSelectedFacetsMap(this.store).first();
+            // return selectSelectedFacetsMap(this.store).first();
+            return this.store.select(selectSelectedFacetsMap).first();
         })
         .switchMap((selectedFacets) => {
             return Observable.concat(
@@ -107,7 +107,8 @@ export class FilesEffects {
     fetchFacets$: Observable<Action> = this.actions$
         .ofType(ACTIONS.FILE_FACET_SELECTED)
         .switchMap((action) => {
-            return selectSelectedFacetsMap(this.store).first();
+            // return selectSelectedFacetsMap(this.store).first();
+            return this.store.select(selectSelectedFacetsMap).first();
         })
         .switchMap((selectedFacets) => {
 
@@ -139,7 +140,8 @@ export class FilesEffects {
     fetchSummary$: Observable<Action> = this.actions$
         .ofType(ACTIONS.FILE_FACET_SELECTED, ACTIONS.INIT_FILE_FACETS)
         .switchMap((action) => {
-            return selectSelectedFileFacets(this.store).first();
+            // return selectSelectedFileFacets(this.store).first();
+            return this.store.select(selectSelectedFileFacets).first();
         })
         .switchMap((selectedFacets) => {
             return this.fileService.fetchFileSummary(selectedFacets);
@@ -171,7 +173,8 @@ export class FilesEffects {
     fetchManifestSummary$: Observable<Action> = this.actions$
         .ofType(ACTIONS.REQUEST_FILE_MANIFEST_SUMMARY)
         .switchMap(() => {
-            return selectSelectedFileFacets(this.store).first();
+            // return selectSelectedFileFacets(this.store).first();
+            return this.store.select(selectSelectedFileFacets).first();
         })
         .switchMap((selectedFacets) => {
             return this.fileService.fetchFileManifestSummary(selectedFacets);
@@ -193,7 +196,8 @@ export class FilesEffects {
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(ACTIONS.REQUEST_DOWNLOAD_FILE_MANIFEST)
         .switchMap(() => {
-            return selectSelectedFileFacets(this.store).first();
+            // return selectSelectedFileFacets(this.store).first();
+            return this.store.select(selectSelectedFileFacets).first();
         })
         .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
@@ -229,9 +233,13 @@ export class FilesEffects {
      * @returns {Observable<FileFacet[]>}
      */
     private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>): Observable<FileFacet[]> {
+        const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary).filter(state => !state.loading);
+        // const sortOrderLoaded$: Observable<boolean> = selectFileFacetMetadataSummaryLoading(this.store).filter(loading => !loading);
+        const sortOrder$ = this.store.select(selectFileFacetMetadataSummary)
+            .map(state => state.sortOrder)
+            .combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
 
-        const sortOrderLoaded$: Observable<boolean> = selectFileFacetMetadataSummaryLoading(this.store).filter(loading => !loading);
-        const sortOrder$: Observable<string[]> = selectFileFacetsSortOrder(this.store).combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
+        // const sortOrder$: Observable<string[]> = selectFileFacetsSortOrder(this.store).combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
 
         return this.fileService
             .fetchFileFacets(selectedFacets)
@@ -242,7 +250,7 @@ export class FilesEffects {
                 }
 
                 return sortOrder.map((sortName) => {
-                    return find(fileFacets, { name: sortName });
+                    return _.find(fileFacets, { name: sortName });
                 });
             });
     }

@@ -30,9 +30,10 @@ import { FilesModule } from "./files/files.module";
 import { FilesEffects } from "./files/shared/files.effects";
 import { KeywordsEffects } from "./keywords/shared/keywords.effects";
 
-//Import and combine all reducers to a single object.
+// Import and combine all reducers to a single object.
 import * as fromFiles from "./files/files.reducer";
 import * as fromKeywords from "./keywords/reducer";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
     fromFiles.reducers,
@@ -49,15 +50,16 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
 
         // ANGULAR SETUP
         BrowserModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(routes),
         MaterialModule.forRoot(),
 
         // NGRX SETUP MODEL/REDUCERS SETUP
-        StoreModule.provideStore(reducers),
+        // StoreModule.provideStore(reducers),
+        StoreModule.forRoot(reducers),
 
         // NGRX EFFECTS SETUP
-        EffectsModule.run(KeywordsEffects),
-        EffectsModule.run(FilesEffects),
+        EffectsModule.forRoot([KeywordsEffects, FilesEffects]),
 
         // CHILD MODULES SETUP
         FilesModule,

@@ -6,8 +6,6 @@
 import { Action, ActionReducer } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
-import "@ngrx/core/add/operator/select";
-
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { FileFacetSelectedEvent } from "./file-facet.events";
 import { FileFacetsState } from "./file-facet-state.model";
@@ -15,10 +13,14 @@ import { FileFacet } from "../shared/file-facet.model";
 
 const DEFAULT_STATE = new FileFacetsState([], new Map<string, FileFacet>(), true, undefined);
 
+interface BwAction extends Action {
+    payload: any;
+}
+
 /**
  * File Facets Reducer
  */
-export const reducer: ActionReducer<FileFacetsState> = (fileFacetsState: FileFacetsState = DEFAULT_STATE, action: Action) => {
+export const reducer: ActionReducer<FileFacetsState> = (fileFacetsState: FileFacetsState = DEFAULT_STATE, action: BwAction) => {
 
     switch (action.type) {
         case ACTIONS.FILE_FACETS_REQUESTED:

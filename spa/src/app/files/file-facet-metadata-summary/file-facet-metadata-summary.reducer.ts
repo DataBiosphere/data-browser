@@ -4,20 +4,22 @@
 import { Action, ActionReducer } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
-import "@ngrx/core/add/operator/select";
-
 import { ACTIONS } from "../../shared/boardwalk.actions";
 
-import { FileFacetMetadataSummary } from "./file-facet-metadata-summary.model";
+import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary.model";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 
-const DEFAULT_STATE = new FileFacetMetadataSummary([], true);
+const DEFAULT_STATE = new FileFacetMetadataSummaryState([], true);
+
+interface BwAction extends Action {
+    payload: any;
+}
 
 /**
  * File Facets Reducer
  */
-export const reducer: ActionReducer<FileFacetMetadataSummary> = (facetMetadataSummaryState: FileFacetMetadataSummary = DEFAULT_STATE,
-                                                                 action: Action) => {
+export const reducer: ActionReducer<FileFacetMetadataSummaryState> = (facetMetadataSummaryState: FileFacetMetadataSummaryState = DEFAULT_STATE,
+                                                                      action: BwAction) => {
 
     switch (action.type) {
         case ACTIONS.FILE_FACET_METADATA_SUMMARY_REQUESTED:
@@ -32,14 +34,14 @@ export const reducer: ActionReducer<FileFacetMetadataSummary> = (facetMetadataSu
 /**
  * SELECTORS
  */
-export const selectLoading = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummary>) => {
-    return facetMetadataSummaryState$.select(facetMetadataSummaryState => facetMetadataSummaryState.loading);
+export const selectLoading = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummaryState>) => {
+    return facetMetadataSummaryState$.map(facetMetadataSummaryState => facetMetadataSummaryState.loading);
 };
 
-export const selectSortOrder = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummary>) => {
-    return facetMetadataSummaryState$.select(facetMetadataSummaryState => facetMetadataSummaryState.sortOrder);
+export const selectSortOrder = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummaryState>) => {
+    return facetMetadataSummaryState$.map(facetMetadataSummaryState => facetMetadataSummaryState.sortOrder);
 };
 
-export const selectFacetMetadata = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummary>): Observable<FileFacetMetadata[]> => {
-    return facetMetadataSummaryState$.select(fileFacetState => fileFacetState.facetMetadata);
+export const selectFacetMetadata = (facetMetadataSummaryState$: Observable<FileFacetMetadataSummaryState>): Observable<FileFacetMetadata[]> => {
+    return facetMetadataSummaryState$.map(fileFacetState => fileFacetState.facetMetadata);
 };

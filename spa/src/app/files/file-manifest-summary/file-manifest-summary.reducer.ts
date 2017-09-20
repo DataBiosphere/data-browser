@@ -5,7 +5,6 @@
  */
 import { Action, ActionReducer } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import "@ngrx/core/add/operator/select";
 
 import { ACTIONS } from "../../shared/boardwalk.actions";
 
@@ -35,6 +34,10 @@ const DEFAULT_STATE: State = {
     repositories: {}
 };
 
+interface BwAction extends Action {
+    payload: any;
+}
+
 /**
  * Repository Reducer
  *
@@ -42,7 +45,7 @@ const DEFAULT_STATE: State = {
  * @param action
  * @returns {any}
  */
-export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Action) => {
+export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: BwAction) => {
 
     switch (action.type) {
 
@@ -60,18 +63,18 @@ export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Act
 /**
  * Selectors
  */
-export const selectLoading: Selector<boolean> = (state$: Observable<State>) => {
-    return state$.select(state => state.loading);
-};
-export const selectRepositoryManifestSummaries: Selector<FileManifestSummary[]> = (state$: Observable<State>) => {
-
-    return state$.select(state => state)
-        .map((state: State) => {
-            return state.repoNames.map((name) => {
-                return state.repositories[name];
-            });
-        });
-};
+// export const selectLoading: Selector<boolean> = (state$: Observable<State>) => {
+//     return state$.map(state => state.loading);
+// };
+// export const selectRepositoryManifestSummaries: Selector<FileManifestSummary[]> = (state$: Observable<State>) => {
+//
+//     return state$.map(state => state)
+//         .map((state: State) => {
+//             return state.repoNames.map((name) => {
+//                 return state.repositories[name];
+//             });
+//         });
+// };
 
 /**
  * PRIVATES

@@ -5,7 +5,6 @@
  */
 import { Action, ActionReducer } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import "@ngrx/core/add/operator/select";
 
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { FileSummary } from "./";
@@ -37,6 +36,10 @@ const DEFAULT_STATE: FileSummaryState = {
     }
 };
 
+interface BwAction extends Action {
+    payload: any;
+}
+
 /**
  * File Summary Reducer
  *
@@ -44,7 +47,7 @@ const DEFAULT_STATE: FileSummaryState = {
  * @param action
  * @returns {any}
  */
-export const reducer: ActionReducer<FileSummaryState> = (state: FileSummaryState = DEFAULT_STATE, action: Action) => {
+export const reducer: ActionReducer<FileSummaryState> = (state: FileSummaryState = DEFAULT_STATE, action: BwAction) => {
 
     switch (action.type) {
         case ACTIONS.REQUEST_FILE_SUMMARY:
@@ -63,14 +66,14 @@ export const reducer: ActionReducer<FileSummaryState> = (state: FileSummaryState
  * File Summary Selectors
  */
 
-export const selectFileSummaryState = (fileSummaryState: Observable<FileSummaryState>) => {
-    return fileSummaryState.select(fss => fss);
-};
+// export const selectFileSummaryState = (fileSummaryState: Observable<FileSummaryState>) => {
+//     return fileSummaryState.map(fss => fss);
+// };
 
 export const selectFileSummary = (fileSummaryState: Observable<FileSummaryState>) => {
-    return fileSummaryState.select(fss => fss.summary);
+    return fileSummaryState.map(fss => fss.summary);
 };
 
-export const selectFileSummaryLoading = (fileSummaryState: Observable<FileSummaryState>) => {
-    return fileSummaryState.select(fss => fss.loading);
-};
+// export const selectFileSummaryLoading = (fileSummaryState: Observable<FileSummaryState>) => {
+//     return fileSummaryState.map(fss => fss.loading);
+// };

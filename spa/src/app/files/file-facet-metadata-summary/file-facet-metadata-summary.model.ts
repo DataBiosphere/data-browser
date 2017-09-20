@@ -1,6 +1,6 @@
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 
-export class FileFacetMetadataSummary {
+export class FileFacetMetadataSummaryState {
 
     facetMetadata: FileFacetMetadata[];
     facetMetadataByFacetName: Map<string, FileFacetMetadata>;
@@ -26,11 +26,11 @@ export class FileFacetMetadataSummary {
     }
 
 
-    public setLoading(loading: boolean): FileFacetMetadataSummary {
-        return new FileFacetMetadataSummary(this.facetMetadata, loading);
+    public setLoading(loading: boolean): FileFacetMetadataSummaryState {
+        return new FileFacetMetadataSummaryState(this.facetMetadata, loading);
     }
 
     public setFacetMetadataSummary(facetMetadata: FileFacetMetadata[]) {
-        return new FileFacetMetadataSummary(facetMetadata, false);
+        return new FileFacetMetadataSummaryState(facetMetadata, false);
     }
 }

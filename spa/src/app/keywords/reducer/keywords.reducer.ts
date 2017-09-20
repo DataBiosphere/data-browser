@@ -4,8 +4,7 @@
  * ICGC: http://docs.icgc.org/portal/api-endpoints/#!/keyword/findAll
  */
 import { Action, ActionReducer } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "@ngrx/core/add/operator/select";
+// import { Observable } from "rxjs/Observable";
 
 import { ACTIONS } from "../../shared/boardwalk.actions";
 
@@ -36,6 +35,10 @@ const DEFAULT_STATE: State = {
     pagination: {}
 };
 
+interface BwAction extends Action {
+    payload: any;
+}
+
 /**
  * Repository Reducer
  *
@@ -43,7 +46,7 @@ const DEFAULT_STATE: State = {
  * @param action
  * @returns {any}
  */
-export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Action) => {
+export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: BwAction) => {
 
     switch (action.type) {
 
@@ -61,15 +64,15 @@ export const reducer: ActionReducer<State> = (state = DEFAULT_STATE, action: Act
 /**
  * Selectors
  */
-export const selectLoading = (state$: Observable<State>) => {
-    return state$.select(state => state.loading);
-};
-export const selectHits = (state$: Observable<State>) => {
-    return state$.select(state => state.hits);
-};
-export const selectSearchTerm = (state$: Observable<State>) => {
-    return state$.select(state => state.searchTerm);
-};
+// export const selectLoading = (state$: Observable<State>) => {
+//     return state$.map(state => state.loading);
+// };
+// export const selectHits = (state$: Observable<State>) => {
+//     return state$.map(state => state.hits);
+// };
+// export const selectSearchTerm = (state$: Observable<State>) => {
+//     return state$.map(state => state.searchTerm);
+// };
 
 /**
  * PRIVATES

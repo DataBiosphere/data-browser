@@ -1,6 +1,5 @@
 // App dependencies
 import { Term } from "./term.model";
-import { selectSearchTerm } from "../../keywords/reducer/keywords.reducer";
 
 /**
  * Core file facet model, including name, total, terms and interface type.

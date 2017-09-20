@@ -31,7 +31,7 @@ import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 export class FileFacetSearchComponent implements OnInit {
 
     // Privates
-    private fileSearchConfig: FileSearchConfig;
+    fileSearchConfig: FileSearchConfig;
     private store: Store<BoardwalkStore>;
 
     // Inputs

@@ -10,12 +10,13 @@ import {
 } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
+import * as _ from "lodash";
 
 // App dependencies
 import { SelectFileFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacetByName } from "../files.reducer";
-import { selectKeywordFiles, selectKeywordDonors } from "../../keywords/reducer/index";
+import { selectFileFacetsA } from "../files.reducer";
+import { selectKeywords } from "../../keywords/reducer/index";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
@@ -31,8 +32,8 @@ import { FileSearchConfig } from "../file-search/file-search-config.model";
 export class FileFacetSearchMenuComponent implements OnInit {
 
     // Privates
-    private files$: Observable<any[]>; // Search result hits
-    private fileFacet$: Observable<FileFacet>;
+    files$: Observable<any[]>; // Search result hits
+    fileFacet$: Observable<FileFacet>;
     private store: Store<BoardwalkStore>;
 
     // Inputs
@@ -127,14 +128,19 @@ export class FileFacetSearchMenuComponent implements OnInit {
     ngOnInit() {
 
         // TODO revisit selector/reducer/function thingo here.
-        this.fileFacet$ = selectFileFacetByName(this.store, this.fileSearchConfig.fileFacetName);
+        // this.fileFacet$ = selectFileFacetByName(this.store, this.fileSearchConfig.fileFacetName);
+        this.fileFacet$ = this.store.select(selectFileFacetsA)
+            .map(state => state.fileFacets)
+            .map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName));
 
         // Get the list of currently selected files or donors, depending on the type of search being executed
         if ( this.fileSearchConfig.isFileSearch() ) {
-            this.files$ = selectKeywordFiles(this.store);
+            // this.files$ = selectKeywordFiles(this.store);
+            this.files$ = this.store.select(selectKeywords).filter(state => state.type === "file").map(state => state.hits);
         }
         else {
-            this.files$ = selectKeywordDonors(this.store);
+            // this.files$ = selectKeywordDonors(this.store);
+            this.files$ = this.store.select(selectKeywords).filter(state => state.type === "donor").map(state => state.hits);
         }
     }
 }

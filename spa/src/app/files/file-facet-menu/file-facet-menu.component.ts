@@ -9,11 +9,12 @@ import {
 } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
+import * as _ from "lodash";
 
 // App dependencies
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacetByName } from "../files.reducer";
+import { selectFileFacetsA } from "../files.reducer";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
 
@@ -33,7 +34,7 @@ export class FileFacetMenuComponent implements OnInit {
 
     // Inputs
     @Input() fileFacetName: string;
-    private fileFacet$: Observable<FileFacet>;
+    fileFacet$: Observable<FileFacet>;
 
     /**
      * @param store {Store<BoardwalkStore>}
@@ -74,6 +75,9 @@ export class FileFacetMenuComponent implements OnInit {
      */
     ngOnInit() {
 
-        this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
+        // this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
+        this.fileFacet$ = this.store.select(selectFileFacetsA)
+            .map(state => state.fileFacets)
+            .map(facets => _.find(facets, facet => facet.name === this.fileFacetName));
     }
 }

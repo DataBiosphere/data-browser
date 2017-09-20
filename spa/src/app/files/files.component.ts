@@ -1,5 +1,5 @@
 // Core dependencies
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -12,11 +12,7 @@ import {
 } from "./actions/file-actions";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
-import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
-import {
-    selectFileSummaryLoading, selectFileSummary, selectFileFacetsLoading,
-    selectManifestSummaryLoading, selectRepositoryManifestSummaries, selectFileFacets
-} from "./files.reducer";
+import { selectFileFacetsFileFacets, selectFileSummarySummary } from "./files.reducer";
 import { ACTIONS } from "../shared/boardwalk.actions";
 import { BoardwalkStore } from "../shared/boardwalk.model";
 
@@ -36,12 +32,8 @@ export class FilesComponent implements OnInit {
     private store: Store<BoardwalkStore>;
 
     // Public variables
-    public selectFileSummaryLoading$: Observable<boolean>;
     public selectFileSummary$: Observable<FileSummary>;
-    public fileFacetsLoading$: Observable<boolean>;
     public fileFacets$: Observable<FileFacet[]>;
-    public manifestSummaryLoading$: Observable<boolean>;
-    public manifestSummary$: Observable<FileManifestSummary[]>;
 
     /**
      * @param route {ActivatedRoute}
@@ -84,15 +76,15 @@ export class FilesComponent implements OnInit {
     public ngOnInit() {
 
         // File Summary
-        this.selectFileSummaryLoading$ = selectFileSummaryLoading(this.store);
-        this.selectFileSummary$ = selectFileSummary(this.store);
+        // this.selectFileSummaryLoading$ = selectFileSummaryLoading(this.store);
+        // this.selectFileSummary$ = selectFileSummary(this.store);
+        this.selectFileSummary$ = this.store.select(selectFileSummarySummary);
+
 
         // File Facets
-        this.fileFacetsLoading$ = selectFileFacetsLoading(this.store);
-        this.fileFacets$ = selectFileFacets(this.store);
-
-        this.manifestSummaryLoading$ = selectManifestSummaryLoading(this.store);
-        this.manifestSummary$ = selectRepositoryManifestSummaries(this.store);
+        // this.fileFacetsLoading$ = selectFileFacetsLoading(this.store);
+        // this.fileFacets$ = selectFileFacets(this.store);
+        this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
 
         // initialize the filter state from the params in the route.
         this.initQueryParams();

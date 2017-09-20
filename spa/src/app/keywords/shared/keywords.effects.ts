@@ -7,6 +7,10 @@ import "rxjs/add/operator/switchMap";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { KeywordsService } from "./keywords.service";
 
+interface BwAction extends Action {
+    payload: any;
+}
+
 @Injectable()
 export class KeywordsEffects {
 
@@ -16,7 +20,7 @@ export class KeywordsEffects {
     @Effect()
     queryKeywords$: Observable<Action> = this.actions$
         .ofType(ACTIONS.REQUEST_KEYWORDS_QUERY)
-        .switchMap((action) => {
+        .switchMap((action: BwAction) => {
             return this.keywordsService.searchKeywords(action.payload);
         });
 }
