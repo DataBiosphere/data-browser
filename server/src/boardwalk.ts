@@ -10,6 +10,7 @@ interface BoardwalkRequest {
     params: any;
     query: any;
     session: ExpressSesssion;
+    cookies:  { [name: string]: string };
 }
 
 

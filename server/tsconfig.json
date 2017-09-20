@@ -3,10 +3,18 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
+    "lib": [
+      "es2015"
+    ],
     "sourceMap": true,
     "removeComments": false,
     "noImplicitAny": false,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "typeRoots": [
+      "typings/globals",
+      "typings/modules",
+      "../node_modules/@types"
+    ]
   }
 }

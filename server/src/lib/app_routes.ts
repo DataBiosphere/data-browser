@@ -20,7 +20,4 @@ export default (app: Application) => {
     app.get("/boardwalk", (req: Req, res: Res) => {
         res.sendFile(path.join(config.root, "dist/index.html"));
     });
-
-
-
 };

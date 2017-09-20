@@ -1,20 +1,16 @@
 // Core dependencies
-import { ActionReducer, createFeatureSelector, createSelector, MemoizedSelector } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/withLatestFrom";
-import * as _ from "lodash";
+import { ActionReducer, createFeatureSelector, createSelector } from "@ngrx/store";
 
 // App dependencies
 import * as fromFacets from "./file-facets/file-facets.reducer";
 import { FileFacetsState } from "./file-facets/file-facet-state.model";
 import * as fromSummary from "./file-summary/file-summary.reducer";
-import { FileManifestSummary } from "./file-manifest-summary/file-manifest-summary";
 import * as fromManifestSummary from "./file-manifest-summary/file-manifest-summary.reducer";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.model";
 import * as fromFileFacetMetadataSummary from "./file-facet-metadata-summary/file-facet-metadata-summary.reducer";
 import { Dictionary } from "../shared/dictionary";
-import { FileFacet } from "./shared/file-facet.model";
-import { Selector } from "../shared/selector";
+// import { FileFacet } from "./shared/file-facet.model";
+// import { Selector } from "../shared/selector";
 
 
 export interface FilesState {
@@ -43,14 +39,14 @@ export const reducers: Dictionary<ActionReducer<any>> = {
 //     return appState$.map(appState => appState.fileSummary);
 // }
 
-/**
- * File Facet Selectors
- */
-export function selectFileFacetState(appState$: Observable<FilesState>): Observable<FileFacetsState> {
-    return appState$.map((appState) => {
-        return appState.fileFacets;
-    });
-}
+// /**
+//  * File Facet Selectors
+//  */
+// export function selectFileFacetState(appState$: Observable<FilesState>): Observable<FileFacetsState> {
+//     return appState$.map((appState) => {
+//         return appState.fileFacets;
+//     });
+// }
 
 // export const selectFileFacetsLoading = compose(fromFacets.selectLoading, selectFileFacetState);
 
@@ -82,23 +78,23 @@ export function selectFileFacetState(appState$: Observable<FilesState>): Observa
 //     );
 // }
 
-/**
- * Returns the file facet with the specified name.
- *
- * @param appState$ {Observable<FilesState>}
- * @param fileFacetName {string}
- * @returns Observable<FileFacet[]>
- */
-export function selectFileFacetByName(appState$: Observable<FilesState>, fileFacetName: string): Observable<FileFacet> {
-
-    return selectFileFacetState(appState$)
-        .map((fileFacetState: FileFacetsState) => {
-
-            return _.find(fileFacetState.fileFacets, (fileFacet: FileFacet) => {
-                return fileFacet.name === fileFacetName;
-            });
-        });
-}
+// /**
+//  * Returns the file facet with the specified name.
+//  *
+//  * @param appState$ {Observable<FilesState>}
+//  * @param fileFacetName {string}
+//  * @returns Observable<FileFacet[]>
+//  */
+// export function selectFileFacetByName(appState$: Observable<FilesState>, fileFacetName: string): Observable<FileFacet> {
+//
+//     return selectFileFacetState(appState$)
+//         .map((fileFacetState: FileFacetsState) => {
+//
+//             return _.find(fileFacetState.fileFacets, (fileFacet: FileFacet) => {
+//                 return fileFacet.name === fileFacetName;
+//             });
+//         });
+// }
 
 // export function selectSelectedFileFacets(appState$: Observable<FilesState>): Observable<FileFacet[]> {
 //     return selectFileFacetState(appState$).map((fileFacetState: FileFacetsState) => {
@@ -134,10 +130,10 @@ export function selectFileFacetByName(appState$: Observable<FilesState>, fileFac
 //     compose(fromFileFacetMetadataSummary.selectSortOrder, selectFileFacetMetadataSummary);
 
 
-export const selectFileFacetsA = createFeatureSelector<FileFacetsState>("fileFacets");
-export const selectSelectedFileFacets = createSelector(selectFileFacetsA, (state) => state.selectedFileFacets);
-export const selectSelectedFacetsMap = createSelector(selectFileFacetsA, (state) => state.selectedFileFacesByName);
-export const selectFileFacetsFileFacets = createSelector(selectFileFacetsA, (state) => {
+export const selectFileFacets = createFeatureSelector<FileFacetsState>("fileFacets");
+export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
+export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacesByName);
+export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (state) => {
 
     if ( state.selectedFacet ) {
         return state.fileFacets.map((fileFacet) => {

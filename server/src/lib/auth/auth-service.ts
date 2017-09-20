@@ -151,7 +151,7 @@ export function isUserRole(user: Person): boolean {
 function encryptPassword(password: string, salt: string): string {
 
     let saltBuffer = new Buffer(salt, "base64");
-    return crypto.pbkdf2Sync(password, saltBuffer, 10000, 64).toString("base64");
+    return crypto.pbkdf2Sync(password, saltBuffer, 10000, 64, "sha256").toString("base64");
 }
 
 /**

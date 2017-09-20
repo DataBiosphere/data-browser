@@ -24,6 +24,7 @@ export interface Config {
             mongos?: any
         },
     };
+    ucsc_url: string;
     googleAnalytics?: any;
     aws: {
         accessKey: string;
@@ -33,7 +34,7 @@ export interface Config {
 }
 
 
-const root = path.normalize(__dirname + "../../../../../");
+const root = path.normalize(__dirname + "./../../../..");
 const ENV = process.env["NODE_ENV"] || "local";
 const environmentConfig = all[ENV];
 

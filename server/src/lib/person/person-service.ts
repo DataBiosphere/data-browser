@@ -77,7 +77,7 @@ export function confirmEmail(token: string, next: Callback<Person>): void {
                 savePerson(person, callback);
             }]
 
-        }, (error) => {
+        }, 2, (error: Error) => {
 
             if (error) {
                 return next(error);
@@ -199,7 +199,7 @@ export function countAllPeople(qm: QueryModel, next: Callback<number>): void {
  */
 export function findAllPeople(user: Person, qm: QueryModel, next: ListModelCB<Person>): void {
 
-    async.parallel({
+    async.parallel<Person[] | number, Error>({
 
         people: (callback) => {
             personDAO.findAllPeople(qm, callback);
@@ -390,9 +390,10 @@ export function resendConfirmAccountEmail(personId: OID, res: Res, next: ErrorCa
  * @param password {string}
  * @param next {Callback<any>}
  */
-export function setPersonPassword(activationKey: string, password: string, next: Callback<any>) { // TODO revisit type here
+export function setPersonPassword(activationKey: string, password: string, next: Callback<Person>) { // TODO revisit type here
 
-    async.auto({
+    // Types are backward on async.auto...
+    async.auto<Error>({
 
         // Find the person for this activation key
         person: (callback) => {
@@ -431,7 +432,7 @@ export function setPersonPassword(activationKey: string, password: string, next:
             updatePerson(results.person._id, personUpdates, callback);
         }]
 
-    }, (error, results) => {
+    }, 5, (error, results) => {
 
         if (error) {
             return next(error);
@@ -464,7 +465,7 @@ export function updatePerson(personId: OID, updates: PersonPartial, next: Callba
  */
 export function updatePersonPassword(personId: OID, password: string, next: Callback<Person>): void {
 
-    async.auto({
+    async.auto<Error>({
         auth: (callback) => {
 
             authService.updatePassword(personId, password, callback);
@@ -476,7 +477,7 @@ export function updatePersonPassword(personId: OID, password: string, next: Call
             findPersonById(auth.person, callback);
         }]
 
-    }, (error, results) => {
+    }, 2, (error, results) => {
 
         if (error) {
             return next(error);

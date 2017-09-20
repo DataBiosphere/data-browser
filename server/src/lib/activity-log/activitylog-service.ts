@@ -41,7 +41,7 @@ export function createActivityLog(user: Person,
  */
 export function findAllActivityLogs(qm: QueryModel, next: ListModelCB<ActivityLog>): void {
 
-    async.parallel({
+    async.parallel<ActivityLog[] | number, Error>({
 
         activityLogs: (callback) => {
 

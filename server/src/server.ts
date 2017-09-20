@@ -11,7 +11,7 @@ import { Req } from "./boardwalk";
 import { config } from "./lib/config/config";
 import * as express from "express";
 import * as compression from "compression";
-//import * as mongoose from "mongoose";
+// import * as mongoose from "mongoose";
 import { expressConfig } from "./lib/config/express";
 
 // require("./lib/middleware");
@@ -19,7 +19,7 @@ import { expressConfig } from "./lib/config/express";
 process.env["NODE_ENV"] = process.env["NODE_ENV"] || "local";
 
 // Connect to database
-//let db = mongoose.connect(config.mongo.uri, config.mongo.options);
+// let db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 export const app = express();
 
@@ -29,7 +29,7 @@ console.log(resolve(__dirname, "../../dist"));
 // // bootstraps
 // require("./lib/person/person");
 
-//db.connection.once("connected", () => {
+// db.connection.once("connected", () => {
 
     // Passport Configuration
 //    require("./lib/config/passport");
@@ -65,7 +65,7 @@ console.log(resolve(__dirname, "../../dist"));
         console.log("Express server listening on port %d in %s mode", config.port, app.get("env"));
         app.emit("cc:appLoaded");
     });
-//});
+// });
 // db.connection.on("error", (error) => {
 //     console.log("ERROR");
 //     console.log(error);

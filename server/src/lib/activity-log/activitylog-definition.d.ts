@@ -7,13 +7,13 @@ import { Document, Types } from "mongoose";
 
 import { PERSON_ROLES } from "../person/person-definition";
 
-type ObjectId = Types.ObjectId
+type ObjectId = Types.ObjectId;
 
 
 type ACTIVITY_EVENTS =
     "LOGIN" | "LOGIN_FAILED" | "LOGOUT" |
         "INVITE_USER" | "RESEND_INVITE" |
-        "SUSPEND_USER" | "UNSUSPEND_USER"
+        "SUSPEND_USER" | "UNSUSPEND_USER";
 
 export interface ActivityLogPartial extends Timestamps, Contributors {
     _id?: ObjectId;

@@ -14,7 +14,7 @@ import * as _ from "lodash";
 // App dependencies
 import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacetsA } from "../files.reducer";
+import { selectFileFacets } from "../files.reducer";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
 
@@ -76,7 +76,7 @@ export class FileFacetMenuComponent implements OnInit {
     ngOnInit() {
 
         // this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
-        this.fileFacet$ = this.store.select(selectFileFacetsA)
+        this.fileFacet$ = this.store.select(selectFileFacets)
             .map(state => state.fileFacets)
             .map(facets => _.find(facets, facet => facet.name === this.fileFacetName));
     }

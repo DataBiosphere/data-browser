@@ -25,6 +25,8 @@ import * as personWebController from "./person/person-webcontroller";
 
 export default (app: Application) => {
 
+    app.get("/api/session", sessionWebController.getSession);
+
     // Person
     app.post("/api/people", personValidator.validateOnCreate, personWebController.createPerson);
     app.get("/api/people/me", personWebController.me);

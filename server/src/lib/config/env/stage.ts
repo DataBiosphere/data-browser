@@ -14,5 +14,6 @@ export default {
 
     mongo: {
         uri: "",
-    }
+    },
+    ucsc_url: "https://carlos.ucsc-cgp-dev.org"
 };

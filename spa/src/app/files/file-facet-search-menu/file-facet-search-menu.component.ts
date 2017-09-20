@@ -15,7 +15,7 @@ import * as _ from "lodash";
 // App dependencies
 import { SelectFileFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacetsA } from "../files.reducer";
+import { selectFileFacets } from "../files.reducer";
 import { selectKeywords } from "../../keywords/reducer/index";
 import { ACTIONS } from "../../shared/boardwalk.actions";
 import { BoardwalkStore } from "../../shared/boardwalk.model";
@@ -129,7 +129,7 @@ export class FileFacetSearchMenuComponent implements OnInit {
 
         // TODO revisit selector/reducer/function thingo here.
         // this.fileFacet$ = selectFileFacetByName(this.store, this.fileSearchConfig.fileFacetName);
-        this.fileFacet$ = this.store.select(selectFileFacetsA)
+        this.fileFacet$ = this.store.select(selectFileFacets)
             .map(state => state.fileFacets)
             .map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName));
 

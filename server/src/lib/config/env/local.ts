@@ -16,5 +16,6 @@ export default {
     },
     mongo: {
         uri: "mongodb://localhost/bw-local"
-    }
+    },
+    ucsc_url: "https://carlos.ucsc-cgp-dev.org"
 };

@@ -38,7 +38,16 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            server: [".tmp"]
+            server: {
+                files: [
+                    {
+                        dot: true,
+                        src: [
+                            "server/dist/*"
+                        ]
+                    }
+                ]
+            }
         },
 
         // Express Config
@@ -142,6 +151,9 @@ module.exports = function (grunt) {
             },
             buildServer: {
                 command: "cd server && tsc || true"
+            },
+            cleanServer: {
+                command: "rm -rf server/dist"
             }
         },
 
@@ -171,6 +183,8 @@ module.exports = function (grunt) {
     // Register Tasks
     // Workon
     grunt.registerTask("workon", "Start working on this project!", [
+        "clean:server",
+        "exec:buildServer",
         "env:local",
         "express:dev",
         "watch"

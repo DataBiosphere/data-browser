@@ -33,11 +33,16 @@ import { KeywordsEffects } from "./keywords/shared/keywords.effects";
 // Import and combine all reducers to a single object.
 import * as fromFiles from "./files/files.reducer";
 import * as fromKeywords from "./keywords/reducer";
+import * as authReducer from "./auth/_ngrx/auth.reducer";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AuthEffects } from "./auth/_ngrx/auth.effects";
+import { UserService } from "./data/user/user.service";
 
 const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
     fromFiles.reducers,
-    fromKeywords.reducers);
+    fromKeywords.reducers,
+    { auth: authReducer.reducer }
+    );
 
 
 /**
@@ -59,12 +64,11 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         StoreModule.forRoot(reducers),
 
         // NGRX EFFECTS SETUP
-        EffectsModule.forRoot([KeywordsEffects, FilesEffects]),
+        EffectsModule.forRoot([KeywordsEffects, FilesEffects, AuthEffects]),
 
         // CHILD MODULES SETUP
         FilesModule,
         CCSnapperModule
-
     ],
     declarations: [
 
@@ -79,6 +83,9 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         CCHamburgerDirective,
         CGLSubnavComponent,
         CGLToolbarComponent
+    ],
+    providers: [
+        UserService
     ]
 })
 export class AppModule {
