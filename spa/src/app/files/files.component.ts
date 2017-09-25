@@ -6,15 +6,16 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 
 // App dependencies
-import {
-    RequestFileManifestSummaryAction,
-    RequestDownloadFileManifestAction
-} from "./actions/file-actions";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
-import { selectFileFacetsFileFacets, selectFileSummarySummary } from "./files.reducer";
-import { ACTIONS } from "../shared/boardwalk.actions";
-import { BoardwalkStore } from "../shared/boardwalk.model";
+
+import {
+    DownloadFileManifestAction,
+    FetchFileManifestSummaryRequestAction
+} from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
+import { selectFileFacetsFileFacets, selectFileSummary } from "./_ngrx/file.selectors";
+import { AppState } from "../_ngrx/app.state";
+import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 
 /**
  * Core files component, displays results summary as well as facets.
@@ -29,7 +30,7 @@ export class FilesComponent implements OnInit {
 
     // Locals
     private route: ActivatedRoute;
-    private store: Store<BoardwalkStore>;
+    private store: Store<AppState>;
 
     // Public variables
     public selectFileSummary$: Observable<FileSummary>;
@@ -37,10 +38,10 @@ export class FilesComponent implements OnInit {
 
     /**
      * @param route {ActivatedRoute}
-     * @param store {Store<BoardwalkStore>}
+     * @param store {Store<AppState>}
      */
     constructor(route: ActivatedRoute,
-                store: Store<BoardwalkStore>) {
+                store: Store<AppState>) {
 
         this.route = route;
         this.store = store;
@@ -55,7 +56,7 @@ export class FilesComponent implements OnInit {
      */
     public requestManifestSummary() {
 
-        this.store.dispatch(new RequestFileManifestSummaryAction());
+        this.store.dispatch(new FetchFileManifestSummaryRequestAction());
     }
 
 
@@ -63,7 +64,7 @@ export class FilesComponent implements OnInit {
      * Dispatch Manifest Download Request
      */
     public onDownloadManifest() {
-        this.store.dispatch(new RequestDownloadFileManifestAction());
+        this.store.dispatch(new DownloadFileManifestAction());
     }
 
     /**
@@ -76,14 +77,10 @@ export class FilesComponent implements OnInit {
     public ngOnInit() {
 
         // File Summary
-        // this.selectFileSummaryLoading$ = selectFileSummaryLoading(this.store);
-        // this.selectFileSummary$ = selectFileSummary(this.store);
-        this.selectFileSummary$ = this.store.select(selectFileSummarySummary);
+        this.selectFileSummary$ = this.store.select(selectFileSummary);
 
 
         // File Facets
-        // this.fileFacetsLoading$ = selectFileFacetsLoading(this.store);
-        // this.fileFacets$ = selectFileFacets(this.store);
         this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
 
         // initialize the filter state from the params in the route.
@@ -113,7 +110,8 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((query) => {
-                this.store.dispatch({ type: ACTIONS.INIT_FILE_FACETS, payload: query });
+                this.store.dispatch(new FetchFileFacetsRequestAction());
+                // this.store.dispatch({ type: ACTIONS.INIT_FILE_FACETS, payload: query });
             });
     }
 }

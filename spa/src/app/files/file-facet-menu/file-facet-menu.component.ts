@@ -12,11 +12,11 @@ import { Observable } from "rxjs/Observable";
 import * as _ from "lodash";
 
 // App dependencies
-import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacets } from "../files.reducer";
-import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
+import { AppState } from "../../_ngrx/app.state";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { selectFileFacets } from "../_ngrx/file.selectors";
 
 @Component({
     selector: "bw-file-facet-menu",
@@ -27,7 +27,7 @@ import { FileFacet } from "../shared/file-facet.model";
 export class FileFacetMenuComponent implements OnInit {
 
     // Privates
-    private store: Store<BoardwalkStore>;
+    private store: Store<AppState>;
 
     // Output
     @Output() closeMenu = new EventEmitter<void>();
@@ -37,9 +37,9 @@ export class FileFacetMenuComponent implements OnInit {
     fileFacet$: Observable<FileFacet>;
 
     /**
-     * @param store {Store<BoardwalkStore>}
+     * @param store {Store<AppState>}
      */
-    constructor(store: Store<BoardwalkStore>) {
+    constructor(store: Store<AppState>) {
 
         this.store = store;
     }
@@ -75,7 +75,6 @@ export class FileFacetMenuComponent implements OnInit {
      */
     ngOnInit() {
 
-        // this.fileFacet$ = selectFileFacetByName(this.store, this.fileFacetName);
         this.fileFacet$ = this.store.select(selectFileFacets)
             .map(state => state.fileFacets)
             .map(facets => _.find(facets, facet => facet.name === this.fileFacetName));

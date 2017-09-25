@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { KeywordsDAO } from "./keywords.dao";
-import { ACTIONS } from "../../shared/boardwalk.actions";
+import { Observable } from "rxjs/Observable";
+import { KeywordQueryResponse } from "./keyword-query-response.model";
 
 @Injectable()
 export class KeywordsService {
@@ -8,26 +9,20 @@ export class KeywordsService {
     constructor(private keywordsDAO: KeywordsDAO) { }
 
     /**
-     * Search Files
+     * Search Keywords
      *
-     * @param payload
-     * @returns {Observable<T>}
+     * @param {string} searchTerm
+     * @param {string} keywordType
+     * @returns {Observable<KeywordQueryResponse>}
      */
-    searchKeywords(payload: {searchTerm: string, type: string}) {
+    searchKeywords(searchTerm: string, keywordType: string): Observable<KeywordQueryResponse> {
 
         const query = {
-            q: payload.searchTerm,
+            q: searchTerm,
             from: 1,
             size: 5,
-            type: payload.type
+            type: keywordType
         };
-        return this.keywordsDAO
-            .searchKeywords(query)
-            .map((response) => {
-                return {
-                    type: ACTIONS.RECEIVE_KEYWORDS_QUERY,
-                    payload: response
-                };
-            });
+        return this.keywordsDAO.searchKeywords(query);
     }
 }

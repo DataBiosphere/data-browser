@@ -10,13 +10,12 @@ import { MdMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { ClearSelectedFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileFacetSearchMenuComponent } from "../file-facet-search-menu/file-facet-search-menu.component";
 import { FileSearchConfig } from "../file-search/file-search-config.model";
 import { FileFacet } from "../shared/file-facet.model";
-import { BoardwalkStore } from "../../shared/boardwalk.model";
-import { SelectFileFacetAction } from "../actions/select-file-facet.action";
+import { AppState } from "../../_ngrx/app.state";
+import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
 /**
  * Component responsible for displaying an individual facet with a search interface, as well as functionality around
@@ -32,7 +31,7 @@ export class FileFacetSearchComponent implements OnInit {
 
     // Privates
     fileSearchConfig: FileSearchConfig;
-    private store: Store<BoardwalkStore>;
+    private store: Store<AppState>;
 
     // Inputs
     @Input() fileFacet: FileFacet;
@@ -42,9 +41,9 @@ export class FileFacetSearchComponent implements OnInit {
     @ViewChild(FileFacetSearchMenuComponent) fileSearchMenuComponent: FileFacetSearchMenuComponent;
 
     /**
-     * @param store {Store<BoardwalkStore>}
+     * @param store {Store<AppState>}
      */
-    constructor(store: Store<BoardwalkStore>) {
+    constructor(store: Store<AppState>) {
 
         this.store = store;
     }
@@ -83,7 +82,7 @@ export class FileFacetSearchComponent implements OnInit {
 
         // Clear the selected facet in the store, on close of any open menu.
         this.trigger.onMenuClose.subscribe(() => {
-            this.store.dispatch(new ClearSelectedFacetAction());
+            this.store.dispatch(new ClearSelectedFileFacetsAction());
         });
 
         // Focus search box on open of menu

@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { CCBaseDAO } from "../../cc-http/shared/cc-base.dao";
 import { Http } from "@angular/http";
 import { ConfigService } from "../../shared/config.service";
+import { Observable } from "rxjs/Observable";
+import { KeywordQueryResponse } from "./keyword-query-response.model";
 
 @Injectable()
 export class KeywordsDAO extends CCBaseDAO {
@@ -11,7 +13,13 @@ export class KeywordsDAO extends CCBaseDAO {
         super(http);
     }
 
-    searchKeywords(query: Object) {
+    /**
+     * Search Keywords
+     *
+     * @param {Object} query
+     * @returns {Observable<KeywordQueryResponse>}
+     */
+    searchKeywords(query: Object): Observable<KeywordQueryResponse> {
         const url = this.buildApiUrl("/keywords");
         return this.get(url, query);
     }

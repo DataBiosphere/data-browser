@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/catch";
 
 import { FilesDAO } from "./files.dao";
 import { FileSummary } from "../file-summary/file-summary";

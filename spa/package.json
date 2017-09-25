@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -v --proxy-config proxy.conf.json",
-    "build": "ng build --prod -aot -op ../dist",
+    "build": "ng build --prod -aot false -op ../dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -13,12 +13,13 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "4.3.2",
+    "@angular/cdk": "2.0.0-beta.10",
     "@angular/common": "4.3.2",
     "@angular/compiler": "4.3.2",
     "@angular/core": "4.3.2",
     "@angular/forms": "4.3.2",
     "@angular/http": "4.3.2",
-    "@angular/material": "2.0.0-beta.1",
+    "@angular/material": "2.0.0-beta.10",
     "@angular/platform-browser": "4.3.2",
     "@angular/platform-browser-dynamic": "4.3.2",
     "@angular/router": "4.3.2",
@@ -34,6 +35,7 @@
     "@angular/cli": "1.2.6",
     "@angular/compiler-cli": "4.3.2",
     "@angular/language-service": "4.3.2",
+    "@ngrx/store-devtools": "^4.0.0",
     "@types/d3": "^4.10.0",
     "@types/lodash": "^4.14.74",
     "typescript": "2.4.1"

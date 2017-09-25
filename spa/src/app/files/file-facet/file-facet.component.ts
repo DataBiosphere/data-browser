@@ -15,9 +15,8 @@ import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { Term } from "../shared/term.model";
-import { BoardwalkStore } from "../../shared/boardwalk.model";
-import { ClearSelectedFacetAction } from "../actions/file-actions";
-import { SelectFileFacetAction } from "../actions/select-file-facet.action";
+import { AppState } from "../../_ngrx/app.state";
+import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
 
 /**
@@ -33,16 +32,16 @@ import { SelectFileFacetAction } from "../actions/select-file-facet.action";
 export class FileFacetComponent implements OnInit {
 
     // Privates
-    private store: Store<BoardwalkStore>;
+    private store: Store<AppState>;
 
     // Inputs
     @Input() fileFacet: FileFacet;
     @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
 
     /**
-     * @param store {Store<BoardwalkStore>}
+     * @param store {Store<AppState>}
      */
-    constructor(store: Store<BoardwalkStore>) {
+    constructor(store: Store<AppState>) {
 
         this.store = store;
     }
@@ -70,7 +69,7 @@ export class FileFacetComponent implements OnInit {
         }, 0);
 
         return new FacetTermChartData(fileFacet.name, selectedTerms, selectedCount);
-    };
+    }
 
     /**
      * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
@@ -118,7 +117,7 @@ export class FileFacetComponent implements OnInit {
 
         // Clear the selected facet in the store, on close of any open menu.
         this.trigger.onMenuClose.subscribe(() => {
-            this.store.dispatch(new ClearSelectedFacetAction());
+            this.store.dispatch(new ClearSelectedFileFacetsAction());
         });
     }
 }

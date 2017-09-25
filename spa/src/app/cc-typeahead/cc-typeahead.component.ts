@@ -9,7 +9,7 @@ import {
     ViewChild
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MdInputDirective } from "@angular/material";
+import { MdInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/distinctUntilChanged";
@@ -36,7 +36,7 @@ export class CcTypeaheadComponent implements OnInit {
     @Output() search = new EventEmitter<CCTypeaheadSearchEvent>();
 
     // View child/ren // TODO Dave
-    @ViewChild(MdInputDirective) mdSearchInput: MdInputDirective;
+    @ViewChild(MdInput) mdSearchInput: MdInput;
 
     /**
      * Public API
@@ -78,7 +78,7 @@ export class CcTypeaheadComponent implements OnInit {
             .debounceTime(333)
             .distinctUntilChanged()
             .subscribe(term => {
-                this.triggerSearchChanged(term)
+                this.triggerSearchChanged(term);
             });
     }
 

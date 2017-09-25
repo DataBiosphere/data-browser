@@ -13,15 +13,15 @@ import { Observable } from "rxjs/Observable";
 import * as _ from "lodash";
 
 // App dependencies
-import { SelectFileFacetAction } from "../actions/file-actions";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectFileFacets } from "../files.reducer";
-import { selectKeywords } from "../../keywords/reducer/index";
-import { ACTIONS } from "../../shared/boardwalk.actions";
-import { BoardwalkStore } from "../../shared/boardwalk.model";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileSearchComponent } from "../file-search/file-search.component";
 import { FileSearchConfig } from "../file-search/file-search-config.model";
+import { AppState } from "../../_ngrx/app.state";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { selectFileFacets } from "../_ngrx/file.selectors";
+import { ClearKeywordQueryAction, FetchKeywordsRequestAction } from "../../keywords/_ngrx/keyword.actions";
+import { selectKeywords } from "../../keywords/_ngrx/keyword.selectors";
 
 @Component({
     selector: "bw-file-facet-search-menu",
@@ -34,7 +34,7 @@ export class FileFacetSearchMenuComponent implements OnInit {
     // Privates
     files$: Observable<any[]>; // Search result hits
     fileFacet$: Observable<FileFacet>;
-    private store: Store<BoardwalkStore>;
+    private store: Store<AppState>;
 
     // Inputs
     @Input() fileSearchConfig: FileSearchConfig;
@@ -46,9 +46,9 @@ export class FileFacetSearchMenuComponent implements OnInit {
     @ViewChild(FileSearchComponent) fileSearchComponent: FileSearchComponent;
 
     /**
-     * @param store {Store<BoardwalkStore>}
+     * @param store {Store<AppState>}
      */
-    constructor(store: Store<BoardwalkStore>) {
+    constructor(store: Store<AppState>) {
 
         this.store = store;
 
@@ -82,20 +82,14 @@ export class FileFacetSearchMenuComponent implements OnInit {
      */
     public onSearch(searchRequest: { searchTerm: string, type: string }) {
 
+        // TODO - Keyword Actions
         if (searchRequest.searchTerm.length > 2) {
 
-            return this.store.dispatch({
-                type: ACTIONS.REQUEST_KEYWORDS_QUERY,
-                payload: searchRequest
-            });
+            return this.store.dispatch(new FetchKeywordsRequestAction(searchRequest.searchTerm, searchRequest.type));
         }
 
         // Dispatch clear event.
-        this.store.dispatch({
-            type: ACTIONS.CLEAR_KEYWORDS_QUERY, payload: {
-                type: searchRequest.type
-            }
-        });
+        this.store.dispatch(new ClearKeywordQueryAction());
     }
 
     /**
@@ -128,18 +122,15 @@ export class FileFacetSearchMenuComponent implements OnInit {
     ngOnInit() {
 
         // TODO revisit selector/reducer/function thingo here.
-        // this.fileFacet$ = selectFileFacetByName(this.store, this.fileSearchConfig.fileFacetName);
         this.fileFacet$ = this.store.select(selectFileFacets)
             .map(state => state.fileFacets)
             .map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName));
 
         // Get the list of currently selected files or donors, depending on the type of search being executed
         if ( this.fileSearchConfig.isFileSearch() ) {
-            // this.files$ = selectKeywordFiles(this.store);
             this.files$ = this.store.select(selectKeywords).filter(state => state.type === "file").map(state => state.hits);
         }
         else {
-            // this.files$ = selectKeywordDonors(this.store);
             this.files$ = this.store.select(selectKeywords).filter(state => state.type === "donor").map(state => state.hits);
         }
     }

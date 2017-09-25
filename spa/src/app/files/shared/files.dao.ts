@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
 
-import { FileSummary } from "../file-summary";
+import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { Dictionary } from "../../shared/dictionary";
 import { ICGCQuery } from "./icgc-query";

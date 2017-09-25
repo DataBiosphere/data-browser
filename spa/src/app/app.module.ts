@@ -2,12 +2,11 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { MaterialModule } from "@angular/material";
+import { MdToolbarModule } from "@angular/material";
 
 // NGRX
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
-import { ActionReducer } from "@ngrx/store";
 
 // App Dependencies
 import { AppComponent } from "./app.component";
@@ -20,30 +19,17 @@ import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-it
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
-import { Dictionary } from "./shared/dictionary";
 
 // Child Modules
 import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
 import { FilesModule } from "./files/files.module";
 
-// Effects
-import { FilesEffects } from "./files/shared/files.effects";
-import { KeywordsEffects } from "./keywords/shared/keywords.effects";
-
-// Import and combine all reducers to a single object.
-import * as fromFiles from "./files/files.reducer";
-import * as fromKeywords from "./keywords/reducer";
-import * as authReducer from "./auth/_ngrx/auth.reducer";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { AuthEffects } from "./auth/_ngrx/auth.effects";
 import { UserService } from "./data/user/user.service";
 
-const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
-    fromFiles.reducers,
-    fromKeywords.reducers,
-    { auth: authReducer.reducer }
-    );
-
+import { reducers } from "./_ngrx/app.reducer";
+import { AppEffects } from "./_ngrx/app.effects";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 /**
  * Code app module definition - imports shared and config modules as well as all app specific modules that must either
@@ -57,14 +43,14 @@ const reducers: Dictionary<ActionReducer<any>> = Object.assign({},
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(routes),
-        MaterialModule.forRoot(),
+        MdToolbarModule,
 
-        // NGRX SETUP MODEL/REDUCERS SETUP
-        // StoreModule.provideStore(reducers),
+        // NGRX SETUP
         StoreModule.forRoot(reducers),
-
-        // NGRX EFFECTS SETUP
-        EffectsModule.forRoot([KeywordsEffects, FilesEffects, AuthEffects]),
+        EffectsModule.forRoot(AppEffects),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25 //  Retains last 25 states
+        }),
 
         // CHILD MODULES SETUP
         FilesModule,

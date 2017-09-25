@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { SyncSessionRequestAction } from "./auth/_ngrx/auth.actions";
-import { BoardwalkStore } from "./shared/boardwalk.model";
+import { AppState } from "./_ngrx/app.state";
 
 /**
  * Root app!
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private sessionPoller: any;
 
-    constructor(private store: Store<BoardwalkStore>) {}
+    constructor(private store: Store<AppState>) {}
 
     ngOnInit() {
         this.store.dispatch(new SyncSessionRequestAction());

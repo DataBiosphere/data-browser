@@ -4,12 +4,9 @@ import { Action } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/switchMap";
 
-import { ACTIONS } from "../../shared/boardwalk.actions";
 import { KeywordsService } from "./keywords.service";
+import { FetchKeywordsRequestAction, FetchKeywordsSuccessAction } from "../_ngrx/keyword.actions";
 
-interface BwAction extends Action {
-    payload: any;
-}
 
 @Injectable()
 export class KeywordsEffects {
@@ -19,8 +16,11 @@ export class KeywordsEffects {
 
     @Effect()
     queryKeywords$: Observable<Action> = this.actions$
-        .ofType(ACTIONS.REQUEST_KEYWORDS_QUERY)
-        .switchMap((action: BwAction) => {
-            return this.keywordsService.searchKeywords(action.payload);
+        .ofType(FetchKeywordsRequestAction.ACTION_TYPE)
+        .switchMap((action: FetchKeywordsRequestAction) => {
+            return this.keywordsService.searchKeywords(action.searchTerm, action.keywordType);
+        })
+        .map((queryResults) => {
+            return new FetchKeywordsSuccessAction(queryResults);
         });
 }
