@@ -6,7 +6,7 @@ export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC";
 @Injectable()
 export class ConfigService {
 
-    private source: ApiSource = "UCSC";
+    private source: ApiSource = "UCSC_STAGE";
 
     constructor() { }
 
@@ -22,18 +22,22 @@ export class ConfigService {
 
         switch (this.source) {
             case "UCSC_STAGE":
-                return "https://dev.ucsc-cgl.org/api/v1";
+                return "https://carlos.ucsc-cgp-dev.org";
             case "UCSC":
-                return "http://ucsc-cgl.org/api/v1";
+                return "http://ucsc-cgl.org";
             default: // "ICGC"
-                return "https://dcc.icgc.org/api/v1";
+                return "https://dcc.icgc.org";
         }
+    }
+
+    getApiUrl(): string {
+        return this.getRootUrl() + "/api/v1";
     }
 
     hasSortOrder() {
 
-        return false;
-        // return this.source === "UCSC_STAGE" || this.source === "UCSC";
+        // return false;
+        return this.source === "UCSC_STAGE" || this.source === "UCSC";
     }
 
     getTestSortFacets(): FileFacetMetadata[] {

@@ -30,10 +30,9 @@ export class FilesService {
      * @param selectedFacetsByName
      * @returns {Observable<FileFacet[]>}
      */
-    public fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
+    public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
 
-        return this.fileDAO
-            .fetchFileFacets(selectedFacetsByName);
+        return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName);
     }
 
     /**

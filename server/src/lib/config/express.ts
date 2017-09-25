@@ -110,11 +110,11 @@ export const expressConfig = (app: Application) => {
 
     // Add local variable indicating if user is authenticated
     // For use in Handlebars templates
-    app.use((req: Req, res, next) => {
-
-        res.locals.userAuthenticated = req.isAuthenticated();
-        next();
-    });
+    // app.use((req: Req, res, next) => {
+    //
+    //     res.locals.userAuthenticated = req.isAuthenticated();
+    //     next();
+    // });
 
     // Set the user's last seen date
     // app.use((req: Req, res: Res, next: Next) => {

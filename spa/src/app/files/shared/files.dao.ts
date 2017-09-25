@@ -20,6 +20,10 @@ interface FilesAPIResponse {
     }>;
 }
 
+interface Ordering {
+    order: string[];
+}
+
 
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
@@ -56,7 +60,7 @@ export class FilesDAO extends CCBaseDAO {
             return Observable.of([]);
         }
 
-        const domain = this.configService.getRootUrl();
+        const domain = this.configService.getApiUrl();
         const url = `${domain}/repository/files/meta`;
         return this.get(url)
             .catch((error: any, caughtObs: Observable<any>) => {
@@ -71,9 +75,10 @@ export class FilesDAO extends CCBaseDAO {
      * http://docs.icgc.org/portal/api-endpoints/#!/repository/findAll
      *
      * @param selectedFacetsByName
-     * @returns {Observable<FileFacet>}
+     * @param ordering
+     * @returns {Observable<FileFacet[]>}
      */
-    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
+    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>, ordering): Observable<FileFacet[]> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
@@ -84,9 +89,37 @@ export class FilesDAO extends CCBaseDAO {
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
-                    return this.createFileFacets(selectedFacetsByName, repositoryFiles);
+                    return this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering);
                 }
             );
+    }
+
+    /**
+     * Fetch Facet Ordering
+     *
+     * @returns {Observable<Ordering>}
+     */
+    fetchFacetOrdering(): Observable<Ordering> {
+
+        if (this.configService.hasSortOrder()) {
+            const url = this.buildApiUrl(`/repository/files/order`);
+            return this.get(url);
+        }
+        return Observable.of({ order: [] });
+    }
+
+    /**
+     * Fetch Ordered File Facets
+     *
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @returns {Observable<FileFacet[]>}
+     */
+    fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
+
+        return this.fetchFacetOrdering()
+            .switchMap((ordering: Ordering) => {
+                return this.fetchFileFacets(selectedFacetsByName, ordering);
+            });
     }
 
     /**
@@ -146,11 +179,11 @@ export class FilesDAO extends CCBaseDAO {
      */
     private buildApiUrl(url: string) {
 
-        const domain = this.configService.getRootUrl();
+        const domain = this.configService.getApiUrl();
         return `${domain}${url}`;
     }
 
-    private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse): FileFacet[] {
+    private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
 
 
         const facetNames = Object.keys(filesAPIResponse.termFacets);
@@ -208,7 +241,16 @@ export class FilesDAO extends CCBaseDAO {
         let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
 
+        if (ordering.order.length) {
 
+            const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
+                return acc.set(facet.name, facet);
+            }, new Map<string, FileFacet>());
+
+            return ordering.order.map((name: string) => {
+                return facetMap.get(name);
+            });
+        }
 
         return newFileFacets;
 

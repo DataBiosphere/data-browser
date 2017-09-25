@@ -227,14 +227,14 @@ export class FileEffects {
      * @returns {Observable<FileFacet[]>}
      */
     private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>): Observable<FileFacet[]> {
-        const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary); //.filter(state => state.exists);
+        const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary);
 
         const sortOrder$ = this.store.select(selectFileFacetMetadataSummary)
             .map(state => state.sortOrder)
             .combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
 
         return this.fileService
-            .fetchFileFacets(selectedFacets)
+            .fetchOrderedFileFacets(selectedFacets)
             .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
 
                 if (!sortOrder || !sortOrder.length) {

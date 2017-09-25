@@ -9,7 +9,6 @@ import { QueryModel } from "cc-qm";
 
 import * as authDAO from "./auth-dao";
 import { OID, Callback } from "../../boardwalk";
-import { Person } from "../person/person-definition";
 
 /**
  * Create Auth Object
@@ -125,16 +124,6 @@ export function markTokenAsUsed(token: string, next: Callback<AccessToken>): voi
     let qm = new QueryModel();
     qm.addEqualsQueryFilter("token", token);
     authDAO.updateAccessToken(qm, updates, next);
-}
-
-/**
- * Check User Role
- *
- * @param user
- * @returns {boolean}
- */
-export function isUserRole(user: Person): boolean {
-    return user.role === "USER";
 }
 
 /**
