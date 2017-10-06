@@ -132,7 +132,7 @@ export class FacetTermChartComponent {
                         let x1 = d[1];
                         let tooltipContent = chartDOM.tooltip
                             .append("div")
-                            .attr("class", "md-tooltip")
+                            .attr("class", "mat-tooltip")
                             .text(d.key);
 
                         // x coordinate - position tooltip in middle of section bar
@@ -166,7 +166,7 @@ export class FacetTermChartComponent {
                 })
                 .on("mouseleave", (d) => {
 
-                    d3.select(".md-tooltip").remove();
+                    d3.select(".mat-tooltip").remove();
                 })
                 .selectAll("rect")
                 .data((d) => { return d as any[]; })

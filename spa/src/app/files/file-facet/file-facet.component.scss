@@ -4,7 +4,6 @@
  *
  * Facet (grid item) styles.
  */
-
 @import "../../shared/theme/cgl.vars";
 
 :host {
@@ -17,8 +16,9 @@
         padding: 24px 16px !important;
 
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
-        /deep/ .md-card-header-text {
+        /deep/ .mat-card-header-text {
             flex: 1;
+            height: 40px; /* Required to match MD 2.0.0-beta.1 md-card-header-text specification, which then allows file-facet-menu card to overlay with correct height proportions */
             margin: 0; // Remove MD's default left/right margin
         }
 
@@ -78,7 +78,7 @@
             margin: 0 0 16px; // Add margin bottom to stacked cards TODO revisit - why is layout-margin applied to XS?
 
             /** Override MD default margin bottom */
-            /deep/ md-card-header {
+            /deep/ .mat-card-header {
                 margin-bottom: 16px;
             }
         }

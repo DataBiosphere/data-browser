@@ -4,11 +4,26 @@
  *
  * Styles for edit mode of file facet with an interface type of checkbox list.
  */
+@import "../../shared/theme/cgl.vars";
 
 :host {
 
     /** Position term list to match card position. TODO revisit post merge - can this be deleted? */
     facet-term-list {
-        margin: 28px 24px 0 20px;
+        margin: 24px 24px 0 20px; /* TODO confirm - margin-top was 28px, changed to 24px */
+    }
+}
+
+/**
+ * XS only
+ */
+@media (max-width: $md-xs-max) {
+
+    :host {
+
+        /** Position term list to match card position. TODO revisit post merge - can this be deleted? */
+        facet-term-list {
+            margin: 32px 24px 0 20px; /* TODO confirm - margin-top was 28px, changed to 32px for mobile view */
+        }
     }
 }

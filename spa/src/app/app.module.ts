@@ -2,7 +2,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { MdToolbarModule } from "@angular/material";
+import { MdButtonModule, MdIconModule, MdToolbarModule } from "@angular/material";
 
 // NGRX
 import { EffectsModule } from "@ngrx/effects";
@@ -43,6 +43,8 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(routes),
+        MdButtonModule,
+        MdIconModule,
         MdToolbarModule,
 
         // NGRX SETUP

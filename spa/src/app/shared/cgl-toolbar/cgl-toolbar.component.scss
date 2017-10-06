@@ -42,6 +42,7 @@ md-toolbar {
     /deep/ [md-mini-fab] {
         box-shadow: none;
         background-color: transparent;
+        color: $cgl-green;
     }
 }
 
