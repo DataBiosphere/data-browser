@@ -15,16 +15,16 @@
     /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */
     header {
         display: block;
-        min-height: 128px; // 64px toolbar, 64px subnav
+        min-height: 64px; // 64px toolbar
 
         // Specific position for mobile devices in portrait mode.
         @media (max-width: $md-sm-min) and (orientation: portrait) {
-            min-height: 112px; // 56px toolbar, 56px subnav
+            min-height: 56px; // 56px toolbar
         }
 
         // Specific position for mobile devices in landscape mode.
         @media (max-width: $md-md-min) and (orientation: landscape) {
-            min-height: 76px; // 48px toolbar, 48px subnav
+            min-height: 48px; // 48px toolbar
         }
     }
 }

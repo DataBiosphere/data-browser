@@ -23,7 +23,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
         &.snap {
             /deep/ bw-file-summary {
-                top: ($height + $height); // Double height - one for main nav, one for sub nav
+                top: ($height); // Single height - for main nav
             }
         }
     }

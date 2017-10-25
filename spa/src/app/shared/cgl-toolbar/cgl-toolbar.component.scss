@@ -4,7 +4,6 @@
  *
  * CGL-specific overrides of Material Design toolbar.
  */
-
 @import "../../shared/theme/cgl.vars";
 
 /**
@@ -20,6 +19,7 @@ md-toolbar {
     background: #ffffff; // Override MD default
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
     color: $cgl-green;
+    position: relative;
 
     // Menu is hidden by default
     [menu-close] {
@@ -45,7 +45,6 @@ md-toolbar {
         color: $cgl-green;
     }
 }
-
 
 /**
  * Extra small, small
@@ -84,3 +83,28 @@ md-toolbar {
         }
     }
 }
+
+// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in portrait mode.
+@media (max-width: $md-sm-min) and (orientation: portrait) {
+
+    md-toolbar {
+        min-height: 0;
+
+        /deep/ .mat-toolbar-row {
+            height: 56px; // 56px toolbar
+        }
+    }
+}
+
+// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in landscape mode.
+@media (max-width: $md-md-min) and (orientation: landscape) {
+
+    md-toolbar {
+        min-height: 0;
+
+        /deep/ .mat-toolbar-row {
+            height: 48px; // 48px toolbar
+        }
+    }
+}
+
