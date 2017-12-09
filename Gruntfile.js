@@ -93,41 +93,12 @@ module.exports = function (grunt) {
         env: {
             test: {
                 NODE_ENV: "test",
-                AWS_ACCESS_KEY_ID: "AKIAJGVPPYKZZ2Z6VHQQ",
-                AWS_SECRET_KEY: "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",
-                TZ: "UTC",
-                ENCRYPTION_KEY: "/prEVE="
+                TZ: "UTC"
             },
             local: {
                 NODE_ENV: "local",
-                AWS_ACCESS_KEY_ID: "AKIAJGVPPYKZZ2Z6VHQQ",
-                AWS_SECRET_KEY: "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",
-                TZ: "UTC",
-                ENCRYPTION_KEY: "ENCRYPTION_KEY"
-            },
-            prod: {
-                NODE_ENV: "production",
-                AWS_ACCESS_KEY_ID: "AKIAJGVPPYKZZ2Z6VHQQ",
-                AWS_SECRET_KEY: "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",
-                TZ: "UTC",
-                ENCRYPTION_KEY: "ENCRYPTION_KEY"
+                TZ: "UTC"
             }
-        },
-
-        mongobackup: {
-            options: {
-                host: "localhost",
-                port: "27017",
-                db: "bw-local",
-                dump: {
-                    out: "./dump"
-                },
-                restore: {
-                    path: "./dump/bw-local",
-                    drop: true
-                }
-            }
-
         },
 
         compress: {
@@ -189,11 +160,6 @@ module.exports = function (grunt) {
         "express:dev",
         "watch"
     ]);
-    grunt.registerTask("start:prod", "Start working on this project!", [
-        "env:prod",
-        "express:prod",
-        "watch"
-    ]);
 
 
     // Build
@@ -217,67 +183,5 @@ module.exports = function (grunt) {
             done();
         }, 2000);
     });
-
-    // Copy of mongobackup for test db
-    grunt.registerTask("mongotestbackup", function (task) {
-
-        var done = this.async();
-        var args = [];
-        var baseArgs = ["--host=localhost", "--port=27017", "--db=bw-test"];
-        var restoreArgs = ["--drop", "./dump/bw-test"];
-        var dumpArgs = ["--out=dump"];
-
-        if (task === "dump") {
-            args = baseArgs.concat(dumpArgs);
-        }
-        if (task === "restore") {
-            args = baseArgs.concat(restoreArgs);
-        }
-
-        grunt.util.spawn({
-                cmd: "mongo" + task,
-                args: args,
-                opts: { stdio: [ process.stdin,
-                    process.stout,
-                    process.stderr
-                ]
-                }
-            },
-            function (error, result) {
-                if (error) {
-                    grunt.log.error(result.stderr);
-                }
-                done();
-            });
-    });
-
-    // Run tests
-    grunt.registerTask("test", function (target) {
-
-        if (target === "service") {
-
-            return grunt.task.run([
-                "env:test",
-                "mongotestbackup:restore",
-                "mochaTest:service"
-            ]);
-        }
-
-        if (target === "api") {
-
-            return grunt.task.run([
-                "env:test",
-                "mongotestbackup:restore",
-                "mochaTest:api"
-            ]);
-        }
-
-        if (target === "clean") {
-
-            return grunt.task.run([
-                "exec:clearTests"
-            ]);
-        }
-
-    });
+    
 };

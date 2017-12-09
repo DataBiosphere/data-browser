@@ -1,8 +1,8 @@
-<md-toolbar>
+<mat-toolbar>
     <img src="/assets/images/logos/ucsc-gi/logo-ucsc-gi@1x.png"
          srcset="/assets/images/logos/ucsc-gi/logo-ucsc-gi@2x.png 2x, /assets/images/logos/ucsc-gi/logo-ucsc-gi@3x.png 3x">
-    <button md-mini-fab menu-open cc-hamburger><md-icon>menu</md-icon></button>
-    <button md-mini-fab menu-close><md-icon>close</md-icon></button>
+    <button md-mini-fab menu-open cc-hamburger><mat-icon>menu</mat-icon></button>
+    <button md-mini-fab menu-close><mat-icon>close</mat-icon></button>
     <cc-toolbar-nav>
         <cc-toolbar-nav-item>
             <a href="{{rootUrl}}/index.html">Home</a>
@@ -45,4 +45,4 @@
             <a *ngIf="!(hasRedwoodToken$ | async)">No Token</a>
         </cc-toolbar-nav-item>
     </cc-toolbar-nav>
-</md-toolbar>
+</mat-toolbar>

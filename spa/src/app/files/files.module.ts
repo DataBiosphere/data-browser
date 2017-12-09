@@ -3,14 +3,14 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import {
-    MdButtonModule,
-    MdCardModule,
-    MdCheckboxModule,
-    MdDialogModule,
-    MdIconModule,
-    MdInputModule,
-    MdMenuModule,
-    MdTooltipModule
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatTooltipModule
 } from "@angular/material";
 
 // App dependencies
@@ -43,14 +43,14 @@ import { ConfigService } from "../shared/config.service";
 @NgModule({
     imports: [
         CommonModule,
-        MdButtonModule,
-        MdCardModule,
-        MdCheckboxModule,
-        MdDialogModule,
-        MdIconModule,
-        MdInputModule,
-        MdMenuModule,
-        MdTooltipModule,
+        MatButtonModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatTooltipModule,
         RouterModule.forChild(routes),
 
         CCHttpModule,

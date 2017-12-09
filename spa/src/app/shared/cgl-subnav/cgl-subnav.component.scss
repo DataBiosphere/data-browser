@@ -16,7 +16,7 @@
     display: block;
 }
 
-md-toolbar {
+mat-toolbar {
 
     &.subheader {
 
@@ -41,7 +41,7 @@ md-toolbar {
         }
 
         // Position title to the left and links to the right
-        /deep/ md-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
+        /deep/ mat-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
             justify-content: space-between;
         }
     }

@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewChild
 } from "@angular/core";
-import { MdMenuTrigger } from "@angular/material";
+import { MatMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -37,7 +37,7 @@ export class FileFacetSearchComponent implements OnInit {
     @Input() fileFacet: FileFacet;
 
     // View child/ren
-    @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
+    @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
     @ViewChild(FileFacetSearchMenuComponent) fileSearchMenuComponent: FileFacetSearchMenuComponent;
 
     /**

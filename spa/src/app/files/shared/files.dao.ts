@@ -50,6 +50,20 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
+     * Fetch the table data associatd witht the current search params and table offset, limit
+     *
+     * @param {FileFacet[]} selectedFacets
+
+     */
+    fetchTableData(selectedFacets?: FileFacet[]): Observable<FileSummary> {
+
+        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
+
+        const url = this.buildApiUrl(`/repository/files/summary`);
+        const filterParams = Object.assign({}, query);
+        return this.get<FileSummary>(url, filterParams);
+    }
+    /**
      * Fetch Facet Order
      *
      * @returns {Observable<FileFacetMetadata[]>}

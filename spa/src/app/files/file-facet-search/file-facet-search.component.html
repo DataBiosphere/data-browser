@@ -1,29 +1,29 @@
-<md-card class="layout-margin" [mdMenuTriggerFor]="editMenu" >
-    <md-card-header>
-        <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
-        <md-card-subtitle>
+<mat-card class="layout-margin" [matMenuTriggerFor]="editMenu" >
+    <mat-card-header>
+        <mat-card-title>{{fileFacet.name | camelToSpace}}</mat-card-title>
+        <mat-card-subtitle>
             <span>
                 <!--{{fileFacet.total | localeString}}-->
             </span>
-        </md-card-subtitle>
-    </md-card-header>
-    <md-card-content>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
         <div class="chart-dummy"></div>
-        <md-input-container>
-            <md-placeholder>{{fileSearchConfig.placeholder}}</md-placeholder>
-            <input mdInput type="text" disabled>
-        </md-input-container>
+        <mat-input-container>
+            <mat-placeholder>{{fileSearchConfig.placeholder}}</mat-placeholder>
+            <input matInput type="text" disabled>
+        </mat-input-container>
         <facet-term-list  *ngIf="!!fileFacet.terms.length"
                           [fileFacet]="fileFacet"
                           [useShortList]="true"
                           (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
-            <md-icon>expand_more</md-icon>
+            <mat-icon>expand_more</mat-icon>
         </div>
-    </md-card-content>
-</md-card>
-<md-menu #editMenu="mdMenu" [class]="'edit-menu edit-menu-tall'">
+    </mat-card-content>
+</mat-card>
+<mat-menu #editMenu="matMenu" [class]="'edit-menu edit-menu-tall'">
     <bw-file-facet-search-menu [fileSearchConfig]="fileSearchConfig"
                                (closeMenu)="onCloseMenu()"></bw-file-facet-search-menu>
-</md-menu>
+</mat-menu>

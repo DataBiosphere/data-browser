@@ -204,7 +204,7 @@ export class FileEffects {
     /**
      * Fetch Metadata For File Facets
      *
-     * @type {Observable<Action>}
+     * @type {Observable<Action>}d
      */
     @Effect()
     fetchFacetMetadata$: Observable<Action> = this.actions$

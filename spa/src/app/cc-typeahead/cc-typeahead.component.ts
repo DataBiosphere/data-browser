@@ -9,7 +9,7 @@ import {
     ViewChild
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MdInput } from "@angular/material";
+import { MatInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/distinctUntilChanged";
@@ -36,7 +36,7 @@ export class CcTypeaheadComponent implements OnInit {
     @Output() search = new EventEmitter<CCTypeaheadSearchEvent>();
 
     // View child/ren // TODO Dave
-    @ViewChild(MdInput) mdSearchInput: MdInput;
+    @ViewChild(MatInput) mdSearchInput: MatInput;
 
     /**
      * Public API

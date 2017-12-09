@@ -75,7 +75,7 @@ $cgl-fab-gutter-gt-xs: 24px;
     bottom: $cgl-fab-gutter-xs;
     right: $cgl-fab-gutter-xs;
     /** Use specific selector to overide MD defaults */
-    &[md-fab] {
+    &[mat-fab] {
         color: #ffffff;
         position: fixed;
     }

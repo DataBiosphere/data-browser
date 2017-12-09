@@ -1,16 +1,16 @@
-<md-card class="layout-margin" [mdMenuTriggerFor]="editMenu">
-    <md-card-header>
-        <md-card-title>{{fileFacet.name | camelToSpace}}</md-card-title>
-        <md-card-subtitle>
+<mat-card class="layout-margin" [matMenuTriggerFor]="editMenu">
+    <mat-card-header>
+        <mat-card-title>{{fileFacet.name | camelToSpace}}</mat-card-title>
+        <mat-card-subtitle>
             <span>
                 {{fileFacet.total | localeString}}
             </span>
             <span>
                 {{fileFacet.selectedTermCount}} /  {{fileFacet.termCount}}
             </span>
-        </md-card-subtitle>
-    </md-card-header>
-    <md-card-content>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
         <ng-container [ngSwitch]="!fileFacet.terms.length">
             <div class="chart-dummy" *ngSwitchCase="true"></div>
             <ng-container *ngSwitchDefault>
@@ -22,13 +22,13 @@
         </ng-container>
         <div *ngIf="fileFacet.moar" class="facet-more">
             <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
-            <md-icon>expand_more</md-icon>
+            <mat-icon>expand_more</mat-icon>
         </div>
-    </md-card-content>
-</md-card>
-<md-menu #editMenu="mdMenu" [class]="'edit-menu'">
+    </mat-card-content>
+</mat-card>
+<mat-menu #editMenu="matMenu" [class]="'edit-menu'">
     <bw-file-facet-menu [fileFacetName]="fileFacet.name" (closeMenu)="onCloseMenu()"></bw-file-facet-menu>
-</md-menu>
+</mat-menu>
 
 
 

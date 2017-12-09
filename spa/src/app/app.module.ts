@@ -2,7 +2,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { MdButtonModule, MdIconModule, MdToolbarModule } from "@angular/material";
+import { MatButtonModule, MatIconModule, MatToolbarModule } from "@angular/material";
 
 // NGRX
 import { EffectsModule } from "@ngrx/effects";
@@ -43,9 +43,9 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(routes),
-        MdButtonModule,
-        MdIconModule,
-        MdToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatToolbarModule,
 
         // NGRX SETUP
         StoreModule.forRoot(reducers),

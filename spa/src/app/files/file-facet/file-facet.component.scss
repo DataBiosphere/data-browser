@@ -8,7 +8,7 @@
 
 :host {
 
-    md-card {
+    mat-card {
 
         cursor: pointer; // Entire card is clickable
 
@@ -23,13 +23,13 @@
         }
 
         /** Right align selected facet term count in subtitle */
-        /deep/ md-card-subtitle {
+        /deep/ mat-card-subtitle {
             display: flex;
             justify-content: space-between;
         }
 
         /** Add min height to card content for consistent card height **/
-        /deep/ md-card-content {
+        /deep/ mat-card-content {
             min-height: 160px;
             position: relative; /** Required for positioning of caret */
 
@@ -59,7 +59,7 @@
         }
 
         /** Override default MD margin left/right to align buttons with checkboxes */
-        md-card-actions {
+        mat-card-actions {
             margin-left: -16px;
             margin-right: -16px;
         }
@@ -73,7 +73,7 @@
 
     :host {
 
-        md-card {
+        mat-card {
 
             margin: 0 0 16px; // Add margin bottom to stacked cards TODO revisit - why is layout-margin applied to XS?
 

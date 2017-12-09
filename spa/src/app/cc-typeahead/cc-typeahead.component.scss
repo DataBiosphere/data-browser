@@ -9,19 +9,19 @@
 
 :host {
 
-    md-input-container {
+    mat-input-container {
         width: 100%;
     }
 
     /** Override default MD colors */
-    /deep/ .md-input-placeholder {
+    /deep/ .mat-input-placeholder {
         &.md-focused {
             color: $cgl-green;
         }
     }
 
-    /deep/ .md-input-underline {
-        .md-input-ripple {
+    /deep/ .mat-input-underline {
+        .mat-input-ripple {
             background-color: $cgl-green;
         }
     }

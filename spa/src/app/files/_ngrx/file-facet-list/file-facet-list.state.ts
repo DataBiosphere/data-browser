@@ -1,5 +1,7 @@
 import { FileFacet } from "../../shared/file-facet.model";
 import { FetchFileFacetsSuccessAction, SelectFileFacetAction } from "./file-facet-list.actions";
+import { PaginationModel } from "../../shared/pagination.model";
+import { noUndefined } from "@angular/compiler/src/util";
 
 export class FileFacetListState {
 
@@ -8,6 +10,7 @@ export class FileFacetListState {
     public readonly selectedFileFacets: FileFacet[];
     // public readonly loading: boolean;
     public readonly selectedFacet: FileFacet; // the one being edited.
+    public readonly paginationModel: PaginationModel;
 
     private readonly fileFacetNames: string[];
     private readonly fileFacetsByName: Map<string, FileFacet>;
@@ -15,12 +18,16 @@ export class FileFacetListState {
     constructor(fileFacetNames: string[],
                 nameToFileFacetMap: Map<string, FileFacet>,
                 // loading: boolean,
-                selectedFacet: FileFacet) {
+                selectedFacet: FileFacet,
+                paginationModel: PaginationModel) {
 
         // this.loading = loading;
         this.fileFacetNames = fileFacetNames;
         this.fileFacetsByName = nameToFileFacetMap;
         this.selectedFacet = selectedFacet;
+
+        // TODO set default paginatin model if undefined
+        this.paginationModel = paginationModel;
 
         this.selectedFileFacesByName =
             this.fileFacetNames.map(name => this.fileFacetsByName.get(name)).reduce((map, val) => {
@@ -40,7 +47,7 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public requestFileFacets(): FileFacetListState {
-        return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, this.selectedFacet);
+        return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, this.selectedFacet, this.paginationModel);
         // return this;
     }
 
@@ -52,7 +59,7 @@ export class FileFacetListState {
      */
     public receiveFileFacets(action: FetchFileFacetsSuccessAction): FileFacetListState {
         return new FileFacetListState(FileFacetListState.createFileFacetNames(action.fileFacets),
-            FileFacetListState.createFileFacetsMap(action.fileFacets), this.selectedFacet);
+            FileFacetListState.createFileFacetsMap(action.fileFacets), this.selectedFacet, this.paginationModel);
     }
 
     /**
@@ -61,7 +68,7 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public clearSelectedFacet() {
-        return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, undefined);
+        return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, undefined, undefined);
     }
 
     /**
@@ -104,7 +111,7 @@ export class FileFacetListState {
                 selectedFacet = facet;
             }
 
-            return new FileFacetListState(this.fileFacetNames, m, selectedFacet);
+            return new FileFacetListState(this.fileFacetNames, m, selectedFacet, this.paginationModel);
         }
     }
 
@@ -114,7 +121,7 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public static getDefaultState() {
-        return new FileFacetListState([], new Map<string, FileFacet>(), undefined);
+        return new FileFacetListState([], new Map<string, FileFacet>(), undefined, undefined);
     }
 
     /*******************************************

@@ -9,7 +9,7 @@
 
 :host {
 
-    md-card {
+    mat-card {
 
         color: #ffffff;
         padding: 0;
@@ -29,7 +29,7 @@
             }
 
             /** Override default MD bottom margin/padding to scoot count and label closer, and top margin/padding to vertically align correctly in card **/
-            .md-headline {
+            .mat-headline {
                 margin: 0;
                 padding: 0;
             }

@@ -14,7 +14,7 @@
     display: block;
 }
 
-md-toolbar {
+mat-toolbar {
 
     background: #ffffff; // Override MD default
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
@@ -51,10 +51,10 @@ md-toolbar {
  */
 @media (max-width: $md-sm-max) {
 
-    md-toolbar {
+    mat-toolbar {
 
         // Position logo to the left and hamburger to the right
-        /deep/ md-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
+        /deep/ mat-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
             justify-content: space-between;
         }
 
@@ -75,7 +75,7 @@ md-toolbar {
         display: none;
     }
 
-    md-toolbar {
+    mat-toolbar {
 
         // Add space between logo and nav items (16px + 72px)
         img {
@@ -87,7 +87,7 @@ md-toolbar {
 // Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in portrait mode.
 @media (max-width: $md-sm-min) and (orientation: portrait) {
 
-    md-toolbar {
+    mat-toolbar {
         min-height: 0;
 
         /deep/ .mat-toolbar-row {
@@ -99,7 +99,7 @@ md-toolbar {
 // Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in landscape mode.
 @media (max-width: $md-md-min) and (orientation: landscape) {
 
-    md-toolbar {
+    mat-toolbar {
         min-height: 0;
 
         /deep/ .mat-toolbar-row {

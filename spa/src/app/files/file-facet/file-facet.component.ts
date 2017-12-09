@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewChild
 } from "@angular/core";
-import { MdMenuTrigger } from "@angular/material";
+import { MatMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
 import * as _ from "lodash";
 
@@ -36,7 +36,7 @@ export class FileFacetComponent implements OnInit {
 
     // Inputs
     @Input() fileFacet: FileFacet;
-    @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
+    @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
     /**
      * @param store {Store<AppState>}
