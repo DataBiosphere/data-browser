@@ -1,6 +1,6 @@
 import { FileFacet } from "../../shared/file-facet.model";
 import { FetchFileFacetsSuccessAction, SelectFileFacetAction } from "./file-facet-list.actions";
-import { PaginationModel } from "../../shared/pagination.model";
+import { PaginationModel } from "../../table/pagination.model";
 import { noUndefined } from "@angular/compiler/src/util";
 
 export class FileFacetListState {

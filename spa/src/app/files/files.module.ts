@@ -35,6 +35,7 @@ import { KeywordsModule } from "../keywords/keywords.module";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ConfigService } from "../shared/config.service";
+import { TableComponent } from "./table/table.component";
 
 
 /**
@@ -78,9 +79,9 @@ import { ConfigService } from "../shared/config.service";
         FileFacetMenuComponent,
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
+        TableComponent,
 
-        FileNameShortenerPipe
-    ],
+        FileNameShortenerPipe],
     providers: [
         ConfigService,
         FilesService,

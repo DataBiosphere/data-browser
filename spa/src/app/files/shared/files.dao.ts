@@ -12,6 +12,7 @@ import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../shared/config.service";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
+import { TableModel } from "../table/table.model";
 
 interface FilesAPIResponse {
     termFacets: Dictionary<{
@@ -50,20 +51,6 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
-     * Fetch the table data associatd witht the current search params and table offset, limit
-     *
-     * @param {FileFacet[]} selectedFacets
-
-     */
-    fetchTableData(selectedFacets?: FileFacet[]): Observable<FileSummary> {
-
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
-
-        const url = this.buildApiUrl(`/repository/files/summary`);
-        const filterParams = Object.assign({}, query);
-        return this.get<FileSummary>(url, filterParams);
-    }
-    /**
      * Fetch Facet Order
      *
      * @returns {Observable<FileFacetMetadata[]>}
@@ -99,7 +86,7 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({ include: "facets", from: 1, size: 1 }, query);
+        const filterParams = Object.assign({  from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {

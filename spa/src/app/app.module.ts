@@ -56,6 +56,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
         // CHILD MODULES SETUP
         FilesModule,
+     //   TableModule,
         CCSnapperModule
     ],
     declarations: [
@@ -70,7 +71,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         CGLFooterNavItemComponent,
         CCHamburgerDirective,
         CGLSubnavComponent,
-        CGLToolbarComponent
+        CGLToolbarComponent,
     ],
     providers: [
         UserService

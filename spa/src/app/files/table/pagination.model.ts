@@ -8,7 +8,7 @@ export class PaginationModel {
     public sort: string;
     public total: number;
 
-    constructor(){
+    constructor() {
 
     }
 }
