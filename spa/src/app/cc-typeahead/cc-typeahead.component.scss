@@ -4,25 +4,25 @@
  *
  * Styles for typeahead.
  */
-
 @import "../shared/theme/cgl.vars";
 
 :host {
 
-    mat-input-container {
+    mat-form-field {
         width: 100%;
-    }
 
-    /** Override default MD colors */
-    /deep/ .mat-input-placeholder {
-        &.md-focused {
-            color: $cgl-green;
+        /** Override default MD colors */
+        &.mat-focused {
+
+            mat-placeholder {
+                color: $cgl-green;
+            }
         }
-    }
 
-    /deep/ .mat-input-underline {
-        .mat-input-ripple {
-            background-color: $cgl-green;
+        /deep/ .mat-input-underline {
+            .mat-input-ripple {
+                background-color: $cgl-green;
+            }
         }
     }
 }

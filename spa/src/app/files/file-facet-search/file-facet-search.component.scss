@@ -4,13 +4,11 @@
  *
  * Facet (grid item) styles.
  */
-
 @import "../../shared/theme/cgl.vars";
 
 :host {
 
     mat-card {
-
 
         // TODO remove once search "term" functionality is finalized
         .chart-legend-bar {
@@ -25,9 +23,6 @@
         }
         // TODO end remove
 
-
-
-
         cursor: pointer; // Entire card is clickable
 
         /** Override MD default padding, for all device sizes */
@@ -36,6 +31,7 @@
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
         /deep/ .mat-card-header-text {
             flex: 1;
+            height: 40px;
             margin: 0; // Remove MD's default left/right margin
         }
 
@@ -81,28 +77,23 @@
         }
 
         /** Override dummy search input on card */
-        /deep/ mat-input-container {
-
+        mat-form-field {
             display: block;
 
             /** Override "disabled" search input, should look enabled but act as if disabled (to trigger menu). Match MD enabled input */
-            .md-input-underline {
-                &.md-disabled {
-                    background-image: none;
-                    border-top-width: 1px;
-                    border-top-style: solid;
-                    border-color: rgba(0, 0, 0, 0.12);
-                }
+            /deep/ .mat-form-field-underline {
+                background-image: none !important;
+                border-top-width: 1px;
+                border-top-style: solid;
+                border-color: rgba(0, 0, 0, 0.12);
             }
 
-            .md-input-wrapper {
+            /deep/ .mat-input-wrapper {
                 margin-bottom: 0;
             }
 
-            .md-input-placeholder {
-                &.md-empty {
-                    font-size: 10px;
-                }
+            mat-placeholder {
+                font-size: 10px;
             }
         }
 
@@ -114,6 +105,7 @@
             margin-top: 16px;
         }
     }
+
 }
 
 /**

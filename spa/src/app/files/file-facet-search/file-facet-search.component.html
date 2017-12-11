@@ -9,10 +9,10 @@
     </mat-card-header>
     <mat-card-content>
         <div class="chart-dummy"></div>
-        <mat-input-container>
+        <mat-form-field>
             <mat-placeholder>{{fileSearchConfig.placeholder}}</mat-placeholder>
             <input matInput type="text" disabled>
-        </mat-input-container>
+        </mat-form-field>
         <facet-term-list  *ngIf="!!fileFacet.terms.length"
                           [fileFacet]="fileFacet"
                           [useShortList]="true"
