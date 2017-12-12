@@ -50,7 +50,13 @@ export class TableComponent implements OnInit {
     }
 
     getToIndex(pm: PaginationModel): number {
-        return pm.from + (pm.size - 1);
+        let to: number = pm.from + (pm.size - 1);
+        if (to <= pm.total) {
+            return to;
+        }
+        else {
+            return pm.total;
+        }
     }
 
 }
