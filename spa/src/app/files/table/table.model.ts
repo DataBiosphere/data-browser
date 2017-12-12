@@ -2,13 +2,13 @@ import { PaginationModel } from "./pagination.model";
 
 export class TableModel {
 
-    public paginationModel: PaginationModel;
+    public pagination: PaginationModel;
     public data: any[];
 
-    constructor(data: any[], paginationModel: PaginationModel)  {
+    constructor(data: any[], pagination: PaginationModel)  {
 
         this.data = data;
-        this.paginationModel = paginationModel;
+        this.pagination = pagination;
 
     }
 }

@@ -30,9 +30,11 @@ import {
 import { FileFacet } from "../shared/file-facet.model";
 import {
     selectFileFacetMetadataSummary, selectSelectedFacetsMap,
-    selectSelectedFileFacets
+    selectSelectedFileFacets, selectTableQueryParams
 } from "app/files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
+import { FetchTableDataSuccessAction, FetchTableDataRequestAction } from "./table/table.actions";
+import { TableModel } from "../table/table.model";
 
 
 @Injectable()
@@ -83,6 +85,8 @@ export class FileEffects {
             return Observable.concat(
                 // Request Summary
                 Observable.of(new FetchFileSummaryRequestAction()),
+                // Request Table Data
+                Observable.of(new FetchTableDataRequestAction()),
                 // Request Metadata
                 Observable.of(new FetchFileFacetMetadataSummaryRequestAction()),
                 // Request Facets, and sort by metadata
@@ -120,6 +124,8 @@ export class FileEffects {
 
             return Observable.concat(
                 Observable.of(new FetchFileSummaryRequestAction()),
+                Observable.of(new FetchTableDataRequestAction()),
+
                 // map AND concat?
                 this.fetchOrderedFileFacets(selectedFacets)
                     .map((fileFacets) => {
@@ -182,6 +188,19 @@ export class FileEffects {
         })
         .map((fileManifestSummary) => {
             return new FetchFileManifestSummarySuccessAction(fileManifestSummary);
+        });
+
+    @Effect()
+    fetchTableData$: Observable<Action> = this.actions$
+        .ofType(FetchTableDataRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+            return this.store.select(selectTableQueryParams).first();
+        })
+        .switchMap((tableQueryParams) => {
+            return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableQueryParams.pagination);
+        })
+        .map((tableModel: TableModel) => {
+            return new FetchTableDataSuccessAction(tableModel);
         });
 
     /**

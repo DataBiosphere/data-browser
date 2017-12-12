@@ -1,14 +1,10 @@
-export class PaginationModel {
+export interface PaginationModel {
 
-    public count: number;
-    public from: number;
-    public order: string;
-    public page: number;
-    public size: number;
-    public sort: string;
-    public total: number;
-
-    constructor() {
-
-    }
+    count: number;
+    from: number;
+    string;
+    page: number;
+    size: number;
+    sort: string;
+    total: number;
 }

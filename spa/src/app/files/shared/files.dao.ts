@@ -13,12 +13,15 @@ import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../shared/config.service";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import { TableModel } from "../table/table.model";
+import { PaginationModel } from "../table/pagination.model";
 
 interface FilesAPIResponse {
     termFacets: Dictionary<{
         terms: Array<{ term: string; count: number }>;
         total: number
     }>;
+    pagination: PaginationModel;
+    hits: any[];
 }
 
 interface Ordering {
@@ -91,6 +94,22 @@ export class FilesDAO extends CCBaseDAO {
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
                     return this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering);
+                }
+            );
+    }
+
+    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, pagination: PaginationModel): Observable<TableModel> {
+
+        const selectedFacets = Array.from(selectedFacetsByName.values());
+
+        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
+
+        const url = this.buildApiUrl(`/repository/files`);
+        const filterParams = Object.assign({  from: pagination.from, size: pagination.size }, query);
+
+        return this.get<FilesAPIResponse>(url, filterParams)
+            .map((repositoryFiles: FilesAPIResponse) => {
+                    return new TableModel(repositoryFiles.hits, repositoryFiles.pagination);
                 }
             );
     }
