@@ -5,8 +5,8 @@
             <input matInput #filter placeholder="Filename">
         </mat-form-field>
     </div>
-    <div class="pagination"><span>1 - 10 of 100</span></div>
-    <mat-table #table [dataSource]="dataSource" matSort>
+    <div *ngIf="pagination$ | async; let pagination" class="pagination"><span>{{pagination.from}} - {{getToIndex(pagination)}} of {{pagination.total}}</span></div>
+    <mat-table #table [dataSource]="tableElementDataSource" matSort>
         <ng-container matColumnDef="program">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Program</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.program}}</mat-cell>

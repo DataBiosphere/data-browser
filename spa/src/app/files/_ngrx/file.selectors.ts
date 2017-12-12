@@ -35,6 +35,13 @@ export const selectPagination = createSelector(
     return tableState.tableModel.pagination;
 });
 
+export const selectTableData = createSelector(
+    selectTableState,
+    (tableState: TableState) => {
+        return tableState.tableModel.data;
+    });
+
+
 export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, selectPagination, (selectedFacets, pagination) => {
     return { selectedFacets, pagination };
 });

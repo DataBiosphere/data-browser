@@ -13,7 +13,7 @@ export class TableState {
 
 
     public static getDefaultState() {
-        return new TableState(new TableModel([], {  from: 1, size: 50 } as PaginationModel));
+        return new TableState(new TableModel([], {  from: 1, size: 5 } as PaginationModel));
     }
 
     public static getNewTableModel(action: FetchTableDataSuccessAction ) {
