@@ -11,6 +11,8 @@ import {
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatSelectModule,
+    MatTableModule,
     MatTooltipModule
 } from "@angular/material";
 
@@ -53,6 +55,8 @@ import { TableComponent } from "./table/table.component";
         MatIconModule,
         MatInputModule,
         MatMenuModule,
+        MatSelectModule,
+        MatTableModule,
         MatTooltipModule,
         RouterModule.forChild(routes),
 

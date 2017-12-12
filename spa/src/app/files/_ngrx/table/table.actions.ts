@@ -6,15 +6,15 @@ export class TableNextPageAction implements Action {
     constructor() {}
 }
 
-export class TablePreviousPageAAction implements Action {
+export class TablePreviousPageAction implements Action {
     public static ACTION_TYPE = "TABLE.PREVIOUS_PAGE";
-    public readonly type = TablePreviousPageAAction.ACTION_TYPE;
+    public readonly type = TablePreviousPageAction.ACTION_TYPE;
     constructor() {}
 }
 
-export class TableSetPageAAction implements Action {
+export class TableSetPageAction implements Action {
     public static ACTION_TYPE = "TABLE.SET_PAGE";
-    public readonly type = TableSetPageAAction.ACTION_TYPE;
+    public readonly type = TableSetPageAction.ACTION_TYPE;
     constructor(public page: number) {}
 }
 
@@ -29,5 +29,6 @@ export class TableOrderByAction implements Action {
 
 export type All
     = TableNextPageAction
-    | TablePreviousPageAAction
+    | TablePreviousPageAction
+    | TableSetPageAction
     | TableOrderByAction;

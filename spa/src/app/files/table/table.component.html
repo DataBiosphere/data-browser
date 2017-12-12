@@ -1,1 +1,58 @@
-<div>TABLE GOES HERE</div>
+<mat-card>
+    <div class="filter-row">
+        <mat-form-field>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput #filter placeholder="Filename">
+        </mat-form-field>
+    </div>
+    <div class="pagination"><span>1 - 10 of 100</span></div>
+    <mat-table #table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="program">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Program</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.program}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="project">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Project</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.project}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="donor_id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter Donor Id</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.donor_id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="submitter">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.submitter}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="specimen_type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Specimen Type</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.specimen_type}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sample">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter Sample</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.sample}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="workflow">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Work Flow</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.workflow}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="filename">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Filename</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.filename}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="file_id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> File Id</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.file_id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="size">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> File Size</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.size}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <div class="pagination">
+        <span>Page:</span><mat-form-field><mat-select><mat-option value="option1">1</mat-option><mat-option value="option2">2</mat-option></mat-select></mat-form-field>
+        <button mat-icon-button type="button" (click)="TablePreviousPageSelected()"><mat-icon>chevron_left</mat-icon></button>
+        <button mat-icon-button type="button" (click)="TableNextPageSelected()"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+</mat-card>
