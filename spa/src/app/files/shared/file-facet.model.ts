@@ -21,7 +21,7 @@ export class FileFacet {
     public readonly moarCount: number;               // how many moar are there?
 
     public readonly shortList: Term[]; // holds the first 3 terms or the first 3 selected terms
-    public readonly shortListLength: number = 4;
+    public readonly shortListLength: number = 10;
 
     public readonly interfaceType: string; // Type of widget to display for facet (eg search autocomplete, checkbox
                                            // list)

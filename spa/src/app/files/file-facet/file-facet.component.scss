@@ -30,7 +30,7 @@
 
         /** Add min height to card content for consistent card height **/
         /deep/ mat-card-content {
-            min-height: 160px;
+            min-height: 256px; /* For display of 10 terms at 200px total, 16px chart, 40px plus more */
             position: relative; /** Required for positioning of caret */
 
             .chart-dummy {
