@@ -2,7 +2,7 @@ export interface PaginationModel {
 
     count: number;
     from: number;
-    string;
+    order: string;
     page: number;
     size: number;
     sort: string;
