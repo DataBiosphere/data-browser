@@ -51,8 +51,18 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     <div *ngIf="pagination$ | async; let pagination" class="pagination">
-        <span>Page:</span><mat-form-field><mat-select><mat-option value="option1">1</mat-option><mat-option value="option2">2</mat-option></mat-select></mat-form-field>
+        <span>Page:</span><mat-form-field><mat-select><mat-option value="1">1</mat-option><mat-option value="2">2</mat-option></mat-select></mat-form-field>
         <button mat-icon-button type="button" (click)="previousPageSelected(pagination)"><mat-icon>chevron_left</mat-icon></button>
         <button mat-icon-button type="button" (click)="nextPageSelected(pagination)"><mat-icon>chevron_right</mat-icon></button>
+        Hey the current page is {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}
     </div>
+
+    <div *ngIf="pagination$ | async; let pagination" >
+
+        <span *ngFor="let pageNumber of getPages(pagination); ">
+            {{ pageNumber }}
+        </span>
+
+    </div>
+
 </mat-card>

@@ -4,10 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
 import { AppState } from "../../_ngrx/app.state";
-import {
-    FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
-    TablePreviousPageAction
-} from "../_ngrx/table/table.actions";
+import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import { PaginationModel } from "./pagination.model";
 
@@ -32,10 +29,28 @@ export class TableComponent implements OnInit {
         this.store = store;
     }
 
+
+    ngOnInit() {
+
+        // Initialize the new data source with an observable of the table data.
+        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
+
+        // Get an observable of the pagination model
+        this.pagination$ = this.store.select(selectPagination);
+
+    }
+
+
     /**
-     * Table next page selected.
+     * Called when table next page selected
+     *
+     * @param {PaginationModel} pm
      */
     public nextPageSelected(pm: PaginationModel) {
+
+        if (!this.hasNext(pm)) {
+            return;
+        }
 
         let tableParamsModel = {
             from: pm.from + pm.size,
@@ -49,9 +64,14 @@ export class TableComponent implements OnInit {
     }
 
     /**
-     * Table previous page selected.
+     * Called when table previous page selected.
      */
     public previousPageSelected(pm: PaginationModel) {
+
+
+        if (!this.hasPrevious(pm)) {
+            return;
+        }
 
         let tableParamsModel = {
             from: pm.from - pm.size,
@@ -61,30 +81,64 @@ export class TableComponent implements OnInit {
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-        console.log("next");
         console.log("previous");
     }
 
-    public pageSelected(pm: PaginationModel, pageNumber: number) {
-        this.store.dispatch(new TablePreviousPageAction());
+    /**
+     * Call to go directly to a page by page number.
+     *
+     * @param {PaginationModel} pm
+     * @param {number} pageNumber
+     */
+    public goToPage(pm: PaginationModel, pageNumber: number) {
+
+        let from = (pm.size * pageNumber) + 1;
+
+        let tableParamsModel = {
+            from: from,
+            size: pm.size,
+            sort: pm.sort,
+            order: pm.order
+        };
+
+        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+
         console.log("set page to:" + pageNumber);
     }
 
+    /**
+     * Sort the table given the sort param and the order.
+     *
+     * @param {PaginationModel} pm
+     * @param {string} sort
+     * @param {string} order
+     */
+    public sortTable(pm: PaginationModel, sort: string, order: string) {
+
+        let tableParamsModel = {
+            from: 1,
+            size: pm.size,
+            sort: sort,
+            order: order
+        };
+
+        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+    }
+
     public hasNext(pm: PaginationModel): boolean {
-        return true;
+        return (pm.from + pm.count) < pm.total;
     }
 
     public hasPrevious(pm: PaginationModel): boolean {
-        return true;
+        return (pm.from > 1);
     }
 
-    ngOnInit() {
 
-        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
-        this.pagination$ = this.store.select(selectPagination);
-
-    }
-
+    /**
+     * Return the index of the last row in the table (starting from 1)
+     * @param {PaginationModel} pm
+     * @returns {number}
+     */
     getToIndex(pm: PaginationModel): number {
         let to: number = pm.from + (pm.size - 1);
         if (to <= pm.total) {
@@ -93,6 +147,38 @@ export class TableComponent implements OnInit {
         else {
             return pm.total;
         }
+    }
+
+    /**
+     * Return the current page number
+     *
+     * @param {PaginationModel} pm
+     * @returns {number}
+     */
+    getCurrentPage(pm: PaginationModel): number {
+        return Math.floor(pm.from / pm.size) + 1;
+    }
+
+    /**
+     * Return the total number of pages.
+     *
+     * @param {PaginationModel} pm
+     * @returns {number}
+     */
+    getPageCount(pm: PaginationModel) {
+        return Math.ceil(pm.total / pm.size);
+    }
+
+    getPages(pm: PaginationModel): number[] {
+
+        let pages = [];
+        let pageCount = this.getPageCount(pm);
+
+        for (let i = 1; i <= pageCount; i++) {
+            pages.push(i);
+        }
+
+        return pages;
     }
 
 }
