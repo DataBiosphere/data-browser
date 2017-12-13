@@ -1,6 +1,8 @@
 import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { FetchTableDataSuccessAction } from "./table.actions";
+import { DEFAULT_CONFIG } from "tslint/lib/configuration";
+import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 
 
 export class TableState {
@@ -13,7 +15,7 @@ export class TableState {
 
 
     public static getDefaultState() {
-        return new TableState(new TableModel([], {  from: 1, size: 5 } as PaginationModel));
+        return new TableState(new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel));
     }
 
     public static getNewTableModel(action: FetchTableDataSuccessAction ) {
@@ -21,3 +23,4 @@ export class TableState {
     }
 
 }
+

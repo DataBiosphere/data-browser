@@ -32,8 +32,8 @@ export const selectTableState = createFeatureSelector<TableState>("tableState");
 export const selectPagination = createSelector(
     selectTableState,
     (tableState: TableState) => {
-    return tableState.tableModel.pagination;
-});
+        return tableState.tableModel.pagination;
+    });
 
 export const selectTableData = createSelector(
     selectTableState,

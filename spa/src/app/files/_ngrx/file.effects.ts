@@ -8,13 +8,15 @@ import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/first";
 import "rxjs/add/observable/concat";
 import "rxjs/add/observable/of";
+import "rxjs/add/operator/withLatestFrom";
 import * as _ from "lodash";
 
 import { FilesService } from "../shared/files.service";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import {
-    FetchFileFacetsRequestAction, FetchFileFacetsSuccessAction,
+    FetchFileFacetsRequestAction,
+    FetchFileFacetsSuccessAction,
     SelectFileFacetAction
 } from "./file-facet-list/file-facet-list.actions";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
@@ -29,118 +31,22 @@ import {
 } from "./file-facet-metadata-summary/file-facet-metadata-summary.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import {
-    selectFileFacetMetadataSummary, selectSelectedFacetsMap,
-    selectSelectedFileFacets, selectTableQueryParams
+    selectFileFacetMetadataSummary,
+    selectSelectedFacetsMap,
+    selectSelectedFileFacets,
+    selectTableQueryParams
 } from "app/files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
-import { FetchTableDataSuccessAction, FetchTableDataRequestAction } from "./table/table.actions";
+import {
+    FetchInitialTableDataRequestAction, FetchPagedOrSortedTableDataRequestAction,
+    FetchTableDataSuccessAction
+} from "./table/table.actions";
 import { TableModel } from "../table/table.model";
+import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 
 
 @Injectable()
 export class FileEffects {
-
-    private colorWheel: Map<string, string>;
-    private colorWheelSet: boolean;
-    private colors: string[];
-
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private fileService: FilesService) {
-        this.colorWheel = new Map<string, string>();
-        this.colorWheelSet = false;
-
-        this.colors = [
-            "#1A535C",
-            "#4CC9C0",
-            "#5C83D0",
-            "#FF6B6B",
-            "#FFA560",
-            "#FFE66D",
-            "#113871", // dark blue
-            "#336C74", // light green
-            "#ABF0EB", // light turquoise
-            "#B3C9F2", // light light purple
-            "#B6D67E", // lime green
-            "#BE5951", // salmon
-            "#FFBABA", // light peach
-            "#FFD2AF", // light orange
-            "#eeeeee"
-        ];
-    }
-
-    /**
-     *
-     * Trigger update of  facet counts on init.
-     *
-     * @type {Observable<Action>}
-     */
-    @Effect()
-    initFacets$: Observable<Action> = this.actions$
-        .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFacetsMap).first();
-        })
-        .switchMap((selectedFacets) => {
-            return Observable.concat(
-                // Request Summary
-                Observable.of(new FetchFileSummaryRequestAction()),
-                // Request Table Data
-                Observable.of(new FetchTableDataRequestAction()),
-                // Request Metadata
-                Observable.of(new FetchFileFacetMetadataSummaryRequestAction()),
-                // Request Facets, and sort by metadata
-                this.fetchOrderedFileFacets(selectedFacets)
-                    .map((fileFacets: FileFacet[]) => {
-
-                        fileFacets.forEach((fileFacet) => {
-
-                            let colorIndex = 0;
-                            fileFacet.terms.forEach((term) => {
-                                term.color = this.colors[colorIndex];
-                                const key = fileFacet.name + ":" + term.name;
-                                this.colorWheel.set(key, term.color);
-                                colorIndex++;
-                            });
-                        });
-                        return new FetchFileFacetsSuccessAction(fileFacets);
-                    })
-            );
-        });
-
-    /**
-     *
-     * Trigger update of  facet counts once a facet is selected.
-     *
-     * @type {Observable<Action>}
-     */
-    @Effect()
-    fetchFacets$: Observable<Action> = this.actions$
-        .ofType(SelectFileFacetAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFacetsMap).first();
-        })
-        .switchMap((selectedFacets) => {
-
-            return Observable.concat(
-                Observable.of(new FetchFileSummaryRequestAction()),
-                Observable.of(new FetchTableDataRequestAction()),
-
-                // map AND concat?
-                this.fetchOrderedFileFacets(selectedFacets)
-                    .map((fileFacets) => {
-
-                        fileFacets.forEach((fileFacet) => {
-
-                            fileFacet.terms.forEach((term) => {
-                                const key = fileFacet.name + ":" + term.name;
-                                term.color = this.colorWheel.get(key);
-                            });
-                        });
-                        return new FetchFileFacetsSuccessAction(fileFacets);
-                    })
-            );
-        });
 
     /**
      *
@@ -191,13 +97,28 @@ export class FileEffects {
         });
 
     @Effect()
-    fetchTableData$: Observable<Action> = this.actions$
-        .ofType(FetchTableDataRequestAction.ACTION_TYPE)
+    fetchInitialTableData$: Observable<Action> = this.actions$
+        .ofType(FetchInitialTableDataRequestAction.ACTION_TYPE)
         .switchMap(() => {
             return this.store.select(selectTableQueryParams).first();
         })
         .switchMap((tableQueryParams) => {
-            return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableQueryParams.pagination);
+
+            // Reset the pagination but keep the set page size if it was changed.
+            let tableParams = Object.assign(DEFAULT_TABLE_PARAMS, tableQueryParams.pagination.size);
+
+            return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableParams);
+        })
+        .map((tableModel: TableModel) => {
+            return new FetchTableDataSuccessAction(tableModel);
+        });
+
+    @Effect()
+    fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
+        .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
+        .withLatestFrom(this.store.select(selectTableQueryParams))
+        .switchMap((results) => {
+            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams);
         })
         .map((tableModel: TableModel) => {
             return new FetchTableDataSuccessAction(tableModel);
@@ -219,7 +140,6 @@ export class FileEffects {
             return this.fileService.downloadFileManifest(query);
         });
 
-
     /**
      * Fetch Metadata For File Facets
      *
@@ -233,6 +153,105 @@ export class FileEffects {
         }, (action, fileFacetMetadata: FileFacetMetadata[]) => {
             return new FetchFileFacetMetadataSummarySuccessAction(fileFacetMetadata);
         });
+    private colorWheel: Map<string, string>;
+    /**
+     *
+     * Trigger update of  facet counts once a facet is selected.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchFacets$: Observable<Action> = this.actions$
+        .ofType(SelectFileFacetAction.ACTION_TYPE)
+        .switchMap(() => {
+            return this.store.select(selectSelectedFacetsMap).first();
+        })
+        .switchMap((selectedFacets) => {
+
+            return Observable.concat(
+                Observable.of(new FetchFileSummaryRequestAction()),
+                Observable.of(new FetchInitialTableDataRequestAction()),
+
+                // map AND concat?
+                this.fetchOrderedFileFacets(selectedFacets)
+                    .map((fileFacets) => {
+
+                        fileFacets.forEach((fileFacet) => {
+
+                            fileFacet.terms.forEach((term) => {
+                                const key = fileFacet.name + ":" + term.name;
+                                term.color = this.colorWheel.get(key);
+                            });
+                        });
+                        return new FetchFileFacetsSuccessAction(fileFacets);
+                    })
+            );
+        });
+    private colorWheelSet: boolean;
+    private colors: string[];
+    /**
+     *
+     * Trigger update of  facet counts on init.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    initFacets$: Observable<Action> = this.actions$
+        .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+            return this.store.select(selectSelectedFacetsMap).first();
+        })
+        .switchMap((selectedFacets) => {
+            return Observable.concat(
+                // Request Summary
+                Observable.of(new FetchFileSummaryRequestAction()),
+                // Request Table Data
+                Observable.of(new FetchInitialTableDataRequestAction()),
+                // Request Metadata
+                Observable.of(new FetchFileFacetMetadataSummaryRequestAction()),
+                // Request Facets, and sort by metadata
+                this.fetchOrderedFileFacets(selectedFacets)
+                    .map((fileFacets: FileFacet[]) => {
+
+                        fileFacets.forEach((fileFacet) => {
+
+                            let colorIndex = 0;
+                            fileFacet.terms.forEach((term) => {
+                                term.color = this.colors[colorIndex];
+                                const key = fileFacet.name + ":" + term.name;
+                                this.colorWheel.set(key, term.color);
+                                colorIndex++;
+                            });
+                        });
+                        return new FetchFileFacetsSuccessAction(fileFacets);
+                    })
+            );
+        });
+
+    constructor(private store: Store<AppState>,
+                private actions$: Actions,
+                private fileService: FilesService) {
+        this.colorWheel = new Map<string, string>();
+        this.colorWheelSet = false;
+
+        this.colors = [
+            "#1A535C",
+            "#4CC9C0",
+            "#5C83D0",
+            "#FF6B6B",
+            "#FFA560",
+            "#FFE66D",
+            "#113871", // dark blue
+            "#336C74", // light green
+            "#ABF0EB", // light turquoise
+            "#B3C9F2", // light light purple
+            "#B6D67E", // lime green
+            "#BE5951", // salmon
+            "#FFBABA", // light peach
+            "#FFD2AF", // light orange
+            "#eeeeee"
+        ];
+    }
 
 
     /**

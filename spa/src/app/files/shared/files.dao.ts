@@ -14,6 +14,7 @@ import { ConfigService } from "../../shared/config.service";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";
+import { TableParamsModel } from "../table/table-params.model";
 
 interface FilesAPIResponse {
     termFacets: Dictionary<{
@@ -98,14 +99,21 @@ export class FilesDAO extends CCBaseDAO {
             );
     }
 
-    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, pagination: PaginationModel): Observable<TableModel> {
+    /**
+     * Fetch the table data
+     *
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {PaginationModel} pagination
+     * @returns {Observable<TableModel>}
+     */
+    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel): Observable<TableModel> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({  from: pagination.from, size: pagination.size }, query);
+        const filterParams = Object.assign({  from: tableParams.from, size: tableParams.size }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {

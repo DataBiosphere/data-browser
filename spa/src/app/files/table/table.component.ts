@@ -4,7 +4,10 @@ import { Observable } from "rxjs/Observable";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
 import { AppState } from "../../_ngrx/app.state";
-import { TableNextPageAction, TablePreviousPageAction } from "../_ngrx/table/table.actions";
+import {
+    FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
+    TablePreviousPageAction
+} from "../_ngrx/table/table.actions";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import { PaginationModel } from "./pagination.model";
 
@@ -32,14 +35,47 @@ export class TableComponent implements OnInit {
     /**
      * Table next page selected.
      */
-    public TableNextPageSelected() {
-        this.store.dispatch(new TableNextPageAction());
+    public nextPageSelected(pm: PaginationModel) {
+
+        let tableParamsModel = {
+            from: pm.from + pm.size,
+            size: pm.size,
+            sort: pm.sort,
+            order: pm.order
+        };
+
+        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
         console.log("next");
     }
 
-    public TablePreviousPageSelected() {
-        this.store.dispatch(new TablePreviousPageAction());
+    /**
+     * Table previous page selected.
+     */
+    public previousPageSelected(pm: PaginationModel) {
+
+        let tableParamsModel = {
+            from: pm.from - pm.size,
+            size: pm.size,
+            sort: pm.sort,
+            order: pm.order
+        };
+
+        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        console.log("next");
         console.log("previous");
+    }
+
+    public pageSelected(pm: PaginationModel, pageNumber: number) {
+        this.store.dispatch(new TablePreviousPageAction());
+        console.log("set page to:" + pageNumber);
+    }
+
+    public hasNext(pm: PaginationModel): boolean {
+        return true;
+    }
+
+    public hasPrevious(pm: PaginationModel): boolean {
+        return true;
     }
 
     ngOnInit() {

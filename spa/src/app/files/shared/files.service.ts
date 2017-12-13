@@ -9,6 +9,7 @@ import { FileFacet } from "./file-facet.model";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableModel } from "../table/table.model";
+import { TableParamsModel } from "../table/table-params.model";
 
 @Injectable()
 export class FilesService {
@@ -37,9 +38,16 @@ export class FilesService {
         return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName);
     }
 
-    public fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, pagination: PaginationModel): Observable<TableModel> {
+    /**
+     * Fetch the table data
+     *
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<TableModel>}
+     */
+    public fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel): Observable<TableModel> {
 
-        return this.fileDAO.fetchFileTableData(selectedFacetsByName, pagination);
+        return this.fileDAO.fetchFileTableData(selectedFacetsByName, tableParams);
     }
 
 

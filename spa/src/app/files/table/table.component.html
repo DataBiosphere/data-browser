@@ -50,9 +50,9 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <div class="pagination">
+    <div *ngIf="pagination$ | async; let pagination" class="pagination">
         <span>Page:</span><mat-form-field><mat-select><mat-option value="option1">1</mat-option><mat-option value="option2">2</mat-option></mat-select></mat-form-field>
-        <button mat-icon-button type="button" (click)="TablePreviousPageSelected()"><mat-icon>chevron_left</mat-icon></button>
-        <button mat-icon-button type="button" (click)="TableNextPageSelected()"><mat-icon>chevron_right</mat-icon></button>
+        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)"><mat-icon>chevron_left</mat-icon></button>
+        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)"><mat-icon>chevron_right</mat-icon></button>
     </div>
 </mat-card>
