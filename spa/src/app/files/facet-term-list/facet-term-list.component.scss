@@ -11,14 +11,31 @@
 :host {
 
     display: block;
-    margin-left: -4px; // Accommodate 4px left/right padding for each term
-    margin-right: -4px; // Accommodate 4px left/right padding for each term
+    margin-left: -16px; // Accommodate 16px left/right padding for each term (was 4px)
+    margin-right: -16px; // Accommodate 16px left/right padding for each term (was 4px)
+
+    /* Double wide */
+    &.double-wide {
+
+        .facet-term {
+            width: 50%;
+        }
+    }
+
+    /* Full width */
+    &.full-width {
+
+        .facet-term {
+            width: 20%;
+        }
+    }
 
     .facet-term {
 
         cursor: pointer;
-        padding: 2px;
+        padding: 2px 12px; /* Was 2px - now to accommodate double-wide flex wrap with padding for each term requires 12px L and R sides */
         transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+        width: 100%; /* Overrides any flex wrap on terms for small cards */
 
         &:hover {
             background-color: rgba(26, 83, 92, 0.06);
