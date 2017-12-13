@@ -90,7 +90,7 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({  from: 1, size: 1 }, query);
+        const filterParams = Object.assign({ from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
@@ -113,7 +113,10 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({  from: tableParams.from, size: tableParams.size }, query);
+        let filterParams = Object.assign({ from: tableParams.from, size: tableParams.size }, query);
+        if (tableParams.sort) {
+            filterParams = Object.assign(filterParams, { sort: tableParams.sort, order: tableParams.order });
+        }
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
