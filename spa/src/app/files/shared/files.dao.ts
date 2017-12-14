@@ -120,6 +120,8 @@ export class FilesDAO extends CCBaseDAO {
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
+                    // keep our size as this is being lost on API return at the moment when the result set is less than the page size.
+                    let pagination = Object.assign(repositoryFiles.pagination, {size: tableParams.size} );
                     return new TableModel(repositoryFiles.hits, repositoryFiles.pagination);
                 }
             );

@@ -107,9 +107,9 @@ export class FileEffects {
             // Reset the pagination but keep the set page size if it was changed.
             let tableParams = Object.assign(
                 DEFAULT_TABLE_PARAMS,
-                tableQueryParams.pagination.size,
-                tableQueryParams.pagination.sort,
-                tableQueryParams.pagination.order);
+                {size: tableQueryParams.pagination.size,
+                sort: tableQueryParams.pagination.sort,
+                order: tableQueryParams.pagination.order});
 
             return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableParams);
         })
