@@ -19,7 +19,7 @@ export class TableComponent implements OnInit {
     displayedColumns = ["program", "project", "submittedDonorId", "submittedSpecimenId", "specimen_type", "submittedSampleId", "software", "title", "file_id", "fileSize"];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
-    pageSizeOptions = [5, 10, 25, 100];
+    pageSizeOptions = [5, 50, 100, 200];
     selectedPage = 5;
     pageValue: 1;
     pageError: boolean;
@@ -137,10 +137,22 @@ export class TableComponent implements OnInit {
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
     }
 
+    /**
+     * Check if there is a next page.
+     *
+     * @param {PaginationModel} pm
+     * @returns {boolean}
+     */
     public hasNext(pm: PaginationModel): boolean {
         return (pm.from + pm.count) < pm.total;
     }
 
+    /**
+     * Check if there is a previous page.
+     *
+     * @param {PaginationModel} pm
+     * @returns {boolean}
+     */
     public hasPrevious(pm: PaginationModel): boolean {
         return (pm.from > 1);
     }
@@ -260,7 +272,7 @@ class TableElementDataSource extends DataSource<any> {
     disconnect() {
     }
 }
-
+// Notes so we can see the data structure
 //
 // "hits": [
 //     {
