@@ -1,5 +1,6 @@
 // Core dependencies
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import {
@@ -12,6 +13,7 @@ import {
     MatInputModule,
     MatMenuModule,
     MatSelectModule,
+    MatSortModule,
     MatTableModule,
     MatTooltipModule
 } from "@angular/material";
@@ -47,6 +49,7 @@ import { TableComponent } from "./table/table.component";
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
@@ -56,6 +59,7 @@ import { TableComponent } from "./table/table.component";
         MatInputModule,
         MatMenuModule,
         MatSelectModule,
+        MatSortModule,
         MatTableModule,
         MatTooltipModule,
         RouterModule.forChild(routes),
@@ -92,7 +96,8 @@ import { TableComponent } from "./table/table.component";
         ConfigService,
         FilesService,
         FilesDAO,
-        { provide: "Window",  useValue: window } // Required for hamburger functionality
+        {provide: "Window", useValue: window} // Required for hamburger functionality
     ]
 })
-export class FilesModule {}
+export class FilesModule {
+}

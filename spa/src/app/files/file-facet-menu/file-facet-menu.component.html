@@ -1,4 +1,4 @@
-<div cc-stop-propagation>
+<div cc-stop-propagation (mouseleave)="onClickCloseMenu()">
     <div class="edit-menu-card-header">
         <h2 class="menu-title">{{(fileFacet$ | async).name | camelToSpace}}</h2>
         <div class="menu-subtitle">

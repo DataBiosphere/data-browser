@@ -61,7 +61,7 @@ export class FilesDAO extends CCBaseDAO {
      */
     fetchFileFacetMetadata(): Observable<FileFacetMetadata[]> {
 
-        if (!this.configService.hasSortOrder()) {
+        if ( !this.configService.hasSortOrder() ) {
             return Observable.of([]);
         }
 
@@ -90,7 +90,7 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({ from: 1, size: 1 }, query);
+        const filterParams = Object.assign({from: 1, size: 1}, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
@@ -113,9 +113,9 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        let filterParams = Object.assign({ from: tableParams.from, size: tableParams.size }, query);
-        if (tableParams.sort) {
-            filterParams = Object.assign(filterParams, { sort: tableParams.sort, order: tableParams.order });
+        let filterParams = Object.assign({from: tableParams.from, size: tableParams.size}, query);
+        if ( tableParams.sort && tableParams.order ) {
+            filterParams = Object.assign(filterParams, {sort: tableParams.sort, order: tableParams.order});
         }
 
         return this.get<FilesAPIResponse>(url, filterParams)
@@ -132,11 +132,11 @@ export class FilesDAO extends CCBaseDAO {
      */
     fetchFacetOrdering(): Observable<Ordering> {
 
-        if (this.configService.hasSortOrder()) {
+        if ( this.configService.hasSortOrder() ) {
             const url = this.buildApiUrl(`/repository/files/order`);
             return this.get(url);
         }
-        return Observable.of({ order: [] });
+        return Observable.of({order: []});
     }
 
     /**
@@ -166,7 +166,7 @@ export class FilesDAO extends CCBaseDAO {
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
 
-        if (filters.file && filters.file.repoName) {
+        if ( filters.file && filters.file.repoName ) {
             repoNames = filters.file.repoName.is;
         }
 
@@ -228,18 +228,18 @@ export class FilesDAO extends CCBaseDAO {
 
             // the response from ICGC is missing the terms field instead of being an empty array
             // we need to check it's existence before iterating over it.
-            if (responseFileFacet.terms) {
+            if ( responseFileFacet.terms ) {
 
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
 
                     let oldTerm: Term;
 
-                    if (oldFacet) {
+                    if ( oldFacet ) {
                         oldTerm = oldFacet.termsByName.get(responseTerm.term);
                     }
 
                     let selected = false;
-                    if (oldTerm) {
+                    if ( oldTerm ) {
                         selected = oldTerm.selected;
                     }
 
@@ -247,7 +247,7 @@ export class FilesDAO extends CCBaseDAO {
                 });
             }
 
-            if (!responseFileFacet.total) {
+            if ( !responseFileFacet.total ) {
                 responseFileFacet.total = 0; // their default is undefined instead of zero
             }
 
@@ -255,12 +255,12 @@ export class FilesDAO extends CCBaseDAO {
         });
 
         let fileIdTerms = [];
-        if (selectedFacetsByName.get("fileId")) {
+        if ( selectedFacetsByName.get("fileId") ) {
             fileIdTerms = selectedFacetsByName.get("fileId").terms;
         }
 
         let donorIdTerms = [];
-        if (selectedFacetsByName.get("donorId")) {
+        if ( selectedFacetsByName.get("donorId") ) {
             donorIdTerms = selectedFacetsByName.get("donorId").terms;
         }
 
@@ -272,7 +272,7 @@ export class FilesDAO extends CCBaseDAO {
         let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
 
-        if (ordering.order.length) {
+        if ( ordering.order.length ) {
 
             const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
                 return acc.set(facet.name, facet);
@@ -306,7 +306,7 @@ export class FilesDAO extends CCBaseDAO {
         let filters = selectedFacets.reduce((facetAcc, facet) => {
 
             // paranoid check for no facets.
-            if (!facet.terms || !facet.terms.length) {
+            if ( !facet.terms || !facet.terms.length ) {
                 return facetAcc;
             }
 
@@ -315,16 +315,16 @@ export class FilesDAO extends CCBaseDAO {
                 return term.name;
             });
 
-            if (termNames.length) {
+            if ( termNames.length ) {
                 // only add the facet if there is a selected term.
-                facetAcc[facet.name] = { is: termNames };
+                facetAcc[facet.name] = {is: termNames};
             }
 
             return facetAcc;
         }, {});
 
         // empty object if it doesn't have any filters;
-        const result = Object.keys(filters).length ? { file: filters } : {};
+        const result = Object.keys(filters).length ? {file: filters} : {};
         return JSON.stringify(result);
     }
 

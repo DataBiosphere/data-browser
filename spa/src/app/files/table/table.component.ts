@@ -7,6 +7,7 @@ import { AppState } from "../../_ngrx/app.state";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import { PaginationModel } from "./pagination.model";
+import { Sort } from "@angular/material";
 
 @Component({
     selector: "bw-table",
@@ -15,9 +16,13 @@ import { PaginationModel } from "./pagination.model";
 })
 export class TableComponent implements OnInit {
 
-    displayedColumns = ["program", "project", "donor_id", "submitter", "specimen_type", "sample", "workflow", "filename", "file_id", "size"];
+    displayedColumns = ["program", "project", "submittedDonorId", "submittedSpecimenId", "specimen_type", "submittedSampleId", "software", "title", "file_id", "fileSize"];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
+    pageSizeOptions = [5, 10, 25, 100];
+    selectedPage = 5;
+    pageValue: 1;
+    pageError: boolean;
 
     // Privates
     private store: Store<AppState>;
@@ -48,7 +53,7 @@ export class TableComponent implements OnInit {
      */
     public nextPageSelected(pm: PaginationModel) {
 
-        if (!this.hasNext(pm)) {
+        if ( !this.hasNext(pm) ) {
             return;
         }
 
@@ -69,7 +74,7 @@ export class TableComponent implements OnInit {
     public previousPageSelected(pm: PaginationModel) {
 
 
-        if (!this.hasPrevious(pm)) {
+        if ( !this.hasPrevious(pm) ) {
             return;
         }
 
@@ -92,6 +97,16 @@ export class TableComponent implements OnInit {
      */
     public goToPage(pm: PaginationModel, pageNumber: number) {
 
+        let pageCount = this.getPageCount(pm);
+        this.pageError = false;
+
+        /* Prevent error on page number */
+        if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
+            this.pageError = true;
+            pageNumber = 1;
+        }
+
+        pageNumber = (pageNumber - 1);
         let from = (pm.size * pageNumber) + 1;
 
         let tableParamsModel = {
@@ -102,24 +117,21 @@ export class TableComponent implements OnInit {
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-
-        console.log("set page to:" + pageNumber);
     }
 
     /**
      * Sort the table given the sort param and the order.
      *
      * @param {PaginationModel} pm
-     * @param {string} sort
-     * @param {string} order
+     * @param {Sort} sort
      */
-    public sortTable(pm: PaginationModel, sort: string, order: string) {
+    public sortTable(pm: PaginationModel, sort: Sort) {
 
         let tableParamsModel = {
             from: 1,
             size: pm.size,
-            sort: sort,
-            order: order
+            sort: sort.active,
+            order: sort.direction
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
@@ -141,7 +153,7 @@ export class TableComponent implements OnInit {
      */
     getToIndex(pm: PaginationModel): number {
         let to: number = pm.from + (pm.size - 1);
-        if (to <= pm.total) {
+        if ( to <= pm.total ) {
             return to;
         }
         else {
@@ -174,13 +186,30 @@ export class TableComponent implements OnInit {
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for (let i = 1; i <= pageCount; i++) {
+        for ( let i = 1; i <= pageCount; i++ ) {
             pages.push(i);
         }
 
         return pages;
     }
 
+    /**
+     * Sets the number of rows per page.
+     *
+     * @param {PaginationModel} pm
+     * @returns {number} pageSize
+     */
+    public setPageSize(pm: PaginationModel, pageSize: number) {
+
+        let tableParamsModel = {
+            from: 1,
+            size: pageSize,
+            sort: pm.sort,
+            order: pm.order
+        };
+
+        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+    }
 }
 
 export interface Element {
@@ -191,7 +220,7 @@ export interface Element {
     specimen_type: string;
     sample: string;
     workflow: string;
-    filename: string;
+    title: string;
     file_id: string;
     size: number;
 }
@@ -211,13 +240,13 @@ class TableElementDataSource extends DataSource<any> {
                 return {
                     program: row.program,
                     project: row.donors[0].projectCode,
-                    donor_id: row.donors[0].donorId,
-                    submitter: "-",
+                    donor_id: row.donors[0].submittedDonorId,
+                    submitter: row.donors[0].submittedSpecimenId,
                     specimen_type: row.donors[0].specimenType,
-                    sample: "-",
-                    workflow: "-",
-                    filename: row.fileCopies[0].fileName,
-                    file_id: "-",
+                    sample: row.donors[0].submittedSampleId,
+                    workflow: row.analysisMethod.software,
+                    title: row.fileCopies[0].fileName,
+                    file_id: row.id,
                     size: row.fileCopies[0].fileSize
                 };
             });

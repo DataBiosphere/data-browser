@@ -38,9 +38,14 @@ mat-card {
         justify-content: flex-end;
         padding: 0 24px;
 
+        span {
+            padding-left: 16px;
+        }
+
         mat-form-field {
             width: 56px;
-            margin: 6px 32px 0 4px;
+            margin-left: 4px;
+            margin-right: 8px;
         }
     }
 }

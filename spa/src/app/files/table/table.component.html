@@ -5,8 +5,17 @@
             <input matInput #filter placeholder="Filename">
         </mat-form-field>
     </div>
-    <div *ngIf="pagination$ | async; let pagination" class="pagination"><span>{{pagination.from}} - {{getToIndex(pagination)}} of {{pagination.total}}</span></div>
-    <mat-table #table [dataSource]="tableElementDataSource" matSort>
+    <div *ngIf="pagination$ | async; let pagination" class="pagination">
+        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+        <span>{{pagination.from}} - {{getToIndex(pagination)}} of {{pagination.total}}</span>
+    </div>
+    <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
+               (matSortChange)="sortTable(pagination, $event)">
         <ng-container matColumnDef="program">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Program</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.program}}</mat-cell>
@@ -15,35 +24,35 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header> Project</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.project}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="donor_id">
+        <ng-container matColumnDef="submittedDonorId">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter Donor Id</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.donor_id}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="submitter">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter</mat-header-cell>
+        <ng-container matColumnDef="submittedSpecimenId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter Specimen Id</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.submitter}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="specimen_type">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Specimen Type</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.specimen_type}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="sample">
+        <ng-container matColumnDef="submittedSampleId">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Submitter Sample</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.sample}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="workflow">
+        <ng-container matColumnDef="software">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Work Flow</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.workflow}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="filename">
+        <ng-container matColumnDef="title">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Filename</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.filename}}</mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="file_id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> File Id</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.file_id}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="size">
+        <ng-container matColumnDef="fileSize">
             <mat-header-cell *matHeaderCellDef mat-sort-header> File Size</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.size}}</mat-cell>
         </ng-container>
@@ -51,18 +60,24 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     <div *ngIf="pagination$ | async; let pagination" class="pagination">
-        <span>Page:</span><mat-form-field><mat-select><mat-option value="1">1</mat-option><mat-option value="2">2</mat-option></mat-select></mat-form-field>
-        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)"><mat-icon>chevron_left</mat-icon></button>
-        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)"><mat-icon>chevron_right</mat-icon></button>
-        Hey the current page is {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}
+        <span>Goto page:</span>
+        <mat-form-field>
+            <input matInput (input)="goToPage(pagination, pageValue)" [(ngModel)]="pageValue">
+            <mat-error *ngIf="pageError">Error</mat-error>
+        </mat-form-field>
+        <span>Items per page:</span>
+        <mat-form-field>
+            <mat-select [(ngModel)]="selectedPage" (change)="setPageSize(pagination, selectedPage)">
+                <mat-option *ngFor="let pageSizeOption of pageSizeOptions" [value]="pageSizeOption">
+                    {{pageSizeOption}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <span>Page {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
     </div>
-
-    <div *ngIf="pagination$ | async; let pagination" >
-
-        <span *ngFor="let pageNumber of getPages(pagination); ">
-            {{ pageNumber }}
-        </span>
-
-    </div>
-
+    <!--<div *ngIf="pagination$ | async; let pagination">-->
+        <!--<span *ngFor="let pageNumber of getPages(pagination); ">-->
+            <!--{{ pageNumber }}-->
+        <!--</span>-->
+    <!--</div>-->
 </mat-card>

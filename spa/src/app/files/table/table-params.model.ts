@@ -1,7 +1,7 @@
 export interface TableParamsModel {
 
     from: number;  // Offset of results to return starting from 1
-    size: number;  // Number of resluts to return
+    size: number;  // Number of results to return
     sort?: string;  // Facet to sort on.
     order?: string; // Sort order asc or desc
 }
