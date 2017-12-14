@@ -21,7 +21,7 @@ export class TableComponent implements OnInit {
     pagination$: Observable<PaginationModel>;
     pageSizeOptions = [5, 50, 100, 200];
     selectedPage = 5;
-    pageValue: 1;
+    pageValue: number;
     pageError: boolean;
 
     // Privates
