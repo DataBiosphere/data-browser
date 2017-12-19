@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FileFacetMetadata } from "../files/file-facet-metadata/file-facet-metadata.model";
 
-export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC";
+export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC" | "UCSC_HCA";
 
 @Injectable()
 export class ConfigService {
@@ -21,6 +21,8 @@ export class ConfigService {
     getRootUrl(): string {
 
         switch (this.source) {
+            case "UCSC_HCA":
+                return "https://dss-aws-staging.ucsc-cgp-dev.org";
             case "UCSC_STAGE":
                 return "https://carlos.ucsc-cgp-dev.org";
             case "UCSC":

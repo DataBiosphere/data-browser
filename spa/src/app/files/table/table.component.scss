@@ -46,6 +46,43 @@ mat-card {
             width: 56px;
             margin-left: 4px;
             margin-right: 8px;
+
+            input, mat-select {
+                text-align: center;
+            }
+        }
+    }
+
+    mat-table {
+
+        mat-row, mat-header-row {
+            padding: 0 16px;
+        }
+
+        mat-cell, mat-header-cell {
+            padding-left: 8px;
+            padding-right: 8px;
+
+            /* Make selected columns narrow */
+            &:first-of-type, &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(10) {
+                flex: none;
+                width: 5%;
+            }
+
+            &:nth-of-type(5), &:nth-of-type(6) {
+                flex: none;
+                width: 8%;
+            }
+
+            &:nth-of-type(9) {
+                flex: none;
+                width: 20%;
+            }
+
+            /* Table header text alignment */
+            /deep/ .mat-sort-header-button {
+                text-align: left !important;
+            }
         }
     }
 }

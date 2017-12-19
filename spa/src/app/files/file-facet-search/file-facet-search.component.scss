@@ -43,7 +43,7 @@
 
         /** Add min height to card content for consistent card height **/
         /deep/ mat-card-content {
-            min-height: 160px;
+            min-height: 256px;
             position: relative; /** Required for positioning of caret */
 
             .chart-dummy {

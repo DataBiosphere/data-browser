@@ -1,10 +1,10 @@
 <mat-card>
-    <div class="filter-row">
-        <mat-form-field floatPlaceholder="never">
-            <mat-icon matPrefix>search</mat-icon>
-            <input matInput #filter placeholder="Filename">
-        </mat-form-field>
-    </div>
+    <!--<div class="filter-row">-->
+        <!--<mat-form-field>-->
+            <!--<mat-icon matPrefix>search</mat-icon>-->
+            <!--<input matInput #filter placeholder="Filename">-->
+        <!--</mat-form-field>-->
+    <!--</div>-->
     <div *ngIf="pagination$ | async; let pagination" class="pagination">
         <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
             <mat-icon>chevron_left</mat-icon>
