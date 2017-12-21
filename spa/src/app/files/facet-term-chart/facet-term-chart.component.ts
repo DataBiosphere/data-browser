@@ -137,7 +137,7 @@ export class FacetTermChartComponent {
 
                         // x coordinate - position tooltip in middle of section bar
                         let data: number[] = d[0];
-                        let x0:number = chartScales.xScale(data[0]);
+                        let x0: number = chartScales.xScale(data[0]);
                         let sectionWidth: number = chartScales.xScale(data[1]) - x0;
 
                         // Calculate width of tooltip

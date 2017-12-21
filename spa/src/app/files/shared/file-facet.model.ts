@@ -17,7 +17,7 @@ export class FileFacet {
     public readonly selected: boolean;              // true if any terms are selected
 
 
-    public readonly moar: boolean;                  // shold we show the moar button
+    public readonly moar: boolean;                  // should we show the moar button
     public readonly moarCount: number;               // how many moar are there?
 
     public readonly shortList: Term[]; // holds the first 3 terms or the first 3 selected terms

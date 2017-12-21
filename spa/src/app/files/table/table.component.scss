@@ -39,7 +39,9 @@ mat-card {
         padding: 0 24px;
 
         span {
+            min-width: 75px;
             padding-left: 16px;
+            text-align: right;
         }
 
         mat-form-field {
@@ -64,14 +66,14 @@ mat-card {
             padding-right: 8px;
 
             /* Make selected columns narrow */
-            &:first-of-type, &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(10) {
+            &:first-of-type, &:nth-of-type(2), &:nth-of-type(10) {
                 flex: none;
                 width: 5%;
             }
 
-            &:nth-of-type(5), &:nth-of-type(6) {
+            &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(6) {
                 flex: none;
-                width: 8%;
+                width: 7%;
             }
 
             &:nth-of-type(9) {
