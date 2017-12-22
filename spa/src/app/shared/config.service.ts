@@ -6,7 +6,7 @@ export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC" | "UCSC_HCA";
 @Injectable()
 export class ConfigService {
 
-    private source: ApiSource = "UCSC_STAGE";
+    private source: ApiSource = "UCSC";
 
     constructor() { }
 
@@ -26,7 +26,7 @@ export class ConfigService {
             case "UCSC_STAGE":
                 return "https://carlos.ucsc-cgp-dev.org";
             case "UCSC":
-                return "http://ucsc-cgl.org";
+                return "https://ucsc-cgp.org";
             default: // "ICGC"
                 return "https://dcc.icgc.org";
         }
