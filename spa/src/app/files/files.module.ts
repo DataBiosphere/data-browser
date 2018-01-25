@@ -32,6 +32,7 @@ import { FileFacetMenuComponent } from "./file-facet-menu/file-facet-menu.compon
 import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
 import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
+import { FileFacetWrapperComponent } from "./file-facet-wrapper/file-facet-wrapper.component";
 import { routes } from "./files.routes";
 import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
@@ -89,6 +90,7 @@ import { TableComponent } from "./table/table.component";
         FileFacetMenuComponent,
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
+        FileFacetWrapperComponent,
         TableComponent,
 
         FileNameShortenerPipe],

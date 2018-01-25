@@ -2,11 +2,8 @@
 import {
     Component,
     Input,
-    ChangeDetectionStrategy,
-    OnInit,
-    ViewChild
+    ChangeDetectionStrategy
 } from "@angular/core";
-import { MatMenuTrigger } from "@angular/material";
 import { Store } from "@ngrx/store";
 import * as _ from "lodash";
 
@@ -16,8 +13,7 @@ import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FacetTermChartData } from "../facet-term-chart/facet-term-chart-data";
 import { Term } from "../shared/term.model";
 import { AppState } from "../../_ngrx/app.state";
-import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
-
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
 /**
  * Component responsible for displaying an individual facet and its terms, as well as functionality around selecting
@@ -29,14 +25,13 @@ import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/f
     styleUrls: ["./file-facet.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileFacetComponent implements OnInit {
+export class FileFacetComponent {
 
     // Privates
     private store: Store<AppState>;
 
     // Inputs
     @Input() fileFacet: FileFacet;
-    @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
     /**
      * @param store {Store<AppState>}
@@ -89,14 +84,6 @@ export class FileFacetComponent implements OnInit {
     }
 
     /**
-     * Close the menu for this facet. This event is emitted from the child menu component.
-     */
-    public onCloseMenu() {
-
-        this.trigger.closeMenu();
-    }
-
-    /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
@@ -104,20 +91,5 @@ export class FileFacetComponent implements OnInit {
     public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
 
         this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
-    }
-
-    /**
-     * Lifecycle hooks
-     */
-
-    /**
-     * Set up initial state of component.
-     */
-    ngOnInit() {
-
-        // Clear the selected facet in the store, on close of any open menu.
-        this.trigger.onMenuClose.subscribe(() => {
-            this.store.dispatch(new ClearSelectedFileFacetsAction());
-        });
     }
 }
