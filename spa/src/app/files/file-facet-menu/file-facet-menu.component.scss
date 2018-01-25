@@ -10,16 +10,7 @@
 
     /** Position term list to match card position. TODO revisit post merge - can this be deleted? */
     facet-term-list {
-        align-content: flex-start;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
         margin: 24px 12px 0 12px; /* TODO confirm - margin-top was 28px, changed to 24px */
-        max-height: 200px;
-
-        &.full-width {
-            max-height: 200px; /* TODO Dave, this can be a variable based on how many terms we have @ 20px per term */
-        }
     }
 }
 

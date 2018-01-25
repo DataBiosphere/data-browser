@@ -3,7 +3,7 @@
         <div [matMenuTriggerFor]="editMenu">
             <bw-file-facet [fileFacet]="fileFacet"></bw-file-facet>
         </div>
-        <mat-menu #editMenu="matMenu" [class]="'edit-menu double-wide'">
+        <mat-menu #editMenu="matMenu" [class]="'edit-menu'">
             <bw-file-facet-menu [fileFacetName]="fileFacet.name" (closeMenu)="onCloseMenu()"></bw-file-facet-menu>
         </mat-menu>
     </ng-container>

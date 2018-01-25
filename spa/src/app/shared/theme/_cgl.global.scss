@@ -134,11 +134,6 @@ button {
         @media (min-width: $md-lg-min) {
 
             min-width: calc(20vw - 16px);
-
-            /* Double wide menu cards */
-            &.double-wide {
-                min-width: calc(40vw - 16px);
-            }
         }
     }
 
@@ -168,13 +163,9 @@ button {
 
     /** Force minimum height of menu content, to match card height */
     .edit-menu-card-content {
+        max-height: 294px; /* Force vertical scroll - fix for menu overflow off bottom of browser for facets with many terms. 294px creates last term to be visually "chopped", indicated there are more terms below. */
         min-height: 203px; /* Card height 352px - 72px header - 61px close action bar - 16px chart */
-
-        /* TODO Dave, full width height will be based on number of terms - do we cap at two facet rows and then scroll inside ? */
-        /* Full width card taking up two rows of facets */
-        &.full-width {
-            min-height: 571px; /* Covering two rows of cards (each additional row is equivalent to 368px (card height 352px + 16px row space) */
-        }
+        overflow-y: scroll;
 
         &.with-padding {
             padding: 8px 27px 0 24px; // Mimic padding of facet cards, menu (container) already has padding 8px top/bottom

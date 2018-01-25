@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Facet term list styles.
+ * Facet term list styles, displayed inside MD menu.
  */
 
 @import "../../shared/theme/cgl.vars";
@@ -13,22 +13,6 @@
     display: block;
     margin-left: -16px; // Accommodate 16px left/right padding for each term (was 4px)
     margin-right: -16px; // Accommodate 16px left/right padding for each term (was 4px)
-
-    /* Double wide */
-    &.double-wide {
-
-        .facet-term {
-            width: 50%;
-        }
-    }
-
-    /* Full width */
-    &.full-width {
-
-        .facet-term {
-            width: 20%;
-        }
-    }
 
     .facet-term {
 

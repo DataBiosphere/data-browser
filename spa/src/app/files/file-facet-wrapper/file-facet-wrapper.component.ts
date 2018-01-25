@@ -14,12 +14,13 @@ import { FileFacet } from "../shared/file-facet.model";
 import { ClearSelectedFileFacetsAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { AppState } from "../../_ngrx/app.state";
 
-
 /**
- * Simple wrapper component containing logic for determining if term menu should be displayed for each file facet.
+ * Simple wrapper component containing logic for determining if term menu should be displayed. Facets with less than
+ * 10 terms have no menu, facets with more than 10 menu display a term menu.
  * 
  * This wrapper component is required as Angular does not currently allow dynamic addition of directives (for example,
- * the MD menu trigger directive). 
+ * the MD menu trigger directive). Once Angular adds this functionality, this wrapper is no longer required and the MD
+ * menu trigger can be applied directly (and dynamically) to the MD card inside the file facet component. 
  */
 @Component({
     selector: "bw-file-facet-wrapper",
@@ -36,7 +37,7 @@ export class FileFacetWrapperComponent implements OnInit {
     @Input() fileFacet: FileFacet;
     
     // View child/ren
-    @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+    @ViewChild(MatMenuTrigger) termMenuTrigger: MatMenuTrigger;
 
     /**
      * @param store {Store<AppState>}
@@ -66,7 +67,7 @@ export class FileFacetWrapperComponent implements OnInit {
      */
     public onCloseMenu() {
 
-        this.trigger.closeMenu();
+        this.termMenuTrigger.closeMenu();
     }
 
     /**
@@ -79,12 +80,12 @@ export class FileFacetWrapperComponent implements OnInit {
     ngOnInit() {
         
         // No setup required if menu does not exist for this facet (ie, if facet has 10 or less terms)
-        if ( !this.trigger ) {
+        if ( !this.termMenuTrigger ) {
             return;
         }
 
         // Clear the selected facet in the store, on close of any open menu.
-        this.trigger.onMenuClose.subscribe(() => {
+        this.termMenuTrigger.onMenuClose.subscribe(() => {
             this.store.dispatch(new ClearSelectedFileFacetsAction());
         });
     }
