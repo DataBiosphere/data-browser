@@ -59,7 +59,7 @@ export class FileFacetWrapperComponent implements OnInit {
      */
     public isDisplayTermMenu(): boolean {
         
-        return this.fileFacet.termCount >= 10;
+        return !this.fileFacet.isTermListShort();
     }
 
     /**

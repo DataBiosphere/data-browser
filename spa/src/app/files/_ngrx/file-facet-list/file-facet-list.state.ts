@@ -58,6 +58,7 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public requestFileFacets(): FileFacetListState {
+
         return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, this.selectedFacet, this.paginationModel);
     }
 
@@ -68,7 +69,7 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public receiveFileFacets(action: FetchFileFacetsSuccessAction): FileFacetListState {
-        
+
         return new FileFacetListState(FileFacetListState.createFileFacetNames(action.fileFacets),
             FileFacetListState.createFileFacetsMap(action.fileFacets), this.selectedFacet, this.paginationModel);
     }

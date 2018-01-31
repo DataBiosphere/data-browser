@@ -65,12 +65,12 @@ export class FileFacet {
 
 
         // Set the short list
-        if (!this.selected) {
-            // if we are not selected use the full list.
+        if ( !this.selected || this.isTermListShort() ) {
+            // If we are not selected or if there are less than 10 terms (as there is no term menu), use the full list.
             this.shortList = this.terms.slice(0, Math.min(this.shortListLength, this.terms.length));
         }
         else {
-            // if we are selected use the selected list.
+            // If we are selected use the selected list.
             this.shortList = this.selectedTerms.slice(0, Math.min(this.shortListLength, this.selectedTerms.length));
         }
 
@@ -88,6 +88,16 @@ export class FileFacet {
     public isInterfaceTypeSearch(): boolean {
 
         return this.interfaceType === "SEARCH"; // TODO revisit interfaceType type
+    }
+
+    /**
+     * Returns true if there are less than 10 terms for this file facet.
+     * 
+     * @returns {boolean}
+     */
+    public isTermListShort(): boolean {
+        
+        return this.termCount < 10;
     }
 
     /**
