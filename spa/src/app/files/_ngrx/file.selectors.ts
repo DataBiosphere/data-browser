@@ -14,22 +14,13 @@ import { TableState } from "./table/table.state";
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
+
+/**
+ * Return the list of file facets from the store.
+ * @type {MemoizedSelector<object, FileFacet[]>}
+ */
 export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (state) => {
-
-    if (state.selectedFacet) {
-        return state.fileFacets.map((fileFacet) => {
-            if (fileFacet.name === state.selectedFacet.name) {
-                return state.selectedFacet;
-            }
-            else {
-                return fileFacet;
-            }
-        });
-
-    }
-    else {
-        return state.fileFacets;
-    }
+    return state.fileFacets;
 });
 
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");

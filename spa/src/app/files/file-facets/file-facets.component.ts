@@ -36,4 +36,13 @@ export class FileFacetsComponent {
 
         return fileFacet.isInterfaceTypeSearch();
     }
+
+    /**
+     * Track facets by facet name. "Track by" is required to prevent a redraw of the selected facet (which causes 
+     * connection between selected facet and corresponding term menu to be lost).
+     */
+    public trackFacets(index: number, fileFacet: FileFacet): string {
+        
+        return fileFacet.name;
+    }
 }

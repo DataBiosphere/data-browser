@@ -213,7 +213,11 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
-     * Build Full API Url
+     * Privates
+     */
+
+    /**
+     * Build full API URL
      *
      * @param url
      * @returns {string}
@@ -224,8 +228,15 @@ export class FilesDAO extends CCBaseDAO {
         return `${domain}${url}`;
     }
 
+    /**
+     * Map files API response into FileFacet objects. 
+     * 
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {FilesAPIResponse} filesAPIResponse
+     * @param {Ordering} ordering
+     * @returns {FileFacet[]}
+     */
     private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
-
 
         const facetNames = Object.keys(filesAPIResponse.termFacets);
         const newFileFacets = facetNames.map((facetName) => {
@@ -233,21 +244,20 @@ export class FilesDAO extends CCBaseDAO {
             const responseFileFacet = filesAPIResponse.termFacets[facetName];
             const oldFacet: FileFacet = selectedFacetsByName.get(facetName);
 
-
             let responseTerms: Term[] = [];
 
             // the response from ICGC is missing the terms field instead of being an empty array
             // we need to check it's existence before iterating over it.
             if ( responseFileFacet.terms ) {
 
+                // Create term from response, maintaining the currently selected term.
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
 
                     let oldTerm: Term;
-
                     if ( oldFacet ) {
                         oldTerm = oldFacet.termsByName.get(responseTerm.term);
                     }
-
+                    
                     let selected = false;
                     if ( oldTerm ) {
                         selected = oldTerm.selected;
@@ -261,6 +271,7 @@ export class FilesDAO extends CCBaseDAO {
                 responseFileFacet.total = 0; // their default is undefined instead of zero
             }
 
+            // Create file facet from newly built terms and newly calculated total
             return new FileFacet(facetName, responseFileFacet.total, responseTerms);
         });
 
@@ -282,6 +293,7 @@ export class FilesDAO extends CCBaseDAO {
         let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
 
+        // Check if we have a sort order and if so, order facets accordingly
         if ( ordering.order.length ) {
 
             const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
@@ -294,9 +306,7 @@ export class FilesDAO extends CCBaseDAO {
         }
 
         return newFileFacets;
-
     }
-
 
     /**
      * Filter To Querystring
@@ -306,10 +316,9 @@ export class FilesDAO extends CCBaseDAO {
      *
      * TODO is this the ICGC workaround?
      *
-     * @param selectedFacets
+     * @param {FileFacet[]} selectedFacets
      * @returns {string}
      */
-
     private facetsToQueryString(selectedFacets: FileFacet[]): string {
 
 
@@ -337,5 +346,4 @@ export class FilesDAO extends CCBaseDAO {
         const result = Object.keys(filters).length ? {file: filters} : {};
         return JSON.stringify(result);
     }
-
 }
