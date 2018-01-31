@@ -1,9 +1,13 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Core file facet model, including name, total, terms and interface type.
+ */
+
 // App dependencies
 import { Term } from "./term.model";
 
-/**
- * Core file facet model, including name, total, terms and interface type.
- */
 export class FileFacet {
 
     public readonly name: string;
@@ -86,12 +90,20 @@ export class FileFacet {
         return this.interfaceType === "SEARCH"; // TODO revisit interfaceType type
     }
 
+    /**
+     * Update flag indicating whether specified term is selected and return new FileFacet with updated term list.
+     * 
+     * @param {string} termName
+     * @returns {FileFacet}
+     */
     public selectTerm(termName: string): FileFacet {
 
         if (this.isInterfaceTypeSearch()) {
             return this.selectSearchTerm(termName);
         }
 
+        // Check each term to see if it's the newly selected term. If so, toggle the selected indicator on the term, 
+        // otherwise keep the term as is.
         const newTerms = this.terms.map(term => {
 
             if (term.name === termName) {
@@ -104,28 +116,39 @@ export class FileFacet {
 
         });
 
+        // Create new file facet with updated term map
         return new FileFacet(this.name, this.total, newTerms);
     }
 
-    private selectSearchTerm(termName: string): FileFacet {
+    /**
+     * PRIVATES
+     */
+
+    /**
+     * Update flag indicating whether specified term is selected.
+     * 
+     * @param {string} id - Either file ID or donor ID
+     * @returns {FileFacet}
+     */
+    private selectSearchTerm(id: string): FileFacet {
 
         let newTerms: Term[];
 
         let contains = this.terms.some((t) => {
-            return termName === t.name;
+            return id === t.name;
         });
 
         if (contains) {
             // remove
             newTerms = this.terms.filter((t) => {
-                return termName !== t.name;
+                return id !== t.name;
             });
 
         }
         else {
             // add
             newTerms = this.terms.slice();
-            newTerms.push(new Term(termName, 1, true, "000000"));
+            newTerms.push(new Term(id, 1, true, "000000"));
         }
 
 

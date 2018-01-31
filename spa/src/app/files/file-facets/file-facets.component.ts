@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Component for displaying grid of facets.
+ */
+
 // Core dependencies
 import {
     Component,
@@ -8,9 +15,6 @@ import {
 // App dependencies
 import { FileFacet } from "../shared/file-facet.model";
 
-/**
- * Component for displaying grid of facets.
- */
 @Component({
     selector: "bw-file-facets",
     templateUrl: "./file-facets.component.html",
@@ -32,7 +36,4 @@ export class FileFacetsComponent {
 
         return fileFacet.isInterfaceTypeSearch();
     }
-
-
-
 }

@@ -1,3 +1,11 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ * 
+ * Component responsible for displaying an individual facet and its terms, as well as functionality around selecting
+ * terms and displaying edit facet (term) menu.
+ */
+
 // Core dependencies
 import {
     Component,
@@ -15,10 +23,6 @@ import { Term } from "../shared/term.model";
 import { AppState } from "../../_ngrx/app.state";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
-/**
- * Component responsible for displaying an individual facet and its terms, as well as functionality around selecting
- * terms and display edit facet menu.
- */
 @Component({
     selector: "bw-file-facet",
     templateUrl: "./file-facet.component.html",

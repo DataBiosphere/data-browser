@@ -1,3 +1,11 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Data access object, connecting to file-related end points.
+ */
+
+// Core dependencies
 import { Injectable } from "@angular/core";
 import { Http, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs/Observable";

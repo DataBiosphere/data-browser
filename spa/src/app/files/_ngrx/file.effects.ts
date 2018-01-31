@@ -1,3 +1,11 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
+ */
+
+// Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
@@ -11,6 +19,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/withLatestFrom";
 import * as _ from "lodash";
 
+// App dependencies
 import { FilesService } from "../shared/files.service";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
@@ -44,13 +53,49 @@ import {
 import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 
-
 @Injectable()
 export class FileEffects {
 
+    private colorWheelSet: boolean;
+    private colors: string[];
+
     /**
-     *
-     * Trigger update of file summary if a facet changes.
+     * @param {Store<AppState>} store
+     * @param {Actions} actions$
+     * @param {FilesService} fileService
+     */
+    constructor(private store: Store<AppState>,
+                private actions$: Actions,
+                private fileService: FilesService) {
+        this.colorWheel = new Map<string, string>();
+        this.colorWheelSet = false;
+
+        this.colors = [
+            "#1A535C",
+            "#4CC9C0",
+            "#5C83D0",
+            "#FF6B6B",
+            "#FFA560",
+            "#FFE66D",
+            "#113871", // dark blue
+            "#336C74", // light green
+            "#ABF0EB", // light turquoise
+            "#B3C9F2", // light light purple
+            "#B6D67E", // lime green
+            "#BE5951", // salmon
+            "#FFBABA", // light peach
+            "#FFD2AF", // light orange
+            "#eeeeee"
+        ];
+    }
+
+    /**
+     * Effects
+     */
+
+    /**
+     * Trigger update of file summary if a facet changes (ie term is selected or deseclted. File summary includes the 
+     * donor count, file count etc that is displayed above the facets.
      *
      * @type {Observable<Action>}
      */
@@ -78,8 +123,7 @@ export class FileEffects {
         });
 
     /**
-     *
-     * Trigger Fetch and display of manifest summary once manifest is requested.
+     * Trigger fetch and display of manifest summary once manifest is requested.
      *
      * @type {Observable<Action>}
      */
@@ -96,6 +140,9 @@ export class FileEffects {
             return new FetchFileManifestSummarySuccessAction(fileManifestSummary);
         });
 
+    /**
+     * 
+     */
     @Effect()
     fetchInitialTableData$: Observable<Action> = this.actions$
         .ofType(FetchInitialTableDataRequestAction.ACTION_TYPE)
@@ -117,6 +164,9 @@ export class FileEffects {
             return new FetchTableDataSuccessAction(tableModel);
         });
 
+    /**
+     *
+     */
     @Effect()
     fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
         .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
@@ -158,9 +208,9 @@ export class FileEffects {
             return new FetchFileFacetMetadataSummarySuccessAction(fileFacetMetadata);
         });
     private colorWheel: Map<string, string>;
+    
     /**
-     *
-     * Trigger update of  facet counts once a facet is selected.
+     * Trigger update of facets once a facet term is selected/deselected.
      *
      * @type {Observable<Action>}
      */
@@ -191,11 +241,9 @@ export class FileEffects {
                     })
             );
         });
-    private colorWheelSet: boolean;
-    private colors: string[];
+    
     /**
-     *
-     * Trigger update of  facet counts on init.
+     * Trigger update of facet counts on init.
      *
      * @type {Observable<Action>}
      */
@@ -232,38 +280,12 @@ export class FileEffects {
             );
         });
 
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private fileService: FilesService) {
-        this.colorWheel = new Map<string, string>();
-        this.colorWheelSet = false;
-
-        this.colors = [
-            "#1A535C",
-            "#4CC9C0",
-            "#5C83D0",
-            "#FF6B6B",
-            "#FFA560",
-            "#FFE66D",
-            "#113871", // dark blue
-            "#336C74", // light green
-            "#ABF0EB", // light turquoise
-            "#B3C9F2", // light light purple
-            "#B6D67E", // lime green
-            "#BE5951", // salmon
-            "#FFBABA", // light peach
-            "#FFD2AF", // light orange
-            "#eeeeee"
-        ];
-    }
-
-
     /**
      * PRIVATES
      */
 
     /**
-     * Fetch Ordered File Facets
+     * Fetch ordered file facets
      *
      * @param selectedFacets
      * @returns {Observable<FileFacet[]>}

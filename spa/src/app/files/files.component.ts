@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Core files component, displays results summary as well as facets.
+ */
+
 // Core dependencies
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
@@ -16,10 +23,6 @@ import {
 import { selectFileFacetsFileFacets, selectFileSummary } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
-
-/**
- * Core files component, displays results summary as well as facets.
- */
 
 @Component({
     selector: "bw-files",
@@ -52,7 +55,7 @@ export class FilesComponent implements OnInit {
      */
 
     /**
-     * Request manifest summary
+     * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
      */
     public requestManifestSummary() {
 
@@ -61,9 +64,10 @@ export class FilesComponent implements OnInit {
 
 
     /**
-     * Dispatch Manifest Download Request
+     * Dispatch action to download manifest summary.
      */
     public onDownloadManifest() {
+        
         this.store.dispatch(new DownloadFileManifestAction());
     }
 
@@ -83,7 +87,7 @@ export class FilesComponent implements OnInit {
         // File Facets
         this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
 
-        // initialize the filter state from the params in the route.
+        // Initialize the filter state from the params in the route.
         this.initQueryParams();
 
     }
@@ -111,7 +115,6 @@ export class FilesComponent implements OnInit {
             })
             .subscribe((query) => {
                 this.store.dispatch(new FetchFileFacetsRequestAction());
-                // this.store.dispatch({ type: ACTIONS.INIT_FILE_FACETS, payload: query });
             });
     }
 }

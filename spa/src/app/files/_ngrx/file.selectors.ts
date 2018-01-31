@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Selectors for querying file-related state from the file store.
+ */
+
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
@@ -6,7 +13,7 @@ import { TableState } from "./table/table.state";
 
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
-export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacesByName);
+export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
 export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (state) => {
 
     if (state.selectedFacet) {
