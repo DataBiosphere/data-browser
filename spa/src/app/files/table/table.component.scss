@@ -65,15 +65,28 @@ mat-card {
             padding-left: 8px;
             padding-right: 8px;
 
-            /* Make selected columns narrow */
+            /* Program, Project */
             &:first-of-type, &:nth-of-type(2) {
                 flex: none;
                 width: 5%;
             }
 
-            &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(10) {
+            /* Submitter Donor Id */
+            &:nth-of-type(3), &:nth-of-type(5) {
                 flex: none;
                 width: 7%;
+            }
+
+            /* Submitter Specimen Id */
+            &:nth-of-type(4) {
+                flex: none;
+                width: 10%;
+            }
+
+            /* Specimen Type */
+            &:nth-of-type(5) {
+                flex: none;
+                width: 10%;
             }
 
             &:nth-of-type(6) {
@@ -81,9 +94,16 @@ mat-card {
                 width: 8%;
             }
 
+            /* File ID */
             &:nth-of-type(9) {
                 flex: none;
-                width: 20%;
+                width: 17%;
+            }
+
+            /* File size */
+            &:nth-of-type(10) {
+                flex: none;
+                width: 4%;
             }
 
             /* Table header text alignment */

@@ -27,11 +27,14 @@ export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSu
 export const selectFileFacetMetadataSummary = createFeatureSelector<FileFacetMetadataSummaryState>("fileFacetMetadataSummary");
 export const selectTableState = createFeatureSelector<TableState>("tableState");
 
-export const selectPagination = createSelector(
-    selectTableState,
-    (tableState: TableState) => {
-        return tableState.tableModel.pagination;
-    });
+/**
+ * Returns current state of pagination, of file facet table.
+ * 
+ * @type {MemoizedSelector<object, PaginationModel>}
+ */
+export const selectPagination = createSelector(selectTableState,(tableState: TableState) => {
+    return tableState.tableModel.pagination;
+});
 
 export const selectTableData = createSelector(
     selectTableState,

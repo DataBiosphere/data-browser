@@ -1,13 +1,23 @@
-import { Component, OnInit } from "@angular/core";
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Table component for displaying file-related data.
+ */
+
+// Core dependencies
 import { DataSource } from "@angular/cdk/collections";
-import { Observable } from "rxjs/Observable";
+import { Component, OnInit } from "@angular/core";
+import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
+import { Observable } from "rxjs/Observable";
+
+// App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
+import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "./pagination.model";
-import { Sort } from "@angular/material";
 
 @Component({
     selector: "bw-table",
@@ -16,16 +26,21 @@ import { Sort } from "@angular/material";
 })
 export class TableComponent implements OnInit {
 
-    displayedColumns = ["program", "project", "submittedDonorId", "submittedSpecimenId", "specimen_type", "submittedSampleId", "software", "title", "file_id", "fileSize"];
+    // Locals
+    private store: Store<AppState>;
+
+    displayedColumns = [
+        "program", "project", "submittedDonorId",
+        "submittedSpecimenId", "specimen_type", "submittedSampleId",
+        "software", "title", "file_id", "fileSize"
+    ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
-    pageSizeOptions = [5, 50, 100, 200];
-    selectedPage = 5;
+    pageSizeOptions = [50, 100, 200];
+    selectedPage = 50;
     pageValue: number;
     pageError: boolean;
 
-    // Privates
-    private store: Store<AppState>;
 
     /**
      * @param store {Store<AppState>}
@@ -34,20 +49,12 @@ export class TableComponent implements OnInit {
         this.store = store;
     }
 
-
-    ngOnInit() {
-
-        // Initialize the new data source with an observable of the table data.
-        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
-
-        // Get an observable of the pagination model
-        this.pagination$ = this.store.select(selectPagination);
-
-    }
-
+    /**
+     * Public API
+     */
 
     /**
-     * Called when table next page selected
+     * Called when table next page selected.
      *
      * @param {PaginationModel} pm
      */
@@ -65,7 +72,6 @@ export class TableComponent implements OnInit {
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-        console.log("next");
     }
 
     /**
@@ -86,7 +92,6 @@ export class TableComponent implements OnInit {
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-        console.log("previous");
     }
 
     /**
@@ -159,7 +164,8 @@ export class TableComponent implements OnInit {
 
 
     /**
-     * Return the index of the last row in the table (starting from 1)
+     * Return the index of the last row in the table (starting from 1).
+     * 
      * @param {PaginationModel} pm
      * @returns {number}
      */
@@ -174,7 +180,7 @@ export class TableComponent implements OnInit {
     }
 
     /**
-     * Return the current page number
+     * Return the current page number.
      *
      * @param {PaginationModel} pm
      * @returns {number}
@@ -222,8 +228,30 @@ export class TableComponent implements OnInit {
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
     }
+
+    /**
+     * Lifecycle hooks
+     */
+
+    /**
+     *  Set up table data source and pagination
+     */
+    ngOnInit() {
+
+        // Initialize the new data source with an observable of the table data.
+        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
+
+        // Get an observable of the pagination model
+        this.pagination$ = this.store.select(selectPagination);
+    }
 }
 
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Elements in Material Design table that displays file related data.
+ */
 export interface Element {
     program: string;
     project: string;
@@ -237,6 +265,12 @@ export interface Element {
     size: number;
 }
 
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Data source backing Material Design table that displays file related data.
+ */
 class TableElementDataSource extends DataSource<any> {
 
     element$: Observable<Element[]>;
@@ -272,6 +306,7 @@ class TableElementDataSource extends DataSource<any> {
     disconnect() {
     }
 }
+
 // Notes so we can see the data structure
 //
 // "hits": [
@@ -353,4 +388,4 @@ class TableElementDataSource extends DataSource<any> {
 //         "size": 1,
 //         "sort": "center_name",
 //         "total": 6
-// },
+// }

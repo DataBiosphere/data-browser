@@ -1,10 +1,4 @@
 <mat-card>
-    <!--<div class="filter-row">-->
-        <!--<mat-form-field>-->
-            <!--<mat-icon matPrefix>search</mat-icon>-->
-            <!--<input matInput #filter placeholder="Filename">-->
-        <!--</mat-form-field>-->
-    <!--</div>-->
     <div *ngIf="pagination$ | async; let pagination" class="pagination">
         <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
             <mat-icon>chevron_left</mat-icon>
@@ -54,7 +48,7 @@
         </ng-container>
         <ng-container matColumnDef="fileSize">
             <mat-header-cell *matHeaderCellDef mat-sort-header> File Size</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.size}}</mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.size | fileSize}}</mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -73,11 +67,12 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
         <span>Page {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
     </div>
-    <!--<div *ngIf="pagination$ | async; let pagination">-->
-        <!--<span *ngFor="let pageNumber of getPages(pagination); ">-->
-            <!--{{ pageNumber }}-->
-        <!--</span>-->
-    <!--</div>-->
 </mat-card>
