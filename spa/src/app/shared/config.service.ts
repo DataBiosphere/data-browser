@@ -6,7 +6,7 @@ export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC" | "UCSC_HCA";
 @Injectable()
 export class ConfigService {
 
-    private source: ApiSource = "UCSC";
+    private source: ApiSource = "UCSC_STAGE";
 
     constructor() { }
 
