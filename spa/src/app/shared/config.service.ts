@@ -37,9 +37,8 @@ export class ConfigService {
     }
 
     hasSortOrder() {
-
-         return false;
-       // return this.source === "UCSC_STAGE" || this.source === "UCSC";
+        return false;
+        //return this.source === "UCSC_STAGE" || this.source === "UCSC";
     }
 
     getTestSortFacets(): FileFacetMetadata[] {
