@@ -1,6 +1,6 @@
 <div class="layout-column layout-gt-xs-row layout-wrap">
     <div class="facet-wrap flex flex-sm-50 flex-md-25 flex-gt-md-20" *ngFor="let fileFacet of fileFacets; trackBy: trackFacets">
-        <bw-file-facet-search [fileFacet]="fileFacet" *ngIf="isInterfaceTypeSearch(fileFacet)" (onMenuOpen)="onMenuOpen($event)" ></bw-file-facet-search>
+        <bw-file-facet-search [fileFacet]="fileFacet" *ngIf="isInterfaceTypeSearch(fileFacet)" (onMenuOpen)="onMenuOpen($event)"></bw-file-facet-search>
         <bw-file-facet-wrapper [fileFacet]="fileFacet" *ngIf="!isInterfaceTypeSearch(fileFacet)"></bw-file-facet-wrapper>
     </div>
 </div>

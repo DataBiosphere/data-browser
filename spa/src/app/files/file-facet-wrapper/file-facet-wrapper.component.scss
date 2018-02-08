@@ -4,3 +4,9 @@
  *
  * File facet wrapper styles.
  */
+
+/* Add margin around each card */
+:host {
+    display: block;
+    margin: 8px;
+}

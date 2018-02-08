@@ -10,7 +10,7 @@
 
     /** Position term list to match card position. TODO revisit post merge - can this be deleted? */
     facet-term-list {
-        margin: 24px 12px 0 12px; /* TODO confirm - margin-top was 28px, changed to 24px */
+        margin: 16px 8px 8px 8px;
     }
 }
 
@@ -23,7 +23,7 @@
 
         /** Position term list to match card position. TODO revisit post merge - can this be deleted? */
         facet-term-list {
-            margin: 32px 12px 0 12px; /* TODO confirm - margin-top was 28px, changed to 32px for mobile view */
+            margin-top: 24px;
         }
     }
 }

@@ -7,6 +7,10 @@
 @import "../../shared/theme/cgl.vars";
 
 :host {
+    
+    /* Add margin around each card */
+    display: block;
+    margin: 8px;
 
     mat-card {
 
@@ -28,6 +32,10 @@
         /** Override MD default padding, for all device sizes */
         padding: 24px 16px !important;
 
+        /deep/ .mat-card-header {
+            margin: 0 8px 8px 8px;
+        }
+
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
         /deep/ .mat-card-header-text {
             flex: 1;
@@ -43,6 +51,7 @@
 
         /** Add min height to card content for consistent card height **/
         /deep/ mat-card-content {
+            margin: 8px 8px 0 8px;
             min-height: 256px;
             position: relative; /** Required for positioning of caret */
 
