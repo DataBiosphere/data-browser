@@ -33,7 +33,7 @@ export class FileFacetComponent {
 
     // Privates
     private store: Store<AppState>;
-
+    
     // Inputs
     @Input() fileFacet: FileFacet;
 
@@ -53,6 +53,7 @@ export class FileFacetComponent {
      * Build up data model to back horizontal bar chart.
      *
      * @param fileFacet {FileFacet}
+     * @returns {FacetTermChartData}
      */
     public getFacetTermChartData(fileFacet: FileFacet): FacetTermChartData {
 
@@ -70,6 +71,31 @@ export class FileFacetComponent {
         return new FacetTermChartData(fileFacet.name, selectedTerms, selectedCount);
     }
 
+    /**
+     * Return the text for the term count tooltip.
+     * 
+     * @param fileFacet {FileFacet}
+     * @returns {string}
+     */
+    public getFacetTermCountTooltip(fileFacet: FileFacet): string {
+
+        let selectedTermCount = fileFacet.selectedTermCount;
+        let termCount = fileFacet.termCount;
+        let termDisplayText = (termCount === 1 ? "Term" : "Terms");
+        return `${selectedTermCount} of ${termCount} ${termDisplayText} Selected`;
+    }
+
+    /**
+     * Return the text for the file count tooltip.
+     *
+     * @param fileFacet {FileFacet}
+     * @returns {string}
+     */
+    public getFileCountTooltip(fileFacet: FileFacet): string {
+
+        return `${fileFacet.total} Files`;
+    }
+    
     /**
      * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
      * event to parent.

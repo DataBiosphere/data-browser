@@ -2,10 +2,10 @@
     <mat-card-header>
         <mat-card-title>{{fileFacet.name | camelToSpace}}</mat-card-title>
         <mat-card-subtitle>
-            <span>
+            <span matTooltip="{{getFileCountTooltip(fileFacet)}}" [matTooltipPosition]="'above'">
                 {{fileFacet.total | localeString}}
             </span>
-            <span>
+            <span matTooltip="{{getFacetTermCountTooltip(fileFacet)}}" [matTooltipPosition]="'above'">
                 {{fileFacet.selectedTermCount}} /  {{fileFacet.termCount}}
             </span>
         </mat-card-subtitle>
@@ -21,7 +21,7 @@
             </ng-container>
         </ng-container>
         <div *ngIf="fileFacet.moar" class="facet-more">
-            <span class="md-caption secondary">+{{fileFacet.moarCount}}</span>
+            <span class="md-caption secondary"  matTooltip="'View All Terms'" [matTooltipPosition]="'above'">+{{fileFacet.moarCount}}</span>
             <mat-icon>expand_more</mat-icon>
         </div>
     </mat-card-content>
