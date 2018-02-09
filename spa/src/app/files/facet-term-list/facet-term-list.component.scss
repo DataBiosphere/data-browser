@@ -16,10 +16,11 @@
 
     .facet-term {
 
+        align-items: start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line) 
         cursor: pointer;
-        padding: 2px 12px; /* Was 2px - now to accommodate double-wide flex wrap with padding for each term requires 12px L and R sides */
+        padding: 2px 12px; // Was 2px - now to accommodate double-wide flex wrap with padding for each term requires 12px L and R sides
         transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-        width: 100%; /* Overrides any flex wrap on terms for small cards */
+        width: 100%; // Overrides any flex wrap on terms for small cards 
 
         &:hover {
             background-color: rgba(26, 83, 92, 0.06);
@@ -45,12 +46,12 @@
                 font-size: 14px; // Match md-card font size (for when term list is displayed outside of card)
 
                 flex: 1; // Always title to consume remaining space (excluding count)
+                line-height: 17px; // Add 1px extra line height over default, for multi-line term names 
                 min-width: 0; // Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/)
 
                 /** Truncate long term names */
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
                 line-height: 16px; // Hiding overflow is clipping ascenders/descenders - pump up jam on line height here to force full height of characters
             }
 

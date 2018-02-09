@@ -1,9 +1,13 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Pipe to convert file ID from 5fe1b2e0-7fad-589c-849b-010449569587 to 5fe1b2e0....010449569587
+ */
+
 // Core dependencies
 import { Pipe, PipeTransform } from "@angular/core";
 
-/**
- * Pipe to convert file ID from 5fe1b2e0-7fad-589c-849b-010449569587 to 5fe1b2e0....010449569587
- */
 @Pipe({
     name: "fileNameShortener"
 })

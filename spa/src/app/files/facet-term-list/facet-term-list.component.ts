@@ -1,11 +1,7 @@
-// Core dependencies
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FileFacet } from "../shared/file-facet.model";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { Term } from "../shared/term.model";
-import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
-
 /**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
  * Displays list of facet terms, including checkbox indicating if term is currently selected, as well as corresponding
  * count. Emits "facetTermSelected" event on click of term.
  *
@@ -14,6 +10,15 @@ import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
  * must also be updated.
  * <md-checkbox [checked]="term.selected">{{term.name}}<span class="md-caption secondary">{{term.count | localeString}}</span></md-checkbox>
  */
+
+// Core dependencies
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+
+// App dependencies
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
+import { FileFacet } from "../shared/file-facet.model";
+import { Term } from "../shared/term.model";
 
 @Component({
     selector: "facet-term-list",
