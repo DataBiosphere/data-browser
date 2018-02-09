@@ -5,7 +5,10 @@
  * Selectors for querying file-related state from the file store.
  */
 
+// Core dependencies
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+
+// App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";

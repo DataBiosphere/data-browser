@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Search menu component, for either file or donor searches. Handles search input and search result list.
+ */
+
 // Core dependencies
 import {
     Component,
@@ -14,14 +21,14 @@ import * as _ from "lodash";
 
 // App dependencies
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { FileFacet } from "../shared/file-facet.model";
 import { FileSearchComponent } from "../file-search/file-search.component";
 import { FileSearchConfig } from "../file-search/file-search-config.model";
-import { AppState } from "../../_ngrx/app.state";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
-import { selectFileFacets } from "../_ngrx/file.selectors";
 import { ClearKeywordQueryAction, FetchKeywordsRequestAction } from "../../keywords/_ngrx/keyword.actions";
 import { selectKeywords } from "../../keywords/_ngrx/keyword.selectors";
+import { AppState } from "../../_ngrx/app.state";
+import { selectFileFacets } from "../_ngrx/file.selectors";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { FileFacet } from "../shared/file-facet.model";
 
 @Component({
     selector: "bw-file-facet-search-menu",
@@ -89,7 +96,7 @@ export class FileFacetSearchMenuComponent implements OnInit {
         }
 
         // Dispatch clear event.
-        this.store.dispatch(new ClearKeywordQueryAction());
+        this.store.dispatch(new ClearKeywordQueryAction(searchRequest.type));
     }
 
     /**
@@ -121,12 +128,12 @@ export class FileFacetSearchMenuComponent implements OnInit {
      */
     ngOnInit() {
 
-        // TODO revisit selector/reducer/function thingo here.
+        // Get the search facet to be displayed (either file or donor search).
         this.fileFacet$ = this.store.select(selectFileFacets)
             .map(state => state.fileFacets)
             .map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName));
 
-        // Get the list of currently selected files or donors, depending on the type of search being executed
+        // Get the list of currently selected files or donors (depending on the type of search being executed).
         if ( this.fileSearchConfig.isFileSearch() ) {
             this.files$ = this.store.select(selectKeywords).filter(state => state.type === "file").map(state => state.hits);
         }

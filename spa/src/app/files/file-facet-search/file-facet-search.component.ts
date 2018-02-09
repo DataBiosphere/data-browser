@@ -81,13 +81,15 @@ export class FileFacetSearchComponent implements OnInit {
     ngOnInit() {
 
         // Clear the selected facet in the store, on close of any open menu.
-        this.trigger.onMenuClose.subscribe(() => {
+        this.trigger.menuClosed.subscribe(() => {
             this.store.dispatch(new ClearSelectedFileFacetsAction());
         });
 
         // Focus search box on open of menu
-        this.trigger.onMenuOpen.subscribe(() => {
-            this.fileSearchMenuComponent.focus();
+        this.trigger.menuOpened.subscribe(() => {
+            setTimeout(() => {
+                this.fileSearchMenuComponent.focus();
+            }, 300) // Focus input after MD menu animation has completed TODO remove this once menu/search UX is updated 
         });
 
         // Set up search config - currently either file or donor

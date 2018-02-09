@@ -42,7 +42,7 @@ export class FileFacetsComponent {
      * connection between selected facet and corresponding term menu to be lost).
      */
     public trackFacets(index: number, fileFacet: FileFacet): string {
-        
+
         return fileFacet.name;
     }
 }

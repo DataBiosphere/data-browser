@@ -1,6 +1,10 @@
 /**
- * Meta required for displaying and handling file (file and donor) search.
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Meta required for setting file or donor search facets.
  */
+
 export class FileSearchConfig {
 
     // Public variables
