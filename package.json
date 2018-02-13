@@ -1,7 +1,7 @@
 {
   "name": "ucsc-boardwalk",
   "version": "1.0.0",
-  "description": "",
+  "description": "UCSC Boardwalk Faceted File Browser",
   "main": "server/dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -37,7 +37,6 @@
     "request": "2.82.0",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.11.1",
-    "shortid": "^2.2.6",
     "ua-parser-js": "^0.7.10"
   },
   "devDependencies": {

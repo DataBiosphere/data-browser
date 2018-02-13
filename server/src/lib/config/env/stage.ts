@@ -11,9 +11,5 @@ export default {
         noReply: "",
         noReplyName: ""
     },
-
-    mongo: {
-        uri: "",
-    },
     ucsc_url: "https://carlos.ucsc-cgp-dev.org"
 };

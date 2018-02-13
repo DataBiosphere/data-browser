@@ -1,6 +1,5 @@
 import { Request as ExpressReq } from "express";
 import { Config } from "./lib/config/config";
-import { Types } from "mongoose";
 
 type ExpressSesssion = Express.Session;
 
@@ -15,8 +14,6 @@ interface BoardwalkRequest {
 
 
 export type Req = ExpressReq & BoardwalkRequest & Express.Request;
-
-export type OID = Types.ObjectId;
 
 export interface ListModel<T> {
     count: number;

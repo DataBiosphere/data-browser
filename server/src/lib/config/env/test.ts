@@ -9,8 +9,5 @@ export default {
         admins: ["mim@clevercanary.com", "dave@clevercanary.com", "chris@clevercanary.com"],
         noReply: "",
         noReplyName: ""
-    },
-    mongo: {
-        uri: "mongodb://localhost/bw-test"
     }
 };

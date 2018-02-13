@@ -3,7 +3,6 @@
     "body-parser": "registry:npm/body-parser#1.15.2+20160815132839",
     "express": "registry:npm/express#4.14.0+20160925001530",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
-    "mongodb": "registry:npm/mongodb#2.1.0+20160721204323",
     "serve-static": "registry:npm/serve-static#1.11.1+20160810053450"
   },
   "globalDependencies": {
@@ -13,11 +12,9 @@
     "express-session": "registry:dt/express-session#0.0.0+20160930124524",
     "express-validator": "registry:dt/express-validator#2.20.4+20160818182338",
     "method-override": "registry:dt/method-override#0.0.0+20160925094606",
-    "mongoose": "registry:dt/mongoose#4.7.0+20170109095616",
     "morgan": "registry:dt/morgan#1.7.0+20160524142355",
     "passport": "registry:dt/passport#0.2.0+20161013124703",
     "passport-local": "registry:dt/passport-local#0.0.0+20160316155526",
-    "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
-    "shortid": "registry:dt/shortid#0.0.0+20160316155526"
+    "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526"
   }
 }
