@@ -1,4 +1,14 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Client-side configuration file.
+ */
+
+// Core dependencies
 import { Injectable } from "@angular/core";
+
+// App dependencies
 import { FileFacetMetadata } from "../files/file-facet-metadata/file-facet-metadata.model";
 
 export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC" | "UCSC_HCA";
@@ -8,12 +18,16 @@ export class ConfigService {
 
     private source: ApiSource = "UCSC_STAGE";
 
-    constructor() { }
-
+    /**
+     * @returns {ApiSource}
+     */
     getSource(): ApiSource {
         return this.source;
     }
 
+    /**
+     * @param {ApiSource} source
+     */
     setSource(source: ApiSource) {
         this.source = source;
     }
@@ -32,15 +46,24 @@ export class ConfigService {
         }
     }
 
+    /**
+     * @returns {string}
+     */
     getApiUrl(): string {
         return this.getRootUrl() + "/api/v1";
     }
 
+    /**
+     * @returns {boolean}
+     */
     hasSortOrder() {
         return false;
         //return this.source === "UCSC_STAGE" || this.source === "UCSC";
     }
 
+    /**
+     * @returns {FileFacetMetadata[]}
+     */
     getTestSortFacets(): FileFacetMetadata[] {
 
         return <FileFacetMetadata[]>[
