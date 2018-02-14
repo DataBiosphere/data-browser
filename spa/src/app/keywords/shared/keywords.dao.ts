@@ -1,14 +1,27 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Data Access Object for hitting keyword-related API end points.
+ */
+
+// Core dependencies
 import { Injectable } from "@angular/core";
-import { CCBaseDAO } from "../../cc-http/shared/cc-base.dao";
 import { Http } from "@angular/http";
-import { ConfigService } from "../../shared/config.service";
 import { Observable } from "rxjs/Observable";
+
+// App dependencies
+import { CCBaseDAO } from "../../cc-http/shared/cc-base.dao";
+import { ConfigService } from "../../config/config.service";
 import { KeywordQueryResponse } from "./keyword-query-response.model";
 
 @Injectable()
 export class KeywordsDAO extends CCBaseDAO {
 
-
+    /**
+     * @param {Http} http
+     * @param {ConfigService} configService
+     */
     constructor(http: Http, private configService: ConfigService) {
         super(http);
     }
@@ -25,7 +38,7 @@ export class KeywordsDAO extends CCBaseDAO {
     }
 
     /**
-     * Build Full API Url
+     * Build full API Url
      *
      * @param url
      * @returns {string}

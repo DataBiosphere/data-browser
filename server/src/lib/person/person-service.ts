@@ -35,7 +35,7 @@ const BEARER_TOKEN = process.env["BEARER_TOKEN"] || "ITS_A_SECRET!";
  */
 export function getUserFromSessionCookie(cookie: string, next: Callback<Person>) {
 
-    const sessionUrl = `${config.ucsc_url}/check_session/${cookie}`;
+    const sessionUrl = `${process.env.BW_DATA_URL}/check_session/${cookie}`;
 
     request
         .get(sessionUrl, {

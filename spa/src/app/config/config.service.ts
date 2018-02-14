@@ -7,102 +7,92 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/take";
 
 // App dependencies
-import { FileFacetMetadata } from "../files/file-facet-metadata/file-facet-metadata.model";
-
-export type ApiSource = "UCSC_STAGE" | "UCSC" | "ICGC" | "UCSC_HCA";
+import { ConfigDAO } from "./config.dao";
+import { Config } from "./config.model";
+import { selectConfigConfig } from "./_ngrx/config.selectors";
+import { AppState } from "../_ngrx/app.state";
 
 @Injectable()
 export class ConfigService {
-
-    private source: ApiSource = "UCSC_STAGE";
+    
+    // Locals
+    private configDAO: ConfigDAO;
+    private dataURL: string; // Pulled from config store, saved as local state here on service
 
     /**
-     * @returns {ApiSource}
+     * @param {ConfigDAO} configDAO
+     * @param store {Store<AppState>}
      */
-    getSource(): ApiSource {
-        return this.source;
+    constructor(configDAO: ConfigDAO, store: Store<AppState>) {
+        
+        this.configDAO = configDAO;
+
+        // Maintain subscription to config state, so we can keep a record of the current value of the data URL
+        this.getConfig(store)
+            .filter((config: Config) => {
+                return config.isInitialized();
+            })
+            .take(1) // Immediately unsubscribe
+            .subscribe((config: Config) => {
+                this.dataURL = config.dataURL;
+                console.log(`Data URL: ${this.dataURL}`);
+            });
     }
 
     /**
-     * @param {ApiSource} source
+     * Hit API end point to retrieve configuration information for this Boardwalk instance.
+     *
+     * @returns {Observable<Config>}
      */
-    setSource(source: ApiSource) {
-        this.source = source;
-    }
+    public fetchConfig(): Observable<Config> {
 
-    getRootUrl(): string {
-
-        switch (this.source) {
-            case "UCSC_HCA":
-                return "https://dss-aws-staging.ucsc-cgp-dev.org";
-            case "UCSC_STAGE":
-                return "https://carlos.ucsc-cgp-dev.org";
-            case "UCSC":
-                return "https://ucsc-cgp.org";
-            default: // "ICGC"
-                return "https://dcc.icgc.org";
-        }
+        return this.configDAO.fetchConfig();
     }
 
     /**
+     * Return the data URL for this Boardwalk instance.
+     * 
      * @returns {string}
      */
-    getApiUrl(): string {
-        return this.getRootUrl() + "/api/v1";
+    public getDataURL(): string {
+        
+        return this.dataURL;
     }
 
     /**
+     * Return the full data API URL for this Boardwalk instance.
+     * 
+     * @returns {string}
+     */
+    public getApiUrl(): string {
+
+        return `${this.dataURL}/api/v1`;
+    }
+
+    /**
+     * Returns true if there is a sort order for the data.
+     * 
      * @returns {boolean}
      */
-    hasSortOrder() {
+    public hasSortOrder(): boolean {
+
         return false;
-        //return this.source === "UCSC_STAGE" || this.source === "UCSC";
     }
 
     /**
-     * @returns {FileFacetMetadata[]}
+     * Get the current config from the store.
+     * 
+     * @param store {Store<AppState>}
+     * @returns {Observable<Config>}
      */
-    getTestSortFacets(): FileFacetMetadata[] {
-
-        return <FileFacetMetadata[]>[
-            {
-                name: "fileId",
-                category: "file"
-            },
-            {
-                name: "donorId",
-                category: "file"
-            },
-            {
-                name: "centerName",
-                category: "file"
-            },
-            {
-                name: "program",
-                category: "file"
-            },
-            {
-                name: "projectCode",
-                category: "file"
-            },
-            {
-                name: "workFlow",
-                category: "file"
-            },
-            {
-                name: "analysisType",
-                category: "file"
-            },
-            {
-                name: "specimenType",
-                category: "file"
-            },
-            {
-                name: "fileFormat",
-                category: "file"
-            }
-        ];
+    private getConfig(store: Store<AppState>): Observable<Config> {
+        
+        return store.select(selectConfigConfig);
     }
 }

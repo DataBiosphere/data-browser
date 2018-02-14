@@ -10,6 +10,5 @@ export default {
         admins: ["mim@clevercanary.com", "dave@clevercanary.com", "chris@clevercanary.com"],
         noReply: "",
         noReplyName: ""
-    },
-    ucsc_url: "https://ucsc-cgp.org"
+    }
 };

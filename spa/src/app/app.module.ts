@@ -1,16 +1,30 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ * 
+ * Code app module definition - imports shared and config modules as well as all app specific modules that must either
+ * be eager-loaded or contain app-wide singleton services.
+ */
+
 // Core dependencies
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { MatButtonModule, MatIconModule, MatToolbarModule } from "@angular/material";
-
-// NGRX
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
+import { ConfigModule } from "./config/config.module";
+import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
+import { UserService } from "./data/user/user.service";
+import { FilesModule } from "./files/files.module";
+import { reducers } from "./_ngrx/app.reducer";
+import { AppEffects } from "./_ngrx/app.effects";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { CGLFooterComponent } from "./shared/cgl-footer/cgl-footer.component";
@@ -20,21 +34,6 @@ import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directi
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
 
-// Child Modules
-import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
-import { FilesModule } from "./files/files.module";
-
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { UserService } from "./data/user/user.service";
-
-import { reducers } from "./_ngrx/app.reducer";
-import { AppEffects } from "./_ngrx/app.effects";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-
-/**
- * Code app module definition - imports shared and config modules as well as all app specific modules that must either
- * be eager-loaded or contain app-wide singleton services.
- */
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
@@ -55,6 +54,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         }),
 
         // CHILD MODULES SETUP
+        ConfigModule,
         FilesModule,
      //   TableModule,
         CCSnapperModule

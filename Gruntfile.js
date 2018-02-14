@@ -92,12 +92,11 @@ module.exports = function (grunt) {
 
         env: {
             test: {
-                NODE_ENV: "test",
-                TZ: "UTC"
+                NODE_ENV: "test"
             },
             local: {
                 NODE_ENV: "local",
-                TZ: "UTC"
+                BW_DATA_URL: "https://carlos.ucsc-cgp-dev.org"
             }
         },
 

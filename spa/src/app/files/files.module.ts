@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Files module definition.
+ */
+
 // Core dependencies
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -23,6 +30,7 @@ import { CCHttpModule } from "../cc-http/cc-http.module";
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CCStopPropagationModule } from "../cc-stop-propagation/cc-stop-propagation.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
+import { ConfigService } from "../config/config.service";
 import { FacetTermChartComponent } from "./facet-term-chart/facet-term-chart.component";
 import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 import { FilesComponent } from "./files.component";
@@ -40,13 +48,8 @@ import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
-import { ConfigService } from "../shared/config.service";
 import { TableComponent } from "./table/table.component";
 
-
-/**
- * Files module definition.
- */
 @NgModule({
     imports: [
         CommonModule,

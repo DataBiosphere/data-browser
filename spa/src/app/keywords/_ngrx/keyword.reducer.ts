@@ -2,8 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * File facet list reducer, handles actions related to selecting and deselecting facet terms, and corresponding knock-on
- * actions such as requesting updated list of facets.
+ * Keyword reducer, handles actions related to file ID or donor ID searches.
  */
 
 // Core dependencies

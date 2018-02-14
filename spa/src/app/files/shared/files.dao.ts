@@ -18,7 +18,7 @@ import { Dictionary } from "../../shared/dictionary";
 import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
-import { ConfigService } from "../../shared/config.service";
+import { ConfigService } from "../../config/config.service";
 import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";

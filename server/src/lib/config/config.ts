@@ -24,7 +24,6 @@ export interface Config {
             mongos?: any
         },
     };
-    ucsc_url: string;
     googleAnalytics?: any;
     aws: {
         accessKey: string;
