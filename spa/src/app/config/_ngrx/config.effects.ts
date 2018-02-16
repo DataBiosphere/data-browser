@@ -14,8 +14,6 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
 
 // App dependencies
-import { FetchConfigRequestAction, FetchConfigRequestSuccessAction } from "./config.actions";
-import { Config } from "../config.model";
 import { ConfigService } from "../config.service";
 import { AppState } from "../../_ngrx/app.state";
 
@@ -30,23 +28,4 @@ export class ConfigEffects {
                 private actions$: Actions,
                 private configService: ConfigService) {
     }
-
-    /**
-     * Effects
-     */
-
-    /**
-     * Trigger request of config from API end point.
-     *
-     * @type {Observable<Action>}
-     */
-    @Effect()
-    config$: Observable<Action> = this.actions$
-        .ofType(FetchConfigRequestAction.ACTION_TYPE)
-        .switchMap((action: FetchConfigRequestAction) => {
-            return this.configService.fetchConfig();
-        })
-        .map((config: Config) => {
-            return new FetchConfigRequestSuccessAction(config);
-        });
 }

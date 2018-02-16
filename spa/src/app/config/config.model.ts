@@ -16,14 +16,4 @@ export class Config {
 
         this.dataURL = dataURL;
     }
-
-    /**
-     * Returns true if a data URL has been specified.
-     * 
-     * @returns {boolean}
-     */
-    isInitialized(): boolean {
-        
-        return !!this.dataURL;
-    }
 }

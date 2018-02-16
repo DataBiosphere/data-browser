@@ -10,9 +10,6 @@ import { Config } from "../config.model";
 import { FetchConfigRequestSuccessAction } from "./config.actions";
 
 export class ConfigState {
-    
-    // Default data URL
-    private static DATA_URL_DEFAULT: string = "https://carlos.ucsc-cgp-dev.org";
 
     // Public members
     public readonly config: Config;
@@ -43,6 +40,6 @@ export class ConfigState {
      */
     public static getDefaultState() {
 
-        return new ConfigState(new Config(this.DATA_URL_DEFAULT));
+        return new ConfigState(new Config(""));
     }
 }

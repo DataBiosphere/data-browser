@@ -44,7 +44,7 @@ export class KeywordsDAO extends CCBaseDAO {
      * @returns {string}
      */
     private buildApiUrl(url: string) {
-        const domain = this.configService.getApiUrl();
+        const domain = this.configService.getAPIURL();
         return `${domain}${url}`;
     }
 }

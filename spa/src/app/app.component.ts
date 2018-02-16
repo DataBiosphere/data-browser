@@ -11,7 +11,6 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { SyncSessionRequestAction } from "./auth/_ngrx/auth.actions";
-import { FetchConfigRequestAction } from "./config/_ngrx/config.actions";
 import { AppState } from "./_ngrx/app.state";
 
 @Component({
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
 
     /**
-     * Component initialization - check authentication status of current user, retrieve data URL for this environment.
+     * Component initialization - check authentication status of current user.
      */
     ngOnInit() {
         
@@ -42,9 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.sessionPoller = setInterval(() => {
             this.store.dispatch(new SyncSessionRequestAction());
         }, 60 * 1000);
-        
-        // Get data URL for this Boardwalk environment
-        this.store.dispatch(new FetchConfigRequestAction());
     }
 
     /**

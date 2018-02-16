@@ -73,7 +73,7 @@ export class FilesDAO extends CCBaseDAO {
             return Observable.of([]);
         }
 
-        const domain = this.configService.getApiUrl();
+        const domain = this.configService.getAPIURL();
         const url = `${domain}/repository/files/meta`;
         return this.get(url)
             .catch((error: any, caughtObs: Observable<any>) => {
@@ -224,7 +224,7 @@ export class FilesDAO extends CCBaseDAO {
      */
     private buildApiUrl(url: string) {
 
-        const domain = this.configService.getApiUrl();
+        const domain = this.configService.getAPIURL();
         return `${domain}${url}`;
     }
 

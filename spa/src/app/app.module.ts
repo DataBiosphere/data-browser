@@ -7,7 +7,7 @@
  */
 
 // Core dependencies
-import { NgModule } from "@angular/core";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
@@ -18,12 +18,12 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 // App Dependencies
 import { AppComponent } from "./app.component";
-import { routes } from "./app.routes";
+import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
 import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
-import { reducers } from "./_ngrx/app.reducer";
+import { AppReducers } from "./_ngrx/app.reducer";
 import { AppEffects } from "./_ngrx/app.effects";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
@@ -33,6 +33,7 @@ import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-it
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
+import { ConfigService } from "./config/config.service";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -41,13 +42,13 @@ import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component"
         // ANGULAR SETUP
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(routes),
+        RouterModule.forRoot(AppRoutes),
         MatButtonModule,
         MatIconModule,
         MatToolbarModule,
 
         // NGRX SETUP
-        StoreModule.forRoot(reducers),
+        StoreModule.forRoot(AppReducers),
         EffectsModule.forRoot(AppEffects),
         StoreDevtoolsModule.instrument({
             maxAge: 25 //  Retains last 25 states
@@ -74,7 +75,15 @@ import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component"
         CGLToolbarComponent,
     ],
     providers: [
-        UserService
+        UserService,
+        // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
+        // must return promise to ensure Angular "pauses" until config is resolved from API end point.
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (configService: ConfigService) => {return () => {return configService.initConfig()}},
+            deps: [ConfigService],
+            multi: true
+        }
     ]
 })
 export class AppModule {

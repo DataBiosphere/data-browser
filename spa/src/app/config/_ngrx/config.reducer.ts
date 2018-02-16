@@ -10,9 +10,7 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ConfigState } from "./config.state";
-import {
-    FetchConfigRequestAction, FetchConfigRequestSuccessAction
-} from "./config.actions";
+import { FetchConfigRequestSuccessAction } from "./config.actions";
 
 /**
  * @param state {ConfigState}
@@ -27,7 +25,7 @@ export function reducer(state: ConfigState = ConfigState.getDefaultState(), acti
         case FetchConfigRequestSuccessAction.ACTION_TYPE:
             return state.receiveConfig(action as FetchConfigRequestSuccessAction);
 
-        default: // Including FetchConfigRequestAction.ACTION_TYPE
+        default:
             return state;
     }
 }
