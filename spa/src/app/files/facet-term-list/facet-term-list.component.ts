@@ -98,6 +98,18 @@ export class FacetTermListComponent {
     }
 
     /**
+     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is 
+     * controlled by CSS) and is just an approximation.
+     * 
+     * @param termName {string}
+     * @returns {boolean}
+     */
+    isTermNameTruncated(termName: string): boolean {
+
+        return termName.length > 33;
+    }
+
+    /**
      * Handle click on individual term - emit event to parent.
      *
      * @param fileFacet {FileFacet}

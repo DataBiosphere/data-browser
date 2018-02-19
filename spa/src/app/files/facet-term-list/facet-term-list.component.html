@@ -4,7 +4,13 @@
     <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)"></div>
     <div class="term-summary">
         <div class="term-name">
-            <span>{{formatTermName(term.name)}}</span>
+            <ng-container [ngSwitch]="isTermNameTruncated(term.name)">
+                <span *ngSwitchCase="true"
+                      matTooltip="{{formatTermName(term.name)}}" 
+                      [matTooltipPosition]="'above'" 
+                      matTooltipShowDelay="500">{{formatTermName(term.name)}}</span>
+                <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
+            </ng-container>
         </div>
         <div class="term-count md-caption secondary">{{term.count | localeString}}</div>
     </div>

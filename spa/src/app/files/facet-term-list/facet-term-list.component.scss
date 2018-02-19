@@ -52,7 +52,7 @@
                 /** Truncate long term names */
                 overflow: hidden;
                 text-overflow: ellipsis;
-                line-height: 16px; // Hiding overflow is clipping ascenders/descenders - pump up jam on line height here to force full height of characters
+                white-space: nowrap;
             }
 
             .term-count {
