@@ -50,18 +50,6 @@ export class FilesService {
         return this.fileDAO.fetchFileTableData(selectedFacetsByName, tableParams);
     }
 
-
-    /**
-     * Fetch File Facet Metadata
-     *
-     * @returns {Observable<FileFacetMetadata[]>}
-     */
-    public fetchFileFacetMetadata(): Observable<FileFacetMetadata[]> {
-
-        return this.fileDAO.fetchFileFacetMetadata();
-    }
-
-
     /**
      * Fetch File Summary Observable
      *

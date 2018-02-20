@@ -62,25 +62,6 @@ export class FilesDAO extends CCBaseDAO {
         return this.get<FileSummary>(url, filterParams);
     }
 
-    /**
-     * Fetch Facet Order
-     *
-     * @returns {Observable<FileFacetMetadata[]>}
-     */
-    fetchFileFacetMetadata(): Observable<FileFacetMetadata[]> {
-
-        if ( !this.configService.hasSortOrder() ) {
-            return Observable.of([]);
-        }
-
-        const domain = this.configService.getAPIURL();
-        const url = `${domain}/repository/files/meta`;
-        return this.get(url)
-            .catch((error: any, caughtObs: Observable<any>) => {
-                // if the endpoint returns an error, empty array to be treated as no-ordering
-                return [];
-            });
-    }
 
     /**
      * Fetch FileFacets
@@ -141,12 +122,8 @@ export class FilesDAO extends CCBaseDAO {
      * @returns {Observable<Ordering>}
      */
     fetchFacetOrdering(): Observable<Ordering> {
-
-        if ( this.configService.hasSortOrder() ) {
-            const url = this.buildApiUrl(`/repository/files/order`);
-            return this.get(url);
-        }
-        return Observable.of({order: []});
+        const url = this.buildApiUrl(`/repository/files/order`);
+        return this.get(url);
     }
 
     /**

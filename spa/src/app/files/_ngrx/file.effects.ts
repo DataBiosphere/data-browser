@@ -34,10 +34,6 @@ import {
     FetchFileManifestSummaryRequestAction,
     FetchFileManifestSummarySuccessAction
 } from "./file-manifest-summary/file-manifest-summary.actions";
-import {
-    FetchFileFacetMetadataSummaryRequestAction,
-    FetchFileFacetMetadataSummarySuccessAction
-} from "./file-facet-metadata-summary/file-facet-metadata-summary.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import {
     selectFileFacetMetadataSummary,
@@ -194,19 +190,6 @@ export class FileEffects {
             return this.fileService.downloadFileManifest(query);
         });
 
-    /**
-     * Fetch Metadata For File Facets
-     *
-     * @type {Observable<Action>}d
-     */
-    @Effect()
-    fetchFacetMetadata$: Observable<Action> = this.actions$
-        .ofType(FetchFileFacetMetadataSummaryRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.fileService.fetchFileFacetMetadata();
-        }, (action, fileFacetMetadata: FileFacetMetadata[]) => {
-            return new FetchFileFacetMetadataSummarySuccessAction(fileFacetMetadata);
-        });
     private colorWheel: Map<string, string>;
     
     /**
@@ -259,8 +242,6 @@ export class FileEffects {
                 Observable.of(new FetchFileSummaryRequestAction()),
                 // Request Table Data
                 Observable.of(new FetchInitialTableDataRequestAction()),
-                // Request Metadata
-                Observable.of(new FetchFileFacetMetadataSummaryRequestAction()),
                 // Request Facets, and sort by metadata
                 this.fetchOrderedFileFacets(selectedFacets)
                     .map((fileFacets: FileFacet[]) => {
@@ -301,13 +282,26 @@ export class FileEffects {
             .fetchOrderedFileFacets(selectedFacets)
             .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
 
+                // TODO why do we need to filter out null facets here?
+                fileFacets = fileFacets.filter((facet) => {
+                    return !!facet;
+                });
+
                 if (!sortOrder || !sortOrder.length) {
                     return fileFacets;
                 }
 
-                return sortOrder.map((sortName) => {
+                let newFileFacets = sortOrder.map((sortName) => {
                     return _.find(fileFacets, { name: sortName });
                 });
+
+                // order may contain facets that do not exist so filter out any nulls.
+                newFileFacets = newFileFacets.filter((facet) => {
+                    return !!facet;
+                });
+
+                return newFileFacets;
+
             });
     }
 }

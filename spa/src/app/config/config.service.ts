@@ -79,16 +79,6 @@ export class ConfigService {
     }
 
     /**
-     * Returns true if there is a sort order for the data.
-     * 
-     * @returns {boolean}
-     */
-    public hasSortOrder(): boolean {
-
-        return false;
-    }
-
-    /**
      * Save the data URL as a local variable on this instance, and update the corresponding config value in the store.
      * 
      * @param config {Config}
