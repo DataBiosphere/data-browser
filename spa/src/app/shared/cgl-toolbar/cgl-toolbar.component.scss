@@ -40,8 +40,9 @@ mat-toolbar {
 
     // Override default MD style, Angular app only (not required in generic style sheet)
     /deep/ [md-mini-fab] {
-        box-shadow: none;
         background-color: transparent;
+        border: 0;
+        box-shadow: none;
         color: $cgl-green;
     }
 }

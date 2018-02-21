@@ -73,6 +73,7 @@ $cgl-fab-gutter-gt-xs: 24px;
     background-color: $cgl-turquoise !important; /* !important to override .mat-fab.mat-accent background color */
     bottom: $cgl-fab-gutter-xs;
     right: $cgl-fab-gutter-xs;
+    z-index: 1;
     /** Use specific selector to overide MD defaults */
     &[mat-fab] {
         color: #ffffff;
