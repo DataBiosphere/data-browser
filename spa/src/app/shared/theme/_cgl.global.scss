@@ -71,20 +71,13 @@ $cgl-fab-gutter-xs: 16px;
 $cgl-fab-gutter-gt-xs: 24px;
 .cgl-fab {
     background-color: $cgl-turquoise !important; /* !important to override .mat-fab.mat-accent background color */
-    bottom: $cgl-fab-gutter-xs;
+    bottom: $cgl-fab-gutter-xs + 12;
     right: $cgl-fab-gutter-xs;
     z-index: 1;
     /** Use specific selector to overide MD defaults */
     &[mat-fab] {
         color: #ffffff;
         position: fixed;
-    }
-
-    /** Update gutter width for medium devices and above */
-    @media (min-width: $md-md-min) {
-
-        bottom: $cgl-fab-gutter-gt-xs + 112px; /* +112 for squashed, inline footer */
-        right: $cgl-fab-gutter-gt-xs;
     }
 }
 

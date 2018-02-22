@@ -11,4 +11,5 @@
     display: block;
     background-color: #fafafa;
     flex: 1; // Push footer to bottom of available space (inside snapper)
+    padding-bottom: 92px; // Add space below table to allow for download FAB
 }
