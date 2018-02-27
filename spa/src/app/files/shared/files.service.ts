@@ -6,8 +6,6 @@ import { FileSummary } from "../file-summary/file-summary";
 import { Dictionary } from "../../shared/dictionary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileFacet } from "./file-facet.model";
-import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
-import { PaginationModel } from "../table/pagination.model";
 import { TableModel } from "../table/table.model";
 import { TableParamsModel } from "../table/table-params.model";
 

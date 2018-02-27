@@ -83,7 +83,6 @@ export class FilesComponent implements OnInit {
         // File Summary
         this.selectFileSummary$ = this.store.select(selectFileSummary);
 
-
         // File Facets
         this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
 
