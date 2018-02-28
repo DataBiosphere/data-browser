@@ -44,7 +44,15 @@
                 margin-left: -24px;
                 margin-right: -24px;
             }
-            
+
+            &.term-list-3 {
+                min-height: 120px;
+            }
+
+            &.term-list-4 {
+                min-height: 140px;
+            }
+
             &.term-list-5 {
                 min-height: 160px;
             }

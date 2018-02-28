@@ -318,7 +318,7 @@ export class FilesDAO extends CCBaseDAO {
             .value()[0];
 
         // Generalize term count for display
-        let maxTermCount = parseInt(termCount, 10) + 1;
+        let maxTermCount = parseInt(termCount, 10);
         if (maxTermCount <= 3) {
             maxTermCount = 3;
         }
