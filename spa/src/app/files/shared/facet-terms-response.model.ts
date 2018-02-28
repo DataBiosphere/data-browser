@@ -12,5 +12,5 @@ import { TermResponse } from "./term-response.model";
 export interface FacetTermsResponse {
 
     terms: TermResponse[];
-    total: number
+    total: number;
 }

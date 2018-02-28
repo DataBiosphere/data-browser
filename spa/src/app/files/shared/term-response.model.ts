@@ -7,6 +7,6 @@
 
 export interface TermResponse {
 
-    term: string; 
-    count: number
+    term: string;
+    count: number;
 }

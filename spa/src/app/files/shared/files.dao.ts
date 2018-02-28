@@ -4,7 +4,6 @@
  *
  * Data access object, connecting to file-related end points.
  */
-
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Http, URLSearchParams } from "@angular/http";
@@ -68,7 +67,7 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        const filterParams = Object.assign({from: 1, size: 1}, query);
+        const filterParams = Object.assign({ from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
@@ -91,15 +90,16 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files`);
-        let filterParams = Object.assign({from: tableParams.from, size: tableParams.size}, query);
-        if ( tableParams.sort && tableParams.order ) {
-            filterParams = Object.assign(filterParams, {sort: tableParams.sort, order: tableParams.order});
+        let filterParams = Object.assign({ from: tableParams.from, size: tableParams.size }, query);
+        if (tableParams.sort && tableParams.order) {
+            filterParams = Object.assign(filterParams, { sort: tableParams.sort, order: tableParams.order });
         }
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
-                    // keep our size as this is being lost on API return at the moment when the result set is less than the page size.
-                    let pagination = Object.assign(repositoryFiles.pagination, {size: tableParams.size} );
+                    // keep our size as this is being lost on API return at the moment when the result set is less than
+                    // the page size.
+                    let pagination = Object.assign(repositoryFiles.pagination, { size: tableParams.size });
                     return new TableModel(repositoryFiles.hits, repositoryFiles.pagination);
                 }
             );
@@ -142,7 +142,7 @@ export class FilesDAO extends CCBaseDAO {
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
 
-        if ( filters.file && filters.file.repoName ) {
+        if (filters.file && filters.file.repoName) {
             repoNames = filters.file.repoName.is;
         }
 
@@ -195,21 +195,22 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
-     * Map files API response into FileFacet objects. 
-     * 
+     * Map files API response into FileFacet objects.
+     *
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @param {FilesAPIResponse} filesAPIResponse
      * @param {Ordering} ordering
      * @returns {FileFacet[]}
      */
     private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
-        
+
         // Determine the set of facets that are to be displayed
-        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;;
+        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;
+        ;
 
         // Calculate the number of terms to display on each facet card
         const shortListLength = this.calculateShortListLength(visibleFacets);
-        
+
         const facetNames = Object.keys(visibleFacets);
         const newFileFacets = facetNames.map((facetName) => {
 
@@ -220,18 +221,18 @@ export class FilesDAO extends CCBaseDAO {
 
             // the response from ICGC is missing the terms field instead of being an empty array
             // we need to check it's existence before iterating over it.
-            if ( responseFileFacet.terms ) {
+            if (responseFileFacet.terms) {
 
                 // Create term from response, maintaining the currently selected term.
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
 
                     let oldTerm: Term;
-                    if ( oldFacet ) {
+                    if (oldFacet) {
                         oldTerm = oldFacet.termsByName.get(responseTerm.term);
                     }
-                    
+
                     let selected = false;
-                    if ( oldTerm ) {
+                    if (oldTerm) {
                         selected = oldTerm.selected;
                     }
 
@@ -239,7 +240,7 @@ export class FilesDAO extends CCBaseDAO {
                 });
             }
 
-            if ( !responseFileFacet.total ) {
+            if (!responseFileFacet.total) {
                 responseFileFacet.total = 0; // their default is undefined instead of zero
             }
 
@@ -248,12 +249,12 @@ export class FilesDAO extends CCBaseDAO {
         });
 
         let fileIdTerms = [];
-        if ( selectedFacetsByName.get("fileId") ) {
+        if (selectedFacetsByName.get("fileId")) {
             fileIdTerms = selectedFacetsByName.get("fileId").terms;
         }
 
         let donorIdTerms = [];
-        if ( selectedFacetsByName.get("donorId") ) {
+        if (selectedFacetsByName.get("donorId")) {
             donorIdTerms = selectedFacetsByName.get("donorId").terms;
         }
 
@@ -266,7 +267,7 @@ export class FilesDAO extends CCBaseDAO {
         newFileFacets.unshift(fileIdFileFacet);
 
         // Check if we have a sort order and if so, order facets accordingly
-        if ( ordering.order.length ) {
+        if (ordering.order.length) {
 
             const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
                 return acc.set(facet.name, facet);
@@ -285,27 +286,26 @@ export class FilesDAO extends CCBaseDAO {
      * facets. If mode + 1 is less than 5, maximum number of terms if 5. Is mode + 1 is more than 10, maximum number of
      * terms is 10. Otherwise, use the mode + 1 as the maximum number of terms.
      *
-     * @param facetTermsResponse {Dictionary<FacetTermsResponse>;}
+     * @param facetTermsResponse {Dictionary<FacetTermsResponse>}
      * @returns {number}
      */
     private calculateShortListLength(facetTermsResponse: Dictionary<FacetTermsResponse>): number {
-        
+
         let fileFacetCountByTermCount = _.chain(facetTermsResponse)
             .groupBy((termFacet) => {
-                return termFacet.terms.length
+                return termFacet.terms.length;
             })
-            .mapValues((terms) => {
+            .mapValues((terms: FacetTermsResponse[]) => {
                 return terms.length;
             })
             .value();
-        
-        // Find the length of the largest array of file facets - we'll use this to determine which term count is 
-        // most common 
+
+        // Find the length of the largest array of file facets - we'll use this to determine which term count is
+        // most common
         let largestFileFacetCount = _.chain(fileFacetCountByTermCount)
             .sortBy()
             .reverse()
-            .first()
-            .value();
+            .value()[0];
 
         // Find the term count(s) with the largest number of file facets, then take the smallest term count if there
         // is more than one term count with the largest number of file facets
@@ -315,15 +315,14 @@ export class FilesDAO extends CCBaseDAO {
             })
             .keys()
             .sortBy()
-            .first()
-            .value();
+            .value()[0];
 
         // Generalize term count for display
         let maxTermCount = parseInt(termCount, 10) + 1;
-        if ( maxTermCount < 5 ) {
+        if (maxTermCount < 5) {
             maxTermCount = 5;
         }
-        else if ( maxTermCount > 10 ) {
+        else if (maxTermCount > 10) {
             maxTermCount = 10;
         }
 
@@ -347,7 +346,7 @@ export class FilesDAO extends CCBaseDAO {
         let filters = selectedFacets.reduce((facetAcc, facet) => {
 
             // paranoid check for no facets.
-            if ( !facet.terms || !facet.terms.length ) {
+            if (!facet.terms || !facet.terms.length) {
                 return facetAcc;
             }
 
@@ -356,16 +355,16 @@ export class FilesDAO extends CCBaseDAO {
                 return term.name;
             });
 
-            if ( termNames.length ) {
+            if (termNames.length) {
                 // only add the facet if there is a selected term.
-                facetAcc[facet.name] = {is: termNames};
+                facetAcc[facet.name] = { is: termNames };
             }
 
             return facetAcc;
         }, {});
 
         // empty object if it doesn't have any filters;
-        const result = Object.keys(filters).length ? {file: filters} : {};
+        const result = Object.keys(filters).length ? { file: filters } : {};
         return JSON.stringify(result);
     }
 }
