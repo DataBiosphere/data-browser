@@ -13,8 +13,11 @@ import { Observable } from "rxjs/Observable";
 import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
 
+// App dependencies
+import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
+import { FilesAPIResponse } from "./files-api-response.model";
 import { Dictionary } from "../../shared/dictionary";
 import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
@@ -23,20 +26,6 @@ import { ConfigService } from "../../config/config.service";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
-
-interface FilesAPIResponse {
-    termFacets: Dictionary<{
-        terms: Array<{ term: string; count: number }>;
-        total: number
-    }>;
-    pagination: PaginationModel;
-    hits: any[];
-}
-
-interface Ordering {
-    order: string[];
-}
-
 
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
@@ -216,7 +205,7 @@ export class FilesDAO extends CCBaseDAO {
     private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
         
         // Determine the set of facets that are to be displayed
-        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order);
+        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;;
 
         // Calculate the number of terms to display on each facet card
         const shortListLength = this.calculateShortListLength(visibleFacets);
@@ -296,12 +285,12 @@ export class FilesDAO extends CCBaseDAO {
      * facets. If mode + 1 is less than 5, maximum number of terms if 5. Is mode + 1 is more than 10, maximum number of
      * terms is 10. Otherwise, use the mode + 1 as the maximum number of terms.
      *
-     * @param termFacets {Dictionary<{ terms: Array<{ term: string; count: number }>; total: number }>}
+     * @param facetTermsResponse {Dictionary<FacetTermsResponse>;}
      * @returns {number}
      */
-    private calculateShortListLength(termFacets: Dictionary<{ terms: Array<{ term: string; count: number }>; total: number }>): number {
+    private calculateShortListLength(facetTermsResponse: Dictionary<FacetTermsResponse>): number {
         
-        let fileFacetCountByTermCount = _.chain(termFacets)
+        let fileFacetCountByTermCount = _.chain(facetTermsResponse)
             .groupBy((termFacet) => {
                 return termFacet.terms.length
             })

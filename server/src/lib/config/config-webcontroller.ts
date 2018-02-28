@@ -15,7 +15,7 @@ import { ConfigViewModel } from "./config-view.model";
 
 /**
  * Handle request for environment config. Default data URL to "https://carlos.ucsc-cgp-dev.org".
- * 
+ *
  * @param {Req} req
  * @param {Response} res
  */

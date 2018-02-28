@@ -18,7 +18,7 @@ export default (app: Application) => {
     // Session
     app.get("/api/session", sessionWebController.getSession);
     app.get("/api/user/redwood-token", personWebController.getRedwoodToken);
-    
+
     // Data end points
     app.get("/api/config", configWebController.getConfig);
 
