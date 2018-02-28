@@ -44,6 +44,30 @@
                 margin-left: -24px;
                 margin-right: -24px;
             }
+            
+            &.term-list-5 {
+                min-height: 160px;
+            }
+
+            &.term-list-6 {
+                min-height: 180px;
+            }
+
+            &.term-list-7 {
+                min-height: 200px;
+            }
+
+            &.term-list-8 {
+                min-height: 220px;
+            }
+
+            &.term-list-9 {
+                min-height: 240px;
+            }
+
+            &.term-list-10 {
+                min-height: 256px;
+            }
         }
 
         /** "More" option at bottom of facet term rows */

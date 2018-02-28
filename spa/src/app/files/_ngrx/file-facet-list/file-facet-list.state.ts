@@ -6,9 +6,6 @@
  * querying state.
  */
 
-// Core dependencies
-import * as _ from "lodash";
-
 // App dependencies
 import { FileFacet } from "../../shared/file-facet.model";
 import { FetchFileFacetsSuccessAction, SelectFileFacetAction } from "./file-facet-list.actions";
@@ -24,8 +21,6 @@ export class FileFacetListState {
 
     private readonly fileFacetNames: string[];
     private readonly fileFacetsByName: Map<string, FileFacet>;
-    
-    private readonly maxTermCount: number; // Maximum number of terms to display inside facet card
 
     /**
      * @param {string[]} fileFacetNames
@@ -55,8 +50,6 @@ export class FileFacetListState {
         });
 
         this.selectedFileFacets = this.fileFacets.filter(facet => facet.selected);
-        
-        this.maxTermCount = this.calculateMaxTermCount(this.fileFacets);
     }
 
     /**
@@ -180,43 +173,5 @@ export class FileFacetListState {
         return fileFacets.map((fileFacet) => {
             return fileFacet.name;
         });
-    }
-
-    /**
-     * Calculate the maximum number of terms to display inside a facet card. Determine the mode of terms across all
-     * facets. If mode is less than 5, maximum number of terms if 5. Is mode is more than 10, maximum number of terms
-     * is 10. Otherwise, use the mode as the maximum number of terms.
-     * 
-     * @param fileFacets {FileFacet[]}
-     * @returns {number}
-     */
-    private calculateMaxTermCount(fileFacets: FileFacet[]): number {
-        
-        let maxTermCount = 0;
-        
-        console.log(_.chain(fileFacets)
-            .groupBy("termCount")
-            .filter((fileFacets: FileFacet[]) => {
-                if ( fileFacets.length > maxTermCount ) {
-                    maxTermCount = fileFacets.length;
-                    return true;
-                }
-                return false;
-            })
-            .value());
-        
-        // fileFacets
-        //     .reduce((counts: {number: number}, fileFacet: FileFacet) => {
-        //         let termCount = fileFacet.termCount;
-        //         counts[termCount] = (counts[termCount] || 0) + 1;
-        //         return counts; 
-        //     }, {})
-        //     .sort((counts: {number: number}) => {
-        //        
-        //     });
-        
-        
-        
-        return 0;
     }
 }

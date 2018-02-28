@@ -34,17 +34,21 @@ export class FileFacet {
      * @param name {string}
      * @param total {number}
      * @param terms {Term[]}
-     * @param interface {string}
+     * @param shortListLength {number} 
+     * @param interfaceType {string}
      */
-    constructor(name: string, total: number, terms: Term[], interfaceType?: string) { // TODO finalize interfaceType type and optionality
+    constructor(name: string, total: number, terms: Term[], shortListLength: number, interfaceType?: string) { // TODO finalize interfaceType type and optionality
 
         this.name = name;
         this.total = total;
         this.terms = terms;
         this.interfaceType = interfaceType;
-
+        
         if (this.interfaceType === "SEARCH") {
             this.shortListLength = 3;
+        }
+        else {
+            this.shortListLength = shortListLength;
         }
 
         this.selectedTerms = this.terms.filter((term) => {
@@ -62,11 +66,11 @@ export class FileFacet {
 
         this.termCount = terms.length;
         this.selectedTermCount = this.selectedTerms.length;
-
-
+        
         // Set the short list
         if ( !this.selected || this.isTermListShort() ) {
-            // If we are not selected or if there are less than 10 terms (as there is no term menu), use the full list.
+            // If we are not selected or if there are less than the short term list length (as there is no term menu), 
+            // use the full list.
             this.shortList = this.terms.slice(0, Math.min(this.shortListLength, this.terms.length));
         }
         else {
@@ -74,7 +78,6 @@ export class FileFacet {
             this.shortList = this.selectedTerms.slice(0, Math.min(this.shortListLength, this.selectedTerms.length));
         }
 
-        // Short list length is 1 to 3 depending on number of items selected.
         this.moarCount = this.terms.length - this.shortList.length;
         this.moar = this.moarCount > 0;
 
@@ -97,7 +100,7 @@ export class FileFacet {
      */
     public isTermListShort(): boolean {
         
-        return this.termCount < 10;
+        return this.termCount < this.shortListLength;
     }
 
     /**
@@ -127,7 +130,7 @@ export class FileFacet {
         });
 
         // Create new file facet with updated term map
-        return new FileFacet(this.name, this.total, newTerms);
+        return new FileFacet(this.name, this.total, newTerms, this.shortListLength);
     }
 
     /**
@@ -162,7 +165,7 @@ export class FileFacet {
         }
 
 
-        return new FileFacet(this.name, this.total, newTerms, "SEARCH");
+        return new FileFacet(this.name, this.total, newTerms, this.shortListLength, "SEARCH");
     }
 
 }

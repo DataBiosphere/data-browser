@@ -8,6 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Http, URLSearchParams } from "@angular/http";
+import * as _ from "lodash";
 import { Observable } from "rxjs/Observable";
 import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
@@ -19,7 +20,6 @@ import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../config/config.service";
-import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
@@ -214,11 +214,17 @@ export class FilesDAO extends CCBaseDAO {
      * @returns {FileFacet[]}
      */
     private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
+        
+        // Determine the set of facets that are to be displayed
+        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order);
 
-        const facetNames = Object.keys(filesAPIResponse.termFacets);
+        // Calculate the number of terms to display on each facet card
+        const shortListLength = this.calculateShortListLength(visibleFacets);
+        
+        const facetNames = Object.keys(visibleFacets);
         const newFileFacets = facetNames.map((facetName) => {
 
-            const responseFileFacet = filesAPIResponse.termFacets[facetName];
+            const responseFileFacet = visibleFacets[facetName];
             const oldFacet: FileFacet = selectedFacetsByName.get(facetName);
 
             let responseTerms: Term[] = [];
@@ -249,7 +255,7 @@ export class FilesDAO extends CCBaseDAO {
             }
 
             // Create file facet from newly built terms and newly calculated total
-            return new FileFacet(facetName, responseFileFacet.total, responseTerms);
+            return new FileFacet(facetName, responseFileFacet.total, responseTerms, shortListLength);
         });
 
         let fileIdTerms = [];
@@ -263,11 +269,11 @@ export class FilesDAO extends CCBaseDAO {
         }
 
         // Add donor ID search facet
-        let donorIdFileFacet = new FileFacet("donorId", 9999999, donorIdTerms, "SEARCH");
+        let donorIdFileFacet = new FileFacet("donorId", 9999999, donorIdTerms, shortListLength, "SEARCH");
         newFileFacets.unshift(donorIdFileFacet);
 
         // Add file ID search facet
-        let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, "SEARCH");
+        let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, shortListLength, "SEARCH");
         newFileFacets.unshift(fileIdFileFacet);
 
         // Check if we have a sort order and if so, order facets accordingly
@@ -283,6 +289,56 @@ export class FilesDAO extends CCBaseDAO {
         }
 
         return newFileFacets;
+    }
+
+    /**
+     * Calculate the maximum number of terms to display inside a facet card. Determine term count mode across all
+     * facets. If mode + 1 is less than 5, maximum number of terms if 5. Is mode + 1 is more than 10, maximum number of
+     * terms is 10. Otherwise, use the mode + 1 as the maximum number of terms.
+     *
+     * @param termFacets {Dictionary<{ terms: Array<{ term: string; count: number }>; total: number }>}
+     * @returns {number}
+     */
+    private calculateShortListLength(termFacets: Dictionary<{ terms: Array<{ term: string; count: number }>; total: number }>): number {
+        
+        let fileFacetCountByTermCount = _.chain(termFacets)
+            .groupBy((termFacet) => {
+                return termFacet.terms.length
+            })
+            .mapValues((terms) => {
+                return terms.length;
+            })
+            .value();
+        
+        // Find the length of the largest array of file facets - we'll use this to determine which term count is 
+        // most common 
+        let largestFileFacetCount = _.chain(fileFacetCountByTermCount)
+            .sortBy()
+            .reverse()
+            .first()
+            .value();
+
+        // Find the term count(s) with the largest number of file facets, then take the smallest term count if there
+        // is more than one term count with the largest number of file facets
+        let termCount = _.chain(fileFacetCountByTermCount)
+            .pickBy((count: number) => {
+                return count === largestFileFacetCount;
+            })
+            .keys()
+            .sortBy()
+            .first()
+            .value();
+
+        // Generalize term count for display
+        let maxTermCount = parseInt(termCount, 10) + 1;
+        if ( maxTermCount < 5 ) {
+            maxTermCount = 5;
+        }
+        else if ( maxTermCount > 10 ) {
+            maxTermCount = 10;
+        }
+
+        return maxTermCount;
     }
 
     /**

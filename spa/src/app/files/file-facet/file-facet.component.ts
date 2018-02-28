@@ -95,7 +95,33 @@ export class FileFacetComponent {
 
         return `${fileFacet.total} Files`;
     }
-    
+
+    /**
+     * Return the CSS class name for the term list.
+     * 
+     * @param fileFacet {FileFacet}
+     * @returns {string}
+     */
+    public getCardContentClassName(fileFacet: FileFacet): string {
+
+        // Only apply a class name if we're dealing with a short list 
+        if ( !this.isUseShortList() ) {
+            return "";
+        }
+        
+        let shortListLength = fileFacet.shortListLength;
+        return `term-list-${shortListLength}`;
+    }
+
+    /**
+     * Returns true if short list of terms is to be displayed.
+     * 
+     * @returns {boolean}
+     */
+    public isUseShortList(): boolean {
+        
+        return true;
+    }
     /**
      * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
      * event to parent.
