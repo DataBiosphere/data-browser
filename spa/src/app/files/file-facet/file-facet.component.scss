@@ -13,7 +13,7 @@
         cursor: pointer; // Entire card is clickable
 
         /** Override MD default padding, for all device sizes */
-        padding: 24px 16px !important;
+        padding: 16px 16px !important; /* Was 24px, 16px */
         
         /deep/ .mat-card-header {
             margin: 0 8px 8px 8px;
@@ -22,8 +22,13 @@
         /** Force header text to be full width, required for right-aligning the selected facet term count in the subtitle */
         /deep/ .mat-card-header-text {
             flex: 1;
-            height: 40px; /* Required to match MD 2.0.0-beta.1 md-card-header-text specification, which then allows file-facet-menu card to overlay with correct height proportions */
+            //height: 40px; /* Required to match MD 2.0.0-beta.1 md-card-header-text specification, which then allows file-facet-menu card to overlay with correct height proportions */
+            height: 32px; /* To reduce whitespace within header - overrides MD specification */
             margin: 0; // Remove MD's default left/right margin
+
+            mat-card-title, mat-card-subtitle {
+                margin-bottom: 12px; /* Override MD spec - to reduce ws in header */
+            }
         }
 
         /** Right align selected facet term count in subtitle */
@@ -46,35 +51,35 @@
             }
 
             &.term-list-3 {
-                min-height: 120px;
+                min-height: calc(120px - 12px); /* 12px taken off the +more margin-top */
             }
 
             &.term-list-4 {
-                min-height: 140px;
+                min-height: calc(140px - 12px);
             }
 
             &.term-list-5 {
-                min-height: 160px;
+                min-height: calc(160px - 12px);
             }
 
             &.term-list-6 {
-                min-height: 180px;
+                min-height: calc(180px - 12px);
             }
 
             &.term-list-7 {
-                min-height: 200px;
+                min-height: calc(200px - 12px);
             }
 
             &.term-list-8 {
-                min-height: 220px;
+                min-height: calc(220px - 12px);
             }
 
             &.term-list-9 {
-                min-height: 240px;
+                min-height: calc(240px - 12px);
             }
 
             &.term-list-10 {
-                min-height: 256px;
+                min-height: calc(256px - 12px);
             }
         }
 
@@ -85,7 +90,7 @@
             bottom: 0;
             display: flex;
             justify-content: flex-end;
-            margin-top: 16px;
+            margin-top: 4px; /* Was 16px */
             position: absolute;
             right: 0;
         }
