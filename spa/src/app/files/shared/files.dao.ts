@@ -174,7 +174,7 @@ export class FilesDAO extends CCBaseDAO {
             params.append(paramName, query[paramName]);
         });
 
-        window.location.href = this.buildApiUrl(`//repository/files/export?${params.toString()}`);
+        window.location.href = this.buildApiUrl(`/repository/files/export?${params.toString()}`);
         return Observable.of(true); // TODO error handling? I'm not sure setting the href causes any errors
     }
 
