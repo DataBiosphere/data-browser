@@ -147,7 +147,6 @@ module.exports = function (grunt) {
             },
             files: [
                 "server/src/**/*.ts"
-                // "test/security/**/*.ts",
             ]
         }
     });

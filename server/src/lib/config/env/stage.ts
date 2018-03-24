@@ -7,7 +7,7 @@ export default {
     hostURL: "",
 
     email: {
-        admins: ["mim@clevercanary.com", "dave@clevercanary.com", "chris@clevercanary.com"],
+        admins: ["mim@clevercanary.com", "dave@clevercanary.com"],
         noReply: "",
         noReplyName: ""
     }
