@@ -61,7 +61,6 @@
         /* Facet search */
         .search {
             flex: 1;
-            //max-width: calc((100% + 16px) / 5 - 16px); // Matches width of facet card
 
             /* Search input */
             mat-form-field {
@@ -96,13 +95,13 @@
     }
 }
 
-/* Option Panel */
+/* mat-option panel */
 // TODO deep deprecated
 /deep/ .mat-autocomplete-panel {
     margin: 13.5px -16px; /* Panel to take up full width + opens below search box */
 }
 
-/* Mat Option list */
+/* mat-option list */
 // TODO deep deprecated
 /deep/ .mat-option {
     > span {
@@ -137,7 +136,7 @@
     :host {
         mat-card {
             .search {
-                max-width: calc(50% + 8px); // Search box is same width as facet card
+                max-width: calc(50% + 8px); // Matches width of facet card
             }
         }
     }
