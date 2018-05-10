@@ -20,7 +20,7 @@ import {
     DownloadFileManifestAction,
     FetchFileManifestSummaryRequestAction
 } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
-import { selectFileFacetsFileFacets, selectFileSummary } from "./_ngrx/file.selectors";
+import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 
@@ -38,6 +38,8 @@ export class FilesComponent implements OnInit {
     // Public variables
     public selectFileSummary$: Observable<FileSummary>;
     public fileFacets$: Observable<FileFacet[]>;
+    public selectedFileFacets$: Observable<FileFacet[]>;
+
 
     /**
      * @param route {ActivatedRoute}
@@ -85,6 +87,8 @@ export class FilesComponent implements OnInit {
 
         // File Facets
         this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
+
+        this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
 
         // Initialize the filter state from the params in the route.
         this.initQueryParams();

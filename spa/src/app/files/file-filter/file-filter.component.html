@@ -1,46 +1,33 @@
 <mat-card>
     <div class="layout-column layout-gt-xs-row filter-bar">
         <div class="layout-padding flex chips">
-            <div>
+            <div *ngIf="selectedFacets.length > 0">
                 <mat-chip-list>
-                    <mat-chip [removable]="removable">
-                        <div>
-                            <span class="md-caption">lymph node</span>
-                            <span class="md-caption secondary">Organ</span>
-                        </div>
-                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
-                    </mat-chip>
-                    <mat-chip [removable]="removable">
-                        <div>
-                            <span class="md-caption">spleen</span>
-                            <span class="md-caption secondary">Organ</span>
-                        </div>
-                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
-                    </mat-chip>
-                    <mat-chip [removable]="removable">
-                        <div>
-                            <span class="md-caption">lymph node</span>
-                            <span class="md-caption secondary">Organ</span>
-                        </div>
-                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
-                    </mat-chip>
+                    <ng-container *ngFor="let facet of selectedFacets">
+                        <ng-container *ngFor="let term of facet.terms">
+                            <mat-chip  *ngIf="term.selected" [removable]="removable">
+                                <div>
+                                    <span class="md-caption">{{term.name}}</span>
+                                    <span class="md-caption secondary">{{facet.name}}</span>
+                                </div>
+                                <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close</mat-icon>
+                            </mat-chip>
+                        </ng-container>
+                    </ng-container>
                 </mat-chip-list>
             </div>
         </div>
         <div class="layout-padding flex search">
             <div>
                 <mat-form-field floatLabel="never">
-                    <input type="text" placeholder="Search facet or term" aria-label="Number" matInput [matAutocomplete]="auto">
+                    <input type="text" placeholder="Search facet or term" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete">
-                        <div class="facet-list"><span class="md-body-1">Facet A</span><span class="md-body-1 secondary">40</span></div>
-                        <mat-option><span class="md-body-1">Term A</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <mat-option><span class="md-body-1">Term B</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <mat-option><span class="md-body-1">Term C</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <mat-option><span class="md-body-1">Term D</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <div class="facet-list"><span class="md-body-1">Facet B</span><span class="md-body-1 secondary">30</span></div>
-                        <mat-option><span class="md-body-1">Term F</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <mat-option><span class="md-body-1">Term I</span><span class="md-body-1 secondary">10</span></mat-option>
-                        <mat-option><span class="md-body-1">Term M</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <ng-container *ngFor="let facet of fileFacets">
+                            <div class="facet-list"><span class="md-body-1">{{facet.name}}</span><!--span class="md-body-1 secondary">40</span--></div>
+                            <ng-container *ngFor="let term of facet.terms">
+                                <mat-option><span class="md-body-1">{{term.name}}</span><span class="md-body-1 secondary">{{term.count}}</span></mat-option>
+                            </ng-container>
+                        </ng-container>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
