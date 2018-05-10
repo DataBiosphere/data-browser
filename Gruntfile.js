@@ -96,8 +96,9 @@ module.exports = function (grunt) {
             },
             local: {
                 NODE_ENV: "local",
-                //BW_DATA_URL: "https://dss-aws-staging.ucsc-cgp-dev.org"
-               // BW_DATA_URL: "https://carlos.ucsc-cgp-dev.org"
+                // BW_DATA_URL: "https://dss-aws-staging.ucsc-cgp-dev.org"
+                // BW_DATA_URL: "https://carlos.ucsc-cgp-dev.org"
+                //  BW_DATA_URL: "https://ucsc-cgp.org"
                 BW_DATA_URL: "https://ucsc-cgp.org"
             }
         },
@@ -109,10 +110,10 @@ module.exports = function (grunt) {
                     mode: 'zip'
                 },
                 files: [
-                    { src: './package.json', dest: '/'},
-                    { src: './views/home.html', dest: '/'},
-                    { src: './server/dist/**/*.js', dest: '/'},
-                    { src: './dist/**/*.*', dest: '/'}
+                    {src: './package.json', dest: '/'},
+                    {src: './views/home.html', dest: '/'},
+                    {src: './server/dist/**/*.js', dest: '/'},
+                    {src: './dist/**/*.*', dest: '/'}
                 ]
             }
         },
@@ -183,5 +184,5 @@ module.exports = function (grunt) {
             done();
         }, 2000);
     });
-    
+
 };

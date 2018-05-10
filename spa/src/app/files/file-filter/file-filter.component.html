@@ -1,0 +1,49 @@
+<mat-card>
+    <div class="layout-column layout-gt-xs-row filter-bar">
+        <div class="layout-padding flex chips">
+            <div>
+                <mat-chip-list>
+                    <mat-chip [removable]="removable">
+                        <div>
+                            <span class="md-caption">lymph node</span>
+                            <span class="md-caption secondary">Organ</span>
+                        </div>
+                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
+                    </mat-chip>
+                    <mat-chip [removable]="removable">
+                        <div>
+                            <span class="md-caption">spleen</span>
+                            <span class="md-caption secondary">Organ</span>
+                        </div>
+                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
+                    </mat-chip>
+                    <mat-chip [removable]="removable">
+                        <div>
+                            <span class="md-caption">lymph node</span>
+                            <span class="md-caption secondary">Organ</span>
+                        </div>
+                        <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+        <div class="layout-padding flex search">
+            <div>
+                <mat-form-field floatLabel="never">
+                    <input type="text" placeholder="Search facet or term" aria-label="Number" matInput [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <div class="facet-list"><span class="md-body-1">Facet A</span><span class="md-body-1 secondary">40</span></div>
+                        <mat-option><span class="md-body-1">Term A</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <mat-option><span class="md-body-1">Term B</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <mat-option><span class="md-body-1">Term C</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <mat-option><span class="md-body-1">Term D</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <div class="facet-list"><span class="md-body-1">Facet B</span><span class="md-body-1 secondary">30</span></div>
+                        <mat-option><span class="md-body-1">Term F</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <mat-option><span class="md-body-1">Term I</span><span class="md-body-1 secondary">10</span></mat-option>
+                        <mat-option><span class="md-body-1">Term M</span><span class="md-body-1 secondary">10</span></mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-card>

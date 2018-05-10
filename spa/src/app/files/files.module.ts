@@ -7,13 +7,15 @@
 
 // Core dependencies
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import {
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatChipsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
@@ -39,6 +41,7 @@ import { FileFacetComponent } from "./file-facet/file-facet.component";
 import { FileFacetMenuComponent } from "./file-facet-menu/file-facet-menu.component";
 import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
 import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
+import { FileFilterComponent } from "./file-filter/file-filter.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { FileFacetWrapperComponent } from "./file-facet-wrapper/file-facet-wrapper.component";
 import { routes } from "./files.routes";
@@ -54,9 +57,11 @@ import { TableComponent } from "./table/table.component";
     imports: [
         CommonModule,
         FormsModule,
+        MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
+        MatChipsModule,
         MatDialogModule,
         MatFormFieldModule,
         MatIconModule,
@@ -66,6 +71,7 @@ import { TableComponent } from "./table/table.component";
         MatSortModule,
         MatTableModule,
         MatTooltipModule,
+        ReactiveFormsModule,
         RouterModule.forChild(routes),
 
         CCHttpModule,
@@ -81,6 +87,8 @@ import { TableComponent } from "./table/table.component";
 
         FacetTermChartComponent,
         FacetTermListComponent,
+
+        FileFilterComponent,
 
         FileSummaryComponent,
         FileFacetsComponent,

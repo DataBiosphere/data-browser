@@ -4,7 +4,6 @@
  *
  * CC snapper component styles.
  */
-
 @import "../shared/theme/cgl.vars";
 
 /** Toolbar heights taken from MD toolbar component - required for calculating snap position of summary results */
@@ -25,6 +24,11 @@ $md-toolbar-height-mobile-landscape: 48px !default;
             /deep/ bw-file-summary {
                 top: ($height); // Single height - for main nav
             }
+
+            /deep/ bw-file-filter {
+                margin-top: ($height);
+                top: 84px; // Sits below bw-file-summary
+            }
         }
     }
 }
@@ -33,7 +37,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
     /** Add flex to snapper to push footer to bottom of snapper container */
     display: flex;
-    flex:1;
+    flex: 1;
     flex-direction: column;
 }
 
@@ -58,9 +62,49 @@ $md-toolbar-height-mobile-landscape: 48px !default;
                 right: 0;
                 z-index: 10;
             }
+
+            /** Handle snap of file filter element itself */
+            /deep/ bw-file-filter {
+                position: absolute;
+                left: 0;
+                padding: 0; // Remove default padding
+                right: 0;
+                z-index: 10;
+            }
         }
     }
 }
+
+/**
+ * Medium +
+ */
+@media (min-width: $md-md-min) {
+    :host {
+
+        &.snap {
+
+            /deep/ bw-file-filter mat-card .search {
+                max-width: calc((100% + 16px) / 4 + 8px) !important; // Matches width of facet card
+            }
+        }
+    }
+}
+
+/**
+ * Large +
+ */
+@media (min-width: $md-lg-min) {
+    :host {
+
+        &.snap {
+
+            /deep/ bw-file-filter mat-card .search {
+                max-width: calc((100% + 16px) / 5 + 8px) !important; // Matches width of facet card
+            }
+        }
+    }
+}
+
 
 // Set the default position for the open menu
 @include snapper-top($md-toolbar-height-desktop);
