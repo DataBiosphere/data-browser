@@ -21,11 +21,11 @@
             <div>
                 <mat-form-field floatLabel="never">
                     <input type="text" placeholder="Search facet or term" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <ng-container *ngFor="let facet of fileFacets">
-                            <div class="facet-list"><span class="md-body-1">{{facet.name}}</span><!--span class="md-body-1 secondary">40</span--></div>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)" [displayWith]="displayFn">
+                        <ng-container *ngFor="let facet of filteredFacets$ | async">
+                            <div class="facet-list"><span class="md-body-1">{{facet.facetName}}</span><!--span class="md-body-1 secondary">40</span--></div>
                             <ng-container *ngFor="let term of facet.terms">
-                                <mat-option><span class="md-body-1">{{term.name}}</span><span class="md-body-1 secondary">{{term.count}}</span></mat-option>
+                                <mat-option [value]="{facet:facet, term:term}"><span class="md-body-1">{{term.termName}}</span><span class="md-body-1 secondary">{{term.count}}</span></mat-option>
                             </ng-container>
                         </ng-container>
                     </mat-autocomplete>
