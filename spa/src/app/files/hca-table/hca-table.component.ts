@@ -278,7 +278,7 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
-                //let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
+                // let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
 
                 // const biomaterials = row.biomaterials.reduce((acc, biomaterial) => {
                 //
@@ -311,7 +311,7 @@ class TableElementDataSource extends DataSource<any> {
 
                 return {
                     fileName: fileCopy.fileName,
-                    biomaterial: biomaterials.biomaterialId,
+                    biomaterial: this.getSelfOrFirst(biomaterials.biomaterialId),
                     organ: biomaterials.biomaterialOrgan,
                     organPart: biomaterials.biomaterialOrganPart,
                     libraryConstruction: processes.libraryConstructionApproach,
@@ -326,8 +326,9 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     // Each bundle contains multiple biomaterials which are in a hierarchy
-    // leading back to the root biomaterial. This rolls up the metadata values
-    // to  a single object.
+    // leading back to the root biomaterial. Biomarerials are in an array.
+    // This rolls up the metadata values to a single object.
+
     rollUpMetadata(array): any {
 
         // if the array is empty we have no values.
@@ -351,9 +352,13 @@ class TableElementDataSource extends DataSource<any> {
                     }
 
                     // if the value is different from an existing key...
-                    if (acc[key] && acc[key] !== value) {
-                        // apend the value to the existing key
-                        acc[key] = acc[key] + ", " + value;
+                    const cellValues = acc[key] ? acc[key].split(",") : [];
+
+                    if (cellValues.length) {
+                        if (!cellValues.some(cellValue => cellValue === value)) {
+                            // apend the value to the existing key
+                            acc[key] = acc[key] + ", " + value;
+                        }
                     }
                     else {
                         // if no existing key or the vaues are the same just set the value.
@@ -369,6 +374,11 @@ class TableElementDataSource extends DataSource<any> {
 
         return rollup;
 
+    }
+
+    public getSelfOrFirst(value) {
+        const vals = value.split(",");
+        return vals[0];
     }
 
 
