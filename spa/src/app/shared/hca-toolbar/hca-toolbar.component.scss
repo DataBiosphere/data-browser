@@ -1,0 +1,121 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA-specific overrides of Material Design toolbar.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/**
+ * Custom CGL-specific overrides of MD toolbar.
+ */
+
+:host {
+    display: block;
+}
+
+mat-toolbar {
+
+    background: linear-gradient(to right, #000000, #142263); // Override MD default
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
+    color: #ffffff;
+    position: relative;
+
+    // Menu is hidden by default
+    [menu-close] {
+        display: none;
+    }
+
+    /deep/ img {
+        height: 45px;
+    }
+
+    /** Override default nav item color TODO will need to revisit this once theming per instance is setup */
+    /deep/ cc-toolbar-nav-item {
+        &.active {
+            /deep/ a {
+                text-decoration: underline;
+                &:hover {
+                    color: #ffffff;
+                }
+            }
+        }
+        /deep/ a {
+            color: #ffffff;
+            &:hover {
+                color: #24D1F2;
+            }
+        }
+    }
+
+    // Override default MD style, Angular app only (not required in generic style sheet)
+    /deep/ [md-mini-fab] {
+        border: 0;
+        box-shadow: none;
+        background-color: transparent;
+        color: #ffffff;
+    }
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    mat-toolbar {
+
+        // Position logo to the left and hamburger to the right
+        /deep/ mat-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
+            justify-content: space-between;
+        }
+
+        // Shrink logo to match smaller toolbar height
+        /deep/ img { /* /deep/ only required by Angular app, not generic stlye sheet */
+            height: 36px;
+        }
+    }
+}
+
+/**
+ * Medium, medium +
+ */
+@media (min-width: $md-md-min) {
+
+    // Hide hamburger
+    [menu-open] {
+        display: none;
+    }
+
+    mat-toolbar {
+
+        // Add space between logo and nav items (16px + 72px)
+        img {
+            margin-right: 24px; // Image has 16px bounds (top, bottom and left are added by toolbar, must add right border to accommodate nav)
+        }
+    }
+}
+
+// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in portrait mode.
+@media (max-width: $md-sm-min) and (orientation: portrait) {
+
+    mat-toolbar {
+        min-height: 0;
+
+        /deep/ .mat-toolbar-row {
+            height: 56px; // 56px toolbar
+        }
+    }
+}
+
+// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in landscape mode.
+@media (max-width: $md-md-min) and (orientation: landscape) {
+
+    mat-toolbar {
+        min-height: 0;
+
+        /deep/ .mat-toolbar-row {
+            height: 48px; // 48px toolbar
+        }
+    }
+}
+

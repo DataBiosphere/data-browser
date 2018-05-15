@@ -1,0 +1,34 @@
+<mat-card>
+    <div class="layout-column layout-gt-sm-row">
+        <div class="layout-padding flex summary-count project">
+            <div>
+                <h3 class="mat-headline">{{summary.projectCount | localeString}}</h3>
+                <span class="md-body-1">Projects</span>
+            </div>
+        </div>
+        <div class="layout-padding flex summary-count organ-count">
+            <div>
+                <h3 class="mat-headline">{{summary.organCounts | localeString}}</h3>
+                <span class="md-body-1">Organs</span>
+            </div>
+        </div>
+        <div class="layout-padding flex summary-count biomaterial-count">
+            <div>
+                <h3 class="mat-headline">{{summary.biomaterialCount | localeString}}</h3>
+                <span class="md-body-1">Biomaterials</span>
+            </div>
+        </div>
+        <div class="layout-padding flex summary-count file">
+            <div>
+                <h3 class="mat-headline">{{summary.fileCount | localeString}}</h3>
+                <span class="md-body-1">Files</span>
+            </div>
+        </div>
+        <div class="layout-padding flex summary-count size">
+            <div>
+                <h3 class="mat-headline">{{summary.totalFileSize | fileSize}}</h3>
+                <span class="md-body-1">File Size</span>
+            </div>
+        </div>
+    </div>
+</mat-card>

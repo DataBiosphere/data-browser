@@ -4,7 +4,6 @@
  *
  * Table component for displaying file-related data.
  */
-
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
 import { Component, OnInit } from "@angular/core";
@@ -12,27 +11,22 @@ import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
-
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
-import { PaginationModel } from "./pagination.model";
+import { PaginationModel } from "../table/pagination.model";
 
 @Component({
-    selector: "bw-table",
-    templateUrl: "./table.component.html",
-    styleUrls: ["./table.component.scss"]
+    selector: "hca-table",
+    templateUrl: "./hca-table.component.html",
+    styleUrls: ["./hca-table.component.scss"]
 })
-export class TableComponent implements OnInit {
-
-    // Locals
-    private store: Store<AppState>;
+export class HCATableComponent implements OnInit {
 
     displayedColumns = [
-        "program", "project", "submittedDonorId",
-        "submittedSpecimenId", "specimen_type", "submittedSampleId",
-        "software", "title", "file_id", "fileSize"
+        "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age",
+        "ageUnit", "sex", "diseased"
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
@@ -40,7 +34,8 @@ export class TableComponent implements OnInit {
     selectedPage = 10;
     pageValue: number;
     pageError: boolean;
-
+    // Locals
+    private store: Store<AppState>;
 
     /**
      * @param store {Store<AppState>}
@@ -60,7 +55,7 @@ export class TableComponent implements OnInit {
      */
     public nextPageSelected(pm: PaginationModel) {
 
-        if ( !this.hasNext(pm) ) {
+        if (!this.hasNext(pm)) {
             return;
         }
 
@@ -80,7 +75,7 @@ export class TableComponent implements OnInit {
     public previousPageSelected(pm: PaginationModel) {
 
 
-        if ( !this.hasPrevious(pm) ) {
+        if (!this.hasPrevious(pm)) {
             return;
         }
 
@@ -106,7 +101,7 @@ export class TableComponent implements OnInit {
         this.pageError = false;
 
         /* Prevent error on page number */
-        if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
+        if (pageNumber > pageCount || !pageNumber || pageNumber <= 0) {
             this.pageError = true;
             pageNumber = 1;
         }
@@ -165,13 +160,13 @@ export class TableComponent implements OnInit {
 
     /**
      * Return the index of the last row in the table (starting from 1).
-     * 
+     *
      * @param {PaginationModel} pm
      * @returns {number}
      */
     getToIndex(pm: PaginationModel): number {
         let to: number = pm.from + (pm.size - 1);
-        if ( to <= pm.total ) {
+        if (to <= pm.total) {
             return to;
         }
         else {
@@ -204,7 +199,7 @@ export class TableComponent implements OnInit {
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for ( let i = 1; i <= pageCount; i++ ) {
+        for (let i = 1; i <= pageCount; i++) {
             pages.push(i);
         }
 
@@ -250,19 +245,19 @@ export class TableComponent implements OnInit {
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Elements in Material Design table that displays file related data.
+ * Elements in Material Design table that displays HCA-specific file related data.
  */
 export interface Element {
-    program: string;
-    project: string;
-    donor_id: string;
-    submitter: string;
-    specimen_type: string;
-    sample: string;
-    workflow: string;
-    title: string;
-    file_id: string;
-    size: number;
+    fileName: string;
+    biomaterial: string; // TODO check not array
+    organ: string;
+    organPart: string;
+    libraryConstruction: string;
+    species: string;
+    age: string;
+    ageUnit: string;
+    sex: string;
+    diseased: string; // TODO check not array
 }
 
 /**
@@ -283,21 +278,99 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
+                //let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
+
+                // const biomaterials = row.biomaterials.reduce((acc, biomaterial) => {
+                //
+                //     Object.keys(biomaterial).forEach((key) => {
+                //
+                //         let value = biomaterial[key];
+                //         if (value) {
+                //
+                //             if (value instanceof Array) {
+                //
+                //                 value = value.join(",");
+                //             }
+                //
+                //
+                //             acc[key] = value;
+                //         }
+                //
+                //     });
+                //
+                //     return acc;
+                //
+                //
+                // }, {});
+
+
+                let biomaterials = this.rollUpMetadata(row.biomaterials);
+                let processes = this.rollUpMetadata(row.processes);
+
+                let fileCopy = row.fileCopies[0] || {};
+
                 return {
-                    program: row.program,
-                    project: row.projectCode,
-                    donor_id: row.submittedDonorId,
-                    submitter: row.submittedSpecimenId,
-                    specimen_type: row.specimenType,
-                    sample: row.submittedSampleId,
-                    workflow: row.software,
-                    title: row.fileName,
-                    file_id: row.id,
-                    size: row.fileSize
+                    fileName: fileCopy.fileName,
+                    biomaterial: biomaterials.biomaterialId,
+                    organ: biomaterials.biomaterialOrgan,
+                    organPart: biomaterials.biomaterialOrganPart,
+                    libraryConstruction: processes.libraryConstructionApproach,
+                    species: biomaterials.biomaterialGenusSpecies,
+                    age: biomaterials.organismAge,
+                    ageUnit: biomaterials.organismAgeUnit,
+                    sex: biomaterials.biologicalSex,
+                    diseased: biomaterials.biomaterialDisease
                 };
             });
         });
     }
+
+    // Each bundle contains multiple biomaterials which are in a hierarchy
+    // leading back to the root biomaterial. This rolls up the metadata values
+    // to  a single object.
+    rollUpMetadata(array): any {
+
+        // if the array is empty we have no values.
+        if (!array) {
+            return {};
+        }
+
+        // for each element in the array
+        const rollup = array.reduce((acc, element) => {
+
+            // get its own keys and their values.
+            Object.keys(element).forEach((key) => {
+                let value = element[key];
+
+                // skip null values
+                if (value) {
+
+                    // flatten arrays
+                    if (value instanceof Array) {
+                        value = value.join(",");
+                    }
+
+                    // if the value is different from an existing key...
+                    if (acc[key] && acc[key] !== value) {
+                        // apend the value to the existing key
+                        acc[key] = acc[key] + ", " + value;
+                    }
+                    else {
+                        // if no existing key or the vaues are the same just set the value.
+                        acc[key] = value;
+                    }
+
+                }
+            });
+
+            return acc;
+
+        }, {});
+
+        return rollup;
+
+    }
+
 
     connect(): Observable<Element[]> {
         return this.element$;
@@ -306,86 +379,3 @@ class TableElementDataSource extends DataSource<any> {
     disconnect() {
     }
 }
-
-// Notes so we can see the data structure
-//
-// "hits": [
-//     {
-//         "access": "public",
-//         "analysisMethod": {
-//             "analysisType": "sequence_upload",
-//             "software": "spinnaker"
-//         },
-//         "center_name": "UCSC",
-//         "dataCategorization": {
-//             "dataType": "fastq.gz",
-//             "experimentalStrategy": "RNA-Seq"
-//         },
-//         "donors": [
-//             {
-//                 "donorId": "9ee8d3f4-93ab-57bc-8a91-d8f77da2fc8b",
-//                 "otherIdentifiers": {
-//                     "RedwoodDonorUUID": [
-//                         "9ee8d3f4-93ab-57bc-8a91-d8f77da2fc8b"
-//                     ]
-//                 },
-//                 "primarySite": "prostate gland",
-//                 "projectCode": "CAR",
-//                 "sampleId": [
-//                     "7140f9f2-d506-5146-8707-f1a05721e6cd"
-//                 ],
-//                 "specimenType": [
-//                     "Normal - blood derived"
-//                 ],
-//                 "study": "CAR",
-//                 "submittedDonorId": "A123472",
-//                 "submittedSampleId": [
-//                     "S123472a1"
-//                 ],
-//                 "submittedSpecimenId": [
-//                     "A123472a"
-//                 ]
-//             }
-//         ],
-//         "fileCopies": [
-//             {
-//                 "fileFormat": "fastq.gz",
-//                 "fileMd5sum": "",
-//                 "fileName": "TEST_R1.fastq.gz",
-//                 "fileSize": 231476,
-//                 "lastModified": "2017-06-20T20:45:57",
-//                 "repoBaseUrl": "carlos.ucsc-cgp-dev.org",
-//                 "repoCode": "Redwood-AWS-Oregon",
-//                 "repoCountry": "US",
-//                 "repoDataBundleId": "5b04f580-2d6a-59b7-b966-b08c6b2a03ef",
-//                 "repoDataPath": null,
-//                 "repoDataSetIds": [],
-//                 "repoMetadataPath": null,
-//                 "repoName": "Redwood-AWS-Oregon",
-//                 "repoOrg": "UCSC",
-//                 "repoType": "Redwood"
-//             }
-//         ],
-//         "id": "fd23d912-23f9-5bc4-8faf-fcf2956ae8e0",
-//         "objectID": "fd23d912-23f9-5bc4-8faf-fcf2956ae8e0",
-//         "program": "TCELL",
-//         "referenceGenome": {
-//             "downloadUrl": null,
-//             "genomeBuild": null,
-//             "referenceName": null
-//         },
-//         "study": [
-//             "CAR"
-//         ]
-//     }
-// ],
-//     "pagination": {
-//     "count": 1,
-//         "from": 1,
-//         "order": "desc",
-//         "page": 1,
-//         "pages": 6,
-//         "size": 1,
-//         "sort": "center_name",
-//         "total": 6
-// }

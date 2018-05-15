@@ -6,7 +6,7 @@ import "rxjs/add/operator/debounceTime";
 
 /**
  * Handles "snap" (ie fixed position of element) by listening to wheel event on the host element. Listener must be
- * setup on this component due to it's overflow-y spec (and it therefore can listen to the scroll event, and also
+ * setup on this component due to its overflow-y spec (and it therefore can listen to the scroll event, and also
  * determine the scroll Y).
  */
 

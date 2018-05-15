@@ -15,7 +15,7 @@ export class FileSizePipe implements PipeTransform {
         const fileSizes = ["B", "KB", "MB", "GB", "TB", "PB"];
 
         // Determine file size display value and unit
-        let val = value;
+        let val = value || 0;
         let sigFig = 0;
         while (val >= 1024) {
             val = val / 1024;

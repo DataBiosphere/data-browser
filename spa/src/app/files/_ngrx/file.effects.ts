@@ -67,20 +67,35 @@ export class FileEffects {
         this.colorWheelSet = false;
 
         this.colors = [
-            "#1A535C",
-            "#4CC9C0",
-            "#5C83D0",
-            "#FF6B6B",
+            
+            "#172984",
+            "#4A90E2",
+            "#24D1F2",
+            "#B8A2E3",
+            "#E1B5EC",
+            "#EC5C6D",
+            "#FF6C19",
             "#FFA560",
-            "#FFE66D",
-            "#113871", // dark blue
-            "#336C74", // light green
-            "#ABF0EB", // light turquoise
-            "#B3C9F2", // light light purple
-            "#B6D67E", // lime green
-            "#BE5951", // salmon
-            "#FFBABA", // light peach
-            "#FFD2AF", // light orange
+            "#FFDD88", 
+            "#FFBABA", 
+            "#FFD2AF", 
+            "#F8FEC1",
+            
+            // TODO revisit - will need to re-enable this for BW instances
+            // "#1A535C",
+            // "#4CC9C0",
+            // "#5C83D0",
+            // "#FF6B6B",
+            // "#FFA560",
+            // "#FFE66D",
+            // "#113871", // dark blue
+            // "#336C74", // light green
+            // "#ABF0EB", // light turquoise
+            // "#B3C9F2", // light light purple
+            // "#B6D67E", // lime green
+            // "#BE5951", // salmon
+            // "#FFBABA", // light peach
+            // "#FFD2AF", // light orange
             "#eeeeee"
         ];
     }

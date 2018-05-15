@@ -1,0 +1,78 @@
+<mat-card>
+    <div *ngIf="pagination$ | async; let pagination" class="pagination">
+        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+        <span>{{pagination.from}} - {{getToIndex(pagination)}} of {{pagination.total}}</span>
+    </div>
+    <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
+               (matSortChange)="sortTable(pagination, $event)">
+        <ng-container matColumnDef="fileName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> File Name</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fileName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="biomaterial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Biomaterial Id</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.biomaterial}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="organ">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Organ</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.organ}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="organPart">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Organ Part</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.organPart}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="libraryConstruction">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Library Construction</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.libraryConstruction}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="species">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Species</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.species}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="age">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Age</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.age}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ageUnit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Age Unit</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.ageUnit}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sex">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Sex</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.sex}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="diseased">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Diseased</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.diseased}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <div *ngIf="pagination$ | async; let pagination" class="pagination">
+        <span>Goto page:</span>
+        <mat-form-field>
+            <input matInput (input)="goToPage(pagination, pageValue)" [(ngModel)]="pageValue">
+            <mat-error *ngIf="pageError">Error</mat-error>
+        </mat-form-field>
+        <span>Items per page:</span>
+        <mat-form-field>
+            <mat-select [(ngModel)]="selectedPage" (change)="setPageSize(pagination, selectedPage)">
+                <mat-option *ngFor="let pageSizeOption of pageSizeOptions" [value]="pageSizeOption">
+                    {{pageSizeOption}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+        <span>Page {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
+    </div>
+</mat-card>

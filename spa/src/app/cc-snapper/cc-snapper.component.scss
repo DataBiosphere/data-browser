@@ -21,7 +21,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
     :host {
 
         &.snap {
-            /deep/ bw-file-summary {
+            /deep/ bw-file-summary, /deep/ hca-file-summary {
                 top: ($height); // Single height - for main nav
             }
 
@@ -60,7 +60,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
             padding-top: 100px; // Matches height of results summary + padding (84px + 16px)
 
             /** Handle snap of results summary element itself */
-            /deep/ bw-file-summary {
+            /deep/ bw-file-summary, /deep/ hca-file-summary {
                 position: absolute;
                 left: 0;
                 padding: 0; // Remove default padding

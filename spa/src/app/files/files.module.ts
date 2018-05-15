@@ -49,9 +49,10 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
+import { HCATableComponent } from "./hca-table/hca-table.component";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
-import { TableComponent } from "./table/table.component";
 
 @NgModule({
     imports: [
@@ -102,9 +103,13 @@ import { TableComponent } from "./table/table.component";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
-        TableComponent,
+        HCATableComponent,
 
-        FileNameShortenerPipe],
+        FileNameShortenerPipe,
+
+        // Components specific to Boardwalk instances
+        HCAFileSummaryComponent
+    ],
     providers: [
         ConfigService,
         FilesService,

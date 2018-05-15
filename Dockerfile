@@ -16,5 +16,5 @@ COPY ./views /usr/src/app/views
 EXPOSE 3000
 #Set the node env
 ENV NODE_ENV local
-ENV BW_DATA_URL https://ucsc-cgp.org
+ENV BW_DATA_URL https://carlos.ucsc-cgp-dev.org
 CMD ["pm2-docker", "server/dist/server.js"]

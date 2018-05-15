@@ -46,7 +46,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
      * Default state
      */
     :host, cc-toolbar-nav {
-        background-color: $cgl-green;
+        background: linear-gradient(to right, #000000, #142263);
         bottom: 0;
         left: 0;
         position: fixed;

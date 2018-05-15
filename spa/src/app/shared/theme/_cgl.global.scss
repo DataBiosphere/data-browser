@@ -81,6 +81,11 @@ $cgl-fab-gutter-gt-xs: 24px;
     }
 }
 
+.hca-fab {
+    background-color: #172984 !important; /* !important to override .mat-fab.mat-accent background color */
+    z-index: 1;
+}
+
 /** Override MD default focus style of dialog action buttons */
 button {
 

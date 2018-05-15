@@ -19,8 +19,9 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
-import { ConfigModule } from "./config/config.module";
 import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
+import { ConfigModule } from "./config/config.module";
+import { ConfigService } from "./config/config.service";
 import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
 import { AppReducers } from "./_ngrx/app.reducer";
@@ -33,7 +34,8 @@ import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-it
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
 import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
 import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
-import { ConfigService } from "./config/config.service";
+import { HCAFooterComponent } from "./shared/hca-footer/hca-footer.component";
+import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -73,6 +75,10 @@ import { ConfigService } from "./config/config.service";
         CCHamburgerDirective,
         CGLSubnavComponent,
         CGLToolbarComponent,
+        
+        // Components specific to Boardwalk instances
+        HCAToolbarComponent,
+        HCAFooterComponent
     ],
     providers: [
         UserService,

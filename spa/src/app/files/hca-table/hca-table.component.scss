@@ -1,0 +1,136 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table.
+ */
+
+/* Table sits within card */
+mat-card {
+    padding: 0;
+
+    /* Filter row */
+    .filter-row {
+        align-items: flex-end;
+        background-color: rgba(0, 0, 0, 0.03);
+        display: flex;
+        min-height: 64px;
+        padding: 8px 24px 0;
+
+        .mat-form-field {
+            font-size: 14px;
+            width: 25%;
+
+            /* Search icon */
+            mat-icon {
+                color: rgba(0, 0, 0, 0.38);
+            }
+        }
+    }
+
+    /* Pagination */
+    .pagination {
+        align-items: center;
+        color: rgba(0, 0, 0, 0.38);
+        display: flex;
+        font-size: 12px;
+        height: 56px;
+        justify-content: flex-end;
+        padding: 0 24px;
+
+        span {
+            min-width: 75px;
+            padding-left: 16px;
+            text-align: right;
+        }
+
+        mat-form-field {
+            width: 56px;
+            margin-left: 4px;
+            margin-right: 8px;
+
+            input, mat-select {
+                text-align: center;
+            }
+        }
+    }
+
+    mat-table {
+
+        mat-row, mat-header-row {
+            padding: 0 16px;
+        }
+
+        mat-cell, mat-header-cell {
+            padding-left: 4px;
+            padding-right: 4px;
+
+            /* File Name */
+            &:first-of-type {
+                flex: none;
+                width: 19%;
+            }
+
+            /* Bio Material */
+            &:nth-of-type(2) {
+                flex: none;
+                width: 10%;
+            }
+
+            /* Organ */
+            &:nth-of-type(3) {
+                flex: none;
+                width: 10%;
+            }
+
+            /* Organ Part */
+            &:nth-of-type(4) {
+                flex: none;
+                width: 8%;
+            }
+
+            /* Library construction */
+            &:nth-of-type(5) {
+                flex: none;
+                width: 10%;
+            }
+
+            /* Species */
+            &:nth-of-type(6) {
+                flex: none;
+                width: 10%;
+            }
+            
+            /* Age */
+            &:nth-of-type(7) {
+                flex: none;
+                width: 4%;
+            }
+
+            /* Age Unit */
+            &:nth-of-type(8) {
+                flex: none;
+                width: 4%;
+            }
+
+            /* Sex */
+            &:nth-of-type(9) {
+                flex: none;
+                width: 10%;
+            }
+
+            /* Disease */
+            &:nth-of-type(10) {
+                flex: none;
+                width: 10%;
+            }
+
+
+
+            /* Table header text alignment */
+            /deep/ .mat-sort-header-button {
+                text-align: left !important;
+            }
+        }
+    }
+}

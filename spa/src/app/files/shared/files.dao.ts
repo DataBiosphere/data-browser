@@ -125,6 +125,26 @@ export class FilesDAO extends CCBaseDAO {
 
         return this.fetchFacetOrdering()
             .switchMap((ordering: Ordering) => {
+
+                // Temporary manually order the facets.
+                const bypassOrdering = [
+                    "project",
+                    "genusSpecies",
+                    "biologicalSex",
+                    "organ",
+                    "organPart",
+                    "organismAge",
+                    "organismAgeUnit",
+                    "disease",
+                    "laboratory",
+                    "preservationMethod",
+                    "instrumentManufacturerModel",
+                    "libraryConstructionApproach",
+                    "protocol",
+                    "fileFormat",
+                ];
+
+                ordering.order = bypassOrdering;
                 return this.fetchFileFacets(selectedFacetsByName, ordering);
             });
     }
@@ -206,7 +226,6 @@ export class FilesDAO extends CCBaseDAO {
 
         // Determine the set of facets that are to be displayed
         const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;
-        ;
 
         // Calculate the number of terms to display on each facet card
         const shortListLength = this.calculateShortListLength(visibleFacets);

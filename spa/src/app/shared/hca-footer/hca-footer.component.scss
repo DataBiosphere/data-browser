@@ -1,0 +1,99 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA footer styles.
+ */
+
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    footer {
+
+        background-color: #172984;
+        color: #ffffff;
+        
+        /deep/ cgl-footer-nav-item {
+            /deep/ a {
+                color: #ffffff;
+            }
+        }
+
+        .cgl-links {
+            // Additional top/bottom padding (beyond layout-padding) for first row of links in footer
+            padding-bottom: 48px;
+            padding-top: 48px;
+        }
+
+        .cgl-disclaimer {
+            color: #ffffff;
+            // Match .md-body-1
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            // End match .md-body-1
+            padding: 16px;
+        }
+
+        &.squash {
+
+            .cgl-links {
+                // Minimize additional top/bottom padding (beyond layout-padding) for first row of links in footer
+                padding-bottom: 16px;
+                padding-top: 16px;
+            }
+        }
+    }
+
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: $md-sm-max) {
+
+    :host {
+        footer {
+
+            text-align: center;
+
+            .cgl-disclaimer {
+
+                span {
+
+                    // Add vertical space between copyright and licence
+                    &+span {
+
+                        margin-top: 8px;
+                    }
+                }
+            }
+
+
+            /** Add vertical space between stacked navs (matches _cgl-footer-nav styles in style guide) */
+            cgl-footer-nav {
+
+                &+cgl-footer-nav {
+
+                    margin-top: 24px;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Small +
+ */
+@media (min-width: $md-md-min) {
+
+    :host {
+
+        footer {
+
+            .cgl-links {
+                justify-content: space-between;
+            }
+        }
+    }
+}
