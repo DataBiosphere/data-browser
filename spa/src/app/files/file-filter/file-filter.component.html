@@ -5,27 +5,35 @@
                 <mat-chip-list>
                     <ng-container *ngFor="let facet of selectedFacets">
                         <ng-container *ngFor="let term of facet.terms">
-                            <mat-chip  *ngIf="term.selected" [removable]="removable">
+                            <mat-chip *ngIf="term.selected" [removable]="removable">
                                 <div>
-                                    <span class="md-caption">{{term.name}}</span>
-                                    <span class="md-caption secondary">{{facet.name}}</span>
+                                    <span class="md-body-1">{{term.name}}</span>
+                                    <span class="md-body-1 secondary">{{facet.name}}</span>
                                 </div>
-                                <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close</mat-icon>
+                                <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">
+                                    close
+                                </mat-icon>
                             </mat-chip>
                         </ng-container>
                     </ng-container>
                 </mat-chip-list>
             </div>
+            <div *ngIf="selectedFacets.length == 0" class="md-body-1">No terms selected</div>
         </div>
         <div class="layout-padding flex search">
             <div>
-                <mat-form-field floatLabel="never">
-                    <input type="text" placeholder="Search facet or term" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)" [displayWith]="displayFn">
+                <mat-form-field floatLabel="never" appearance="outline">
+                    <input type="text" placeholder="Search facet or term" aria-label="Number" matInput
+                           [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
+                                      [displayWith]="displayFn">
                         <ng-container *ngFor="let facet of filteredFacets$ | async">
-                            <div class="facet-list"><span class="md-body-1">{{facet.facetName}}</span><!--span class="md-body-1 secondary">40</span--></div>
+                            <div class="facet-list"><span class="md-body-1">{{facet.facetName}}</span>
+                                <!--span class="md-body-1 secondary">40</span--></div>
                             <ng-container *ngFor="let term of facet.terms">
-                                <mat-option [value]="{facet:facet, term:term}"><span class="md-body-1">{{term.termName}}</span><span class="md-body-1 secondary">{{term.count}}</span></mat-option>
+                                <mat-option [value]="{facet:facet, term:term}"><span
+                                        class="md-body-1">{{term.termName}}</span><span class="md-body-1 secondary">{{term.count}}</span>
+                                </mat-option>
                             </ng-container>
                         </ng-container>
                     </mat-autocomplete>

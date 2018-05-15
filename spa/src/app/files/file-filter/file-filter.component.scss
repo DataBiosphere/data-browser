@@ -20,6 +20,18 @@
             align-items: center;
             display: flex;
             flex: 1;
+            padding: 0;
+
+            /* Flex padding */
+            > div {
+                padding: 8px;
+                //padding: 0 8px;
+
+                /* No terms selected */
+                &.md-body-1 {
+                    display: none; /* Hide */
+                }
+            }
 
             /* Chip */
             mat-chip {
@@ -39,7 +51,6 @@
 
                     /* Facet name */
                     span:last-of-type {
-                        font-size: 10px;
                         margin-top: -4px; // Scoots up underneath term
                     }
                 }
@@ -64,10 +75,11 @@
 
             /* Search input */
             mat-form-field {
+                font-size: 14px;
                 border: 1px solid rgba(0, 0, 0, 0.38);
                 border-radius: 2px;
                 padding: 0 16px;
-                width: calc(100% - 32px);
+                width: calc(100% - 34px); /* Includes padding and borders */
 
                 /* Underline */
                 // TODO deep deprecated
@@ -78,18 +90,6 @@
                         background-color: transparent;
                     }
                 }
-
-                /* Search icon */
-                mat-icon {
-                    font-size: 18px;
-                    height: 18px;
-                    line-height: 1;
-                    position: absolute;
-                    right: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-
             }
         }
     }
@@ -136,7 +136,7 @@
     :host {
         mat-card {
             .search {
-                max-width: calc(50% + 8px); // Matches width of facet card
+                max-width: calc(50% - 8px); // Matches width of facet card
             }
         }
     }
@@ -152,8 +152,30 @@
             .filter-bar {
                 flex-direction: row;
             }
+
+            /* Chips */
+            .chips {
+                padding: 8px;
+
+                /* Flex padding */
+                > div {
+                    padding: 0 8px;
+
+                    /* No terms selected */
+                    &.md-body-1 {
+                        display: block; /* Show */
+                    }
+                }
+            }
+
+            /* Facet search */
             .search {
-                max-width: calc((100% + 16px) / 4 - 8px); // Matches width of facet card
+                max-width: calc((50% - 8px) / 2 - 8px); // Matches width of facet card
+
+                /* Flex padding */
+                > div {
+                    padding: 0 8px;
+                }
             }
         }
     }
@@ -167,7 +189,7 @@
     :host {
         mat-card {
             .search {
-                max-width: calc((100% + 16px) / 5 - 8px); // Matches width of facet card
+                max-width: calc((100% + 16px) / 5 - 16px); // Matches width of facet card
             }
         }
     }

@@ -28,6 +28,11 @@ $md-toolbar-height-mobile-landscape: 48px !default;
             /deep/ bw-file-filter {
                 margin-top: ($height);
                 top: 84px; // Sits below bw-file-summary
+
+                /* Search filter input field */
+                .search {
+                    max-width: calc(50% + 8px) !important;
+                }
             }
         }
     }
@@ -83,6 +88,7 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
         &.snap {
 
+            /* Search filter input field */
             /deep/ bw-file-filter mat-card .search {
                 max-width: calc((100% + 16px) / 4 + 8px) !important; // Matches width of facet card
             }
@@ -98,13 +104,13 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
         &.snap {
 
+            /* Search filter input field */
             /deep/ bw-file-filter mat-card .search {
                 max-width: calc((100% + 16px) / 5 + 8px) !important; // Matches width of facet card
             }
         }
     }
 }
-
 
 // Set the default position for the open menu
 @include snapper-top($md-toolbar-height-desktop);
