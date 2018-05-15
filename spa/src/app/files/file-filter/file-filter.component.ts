@@ -34,14 +34,13 @@ export class FileFilterComponent implements OnInit, OnChanges {
     @Input() fileFacets: FileFacet[];
     @Input() selectedFacets: FileFacet[];
 
-
     // locals
     store: Store<AppState>;
     removable = true;
     filterableFacets: FilterableFacet[] = [];
     selectedTermSet: Set<string>;
     filteredFacets$: Observable<FilterableFacet[]>;
-    myControl: FormControl = new FormControl();
+    filterInput: FormControl = new FormControl();
 
     constructor(store: Store<AppState>) {
         this.store = store;
@@ -60,12 +59,10 @@ export class FileFilterComponent implements OnInit, OnChanges {
 
         this.store.dispatch(new SelectFileFacetAction(
             new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
-
-        //   this.myControl.setValue("");
     }
 
     ngOnInit() {
-        this.filteredFacets$ = this.myControl.valueChanges
+        this.filteredFacets$ = this.filterInput.valueChanges
             .pipe(
                 startWith(""),
                 map(searchString => this.filterFacets(searchString)));
@@ -73,7 +70,7 @@ export class FileFilterComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         this.setupSearchTerms();
-        this.myControl.setValue("");
+        this.filterInput.setValue("");
     }
 
 

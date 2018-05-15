@@ -98,7 +98,7 @@
 /* mat-option panel */
 // TODO deep deprecated
 /deep/ .mat-autocomplete-panel {
-    margin: 13.5px -16px; /* Panel to take up full width + opens below search box */
+    margin: 19px -16px; /* Panel to take up full width + opens below search box */
 }
 
 /* mat-option list */
@@ -108,23 +108,14 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-    }
-}
 
-/* Facet list inside mat-option */
-.facet-list {
-    align-items: center;
-    display: flex;
-    height: 48px;
-    justify-content: space-between;
-    overflow: hidden;
-    padding: 0 16px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    /* Facet name */
-    span:first-of-type {
-        font-weight: 500;
+        /* Ellipsis of term name if required */
+        > span:first-of-type {
+            overflow: hidden;
+            padding-right: 4px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }
 
