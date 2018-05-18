@@ -21,18 +21,37 @@ $md-toolbar-height-mobile-landscape: 48px !default;
     :host {
 
         &.snap {
-            /deep/ bw-file-summary, /deep/ hca-file-summary {
+            /deep/ bw-file-summary {
                 top: ($height); // Single height - for main nav
             }
 
-            /deep/ bw-file-filter {
-                margin-top: ($height);
-                top: 84px; // Sits below bw-file-summary
+            /deep/ hca-explore {
+                background-color: $hca-white;
+                top: ($height);
+            }
 
-                /* Search filter input field */
-                .search {
-                    max-width: calc(50% + 8px) !important;
-                }
+            /deep/ hca-file-filter {
+                background-color: $hca-white;
+                margin-top: ($height);
+                top: 78px; // Sits below hca-explore
+            }
+
+            /deep/ hca-file-filter-result {
+                background-color: $hca-white;
+                margin-top: ($height);
+                top: calc(78px + 56px); // Sits below hca-file-filter
+            }
+
+            /deep/ hca-tab {
+                background-color: $hca-white;
+                margin-top: ($height);
+                top: calc(78px + 56px + 20px); // Sits below hca-file-filter-result
+            }
+
+            /deep/ hca-file-summary {
+                background-color: $hca-white;
+                margin-top: ($height);
+                top: calc(78px + 56px + 20px + 55px); // Sits below hca-tab
             }
         }
     }
@@ -57,10 +76,10 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
         /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
         &.snap {
-            padding-top: 100px; // Matches height of results summary + padding (84px + 16px)
+            padding-top: 279px; // Matches height of results summary + padding (84px + 16px)
 
             /** Handle snap of results summary element itself */
-            /deep/ bw-file-summary, /deep/ hca-file-summary {
+            /deep/ bw-file-summary {
                 position: absolute;
                 left: 0;
                 padding: 0; // Remove default padding
@@ -69,44 +88,12 @@ $md-toolbar-height-mobile-landscape: 48px !default;
             }
 
             /** Handle snap of file filter element itself */
-            /deep/ bw-file-filter {
+            /deep/ hca-explore, /deep/ hca-file-filter, /deep/ hca-file-filter-result, /deep/ hca-tab, /deep/ hca-file-summary {
                 position: absolute;
                 left: 0;
-                padding: 0; // Remove default padding
+                //padding: 0; // Remove default padding
                 right: 0;
                 z-index: 10;
-            }
-        }
-    }
-}
-
-/**
- * Medium +
- */
-@media (min-width: $md-md-min) {
-    :host {
-
-        &.snap {
-
-            /* Search filter input field */
-            /deep/ bw-file-filter mat-card .search {
-                max-width: calc((100% + 16px) / 4 + 8px) !important; // Matches width of facet card
-            }
-        }
-    }
-}
-
-/**
- * Large +
- */
-@media (min-width: $md-lg-min) {
-    :host {
-
-        &.snap {
-
-            /* Search filter input field */
-            /deep/ bw-file-filter mat-card .search {
-                max-width: calc((100% + 16px) / 5 + 8px) !important; // Matches width of facet card
             }
         }
     }

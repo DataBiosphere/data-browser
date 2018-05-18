@@ -1,0 +1,45 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA tab styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+:host {
+    border-bottom: 1px solid $hca-gray-lightest; /* Tab line */
+
+    /* Wrapper */
+    .wrapper {
+        align-items: center;
+        display: flex;
+        margin: 0 auto;
+        max-width: 1164px; /* Snap to 1200px, gutter is 18px */
+        padding: 0 18px;
+
+        /* Tab list */
+        .hca-tab-list {
+            align-items: flex-end;
+            display: flex;
+            justify-content: flex-start;
+            margin: 24px -16px 0;
+
+            /* Tab */
+            .hca-tab {
+                box-sizing: border-box;
+                cursor: pointer;
+                font-family: "Gotham"; /* Todo typography */
+                font-size: 14px; /* Todo typography */
+                font-weight: 500; /* Todo typography */
+                height: 30px;
+                line-height: 30px;
+                margin: 0 16px;
+
+                /* Active tab */
+                &.active {
+                    border-bottom: 3px solid #32C1EE /* Todo colour */;
+                }
+            }
+        }
+    }
+}

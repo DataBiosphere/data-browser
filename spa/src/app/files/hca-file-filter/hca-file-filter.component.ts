@@ -22,12 +22,12 @@ interface FilterableFacet {
  * Component displaying three summary counts: files, donors, and file size.
  */
 @Component({
-    selector: "bw-file-filter",
-    templateUrl: "./file-filter.component.html",
-    styleUrls: ["./file-filter.component.scss"],
+    selector: "hca-file-filter",
+    templateUrl: "./hca-file-filter.component.html",
+    styleUrls: ["./hca-file-filter.component.scss"],
 })
 
-export class FileFilterComponent implements OnInit, OnChanges {
+export class HCAFileFilterComponent implements OnInit, OnChanges {
 
 
     // Inputs

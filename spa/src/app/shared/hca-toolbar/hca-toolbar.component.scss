@@ -16,44 +16,51 @@
 
 mat-toolbar {
 
-    background: linear-gradient(to right, #000000, #142263); // Override MD default
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
-    color: #ffffff;
+    background-color: $hca-off-white;
     position: relative;
+
+    mat-toolbar-row {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 1200px; /* Snap to 1200px */
+        padding: 0 18px; /* Gutter 18px */
+    }
 
     // Menu is hidden by default
     [menu-close] {
         display: none;
     }
 
-    /deep/ img {
+    img {
         height: 45px;
     }
 
     /** Override default nav item color TODO will need to revisit this once theming per instance is setup */
-    /deep/ cc-toolbar-nav-item {
+    cc-toolbar-nav-item {
+        padding: 0 16px; /* HCA specific override */
+
         &.active {
-            /deep/ a {
+            a {
+                color: $hca-black;
                 text-decoration: underline;
                 &:hover {
-                    color: #ffffff;
+                    color: $hca-black;
                 }
             }
         }
-        /deep/ a {
-            color: #ffffff;
+
+        a {
+            color: $hca-gray-medium;
+            font-family: "Gotham";
+            font-size: 13px; /* TODO review with typography */
+            font-weight: 500; /* TODO review with typography */
+            letter-spacing: 1.2px;
             &:hover {
-                color: #24D1F2;
+                color: $hca-black;
             }
         }
-    }
-
-    // Override default MD style, Angular app only (not required in generic style sheet)
-    /deep/ [md-mini-fab] {
-        border: 0;
-        box-shadow: none;
-        background-color: transparent;
-        color: #ffffff;
     }
 }
 
@@ -65,12 +72,12 @@ mat-toolbar {
     mat-toolbar {
 
         // Position logo to the left and hamburger to the right
-        /deep/ mat-toolbar-row { /* /deep/ only required by Angular app, not generic stlye sheet */
+        mat-toolbar-row { /* /deep/ only required by Angular app, not generic style sheet */
             justify-content: space-between;
         }
 
         // Shrink logo to match smaller toolbar height
-        /deep/ img { /* /deep/ only required by Angular app, not generic stlye sheet */
+        img { /* /deep/ only required by Angular app, not generic style sheet */
             height: 36px;
         }
     }
@@ -88,6 +95,11 @@ mat-toolbar {
 
     mat-toolbar {
 
+        mat-toolbar-row {
+            height: 60px; // 60px toolbar, HCA specific
+            justify-content: flex-start;
+        }
+
         // Add space between logo and nav items (16px + 72px)
         img {
             margin-right: 24px; // Image has 16px bounds (top, bottom and left are added by toolbar, must add right border to accommodate nav)
@@ -101,7 +113,7 @@ mat-toolbar {
     mat-toolbar {
         min-height: 0;
 
-        /deep/ .mat-toolbar-row {
+        mat-toolbar-row {
             height: 56px; // 56px toolbar
         }
     }
@@ -113,7 +125,7 @@ mat-toolbar {
     mat-toolbar {
         min-height: 0;
 
-        /deep/ .mat-toolbar-row {
+        mat-toolbar-row {
             height: 48px; // 48px toolbar
         }
     }

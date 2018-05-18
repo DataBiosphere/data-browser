@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="filter">
+        <!-- TODO review use of div, mat-form-field -->
+        <div class="hca-input">
+            <input type="text" placeholder="Search" aria-label="Number" matInput
+                   [formControl]="filterInput" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
+                              [displayWith]="displayFn">
+                <mat-optgroup *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
+                              [disabled]="facet.disabled">
+                    <mat-option *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
+                        <span>{{term.termName}}</span>
+                        <span>{{term.count}}</span>
+                    </mat-option>
+                </mat-optgroup>
+            </mat-autocomplete>
+        </div>
+    </div>
+</div>
+<!--<div class="layout-padding flex chips">-->
+<!--<div *ngIf="selectedFacets.length > 0">-->
+<!--<mat-chip-list>-->
+<!--<ng-container *ngFor="let facet of selectedFacets">-->
+<!--<ng-container *ngFor="let term of facet.terms">-->
+<!--<mat-chip *ngIf="term.selected" [removable]="removable">-->
+<!--<div>-->
+<!--<span class="md-body-1">{{term.name}}</span>-->
+<!--<span class="md-body-1 secondary">{{facet.name}}</span>-->
+<!--</div>-->
+<!--<mat-icon matChipRemove *ngIf="removable"-->
+<!--(click)="removeFacet(facet.name, term.name)">-->
+<!--close-->
+<!--</mat-icon>-->
+<!--</mat-chip>-->
+<!--</ng-container>-->
+<!--</ng-container>-->
+<!--</mat-chip-list>-->
+<!--</div>-->
+<!--<div *ngIf="selectedFacets.length == 0" class="md-body-1">No terms selected</div>-->
+<!--</div>-->
+

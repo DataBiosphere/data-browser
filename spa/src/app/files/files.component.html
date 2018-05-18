@@ -1,11 +1,13 @@
-<div class="layout-column layout-padding">
-    <hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>
-    <bw-file-filter
+<div class="layout-column wrapper">
+    <!--<hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>-->
+    <hca-explore></hca-explore>
+    <hca-file-filter
             [selectedFacets]="selectedFileFacets$ | async"
             [fileFacets]="fileFacets$ | async">
-    </bw-file-filter>
-    <!--<bw-file-facets [fileFacets]="fileFacets$ | async">-->
-    <!--</bw-file-facets>-->
+    </hca-file-filter>
+    <hca-file-filter-result></hca-file-filter-result>
+    <hca-tab></hca-tab>
+    <hca-file-summary></hca-file-summary>
     <button class="cgl-fab hca-fab"
             mat-fab
             matTooltip="Download Manifest"

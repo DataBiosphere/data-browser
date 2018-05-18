@@ -2,105 +2,64 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * File summary styles.
+ * HCA File summary styles.
  */
 
 @import "../../shared/theme/cgl.vars";
 
-:host {
+/* Wrapper */
+.wrapper {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    max-width: 1164px; /* Snap to 1200px, gutter is 18px */
+    padding: 0 18px;
 
-    mat-card {
+    .file-summary {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        margin: 16px -16px;
 
-        padding: 0;
-
-        .summary-count {
-
-            align-items: center;
+        /* Summaries and counts - container */
+        > div {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            text-align: right;
 
-            &:before {
-                font-family: "Material Icons";
-                font-size: 40px;
-                opacity: 0.7;
-            }
+            /* Summary and count */
+            > div {
+                display: flex;
+                padding: 0 12px;
 
-            /** Override default MD bottom margin/padding to scoot count and label closer, and top margin/padding to vertically align correctly in card **/
-            .mat-headline {
-                margin: 0;
-                padding: 0;
-            }
+                /* Font style for summary and count */
+                > span {
+                    font-family: "Gotham"; /* Todo typography */
+                    font-size: 12px; /* Todo typography */
+                    font-weight: 500; /* Todo typography */
+                    padding: 0 4px;
 
-            &.organ-count {
-                &:before {
-                    content: "\E84E";
-                }
-            }
-            
-            &.biomaterial-count {
-                
-                &:before {
-                    content: "\E8C3";
-                }
-            }
-            
-            &.file {
-                &:before {
-                    content: "\E24D";
-                }
-            }
-
-            &.project {
-                &:before {
-                    content: "\E2C7";
-                }
-            }
-
-            &.size {
-                &:before {
-                    content: "\E1AF";
+                    /* Count */
+                    &:last-of-type {
+                        color: $hca-gray-medium;
+                    }
                 }
             }
         }
-    }
-}
+            /* Download button */
+            button:last-of-type {
+                background-color: #32C1EE; /* Todo color */
+                color: white;
+                font-family: "Gotham"; /* Todo typography */
+                font-size: 14px; /* Todo typography */
+                font-weight: 500; /* Todo typography */
+                height: 38px; /* HCA specific style */
+                letter-spacing: 0.21px; /* Todo typography */
+                padding: 0 9px;
 
-/**
- * Extra small, small
- */
-@media (max-width: $md-sm-max) {
-
-    :host {
-
-        mat-card {
-
-            // Add border between stacked summary counts
-            .summary-count {
-                &+.summary-count {
-                    border-top: 1px solid #eeeeee;
+                /* Download icon, text */
+                .spacer {
+                    margin: 0 3px;
                 }
             }
-        }
-    }
-}
-
-/**
- * Small +
- */
-@media (min-width: $md-sm-min) {
-
-    :host {
-
-        mat-card {
-
-            // Add border between stacked summary counts
-            .summary-count {
-                &+.summary-count {
-                    border-left: 1px solid #eeeeee;
-                }
-            }
-        }
     }
 }

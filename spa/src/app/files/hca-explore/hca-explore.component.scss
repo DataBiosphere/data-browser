@@ -1,0 +1,55 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA explore styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Wrapper */
+.wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 1164px; /* Snap to 1200px, gutter 18px */
+    padding: 0 18px;
+
+    /* Explore */
+    .explore {
+        align-items: center;
+        display: flex;
+        font-family: "DIN Alternate";
+        font-size: 36px;
+        font-weight: 600;
+        height: 78px;
+        letter-spacing: 0.54px;
+        width: 100%;
+    }
+}
+
+/* Buttons */
+//> div:last-of-type {
+//    align-self: flex-end;
+//    margin-bottom: 8px;
+//
+//    /* Diabled buttons */
+//    button:nth-of-type(1), button:nth-of-type(2) {
+//        cursor: auto;
+//        opacity: 0.5;
+//    }
+//
+//    /* Launch button */
+//    button:last-of-type {
+//        background-color: #4A90E2;
+//        color: white;
+//        margin-left: 24px;
+//
+//        /* Launch */
+//        .md-body-1 {
+//            font-weight: 500;
+//            margin-left: 8px;
+//        }
+//    }
+//}

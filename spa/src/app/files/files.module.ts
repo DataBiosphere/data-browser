@@ -41,7 +41,6 @@ import { FileFacetComponent } from "./file-facet/file-facet.component";
 import { FileFacetMenuComponent } from "./file-facet-menu/file-facet-menu.component";
 import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
 import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
-import { FileFilterComponent } from "./file-filter/file-filter.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { FileFacetWrapperComponent } from "./file-facet-wrapper/file-facet-wrapper.component";
 import { routes } from "./files.routes";
@@ -49,7 +48,11 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCAExploreComponent } from "app/files/hca-explore/hca-explore.component";
+import { HCAFileFilterComponent } from "app/files/hca-file-filter/hca-file-filter.component";
+import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
+import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
@@ -89,8 +92,6 @@ import { FilesService } from "./shared/files.service";
         FacetTermChartComponent,
         FacetTermListComponent,
 
-        FileFilterComponent,
-
         FileSummaryComponent,
         FileFacetsComponent,
         FileManifestSummaryComponent,
@@ -103,6 +104,10 @@ import { FilesService } from "./shared/files.service";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
+        HCAExploreComponent,
+        HCAFileFilterComponent,
+        HCAFileFilterResultComponent,
+        HCATabComponent,
         HCATableComponent,
 
         FileNameShortenerPipe,

@@ -1,34 +1,26 @@
-<mat-card>
-    <div class="layout-column layout-gt-sm-row">
-        <div class="layout-padding flex summary-count project">
+<div class="wrapper">
+    <div class="file-summary">
+        <div>
             <div>
-                <h3 class="mat-headline">{{summary.projectCount | localeString}}</h3>
-                <span class="md-body-1">Projects</span>
+                <span>Specimens</span>
+                <span>100</span>
+            </div>
+            <div>
+                <span>Estimated Cells</span>
+                <span>209,000</span>
+            </div>
+            <div>
+                <span>Donors</span>
+                <span>10</span>
+            </div>
+            <div>
+                <span>Projects</span>
+                <span>3</span>
             </div>
         </div>
-        <div class="layout-padding flex summary-count organ-count">
-            <div>
-                <h3 class="mat-headline">{{summary.organCounts | localeString}}</h3>
-                <span class="md-body-1">Organs</span>
-            </div>
-        </div>
-        <div class="layout-padding flex summary-count biomaterial-count">
-            <div>
-                <h3 class="mat-headline">{{summary.biomaterialCount | localeString}}</h3>
-                <span class="md-body-1">Biomaterials</span>
-            </div>
-        </div>
-        <div class="layout-padding flex summary-count file">
-            <div>
-                <h3 class="mat-headline">{{summary.fileCount | localeString}}</h3>
-                <span class="md-body-1">Files</span>
-            </div>
-        </div>
-        <div class="layout-padding flex summary-count size">
-            <div>
-                <h3 class="mat-headline">{{summary.totalFileSize | fileSize}}</h3>
-                <span class="md-body-1">File Size</span>
-            </div>
-        </div>
+        <button mat-raised-button>
+            <img class="spacer" src="../../../assets/images/icon/hca-download-white.png"/>
+            <span class="spacer">Download</span>
+        </button>
     </div>
-</mat-card>
+</div>

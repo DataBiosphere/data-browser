@@ -1,0 +1,80 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA File filter styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Wrapper */
+.wrapper {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    max-width: 1164px; /* Snap to 1200px, gutter is 18px */
+    padding: 0 18px;
+
+    .filter {
+        margin: 8px -4px;
+        width: 100%;
+    }
+
+    .hca-input {
+        align-items: center;
+        border: 1px solid $hca-gray-light;
+        border-radius: 3px;
+        display: flex;
+        font-family: "Gotham Book"; /* Todo typography */
+        font-size: 13px; /* Todo typography */
+        height: 38px;
+        letter-spacing: 0.4px; /* Todo typography */
+        margin: 0 4px;
+        padding: 0 16px;
+        width: 200px; /* Todo review */
+
+        input {
+            color: $hca-black;
+        }
+    }
+}
+
+/* mat-option panel */
+// TODO deep deprecated
+/deep/ .mat-autocomplete-panel {
+    margin: 14px -16px; /* Panel to take up full width + opens below search box */
+}
+
+/* mat-optgroup-label */
+// TODO deep deprecated
+/deep/ .mat-optgroup-label {
+    font-family: "Gotham Book"; /* Todo typography */
+    font-size: 13px; /* Todo typography */
+    font-weight: 600; /* Todo typography */
+}
+
+/* mat-option list */
+// TODO deep deprecated
+/deep/ .mat-option {
+    font-family: "Gotham Book"; /* Todo typography */
+    font-size: 13px; /* Todo typography */
+
+    /* mat-option flex between term and count */
+    > span {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        /* Ellipsis of term name if required */
+        > span:first-of-type {
+            overflow: hidden;
+            padding-right: 4px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Term count */
+        > span:nth-of-type(2) {
+            color: rgba(0, 0, 0, 0.54); /* Todo typography */
+        }
+    }
+}

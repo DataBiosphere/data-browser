@@ -1,0 +1,77 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * File filter styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Wrapper */
+.wrapper {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    max-width: 1164px; /* Snap to 1200px, gutter is 18px */
+    padding: 0 18px;
+
+    .filter-result {
+        align-items: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        margin: -3px;
+
+        /* List of selected terms - chips */
+        .selected-term {
+            align-items: center;
+            background-color: $hca-off-white;
+            border-radius: 3px;
+            box-sizing: border-box;
+            display: flex;
+            height: 20px;
+            margin: 3px;
+            padding: 3px;
+
+            /* Facet and term name */
+            > div {
+                padding: 0 3px;
+
+                /* Facet name */
+                span:first-of-type {
+                    font-family: "Gotham"; /* Todo typography */
+                    font-size: 11px; /* Todo typography */
+                    font-weight: 500; /* Todo typography */
+                    letter-spacing: 0.34px; /* Todo typography */
+                }
+
+                /* Term name */
+                span:last-of-type {
+                    font-family: "Gotham Book"; /* Todo typography */
+                    font-size: 11px; /* Todo typography */
+                    letter-spacing: 0.34px; /* Todo typography */
+                }
+            }
+
+            /* Remove button */
+            mat-icon {
+                color: $hca-gray-medium;
+                cursor: pointer;
+                font-size: 12px;
+                height: 12px;
+                padding: 0 3px;
+                width: 12px;
+            }
+        }
+
+        /* Clear all button */
+        > button {
+            color: #1288E4; /* Todo color */
+            font-family: "Gotham Book"; /* Todo typography */
+            font-size: 11px; /* Todo typography */
+            letter-spacing: 0.34px; /* Todo typography */
+            line-height: 20px; /* Overrides MD button spec */
+            margin: 3px;
+            min-width: 0;
+            padding: 0 4px; /* Overrides MD button spec - button text positioned 10px right of last selected chip */
+        }
+    }
+}
