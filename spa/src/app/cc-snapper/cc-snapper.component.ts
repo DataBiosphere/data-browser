@@ -38,11 +38,11 @@ export class CCSnapperComponent implements AfterViewInit {
             .subscribe(() => {
 
                 let snapped = nativeElement.classList.contains("snap");
-                if (nativeElement.scrollTop > 16 && !snapped) {
+                if (nativeElement.scrollTop > 0 && !snapped) {
                     nativeElement.classList.add("snap");
                 }
 
-                if (nativeElement.scrollTop < 16 && snapped) {
+                if (nativeElement.scrollTop < 0 && snapped) {
                     nativeElement.classList.remove("snap");
                 }
             });
