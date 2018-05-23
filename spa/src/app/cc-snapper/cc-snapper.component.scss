@@ -24,35 +24,6 @@ $md-toolbar-height-mobile-landscape: 48px !default;
             /deep/ bw-file-summary {
                 top: ($height); // Single height - for main nav
             }
-
-            /deep/ hca-explore {
-                background-color: $hca-white;
-                top: ($height);
-            }
-
-            /deep/ hca-file-filter {
-                background-color: $hca-white;
-                margin-top: ($height);
-                top: 78px; // Sits below hca-explore
-            }
-
-            /deep/ hca-file-filter-result {
-                background-color: $hca-white;
-                margin-top: ($height);
-                top: calc(78px + 56px); // Sits below hca-file-filter
-            }
-
-            /deep/ hca-tab {
-                background-color: $hca-white;
-                margin-top: ($height);
-                top: calc(78px + 56px + 20px); // Sits below hca-file-filter-result
-            }
-
-            /deep/ hca-file-summary {
-                background-color: $hca-white;
-                margin-top: ($height);
-                top: calc(78px + 56px + 20px + 55px); // Sits below hca-tab
-            }
         }
     }
 }
@@ -72,26 +43,17 @@ $md-toolbar-height-mobile-landscape: 48px !default;
 
     :host {
 
-        overflow-y: auto; // Enable scroll if necessary
+        overflow-y: auto; // HCA specific
 
         /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
         &.snap {
-            padding-top: 279px; // Matches height of results summary + padding (84px + 16px)
+            padding-top: 0; // HCA specific
 
             /** Handle snap of results summary element itself */
             /deep/ bw-file-summary {
                 position: absolute;
                 left: 0;
                 padding: 0; // Remove default padding
-                right: 0;
-                z-index: 10;
-            }
-
-            /** Handle snap of file filter element itself */
-            /deep/ hca-explore, /deep/ hca-file-filter, /deep/ hca-file-filter-result, /deep/ hca-tab, /deep/ hca-file-summary {
-                position: absolute;
-                left: 0;
-                //padding: 0; // Remove default padding
                 right: 0;
                 z-index: 10;
             }

@@ -11,9 +11,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
 @Component({
     selector: "hca-file-filter-result",
@@ -47,9 +47,9 @@ export class HCAFileFilterResultComponent {
     /**
      * Remove all selected terms.
      *
-     * @param {FileFacet} selectedFacets
      */
-    removeAllFacets(selectedFacets: FileFacet[]) {
+    removeAllFacets() {
+        this.store.dispatch(new ClearSelectedFileFacetsAction());
         console.log("Remove AllFacets");
     }
 }

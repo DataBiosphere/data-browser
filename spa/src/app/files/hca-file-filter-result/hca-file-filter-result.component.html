@@ -8,11 +8,14 @@
                             <span>{{facet.name}}: </span>
                             <span>{{term.name}}</span>
                         </div>
-                        <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close</mat-icon>
+                        <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close
+                        </mat-icon>
                     </mat-chip>
                 </ng-container>
             </ng-container>
+            <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets()" class="clear-all">
+                Clear All
+            </button>
         </mat-chip-list>
-        <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets(selectedFacets)">Clear All</button>
     </div>
 </div>
