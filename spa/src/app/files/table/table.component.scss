@@ -9,25 +9,6 @@
 mat-card {
     padding: 0;
 
-    /* Filter row */
-    .filter-row {
-        align-items: flex-end;
-        background-color: rgba(0, 0, 0, 0.03);
-        display: flex;
-        min-height: 64px;
-        padding: 8px 24px 0;
-
-        .mat-form-field {
-            font-size: 14px;
-            width: 25%;
-
-            /* Search icon */
-            mat-icon {
-                color: rgba(0, 0, 0, 0.38);
-            }
-        }
-    }
-
     /* Pagination */
     .pagination {
         align-items: center;

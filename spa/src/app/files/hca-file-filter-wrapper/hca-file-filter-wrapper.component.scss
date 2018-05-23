@@ -1,0 +1,32 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * File filter wrapper styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    mat-card {
+        padding: 0;
+
+        .filter-bar {
+            flex-direction: column;
+        }
+    }
+}
+
+/**
+ * Medium +
+ */
+@media (min-width: $md-md-min) {
+
+    :host {
+        mat-card {
+            .filter-bar {
+                flex-direction: row-reverse;
+            }
+        }
+    }
+}

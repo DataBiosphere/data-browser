@@ -2,36 +2,37 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Component displaying three summary counts: files, donors, and file size.
+ * Component displaying HCA explore bar.
  */
 
 // Core dependencies
 import {
     Component,
-    Input,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { AppState } from "../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { FileSummary } from "../file-summary/file-summary";
+import { AppState } from "../../_ngrx/app.state";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-manifest-summary.actions";
 
+// import { FileSummary } from "../file-summary/file-summary";
+
 @Component({
-    selector: "hca-file-summary",
-    templateUrl: "./hca-file-summary.component.html",
-    styleUrls: ["./hca-file-summary.component.scss"],
+    selector: "hca-explore",
+    templateUrl: "./hca-file-filter-wrapper.component.html",
+    styleUrls: ["./hca-file-filter-wrapper.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HCAFileSummaryComponent {
+export class HCAExploreComponent {
 
+    // TODO check all of this, as Fran added everything below for download icon
     // Locals
     private store: Store<AppState>;
 
-    // Inputs
-    @Input() summary: FileSummary;
+    // Public variables
+
 
     /**
      * @param route {ActivatedRoute}
@@ -48,4 +49,5 @@ export class HCAFileSummaryComponent {
 
         this.store.dispatch(new DownloadFileManifestAction());
     }
+
 }

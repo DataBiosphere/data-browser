@@ -39,6 +39,12 @@
                 &.active {
                     border-bottom: 3px solid #32C1EE /* Todo colour */;
                 }
+
+                /* Diabled tab */
+                &.disabled {
+                    cursor: auto;
+                    color: $hca-gray-lightest;
+                }
             }
         }
     }

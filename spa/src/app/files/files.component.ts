@@ -16,10 +16,7 @@ import "rxjs/add/operator/map";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
 
-import {
-    DownloadFileManifestAction,
-    FetchFileManifestSummaryRequestAction
-} from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
+import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
 import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
@@ -68,10 +65,10 @@ export class FilesComponent implements OnInit {
     /**
      * Dispatch action to download manifest summary.
      */
-    public onDownloadManifest() {
-        
-        this.store.dispatch(new DownloadFileManifestAction());
-    }
+    // public onDownloadManifest() {
+    //
+    //     this.store.dispatch(new DownloadFileManifestAction());
+    // }
 
     /**
      * Life cycle hooks
