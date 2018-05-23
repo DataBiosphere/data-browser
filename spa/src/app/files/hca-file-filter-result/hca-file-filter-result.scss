@@ -31,6 +31,10 @@
             margin: 3px;
             padding: 3px;
 
+            &:focus {
+                box-shadow: none;
+            }
+
             /* Facet and term name */
             > div {
                 padding: 0 3px;
@@ -57,6 +61,7 @@
                 cursor: pointer;
                 font-size: 12px;
                 height: 12px;
+                margin: 0;
                 padding: 0 3px;
                 width: 12px;
             }

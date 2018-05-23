@@ -1,17 +1,18 @@
 // Core dependencies
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { FileFacet } from "../shared/file-facet.model";
 import { AppState } from "../../_ngrx/app.state";
-import { Store } from "@ngrx/store";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
-import { MatAutocompleteSelectedEvent } from "@angular/material";
 import { map, startWith } from "rxjs/operators";
+import { MatAutocompleteSelectedEvent } from "@angular/material";
+import { Store } from "@ngrx/store";
 
 
 // App dependencies
+import { FileFacet } from "../shared/file-facet.model";
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+
 
 interface FilterableFacet {
     facetName: string;
@@ -19,7 +20,7 @@ interface FilterableFacet {
 }
 
 /**
- * Component displaying three summary counts: files, donors, and file size.
+ * Component searches facet and term names for filtering.
  */
 @Component({
     selector: "hca-file-filter",
@@ -35,23 +36,19 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     @Input() selectedFacets: FileFacet[];
 
     // locals
-    store: Store<AppState>;
-    removable = true;
     filterableFacets: FilterableFacet[] = [];
-    selectedTermSet: Set<string>;
     filteredFacets$: Observable<FilterableFacet[]>;
     filterInput: FormControl = new FormControl();
+    removable = true;
+    selectedTermSet: Set<string>;
+    store: Store<AppState>;
 
     constructor(store: Store<AppState>) {
         this.store = store;
     }
 
-    removeFacet(facetName: string, termName: string) {
-        this.store.dispatch(new SelectFileFacetAction(new FileFacetSelectedEvent(facetName, termName, false)));
-    }
-
     /**
-     * Save rep without surgeon.
+     * Term selected.
      *
      * @param {MatAutocompleteSelectedEvent} event
      */

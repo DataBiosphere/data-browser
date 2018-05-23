@@ -1,12 +1,18 @@
 <div class="wrapper">
     <div class="filter-result">
-        <div class="selected-term">
-            <div>
-                <span>Facet name</span>
-                <span>Term name</span>
-            </div>
-            <mat-icon>close</mat-icon>
-        </div>
-        <button mat-button>Clear All</button>
+        <mat-chip-list>
+            <ng-container *ngFor="let facet of selectedFacets">
+                <ng-container *ngFor="let term of facet.terms">
+                    <mat-chip *ngIf="term.selected" [removable]="removable" class="selected-term">
+                        <div>
+                            <span>{{facet.name}}: </span>
+                            <span>{{term.name}}</span>
+                        </div>
+                        <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close</mat-icon>
+                    </mat-chip>
+                </ng-container>
+            </ng-container>
+        </mat-chip-list>
+        <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets(selectedFacets)">Clear All</button>
     </div>
 </div>
