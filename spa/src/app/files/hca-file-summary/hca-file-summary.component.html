@@ -2,16 +2,16 @@
     <div class="file-summary">
         <div>
             <div>
-                <span>Specimens</span>
-                <span>100</span>
-            </div>
-            <div>
-                <span>Estimated Cells</span>
-                <span>209,000</span>
+                <span>Files</span>
+                <span>{{summary.fileCount | localeString}}</span>
             </div>
             <div>
                 <span>Donors</span>
-                <span>10</span>
+                <span>{{summary.donorCount | localeString}}</span>
+            </div>
+            <div>
+                <span>Size</span>
+                <span>{{summary.totalFileSize | fileSize}}</span>
             </div>
             <div>
                 <span>Projects</span>

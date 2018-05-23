@@ -6,7 +6,7 @@
             [fileFacets]="fileFacets$ | async">
     </hca-file-filter-wrapper>
     <hca-tab></hca-tab>
-    <hca-file-summary></hca-file-summary>
+    <hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>
     <!--<button class="cgl-fab hca-fab"-->
             <!--mat-fab-->
             <!--matTooltip="Download Manifest"-->
