@@ -51,6 +51,7 @@ import { KeywordsModule } from "../keywords/keywords.module";
 import { HCAExploreComponent } from "app/files/hca-explore/hca-explore.component";
 import { HCAFileFilterComponent } from "app/files/hca-file-filter/hca-file-filter.component";
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
+import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
@@ -107,6 +108,7 @@ import { FilesService } from "./shared/files.service";
         HCAExploreComponent,
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
+        HCAFileFilterWrapperComponent,
         HCATabComponent,
         HCATableComponent,
 
