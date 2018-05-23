@@ -2,20 +2,24 @@
     <div class="file-summary">
         <div>
             <div>
+                <span>Projects</span>
+                <span>{{summary.projectCount | localeString}}</span>
+            </div>
+            <div>
+                <span>Organs</span>
+                <span>{{summary.organCounts | localeString}}</span>
+            </div>
+            <div>
+                <span>Biomaterials</span>
+                <span>{{summary.biomaterialCount | localeString}}</span>
+            </div>
+            <div>
                 <span>Files</span>
                 <span>{{summary.fileCount | localeString}}</span>
             </div>
             <div>
-                <span>Donors</span>
-                <span>{{summary.donorCount | localeString}}</span>
-            </div>
-            <div>
-                <span>Size</span>
+                <span>File Size</span>
                 <span>{{summary.totalFileSize | fileSize}}</span>
-            </div>
-            <div>
-                <span>Projects</span>
-                <span>3</span>
             </div>
         </div>
         <button mat-raised-button (click)="onDownloadManifest()">
