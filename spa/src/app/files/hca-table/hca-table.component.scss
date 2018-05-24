@@ -23,7 +23,7 @@
         /* Pagination */
         .pagination {
             align-items: center;
-            color: rgba(0, 0, 0, 0.38);
+            color: $hca-gray-medium; /* TODO review colour choice when pagination has been styled */
             display: flex;
             font-size: 12px;
             height: 56px;
@@ -63,29 +63,29 @@
 
             mat-header-cell {
                 color: $hca-black;
-                font-family: "Gotham"; /* Todo typography */
-                font-size: 12px; /* Todo typography */
-                font-weight: 500; /* Todo typography */
-                letter-spacing: 0.36px; /* Todo typography */
+                font-family: "Gotham"; /* TODO typography */
+                font-size: 12px; /* TODO typography */
+                font-weight: 500; /* TODO typography */
+                letter-spacing: 0.36px; /* TODO typography */
             }
 
             mat-cell {
                 color: $hca-gray-darkest;
-                font-family: "Gotham Book"; /* Todo typography */
-                font-size: 13px; /* Todo typography */
-                font-weight: 400; /* Todo typography */
+                font-family: "Gotham Book"; /* TODO typography */
+                font-size: 13px; /* TODO typography */
+                font-weight: 400; /* TODO typography */
 
                 /* File Name */
                 &:first-of-type {
-                    color: #4A90E2; /* Todo color */
-                    font-family: "Gotham"; /* Todo typography */
-                    font-weight: 500; /* Todo typography */
+                    color: $hca-primary;
+                    font-family: "Gotham"; /* TODO typography */
+                    font-weight: 500; /* TODO typography */
                 }
 
                 /* Bio Material */
                 &:nth-of-type(2) {
-                    font-family: "Gotham"; /* Todo typography */
-                    font-weight: 500; /* Todo typography */
+                    font-family: "Gotham"; /* TODO typography */
+                    font-weight: 500; /* TODO typography */
                 }
             }
 
@@ -96,7 +96,6 @@
 
                 /* File Name */
                 &:first-of-type {
-                    color: #4A90E2;
                     width: calc(20% - 8px); /* 8px for left and right padding */
                 }
 

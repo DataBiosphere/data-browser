@@ -33,9 +33,9 @@
 
                 /* Font style for summary and count */
                 > span {
-                    font-family: "Gotham"; /* Todo typography */
-                    font-size: 12px; /* Todo typography */
-                    font-weight: 500; /* Todo typography */
+                    font-family: "Gotham"; /* TODO typography */
+                    font-size: 12px; /* TODO typography */
+                    font-weight: 500; /* TODO typography */
                     padding: 0 4px;
                     text-transform: uppercase;
 
@@ -48,13 +48,13 @@
         }
             /* Download button */
             button:last-of-type {
-                background-color: #32C1EE; /* Todo color */
-                color: white;
-                font-family: "Gotham"; /* Todo typography */
-                font-size: 14px; /* Todo typography */
-                font-weight: 500; /* Todo typography */
+                background-color: $hca-blue-light;
+                color: $hca-white;
+                font-family: "Gotham"; /* TODO typography */
+                font-size: 14px; /* TODO typography */
+                font-weight: 500; /* TODO typography */
                 height: 38px; /* HCA specific style */
-                letter-spacing: 0.21px; /* Todo typography */
+                letter-spacing: 0.21px; /* TODO typography */
                 padding: 0 9px;
 
                 /* Download icon, text */

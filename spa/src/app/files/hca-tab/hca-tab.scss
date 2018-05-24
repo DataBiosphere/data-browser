@@ -28,16 +28,16 @@
             .hca-tab {
                 box-sizing: border-box;
                 cursor: pointer;
-                font-family: "Gotham"; /* Todo typography */
-                font-size: 14px; /* Todo typography */
-                font-weight: 500; /* Todo typography */
+                font-family: "Gotham"; /* TODO typography */
+                font-size: 14px; /* TODO typography */
+                font-weight: 500; /* TODO typography */
                 height: 30px;
                 line-height: 30px;
                 margin: 0 16px;
 
                 /* Active tab */
                 &.active {
-                    border-bottom: 3px solid #32C1EE /* Todo colour */;
+                    border-bottom: 3px solid $hca-blue-light
                 }
 
                 /* Diabled tab */

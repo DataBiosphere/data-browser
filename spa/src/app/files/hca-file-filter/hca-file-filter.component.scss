@@ -24,13 +24,13 @@
         border: 1px solid $hca-gray-light;
         border-radius: 3px;
         display: flex;
-        font-family: "Gotham Book"; /* Todo typography */
-        font-size: 13px; /* Todo typography */
+        font-family: "Gotham Book"; /* TODO typography */
+        font-size: 13px; /* TODO typography */
         height: 38px;
-        letter-spacing: 0.4px; /* Todo typography */
+        letter-spacing: 0.4px; /* TODO typography */
         margin: 0 4px;
         padding: 0 16px;
-        width: 200px; /* Todo review */
+        width: 200px; /* TODO review */
 
         input {
             color: $hca-black;
@@ -47,16 +47,16 @@
 /* mat-optgroup-label */
 // TODO deep deprecated
 /deep/ .mat-optgroup-label {
-    font-family: "Gotham Book"; /* Todo typography */
-    font-size: 13px; /* Todo typography */
-    font-weight: 600; /* Todo typography */
+    font-family: "Gotham Book"; /* TODO typography */
+    font-size: 13px; /* TODO typography */
+    font-weight: 600; /* TODO typography */
 }
 
 /* mat-option list */
 // TODO deep deprecated
 /deep/ .mat-option {
-    font-family: "Gotham Book"; /* Todo typography */
-    font-size: 13px; /* Todo typography */
+    font-family: "Gotham Book"; /* TODO typography */
+    font-size: 13px; /* TODO typography */
 
     /* mat-option flex between term and count */
     > span {
@@ -74,7 +74,7 @@
 
         /* Term count */
         > span:nth-of-type(2) {
-            color: rgba(0, 0, 0, 0.54); /* Todo typography */
+            color: $hca-gray-medium;
         }
     }
 }

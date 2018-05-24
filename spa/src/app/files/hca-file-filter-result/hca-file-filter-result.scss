@@ -69,10 +69,10 @@
 
         /* Clear all button */
         .clear-all {
-            color: #1288E4; /* Todo color */
-            font-family: "Gotham Book"; /* Todo typography */
-            font-size: 11px; /* Todo typography */
-            letter-spacing: 0.34px; /* Todo typography */
+            color: $hca-primary;
+            font-family: "Gotham Book"; /* TODO typography */
+            font-size: 11px; /* TODO typography */
+            letter-spacing: 0.34px; /* TODO typography */
             line-height: 20px; /* Overrides MD button spec */
             margin: 3px;
             min-width: 0;
