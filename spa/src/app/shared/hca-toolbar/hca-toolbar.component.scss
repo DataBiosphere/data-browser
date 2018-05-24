@@ -44,7 +44,8 @@ mat-toolbar {
         &.active {
             a {
                 color: $hca-black;
-                text-decoration: underline;
+                text-decoration: none;
+
                 &:hover {
                     color: $hca-black;
                 }
@@ -57,6 +58,7 @@ mat-toolbar {
             font-size: 13px; /* TODO review with typography */
             font-weight: 500; /* TODO review with typography */
             letter-spacing: 1.2px;
+
             &:hover {
                 color: $hca-black;
             }
