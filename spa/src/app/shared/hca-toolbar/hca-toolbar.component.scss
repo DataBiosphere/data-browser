@@ -37,7 +37,12 @@ mat-toolbar {
         height: 45px;
     }
 
-    /** Override default nav item color TODO will need to revisit this once theming per instance is setup */
+    /* Override default cc-toolbar-nav left margin */
+    cc-toolbar-nav {
+        margin-left: 0;
+    }
+
+    /* Override default nav item color TODO will need to revisit this once theming per instance is setup */
     cc-toolbar-nav-item {
         padding: 0 16px; /* HCA specific override */
 
@@ -63,6 +68,16 @@ mat-toolbar {
                 color: $hca-black;
             }
         }
+    }
+
+    /* User menu */
+    .menu-dropdown {
+        display: none;
+    }
+
+    /* Drop down icon */
+    .menu-dropdown::after {
+        display: none;
     }
 }
 
@@ -99,12 +114,26 @@ mat-toolbar {
 
         mat-toolbar-row {
             height: 60px; // 60px toolbar, HCA specific
-            justify-content: flex-start;
+            justify-content: space-between; // HCA specific
         }
 
-        // Add space between logo and nav items (16px + 72px)
-        img {
-            margin-right: 24px; // Image has 16px bounds (top, bottom and left are added by toolbar, must add right border to accommodate nav)
+        /* User menu */
+        .menu-dropdown {
+            align-items: center;
+            color: $hca-off-white; /* TODO change when implement hca-grey-dark */
+            //cursor: pointer;
+            font-family: "Gotham Book"; /* Todo typography */
+            font-size: 14px; /* Todo typography */
+            //font-weight: 500; /* Todo typography */
+            display: flex;
+        }
+
+        /* Drop down icon */
+        .menu-dropdown::after {
+            color: $hca-off-white; /* TODO change when implement hca-gray-dark */
+            content: "\E313";
+            font-family: "Material Icons";
+            font-size: 11px; // HCA specific
         }
     }
 }
