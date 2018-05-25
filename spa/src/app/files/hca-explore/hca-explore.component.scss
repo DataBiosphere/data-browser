@@ -10,8 +10,6 @@
 .wrapper {
     align-items: center;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin: 0 auto;
     max-width: 1164px; /* Snap to 1200px, gutter 18px */
     padding: 0 18px;
@@ -20,11 +18,11 @@
     .explore {
         align-items: center;
         display: flex;
-        font-family: "DIN Alternate";
-        font-size: 36px;
-        font-weight: 600;
-        height: 78px;
-        letter-spacing: 0.54px;
+        font-family: "DIN Alternate"; /* TODO typography */
+        font-size: 34px; /* TODO typography */
+        font-weight: 600; /* TODO typography */
+        height: 76px;
+        letter-spacing: 0.54px; /* TODO typography */
         width: 100%;
     }
 }
