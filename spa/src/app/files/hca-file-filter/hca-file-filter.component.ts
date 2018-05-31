@@ -48,6 +48,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * HCA select field open.
+     */
+    public onHCASelectShowHide() {
+        console.log("open");
+    }
+
+    /**
      * Term selected.
      *
      * @param {MatAutocompleteSelectedEvent} event
@@ -81,13 +88,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     filterFacets(searchString: string): FilterableFacet[] {
 
-        if (searchString == "") {
+        if ( searchString == "" ) {
             return this.filterableFacets;
         }
 
 
         // once you select its the term in here how to avoid?
-        if (typeof searchString !== "string") {
+        if ( typeof searchString !== "string" ) {
             return this.filterableFacets;
         }
 
@@ -99,7 +106,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 return term.termName.toLowerCase().includes(searchString.toLowerCase());
             });
 
-            return { facetName: fileFacet.facetName, terms: terms };
+            return {facetName: fileFacet.facetName, terms: terms};
 
         });
 
@@ -126,7 +133,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
             const terms = fileFacet.terms.map(term => {
                 // map to the filterable / display structure
-                return { termName: term.name, count: term.count };
+                return {termName: term.name, count: term.count};
             }).filter((term) => {
                 // remove any seleted terms from the term list
                 return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);

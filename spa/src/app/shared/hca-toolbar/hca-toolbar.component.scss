@@ -59,7 +59,7 @@ mat-toolbar {
 
         a {
             color: $hca-gray-medium;
-            font-family: "Gotham";
+            font-family: "Montserrat", sans-serif;
             font-size: 13px; /* TODO review with typography */
             font-weight: 500; /* TODO review with typography */
             letter-spacing: 1.2px;
@@ -122,7 +122,7 @@ mat-toolbar {
             align-items: center;
             color: $hca-off-white; /* TODO change when implement hca-grey-dark */
             //cursor: pointer;
-            font-family: "Gotham Book"; /* TODO typography */
+            font-family: "Montserrat", sans-serif; /* TODO typography */
             font-size: 14px; /* TODO typography */
             //font-weight: 500; /* TODO typography */
             display: flex;

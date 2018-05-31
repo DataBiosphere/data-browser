@@ -41,7 +41,7 @@
 
                 /* Facet name */
                 span:first-of-type {
-                    font-family: "Gotham"; /* Todo typography */
+                    font-family: "Montserrat", sans-serif; /* Todo typography */
                     font-size: 11px; /* Todo typography */
                     font-weight: 500; /* Todo typography */
                     letter-spacing: 0.34px; /* Todo typography */
@@ -49,7 +49,7 @@
 
                 /* Term name */
                 span:last-of-type {
-                    font-family: "Gotham Book"; /* Todo typography */
+                    font-family: "Montserrat", sans-serif; /* Todo typography */
                     font-size: 11px; /* Todo typography */
                     letter-spacing: 0.34px; /* Todo typography */
                 }
@@ -70,7 +70,7 @@
         /* Clear all button */
         .clear-all {
             color: $hca-primary;
-            font-family: "Gotham Book"; /* TODO typography */
+            font-family: "Montserrat", sans-serif; /* TODO typography */
             font-size: 11px; /* TODO typography */
             letter-spacing: 0.34px; /* TODO typography */
             line-height: 20px; /* Overrides MD button spec */

@@ -14,26 +14,72 @@
     max-width: 1164px; /* Snap to 1200px, gutter is 18px */
     padding: 0 18px;
 
+    /* Filter container */
     .filter {
+        align-items: center;
+        display: flex;
         margin: 8px -4px;
         width: 100%;
     }
 
-    .hca-input {
+    /* Search and select container */
+    .hca-input, .hca-select {
         align-items: center;
         border: 1px solid $hca-gray-light;
         border-radius: 3px;
+        box-sizing: border-box;
+        cursor: pointer;
         display: flex;
-        font-family: "Gotham Book"; /* TODO typography */
+        flex: none;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
         font-size: 13px; /* TODO typography */
         height: 38px;
         letter-spacing: 0.4px; /* TODO typography */
         margin: 0 4px;
         padding: 0 16px;
-        width: 200px; /* TODO review */
+    }
 
+    /* Search input field */
+    .hca-input {
+        width: 354px;
+
+        /* Input field */
         input {
             color: $hca-black;
+        }
+    }
+
+    /* Select field */
+    .hca-select {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        position: relative; /* Positions options */
+        width: 150px;
+
+        /* Field is open */
+        &.isOpen {
+            border: 1px solid $hca-primary;
+        }
+
+        /* Drop down icon */
+        mat-icon {
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+        }
+
+        .hca-options {
+            background-color: $hca-white;
+            border: 1px solid $hca-gray-light;
+            border-radius: 1px;
+            box-sizing: border-box;
+            display: flex;
+            left: 0;
+            padding: 6px;
+            position: absolute;
+            top: 44px;
+            z-index: 2;
         }
     }
 }
@@ -47,7 +93,7 @@
 /* mat-optgroup-label */
 // TODO deep deprecated
 /deep/ .mat-optgroup-label {
-    font-family: "Gotham Book"; /* TODO typography */
+    font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 13px; /* TODO typography */
     font-weight: 600; /* TODO typography */
 }
@@ -55,7 +101,7 @@
 /* mat-option list */
 // TODO deep deprecated
 /deep/ .mat-option {
-    font-family: "Gotham Book"; /* TODO typography */
+    font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 13px; /* TODO typography */
 
     /* mat-option flex between term and count */

@@ -1,0 +1,8 @@
+<div class="facet-title">
+    <span>{{fileFacet.name | camelToSpace}}</span>
+    <span>{{fileFacet.total | localeString}}</span>
+</div>
+<div class="facet-term-list">
+    <hca-facet-term-list [fileFacet]="fileFacet"
+                     (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
+</div>
