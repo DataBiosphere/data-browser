@@ -1,82 +1,70 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Component searches facet and term names for filtering.
+ */
+
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { map, startWith } from "rxjs/operators";
 import { MatAutocompleteSelectedEvent } from "@angular/material";
 import { Store } from "@ngrx/store";
 
-
 // App dependencies
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
-
 
 interface FilterableFacet {
     facetName: string;
     terms: { termName: string; count: number }[];
 }
 
-/**
- * Component searches facet and term names for filtering.
- */
 @Component({
     selector: "hca-file-filter",
     templateUrl: "./hca-file-filter.component.html",
     styleUrls: ["./hca-file-filter.component.scss"],
 })
-
 export class HCAFileFilterComponent implements OnInit, OnChanges {
-
 
     // Inputs
     @Input() fileFacets: FileFacet[];
     @Input() selectedFacets: FileFacet[];
 
-    // locals
+    // Template variables
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
-    filterInput: FormControl = new FormControl();
+    filterControl: FormControl = new FormControl();
     removable = true;
     selectedTermSet: Set<string>;
     store: Store<AppState>;
 
+    // View child/ren
+    @ViewChild("filterInput") filterInput: ElementRef;
+
+    /**
+     * @param {Store<AppState>} store
+     */
     constructor(store: Store<AppState>) {
         this.store = store;
     }
 
     /**
-     * HCA select field open.
+     * Public API
      */
-    public onHCASelectShowHide() {
-        console.log("open");
-    }
+
 
     /**
-     * Term selected.
      *
-     * @param {MatAutocompleteSelectedEvent} event
      */
-    public onTermSelected(event: MatAutocompleteSelectedEvent) {
+    public displayFn(ff?: any): string | undefined {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
+        return ff ? ff.facetName + "-" + ff.termName : undefined;
     }
-
-    ngOnInit() {
-        this.filteredFacets$ = this.filterInput.valueChanges
-            .pipe(
-                startWith(""),
-                map(searchString => this.filterFacets(searchString)));
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        this.setupSearchTerms();
-        this.filterInput.setValue("");
-    }
-
 
     /**
      * FilterFacets
@@ -86,7 +74,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * @param {string} searchString
      * @returns {FilterableFacet[]}
      */
-    filterFacets(searchString: string): FilterableFacet[] {
+    public filterFacets(searchString: string): FilterableFacet[] {
 
         if ( searchString == "" ) {
             return this.filterableFacets;
@@ -111,11 +99,12 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         });
 
         return newFacets.filter(facet => facet.terms.length > 0);
-
-
     }
 
-    setupSearchTerms() {
+    /**
+     *
+     */
+    public setupSearchTerms() {
 
         // Make a set that is easy to query to see if a term is selected.
         this.selectedTermSet = this.selectedFacets.reduce((acc, facet) => {
@@ -148,10 +137,51 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             // now filter out any empty facets.
             return facet.terms.length > 0;
         });
-
     }
 
-    displayFn(ff?: any): string | undefined {
-        return ff ? ff.facetName + "-" + ff.termName : undefined;
+    /**
+     * HCA select field open.
+     */
+    public onHCASelectShowHide() {
+    }
+
+    /**
+     * Term selected.
+     *
+     * @param {MatAutocompleteSelectedEvent} event
+     */
+    public onTermSelected(event: MatAutocompleteSelectedEvent) {
+
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
+
+        // Clear the filter input.
+        this.filterInput.nativeElement.blur();
+    }
+
+    /**
+     * Lifecycle hooks
+     */
+
+    /**
+     * Set up search terms and reset filter input value, on change of component inputs.
+     *
+     * @param {SimpleChanges} changes
+     */
+    ngOnChanges(changes: SimpleChanges) {
+
+        this.setupSearchTerms();
+        this.filterControl.setValue("");
+    }
+
+    /**
+     * Set up filter function on change of value on search input.
+     */
+    ngOnInit() {
+
+        this.filteredFacets$ = this.filterControl.valueChanges
+            .pipe(
+                startWith(""),
+                map(searchString => this.filterFacets(searchString)));
     }
 }

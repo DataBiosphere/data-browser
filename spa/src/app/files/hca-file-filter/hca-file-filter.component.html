@@ -3,7 +3,7 @@
         <!-- TODO review use of div, mat-form-field -->
         <div class="hca-input">
             <input type="text" placeholder="Search" aria-label="Number" matInput
-                   [formControl]="filterInput" [matAutocomplete]="auto">
+                   [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                               [displayWith]="displayFn">
                 <mat-optgroup *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
