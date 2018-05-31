@@ -15,5 +15,28 @@
                 </mat-optgroup>
             </mat-autocomplete>
         </div>
+        <div class="hca-select" (click)="onHCASelectShowHide()">
+            <span>Organ</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+            <div class="hca-options">
+                <hca-file-facet [fileFacet]="fileFacet" *ngFor="let fileFacet of fileFacets"></hca-file-facet>
+            </div>
+        </div>
+        <div class="hca-select">
+            <span>Method</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </div>
+        <div class="hca-select">
+            <span>Donor</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </div>
+        <div class="hca-select">
+            <span>Specimen</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </div>
+        <div class="hca-select">
+            <span>More</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </div>
     </div>
 </div>

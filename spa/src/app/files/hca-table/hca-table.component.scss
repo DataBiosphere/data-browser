@@ -63,7 +63,7 @@
 
             mat-header-cell {
                 color: $hca-black;
-                font-family: "Gotham"; /* TODO typography */
+                font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 12px; /* TODO typography */
                 font-weight: 500; /* TODO typography */
                 letter-spacing: 0.36px; /* TODO typography */
@@ -71,20 +71,20 @@
 
             mat-cell {
                 color: $hca-gray-darkest;
-                font-family: "Gotham Book"; /* TODO typography */
+                font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px; /* TODO typography */
                 font-weight: 400; /* TODO typography */
 
                 /* File Name */
                 &:first-of-type {
                     color: $hca-primary;
-                    font-family: "Gotham"; /* TODO typography */
+                    font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
 
                 /* Bio Material */
                 &:nth-of-type(2) {
-                    font-family: "Gotham"; /* TODO typography */
+                    font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
             }

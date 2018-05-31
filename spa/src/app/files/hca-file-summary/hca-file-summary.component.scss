@@ -33,7 +33,7 @@
 
                 /* Font style for summary and count */
                 > span {
-                    font-family: "Gotham"; /* TODO typography */
+                    font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-size: 12px; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                     padding: 0 4px;
@@ -50,7 +50,7 @@
             button:last-of-type {
                 background-color: $hca-secondary;
                 color: $hca-white;
-                font-family: "Gotham"; /* TODO typography */
+                font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 14px; /* TODO typography */
                 font-weight: 500; /* TODO typography */
                 height: 38px; /* HCA specific style */
