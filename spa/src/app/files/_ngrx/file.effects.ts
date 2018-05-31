@@ -4,7 +4,6 @@
  *
  * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
  */
-
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect } from "@ngrx/effects";
@@ -18,12 +17,11 @@ import "rxjs/add/observable/concat";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/withLatestFrom";
 import * as _ from "lodash";
-
 // App dependencies
 import { FilesService } from "../shared/files.service";
 import { FileSummary } from "../file-summary/file-summary";
-import { FileFacetMetadata } from "../file-facet-metadata/file-facet-metadata.model";
 import {
+    ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
     SelectFileFacetAction
@@ -43,7 +41,8 @@ import {
 } from "app/files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import {
-    FetchInitialTableDataRequestAction, FetchPagedOrSortedTableDataRequestAction,
+    FetchInitialTableDataRequestAction,
+    FetchPagedOrSortedTableDataRequestAction,
     FetchTableDataSuccessAction
 } from "./table/table.actions";
 import { TableModel } from "../table/table.model";
@@ -52,60 +51,8 @@ import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 @Injectable()
 export class FileEffects {
 
-    private colorWheelSet: boolean;
-    private colors: string[];
-
     /**
-     * @param {Store<AppState>} store
-     * @param {Actions} actions$
-     * @param {FilesService} fileService
-     */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private fileService: FilesService) {
-        this.colorWheel = new Map<string, string>();
-        this.colorWheelSet = false;
-
-        this.colors = [
-            
-            "#172984",
-            "#4A90E2",
-            "#24D1F2",
-            "#B8A2E3",
-            "#E1B5EC",
-            "#EC5C6D",
-            "#FF6C19",
-            "#FFA560",
-            "#FFDD88", 
-            "#FFBABA", 
-            "#FFD2AF", 
-            "#F8FEC1",
-            
-            // TODO revisit - will need to re-enable this for BW instances
-            // "#1A535C",
-            // "#4CC9C0",
-            // "#5C83D0",
-            // "#FF6B6B",
-            // "#FFA560",
-            // "#FFE66D",
-            // "#113871", // dark blue
-            // "#336C74", // light green
-            // "#ABF0EB", // light turquoise
-            // "#B3C9F2", // light light purple
-            // "#B6D67E", // lime green
-            // "#BE5951", // salmon
-            // "#FFBABA", // light peach
-            // "#FFD2AF", // light orange
-            "#eeeeee"
-        ];
-    }
-
-    /**
-     * Effects
-     */
-
-    /**
-     * Trigger update of file summary if a facet changes (ie term is selected or deseclted. File summary includes the 
+     * Trigger update of file summary if a facet changes (ie term is selected or deseclted. File summary includes the
      * donor count, file count etc that is displayed above the facets.
      *
      * @type {Observable<Action>}
@@ -132,7 +79,6 @@ export class FileEffects {
 
             return new FetchFileSummarySuccessAction(fileSummary);
         });
-
     /**
      * Trigger fetch and display of manifest summary once manifest is requested.
      *
@@ -150,9 +96,8 @@ export class FileEffects {
         .map((fileManifestSummary) => {
             return new FetchFileManifestSummarySuccessAction(fileManifestSummary);
         });
-
     /**
-     * 
+     *
      */
     @Effect()
     fetchInitialTableData$: Observable<Action> = this.actions$
@@ -165,9 +110,11 @@ export class FileEffects {
             // Reset the pagination but keep the set page size if it was changed.
             let tableParams = Object.assign(
                 DEFAULT_TABLE_PARAMS,
-                {size: tableQueryParams.pagination.size,
-                sort: tableQueryParams.pagination.sort,
-                order: tableQueryParams.pagination.order});
+                {
+                    size: tableQueryParams.pagination.size,
+                    sort: tableQueryParams.pagination.sort,
+                    order: tableQueryParams.pagination.order
+                });
 
             return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableParams);
         })
@@ -175,6 +122,9 @@ export class FileEffects {
             return new FetchTableDataSuccessAction(tableModel);
         });
 
+    /**
+     * Effects
+     */
     /**
      *
      */
@@ -188,7 +138,6 @@ export class FileEffects {
         .map((tableModel: TableModel) => {
             return new FetchTableDataSuccessAction(tableModel);
         });
-
     /**
      *
      * Trigger downooad of manifest.
@@ -204,9 +153,9 @@ export class FileEffects {
         .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
         });
-
+    private colorWheelSet: boolean;
+    private colors: string[];
     private colorWheel: Map<string, string>;
-    
     /**
      * Trigger update of facets once a facet term is selected/deselected.
      *
@@ -214,7 +163,7 @@ export class FileEffects {
      */
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
-        .ofType(SelectFileFacetAction.ACTION_TYPE)
+        .ofType(SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE)
         .switchMap(() => {
             return this.store.select(selectSelectedFacetsMap).first();
         })
@@ -239,7 +188,6 @@ export class FileEffects {
                     })
             );
         });
-    
     /**
      * Trigger update of facet counts on init.
      *
@@ -275,6 +223,51 @@ export class FileEffects {
                     })
             );
         });
+
+    /**
+     * @param {Store<AppState>} store
+     * @param {Actions} actions$
+     * @param {FilesService} fileService
+     */
+    constructor(private store: Store<AppState>,
+                private actions$: Actions,
+                private fileService: FilesService) {
+        this.colorWheel = new Map<string, string>();
+        this.colorWheelSet = false;
+
+        this.colors = [
+
+            "#172984",
+            "#4A90E2",
+            "#24D1F2",
+            "#B8A2E3",
+            "#E1B5EC",
+            "#EC5C6D",
+            "#FF6C19",
+            "#FFA560",
+            "#FFDD88",
+            "#FFBABA",
+            "#FFD2AF",
+            "#F8FEC1",
+
+            // TODO revisit - will need to re-enable this for BW instances
+            // "#1A535C",
+            // "#4CC9C0",
+            // "#5C83D0",
+            // "#FF6B6B",
+            // "#FFA560",
+            // "#FFE66D",
+            // "#113871", // dark blue
+            // "#336C74", // light green
+            // "#ABF0EB", // light turquoise
+            // "#B3C9F2", // light light purple
+            // "#B6D67E", // lime green
+            // "#BE5951", // salmon
+            // "#FFBABA", // light peach
+            // "#FFD2AF", // light orange
+            "#eeeeee"
+        ];
+    }
 
     /**
      * PRIVATES

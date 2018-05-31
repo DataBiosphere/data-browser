@@ -89,7 +89,7 @@ export class FileFacetSearchComponent implements OnInit {
         this.trigger.menuOpened.subscribe(() => {
             setTimeout(() => {
                 this.fileSearchMenuComponent.focus();
-            }, 300) // Focus input after MD menu animation has completed TODO remove this once menu/search UX is updated 
+            }, 300); // Focus input after MD menu animation has completed TODO remove this once menu/search UX is updated
         });
 
         // Set up search config - currently either file or donor

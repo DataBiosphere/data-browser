@@ -115,7 +115,7 @@ export class FileFacet {
             return this.selectSearchTerm(termName);
         }
 
-        // Check each term to see if it's the newly selected term. If so, toggle the selected indicator on the term, 
+        // Check each term to see if it's the newly selected term. If so, toggle the selected indicator on the term,
         // otherwise keep the term as is.
         const newTerms = this.terms.map(term => {
 

@@ -4,14 +4,12 @@
  *
  * Component displaying HCA file filter results bar.
  */
-
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
-
 // App dependencies
-import { ClearSelectedFileFacetsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { ClearSelectedTermsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 
@@ -49,7 +47,7 @@ export class HCAFileFilterResultComponent {
      *
      */
     removeAllFacets() {
-        this.store.dispatch(new ClearSelectedFileFacetsAction());
-        console.log("Remove AllFacets");
+        this.store.dispatch(new ClearSelectedTermsAction());
+        console.log("Remove All Terms");
     }
 }

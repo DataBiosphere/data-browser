@@ -5,7 +5,6 @@
  * Model of file facet list and related selected facet terms states, pagination etc. Also contains convenience maps for
  * querying state.
  */
-
 // App dependencies
 import { FileFacet } from "../../shared/file-facet.model";
 import { FetchFileFacetsSuccessAction, SelectFileFacetAction } from "./file-facet-list.actions";
@@ -53,6 +52,44 @@ export class FileFacetListState {
     }
 
     /**
+     * Create default state of file facet list - empty list of file facets, no selected facets, no pagination state.
+     *
+     * @returns {FileFacetListState}
+     */
+    public static getDefaultState() {
+        return new FileFacetListState([], new Map<string, FileFacet>(), undefined, undefined);
+    }
+
+    /**
+     * Convert array of facets into a map of facets keyed by facet name.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Map<string, FileFacet>}
+     */
+    private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
+
+        const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
+
+        return fileFacets.reduce((acc: Map<string, FileFacet>, value: FileFacet): Map<string, FileFacet> => {
+            acc.set(value.name, value);
+            return acc;
+        }, startValue);
+    }
+
+    /**
+     * Convert array of file facets into an array of file facet names
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {string[]}
+     */
+    private static createFileFacetNames(fileFacets: FileFacet[]): string[] {
+
+        return fileFacets.map((fileFacet) => {
+            return fileFacet.name;
+        });
+    }
+
+    /**
      * Return model of the current state of the file facet list (including pagination)
      *
      * @returns {FileFacetListState}
@@ -74,6 +111,10 @@ export class FileFacetListState {
             FileFacetListState.createFileFacetsMap(action.fileFacets), this.selectedFacet, this.paginationModel);
     }
 
+    /*******************************************
+     * Privates HA HA
+     *******************************************/
+
     /**
      * Clear Selected Facet
      *
@@ -85,12 +126,12 @@ export class FileFacetListState {
 
     /**
      * Handle select/deselect of facet term - create new file facet list state based on selected facet (term) action.
-     * 
+     *
      * @param {SelectFileFacetAction} action
      * @returns {FileFacetListState}
      */
     public selectTerm(action: SelectFileFacetAction): FileFacetListState {
-        
+
         const facetName = action.event.facetName;
         const termName = action.event.termName;
 
@@ -116,7 +157,7 @@ export class FileFacetListState {
 
         });
 
-        // Update selected file facet - check if user has selected a term from a facet different from the previously 
+        // Update selected file facet - check if user has selected a term from a facet different from the previously
         // selected term and if so, update the selected facet.
         let selectedFacet: FileFacet;
         if (this.selectedFacet && (facet.name === this.selectedFacet.name )) {
@@ -131,47 +172,5 @@ export class FileFacetListState {
         // Return new state of file facet list (ie with newly selected/deselected term and potentially newly selected
         // facet).
         return new FileFacetListState(this.fileFacetNames, m, selectedFacet, this.paginationModel);
-    }
-
-    /**
-     * Create default state of file facet list - empty list of file facets, no selected facets, no pagination state.
-     *
-     * @returns {FileFacetListState}
-     */
-    public static getDefaultState() {
-        return new FileFacetListState([], new Map<string, FileFacet>(), undefined, undefined);
-    }
-
-    /*******************************************
-     * Privates HA HA
-     *******************************************/
-
-    /**
-     * Convert array of facets into a map of facets keyed by facet name.
-     * 
-     * @param {FileFacet[]} fileFacets
-     * @returns {Map<string, FileFacet>}
-     */
-    private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
-
-        const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
-
-        return fileFacets.reduce((acc: Map<string, FileFacet>, value: FileFacet): Map<string, FileFacet> => {
-            acc.set(value.name, value);
-            return acc;
-        }, startValue);
-    }
-
-    /**
-     * Convert array of file facets into an array of file facet names
-     * 
-     * @param {FileFacet[]} fileFacets
-     * @returns {string[]}
-     */
-    private static createFileFacetNames(fileFacets: FileFacet[]): string[] {
-
-        return fileFacets.map((fileFacet) => {
-            return fileFacet.name;
-        });
     }
 }
