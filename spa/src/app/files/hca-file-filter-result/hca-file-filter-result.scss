@@ -19,6 +19,7 @@
         display: flex;
         flex-wrap: wrap;
         margin: -3px;
+        min-height: 26px; /* Placeholder for empty list */
 
         /* List of selected terms - chips */
         .selected-term {
@@ -43,7 +44,7 @@
                 span:first-of-type {
                     font-family: "Montserrat", sans-serif; /* Todo typography */
                     font-size: 11px; /* Todo typography */
-                    font-weight: 500; /* Todo typography */
+                    font-weight: 600; /* Todo typography */
                     letter-spacing: 0.34px; /* Todo typography */
                 }
 

@@ -39,7 +39,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
     filterControl: FormControl = new FormControl();
+    inputFocus = false;
     removable = true;
+    selectIndex: number;
     selectedTermSet: Set<string>;
     store: Store<AppState>;
 
@@ -101,6 +103,79 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         return newFacets.filter(facet => facet.terms.length > 0);
     }
 
+    public getOptionsClass(i) {
+
+        if ( this.selectIndex == i ) {
+            return "hca-options option-" + i;
+        }
+        else {
+            return "hca-options";
+        }
+    }
+
+    /**
+     * Returns class hca-select inputFocus if select box is active.
+     * @param i
+     * @returns {any}
+     */
+    public getSelectClass(i) {
+
+        if ( this.selectIndex == i ) {
+            return "hca-select inputFocus";
+        }
+        else {
+            return "hca-select";
+        }
+
+    }
+
+    /**
+     * HCA input/select field focus.
+     */
+    public onInputFocus() {
+        this.inputFocus = true;
+    }
+
+    /**
+     * HCA show/hide select box.
+     */
+    public onHCASelect(i) {
+        this.selectIndex = i;
+    }
+
+    /**
+     * HCA hide select box on mouse leave.
+     */
+    public onHCASelectClose() {
+        this.selectIndex = 0;
+    }
+
+    /**
+     * Term selected.
+     *
+     * @param {MatAutocompleteSelectedEvent} event
+     */
+    public onTermSelected(event: MatAutocompleteSelectedEvent) {
+
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
+
+        // Clear the filter input.
+        this.filterInput.nativeElement.blur();
+        this.inputFocus = false;
+    }
+
+    /**
+     * Returns options container positioning
+     * @returns {{styles}}
+     */
+    public setStyles(i) {
+        let styles = {
+            "maxWidth": "782px",
+        };
+        return styles;
+    }
+
     /**
      *
      */
@@ -137,26 +212,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             // now filter out any empty facets.
             return facet.terms.length > 0;
         });
-    }
-
-    /**
-     * HCA select field open.
-     */
-    public onHCASelectShowHide() {
-    }
-
-    /**
-     * Term selected.
-     *
-     * @param {MatAutocompleteSelectedEvent} event
-     */
-    public onTermSelected(event: MatAutocompleteSelectedEvent) {
-
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
-
-        // Clear the filter input.
-        this.filterInput.nativeElement.blur();
     }
 
     /**

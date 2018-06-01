@@ -41,7 +41,7 @@
     .facet-term-list {
         max-height: 237.5px; /* For display of 9.5 terms at 237.5px total */
         margin: 14px -8px 0;
-        overflow-y: scroll;
+        overflow-y: scroll; /* Scroll content */
         padding: 0 8px;
     }
 }

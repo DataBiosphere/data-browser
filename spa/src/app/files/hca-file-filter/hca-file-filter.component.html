@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="filter">
         <!-- TODO review use of div, mat-form-field -->
-        <div class="hca-input">
+        <div class="hca-input" [ngClass]="{inputFocus: inputFocus}" (click)="onInputFocus()">
             <input type="text" placeholder="Search" aria-label="Number" matInput
                    [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
@@ -15,26 +15,29 @@
                 </mat-optgroup>
             </mat-autocomplete>
         </div>
-        <div class="hca-select" (click)="onHCASelectShowHide()">
+        <div [ngClass]="getSelectClass(1)" (click)="onHCASelect(1)">
             <span>Organ</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
-            <div class="hca-options">
+            <div [ngClass]="getOptionsClass(1)" [ngStyle]="setStyles(1)" (mouseleave)="onHCASelectClose()">
                 <hca-file-facet [fileFacet]="fileFacet" *ngFor="let fileFacet of fileFacets"></hca-file-facet>
             </div>
         </div>
-        <div class="hca-select">
+        <div [ngClass]="getSelectClass(2)" (click)="onHCASelect(2)">
             <span>Method</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
+            <div [ngClass]="getOptionsClass(2)" [ngStyle]="setStyles(2)" (mouseleave)="onHCASelectClose()">
+                <hca-file-facet [fileFacet]="fileFacet" *ngFor="let fileFacet of fileFacets"></hca-file-facet>
+            </div>
         </div>
-        <div class="hca-select">
+        <div [ngClass]="getSelectClass(3)" (click)="onHCASelect(3)">
             <span>Donor</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
         </div>
-        <div class="hca-select">
+        <div [ngClass]="getSelectClass(4)" (click)="onHCASelect(4)">
             <span>Specimen</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
         </div>
-        <div class="hca-select">
+        <div [ngClass]="getSelectClass(5)" (click)="onHCASelect(5)">
             <span>More</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
         </div>

@@ -29,7 +29,7 @@ import { Term } from "../shared/term.model";
 export class HCAFacetTermListComponent {
 
     // Locals
-    // private fileNameShortenerPipe: FileNameShortenerPipe;
+    private fileNameShortenerPipe: FileNameShortenerPipe;
 
     // Inputs
     @Input() fileFacet: FileFacet;
@@ -43,7 +43,7 @@ export class HCAFacetTermListComponent {
      */
     constructor() {
 
-        // this.fileNameShortenerPipe = new FileNameShortenerPipe();
+        this.fileNameShortenerPipe = new FileNameShortenerPipe();
     }
 
     /**
@@ -61,10 +61,10 @@ export class HCAFacetTermListComponent {
     formatTermName(termName: string): string {
 
         // Truncate term name if file facet is search (file ID or donor ID).
-        // if ( this.fileFacet.isInterfaceTypeSearch() ) {
+        if ( this.fileFacet.isInterfaceTypeSearch() ) {
 
-            // return this.fileNameShortenerPipe.transform(termName);
-        // }
+            return this.fileNameShortenerPipe.transform(termName);
+        }
 
         // Otherwise return term name as is
         return termName;
@@ -78,30 +78,24 @@ export class HCAFacetTermListComponent {
      */
     getLegendStyle(term: Term): any {
 
-        // Default to MD hint if term has no color.
-        let color = "#CCCCCC"
-        if ( !color ) {
-            color = "#CCCCCC";
-        }
-
-        // Both selected and unselected terms have a border
-        let style = {
-            "border-color": color
-        };
-
         // If term is selected, set the background color as well
         if ( term.selected ) {
 
-            style["background-color"] = color;
+            let style = {
+                "border-color": "#1288E4",
+                "background-color": "#1288E4",
+            };
+
+            return style;
+
         }
 
-        return style;
     }
 
     /**
-     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is 
+     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
      * controlled by CSS) and is just an approximation.
-     * 
+     *
      * @param termName {string}
      * @returns {boolean}
      */
@@ -130,9 +124,9 @@ export class HCAFacetTermListComponent {
      */
     public getDisplayList(): Term[] {
 
-        // if ( this.useShortList ) {
-        //     return this.fileFacet.shortList;
-        // }
+        if ( this.useShortList ) {
+            return this.fileFacet.shortList;
+        }
 
         return this.fileFacet.terms;
     }

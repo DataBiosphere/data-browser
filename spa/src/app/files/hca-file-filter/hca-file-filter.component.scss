@@ -37,6 +37,11 @@
         letter-spacing: 0.4px; /* TODO typography */
         margin: 0 4px;
         padding: 0 16px;
+
+        /* Field is open */
+        &.inputFocus {
+            border: 1px solid $hca-primary;
+        }
     }
 
     /* Search input field */
@@ -57,11 +62,6 @@
         position: relative; /* Positions options */
         width: 150px;
 
-        /* Field is open */
-        &.isOpen {
-            border: 1px solid $hca-primary;
-        }
-
         /* Drop down icon */
         mat-icon {
             font-size: 16px;
@@ -75,11 +75,22 @@
             border-radius: 1px;
             box-sizing: border-box;
             display: flex;
+            flex-wrap: wrap; /* TODO review */
             left: 0;
+            max-width: 782px; /* TODO review */
+            min-width: calc(256px * 2 + 14px); /* Facet card 256px + 12px padding + 2px border */
             padding: 6px;
             position: absolute;
-            top: 44px;
+            top: 44px; /* 38px for select field + 6px below select field */
             z-index: 2;
+
+            &:not([class*="option-"]) {
+                display: none;
+            }
+
+            &.option-1 {
+                right: 0;
+            }
         }
     }
 }

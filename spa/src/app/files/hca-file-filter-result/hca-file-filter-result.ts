@@ -48,6 +48,5 @@ export class HCAFileFilterResultComponent {
      */
     removeAllFacets() {
         this.store.dispatch(new ClearSelectedTermsAction());
-        console.log("Remove All Terms");
     }
 }
