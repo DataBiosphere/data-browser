@@ -24,6 +24,11 @@ interface FilterableFacet {
     terms: { termName: string; count: number }[];
 }
 
+interface FacetGroup {
+    facetGroupName: string;
+    facetNames: string[];
+}
+
 @Component({
     selector: "hca-file-filter",
     templateUrl: "./hca-file-filter.component.html",
@@ -36,14 +41,17 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     @Input() selectedFacets: FileFacet[];
 
     // Template variables
+    active = false;
+    facetGroups: FacetGroup[];
+    facetGroupCount: number;
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
     filterControl: FormControl = new FormControl();
-    inputFocus = false;
     removable = true;
     selectIndex: number;
     selectedTermSet: Set<string>;
     store: Store<AppState>;
+    widthSelectBoxes = 782;
 
     // View child/ren
     @ViewChild("filterInput") filterInput: ElementRef;
@@ -53,6 +61,31 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     constructor(store: Store<AppState>) {
         this.store = store;
+
+        this.facetGroups = [
+            {
+                facetGroupName: "Organ",
+                facetNames: ["organ", "organPart"]
+            },
+            {
+                facetGroupName: "Method",
+                facetNames: ["instrumentManufacturerModel"]
+            },
+            {
+                facetGroupName: "Donor",
+                facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
+            },
+            {
+                facetGroupName: "Specimen",
+                facetNames: ["disease"]
+            },
+            {
+                facetGroupName: "More",
+                facetNames: ["project", "protocol", "fileFormat", "laboratory", "preservationMethod", "libraryConstructionApproach"]
+            },
+        ];
+
+        this.facetGroupCount = this.facetGroups.length;
     }
 
     /**
@@ -63,7 +96,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      *
      */
-    public displayFn(ff?: any): string | undefined {
+    public displayFn(ff ?: any): string | undefined {
 
         return ff ? ff.facetName + "-" + ff.termName : undefined;
     }
@@ -106,22 +139,34 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     public getOptionsClass(i) {
 
         if ( this.selectIndex == i ) {
-            return "hca-options option-" + i;
+            return "hca-options";
         }
         else {
-            return "hca-options";
+            return "hca-options hide";
         }
     }
 
     /**
-     * Returns class hca-select inputFocus if select box is active.
+     * Returns the facet given a facet name
+     */
+    public getFacet(facetName: string): FileFacet {
+
+        const fileFacet = this.fileFacets.find(function (fileFacet) {
+            return fileFacet.name === facetName;
+        });
+
+        return fileFacet;
+    }
+
+    /**
+     * Returns class hca-select active if select box is active.
      * @param i
      * @returns {any}
      */
     public getSelectClass(i) {
 
         if ( this.selectIndex == i ) {
-            return "hca-select inputFocus";
+            return "hca-select active";
         }
         else {
             return "hca-select";
@@ -130,14 +175,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * HCA input/select field focus.
-     */
-    public onInputFocus() {
-        this.inputFocus = true;
-    }
-
-    /**
-     * HCA show/hide select box.
+     * HCA show select box.
      */
     public onHCASelect(i) {
         this.selectIndex = i;
@@ -147,7 +185,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * HCA hide select box on mouse leave.
      */
     public onHCASelectClose() {
-        this.selectIndex = 0;
+        this.selectIndex = null;
     }
 
     /**
@@ -162,18 +200,44 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
         // Clear the filter input.
         this.filterInput.nativeElement.blur();
-        this.inputFocus = false;
     }
 
     /**
      * Returns options container positioning
      * @returns {{styles}}
      */
-    public setStyles(i) {
-        let styles = {
-            "maxWidth": "782px",
-        };
-        return styles;
+    public setStyles(i, numberOfFacets) {
+
+        let widthRequired = numberOfFacets * 256 + 14;
+        let allowableWidth = (this.widthSelectBoxes - (158 * i));
+        let right = (158 * (this.facetGroupCount - 1 - i));
+
+        if ( widthRequired > allowableWidth ) {
+
+            if ( widthRequired > this.widthSelectBoxes ) {
+                widthRequired = this.widthSelectBoxes;
+            }
+
+            let style = {
+                "left": "unset",
+                "maxWidth": (this.widthSelectBoxes + "px"),
+                "minWidth": (widthRequired + "px"),
+                "right": (-right + "px")
+            };
+
+            return style;
+        }
+        else {
+
+            let style = {
+                "left": "0",
+                "maxWidth": (allowableWidth + "px"),
+                "minWidth": (widthRequired + "px"),
+                "right": "unset"
+            };
+
+            return style;
+        }
     }
 
     /**

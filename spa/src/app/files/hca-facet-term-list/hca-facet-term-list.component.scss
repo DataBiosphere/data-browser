@@ -13,16 +13,17 @@
         align-items: start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line) 
         cursor: pointer;
         padding: 6px 0;
-        width: 100%; // Overrides any flex wrap on terms for small cards
+        //width: 100%; // Overrides any flex wrap on terms for small cards
 
         /* Select box */
         .chart-legend-bar {
             border: 1px solid $hca-gray-light;
             border-radius: 3px;
-            flex-basis: 13px;
+            flex-shrink: 0;
             height: 13px;
             margin-right: 8px;
             position: relative; /* Positions check */
+            width: 13px;
 
             /* Check */
             mat-icon {
@@ -42,20 +43,24 @@
             display: flex; // Spit title and count (with justify-content) to be left and right aligned
             flex: 1; // Always set term and count to consume remaining space (excluding checkbox)
             justify-content: space-between;
-            //overflow: hidden;
+            min-width: 0; /* Fix ellipses bleeding into count Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/) */
 
+            /* Term name */
             .term-name {
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px;
                 flex: 1; // Always title to consume remaining space (excluding count)
-                //line-height: 17px; // Add 1px extra line height over default, for multi-line term names
-                //min-width: 0; // Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/)
-                /** Truncate long term names */
-                //overflow: hidden;
-                //text-overflow: ellipsis;
-                //white-space: nowrap;
+                flex-shrink: 1;
+
+                /** Truncate long term names - where term names are not spaced */
+                &.truncate {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             }
 
+            /* Term count */
             .term-count {
                 color: $hca-gray-medium;
                 font-family: "Montserrat", sans-serif; /* TODO typography */

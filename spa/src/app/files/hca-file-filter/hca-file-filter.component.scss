@@ -38,8 +38,8 @@
         margin: 0 4px;
         padding: 0 16px;
 
-        /* Field is open */
-        &.inputFocus {
+        /* Field is on focus */
+        &:focus, &.active {
             border: 1px solid $hca-primary;
         }
     }
@@ -50,7 +50,7 @@
 
         /* Input field */
         input {
-            color: $hca-black;
+            color: $hca-black; /* TODO review input field colour */
         }
     }
 
@@ -69,6 +69,7 @@
             width: 16px;
         }
 
+        /* Select options */
         .hca-options {
             background-color: $hca-white;
             border: 1px solid $hca-gray-light;
@@ -76,36 +77,43 @@
             box-sizing: border-box;
             display: flex;
             flex-wrap: wrap; /* TODO review */
-            left: 0;
-            max-width: 782px; /* TODO review */
-            min-width: calc(256px * 2 + 14px); /* Facet card 256px + 12px padding + 2px border */
             padding: 6px;
             position: absolute;
             top: 44px; /* 38px for select field + 6px below select field */
-            z-index: 2;
+            z-index: 11;
 
-            &:not([class*="option-"]) {
+            &.hide {
                 display: none;
-            }
-
-            &.option-1 {
-                right: 0;
             }
         }
     }
 }
 
+/* Select overlay */
+.hca-select-overlay {
+    background-color: transparent;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 10; /* z-index < hca-options */
+}
+
 /* mat-option panel */
 // TODO deep deprecated
 /deep/ .mat-autocomplete-panel {
-    margin: 14px -16px; /* Panel to take up full width + opens below search box */
+    border: 1px solid $hca-gray-light;
+    box-shadow: 0 2px 4px 0 $hca-gray-light !important;
+    margin: 6px 0; /* Panel to take up full width + opens below search box */
 }
 
 /* mat-optgroup-label */
 // TODO deep deprecated
 /deep/ .mat-optgroup-label {
+    color: $hca-gray-light;
     font-family: "Montserrat", sans-serif; /* TODO typography */
-    font-size: 13px; /* TODO typography */
+    font-size: 10px; /* TODO typography */
     font-weight: 600; /* TODO typography */
 }
 
@@ -113,7 +121,7 @@
 // TODO deep deprecated
 /deep/ .mat-option {
     font-family: "Montserrat", sans-serif; /* TODO typography */
-    font-size: 13px; /* TODO typography */
+    font-size: 14px; /* TODO typography */
 
     /* mat-option flex between term and count */
     > span {
@@ -127,11 +135,6 @@
             padding-right: 4px;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }
-
-        /* Term count */
-        > span:nth-of-type(2) {
-            color: $hca-gray-medium;
         }
     }
 }

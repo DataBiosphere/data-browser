@@ -93,6 +93,18 @@ export class HCAFacetTermListComponent {
     }
 
     /**
+     * Returns class truncate if fileFacet is protocol
+     * @param fileFacetName
+     * @returns {string}
+     */
+    public getTruncatedClass(fileFacetName) {
+
+        if ( fileFacetName === "protocol" ) {
+            return "truncate";
+        }
+    }
+
+    /**
      * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
      * controlled by CSS) and is just an approximation.
      *

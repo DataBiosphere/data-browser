@@ -1,45 +1,30 @@
 <div class="wrapper">
     <div class="filter">
         <!-- TODO review use of div, mat-form-field -->
-        <div class="hca-input" [ngClass]="{inputFocus: inputFocus}" (click)="onInputFocus()">
-            <input type="text" placeholder="Search" aria-label="Number" matInput
-                   [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
-                              [displayWith]="displayFn">
-                <mat-optgroup *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
-                              [disabled]="facet.disabled">
-                    <mat-option *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
-                        <span>{{term.termName}}</span>
-                        <span>{{term.count}}</span>
-                    </mat-option>
-                </mat-optgroup>
-            </mat-autocomplete>
-        </div>
-        <div [ngClass]="getSelectClass(1)" (click)="onHCASelect(1)">
-            <span>Organ</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-            <div [ngClass]="getOptionsClass(1)" [ngStyle]="setStyles(1)" (mouseleave)="onHCASelectClose()">
-                <hca-file-facet [fileFacet]="fileFacet" *ngFor="let fileFacet of fileFacets"></hca-file-facet>
+        <input class="hca-input" type="text" placeholder="Search" aria-label="Number" matInput
+               [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
+                          [displayWith]="displayFn">
+            <mat-optgroup *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
+                          [disabled]="facet.disabled">
+                <mat-option *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
+                    <span>{{term.termName}}</span>
+                    <span>{{term.count}}</span>
+                </mat-option>
+            </mat-optgroup>
+        </mat-autocomplete>
+        <ng-container *ngFor="let facetGroup of facetGroups; let i = index">
+            <div [ngClass]="getSelectClass(i)" (click)="onHCASelect(i)">
+                <span>{{facetGroup.facetGroupName}}</span>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+                <ng-container *ngIf="fileFacets.length">
+                    <div [ngClass]="getOptionsClass(i)" [ngStyle]="setStyles(i, facetGroup.facetNames.length)" (mouseleave)="onHCASelectClose()">
+                        <hca-file-facet [fileFacet]="getFacet(facetName)"
+                                        *ngFor="let facetName of facetGroup.facetNames"></hca-file-facet>
+                    </div>
+                </ng-container>
             </div>
-        </div>
-        <div [ngClass]="getSelectClass(2)" (click)="onHCASelect(2)">
-            <span>Method</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-            <div [ngClass]="getOptionsClass(2)" [ngStyle]="setStyles(2)" (mouseleave)="onHCASelectClose()">
-                <hca-file-facet [fileFacet]="fileFacet" *ngFor="let fileFacet of fileFacets"></hca-file-facet>
-            </div>
-        </div>
-        <div [ngClass]="getSelectClass(3)" (click)="onHCASelect(3)">
-            <span>Donor</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-        </div>
-        <div [ngClass]="getSelectClass(4)" (click)="onHCASelect(4)">
-            <span>Specimen</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-        </div>
-        <div [ngClass]="getSelectClass(5)" (click)="onHCASelect(5)">
-            <span>More</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-        </div>
+        </ng-container>
     </div>
 </div>
+<div *ngIf="selectIndex != null" class="hca-select-overlay" (click)="onHCASelectClose()"></div>
