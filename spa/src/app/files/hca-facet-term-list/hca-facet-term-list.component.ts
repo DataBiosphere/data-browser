@@ -80,6 +80,7 @@ export class HCAFacetTermListComponent {
 
         // If term is selected, set the background color as well
         if ( term.selected ) {
+            console.log("inside if term selected" + term.name + term.selected);
 
             let style = {
                 "border-color": "#1F6B9A",
@@ -123,10 +124,11 @@ export class HCAFacetTermListComponent {
      * @param term {Term}
      */
     onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
-        console.log(fileFacet.name, term.name);
 
         // Update facet state
         this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
+
+        console.log("update facet state", term.selected);
     }
 
     /**

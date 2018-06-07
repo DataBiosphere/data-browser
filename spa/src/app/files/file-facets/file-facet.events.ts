@@ -15,6 +15,5 @@ export class FileFacetSelectedEvent {
         public readonly facetName: string,
         public readonly termName: string,
         public readonly selected = true) {
-
     }
 }

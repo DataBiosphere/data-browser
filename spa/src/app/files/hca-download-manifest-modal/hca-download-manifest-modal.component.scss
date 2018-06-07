@@ -19,7 +19,7 @@
 
     /* Title and subtitle */
     > div:first-of-type {
-        padding: 16px;
+        padding: 24px;
 
         > span {
             display: block;
@@ -48,7 +48,7 @@
         display: flex;
         flex: 1;
         justify-content: flex-start;
-        padding: 0 16px;
+        padding: 0 24px;
 
         /* Summary and count */
         > div {

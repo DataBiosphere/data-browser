@@ -54,14 +54,9 @@ export class HCAFileSummaryComponent {
     onDownloadManifest(): void {
 
         const dialogRef = this.dialog.open(HCADownloadManifestModalComponent, {
-            // width: "250px",
             backdropClass: "hca-form-backdrop",
             disableClose: false,
-            height: "calc(100vh - 60px)",
-            maxWidth: "100vw",
             panelClass: "hca-form-dialog",
-            position: {top: "60px"},
-            width: "100vw",
             data: { summary: this.summary, fileFacets: this.fileFacets, selectedFacets: this.selectedFacets}
         });
 

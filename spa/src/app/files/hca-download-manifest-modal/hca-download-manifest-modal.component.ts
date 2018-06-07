@@ -11,11 +11,6 @@ import { FileSummary } from "../file-summary/file-summary";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 
-
-interface FacetGroup {
-    facetNames: string[];
-}
-
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
     styleUrls: ["./hca-download-manifest-modal.component.scss"]
