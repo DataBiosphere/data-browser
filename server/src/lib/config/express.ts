@@ -52,22 +52,22 @@ export const expressConfig = (app: Application) => {
     /**
      * STAGE/PROD
      */
-    // if (app.get("env") === "stage" || app.get("env") === "production") {
+    if (app.get("env") === "stage" || app.get("env") === "production") {
 
-    // // Force HTTPS
-    // app.use((req: Req, res: Res, next: Next) => {
-    //     if ((!req.secure) && (req.get("X-Forwarded-Proto") !== "https")) {
-    //
-    //         res.redirect("https://" + req.get("Host") + req.url);
-    //     }
-    //     else {
-    //         next();
-    //     }
-    // });
+    // Force HTTPS
+    app.use((req: Req, res: Res, next: Next) => {
+        if ((!req.secure) && (req.get("X-Forwarded-Proto") !== "https")) {
+
+            res.redirect("https://" + req.get("Host") + req.url);
+        }
+        else {
+            next();
+        }
+    });
 
     // app.use(favicon(path.join(config.root, "dist", "favicon.ico")));
 
-    // }
+    }
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
