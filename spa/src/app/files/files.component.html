@@ -6,13 +6,16 @@
             [fileFacets]="fileFacets$ | async">
     </hca-file-filter-wrapper>
     <hca-tab></hca-tab>
-    <hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>
+    <hca-file-summary [summary]="selectFileSummary$ | async"
+                      [selectedFacets]="selectedFileFacets$ | async"
+                      [fileFacets]="fileFacets$ | async">
+    </hca-file-summary>
     <!--<button class="cgl-fab hca-fab"-->
-            <!--mat-fab-->
-            <!--matTooltip="Download Manifest"-->
-            <!--[matTooltipPosition]="'before'"-->
-            <!--(click)="onDownloadManifest()">-->
-        <!--<mat-icon>file_download</mat-icon>-->
+    <!--mat-fab-->
+    <!--matTooltip="Download Manifest"-->
+    <!--[matTooltipPosition]="'before'"-->
+    <!--(click)="onDownloadManifest()">-->
+    <!--<mat-icon>file_download</mat-icon>-->
     <!--</button>-->
     <hca-table></hca-table>
 </div>

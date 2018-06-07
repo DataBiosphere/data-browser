@@ -15,8 +15,11 @@ import { AppState } from "../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { FileFacet } from "../shared/file-facet.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-manifest-summary.actions";
+import { HCADownloadManifestModalComponent } from "../hca-download-manifest-modal/hca-download-manifest-modal.component";
+import { MatDialog } from "@angular/material";
 
 @Component({
     selector: "hca-file-summary",
@@ -31,21 +34,42 @@ export class HCAFileSummaryComponent {
     private store: Store<AppState>;
 
     // Inputs
+    @Input() fileFacets: FileFacet[];
+    @Input() selectedFacets: FileFacet[];
     @Input() summary: FileSummary;
 
     /**
      * @param route {ActivatedRoute}
      * @param store {Store<AppState>}
      */
-    constructor(store: Store<AppState>) {
+    constructor(store: Store<AppState>,
+                public dialog: MatDialog) {
         this.store = store;
     }
 
     /**
-     * Dispatch action to download manifest summary.
+     * Open dialog to download manifest summary.
+     *
      */
-    public onDownloadManifest() {
+    onDownloadManifest(): void {
 
-        this.store.dispatch(new DownloadFileManifestAction());
+        const dialogRef = this.dialog.open(HCADownloadManifestModalComponent, {
+            // width: "250px",
+            backdropClass: "hca-form-backdrop",
+            disableClose: false,
+            height: "calc(100vh - 60px)",
+            maxWidth: "100vw",
+            panelClass: "hca-form-dialog",
+            position: {top: "60px"},
+            width: "100vw",
+            data: { summary: this.summary, fileFacets: this.fileFacets, selectedFacets: this.selectedFacets}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log("Case is cancelled");
+                // this.isCaseCancelled(result);
+            }
+        });
     }
 }

@@ -20,12 +20,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.fileName, display15)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.fileName}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.fileName}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.fileName}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -38,12 +38,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display12)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.biomaterial}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.biomaterial}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.biomaterial}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -56,12 +56,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.organ, display12)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.organ}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.organ}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organ}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.organ}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organ}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -74,12 +74,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.organPart, display12)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.organPart}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.organPart}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organPart}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.organPart}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organPart}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -92,13 +92,13 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.libraryConstruction, display12)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.libraryConstruction}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.libraryConstruction}}</span>
-                        <span *ngSwitchDefault matTooltip
-                              [matTooltipDisabled]="true">{{element.libraryConstruction}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.libraryConstruction}}</div>
+                        <div *ngSwitchDefault matTooltip
+                              [matTooltipDisabled]="true">{{element.libraryConstruction}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -112,12 +112,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.species, display10)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.species}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.species}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.species}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.species}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.species}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -130,12 +130,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.age, display5)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.age}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.age}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.age}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -148,12 +148,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.ageUnit, display5)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.ageUnit}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.ageUnit}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.ageUnit}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.ageUnit}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.ageUnit}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -166,12 +166,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.sex, display5)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.sex}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.sex}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.sex}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.sex}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.sex}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -184,12 +184,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.diseased, display10)">
-                            <span *ngSwitchCase="true"
+                            <div *ngSwitchCase="true"
                                   matTooltip="{{element.diseased}}"
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="500"
-                                  matTooltipClass="hca-tooltip">{{element.diseased}}</span>
-                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.diseased}}</span>
+                                  matTooltipClass="hca-tooltip">{{element.diseased}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.diseased}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>

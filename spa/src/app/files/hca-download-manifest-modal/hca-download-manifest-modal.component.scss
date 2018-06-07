@@ -1,0 +1,114 @@
+/**
+ * Medtel
+ * https://medtel.com
+ *
+ * Styles for HCA download manifest dialog.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Download container */
+.hca-download, .hca-download.instructions {
+    border: 1px solid rgba($hca-gray-medium, 0.5);
+    box-shadow: 0 2px 4px 0 $hca-gray-light;
+    box-sizing: border-box;
+    width: 450px;
+
+    &.hide {
+        display: none;
+    }
+
+    /* Title and subtitle */
+    > div:first-of-type {
+        padding: 16px;
+
+        > span {
+            display: block;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+        }
+
+        /* Title */
+        > span:first-of-type {
+            font-size: 22px; /* TODO typography */
+            font-weight: 600; /* TODO typography */
+            line-height: 30px; /* TODO typography */
+        }
+
+        /* Sub-title */
+        > span:last-of-type {
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 14px; /* TODO typography */
+            font-weight: 500; /* TODO typography */
+            line-height: 24px; /* TODO typography */
+        }
+    }
+
+    /* File Summary */
+    .file-summary {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
+        padding: 0 16px;
+
+        /* Summary and count */
+        > div {
+            display: flex;
+            margin-left: -12px;
+            padding: 0 8px;
+
+            /* Font style for summary and count */
+            > span {
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 11px; /* TODO typography */
+                font-weight: 600; /* TODO typography */
+                padding: 0 4px;
+                text-transform: capitalize;
+
+                /* Count */
+                &:last-of-type {
+                    color: $hca-gray-medium;
+                    font-weight: 400; /* TODO typography */
+                }
+            }
+        }
+    }
+
+    /* Content - list of terms */
+    .hca-card-content {
+        padding: 24px 0 40px;
+
+        /* Facet term list - container */
+        .facet-term-list {
+            padding: 0 48px;
+        }
+    }
+
+    /* Action */
+    .hca-card-action {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 24px;
+
+        /* Download button */
+        button {
+            background-color: $hca-primary;
+            color: $hca-white;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 14px; /* TODO typography */
+            font-weight: 500; /* TODO typography */
+            height: 38px; /* HCA specific style */
+            padding: 0 9px;
+        }
+
+        /* File size */
+        .file-size {
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 14px; /* TODO typography */
+            font-weight: 400; /* TODO typography */
+            padding: 12px 16px;
+        }
+    }
+}
+

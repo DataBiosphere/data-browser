@@ -17,6 +17,7 @@
 mat-toolbar {
 
     background-color: $hca-off-white;
+    min-height: 60px; /* HCA specific */
     position: relative;
 
     mat-toolbar-row {
@@ -25,7 +26,7 @@ mat-toolbar {
         justify-content: space-between;
         margin: 0 auto;
         max-width: 1200px; /* Snap to 1200px */
-        padding: 0 18px; /* Gutter 18px */
+        padding: 0 30px; /* Gutter 30px */
     }
 
     // Menu is hidden by default

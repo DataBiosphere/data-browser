@@ -7,7 +7,6 @@
  *
  * Theme based on instructions found at: https://github.com/angular/material2/blob/master/docs/theming.md
  */
-
 @import "~@angular/material/theming";
 
 // Include the base styles for Angular Material core. We include this here so that you only
@@ -17,8 +16,8 @@
 // Palettes definitions for theme using the Material Design palettes available in palette.scss
 // (imported above).
 $app-primary: mat-palette($mat-blue);
-$app-accent:  mat-palette($mat-light-blue, A200, A100, A400);
-$app-warn:    mat-palette($mat-red);
+$app-accent: mat-palette($mat-light-blue, A200, A100, A400);
+$app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
@@ -38,6 +37,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     font-weight: 500; /* TODO typography */
     letter-spacing: 0.18px; /* TODO typography */
     line-height: 16px; /* TODO typography */
+    max-width: none !important;
     padding: 8px;
     position: relative; /* Positions tooltip arrow */
     z-index: 3;
@@ -61,3 +61,19 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
         max-width: 152px;
     }
 }
+
+/* Overrides styles for Angular Material Dialog (backdrop) */
+.hca-form-backdrop {
+    opacity: 0 !important;
+    background-color: #ffffff;
+}
+
+/* Overrides styles for Angular Material Dialog (mat-dialog-container) */
+.hca-form-dialog .mat-dialog-container {
+    box-shadow: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+

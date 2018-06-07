@@ -1,0 +1,45 @@
+<div class="hca-download" [ngClass]="getDownloadClass(1)">
+    <div>
+        <span>Download Manifest for these files</span>
+        <span>You can download the files using the HCA CLI.</span>
+    </div>
+    <div class="file-summary">
+        <div>
+            <span>Projects</span>
+            <span>{{data.summary.projectCount | localeString}}</span>
+        </div>
+        <div>
+            <span>Organs</span>
+            <span>{{data.summary.organCounts | localeString}}</span>
+        </div>
+        <div>
+            <span>Biomaterials</span>
+            <span>{{data.summary.biomaterialCount | localeString}}</span>
+        </div>
+        <div>
+            <span>Files</span>
+            <span>{{data.summary.fileCount | localeString}}</span>
+        </div>
+    </div>
+    <ng-container *ngIf="fileFacets.length">
+        <div class="hca-card-content">
+            <div class="facet-term-list">
+                <hca-facet-term-list [fileFacet]="getFacet(facetName)"
+                                     (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
+            </div>
+        </div>
+    </ng-container>
+    <div class="hca-card-action">
+        <button mat-button mat-raised-button type="button" (click)="onDownloadManifest()">Download Manifest</button>
+        <div class="file-size">These files are {{data.summary.totalFileSize | fileSize}} of data, from the HCA CLI</div>
+    </div>
+</div>
+<div class="hca-download instructions" [ngClass]="getDownloadClass(2)">
+    <div>
+        <span>Congrats! You’ve downloaded the manifest!</span>
+        <span>Find instructions on how to download the files here:</span>
+    </div>
+    <div class="hca-card-action">
+        <button mat-button mat-raised-button type="button" (click)="onGetInstructions()">Get Download Instructions</button>
+    </div>
+</div>

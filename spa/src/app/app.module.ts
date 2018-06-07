@@ -1,7 +1,7 @@
 /**
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
- * 
+ *
  * Code app module definition - imports shared and config modules as well as all app specific modules that must either
  * be eager-loaded or contain app-wide singleton services.
  */
@@ -59,7 +59,7 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         // CHILD MODULES SETUP
         ConfigModule,
         FilesModule,
-     //   TableModule,
+        //   TableModule,
         CCSnapperModule
     ],
     declarations: [
@@ -75,7 +75,7 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         CCHamburgerDirective,
         CGLSubnavComponent,
         CGLToolbarComponent,
-        
+
         // Components specific to Boardwalk instances
         HCAToolbarComponent,
         HCAFooterComponent

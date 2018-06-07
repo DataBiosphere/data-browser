@@ -59,6 +59,7 @@ import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
+import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
 
 @NgModule({
     imports: [
@@ -107,6 +108,7 @@ import { FilesService } from "./shared/files.service";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
+        HCADownloadManifestModalComponent,
         HCAExploreComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,
@@ -121,11 +123,17 @@ import { FilesService } from "./shared/files.service";
         // Components specific to Boardwalk instances
         HCAFileSummaryComponent
     ],
+    exports: [
+        HCADownloadManifestModalComponent
+    ],
     providers: [
         ConfigService,
         FilesService,
         FilesDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
+    ],
+    entryComponents: [
+        HCADownloadManifestModalComponent,
     ]
 })
 export class FilesModule {
