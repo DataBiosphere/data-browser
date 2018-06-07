@@ -106,6 +106,7 @@
     border: 1px solid $hca-gray-light;
     box-shadow: 0 2px 4px 0 $hca-gray-light !important;
     margin: 6px 0; /* Panel to take up full width + opens below search box */
+    padding: 8px 16px 12px; /* Override MD spec */
 }
 
 /* mat-optgroup-label */
@@ -115,6 +116,10 @@
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 10px; /* TODO typography */
     font-weight: 600; /* TODO typography */
+    height: unset !important; /* Override MD spec */
+    letter-spacing: 0.83px; /* TODO typography */
+    line-height: unset !important; /* Override MD spec */
+    padding: 4px 0 !important; /* Override MD spec */
 }
 
 /* mat-option list */
@@ -122,6 +127,10 @@
 /deep/ .mat-option {
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 14px; /* TODO typography */
+    height: unset !important; /* Override MD spec */
+    letter-spacing: 0.43px; /* TODO typography */
+    line-height: unset !important; /* Override MD spec */
+    padding: 0 0 12px !important; /* Override MD spec */
 
     /* mat-option flex between term and count */
     > span {
