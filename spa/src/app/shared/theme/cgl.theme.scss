@@ -28,3 +28,36 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // Include global CGL styles.
 @import "cgl.global";
+
+/* Overrides styles for Angular Material Tooltip (mat-tooltip) */
+/* HCA tooltip */
+.hca-tooltip {
+    background: $hca-black;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 12px; /* TODO typography */
+    font-weight: 500; /* TODO typography */
+    letter-spacing: 0.18px; /* TODO typography */
+    line-height: 16px; /* TODO typography */
+    padding: 8px;
+    position: relative; /* Positions tooltip arrow */
+    z-index: 3;
+
+    /* Tooltip arrow */
+    &:before {
+        background-color: $hca-black;
+        content: "";
+        display: block;
+        height: 10px;
+        left: 50%;
+        position: absolute;
+        top: 0;
+        transform: rotate(45deg) translateX(-50%);
+        width: 10px;
+        z-index: 2;
+    }
+
+    /* Wrap text */
+    &.narrow {
+        max-width: 152px;
+    }
+}

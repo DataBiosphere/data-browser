@@ -24,6 +24,10 @@ import { PaginationModel } from "../table/pagination.model";
 })
 export class HCATableComponent implements OnInit {
 
+    display10 = 13;
+    display12 = 16;
+    display15 = 22;
+    display5 = 7;
     displayedColumns = [
         "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age",
         "ageUnit", "sex", "diseased"
@@ -34,6 +38,7 @@ export class HCATableComponent implements OnInit {
     selectedPage = 10;
     pageValue: number;
     pageError: boolean;
+
     // Locals
     private store: Store<AppState>;
 
@@ -49,13 +54,31 @@ export class HCATableComponent implements OnInit {
      */
 
     /**
+     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
+     * controlled by CSS) and is just an approximation.
+     *
+     * @param termName {string}
+     * @param length {number}
+     * @returns {boolean}
+     */
+    public isTermNameTruncated(termName: string, length: number): boolean {
+
+        if ( termName ) {
+            return termName.length > length;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * Called when table next page selected.
      *
      * @param {PaginationModel} pm
      */
     public nextPageSelected(pm: PaginationModel) {
 
-        if (!this.hasNext(pm)) {
+        if ( !this.hasNext(pm) ) {
             return;
         }
 
@@ -75,7 +98,7 @@ export class HCATableComponent implements OnInit {
     public previousPageSelected(pm: PaginationModel) {
 
 
-        if (!this.hasPrevious(pm)) {
+        if ( !this.hasPrevious(pm) ) {
             return;
         }
 
@@ -101,7 +124,7 @@ export class HCATableComponent implements OnInit {
         this.pageError = false;
 
         /* Prevent error on page number */
-        if (pageNumber > pageCount || !pageNumber || pageNumber <= 0) {
+        if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
             this.pageError = true;
             pageNumber = 1;
         }
@@ -166,7 +189,7 @@ export class HCATableComponent implements OnInit {
      */
     getToIndex(pm: PaginationModel): number {
         let to: number = pm.from + (pm.size - 1);
-        if (to <= pm.total) {
+        if ( to <= pm.total ) {
             return to;
         }
         else {
@@ -199,7 +222,7 @@ export class HCATableComponent implements OnInit {
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for (let i = 1; i <= pageCount; i++) {
+        for ( let i = 1; i <= pageCount; i++ ) {
             pages.push(i);
         }
 
@@ -332,7 +355,7 @@ class TableElementDataSource extends DataSource<any> {
     rollUpMetadata(array): any {
 
         // if the array is empty we have no values.
-        if (!array) {
+        if ( !array ) {
             return {};
         }
 
@@ -344,18 +367,18 @@ class TableElementDataSource extends DataSource<any> {
                 let value = element[key];
 
                 // skip null values
-                if (value) {
+                if ( value ) {
 
                     // flatten arrays
-                    if (value instanceof Array) {
+                    if ( value instanceof Array ) {
                         value = value.join(",");
                     }
 
                     // if the value is different from an existing key...
                     const cellValues = acc[key] ? acc[key].split(",") : [];
 
-                    if (cellValues.length) {
-                        if (!cellValues.some(cellValue => cellValue === value)) {
+                    if ( cellValues.length ) {
+                        if ( !cellValues.some(cellValue => cellValue === value) ) {
                             // apend the value to the existing key
                             acc[key] = acc[key] + ", " + value;
                         }

@@ -12,44 +12,186 @@
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="fileName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>File Name</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.fileName}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="File name"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">File Name</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.fileName, display15)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.fileName}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.fileName}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="biomaterial">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Biomaterial Id</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.biomaterial}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Biomaterial Id"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Biomaterial Id</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display12)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.biomaterial}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.biomaterial}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="organ">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Organ</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.organ}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Organ</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organ, display12)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.organ}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.organ}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organ}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="organPart">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Organ Part</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.organPart}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="A term for a specific part of the organ that the biomaterial came from."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Organ Part</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organPart, display12)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.organPart}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.organPart}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organPart}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="libraryConstruction">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Library Construction</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.libraryConstruction}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Library Construction"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Library Construction</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.libraryConstruction, display12)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.libraryConstruction}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.libraryConstruction}}</span>
+                        <span *ngSwitchDefault matTooltip
+                              [matTooltipDisabled]="true">{{element.libraryConstruction}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="species">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Species</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.species}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Species"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Species
+                    </span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.species, display10)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.species}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.species}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.species}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="age">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Age</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.age}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Age in age_units. Measured since birth."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Age</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.age, display5)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.age}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.age}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="ageUnit">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Age Unit</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.ageUnit}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The unit in which age is expressed. Must be one of hour, day, week, month, or year."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Age Unit</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.ageUnit, display5)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.ageUnit}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.ageUnit}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.ageUnit}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="sex">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Sex</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.sex}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The biological sex of the organism. Should be one of male, female, mixed, or unknown."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Sex</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.sex, display5)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.sex}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.sex}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.sex}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="diseased">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Diseased</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.diseased}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Disease on the specimen level"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Diseased</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.diseased, display10)">
+                            <span *ngSwitchCase="true"
+                                  matTooltip="{{element.diseased}}"
+                                  matTooltipPosition="below"
+                                  matTooltipShowDelay="500"
+                                  matTooltipClass="hca-tooltip">{{element.diseased}}</span>
+                        <span *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.diseased}}</span>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

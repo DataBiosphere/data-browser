@@ -22,7 +22,11 @@
                 <span>{{summary.totalFileSize | fileSize}}</span>
             </div>
         </div>
-        <button mat-raised-button (click)="onDownloadManifest()">
+        <button mat-raised-button (click)="onDownloadManifest()"
+                matTooltip="Choose files to download as a manifest"
+                matTooltipPosition="below"
+                matTooltipShowDelay="500"
+                matTooltipClass="hca-tooltip narrow">
             <img class="spacer" src="../../../assets/images/icon/hca-download-white.png"/>
             <span class="spacer">Download</span>
         </button>

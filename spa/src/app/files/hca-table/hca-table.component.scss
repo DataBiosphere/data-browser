@@ -67,6 +67,7 @@
                 font-size: 13px; /* TODO typography */
                 font-weight: 500; /* TODO typography */
                 letter-spacing: 0.36px; /* TODO typography */
+                line-height: 18px; /* TODO typography */
             }
 
             mat-cell {
@@ -74,6 +75,7 @@
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px; /* TODO typography */
                 font-weight: 400; /* TODO typography */
+                line-height: 18px; /* TODO typography */
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -150,6 +152,7 @@
 
                 /* Table header text alignment */
                 /deep/ .mat-sort-header-button {
+                    line-height: 18px; /* TODO typography */
                     text-align: left !important;
                 }
             }
