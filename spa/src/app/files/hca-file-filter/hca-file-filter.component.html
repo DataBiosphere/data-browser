@@ -5,9 +5,9 @@
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                           [displayWith]="displayFn">
-            <mat-optgroup *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
+            <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName"
                           [disabled]="facet.disabled">
-                <mat-option *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
+                <mat-option class="hca-option" *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
                     <span>{{term.termName}}</span>
                     <span>{{term.count}}</span>
                 </mat-option>

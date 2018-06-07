@@ -111,25 +111,25 @@
 
 /* mat-optgroup-label */
 // TODO deep deprecated
-/deep/ .mat-optgroup-label {
+/deep/ .hca-optgroup .mat-optgroup-label {
     color: $hca-gray-light;
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 10px; /* TODO typography */
     font-weight: 600; /* TODO typography */
-    height: unset !important; /* Override MD spec */
+    height: unset; /* Override MD spec */
     letter-spacing: 0.83px; /* TODO typography */
-    line-height: 20px !important; /* Override MD spec */
-    padding: 4px 0 !important; /* Override MD spec */
+    line-height: 20px; /* Override MD spec */
+    padding: 4px 0; /* Override MD spec */
 }
 
 /* mat-option list */
 // TODO deep deprecated
-/deep/ .mat-option {
+/deep/ .mat-option.hca-option {
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 14px; /* TODO typography */
-    height: unset !important; /* Override MD spec */
+    height: unset; /* Override MD spec */
     letter-spacing: 0.43px; /* TODO typography */
-    line-height: 18px !important; /* Override MD spec */
+    line-height: 18px; /* Override MD spec */
     min-height: 26px;
     padding: 4px 0 !important; /* Override MD spec */
 
