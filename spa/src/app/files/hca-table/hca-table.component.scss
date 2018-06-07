@@ -64,16 +64,19 @@
             mat-header-cell {
                 color: $hca-black;
                 font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
+                font-size: 13px; /* TODO typography */
                 font-weight: 500; /* TODO typography */
                 letter-spacing: 0.36px; /* TODO typography */
             }
 
             mat-cell {
-                color: $hca-gray-darkest;
+                color: $hca-gray-dark;
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px; /* TODO typography */
                 font-weight: 400; /* TODO typography */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
 
                 /* File Name */
                 &:first-of-type {
@@ -84,6 +87,7 @@
 
                 /* Bio Material */
                 &:nth-of-type(2) {
+                    color: $hca-gray-darkest;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
@@ -96,27 +100,27 @@
 
                 /* File Name */
                 &:first-of-type {
-                    width: calc(20% - 8px); /* 8px for left and right padding */
+                    width: calc(15% - 8px); /* 8px for left and right padding */
                 }
 
                 /* Bio Material */
                 &:nth-of-type(2) {
-                    width: calc(10% - 8px);
+                    width: calc(12.5% - 8px);
                 }
 
                 /* Organ */
                 &:nth-of-type(3) {
-                    width: calc(10% - 8px);
+                    width: calc(12.5% - 8px);
                 }
 
                 /* Organ Part */
                 &:nth-of-type(4) {
-                    width: calc(15% - 8px);
+                    width: calc(12.5% - 8px);
                 }
 
                 /* Library construction */
                 &:nth-of-type(5) {
-                    width: calc(10% - 8px);
+                    width: calc(12.5% - 8px);
                 }
 
                 /* Species */
@@ -146,6 +150,7 @@
 
                 /* Table header text alignment */
                 /deep/ .mat-sort-header-button {
+                    flex: 0;
                     text-align: left !important;
                 }
             }

@@ -118,7 +118,7 @@
     font-weight: 600; /* TODO typography */
     height: unset !important; /* Override MD spec */
     letter-spacing: 0.83px; /* TODO typography */
-    line-height: unset !important; /* Override MD spec */
+    line-height: 20px !important; /* Override MD spec */
     padding: 4px 0 !important; /* Override MD spec */
 }
 
@@ -129,12 +129,13 @@
     font-size: 14px; /* TODO typography */
     height: unset !important; /* Override MD spec */
     letter-spacing: 0.43px; /* TODO typography */
-    line-height: unset !important; /* Override MD spec */
-    padding: 0 0 12px !important; /* Override MD spec */
+    line-height: 18px !important; /* Override MD spec */
+    min-height: 26px;
+    padding: 4px 0 !important; /* Override MD spec */
 
     /* mat-option flex between term and count */
     > span {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         justify-content: space-between;
 
