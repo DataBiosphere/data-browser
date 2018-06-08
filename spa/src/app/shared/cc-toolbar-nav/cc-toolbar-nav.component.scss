@@ -4,56 +4,35 @@
  *
  * Custom, CGL-specific overrides of Material Design toolbar nav. Mobile first.
  */
-
 @import "../../shared/theme/cgl.vars";
-
-/**
- * Variables
- */
-
-/** Toolbar heights taken from MD toolbar component */
-$md-toolbar-height-desktop: 64px !default;
-$md-toolbar-height-mobile-portrait: 56px !default;
-$md-toolbar-height-mobile-landscape: 48px !default;
-
-/**
- * Mixins
- */
-
-/** Position full screen nav according to device size (and therefore toolbar height) */
-@mixin toolbar-menu-open-top($height) {
-
-    :host, cc-toolbar-nav {
-        top: $height;
-    }
-}
 
 /**
  * CGL toolbar nav
  */
 
 :host, cc-toolbar-nav {
-
     display: none;
 }
 
 /**
  * Extra small, small
  */
-@media (max-width: $md-sm-max) {
+@media (max-width: 1199px) {
 
     /**
      * Default state
      */
     :host, cc-toolbar-nav {
-        background-color: #F8F8F8;
+        background-color: $hca-white;
+        border-bottom: 1px solid $hca-gray-light;
         bottom: 0;
         left: 0;
+        padding-bottom: 12px;
         position: fixed;
-        text-align: center;
-        padding-top: 32px;
         right: 0;
-        z-index: 2;
+        text-align: center;
+        top: 60px;
+        z-index: 100;
     }
 
     /**
@@ -61,66 +40,22 @@ $md-toolbar-height-mobile-landscape: 48px !default;
      */
     .toolbar-menu-open {
 
-        // Prevent scroll
-        overflow: hidden;
-
         :host, cc-toolbar-nav {
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
-    }
-}
-
-/**
- * Extra small, small - landscape
- */
-@media (max-width: $md-sm-max) and (orientation: landscape) {
-
-    /**
-     * Scoot menu up on extra small and small devices
-     */
-    :host, cc-toolbar-nav {
-        padding-top: 12px;
-    }
-}
-
-
-
-/**
- * Medium +
- */
-@media (min-width: $md-md-min) {
-
-    // Always display nav on medium + devices
-    :host, cc-toolbar-nav {
-
-        display: flex;
-        flex-direction: row;
     }
 }
 
 /**
  * Large +
  */
-@media (min-width: $md-lg-min) {
+@media (min-width: 1200px) {
 
-    // Always display nav on small + devices
+    // Always display nav on medium + devices
     :host, cc-toolbar-nav {
-
-        margin-left: 72px;
+        display: flex;
+        flex-direction: row;
     }
-}
-
-
-// Set the default position for the open menu
-@include toolbar-menu-open-top($md-toolbar-height-desktop);
-
-// Specific position for mobile devices in portrait mode.
-@media (max-width: $md-sm-min) and (orientation: portrait) {
-    @include toolbar-menu-open-top($md-toolbar-height-mobile-portrait);
-}
-
-// Specific position for mobile devices in landscape mode.
-@media (max-width: $md-md-min) and (orientation: landscape) {
-    @include toolbar-menu-open-top($md-toolbar-height-mobile-landscape);
 }

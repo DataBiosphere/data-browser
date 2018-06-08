@@ -8,77 +8,25 @@
 @import "../../shared/theme/cgl.vars";
 @import "../../shared/theme/cgl.global";
 
-$cc-toolbar-nav-item-height: 48px;
-
 :host, cc-toolbar-nav-item {
     cursor: pointer;
     box-sizing: border-box;
     display: flex; // Force child anchor elements to be full height (for click area)
-    flex: 1 1 auto;
-    font-size: 14px;
-    line-height: $cc-toolbar-nav-item-height;
-    height: $cc-toolbar-nav-item-height;
-    padding: 0 10px; /** Not on 4x grid system such that all nav items can fit horizontally on medium devices */
+    color: $hca-black;
+    padding: 12px 0;
     text-align: center;
     text-transform: uppercase;
     white-space: nowrap;
 }
 
 /**
- * Extra small, small
- */
-@media (max-width: $md-sm-max) {
-
-    :host, cc-toolbar-nav-item {
-        max-height: $cc-toolbar-nav-item-height;
-        min-height: $cc-toolbar-nav-item-height;
-
-        /deep/ a { /** "/deep/" not required in general CGL style sheet **/
-            margin: 0 auto;
-        }
-    }
-}
-
-
-/**
- * Extra small, small - landscape
- */
-@media (max-width: $md-sm-max) and (orientation: landscape) {
-
-    :host, cc-toolbar-nav-item {
-        max-height: 28px;
-        min-height: 28px;
-    }
-}
-/**
- * Medium +
- */
-@media (min-width: $md-md-min) {
-
-    /**
-     * Anchor elements
-     */
-    :host, cc-toolbar-nav-item {
-        /deep/ a { /** "/deep/" not required in general CGL style sheet **/
-            @include a-green();
-        }
-
-        // Active nav item
-        /deep/ &.active { /** "/deep/" not required in general CGL style sheet **/
-            a {
-                color: $cgl-peach;
-            }
-        }
-    }
-}
-
-/**
  * Large +
  */
-@media (min-width: $md-lg-min) {
+@media (min-width: 1200px) {
 
-    cc-toolbar-nav-item {
-
+    :host, cc-toolbar-nav-item {
+        color: $hca-gray-medium;
+        flex-direction: row;
         padding: 0 12px;
     }
 }

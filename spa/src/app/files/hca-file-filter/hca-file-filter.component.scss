@@ -11,8 +11,7 @@
     align-items: center;
     display: flex;
     margin: 0 auto;
-    max-width: 1140px; /* Snap to 1200px, gutter is 30px */
-    padding: 0 30px;
+    padding: 0 16px; /* Gutter 16px */
 
     /* Filter container */
     .filter {
@@ -148,3 +147,16 @@
         }
     }
 }
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    /* Wrapper */
+    .wrapper {
+        max-width: 1140px; /* Snap to 1200px, gutter 30px */
+        padding: 0 30px;
+    }
+}
+

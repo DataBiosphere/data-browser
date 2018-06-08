@@ -14,8 +14,7 @@
         align-items: center;
         display: flex;
         margin: 0 auto;
-        max-width: 1140px; /* Snap to 1200px, gutter is 30px */
-        padding: 0 30px;
+        padding: 0 16px; /* Gutter 16px */
 
         /* Tab list */
         .hca-tab-list {
@@ -65,6 +64,21 @@
                     width: 16px; /* 16px padding on tab */
                 }
             }
+        }
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    :host {
+
+        /* Wrapper */
+        .wrapper {
+            max-width: 1140px; /* Snap to 1200px, gutter 30px */
+            padding: 0 30px;
         }
     }
 }

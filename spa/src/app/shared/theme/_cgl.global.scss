@@ -226,7 +226,7 @@ button {
 
     // Hide hamburger
     [menu-open] {
-        display: none;
+        display: none !important;
     }
 
     // Display x

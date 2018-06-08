@@ -12,8 +12,7 @@
     align-items: center;
     display: flex;
     margin: 0 auto;
-    max-width: 1140px; /* Snap to 1200px, gutter is 30px */
-    padding: 0 30px;
+    padding: 0 16px; /* Gutter is 16px */
 
     .file-summary {
         align-items: center;
@@ -25,10 +24,12 @@
         /* Summaries and counts - container */
         > div {
             display: flex;
+            flex-wrap: wrap; /* Wraps on smaller devices */
 
             /* Summary and count */
             > div {
                 display: flex;
+                margin: 4px 0;
                 padding: 0 12px;
 
                 /* Font style for summary and count */
@@ -47,9 +48,10 @@
             }
         }
             /* Download button */
-            button:last-of-type {
+            button {
                 background-color: $hca-secondary;
                 color: $hca-white;
+                flex-shrink: 0;
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 14px; /* TODO typography */
                 font-weight: 500; /* TODO typography */
@@ -62,5 +64,17 @@
                     margin: 0 3px;
                 }
             }
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    /* Wrapper */
+    .wrapper {
+        max-width: 1140px; /* Snap to 1200px, gutter 30px */
+        padding: 0 30px;
     }
 }

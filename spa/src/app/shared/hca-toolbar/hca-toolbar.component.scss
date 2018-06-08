@@ -17,16 +17,16 @@
 mat-toolbar {
 
     background-color: $hca-off-white;
-    min-height: 60px; /* HCA specific */
+    min-height: 60px !important; /* HCA specific */
     position: relative;
 
     mat-toolbar-row {
         align-items: center;
         display: flex;
+        height: 60px !important; /* HCA specific */
         justify-content: space-between;
         margin: 0 auto;
-        max-width: 1200px; /* Snap to 1200px */
-        padding: 0 30px; /* Gutter 30px */
+        padding: 0 16px; /* Gutter 16px */
     }
 
     // Menu is hidden by default
@@ -45,7 +45,6 @@ mat-toolbar {
 
     /* Override default nav item color TODO will need to revisit this once theming per instance is setup */
     cc-toolbar-nav-item {
-        padding: 0 16px; /* HCA specific override */
 
         &.active {
             a {
@@ -59,107 +58,122 @@ mat-toolbar {
         }
 
         a {
-            color: $hca-gray-medium;
+            align-items: flex-start;
+            color: $hca-black;
+            display: flex;
+            flex-direction: column;
             font-family: "Montserrat", sans-serif;
             font-size: 13px; /* TODO review with typography */
             font-weight: 600; /* TODO review with typography */
             letter-spacing: 1.2px;
+            margin: 0 24px;
 
             &:hover {
                 color: $hca-black;
             }
+
+            span:nth-of-type(2) {
+                color: $hca-black;
+                font-size: 12px; /* TODO review with typography */
+                font-weight: 400; /* TODO review with typography */
+                letter-spacing: 1.2px;
+                line-height: 24px; /* TODO typography */
+                margin-top: -8px;
+                text-transform: none;
+            }
         }
     }
 
-    /* User menu */
-    .menu-dropdown {
+    /* Menu drop down */
+    .menu-dropdown-user, .menu-dropdown {
+        align-items: center;
+        color: $hca-black;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
+        font-size: 13px; /* TODO typography */
+        font-weight: 600; /* TODO typography */
+        display: flex;
+    }
+
+    /* Drop down icon */
+    .menu-dropdown-user::after, .menu-dropdown::before {
+        color: $hca-gray-dark;
+        content: "\E313";
+        font-family: "Material Icons";
+        font-size: 18px; // HCA specific
+        font-weight: 400;
+        margin: 0 4px;
+    }
+
+    /* Menu drop down */
+    .menu-dropdown-user {
         display: none;
     }
 
     /* Drop down icon */
-    .menu-dropdown::after {
+    .menu-dropdown-user::after {
         display: none;
     }
 }
 
 /**
- * Extra small, small
+ * Large
  */
-@media (max-width: $md-sm-max) {
-
-    mat-toolbar {
-
-        // Position logo to the left and hamburger to the right
-        mat-toolbar-row { /* /deep/ only required by Angular app, not generic style sheet */
-            justify-content: space-between;
-        }
-
-        // Shrink logo to match smaller toolbar height
-        img { /* /deep/ only required by Angular app, not generic style sheet */
-            height: 36px;
-        }
-    }
-}
-
-/**
- * Medium, medium +
- */
-@media (min-width: $md-md-min) {
-
-    // Hide hamburger
-    [menu-open] {
-        display: none;
-    }
+@media (min-width: 1200px) {
 
     mat-toolbar {
 
         mat-toolbar-row {
-            height: 60px; // 60px toolbar, HCA specific
-            justify-content: space-between; // HCA specific
+            max-width: 1200px; /* Snap to 1200px, gutter 30px */
+            padding: 0 30px; /* Gutter 30px */
         }
 
-        /* User menu */
-        .menu-dropdown {
-            align-items: center;
-            color: $hca-off-white; /* TODO change when implement hca-grey-dark */
-            //cursor: pointer;
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 14px; /* TODO typography */
-            //font-weight: 500; /* TODO typography */
+        // Hide menu
+        [menu-open] {
+            display: none;
+        }
+
+        // Menu is hidden by default
+        [menu-close] {
+            display: none !important;
+        }
+
+        cc-toolbar-nav-item {
+            padding: 0 16px; /* HCA specific override */
+
+            a {
+                color: $hca-gray-medium;
+                margin: 0;
+
+                span:nth-of-type(2) {
+                    display: none;
+                }
+            }
+        }
+
+        /* Menu drop down */
+        .menu-dropdown-user {
+            color: $hca-off-white; /* TODO change when implement hca-gray-dark */
+            cursor: auto; /* TODO make pointer when implement */
             display: flex;
+            font-size: 14px; /* TODO typography */
+            font-weight: 400; /* TODO typography */
         }
 
         /* Drop down icon */
-        .menu-dropdown::after {
-            color: $hca-off-white; /* TODO change when implement hca-gray-dark */
-            content: "\E313";
-            font-family: "Material Icons";
-            font-size: 11px; // HCA specific
+        .menu-dropdown-user::after {
+            color: $hca-off-white; /* TODO change when implement hca-grey-dark */
+            display: block;
+        }
+
+        /* Menu drop down */
+        .menu-dropdown {
+            display: none;
+        }
+
+        /* Drop down icon */
+        .menu-dropdown::before {
+            display: none;
         }
     }
 }
-
-// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in portrait mode.
-@media (max-width: $md-sm-min) and (orientation: portrait) {
-
-    mat-toolbar {
-        min-height: 0;
-
-        mat-toolbar-row {
-            height: 56px; // 56px toolbar
-        }
-    }
-}
-
-// Specific toolbar height (overrides MD specification on .mat-toolbar-row and also .mat-toolbar) for mobile devices in landscape mode.
-@media (max-width: $md-md-min) and (orientation: landscape) {
-
-    mat-toolbar {
-        min-height: 0;
-
-        mat-toolbar-row {
-            height: 48px; // 48px toolbar
-        }
-    }
-}
-

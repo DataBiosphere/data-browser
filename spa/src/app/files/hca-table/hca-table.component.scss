@@ -10,9 +10,8 @@
 .wrapper {
     align-items: center;
     display: flex;
-    margin: 0 auto;
-    max-width: 1140px; /* Snap to 1200px, gutter is 30px */
-    padding: 0 30px;
+    overflow-x: auto; /* Horizontal scroll */
+    margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
 
     /* HCA table */
     .hca-table {
@@ -48,6 +47,7 @@
         }
 
         mat-table {
+            min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
 
             mat-row, mat-header-row {
                 padding: 0 12px; /* Total left and right padding is 16px */
@@ -101,6 +101,7 @@
 
             mat-cell, mat-header-cell {
                 flex: none;
+                flex-shrink: 0;
                 padding-left: 4px;
                 padding-right: 4px;
 
@@ -163,3 +164,17 @@
         }
     }
 }
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    /* Wrapper */
+    .wrapper {
+        margin: 0 auto;
+        max-width: 1140px; /* Snap to 1200px, gutter 30px */
+        padding: 0 30px; /* Gutter 30px */
+    }
+}
+
