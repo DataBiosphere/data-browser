@@ -4,96 +4,133 @@
  *
  * HCA footer styles.
  */
-
 @import "../../shared/theme/cgl.vars";
 
 :host {
 
     footer {
+        background-color: $hca-black;
 
-        background-color: #172984;
-        color: #ffffff;
-        
-        /deep/ cgl-footer-nav-item {
-            /deep/ a {
-                color: #ffffff;
+        /* Wrapper */
+        .wrapper {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px 0;
+
+            /* Logo and back arrow */
+            .logo {
+                position: relative;
+
+                /* Back arrow */
+                mat-icon {
+                    color: $hca-white;
+                    cursor: pointer;
+                    font-size: 24px;
+                    left: -24px;
+                    padding: 0;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                /* Logo image */
+                img {
+                    cursor: pointer;
+                    margin-bottom: 0;
+                    padding: 12px 0;
+                }
             }
-        }
 
-        .cgl-links {
-            // Additional top/bottom padding (beyond layout-padding) for first row of links in footer
-            padding-bottom: 48px;
-            padding-top: 48px;
-        }
+            /* Footer links container */
+            .links {
+                align-items: center;
+                display: flex;
 
-        .cgl-disclaimer {
-            color: #ffffff;
-            // Match .md-body-1
-            font-size: 12px;
-            letter-spacing: 0.02em;
-            // End match .md-body-1
-            padding: 16px;
-        }
-
-        &.squash {
-
-            .cgl-links {
-                // Minimize additional top/bottom padding (beyond layout-padding) for first row of links in footer
-                padding-bottom: 16px;
-                padding-top: 16px;
+                /* Footer links */
+                a {
+                    color: $hca-white;
+                    font-family: "Montserrat", sans-serif; /* TODO typography */
+                    font-size: 16px; /* TODO typography */
+                    font-weight: 600; /* TODO typography */
+                    margin: 0 16px;
+                    padding: 4px 0;
+                    text-decoration: none;
+                    text-transform: capitalize;
+                }
             }
         }
     }
-
 }
 
 /**
- * Extra small, small
+ * Medium +
  */
-@media (max-width: $md-sm-max) {
+@media screen and (min-width: 768px) {
 
     :host {
+
+        /* Footer */
         footer {
+            height: 96px;
 
-            text-align: center;
+            /* Wrapper */
+            .wrapper {
+                flex-direction: row;
+                height: inherit;
+                justify-content: space-between;
+                margin: 0 auto;
+                padding: 0 16px; /* Gutter 16px */
 
-            .cgl-disclaimer {
+                /* Logo */
+                .logo {
+                    align-items: center;
+                    display: flex;
 
-                span {
+                    /* Left arrow */
+                    mat-icon {
+                        left: unset;
+                        margin: 0 8px 0 -8px;
+                        position: relative;
+                        top: unset;
+                        transform: none;
+                    }
 
-                    // Add vertical space between copyright and licence
-                    &+span {
-
-                        margin-top: 8px;
+                    /* Logo image */
+                    img {
+                        cursor: pointer;
+                        margin-bottom: 0;
+                        padding: 0;
                     }
                 }
-            }
 
-
-            /** Add vertical space between stacked navs (matches _cgl-footer-nav styles in style guide) */
-            cgl-footer-nav {
-
-                &+cgl-footer-nav {
-
-                    margin-top: 24px;
+                /* Footer links container */
+                .links {
+                    margin: 0 -16px; /* Right aligns links */
                 }
+
             }
         }
     }
 }
 
 /**
- * Small +
+ * Large +
  */
-@media (min-width: $md-md-min) {
+@media screen and (min-width: 1200px) {
 
     :host {
 
         footer {
 
-            .cgl-links {
-                justify-content: space-between;
+            /* Wrapper */
+            .wrapper {
+                margin: 0 auto;
+                max-width: 1140px; /* Snap to 1200px, gutter 30px */
+                padding: 0 30px;
             }
         }
     }
 }
+
