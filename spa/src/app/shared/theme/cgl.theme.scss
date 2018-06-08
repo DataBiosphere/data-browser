@@ -58,13 +58,13 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
     /* Wrap text */
     &.narrow {
-        max-width: 152px;
+        max-width: 152px !important;
     }
 }
 
 /* Overrides styles for Angular Material Dialog (backdrop) */
 .hca-form-backdrop {
-    //opacity: 0 !important;
+    opacity: 1 !important;
     background-color: #ffffff;
     top: 60px;
 }
