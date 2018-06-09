@@ -33,6 +33,11 @@ export class FilesComponent implements OnInit {
     private store: Store<AppState>;
 
     // Public variables
+    public hcaExplore;
+    public hcaFileSummary;
+    public hcaFilterWrapper;
+    public hcaStickyOverlay;
+    public hcaTab;
     public selectFileSummary$: Observable<FileSummary>;
     public fileFacets$: Observable<FileFacet[]>;
     public selectedFileFacets$: Observable<FileFacet[]>;
@@ -52,8 +57,17 @@ export class FilesComponent implements OnInit {
      * Public API
      */
 
-    public compareComponentHeight(event) {
-        this.getComponentHeight();
+    /**
+     * Sets up element by id
+     */
+    public getComponentElementById() {
+
+        // Set up component HTML reference
+        this.hcaStickyOverlay = document.getElementById("hcaStickyOverlay");
+        this.hcaExplore = document.getElementById("hcaExplore");
+        this.hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
+        this.hcaTab = document.getElementById("hcaTab");
+        this.hcaFileSummary = document.getElementById("hcaFileSummary");
     }
 
     /**
@@ -62,15 +76,12 @@ export class FilesComponent implements OnInit {
     public getComponentHeight() {
 
         // Get height for each component
-        let hcaExplore = document.getElementById("hcaExplore");
-        let hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
-        let hcaTab = document.getElementById("hcaTab");
-
         // Allocate top position based on calculated height
-        document.getElementById("hcaExplore").style.top = "0px";
-        document.getElementById("hcaFilterWrapper").style.top = hcaExplore.offsetHeight + "px";
-        document.getElementById("hcaTab").style.top = hcaExplore.offsetHeight + hcaFilterWrapper.offsetHeight + "px";
-        document.getElementById("hcaFileSummary").style.top = hcaExplore.offsetHeight + hcaFilterWrapper.offsetHeight + hcaTab.offsetHeight + "px";
+        this.hcaStickyOverlay.style.height = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
+        this.hcaExplore.style.top = "0px";
+        this.hcaFilterWrapper.style.top = this.hcaExplore.offsetHeight + "px";
+        this.hcaTab.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + "px";
+        this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
     }
 
     /**
@@ -117,6 +128,9 @@ export class FilesComponent implements OnInit {
 
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
+
+        // Sets up element by id
+        this.getComponentElementById();
 
         // Return component heights for sticky header
         this.getComponentHeight();

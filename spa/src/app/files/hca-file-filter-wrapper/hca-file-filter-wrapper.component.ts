@@ -11,34 +11,61 @@ import { FileFacet } from "../shared/file-facet.model";
     styleUrls: ["./hca-file-filter-wrapper.component.scss"],
 })
 
-export class HCAFileFilterWrapperComponent implements OnChanges {
+export class HCAFileFilterWrapperComponent implements OnInit, OnChanges {
 
     // Inputs
     @Input() fileFacets: FileFacet[];
     @Input() selectedFacets: FileFacet[];
 
-    @Output() hcaFilterWrapper = new EventEmitter<number>();
+    // Outputs
+    @Output() hcaFilterWrapperEvent = new EventEmitter<number>();
 
+    // Public variables
+    public hcaFilterWrapper;
+    public hcaFilterWrapperHeight: number;
 
     /**
      * Public API
      */
 
     /**
-     * Returns component heights for calculating sticky header position
+     * Sets up element by id and get initial component height
+     */
+    public getComponentElementById() {
+        this.hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
+        this.hcaFilterWrapperHeight = this.hcaFilterWrapper.offsetHeight;
+        this.hcaFilterWrapper.style.minHeight = this.hcaFilterWrapperHeight + "px";
+    }
+
+    /**
+     * Returns event to parent if component height is changed
      */
     public getComponentHeight() {
 
-        // Get height of component
-        let hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
+        if ( this.hcaFilterWrapper ) {
 
-        // Update wrapper height
-        this.hcaFilterWrapper.emit(hcaFilterWrapper.offsetHeight);
+            // Event fired if height of component changes
+            if ( this.hcaFilterWrapperHeight != this.hcaFilterWrapper.offsetHeight ) {
+
+                // Update wrapper height
+                this.hcaFilterWrapperHeight = this.hcaFilterWrapper.offsetHeight;
+                this.hcaFilterWrapperEvent.emit();
+            }
+        }
     }
 
     /**
      * Life cycle hooks
      */
+
+    /**
+     * Set up
+     */
+    public ngOnInit() {
+
+        // Sets up element by id
+        this.getComponentElementById();
+    }
 
     /**
      * On Changes

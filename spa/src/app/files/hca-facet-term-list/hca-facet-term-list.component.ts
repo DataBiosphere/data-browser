@@ -127,7 +127,7 @@ export class HCAFacetTermListComponent {
         // Update facet state
         this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
 
-        console.log("update facet state", term, fileFacet);
+        // console.log("update facet state", term, fileFacet);
     }
 
     /**

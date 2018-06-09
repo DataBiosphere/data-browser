@@ -1,10 +1,10 @@
 <div class="layout-column" (window:resize)="onResize()">
-    <!--<hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>-->
-    <hca-explore id="hcaExplore" (click)="getHeight()"></hca-explore>
+    <div class="sticky-overlay" id="hcaStickyOverlay"></div>
+    <hca-explore id="hcaExplore"></hca-explore>
     <hca-file-filter-wrapper id="hcaFilterWrapper"
-                             [selectedFacets]="selectedFileFacets$ | async"
                              [fileFacets]="fileFacets$ | async"
-                             (hcaFilterWrapper)="compareComponentHeight($event)">
+                             [selectedFacets]="selectedFileFacets$ | async"
+                             (hcaFilterWrapperEvent)="getComponentHeight()">
     </hca-file-filter-wrapper>
     <hca-tab id="hcaTab"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
