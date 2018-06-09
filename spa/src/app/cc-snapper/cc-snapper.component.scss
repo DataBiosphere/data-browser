@@ -6,70 +6,56 @@
  */
 @import "../shared/theme/cgl.vars";
 
-/** Toolbar heights taken from MD toolbar component - required for calculating snap position of summary results */
-$md-toolbar-height-desktop: 64px !default;
-$md-toolbar-height-mobile-portrait: 56px !default;
-$md-toolbar-height-mobile-landscape: 48px !default;
-
-/**
- * Mixins
- */
-
-/** Position summary results according to device size (and therefore toolbar height) */
-@mixin snapper-top($height) {
-
-    :host {
-
-        &.snap {
-            /deep/ bw-file-summary {
-                top: ($height); // Single height - for main nav
-            }
-        }
-    }
-}
-
 :host {
 
+    overflow-y: auto;
+
+    &.snap {
+
+        /deep/ hca-file-summary {
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.06);
+        }
+    }
     /** Add flex to snapper to push footer to bottom of snapper container */
-    display: flex;
-    flex: 1;
-    flex-direction: column;
+    //display: flex;
+    //flex: 1;
+    //flex-direction: column;
 }
 
 /**
  * Small +
  */
-@media (min-width: $md-sm-min) {
-
-    :host {
-
-        overflow-y: auto; // HCA specific
-
-        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
-        &.snap {
-            padding-top: 0; // HCA specific
-
-            /** Handle snap of results summary element itself */
-            /deep/ bw-file-summary {
-                position: absolute;
-                left: 0;
-                padding: 0; // Remove default padding
-                right: 0;
-                z-index: 10;
-            }
-        }
-    }
-}
+//@media (min-width: $md-sm-min) {
+//
+//    :host {
+//
+//        //overflow-y: auto; // HCA specific
+//
+//        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
+//        &.snap {
+//            padding-top: 0; // HCA specific
+//
+//            /** Handle snap of results summary element itself */
+//            /deep/ bw-file-summary {
+//                position: absolute;
+//                left: 0;
+//                padding: 0; // Remove default padding
+//                right: 0;
+//                z-index: 10;
+//            }
+//        }
+//    }
+//}
 
 // Set the default position for the open menu
-@include snapper-top($md-toolbar-height-desktop);
+//@include snapper-top($md-toolbar-height-desktop);
 
 // Specific position for mobile devices in portrait mode.
-@media (max-width: $md-sm-min) and (orientation: portrait) {
-    @include snapper-top($md-toolbar-height-mobile-portrait);
-}
+//@media (max-width: $md-sm-min) and (orientation: portrait) {
+    //@include snapper-top($md-toolbar-height-mobile-portrait);
+//}
 
 // Specific position for mobile devices in landscape mode.
-@media (max-width: $md-md-min) and (orientation: landscape) {
-    @include snapper-top($md-toolbar-height-mobile-landscape);
-}
+//@media (max-width: $md-md-min) and (orientation: landscape) {
+//    @include snapper-top($md-toolbar-height-mobile-landscape);
+//}

@@ -11,4 +11,22 @@
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
     padding-bottom: 92px; // Add space below table to allow for download FAB
+
+    /* Sticky header */
+    hca-explore, hca-file-filter-wrapper, hca-tab, hca-file-summary {
+        background: white;
+        left: 0;
+        position: sticky;
+        right: 0;
+        z-index: 10;
+    }
+
+    hca-file-filter-wrapper{
+        z-index: 12; /* Z index set above hca-tab and hca-file-summary */
+    }
+
+    /* Table scroll */
+    hca-table {
+        overflow-y: scroll;
+    }
 }

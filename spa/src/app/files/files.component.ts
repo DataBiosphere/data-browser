@@ -37,7 +37,6 @@ export class FilesComponent implements OnInit {
     public fileFacets$: Observable<FileFacet[]>;
     public selectedFileFacets$: Observable<FileFacet[]>;
 
-
     /**
      * @param route {ActivatedRoute}
      * @param store {Store<AppState>}
@@ -53,6 +52,36 @@ export class FilesComponent implements OnInit {
      * Public API
      */
 
+    public compareComponentHeight(event) {
+        this.getComponentHeight();
+    }
+
+    /**
+     * Returns component heights for calculating sticky header position
+     */
+    public getComponentHeight() {
+
+        // Get height for each component
+        let hcaExplore = document.getElementById("hcaExplore");
+        let hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
+        let hcaTab = document.getElementById("hcaTab");
+
+        // Allocate top position based on calculated height
+        document.getElementById("hcaExplore").style.top = "0px";
+        document.getElementById("hcaFilterWrapper").style.top = hcaExplore.offsetHeight + "px";
+        document.getElementById("hcaTab").style.top = hcaExplore.offsetHeight + hcaFilterWrapper.offsetHeight + "px";
+        document.getElementById("hcaFileSummary").style.top = hcaExplore.offsetHeight + hcaFilterWrapper.offsetHeight + hcaTab.offsetHeight + "px";
+    }
+
+    /**
+     * Window resize triggers a re-calculation of component heights
+     * @param event
+     */
+    public onResize() {
+
+        this.getComponentHeight();
+    }
+
     /**
      * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
      */
@@ -60,7 +89,6 @@ export class FilesComponent implements OnInit {
 
         this.store.dispatch(new FetchFileManifestSummaryRequestAction());
     }
-
 
     /**
      * Dispatch action to download manifest summary.
@@ -90,6 +118,9 @@ export class FilesComponent implements OnInit {
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
 
+        // Return component heights for sticky header
+        this.getComponentHeight();
+
     }
 
     /**
@@ -104,7 +135,7 @@ export class FilesComponent implements OnInit {
         this.route.queryParams
             .map((params) => {
 
-                if (params && params["filters"] && params["filters"].length) {
+                if ( params && params["filters"] && params["filters"].length ) {
                     return {
                         filters: JSON.parse(decodeURIComponent(params["filters"]))
                     };

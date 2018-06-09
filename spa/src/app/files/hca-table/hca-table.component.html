@@ -1,14 +1,5 @@
 <div class="wrapper">
     <div class="hca-table">
-        <div *ngIf="pagination$ | async; let pagination" class="pagination">
-            <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
-                <mat-icon>chevron_left</mat-icon>
-            </button>
-            <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
-                <mat-icon>chevron_right</mat-icon>
-            </button>
-            <span>{{pagination.from}} - {{getToIndex(pagination)}} of {{pagination.total}}</span>
-        </div>
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="fileName">

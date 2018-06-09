@@ -42,7 +42,7 @@ export class CCSnapperComponent implements AfterViewInit {
                     nativeElement.classList.add("snap");
                 }
 
-                if (nativeElement.scrollTop < 0 && snapped) {
+                if (nativeElement.scrollTop === 0 && snapped) {
                     nativeElement.classList.remove("snap");
                 }
             });

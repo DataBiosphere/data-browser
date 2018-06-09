@@ -1,12 +1,14 @@
-<div class="layout-column">
+<div class="layout-column" (window:resize)="onResize()">
     <!--<hca-file-summary [summary]="selectFileSummary$ | async"></hca-file-summary>-->
-    <hca-explore></hca-explore>
-    <hca-file-filter-wrapper
-            [selectedFacets]="selectedFileFacets$ | async"
-            [fileFacets]="fileFacets$ | async">
+    <hca-explore id="hcaExplore" (click)="getHeight()"></hca-explore>
+    <hca-file-filter-wrapper id="hcaFilterWrapper"
+                             [selectedFacets]="selectedFileFacets$ | async"
+                             [fileFacets]="fileFacets$ | async"
+                             (hcaFilterWrapper)="compareComponentHeight($event)">
     </hca-file-filter-wrapper>
-    <hca-tab></hca-tab>
-    <hca-file-summary [summary]="selectFileSummary$ | async"
+    <hca-tab id="hcaTab"></hca-tab>
+    <hca-file-summary id="hcaFileSummary"
+                      [summary]="selectFileSummary$ | async"
                       [selectedFacets]="selectedFileFacets$ | async"
                       [fileFacets]="fileFacets$ | async">
     </hca-file-summary>
