@@ -4,7 +4,8 @@
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                           [displayWith]="displayFn">
-            <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async" [label]="facet.facetName | camelToSpace"
+            <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async"
+                          [label]="facet.facetName | camelToSpace"
                           [disabled]="facet.disabled">
                 <mat-option class="hca-option" *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
                     <span>{{term.termName}}</span>
@@ -12,17 +13,50 @@
                 </mat-option>
             </mat-optgroup>
         </mat-autocomplete>
-        <ng-container *ngFor="let facetGroup of facetGroups; let i = index">
-            <div [ngClass]="getSelectClass(i)" (click)="onHCASelect(i)">
-                <span>{{facetGroup.facetGroupName}}</span>
-                <mat-icon>keyboard_arrow_down</mat-icon>
-                <ng-container *ngIf="fileFacets.length">
-                    <div [ngClass]="getOptionsClass(i)" [ngStyle]="setStyles(i, facetGroup.facetNames.length)" (mouseleave)="onHCASelectClose()">
-                        <hca-file-facet [fileFacet]="getFacet(facetName)"
-                                        *ngFor="let facetName of facetGroup.facetNames"></hca-file-facet>
+        <ng-container [ngSwitch]="getWindowWidth()">
+            <ng-container *ngSwitchDefault>
+                <ng-container *ngFor="let facetGroup of facetGroups; let i = index">
+                    <div [ngClass]="getSelectClass(i)" (click)="onHCASelect(i)">
+                        <span>{{facetGroup.facetGroupName}}</span>
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                        <ng-container *ngIf="fileFacets.length">
+                            <div [ngClass]="getOptionsClass(i)" [ngStyle]="setStyles(i, facetGroup.facetNames.length)"
+                                 (mouseleave)="onHCASelectClose()">
+                                <hca-file-facet [fileFacet]="getFacet(facetName)"
+                                                *ngFor="let facetName of facetGroup.facetNames"></hca-file-facet>
+                            </div>
+                        </ng-container>
                     </div>
                 </ng-container>
-            </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="false">
+                <div class="view-options" [ngClass]="getSelectClass(1)" (click)="onHCASelect(1)">
+                    <span>Filter</span>
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                </div>
+                <div [ngClass]="getOptionsSmallClass()">
+                    <ng-container *ngFor="let facetGroup of facetGroups; let f = index">
+                        <div class="facet-group">{{facetGroup.facetGroupName}}</div>
+                        <ng-container *ngIf="fileFacets.length">
+                            <div [ngClass]="getIsOpenClass(f, t)" *ngFor="let facetName of facetGroup.facetNames; let t = index">
+                                <div class="facet" (click)="onHCAFacetSelect(f, t)">
+                                    <span>{{facetName | camelToSpace}}</span>
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                </div>
+                                <div class="facet-term-list">
+                                    <hca-facet-term-list [fileFacet]="getFacet(facetName)"
+                                                         (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="apply">
+                            <button (click)="onHCASelectClose()">
+                                <span class="spacer">Apply</span>
+                            </button>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
         </ng-container>
     </div>
 </div>

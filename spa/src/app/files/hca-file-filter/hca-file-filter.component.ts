@@ -47,7 +47,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
     filterControl: FormControl = new FormControl();
+    openIndex: number;
     removable = true;
+    selectedFacet: number;
     selectIndex: number;
     selectedTermSet: Set<string>;
     store: Store<AppState>;
@@ -146,6 +148,16 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         }
     }
 
+    public getOptionsSmallClass() {
+
+        if ( this.selectIndex == 1 ) {
+            return "hca-options-small";
+        }
+        else {
+            return "hca-options-small hide";
+        }
+    }
+
     /**
      * Returns the facet given a facet name
      */
@@ -156,6 +168,16 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         });
 
         return fileFacet;
+    }
+
+    public getIsOpenClass(f, t) {
+
+        if ( this.openIndex === t && this.selectedFacet === f ) {
+            return "open";
+        }
+        else {
+            return "closed";
+        }
     }
 
     /**
@@ -175,9 +197,53 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Will show more filters on screens greater than 1200px
+     * @returns {boolean}
+     */
+    public getWindowWidth() {
+        let windowWidth = document.body.offsetWidth;
+
+        if ( windowWidth >= 1200 ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Handle click on term in list of terms - update store to toggle selected value of term.
+     *
+     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     */
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+        console.log(fileFacetSelectedEvent);
+
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
+    }
+
+    /**
+     * HCA show terms for selected Facet
+     * @param t
+     */
+    onHCAFacetSelect(f, t) {
+
+        if ( this.selectedFacet == f && this.openIndex == t ) {
+            this.selectedFacet = null;
+            this.openIndex = null;
+        }
+        else {
+            this.selectedFacet = f;
+            this.openIndex = t;
+        }
+    }
+
+    /**
      * HCA show select box.
      */
     public onHCASelect(i) {
+
         this.selectIndex = i;
     }
 
@@ -186,6 +252,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public onHCASelectClose() {
         this.selectIndex = null;
+        this.openIndex = null;
     }
 
     /**

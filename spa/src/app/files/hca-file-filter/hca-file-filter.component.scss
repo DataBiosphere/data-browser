@@ -37,15 +37,22 @@
         margin: 0 4px;
         padding: 0 16px;
 
+        /* Mobile view filter select */
+        &.view-options {
+            padding: 0 8px;
+            width: 78px;
+        }
+
         /* Field is on focus */
         &:focus, &.active {
             border: 1px solid $hca-primary;
+            outline: none;
         }
     }
 
     /* Search input field */
     .hca-input {
-        width: 350px;
+        width: 258px;
 
         /* Input field */
         input {
@@ -87,6 +94,114 @@
             }
         }
     }
+
+    /* Mobile view select field */
+    .hca-options-small {
+        background-color: $hca-white;
+        height: calc(100vh - 180px - 60px - 24px); // Footer, sticky plus 24px padding, header
+        left: 0;
+        overflow-y: scroll;
+        padding: 0 16px 24px;
+        position: absolute;
+        right: 0;
+        top: 54px;
+        z-index: 20;
+
+        /* Facet Group */
+        .facet-group {
+            border-bottom: 1px solid $hca-gray-light;
+            font-family: "DIN Alternate", sans-serif; /* TODO typography */
+            font-size: 16px; /* TODO typography */
+            font-weight: 600; /* TODO typography */
+            letter-spacing: 0.49px; /* TODO typography */
+            padding: 32px 4px 8px;
+
+            &:first-of-type {
+                margin-top: -20px;
+            }
+        }
+
+        /* Facets and Terms */
+        .facet {
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 13px; /* TODO typography */
+            font-weight: 400; /* TODO typography */
+            letter-spacing: 0.4px; /* TODO typography */
+            padding: 16px 4px;
+
+            /* Drop down icon */
+            mat-icon {
+                font-size: 16px;
+                height: 16px;
+                margin-right: -4px; /* For appearance of equal margins on hca-select */
+                width: 16px;
+            }
+        }
+
+        /* Wrapper around terms */
+        .facet-term-list {
+            border-bottom: 1px solid $hca-gray-light;
+            padding: 2px 4px 18px;
+        }
+
+        /* Styles applied when Facet is closed */
+        .closed {
+            .facet {
+                border-bottom: 1px solid $hca-gray-light;
+            }
+
+            /* Hide term list */
+            .facet-term-list {
+                display: none;
+            }
+        }
+
+        /* Apply button - mobile */
+        .apply {
+            align-items: center;
+            background-color: $hca-off-white;
+            bottom: 0;
+            display: flex;
+            height: 60px;
+            justify-content: center;
+            left: 0;
+            position: fixed;
+            right: 0;
+            z-index: 40;
+        }
+    }
+
+    /* Button */
+    button {
+        align-items: center;
+        background-color: $hca-primary;
+        border: none;
+        border-radius: 3px;
+        color: $hca-white;
+        display: flex;
+        flex-shrink: 0;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
+        font-size: 14px; /* TODO typography */
+        font-weight: 600; /* TODO typography */
+        height: 38px; /* HCA specific style */
+        justify-content: center;
+        letter-spacing: 0.21px; /* TODO typography */
+        min-width: 84px;
+        padding: 0 9px;
+
+        &:hover {
+            background-color: $hca-primary-hover;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
 }
 
 /* Select overlay */
@@ -158,6 +273,11 @@
     .wrapper {
         max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px;
+
+        /* Search input field */
+        .hca-input {
+            width: 350px;
+        }
     }
 }
 

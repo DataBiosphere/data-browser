@@ -82,7 +82,8 @@ export class HCADownloadManifestModalComponent {
      */
     public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
     }
 
     /**
