@@ -10,10 +10,9 @@
     display: block;
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
-    padding-bottom: 92px; // Add space below table to allow for download FAB
 
     /* Sticky components */
-    hca-explore, hca-file-filter-wrapper, hca-tab, hca-file-summary {
+    hca-explore, hca-file-filter-wrapper, hca-tab, hca-file-summary, hca-download-manifest {
         background: white;
         left: 0;
         position: sticky;
@@ -42,4 +41,22 @@
         overflow-y: scroll;
     }
 
+    /* Download manifest */
+    hca-download-manifest {
+        //position: sticky;
+        bottom: 0;
+        //z-index: 10;
+    }
 }
+
+/**
+ * Large +
+ */
+@media (min-width: 1200px) {
+
+    :host {
+
+        padding-bottom: 92px; // Add space below table
+    }
+}
+

@@ -1,0 +1,70 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA download manifest styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Hide download button */
+button {
+    display: none;
+}
+
+/* Download text - no download */
+.no-download {
+    align-items: center;
+    background-color: $hca-off-white;
+    display: flex;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 14px; /* TODO typography */
+    font-weight: 600; /* TODO typography */
+    margin-top: 92px;
+    padding: 16px; /* TODO review */
+    width: 100%;
+}
+
+/**
+ * Large +
+ */
+@media (min-width: 1200px) {
+
+    /* Download button */
+    button {
+        align-items: center;
+        background-color: $hca-secondary;
+        border: none;
+        border-radius: 3px;
+        color: $hca-white;
+        display: flex;
+        flex-shrink: 0;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
+        font-size: 14px; /* TODO typography */
+        font-weight: 600; /* TODO typography */
+        height: 38px; /* HCA specific style */
+        letter-spacing: 0.21px; /* TODO typography */
+        min-width: 84px;
+        padding: 0 9px;
+
+        /* Download icon, text */
+        .spacer {
+            margin: 0 3px;
+        }
+
+        &:hover {
+            background-color: $hca-secondary-hover;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    /* Hide no download text */
+    .no-download {
+        display: none;
+    }
+}
+
+

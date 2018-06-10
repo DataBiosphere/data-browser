@@ -48,6 +48,7 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
 import { HCAExploreComponent } from "app/files/hca-explore/hca-explore.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
@@ -108,6 +109,7 @@ import { FilesService } from "./shared/files.service";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
+        HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
         HCAExploreComponent,
         HCAFacetTermListComponent,

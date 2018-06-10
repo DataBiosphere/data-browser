@@ -12,12 +12,11 @@
                       [selectedFacets]="selectedFileFacets$ | async"
                       [fileFacets]="fileFacets$ | async">
     </hca-file-summary>
-    <!--<button class="cgl-fab hca-fab"-->
-    <!--mat-fab-->
-    <!--matTooltip="Download Manifest"-->
-    <!--[matTooltipPosition]="'before'"-->
-    <!--(click)="onDownloadManifest()">-->
-    <!--<mat-icon>file_download</mat-icon>-->
-    <!--</button>-->
     <hca-table></hca-table>
+    <hca-download-manifest
+            [downloadActive]="false"
+            [fileFacets]="fileFacets$ | async"
+            [selectedFacets]="selectedFileFacets$ | async"
+            [summary]="selectFileSummary$ | async">
+    </hca-download-manifest>
 </div>
