@@ -188,26 +188,15 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <div *ngIf="pagination$ | async; let pagination" class="pagination">
-            <span>Goto page:</span>
-            <mat-form-field>
-                <input matInput (input)="goToPage(pagination, pageValue)" [(ngModel)]="pageValue">
-                <mat-error *ngIf="pageError">Error</mat-error>
-            </mat-form-field>
-            <span>Items per page:</span>
-            <mat-form-field>
-                <mat-select [(ngModel)]="selectedPage" (change)="setPageSize(pagination, selectedPage)">
-                    <mat-option *ngFor="let pageSizeOption of pageSizeOptions" [value]="pageSizeOption">
-                        {{pageSizeOption}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button mat-icon-button type="button" (click)="previousPageSelected(pagination)">
+            <button type="button" (click)="previousPageSelected(pagination)">
                 <mat-icon>chevron_left</mat-icon>
+                <span>Back</span>
             </button>
-            <button mat-icon-button type="button" (click)="nextPageSelected(pagination)">
+            <span>{{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
+            <button type="button" (click)="nextPageSelected(pagination)">
+                <span>Next</span>
                 <mat-icon>chevron_right</mat-icon>
             </button>
-            <span>Page {{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
         </div>
     </div>
 </div>

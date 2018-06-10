@@ -34,9 +34,9 @@ export class HCATableComponent implements OnInit {
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
-    pageSizeOptions = [10, 15, 25, 50, 100, 200];
-    selectedPage = 15;
-    pageValue: number;
+    // pageSizeOptions = [10, 15, 25, 50, 100, 200];
+    // selectedPage = 15;
+    // pageValue: number;
     pageError: boolean;
 
     // Locals

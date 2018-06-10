@@ -23,27 +23,46 @@
         /* Pagination */
         .pagination {
             align-items: center;
-            color: $hca-gray-medium; /* TODO review colour choice when pagination has been styled */
+            color: $hca-gray-dark;
             display: flex;
-            font-size: 12px;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 13px; /* TODO typography */
+            font-weight: 600; /* TODO typography */
             height: 56px;
-            justify-content: flex-end;
-            padding: 0;
+            justify-content: flex-start;
+            padding: 0 10px; /* Left aligns button with table content */
 
-            span {
-                min-width: 75px;
-                padding-left: 16px;
-                text-align: right;
+            /* Pagination button */
+            button {
+                align-items: center;
+                background-color: $hca-white;
+                border: none;
+                border-radius: 3px;
+                color: $hca-primary;
+                display: flex;
+                flex-shrink: 0;
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 11px; /* TODO typography */
+                font-weight: 400; /* TODO typography */
+                height: 38px; /* HCA specific style */
+                letter-spacing: 0.34px; /* TODO typography */
+                padding: 0;
+
+                mat-icon {
+                    font-size: 18px;
+                    height: 18px;
+                    width: 18px;
+                }
+
+                &:focus {
+                    outline: none;
+                }
             }
 
-            mat-form-field {
-                width: 56px;
-                margin-left: 4px;
-                margin-right: 8px;
-
-                input, mat-select {
-                    text-align: center;
-                }
+            > span {
+                height: 38px; /* Matches button */
+                line-height: 36px; /* Bottom aligns text with button text */
+                padding: 0 16px;
             }
         }
 
