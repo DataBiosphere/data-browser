@@ -30,7 +30,7 @@
         </div>
     </ng-container>
     <div class="hca-card-action">
-        <button mat-button mat-raised-button type="button" (click)="onDownloadManifest()">Download Manifest</button>
+        <button type="button" (click)="onDownloadManifest()">Download Manifest</button>
         <div class="file-size">These files are {{data.summary.totalFileSize | fileSize}} of data, from the HCA CLI</div>
     </div>
 </div>
@@ -40,6 +40,6 @@
         <span>Find instructions on how to download the files here:</span>
     </div>
     <div class="hca-card-action">
-        <button mat-button mat-raised-button type="button" (click)="onGetInstructions()">Get Download Instructions</button>
+        <button type="button" (click)="onGetInstructions()">Get Download Instructions</button>
     </div>
 </div>

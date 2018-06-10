@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div class="filter">
+    <div id="filter" class="filter">
         <input class="hca-input" type="text" placeholder="Search" aria-label="Number" matInput
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"

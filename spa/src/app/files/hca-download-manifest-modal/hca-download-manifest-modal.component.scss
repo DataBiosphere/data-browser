@@ -48,7 +48,8 @@
         display: flex;
         flex: 1;
         justify-content: flex-start;
-        padding: 0 24px;
+        margin-top: -24px;
+        padding: 24px;
 
         /* Summary and count */
         > div {
@@ -75,6 +76,7 @@
 
     /* Content - list of terms */
     .hca-card-content {
+        margin-top: -24px;
         padding: 24px 0 40px;
 
         /* Facet term list - container */
@@ -89,17 +91,33 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-bottom: 24px;
+        margin-top: -24px;
+        padding: 24px;
 
         /* Download button */
         button {
-            background-color: $hca-primary;
+            align-items: center;
+            background-color: $hca-secondary;
+            border: none;
+            border-radius: 3px;
             color: $hca-white;
+            display: flex;
+            flex-shrink: 0;
             font-family: "Montserrat", sans-serif; /* TODO typography */
             font-size: 14px; /* TODO typography */
-            font-weight: 500; /* TODO typography */
+            font-weight: 600; /* TODO typography */
             height: 38px; /* HCA specific style */
+            letter-spacing: 0.21px; /* TODO typography */
+            min-width: 84px;
             padding: 0 9px;
+
+            &:hover {
+                background-color: $hca-secondary-hover;
+            }
+
+            &:focus {
+                outline: none;
+            }
         }
 
         /* File size */

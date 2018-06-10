@@ -208,14 +208,26 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public setStyles(i, numberOfFacets) {
 
-        let widthRequired = numberOfFacets * 256 + 14;
-        let allowableWidth = (this.widthSelectBoxes - (158 * i));
-        let right = (158 * (this.facetGroupCount - 1 - i));
+        let widthRequired = numberOfFacets * 256 + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
+        let allowableWidth = (this.widthSelectBoxes - (158 * i)); // width of select boxes total is 782px, i is position of select box, 158px is width inclusive of margin on the select box
+        let right = (158 * (this.facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
 
+        /* Check if the drop down can be left aligned with its select box */
+        /* Needs to be right aligned */
         if ( widthRequired > allowableWidth ) {
 
-            if ( widthRequired > this.widthSelectBoxes ) {
-                widthRequired = this.widthSelectBoxes;
+            // Calculate a new allowable width - full width of filter area
+            let rightSideAllowableWidth = document.getElementById("filter").offsetWidth;
+
+            /* Check if width required is greater than the select boxes total width */
+            /* If true, return a max width of hca-file-filter as a constraint */
+            /* Facets will wrap within */
+            if ( widthRequired > rightSideAllowableWidth ) {
+
+                // Calculate number of facets that fits neatly in the first row of the allowable width
+                // Then calculate new width required
+                let numberOfFacetsPerRow = Math.trunc((rightSideAllowableWidth - 14) / 256);
+                widthRequired = (numberOfFacetsPerRow * 256) + 14;
             }
 
             let style = {
@@ -227,6 +239,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
             return style;
         }
+        /* Can be left aligned with its select box */
         else {
 
             let style = {

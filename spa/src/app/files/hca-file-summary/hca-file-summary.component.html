@@ -22,7 +22,7 @@
                 <span>{{summary.totalFileSize | fileSize}}</span>
             </div>
         </div>
-        <button mat-raised-button (click)="onDownloadManifest()"
+        <button *ngIf="fileFacets" (click)="onDownloadManifest()"
                 matTooltip="Choose files to download as a manifest"
                 matTooltipPosition="below"
                 matTooltipShowDelay="500"

@@ -17,7 +17,7 @@
     .filter {
         align-items: center;
         display: flex;
-        margin: 8px -4px;
+        margin: 8px 0 8px -4px;
         width: 100%;
     }
 
@@ -45,7 +45,7 @@
 
     /* Search input field */
     .hca-input {
-        width: 354px;
+        width: 350px;
 
         /* Input field */
         input {
@@ -65,6 +65,7 @@
         mat-icon {
             font-size: 16px;
             height: 16px;
+            margin-right: -4px; /* For appearance of equal margins on hca-select */
             width: 16px;
         }
 
