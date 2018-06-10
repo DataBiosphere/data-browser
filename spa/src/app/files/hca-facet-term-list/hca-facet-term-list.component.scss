@@ -39,7 +39,7 @@
         }
 
         .term-summary {
-            align-items: center;
+            align-items: flex-start;
             display: flex; // Spit title and count (with justify-content) to be left and right aligned
             flex: 1; // Always set term and count to consume remaining space (excluding checkbox)
             justify-content: space-between;
@@ -54,9 +54,7 @@
 
                 /** Truncate long term names - where term names are not spaced */
                 &.truncate {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+                    word-break: break-all;
                 }
             }
 
