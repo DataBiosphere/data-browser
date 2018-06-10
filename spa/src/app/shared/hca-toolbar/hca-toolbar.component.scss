@@ -41,6 +41,7 @@ mat-toolbar {
     /* Override default cc-toolbar-nav left margin */
     cc-toolbar-nav {
         margin-left: 0;
+        z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
     }
 
     /* Override default nav item color TODO will need to revisit this once theming per instance is setup */
@@ -84,8 +85,13 @@ mat-toolbar {
         }
     }
 
+    // No overlay when menu closed
+    .hca-toolbar-nav-overlay {
+        display: none;
+    }
+
     /* Menu drop down */
-    .menu-dropdown-user, .menu-dropdown {
+    .menu-dropdown-user, .menu-dropdown, .menu-dropdown-close {
         align-items: center;
         color: $hca-black;
         cursor: pointer;
@@ -96,7 +102,7 @@ mat-toolbar {
     }
 
     /* Drop down icon */
-    .menu-dropdown-user::after, .menu-dropdown::before {
+    .menu-dropdown-user::after, .menu-dropdown::before, .menu-dropdown-close::before {
         color: $hca-gray-dark;
         content: "\E313";
         font-family: "Material Icons";
@@ -105,13 +111,13 @@ mat-toolbar {
         margin: 0 4px;
     }
 
-    /* Menu drop down */
-    .menu-dropdown-user {
+    /* Menu drop down - user and close */
+    .menu-dropdown-user, .menu-dropdown-close {
         display: none;
     }
 
     /* Drop down icon */
-    .menu-dropdown-user::after {
+    .menu-dropdown-user::after, .menu-dropdown-close::before {
         display: none;
     }
 }
@@ -167,12 +173,12 @@ mat-toolbar {
         }
 
         /* Menu drop down */
-        .menu-dropdown {
+        .menu-dropdown, .menu-dropdown-close {
             display: none;
         }
 
         /* Drop down icon */
-        .menu-dropdown::before {
+        .menu-dropdown::before, .menu-dropdown-close::before {
             display: none;
         }
     }

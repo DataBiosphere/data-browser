@@ -3,9 +3,7 @@
         <img src="/assets/images/logos/hca/logo-hca.png"
              srcset="/assets/images/logos/hca/logo-hca@2x.png 2x, /assets/images/logos/hca/logo-hca@3x.png 3x">
         <div menu-open cc-hamburger class="menu-dropdown">Menu</div>
-        <button mat-icon-button menu-close>
-            <mat-icon>close</mat-icon>
-        </button>
+        <div menu-close cc-hamburger class="menu-dropdown-close">Menu</div>
         <cc-toolbar-nav>
             <cc-toolbar-nav-item class="active">
                 <a href="#">
@@ -38,6 +36,7 @@
                 </a>
             </cc-toolbar-nav-item>
         </cc-toolbar-nav>
+        <div menu-open class="hca-toolbar-nav-overlay"></div>
         <div class="menu-dropdown-user">Alex S.</div>
     </mat-toolbar-row>
 </mat-toolbar>

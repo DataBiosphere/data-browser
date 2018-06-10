@@ -5,6 +5,7 @@
  * CC snapper component styles.
  */
 @import "../shared/theme/cgl.vars";
+@import "../shared/theme/cgl.global";
 
 :host {
 
@@ -13,7 +14,7 @@
     &.snap {
 
         /deep/ hca-file-summary {
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.06);
+            box-shadow: 0 2px 4px 0 rgba($hca-black, 0.06);
         }
     }
     /** Add flex to snapper to push footer to bottom of snapper container */
