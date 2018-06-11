@@ -27,7 +27,7 @@ export class HCATableComponent implements OnInit {
     display10 = 13;
     display12 = 16;
     display15 = 22;
-    display5 = 7;
+    display5 = 6;
     displayedColumns = [
         "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age",
         "ageUnit", "sex", "diseased"
