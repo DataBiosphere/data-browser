@@ -11,14 +11,15 @@
     align-items: center;
     display: flex;
     overflow-x: auto; /* Horizontal scroll */
-    margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
+    padding: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
 
     /* HCA table */
     .hca-table {
         display: flex;
         flex: 1;
         flex-direction: column;
-        margin-top: 4px;
+        margin: 4px -16px 0;
+        padding: 0 16px;
 
         /* Pagination */
         .pagination {
