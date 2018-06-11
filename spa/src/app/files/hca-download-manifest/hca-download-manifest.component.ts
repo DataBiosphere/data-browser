@@ -57,14 +57,10 @@ export class HCADownloadManifestComponent {
             backdropClass: "hca-form-backdrop",
             disableClose: false,
             panelClass: "hca-form-dialog",
-            data: { summary: this.summary, fileFacets: this.fileFacets, selectedFacets: this.selectedFacets}
+            data: {summary: this.summary, fileFacets: this.fileFacets, selectedFacets: this.selectedFacets}
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                console.log("Case is cancelled");
-                // this.isCaseCancelled(result);
-            }
         });
     }
 }

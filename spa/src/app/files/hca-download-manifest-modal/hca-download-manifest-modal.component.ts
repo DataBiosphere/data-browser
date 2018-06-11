@@ -92,5 +92,4 @@ export class HCADownloadManifestModalComponent {
     public onGetInstructions() {
         console.log("go to instructions");
     }
-
 }

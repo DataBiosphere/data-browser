@@ -217,7 +217,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
      */
     public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
-        console.log(fileFacetSelectedEvent);
 
         this.store.dispatch(new SelectFileFacetAction(
             new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
