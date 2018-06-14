@@ -272,15 +272,16 @@ export class HCATableComponent implements OnInit {
  */
 export interface Element {
     fileName: string;
-    biomaterial: string; // TODO check not array
-    organ: string;
-    organPart: string;
-    libraryConstruction: string;
-    species: string;
-    age: string;
-    ageUnit: string;
-    sex: string;
-    diseased: string; // TODO check not array
+    // biomaterial: string; // TODO check not array
+     organ: string;
+     organPart: string;
+     libraryConstruction: string;
+     species: string;
+     age: string;
+     ageUnit: string;
+     sex: string;
+     diseased: string; // TODO check not array
+     cellCount: number;
 }
 
 /**
@@ -327,22 +328,23 @@ class TableElementDataSource extends DataSource<any> {
                 // }, {});
 
 
-                let biomaterials = this.rollUpMetadata(row.biomaterials);
+                let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
 
-                let fileCopy = row.fileCopies[0] || {};
+                let file = row.files[0] || {};
 
                 return {
-                    fileName: fileCopy.fileName,
-                    biomaterial: this.getSelfOrFirst(biomaterials.biomaterialId),
-                    organ: biomaterials.biomaterialOrgan,
-                    organPart: biomaterials.biomaterialOrganPart,
+                    fileName: file.name,
+                    biomaterial: this.getSelfOrFirst(specimens.id),
+                    organ: specimens.organ,
+                    organPart: specimens.organPart,
                     libraryConstruction: processes.libraryConstructionApproach,
-                    species: biomaterials.biomaterialGenusSpecies,
-                    age: biomaterials.organismAge,
-                    ageUnit: biomaterials.organismAgeUnit,
-                    sex: biomaterials.biologicalSex,
-                    diseased: biomaterials.biomaterialDisease
+                    species: specimens.genusSpecies,
+                    age: specimens.organismAge,
+                    ageUnit: specimens.organismAgeUnit,
+                    sex: specimens.biologicalSex,
+                    diseased: specimens.disease,
+                    cellCount: specimens.totalCells
                 };
             });
         });

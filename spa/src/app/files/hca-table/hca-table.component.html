@@ -22,10 +22,10 @@
             </ng-container>
             <ng-container matColumnDef="biomaterial">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Biomaterial Id"
+                    <span matTooltip="Specimen"
                           matTooltipPosition="below"
                           matTooltipShowDelay="500"
-                          matTooltipClass="hca-tooltip narrow">Biomaterial Id</span>
+                          matTooltipClass="hca-tooltip narrow">Specimen Id</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display12)">

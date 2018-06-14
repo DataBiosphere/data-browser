@@ -75,7 +75,7 @@ export class ConfigService {
      */
     public getAPIURL(): string {
 
-        return `${this.dataURL}/api/v1`;
+        return `${this.dataURL}/api`;
     }
 
     /**

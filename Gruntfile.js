@@ -98,7 +98,9 @@ module.exports = function (grunt) {
                 NODE_ENV: "local",
                 // BW_DATA_URL: "https://carlos.ucsc-cgp-dev.org"
                 //  BW_DATA_URL: "https://ucsc-cgp.org"
-                BW_DATA_URL: "https://dss-aws-staging.ucsc-cgp-dev.org"
+               // BW_DATA_URL: "https://dss-aws-staging.ucsc-cgp-dev.org"
+                BW_DATA_URL: "https://80lxq6lpg5.execute-api.us-east-1.amazonaws.com"
+
             }
         },
 
