@@ -15,25 +15,24 @@
 
     /* Facet title */
     .facet-title {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         justify-content: space-between;
 
         /* Facet name */
         span:first-of-type {
-            font-family: "DIN Alternate", sans-serif; /* TODO typography */
+            font-family: "din-2014", sans-serif; /* TODO typography */
             font-size: 18px; /* TODO typography */
             font-weight: 500; /* TODO typography */
             min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         /* Facet count */
         span:last-of-type {
             font-family: "Montserrat", sans-serif; /* TODO typography */
             font-size: 14px; /* TODO typography */
+            height: 18px;
+            line-height: 18px;
         }
     }
 

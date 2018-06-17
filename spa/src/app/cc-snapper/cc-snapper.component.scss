@@ -9,6 +9,9 @@
 
 :host {
 
+    /** Add flex to snapper to push footer to bottom of snapper container */    display: flex;
+    flex-direction: column;
+    flex: 1;
     overflow-y: auto;
 
     &.snap {
@@ -17,46 +20,4 @@
             box-shadow: 0 2px 4px 0 rgba($hca-black, 0.06);
         }
     }
-    /** Add flex to snapper to push footer to bottom of snapper container */
-    //display: flex;
-    //flex: 1;
-    //flex-direction: column;
 }
-
-/**
- * Small +
- */
-//@media (min-width: $md-sm-min) {
-//
-//    :host {
-//
-//        //overflow-y: auto; // HCA specific
-//
-//        /** Handle snap of results summary - add padding top to host, to allow for snapped results summary. */
-//        &.snap {
-//            padding-top: 0; // HCA specific
-//
-//            /** Handle snap of results summary element itself */
-//            /deep/ bw-file-summary {
-//                position: absolute;
-//                left: 0;
-//                padding: 0; // Remove default padding
-//                right: 0;
-//                z-index: 10;
-//            }
-//        }
-//    }
-//}
-
-// Set the default position for the open menu
-//@include snapper-top($md-toolbar-height-desktop);
-
-// Specific position for mobile devices in portrait mode.
-//@media (max-width: $md-sm-min) and (orientation: portrait) {
-    //@include snapper-top($md-toolbar-height-mobile-portrait);
-//}
-
-// Specific position for mobile devices in landscape mode.
-//@media (max-width: $md-md-min) and (orientation: landscape) {
-//    @include snapper-top($md-toolbar-height-mobile-landscape);
-//}

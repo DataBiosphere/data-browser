@@ -54,8 +54,8 @@
     .hca-input {
         width: 258px;
 
-        /* Input field */
-        input {
+        /* Input placeholder */
+        &::placeholder {
             color: $hca-black; /* TODO review input field colour */
         }
     }
@@ -110,9 +110,9 @@
         /* Facet Group */
         .facet-group {
             border-bottom: 1px solid $hca-gray-light;
-            font-family: "DIN Alternate", sans-serif; /* TODO typography */
+            font-family: "din-2014", sans-serif; /* TODO typography */
             font-size: 16px; /* TODO typography */
-            font-weight: 600; /* TODO typography */
+            font-weight: 500; /* TODO typography */
             letter-spacing: 0.49px; /* TODO typography */
             padding: 32px 4px 8px;
 
@@ -144,8 +144,15 @@
 
         /* Wrapper around terms */
         .facet-term-list {
+            max-height: 237.5px;
+            overflow-y: scroll;
+            padding: 2px 4px 0;
+        }
+
+        /* Styles applied when Facet is open */
+        .open {
             border-bottom: 1px solid $hca-gray-light;
-            padding: 2px 4px 18px;
+            padding-bottom: 18px;
         }
 
         /* Styles applied when Facet is closed */

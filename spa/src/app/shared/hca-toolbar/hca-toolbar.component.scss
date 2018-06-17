@@ -27,6 +27,10 @@ mat-toolbar {
         justify-content: space-between;
         margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
+
+        > a {
+            height: 45px; /* Image height */
+        }
     }
 
     // Menu is hidden by default

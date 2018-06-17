@@ -7,7 +7,6 @@
 @import "../shared/theme/cgl.vars";
 
 :host {
-    display: block;
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
 
