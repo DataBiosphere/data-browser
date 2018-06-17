@@ -46,7 +46,7 @@
                           matTooltipClass="hca-tooltip narrow">Organ</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.organ, display12)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organ, display10)">
                             <div *ngSwitchCase="true"
                                   matTooltip="{{element.organ}}"
                                   matTooltipPosition="below"
@@ -64,7 +64,7 @@
                           matTooltipClass="hca-tooltip narrow">Organ Part</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.organPart, display12)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organPart, display10)">
                             <div *ngSwitchCase="true"
                                   matTooltip="{{element.organPart}}"
                                   matTooltipPosition="below"
@@ -126,25 +126,7 @@
                                   matTooltipPosition="below"
                                   matTooltipShowDelay="2000"
                                   matTooltipClass="hca-tooltip">{{element.age}}</div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}}</div>
-                    </ng-container>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="ageUnit">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The unit in which age is expressed. Must be one of hour, day, week, month, or year."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
-                          matTooltipClass="hca-tooltip narrow">Age Unit</span>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.ageUnit, display5)">
-                            <div *ngSwitchCase="true"
-                                  matTooltip="{{element.ageUnit}}"
-                                  matTooltipPosition="below"
-                                  matTooltipShowDelay="2000"
-                                  matTooltipClass="hca-tooltip">{{element.ageUnit}}</div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.ageUnit}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}} {{getAgeUnit(element.ageUnit)}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -181,6 +163,24 @@
                                   matTooltipShowDelay="2000"
                                   matTooltipClass="hca-tooltip">{{element.diseased}}</div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.diseased}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="cellCount">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Cell count"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="500"
+                          matTooltipClass="hca-tooltip narrow">Cell Count (Estimated)</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.cellCount, display10)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.diseased}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="500"
+                             matTooltipClass="hca-tooltip">{{element.cellCount}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.cellCount | localeString}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>

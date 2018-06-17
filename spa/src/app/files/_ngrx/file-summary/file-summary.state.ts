@@ -7,11 +7,12 @@ const DEFAULT_FILE_SUMMARY = {
     fileCount: 0,
     totalFileSize: 0,
     donorCount: 0,
-    organCounts: 0, /* HCA Specific */
+    organCount: 0, /* HCA Specific */
     primarySite: 0,
     primarySiteCount: 0,
     projectCount: 0,
-    sampleCount: 0
+    sampleCount: 0,
+    specimenCount: 0
 };
 
 export class FileSummaryState implements FileSummary {
@@ -21,11 +22,12 @@ export class FileSummaryState implements FileSummary {
     donorCount: number;
     fileCount: number;
     totalFileSize: number;
-    organCounts: number; /* HCA Specific */
+    organCount: number; /* HCA Specific */
     primarySite: number;
     primarySiteCount: number;
     projectCount: number;
     sampleCount: number;
+    specimenCount: number;
 
     constructor(fileSummary: FileSummary = DEFAULT_FILE_SUMMARY) {
 

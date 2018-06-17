@@ -10,10 +10,11 @@ export interface FileSummary {
     bodyPartsCounts: number;
     donorCount: number;
     fileCount: number;
-    organCounts: number; /* HCA Specific */
+    organCount: number; /* HCA Specific */
     primarySite: string|number;
     primarySiteCount: number;
     projectCount: number;
     sampleCount: number;
+    specimenCount: number;
     totalFileSize: number;
 }

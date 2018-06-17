@@ -138,12 +138,12 @@
 
                 /* Organ */
                 &:nth-of-type(3) {
-                    width: calc(12.5% - 8px);
+                    width: calc(10% - 8px);
                 }
 
                 /* Organ Part */
                 &:nth-of-type(4) {
-                    width: calc(12.5% - 8px);
+                    width: calc(10% - 8px);
                 }
 
                 /* Library construction */
@@ -161,17 +161,17 @@
                     width: calc(5% - 8px);
                 }
 
-                /* Age Unit */
+                /* Sex */
                 &:nth-of-type(8) {
                     width: calc(5% - 8px);
                 }
 
-                /* Sex */
+                /* Disease */
                 &:nth-of-type(9) {
-                    width: calc(5% - 8px);
+                    width: calc(10% - 8px);
                 }
 
-                /* Disease */
+                /* Cell count */
                 &:nth-of-type(10) {
                     width: calc(10% - 8px);
                 }

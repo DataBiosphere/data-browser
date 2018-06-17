@@ -29,8 +29,7 @@ export class HCATableComponent implements OnInit {
     display15 = 22;
     display5 = 6;
     displayedColumns = [
-        "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age",
-        "ageUnit", "sex", "diseased"
+        "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age", "sex", "diseased", "cellCount"
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
@@ -110,6 +109,15 @@ export class HCATableComponent implements OnInit {
         };
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+    }
+
+    public getAgeUnit(ageUnit) {
+        if (ageUnit === "weeks") {
+            return "w";
+        }
+        if ((ageUnit === "years") || (ageUnit === "year")) {
+            return "y";
+        }
     }
 
     /**
@@ -273,15 +281,15 @@ export class HCATableComponent implements OnInit {
 export interface Element {
     fileName: string;
     // biomaterial: string; // TODO check not array
-     organ: string;
-     organPart: string;
-     libraryConstruction: string;
-     species: string;
-     age: string;
-     ageUnit: string;
-     sex: string;
-     diseased: string; // TODO check not array
-     cellCount: number;
+    organ: string;
+    organPart: string;
+    libraryConstruction: string;
+    species: string;
+    age: string;
+    ageUnit: string;
+    sex: string;
+    diseased: string; // TODO check not array
+    cellCount: number;
 }
 
 /**
