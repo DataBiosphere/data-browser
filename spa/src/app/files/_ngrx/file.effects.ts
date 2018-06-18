@@ -16,6 +16,8 @@ import "rxjs/add/operator/first";
 import "rxjs/add/observable/concat";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/withLatestFrom";
+import "rxjs/add/observable/forkJoin";
+import "rxjs/add/observable/from";
 import * as _ from "lodash";
 // App dependencies
 import { FilesService } from "../shared/files.service";
@@ -24,6 +26,7 @@ import {
     ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
+    NoOpAction,
     SelectFileFacetAction
 } from "./file-facet-list/file-facet-list.actions";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
@@ -47,6 +50,7 @@ import {
 } from "./table/table.actions";
 import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
+import "rxjs/add/operator/do";
 
 @Injectable()
 export class FileEffects {
@@ -122,6 +126,21 @@ export class FileEffects {
             return new FetchTableDataSuccessAction(tableModel);
         });
 
+
+    @Effect()
+    fileFacetsSuccess: Observable<Action> = this.actions$
+        .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
+            console.log("yea its me!");
+            const ffsa = action as FetchFileFacetsSuccessAction;
+            if (ffsa.fileFacetSelectedEvent) {
+                return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
+            }
+            else {
+                return new NoOpAction();
+            }
+        });
+
+
     /**
      * Effects
      */
@@ -196,17 +215,20 @@ export class FileEffects {
     @Effect()
     initFacets$: Observable<Action> = this.actions$
         .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFacetsMap).first();
+        .switchMap((action: FetchFileFacetsRequestAction) => {
+            return Observable.forkJoin(
+                this.store.select(selectSelectedFacetsMap).first(),
+                Observable.from([action])
+            );
         })
-        .switchMap((selectedFacets) => {
+        .switchMap((result) => {
             return Observable.concat(
                 // Request Summary
                 Observable.of(new FetchFileSummaryRequestAction()),
                 // Request Table Data
                 Observable.of(new FetchInitialTableDataRequestAction()),
                 // Request Facets, and sort by metadata
-                this.fetchOrderedFileFacets(selectedFacets)
+                this.fetchOrderedFileFacets(result[0])
                     .map((fileFacets: FileFacet[]) => {
 
                         fileFacets.forEach((fileFacet) => {
@@ -219,7 +241,9 @@ export class FileEffects {
                                 colorIndex++;
                             });
                         });
-                        return new FetchFileFacetsSuccessAction(fileFacets);
+
+                        const ffra = result[1] as FetchFileFacetsRequestAction;
+                        return new FetchFileFacetsSuccessAction(fileFacets, ffra.fileFacetSelectedEvent);
                     })
             );
         });

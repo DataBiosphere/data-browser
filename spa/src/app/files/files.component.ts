@@ -4,14 +4,12 @@
  *
  * Core files component, displays results summary as well as facets.
  */
-
 // Core dependencies
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-
 // App dependencies
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
@@ -20,6 +18,7 @@ import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-sum
 import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
+import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
 
 @Component({
     selector: "bw-files",
@@ -27,10 +26,6 @@ import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet
     styleUrls: ["files.component.scss"]
 })
 export class FilesComponent implements OnInit {
-
-    // Locals
-    private route: ActivatedRoute;
-    private store: Store<AppState>;
 
     // Public variables
     public hcaExplore;
@@ -41,6 +36,9 @@ export class FilesComponent implements OnInit {
     public selectFileSummary$: Observable<FileSummary>;
     public fileFacets$: Observable<FileFacet[]>;
     public selectedFileFacets$: Observable<FileFacet[]>;
+    // Locals
+    private route: ActivatedRoute;
+    private store: Store<AppState>;
 
     /**
      * @param route {ActivatedRoute}
@@ -149,17 +147,33 @@ export class FilesComponent implements OnInit {
         this.route.queryParams
             .map((params) => {
 
-                if ( params && params["filters"] && params["filters"].length ) {
-                    return {
-                        filters: JSON.parse(decodeURIComponent(params["filters"]))
-                    };
-                }
-                else {
-                    return {};
+                if (params && params["filter"] && params["filter"].length) {
+
+                    let filterParam = decodeURIComponent(params["filter"]);
+                    let filter
+                    try {
+                        filter = JSON.parse(filterParam);
+                    }
+                    catch (err) {
+                       console.log(err);
+                    }
+
+
+                    if (filter && filter.organ) {
+                        return filter.organ;
+                    }
+                    else {
+                        return "";
+                    }
                 }
             })
-            .subscribe((query) => {
-                this.store.dispatch(new FetchFileFacetsRequestAction());
+            .subscribe((organ) => {
+                if (organ) {
+                    this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent("organ", organ, true)));
+                }
+                else {
+                    this.store.dispatch(new FetchFileFacetsRequestAction());
+                }
             });
     }
 }
