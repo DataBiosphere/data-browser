@@ -112,11 +112,9 @@ export class HCATableComponent implements OnInit {
     }
 
     public getAgeUnit(ageUnit) {
-        if (ageUnit === "weeks") {
-            return "w";
-        }
-        if ((ageUnit === "years") || (ageUnit === "year")) {
-            return "y";
+
+        if (ageUnit) {
+            return ageUnit.charAt(0);
         }
     }
 
