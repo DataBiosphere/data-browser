@@ -69,6 +69,7 @@
 
         mat-table {
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
+            max-width: 1140px;
 
             mat-row, mat-header-row {
                 padding: 0 12px; /* Total left and right padding is 16px */
@@ -105,14 +106,14 @@
                     white-space: nowrap;
                 }
 
-                /* File Name */
+                /* Bio Material */
                 &:first-of-type {
                     color: $hca-primary;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
 
-                /* Bio Material */
+                /* File Name */
                 &:nth-of-type(2) {
                     color: $hca-gray-darkest;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
@@ -126,14 +127,14 @@
                 padding-left: 4px;
                 padding-right: 4px;
 
-                /* File Name */
+                /* Bio Material */
                 &:first-of-type {
-                    width: calc(15% - 8px); /* 8px for left and right padding */
+                    width: calc(12.5% - 8px); /* 8px for left and right padding */
                 }
 
-                /* Bio Material */
+                /* File Name */
                 &:nth-of-type(2) {
-                    width: calc(12.5% - 8px);
+                    width: calc(15% - 8px);
                 }
 
                 /* Organ */

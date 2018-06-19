@@ -29,7 +29,7 @@ export class HCATableComponent implements OnInit {
     display15 = 22;
     display5 = 6;
     displayedColumns = [
-        "fileName", "biomaterial", "organ", "organPart", "libraryConstruction", "species", "age", "sex", "diseased", "cellCount"
+        "biomaterial", "fileName", "organ", "organPart", "libraryConstruction", "species", "age", "sex", "diseased", "cellCount"
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;

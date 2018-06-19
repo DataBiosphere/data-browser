@@ -2,6 +2,24 @@
     <div class="hca-table">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
+            <ng-container matColumnDef="biomaterial">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Specimen"
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="2000"
+                          matTooltipClass="hca-tooltip narrow">Specimen Id</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display12)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.biomaterial}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="2000"
+                             matTooltipClass="hca-tooltip">{{element.biomaterial}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="fileName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="File name"
@@ -17,24 +35,6 @@
                                   matTooltipShowDelay="2000"
                                   matTooltipClass="hca-tooltip">{{element.fileName}}</div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</div>
-                    </ng-container>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="biomaterial">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Specimen"
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
-                          matTooltipClass="hca-tooltip narrow">Specimen Id</span>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display12)">
-                            <div *ngSwitchCase="true"
-                                  matTooltip="{{element.biomaterial}}"
-                                  matTooltipPosition="below"
-                                  matTooltipShowDelay="2000"
-                                  matTooltipClass="hca-tooltip">{{element.biomaterial}}</div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
