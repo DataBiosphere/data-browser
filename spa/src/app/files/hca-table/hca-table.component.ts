@@ -62,7 +62,7 @@ export class HCATableComponent implements OnInit {
      */
     public isTermNameTruncated(termName: string, length: number): boolean {
 
-        if ( termName ) {
+        if (termName) {
             return termName.length > length;
         }
         else {
@@ -77,7 +77,7 @@ export class HCATableComponent implements OnInit {
      */
     public nextPageSelected(pm: PaginationModel) {
 
-        if ( !this.hasNext(pm) ) {
+        if (!this.hasNext(pm)) {
             return;
         }
 
@@ -97,7 +97,7 @@ export class HCATableComponent implements OnInit {
     public previousPageSelected(pm: PaginationModel) {
 
 
-        if ( !this.hasPrevious(pm) ) {
+        if (!this.hasPrevious(pm)) {
             return;
         }
 
@@ -132,7 +132,7 @@ export class HCATableComponent implements OnInit {
         this.pageError = false;
 
         /* Prevent error on page number */
-        if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
+        if (pageNumber > pageCount || !pageNumber || pageNumber <= 0) {
             this.pageError = true;
             pageNumber = 1;
         }
@@ -197,7 +197,7 @@ export class HCATableComponent implements OnInit {
      */
     getToIndex(pm: PaginationModel): number {
         let to: number = pm.from + (pm.size - 1);
-        if ( to <= pm.total ) {
+        if (to <= pm.total) {
             return to;
         }
         else {
@@ -230,7 +230,7 @@ export class HCATableComponent implements OnInit {
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for ( let i = 1; i <= pageCount; i++ ) {
+        for (let i = 1; i <= pageCount; i++) {
             pages.push(i);
         }
 
@@ -365,7 +365,7 @@ class TableElementDataSource extends DataSource<any> {
     rollUpMetadata(array): any {
 
         // if the array is empty we have no values.
-        if ( !array ) {
+        if (!array) {
             return {};
         }
 
@@ -377,27 +377,50 @@ class TableElementDataSource extends DataSource<any> {
                 let value = element[key];
 
                 // skip null values
-                if ( value ) {
+                if (value) {
 
                     // flatten arrays
-                    if ( value instanceof Array ) {
+                    if (value instanceof Array) {
                         value = value.join(",");
                     }
 
-                    // if the value is different from an existing key...
-                    const cellValues = acc[key] ? acc[key].split(",") : [];
 
-                    if ( cellValues.length ) {
-                        if ( !cellValues.some(cellValue => cellValue === value) ) {
-                            // apend the value to the existing key
-                            acc[key] = acc[key] + ", " + value;
+                    if (key === "totalCells") {
+
+                        if (acc[key]) {
+                            acc[key] = acc[key] + value;
                         }
+                        else {
+                            acc[key] = value;
+                        }
+
                     }
                     else {
-                        // if no existing key or the vaues are the same just set the value.
-                        acc[key] = value;
-                    }
 
+                        // if the value is different from an existing key...
+                        let cellValues;
+
+                        try {
+                            cellValues = acc[key] ? acc[key].split(",") : [];
+                        }
+                        catch (error) {
+                            console.log(key);
+                            console.log(value);
+                            console.log(acc[key]);
+                        }
+
+
+                        if (cellValues.length) {
+                            if (!cellValues.some(cellValue => cellValue === value)) {
+                                // apend the value to the existing key
+                                acc[key] = acc[key] + ", " + value;
+                            }
+                        }
+                        else {
+                            // if no existing key or the vaues are the same just set the value.
+                            acc[key] = value;
+                        }
+                    }
                 }
             });
 
