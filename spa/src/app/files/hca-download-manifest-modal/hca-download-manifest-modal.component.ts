@@ -85,11 +85,4 @@ export class HCADownloadManifestModalComponent {
         this.store.dispatch(new SelectFileFacetAction(
             new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
     }
-
-    /**
-     * Redirect to instructions on how to download manifest.
-     */
-    public onGetInstructions() {
-        console.log("go to instructions");
-    }
 }

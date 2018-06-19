@@ -130,7 +130,6 @@ export class FileEffects {
     @Effect()
     fileFacetsSuccess: Observable<Action> = this.actions$
         .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
-            console.log("yea its me!");
             const ffsa = action as FetchFileFacetsSuccessAction;
             if (ffsa.fileFacetSelectedEvent) {
                 return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
