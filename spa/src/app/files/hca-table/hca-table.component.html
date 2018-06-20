@@ -190,11 +190,8 @@
         <div *ngIf="pagination$ | async; let pagination" class="pagination">
             <button type="button" (click)="previousPageSelected(pagination)">
                 <mat-icon>chevron_left</mat-icon>
-                <span>Back</span>
             </button>
-            <span>{{getCurrentPage(pagination)}} of {{getPageCount(pagination)}}</span>
             <button type="button" (click)="nextPageSelected(pagination)">
-                <span>Next</span>
                 <mat-icon>chevron_right</mat-icon>
             </button>
         </div>
