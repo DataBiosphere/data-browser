@@ -29,7 +29,7 @@ mat-toolbar {
         padding: 0 16px; /* Gutter 16px */
 
         > a {
-            height: 48px; /* Image height */
+            height: 40px; /* Image height */
         }
     }
 
@@ -39,7 +39,7 @@ mat-toolbar {
     }
 
     img {
-        height: 45px;
+        height: 40px;
     }
 
     /* Override default cc-toolbar-nav left margin */
@@ -68,11 +68,10 @@ mat-toolbar {
             display: flex;
             flex-direction: column;
             font-family: "Montserrat", sans-serif;
-            font-size: 14px; /* TODO review with typography */
-            font-weight: 700; /* TODO review with typography */
-            letter-spacing: 1.2px;
+            font-size: 15px; /* TODO review with typography */
+            font-weight: 600; /* TODO review with typography */
             margin: 0 24px;
-            text-transform: capitalize;
+            text-transform: uppercase;
 
             &:hover {
                 color: $hca-black;
@@ -153,8 +152,9 @@ mat-toolbar {
             padding: 0 16px; /* HCA specific override */
 
             a {
-                color: $hca-black;
+                color: $hca-gray-dark;
                 margin: 0;
+                text-transform: capitalize;
 
                 span:nth-of-type(2) {
                     display: none;
