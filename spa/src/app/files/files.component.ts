@@ -158,8 +158,6 @@ export class FilesComponent implements OnInit {
                        console.log(err);
                     }
 
-
-                    console.log(filter);
                     if (filter && filter.facetName) {
                         return filter;
                     }
@@ -169,7 +167,6 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((filter) => {
-            console.log(filter);
                 if (filter) {
                     this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
                 }
