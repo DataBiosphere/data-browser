@@ -5,7 +5,7 @@
                 <ng-container *ngFor="let term of facet.terms">
                     <mat-chip *ngIf="term.selected" [removable]="removable" class="selected-term">
                         <div>
-                            <span>{{facet.name}}: </span>
+                            <span>{{facet.name | camelToSpace}}: </span>
                             <span>{{term.name}}</span>
                         </div>
                         <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close

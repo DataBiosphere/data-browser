@@ -159,17 +159,19 @@ export class FilesComponent implements OnInit {
                     }
 
 
-                    if (filter && filter.organ) {
-                        return filter.organ;
+                    console.log(filter);
+                    if (filter && filter.facetName) {
+                        return filter;
                     }
                     else {
                         return "";
                     }
                 }
             })
-            .subscribe((organ) => {
-                if (organ) {
-                    this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent("organ", organ, true)));
+            .subscribe((filter) => {
+            console.log(filter);
+                if (filter) {
+                    this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
                 }
                 else {
                     this.store.dispatch(new FetchFileFacetsRequestAction());
