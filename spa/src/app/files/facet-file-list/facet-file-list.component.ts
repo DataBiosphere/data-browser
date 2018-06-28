@@ -13,13 +13,18 @@
  */
 
 // Core dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
 import { FileFacet } from "../shared/file-facet.model";
 import { Term } from "../shared/term.model";
+import { FileSummary } from "../file-summary/file-summary";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { FileTypeSummary } from "../file-summary/file-type-summary";
 
 @Component({
     selector: "facet-file-list",
@@ -30,18 +35,17 @@ export class FacetFileListComponent {
 
     // Locals
     private fileNameShortenerPipe: FileNameShortenerPipe;
+    private store: Store<AppState>;
 
     // Inputs
-    @Input() fileFacet: FileFacet;
-
-    // Outputs
-    @Output() facetTermSelected = new EventEmitter<FileFacetSelectedEvent>();
+    @Input() fileTypeSummaries: FileTypeSummary[];
+    @Input() fileFacet: FileFacet[];
 
     /**
      * Create file name shortener pipe for formatting selected file names (for search file facets only).
      */
-    constructor() {
-
+    constructor(store: Store<AppState>) {
+        this.store = store;
         this.fileNameShortenerPipe = new FileNameShortenerPipe();
     }
 
@@ -59,14 +63,40 @@ export class FacetFileListComponent {
      */
     formatTermName(termName: string): string {
 
-        // Truncate term name if file facet is search (file ID or donor ID).
-        if ( this.fileFacet.isInterfaceTypeSearch() ) {
-
-            return this.fileNameShortenerPipe.transform(termName);
-        }
-
         // Otherwise return term name as is
         return termName;
+    }
+
+    /**
+     * Return the base list of terms to display - if no facets have been selected, display up to the first
+     * three terms, otherwise display up to the first three selected terms.
+     *
+     * @returns {Term[]}
+     */
+    public getDisplayList(): Term[] {
+
+        return this.getFacet("fileFormat").terms;
+    }
+
+    /**
+     * Returns the facet given a facet name
+     */
+    public getFacet(facetName: string): FileFacet {
+
+        const fileFacet = this.fileFacet.find(function (fileFacet) {
+            return fileFacet.name === facetName;
+        });
+
+        return fileFacet;
+    }
+
+    public getFileTypeSummary(termName: string): FileTypeSummary {
+
+        const fileTypeSummary = this.fileTypeSummaries.find(function (fileTypeSummary) {
+            return fileTypeSummary.fileType === termName;
+        });
+
+        return fileTypeSummary;
     }
 
     /**
@@ -109,20 +139,9 @@ export class FacetFileListComponent {
      * @param fileFacet {FileFacet}
      * @param term {Term}
      */
-    onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
+    public onClickFacetTerm(term: Term): void {
 
-        // Update facet state
-        this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
-    }
-
-    /**
-     * Return the base list of terms to display - if no facets have been selected, display up to the first
-     * three terms, otherwise display up to the first three selected terms.
-     *
-     * @returns {Term[]}
-     */
-    public getDisplayList(): Term[] {
-
-        return this.fileFacet.terms;
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent("fileFormat", term.name, true)));
     }
 }

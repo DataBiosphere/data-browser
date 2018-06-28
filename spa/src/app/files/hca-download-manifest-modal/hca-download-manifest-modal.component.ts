@@ -1,6 +1,6 @@
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -10,29 +10,25 @@ import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileSummary } from "../file-summary/file-summary";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { Observable } from "rxjs/Observable";
+import { selectFileFacetsFileFacets, selectFileSummary } from "../_ngrx/file.selectors";
 
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
     styleUrls: ["./hca-download-manifest-modal.component.scss"]
 })
-export class HCADownloadManifestModalComponent {
+export class HCADownloadManifestModalComponent implements OnInit {
 
     // Privates
+    public selectFileSummary$: Observable<FileSummary>;
+    public fileFacets$: Observable<FileFacet[]>;
     private store: Store<AppState>;
 
     // Template variables
-    facetName = "fileFormat";
-    fileFacets: FileFacet[];
     hideDownload = false;
-    selectedFacets: FileFacet[];
-    summary: FileSummary;
 
-    constructor(store: Store<AppState>, public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(store: Store<AppState>, public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
         this.store = store;
-        this.summary = data.summary;
-        this.fileFacets = data.fileFacets;
-        this.selectedFacets = data.selectedFacets;
     }
 
     public getDownloadClass(step) {
@@ -48,18 +44,6 @@ export class HCADownloadManifestModalComponent {
                 hide: true
             };
         }
-    }
-
-    /**
-     * Returns the facet given a facet name
-     */
-    public getFacet(facetName: string): FileFacet {
-
-        const fileFacet = this.fileFacets.find(function (fileFacet) {
-            return fileFacet.name === facetName;
-        });
-
-        return fileFacet;
     }
 
     onNoClick(): void {
@@ -84,5 +68,17 @@ export class HCADownloadManifestModalComponent {
 
         this.store.dispatch(new SelectFileFacetAction(
             new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
+    }
+
+    /**
+     * Set up selectors and request initial data set.
+     */
+    public ngOnInit() {
+
+        // File Summary
+        this.selectFileSummary$ = this.store.select(selectFileSummary);
+
+        // File Facets
+        this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
     }
 }

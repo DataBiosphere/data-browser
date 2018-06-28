@@ -1,33 +1,24 @@
 import { FileSummary } from "../../file-summary/file-summary";
 import { FetchFileSummarySuccessAction } from "./file-summary.actions";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
 
 const DEFAULT_FILE_SUMMARY = {
-    biomaterialCount: 0, /* HCA Specific */
-    bodyPartsCounts: 0,
     fileCount: 0,
-    totalFileSize: 0,
-    donorCount: 0,
-    organCount: 0, /* HCA Specific */
-    primarySite: 0,
-    primarySiteCount: 0,
+    fileTypeSummaries: [],
+    organCount: 0,
     projectCount: 0,
-    sampleCount: 0,
-    specimenCount: 0
+    specimenCount: 0,
+    totalFileSize: 0
 };
 
 export class FileSummaryState implements FileSummary {
 
-    biomaterialCount: number; /* HCA Specific */
-    bodyPartsCounts: number;
-    donorCount: number;
     fileCount: number;
-    totalFileSize: number;
-    organCount: number; /* HCA Specific */
-    primarySite: number;
-    primarySiteCount: number;
+    fileTypeSummaries: FileTypeSummary[];
+    organCount: number;
     projectCount: number;
-    sampleCount: number;
     specimenCount: number;
+    totalFileSize: number;
 
     constructor(fileSummary: FileSummary = DEFAULT_FILE_SUMMARY) {
 

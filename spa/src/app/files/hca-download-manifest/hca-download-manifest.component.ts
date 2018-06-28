@@ -56,8 +56,7 @@ export class HCADownloadManifestComponent {
         const dialogRef = this.dialog.open(HCADownloadManifestModalComponent, {
             backdropClass: "hca-form-backdrop",
             disableClose: false,
-            panelClass: "hca-form-dialog",
-            data: {summary: this.summary, fileFacets: this.fileFacets, selectedFacets: this.selectedFacets}
+            panelClass: "hca-form-dialog"
         });
 
         dialogRef.afterClosed().subscribe(result => {

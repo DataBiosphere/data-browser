@@ -70,14 +70,33 @@ export class FileEffects {
         .switchMap((selectedFacets) => {
             return this.fileService.fetchFileSummary(selectedFacets);
         })
+        .map((fileSummary: any) => {
+
+            const fileTypeSummary = fileSummary.fileTypeSummary;
+
+            const fileTypeSummaries = Object.keys(fileSummary.fileTypeSummary).map((key) => {
+
+                return {
+                    fileType: key,
+                    count: fileTypeSummary[key].count,
+                    totalSize: fileTypeSummary[key].totalSize
+                };
+
+            });
+
+
+            return {
+                fileCount: fileSummary.fileCount,
+                fileTypeSummaries: fileTypeSummaries,
+                organCount: fileSummary.organCount,
+                projectCount: fileSummary.projectCount,
+                specimenCount: fileSummary.specimenCount,
+                totalFileSize: fileSummary.totalFileSize
+            };
+        })
         .map((fileSummary: FileSummary) => {
 
-
-            if (typeof fileSummary.primarySite === "string") {
-                fileSummary.primarySiteCount = 0;
-            }
-
-            if (typeof fileSummary.totalFileSize === "string") {
+            if ( typeof fileSummary.totalFileSize === "string" ) {
                 fileSummary.totalFileSize = 0;
             }
 
@@ -131,7 +150,7 @@ export class FileEffects {
     fileFacetsSuccess: Observable<Action> = this.actions$
         .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
             const ffsa = action as FetchFileFacetsSuccessAction;
-            if (ffsa.fileFacetSelectedEvent) {
+            if ( ffsa.fileFacetSelectedEvent ) {
                 return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
             }
             else {
@@ -162,7 +181,7 @@ export class FileEffects {
      *
      * @type {Observable<Action>}
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(DownloadFileManifestAction.ACTION_TYPE)
         .switchMap(() => {
@@ -318,12 +337,12 @@ export class FileEffects {
                     return !!facet;
                 });
 
-                if (!sortOrder || !sortOrder.length) {
+                if ( !sortOrder || !sortOrder.length ) {
                     return fileFacets;
                 }
 
                 let newFileFacets = sortOrder.map((sortName) => {
-                    return _.find(fileFacets, { name: sortName });
+                    return _.find(fileFacets, {name: sortName});
                 });
 
                 // order may contain facets that do not exist so filter out any nulls.

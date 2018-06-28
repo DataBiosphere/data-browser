@@ -41,13 +41,15 @@ export class FilesDAO extends CCBaseDAO {
      * @param [selectedFacets]
      * @returns {Observable<FileSummary>}
      */
-    fetchFileSummary(selectedFacets?: FileFacet[]): Observable<FileSummary> {
+    fetchFileSummary(selectedFacets?: FileFacet[]): Observable<any> {
+
+        // todo convert back from any to FileSummary.
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/files/summary`);
         const filterParams = Object.assign({}, query);
-        return this.get<FileSummary>(url, filterParams);
+        return this.get<any>(url, filterParams);
     }
 
 
