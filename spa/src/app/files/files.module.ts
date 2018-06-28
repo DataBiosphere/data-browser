@@ -33,6 +33,7 @@ import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CCStopPropagationModule } from "../cc-stop-propagation/cc-stop-propagation.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { ConfigService } from "../config/config.service";
+import { FacetFileListComponent } from "./facet-file-list/facet-file-list.component";
 import { FacetTermChartComponent } from "./facet-term-chart/facet-term-chart.component";
 import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 import { FilesComponent } from "./files.component";
@@ -94,6 +95,7 @@ import { FilesService } from "./shared/files.service";
     ],
     declarations: [
 
+        FacetFileListComponent,
         FacetTermChartComponent,
         FacetTermListComponent,
 

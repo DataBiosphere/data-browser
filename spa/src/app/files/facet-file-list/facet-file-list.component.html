@@ -1,0 +1,17 @@
+<div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
+     *ngFor="let term of getDisplayList()"
+     (click)="onClickFacetTerm(fileFacet, term)">
+    <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)"><mat-icon *ngIf="term.selected">check</mat-icon></div>
+    <div class="term-summary">
+        <div class="term-name" [ngClass]="getTruncatedClass(fileFacet.name)">
+            <ng-container [ngSwitch]="isTermNameTruncated(term.name)">
+                <span *ngSwitchCase="true"
+                      matTooltip="{{formatTermName(term.name)}}" 
+                      [matTooltipPosition]="'above'" 
+                      matTooltipShowDelay="500">{{formatTermName(term.name)}}</span>
+                <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
+            </ng-container>
+        </div>
+        <div class="term-count md-caption secondary">{{term.count | localeString}}</div>
+    </div>
+</div>

@@ -24,8 +24,8 @@
     <ng-container *ngIf="fileFacets.length">
         <div class="hca-card-content">
             <div class="facet-term-list">
-                <hca-facet-term-list [fileFacet]="getFacet(facetName)"
-                                     (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
+                <facet-file-list [fileFacet]="getFacet(facetName)"
+                                 (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
             </div>
         </div>
     </ng-container>
