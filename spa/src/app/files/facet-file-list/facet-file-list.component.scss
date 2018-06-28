@@ -51,11 +51,6 @@
                 font-size: 13px;
                 flex: 1; // Always title to consume remaining space (excluding count)
                 flex-shrink: 1;
-
-                /** Truncate long term names - where term names are not spaced */
-                &.truncate {
-                    word-break: break-all;
-                }
             }
 
             /* Term count */
