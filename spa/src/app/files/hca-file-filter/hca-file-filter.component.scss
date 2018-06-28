@@ -261,12 +261,18 @@
         display: flex;
         justify-content: space-between;
 
-        /* Ellipsis of term name if required */
+        /* Wrap of term name if required */
         > span:first-of-type {
-            overflow: hidden;
+            flex: 1;
             padding-right: 4px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            white-space: pre-wrap;
+        }
+
+        /* Count */
+        > span:nth-of-type(2) {
+            flex-basis: 36px; /* approx. 4 digit number */
+            flex-shrink: 0;
+            text-align: right;
         }
     }
 }
