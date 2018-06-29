@@ -31,6 +31,11 @@ mat-toolbar {
         > a {
             height: 40px; /* Image height */
         }
+
+        /* Hide RHS about */
+        > .about {
+            display: none;
+        }
     }
 
     // Menu is hidden by default
@@ -62,7 +67,7 @@ mat-toolbar {
             }
         }
 
-        a {
+        a, &.about a {
             align-items: flex-start;
             color: $hca-black;
             display: flex;
@@ -71,7 +76,7 @@ mat-toolbar {
             font-size: 15px; /* TODO review with typography */
             font-weight: 600; /* TODO review with typography */
             margin: 0 24px;
-            text-transform: uppercase;
+            text-transform: capitalize;
 
             &:hover {
                 color: $hca-black;
@@ -87,6 +92,12 @@ mat-toolbar {
                 text-transform: none;
             }
         }
+
+        /* About */
+        &.about a {
+            color: $hca-gray-dark;
+            font-weight: 400;
+        }
     }
 
     // No overlay when menu closed
@@ -95,7 +106,7 @@ mat-toolbar {
     }
 
     /* Menu drop down */
-    .menu-dropdown-user, .menu-dropdown, .menu-dropdown-close {
+    .menu-dropdown, .menu-dropdown-close {
         align-items: center;
         color: $hca-black;
         cursor: pointer;
@@ -106,7 +117,7 @@ mat-toolbar {
     }
 
     /* Drop down icon */
-    .menu-dropdown-user::after, .menu-dropdown::before, .menu-dropdown-close::before {
+    .menu-dropdown::before, .menu-dropdown-close::before {
         color: $hca-gray-dark;
         content: "\E313";
         font-family: "Material Icons";
@@ -115,13 +126,13 @@ mat-toolbar {
         margin: 0 4px;
     }
 
-    /* Menu drop down - user and close */
-    .menu-dropdown-user, .menu-dropdown-close {
+    /* Menu drop down - about and close */
+    .menu-dropdown-close {
         display: none;
     }
 
     /* Drop down icon */
-    .menu-dropdown-user::after, .menu-dropdown-close::before {
+    .menu-dropdown-close::before {
         display: none;
     }
 }
@@ -136,6 +147,22 @@ mat-toolbar {
         mat-toolbar-row {
             max-width: 1200px; /* Snap to 1200px, gutter 30px */
             padding: 0 30px; /* Gutter 30px */
+
+            /* About */
+            > .about {
+                align-items: center;
+                color: $hca-gray-dark; /* TODO change when implement hca-gray-dark */
+                cursor: pointer;
+                display: flex;
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 14px; /* TODO typography */
+                font-weight: 400; /* TODO typography */
+
+                /* About hover */
+                &:hover {
+                    color: $hca-black;
+                }
+            }
         }
 
         // Hide menu
@@ -151,6 +178,11 @@ mat-toolbar {
         cc-toolbar-nav-item {
             padding: 0 16px; /* HCA specific override */
 
+            /* Hide cc-toolbar-nav-item about */
+            &.about a {
+                display: none;
+            }
+
             a {
                 color: $hca-gray-dark;
                 margin: 0;
@@ -160,21 +192,6 @@ mat-toolbar {
                     display: none;
                 }
             }
-        }
-
-        /* Menu drop down */
-        .menu-dropdown-user {
-            color: $hca-off-white; /* TODO change when implement hca-gray-dark */
-            cursor: auto; /* TODO make pointer when implement */
-            display: flex;
-            font-size: 14px; /* TODO typography */
-            font-weight: 400; /* TODO typography */
-        }
-
-        /* Drop down icon */
-        .menu-dropdown-user::after {
-            color: $hca-off-white; /* TODO change when implement hca-grey-dark */
-            display: block;
         }
 
         /* Menu drop down */
