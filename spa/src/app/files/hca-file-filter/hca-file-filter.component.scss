@@ -255,6 +255,15 @@
     min-height: 26px;
     padding: 4px 0 !important; /* Override MD spec */
 
+    &.error {
+        background-color: $hca-gray-lightest;
+        letter-spacing: unset;
+        margin: -8px -16px 0;
+        max-width: calc(100% + 32px);
+        padding: 8px 16px !important;
+        white-space: pre-wrap;
+    }
+
     /* mat-option flex between term and count */
     > span {
         align-items: flex-start;

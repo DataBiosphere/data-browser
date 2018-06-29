@@ -4,6 +4,7 @@
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                           [displayWith]="displayFn">
+            <mat-option class="hca-option error">Oops! We don’t have an exact match, it may be called by a different name. Scroll through the list to see what data we currently have available.</mat-option>
             <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async"
                           [label]="facet.facetName | camelToSpace"
                           [disabled]="facet.disabled">

@@ -22,7 +22,7 @@
                 <span>{{summary.totalFileSize | fileSize}}</span>
             </div>
         </div>
-        <hca-download-manifest
+        <hca-download-manifest *ngIf="showDownload"
                 [downloadActive]="true"
                 [fileFacets]="fileFacets"
                 [selectedFacets]="selectedFacets"

@@ -3,24 +3,30 @@
         <span>Download Manifest for these files</span>
         <span>You can download the files using the HCA CLI.</span>
     </div>
-    <div class="file-summary">
-        <div>
-            <span>Projects</span>
-            <span>{{fileSummary.projectCount | localeString}}</span>
-        </div>
-        <div>
-            <span>Organs</span>
-            <span>{{fileSummary.organCount | localeString}}</span>
-        </div>
-        <div>
-            <span>Specimens</span>
-            <span>{{fileSummary.specimenCount | localeString}}</span>
-        </div>
-        <div>
-            <span>Files</span>
-            <span>{{fileSummary.fileCount | localeString}}</span>
-        </div>
-    </div>
+    <hca-file-summary
+                      [fileFacets]="fileFacets$ | async"
+                      [showDownload]="false"
+                      [summary]="selectFileSummary$ | async"
+                      [selectedFacets]="selectedFileFacets$ | async"></hca-file-summary>
+    <!--<div class="file-summary">-->
+        <!--<div>-->
+            <!--<span>Projects</span>-->
+            <!--<span>{{data.summary.projectCount | localeString}}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<span>Organs</span>-->
+            <!--<span>{{data.summary.organCount | localeString}}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<span>Specimens</span>-->
+            <!--<span>{{data.summary.specimenCount | localeString}}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<span>Files</span>-->
+            <!--<span>{{data.summary.fileCount | localeString}}</span>-->
+        <!--</div>-->
+    <!--</div>-->
+    <ng-container *ngIf="fileFacets.length">
         <div class="hca-card-content">
             <div class="facet-term-list">
                 <facet-file-list [fileFacet]="fileFacets$ | async" [fileTypeSummaries]="fileSummary.fileTypeSummaries"
