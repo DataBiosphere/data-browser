@@ -253,6 +253,7 @@ button {
  */
 @media (min-width: 1200px) {
 
+    // Display overlay
     .toolbar-menu-open .hca-toolbar-nav-overlay[menu-open] {
         display: none !important;
     }

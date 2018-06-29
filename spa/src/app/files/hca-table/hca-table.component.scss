@@ -6,6 +6,31 @@
  */
 @import "../../shared/theme/cgl.vars";
 
+:host {
+    position: relative; /* Positions fade on horizontal scroll */
+
+    /* Fade on horizontal scroll */
+    &::after, &::before {
+        content: "";
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 16px;
+    }
+
+    /* Fade on horizontal scroll RHS */
+    &::after {
+        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255,255,255,0.00) 100%); /* TODO confirm */
+        right: 0;
+    }
+
+    /* Fade on horizontal scroll LHS */
+    &::before {
+        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255,255,255,0.00) 100%); /* TODO confirm */
+        left: 0;
+    }
+}
+
 /* Wrapper */
 .wrapper {
     align-items: center;
@@ -191,6 +216,14 @@
  * Large +
  */
 @media screen and (min-width: 1200px) {
+
+    :host {
+
+        /* Hide fade on larger screens */
+        &::after, &::before {
+            display: none;
+        }
+    }
 
     /* Wrapper */
     .wrapper {
