@@ -34,9 +34,6 @@ export class HCADownloadManifestComponent {
 
     // Inputs
     @Input() downloadActive: boolean;
-    @Input() fileFacets: FileFacet[];
-    @Input() selectedFacets: FileFacet[];
-    @Input() summary: FileSummary;
 
     /**
      * @param route {ActivatedRoute}

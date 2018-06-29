@@ -8,16 +8,11 @@
     </hca-file-filter-wrapper>
     <hca-tab id="hcaTab"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
-                      [fileFacets]="fileFacets$ | async"
                       [showDownload]="true"
-                      [summary]="selectFileSummary$ | async"
-                      [selectedFacets]="selectedFileFacets$ | async">
+                      [summary]="selectFileSummary$ | async">
     </hca-file-summary>
     <hca-table></hca-table>
     <hca-download-manifest
-            [downloadActive]="false"
-            [fileFacets]="fileFacets$ | async"
-            [selectedFacets]="selectedFileFacets$ | async"
-            [summary]="selectFileSummary$ | async">
+            [downloadActive]="false">
     </hca-download-manifest>
 </div>

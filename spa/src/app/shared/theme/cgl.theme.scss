@@ -66,7 +66,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 .hca-form-backdrop {
     opacity: 1 !important;
     background-color: rgba($hca-white, 0.9);
-    top: 60px;
+    top: 0;
 }
 
 /* Overrides styles for Angular Material Dialog (mat-dialog-container) */

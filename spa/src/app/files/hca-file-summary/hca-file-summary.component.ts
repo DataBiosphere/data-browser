@@ -31,9 +31,7 @@ export class HCAFileSummaryComponent {
     private store: Store<AppState>;
 
     // Inputs
-    @Input() fileFacets: FileFacet[];
     @Input() showDownload: boolean;
-    @Input() selectedFacets: FileFacet[];
     @Input() summary: FileSummary;
 
     /**

@@ -49,6 +49,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     filterControl: FormControl = new FormControl();
     openIndex: number;
     removable = true;
+    searchReturnsEmpty = false;
     selectedFacet: number;
     selectIndex: number;
     selectedTermSet: Set<string>;
@@ -117,7 +118,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             return this.filterableFacets;
         }
 
-
         // once you select its the term in here how to avoid?
         if ( typeof searchString !== "string" ) {
             return this.filterableFacets;
@@ -135,7 +135,15 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
         });
 
-        return newFacets.filter(facet => facet.terms.length > 0);
+        /* Return new list of searchable facets, unless the list is empty */
+        if ( newFacets.filter(facet => facet.terms.length).length ) {
+            this.searchReturnsEmpty = false;
+            return newFacets.filter(facet => facet.terms.length > 0);
+        }
+        else {
+            this.searchReturnsEmpty = true;
+            return this.filterableFacets;
+        }
     }
 
     public getOptionsClass(i) {

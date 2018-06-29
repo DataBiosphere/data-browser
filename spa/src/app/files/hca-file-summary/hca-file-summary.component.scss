@@ -4,7 +4,6 @@
  *
  * HCA File summary styles.
  */
-
 @import "../../shared/theme/cgl.vars";
 
 /* Wrapper */
@@ -43,6 +42,38 @@
                     /* Count */
                     &:last-of-type {
                         color: $hca-gray-medium;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Download manifest summary */
+:host-context(.hca-download) {
+
+    .wrapper {
+        margin-top: -24px;
+        padding: 0 24px;
+
+        .file-summary {
+            margin-left: -12px;
+
+            /* Summaries and counts - container */
+            > div {
+
+                /* Summary and count */
+                > div {
+                    padding: 0 8px;
+
+                    /* Hide file size */
+                    &:last-of-type {
+                        display: none;
+                    }
+
+                    /* Font style for summary and count */
+                    > span {
+                        font-size: 11px;
                     }
                 }
             }

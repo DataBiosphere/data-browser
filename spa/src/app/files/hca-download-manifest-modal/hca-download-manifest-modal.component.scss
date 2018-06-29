@@ -42,38 +42,6 @@
         }
     }
 
-    /* File Summary */
-    .file-summary {
-        align-items: center;
-        display: flex;
-        flex: 1;
-        justify-content: flex-start;
-        margin-top: -24px;
-        padding: 24px;
-
-        /* Summary and count */
-        > div {
-            display: flex;
-            margin-left: -12px;
-            padding: 0 8px;
-
-            /* Font style for summary and count */
-            > span {
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 11px; /* TODO typography */
-                font-weight: 600; /* TODO typography */
-                padding: 0 4px;
-                text-transform: capitalize;
-
-                /* Count */
-                &:last-of-type {
-                    color: $hca-gray-medium;
-                    font-weight: 400; /* TODO typography */
-                }
-            }
-        }
-    }
-
     /* Content - list of terms */
     .hca-card-content {
         margin-top: -24px;

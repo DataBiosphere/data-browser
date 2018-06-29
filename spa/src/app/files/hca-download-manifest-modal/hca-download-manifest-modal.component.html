@@ -4,35 +4,16 @@
         <span>You can download the files using the HCA CLI.</span>
     </div>
     <hca-file-summary
-                      [fileFacets]="fileFacets$ | async"
-                      [showDownload]="false"
-                      [summary]="selectFileSummary$ | async"
-                      [selectedFacets]="selectedFileFacets$ | async"></hca-file-summary>
-    <!--<div class="file-summary">-->
-        <!--<div>-->
-            <!--<span>Projects</span>-->
-            <!--<span>{{data.summary.projectCount | localeString}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<span>Organs</span>-->
-            <!--<span>{{data.summary.organCount | localeString}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<span>Specimens</span>-->
-            <!--<span>{{data.summary.specimenCount | localeString}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<span>Files</span>-->
-            <!--<span>{{data.summary.fileCount | localeString}}</span>-->
-        <!--</div>-->
-    <!--</div>-->
-    <ng-container *ngIf="fileFacets.length">
+            [showDownload]="false"
+            [summary]="selectFileSummary$ | async"></hca-file-summary>
+    <ng-container *ngIf="fileFacets$ | async">
         <div class="hca-card-content">
             <div class="facet-term-list">
                 <facet-file-list [fileFacet]="fileFacets$ | async" [fileTypeSummaries]="fileSummary.fileTypeSummaries"
                                  (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
             </div>
         </div>
+    </ng-container>
     <div class="hca-card-action">
         <button type="button" (click)="onDownloadManifest()">Download Manifest</button>
         <div class="file-size">These files are {{fileSummary.totalFileSize | fileSize}} of data, from the HCA CLI</div>
@@ -44,6 +25,8 @@
         <span>Find instructions on how to download the files here:</span>
     </div>
     <div class="hca-card-action">
-        <a class="hca-button" href="https://dev.data.humancellatlas.org/learn/userguides/accessing-data/using-the-cli-to-access-data/">Get Download Instructions</a>
+        <a class="hca-button"
+           href="https://dev.data.humancellatlas.org/learn/userguides/accessing-data/using-the-cli-to-access-data/">Get
+            Download Instructions</a>
     </div>
 </div>
