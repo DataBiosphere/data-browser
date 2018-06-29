@@ -247,3 +247,13 @@ button {
         z-index: 100; /* Positioned above all sticky components etc, below cc-toolbar-nav-item */
     }
 }
+
+/**
+ * Large
+ */
+@media (min-width: 1200px) {
+
+    .toolbar-menu-open .hca-toolbar-nav-overlay[menu-open] {
+        display: none !important;
+    }
+}
