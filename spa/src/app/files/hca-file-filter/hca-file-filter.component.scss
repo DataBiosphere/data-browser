@@ -257,6 +257,7 @@
 
     &.error {
         background-color: $hca-gray-lightest;
+        cursor: default;
         letter-spacing: unset;
         margin: -8px -16px 0;
         max-width: calc(100% + 32px);
