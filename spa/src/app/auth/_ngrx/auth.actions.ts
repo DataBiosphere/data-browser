@@ -13,11 +13,11 @@ export class AuthenticationSuccessAction implements Action {
     constructor(public readonly user: User) {}
 }
 
-export class SyncSessionRequestAction implements Action {
-    public static ACTION_TYPE = "AUTH.SYNC_SESSION_REQUEST";
-    public readonly type = SyncSessionRequestAction.ACTION_TYPE;
-    constructor() {}
-}
+// export class SyncSessionRequestAction implements Action {
+//     public static ACTION_TYPE = "AUTH.SYNC_SESSION_REQUEST";
+//     public readonly type = SyncSessionRequestAction.ACTION_TYPE;
+//     constructor() {}
+// }
 
 export class SyncSessionSuccessAction implements Action {
     public static ACTION_TYPE = "AUTH.SYNC_SESSION_SUCCESS";
@@ -31,19 +31,16 @@ export class LogoutAction implements Action {
     constructor() {}
 }
 
-export class DownloadRedwoodTokenAction implements Action {
-    public static ACTION_TYPE = "AUTH.DOWNLOAD_REDWOOD_TOKEN";
-    public readonly type = DownloadRedwoodTokenAction.ACTION_TYPE;
-    constructor() {}
-}
+// export class DownloadRedwoodTokenAction implements Action {
+//     public static ACTION_TYPE = "AUTH.DOWNLOAD_REDWOOD_TOKEN";
+//     public readonly type = DownloadRedwoodTokenAction.ACTION_TYPE;
+//     constructor() {}
+// }
 
 export type All
     = AuthenticationSuccessAction
     | AuthenticationRequestedAction
-    // | AuthenticationFailedAction
-    | SyncSessionRequestAction
+   // | SyncSessionRequestAction
     | SyncSessionSuccessAction
-    | LogoutAction
-    | DownloadRedwoodTokenAction;
-    // | LoginRedirectAction
-    // | AuthorizedRedirectAction;
+    | LogoutAction;
+  //  | DownloadRedwoodTokenAction;

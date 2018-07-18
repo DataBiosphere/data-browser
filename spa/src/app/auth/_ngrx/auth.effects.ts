@@ -5,7 +5,7 @@ import "rxjs/add/operator/switchMap";
 
 import { UserService } from "../../data/user/user.service";
 import { User } from "../../data/user/user.model";
-import { DownloadRedwoodTokenAction, SyncSessionRequestAction, SyncSessionSuccessAction } from "./auth.actions";
+// import { SyncSessionRequestAction, SyncSessionSuccessAction } from "./auth.actions";
 
 @Injectable()
 export class AuthEffects {
@@ -14,21 +14,21 @@ export class AuthEffects {
                 private userService: UserService) {
     }
 
-    @Effect()
-    $syncSession = this.actions$
-        .ofType(SyncSessionRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.userService
-                .syncSession();
-        })
-        .map((user: User) => {
-            return new SyncSessionSuccessAction(user);
-        });
+    // @Effect()
+    // $syncSession = this.actions$
+    //     .ofType(SyncSessionRequestAction.ACTION_TYPE)
+    //     .switchMap(() => {
+    //         return this.userService
+    //             .syncSession();
+    //     })
+    //     .map((user: User) => {
+    //         return new SyncSessionSuccessAction(user);
+    //     });
 
-    @Effect({dispatch: false})
-    $downloadToken = this.actions$
-        .ofType(DownloadRedwoodTokenAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.userService.downloadRedwoodToken();
-        });
+    // @Effect({dispatch: false})
+    // $downloadToken = this.actions$
+    //     .ofType(DownloadRedwoodTokenAction.ACTION_TYPE)
+    //     .switchMap(() => {
+    //         return this.userService.downloadRedwoodToken();
+    //     });
 }

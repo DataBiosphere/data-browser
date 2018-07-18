@@ -19,12 +19,12 @@ import { setupResponseCallback } from "cc-express-utils";
  * @param {Req} req
  * @param {"~express/lib/express".createApplication.Response} res
  */
-export function getSession(req: Req, res: Res) {
-
-    const sessionCookie = req.cookies["session"];
-    if (!sessionCookie) {
-        return res.status(200).json({});
-    }
-
-    personService.getUserFromSessionCookie(sessionCookie, setupResponseCallback(res));
-}
+// export function getSession(req: Req, res: Res) {
+//
+//     const sessionCookie = req.cookies["session"];
+//     if (!sessionCookie) {
+//         return res.status(200).json({});
+//     }
+//
+//     personService.getUserFromSessionCookie(sessionCookie, setupResponseCallback(res));
+// }

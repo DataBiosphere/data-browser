@@ -16,18 +16,18 @@ export class UserService extends CCBaseDAO {
      *
      * @returns {Observable<User>}
      */
-    syncSession(): Observable<User> {
-        return this.get(`/api/session`);
-    }
+    // syncSession(): Observable<User> {
+    //     return this.get(`/api/session`);
+    // }
 
     /**
      * Download Redwood Token
      *
      * @returns {Observable<void>}
      */
-    downloadRedwoodToken(): Observable<boolean> {
-        window.location.href = `/api/user/redwood-token`;
-        // return this.get(`/api/user/redwood-token`);
-        return Observable.of(true);
-    }
+    // downloadRedwoodToken(): Observable<boolean> {
+    //     window.location.href = `/api/user/redwood-token`;
+    //     // return this.get(`/api/user/redwood-token`);
+    //     return Observable.of(true);
+    // }
 }
