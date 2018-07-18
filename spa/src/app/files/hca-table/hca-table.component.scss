@@ -115,6 +115,31 @@
                 font-weight: 600; /* TODO typography */
                 letter-spacing: 0.36px; /* TODO typography */
                 line-height: 18px; /* TODO typography */
+                overflow: visible;
+                position: relative; /* Positions sort arrow */
+
+                /* File Types */
+                .file-type {
+                    align-items: flex-start;
+                    display: flex;
+                    flex: 1;
+                    flex-direction: column;
+
+                    > div {
+                        width: 100%;
+
+                        /* Primary, secondary */
+                        > span {
+                            align-self: center;
+                            display: inline-block;
+                            font-family: "Montserrat", sans-serif; /* TODO typography */
+                            font-size: 10px; /* TODO typography */
+                            font-weight: 400;
+                            text-align: left;
+                            width: 50px;
+                        }
+                    }
+                }
             }
 
             mat-cell {
@@ -154,12 +179,12 @@
 
                 /* Bio Material */
                 &:first-of-type {
-                    width: calc(12.5% - 8px); /* 8px for left and right padding */
+                    width: calc(10% - 8px); /* 8px for left and right padding */
                 }
 
                 /* File Name */
                 &:nth-of-type(2) {
-                    width: calc(15% - 8px);
+                    width: calc(10% - 8px);
                 }
 
                 /* Organ */
@@ -174,7 +199,7 @@
 
                 /* Library construction */
                 &:nth-of-type(5) {
-                    width: calc(12.5% - 8px);
+                    width: calc(10% - 8px);
                 }
 
                 /* Species */
@@ -197,15 +222,40 @@
                     width: calc(10% - 8px);
                 }
 
-                /* Cell count */
+                /* File Types */
                 &:nth-of-type(10) {
-                    width: calc(10% - 8px);
+                    width: calc(12.5% - 8px); /* 8px for left and right padding */
+
+                    /* Primary, secondary */
+                    .file-type-data {
+                        align-items: center;
+                        cursor: pointer;
+                        display: flex;
+
+                        > span {
+                            display: inline-flex;
+                            width: 50px;
+                        }
+                    }
+                }
+
+                /* Cell count */
+                &:nth-of-type(11) {
+                    width: calc(7.5% - 8px);
                 }
 
                 /* Table header text alignment */
                 /deep/ .mat-sort-header-button {
+                    flex: 1;
                     line-height: 18px; /* TODO typography */
                     text-align: left !important;
+                }
+
+                /* Sort icon */
+                /deep/ .mat-sort-header-arrow {
+                    left: -8px;
+                    margin: 0;
+                    position: absolute;
                 }
             }
         }

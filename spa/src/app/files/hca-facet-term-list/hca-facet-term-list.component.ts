@@ -83,7 +83,7 @@ export class HCAFacetTermListComponent {
 
             let style = {
                 "border-color": "#1F6B9A",
-                "background-color": "#1288E4"
+                "background-color": "#1C7CC7"
             };
 
             return style;
