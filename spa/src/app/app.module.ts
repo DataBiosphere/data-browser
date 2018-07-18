@@ -28,12 +28,7 @@ import { AppReducers } from "./_ngrx/app.reducer";
 import { AppEffects } from "./_ngrx/app.effects";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
-import { CGLFooterComponent } from "./shared/cgl-footer/cgl-footer.component";
-import { CGLFooterNavComponent } from "./shared/cgl-footer/cgl-footer-nav/cgl-footer-nav.component";
-import { CGLFooterNavItemComponent } from "./shared/cgl-footer/cgl-footer-nav-item/cgl-footer-nav-item.component";
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
-import { CGLSubnavComponent } from "./shared/cgl-subnav/cgl-subnav.component";
-import { CGLToolbarComponent } from "./shared/cgl-toolbar/cgl-toolbar.component";
 import { HCAFooterComponent } from "./shared/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component";
 
@@ -69,13 +64,7 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         // Nav components
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
-        CGLFooterComponent,
-        CGLFooterNavComponent,
-        CGLFooterNavItemComponent,
         CCHamburgerDirective,
-        CGLSubnavComponent,
-        CGLToolbarComponent,
-
         // Components specific to Boardwalk instances
         HCAToolbarComponent,
         HCAFooterComponent
