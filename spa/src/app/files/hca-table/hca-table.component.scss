@@ -20,13 +20,13 @@
 
     /* Fade on horizontal scroll RHS */
     &::after {
-        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255,255,255,0.00) 100%); /* TODO confirm */
+        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
         right: 0;
     }
 
     /* Fade on horizontal scroll LHS */
     &::before {
-        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255,255,255,0.00) 100%); /* TODO confirm */
+        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
         left: 0;
     }
 }
@@ -169,6 +169,73 @@
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
+
+                /* File types */
+                &:nth-of-type(10) {
+                    align-items: center;
+                    display: flex;
+                    min-height: 48px;
+                    overflow: visible;
+                    position: relative; /* Positions file type info */
+
+                    /* Primary, secondary ticks */
+                    .file-type-data {
+                        align-items: center;
+                        cursor: pointer;
+                        display: flex;
+
+                        > span {
+                            display: inline-flex;
+                            width: 50px;
+                        }
+                    }
+
+                    /* File type info */
+                    .file-type-info {
+                        height: 0;
+                        visibility: hidden;
+                    }
+
+                    /* File type info - hover state */
+                    &:hover .file-type-info {
+                        background-color: $hca-white;
+                        border: 1px solid $hca-gray-dark;
+                        border-radius: 2px;
+                        color: $hca-black;
+                        display: flex;
+                        flex-direction: column;
+                        height: unset;
+                        padding: 16px;
+                        position: absolute;
+                        right: 50%;
+                        top: 48px;
+                        transition: all 0.25s ease 2s;
+                        transition-delay: 0.5s;
+                        visibility: visible;
+                        z-index: 10;
+
+                        &:before {
+                            border: 12px solid transparent;
+                            border-bottom-color: $hca-gray-light;
+                            content: '';
+                            position: absolute;
+                            right: 25%;
+                            top: -25px;
+                            z-index: 9;
+                        }
+
+                        /* File type title */
+                        .file-title {
+                            font-weight: 500;
+                            margin-top: 8px;
+
+                            &:first-of-type {
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+
             }
 
             mat-cell, mat-header-cell {
@@ -222,21 +289,9 @@
                     width: calc(10% - 8px);
                 }
 
-                /* File Types */
+                /* File types */
                 &:nth-of-type(10) {
-                    width: calc(12.5% - 8px); /* 8px for left and right padding */
-
-                    /* Primary, secondary */
-                    .file-type-data {
-                        align-items: center;
-                        cursor: pointer;
-                        display: flex;
-
-                        > span {
-                            display: inline-flex;
-                            width: 50px;
-                        }
-                    }
+                    width: calc(12.5% - 8px);
                 }
 
                 /* Cell count */
@@ -251,7 +306,7 @@
                     text-align: left !important;
                 }
 
-                /* Sort icon */
+                /* Sort icon - reposition to upper left of title */
                 /deep/ .mat-sort-header-arrow {
                     left: -8px;
                     margin: 0;

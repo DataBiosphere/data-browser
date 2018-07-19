@@ -339,9 +339,10 @@ class TableElementDataSource extends DataSource<any> {
 
                 let file = row.files[0] || {};
 
+                /* File counts for primary file format (fastq.qz) and other */
                 let fileCounts = row.files.reduce((acc, file) => {
 
-                    if (file.format === "fastq.gz") {
+                    if ( file.format === "fastq.gz" ) {
                         acc.primaryCount++;
                     }
                     else {

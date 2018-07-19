@@ -200,16 +200,26 @@
                             <div class="file-type-data">
                                 <span>
                                     <ng-container [ngSwitch]="element.fileTypePrimary > 0">
-                                        <ng-container *ngSwitchDefault><img src="../../../assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img src="../../../assets/images/table/isNotFileType.png"></ng-container>
+                                        <ng-container *ngSwitchDefault><img
+                                                src="../../../assets/images/table/isFileType.png"></ng-container>
+                                        <ng-container *ngSwitchCase="false"><img
+                                                src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
                                 <span>
                                     <ng-container [ngSwitch]="element.fileTypeSecondary > 0">
-                                        <ng-container *ngSwitchDefault><img src="../../../assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img src="../../../assets/images/table/isNotFileType.png"></ng-container>
+                                        <ng-container *ngSwitchDefault><img
+                                                src="../../../assets/images/table/isFileType.png"></ng-container>
+                                        <ng-container *ngSwitchCase="false"><img
+                                                src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
+                            </div>
+                            <div class="file-type-info">
+                                <span class="file-title">Raw Data</span>
+                                <span>Fastqs: {{element.fileTypePrimary}}</span>
+                                <span class="file-title">Secondary Analysis</span>
+                                <span>None</span>
                             </div>
                         </div>
                     </ng-container>
