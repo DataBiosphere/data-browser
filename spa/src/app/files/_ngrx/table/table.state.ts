@@ -12,7 +12,7 @@ import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 
 export class TableState {
 
-   public readonly tableModel: TableModel;
+    public readonly tableModel: TableModel;
 
     /**
      * @param {TableModel} tableModel
@@ -23,7 +23,7 @@ export class TableState {
 
     /**
      * Return the default state for setting up table.
-     * 
+     *
      * @returns {TableState}
      */
     public static getDefaultState() {
@@ -32,7 +32,7 @@ export class TableState {
 
     /**
      * Build new table state from data returned from table data API end point.
-     * 
+     *
      * @param {FetchTableDataSuccessAction} action
      * @returns {TableState}
      */

@@ -82,7 +82,9 @@ export class HCATableComponent implements OnInit {
         }
 
         let tableParamsModel = {
-            from: pm.from + pm.size,
+
+            search_after: pm.search_after,
+            search_after_uid: pm.search_after_uid,
             size: pm.size,
             sort: pm.sort,
             order: pm.order
@@ -102,7 +104,9 @@ export class HCATableComponent implements OnInit {
         }
 
         let tableParamsModel = {
-            from: pm.from - pm.size,
+
+            search_before: pm.search_before,
+            search_before_uid: pm.search_after_uid,
             size: pm.size,
             sort: pm.sort,
             order: pm.order
@@ -173,7 +177,8 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasNext(pm: PaginationModel): boolean {
-        return (pm.from + pm.count) < pm.total;
+        // return (pm.from + pm.count) < pm.total;
+        return pm.search_after !== null;
     }
 
     /**
@@ -183,35 +188,36 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-        return (pm.from > 1);
+       // return (pm.from > 1);
+        return pm.search_before !== null;
     }
 
+    // /**
+    //  * Return the index of the last row in the table (starting from 1).
+    //  *
+    //  * @param {PaginationModel} pm
+    //  * @returns {number}
+    //  */
+    // getToIndex(pm: PaginationModel): number {
+    //     let to: number = pm.from + (pm.size - 1);
+    //     if (to <= pm.total) {
+    //         return to;
+    //     }
+    //     else {
+    //         return pm.total;
+    //     }
+    // }
+    //
+    // /**
+    //  * Return the current page number.
+    //  *
+    //  * @param {PaginationModel} pm
+    //  * @returns {number}
+    //  */
+    // getCurrentPage(pm: PaginationModel): number {
+    //     return Math.floor(pm.from / pm.size) + 1;
+    // }
 
-    /**
-     * Return the index of the last row in the table (starting from 1).
-     *
-     * @param {PaginationModel} pm
-     * @returns {number}
-     */
-    getToIndex(pm: PaginationModel): number {
-        let to: number = pm.from + (pm.size - 1);
-        if ( to <= pm.total ) {
-            return to;
-        }
-        else {
-            return pm.total;
-        }
-    }
-
-    /**
-     * Return the current page number.
-     *
-     * @param {PaginationModel} pm
-     * @returns {number}
-     */
-    getCurrentPage(pm: PaginationModel): number {
-        return Math.floor(pm.from / pm.size) + 1;
-    }
 
     /**
      * Return the total number of pages.

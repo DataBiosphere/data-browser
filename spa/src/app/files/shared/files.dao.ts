@@ -11,7 +11,6 @@ import * as _ from "lodash";
 import { Observable } from "rxjs/Observable";
 import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
-
 // App dependencies
 import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
@@ -92,10 +91,35 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/specimens`);
-        let filterParams = Object.assign({ from: tableParams.from, size: tableParams.size }, query);
+
+        // exract the size param
+        let filterParams = Object.assign({size: tableParams.size}, query);
+
+        // see if there is a sort and order
         if (tableParams.sort && tableParams.order) {
-            filterParams = Object.assign(filterParams, { sort: tableParams.sort, order: tableParams.order });
+            filterParams = Object.assign(filterParams, {
+                sort: tableParams.sort,
+                order: tableParams.order
+            });
         }
+
+        // check if there is paging
+        if (tableParams.search_after && tableParams.search_after_uid) {
+            filterParams = Object.assign(filterParams, {
+                search_after: tableParams.search_after,
+                search_after_uid: tableParams.search_after_uid
+            });
+        }
+
+        if (tableParams.search_before && tableParams.search_before_uid) {
+            filterParams = Object.assign(filterParams, {
+                search_before: tableParams.search_before,
+                search_before_uid: tableParams.search_before_uid
+            });
+        }
+
+
+
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
