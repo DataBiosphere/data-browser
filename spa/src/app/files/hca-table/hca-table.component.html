@@ -2,7 +2,7 @@
     <div class="hca-table">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="biomaterial">
+            <ng-container matColumnDef="specimenId">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="Specimen"
                           matTooltipPosition="below"
@@ -10,14 +10,14 @@
                           matTooltipClass="hca-tooltip narrow">Specimen Id</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.biomaterial, display10)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.specimenId, display10)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.biomaterial}}"
+                             matTooltip="{{element.specimentId}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.biomaterial}}
+                             matTooltipClass="hca-tooltip">{{element.specimenId}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biomaterial}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.specimenId}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -78,7 +78,7 @@
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="libraryConstruction">
+            <ng-container matColumnDef="libraryConstructionApproach">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="Library Construction"
                           matTooltipPosition="below"
@@ -86,40 +86,40 @@
                           matTooltipClass="hca-tooltip narrow">Library Construction</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.libraryConstruction, display10)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.libraryConstructionApproach, display10)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.libraryConstruction}}"
+                             matTooltip="{{element.libraryConstructionApproach}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.libraryConstruction}}
+                             matTooltipClass="hca-tooltip">{{element.libraryConstructionApproach}}
                         </div>
                         <div *ngSwitchDefault matTooltip
-                             [matTooltipDisabled]="true">{{element.libraryConstruction}}
+                             [matTooltipDisabled]="true">{{element.libraryConstructionApproach}}
                         </div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="species">
+            <ng-container matColumnDef="genusSpecies">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Species"
+                    <span matTooltip="genusSpecies"
                           matTooltipPosition="below"
                           matTooltipShowDelay="2000"
                           matTooltipClass="hca-tooltip narrow">Species
                     </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.species, display10)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.genusSpecies, display10)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.species}}"
+                             matTooltip="{{element.genusSpecies}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.species}}
+                             matTooltipClass="hca-tooltip">{{element.genusSpecies}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.species}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.genusSpecies}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="age">
+            <ng-container matColumnDef="organismAge">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="Age in age_units. Measured since birth."
                           matTooltipPosition="below"
@@ -127,20 +127,20 @@
                           matTooltipClass="hca-tooltip narrow">Age</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.age, display5)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organismAge, display5)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.age}}"
+                             matTooltip="{{element.organismAge}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.age}}
+                             matTooltipClass="hca-tooltip">{{element.organismAge}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.age}}
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organismAge}}
                             {{getAgeUnit(element.ageUnit)}}
                         </div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="sex">
+            <ng-container matColumnDef="biologicalSex">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The biological sex of the organism. Should be one of male, female, mixed, or unknown."
                           matTooltipPosition="below"
@@ -148,18 +148,18 @@
                           matTooltipClass="hca-tooltip narrow">Sex</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.sex, display5)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.biologicalSex, display5)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.sex}}"
+                             matTooltip="{{element.biologicalSex}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.sex}}
+                             matTooltipClass="hca-tooltip">{{element.biologicalSex}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.sex}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biologicalSex}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="diseased">
+            <ng-container matColumnDef="disease">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="Disease on the specimen level"
                           matTooltipPosition="below"
@@ -167,14 +167,14 @@
                           matTooltipClass="hca-tooltip narrow">Diseased</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.diseased, display10)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.disease, display10)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.diseased}}"
+                             matTooltip="{{element.disease}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.diseased}}
+                             matTooltipClass="hca-tooltip">{{element.disease}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.diseased}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.disease}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -225,23 +225,26 @@
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="cellCount">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container matColumnDef="totalCells">
+                <mat-header-cell *matHeaderCellDef>
                     <span matTooltip="Cell count"
                           matTooltipPosition="below"
                           matTooltipShowDelay="500"
                           matTooltipClass="hca-tooltip narrow">Cell Count (Estimated)</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.cellCount, display7)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.totalCells, display7)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.diseased}}"
+                             matTooltip="{{element.totalCells}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="500"
-                             matTooltipClass="hca-tooltip">{{element.cellCount}}
+                             matTooltipClass="hca-tooltip">{{element.totalCells}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.cellCount |
-                            localeString}}
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">
+                            <ng-container *ngIf="element.totalCells">{{element.totalCells |
+                                localeString}}
+                            </ng-container>
+                            <ng-container *ngIf="!element.totalCells">No Data</ng-container>
                         </div>
                     </ng-container>
                 </mat-cell>

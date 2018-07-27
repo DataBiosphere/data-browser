@@ -168,6 +168,7 @@ export class FilesDAO extends CCBaseDAO {
                     "libraryConstructionApproach",
                     "protocol",
                     "fileFormat",
+                    "totalCells"
                 ];
 
                 ordering.order = bypassOrdering;

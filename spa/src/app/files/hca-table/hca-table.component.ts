@@ -29,7 +29,7 @@ export class HCATableComponent implements OnInit {
     display5 = 6;
     display7 = 10;
     displayedColumns = [
-        "biomaterial", "fileName", "organ", "organPart", "libraryConstruction", "species", "age", "sex", "diseased", "fileType", "cellCount"
+        "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
@@ -287,13 +287,13 @@ export interface Element {
     // biomaterial: string; // TODO check not array
     organ: string;
     organPart: string;
-    libraryConstruction: string;
-    species: string;
-    age: string;
+    libraryConstructionApproach: string;
+    genusSpecies: string;
+    organismAge: string;
     ageUnit: string;
-    sex: string;
-    diseased: string; // TODO check not array
-    cellCount: number;
+    biologicalSex: string;
+    disease: string; // TODO check not array
+    totalCells: number;
 }
 
 /**
@@ -360,18 +360,18 @@ class TableElementDataSource extends DataSource<any> {
 
                 return {
                     fileName: file.name,
-                    biomaterial: this.getSelfOrFirst(specimens.id),
+                    specimenId: this.getSelfOrFirst(specimens.id),
                     organ: specimens.organ,
                     organPart: specimens.organPart,
-                    libraryConstruction: processes.libraryConstructionApproach,
-                    species: specimens.genusSpecies,
-                    age: specimens.organismAge,
+                    libraryConstructionApproach: processes.libraryConstructionApproach,
+                    genusSpecies: specimens.genusSpecies,
+                    organismAge: specimens.organismAge,
                     ageUnit: specimens.organismAgeUnit,
-                    sex: specimens.biologicalSex,
-                    diseased: specimens.disease,
+                    biologicalSex: specimens.biologicalSex,
+                    disease: specimens.disease,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    cellCount: specimens.totalCells
+                    totalCells: specimens.totalCells
                 };
             });
         });
