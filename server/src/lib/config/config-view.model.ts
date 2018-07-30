@@ -7,4 +7,5 @@
 
 export class ConfigViewModel {
     dataURL: string; // Root data URL, set as environment variable
+    portalURL: string; // Data Portal URL set as environment variable
 }

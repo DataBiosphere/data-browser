@@ -4,9 +4,9 @@
  *
  * Core footer component, displays HCA-related links and copyright.
  */
-
 // Core dependencies
 import { Component } from "@angular/core";
+import { ConfigService } from "../../config/config.service";
 
 @Component({
     selector: "hca-footer",
@@ -15,4 +15,11 @@ import { Component } from "@angular/core";
 })
 
 export class HCAFooterComponent {
+
+    portalURL: string;
+
+    constructor(private configService: ConfigService) {
+        this.portalURL = this.configService.getPortalURL();
+    }
+
 }
