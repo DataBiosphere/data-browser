@@ -128,7 +128,7 @@ export const expressConfig = (app: Application) => {
             res.sendStatus(404);
         }
         else {
-            res.redirect("/boardwalk");
+            res.redirect("/");
         }
     });
 

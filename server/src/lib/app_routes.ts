@@ -7,6 +7,14 @@ import { config } from "./config/config";
 export default (app: Application) => {
 
 
+    app.get("/health", (req, res) => {
+        res.sendStatus(200);
+    });
+
+    app.get("/version", (req, res) => {
+        res.send(process.env.VERSION);
+    });
+
     //
     // Home
     //
@@ -14,10 +22,5 @@ export default (app: Application) => {
         res.sendFile(path.join(config.root, "dist/index.html"));
     });
 
-    //
-    // Files
-    //
-    app.get("/boardwalk", (req: Req, res: Res) => {
-        res.sendFile(path.join(config.root, "dist/index.html"));
-    });
+
 };
