@@ -93,13 +93,14 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Returns class truncate if fileFacet is protocol
+     * Returns class truncate if termName is not spaced and words are joined by an underscore
      * @param fileFacetName
      * @returns {string}
      */
-    public getTruncatedClass(fileFacetName) {
+    public getTruncatedClass(termName) {
 
-        if ( fileFacetName === "protocol" ) {
+        if ( termName.indexOf(" ") == -1 && termName.indexOf("_") >= 0 ) {
+            console.log(termName);
             return "truncate";
         }
     }

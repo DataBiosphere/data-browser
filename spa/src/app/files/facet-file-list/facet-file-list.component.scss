@@ -66,3 +66,12 @@
         }
     }
 }
+
+/* Download manifest summary */
+:host-context(.hca-card-content .facet-term-list) {
+
+    /* Term count */
+    .facet-term .term-summary .term-count {
+        flex-basis: 100px;
+    }
+}
