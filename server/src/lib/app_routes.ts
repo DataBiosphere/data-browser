@@ -12,7 +12,7 @@ export default (app: Application) => {
     });
 
     app.get("/version", (req, res) => {
-        res.send(process.env.VERSION);
+        res.send({version: process.env.VERSION});
     });
 
     //
