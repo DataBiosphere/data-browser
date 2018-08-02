@@ -74,20 +74,9 @@ export class FileEffects {
 
             const fileTypeSummary = fileSummary.fileTypeSummary;
 
-            const fileTypeSummaries = Object.keys(fileSummary.fileTypeSummary).map((key) => {
-
-                return {
-                    fileType: key,
-                    count: fileTypeSummary[key].count,
-                    totalSize: fileTypeSummary[key].totalSize
-                };
-
-            });
-
-
             return {
                 fileCount: fileSummary.fileCount,
-                fileTypeSummaries: fileTypeSummaries,
+                fileTypeSummaries: fileSummary.fileTypeSummaries,
                 organCount: fileSummary.organCount,
                 projectCount: fileSummary.projectCount,
                 specimenCount: fileSummary.specimenCount,
