@@ -12,7 +12,10 @@ export default (app: Application) => {
     });
 
     app.get("/version", (req, res) => {
-        res.send({version: process.env.VERSION});
+        res.send({
+            version: process.env.VERSION,
+            service: process.env.BW_DATA_URL
+        });
     });
 
     //
