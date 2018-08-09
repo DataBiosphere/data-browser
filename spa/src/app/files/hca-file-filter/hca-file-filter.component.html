@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div id="filter" class="filter">
         <input class="hca-input" type="text" placeholder="Search" aria-label="Number" matInput
-               [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
+               [formControl]="filterControl" #filterInput [matAutocomplete]="auto" (click)="onHCASelectClose()">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                           [displayWith]="displayFn">
             <mat-option *ngIf="searchReturnsEmpty" class="hca-option error">Oops! We don’t have an exact match, it may be called by a different name. Scroll through the list to see what data we currently have available.</mat-option>
@@ -41,7 +41,7 @@
                         <ng-container *ngIf="fileFacets.length">
                             <div [ngClass]="getIsOpenClass(f, t)" *ngFor="let facetName of facetGroup.facetNames; let t = index">
                                 <div class="facet" (click)="onHCAFacetSelect(f, t)">
-                                    <span>{{facetName | camelToSpace}}</span>
+                                    <span>{{getFacetName(facetName)}}</span>
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                 </div>
                                 <div class="facet-term-list">

@@ -36,6 +36,7 @@
         letter-spacing: 0.4px; /* TODO typography */
         margin: 0 4px;
         padding: 0 16px;
+        z-index: 12; /* Positions above overlay - to allow for direct change of menu selection */
 
         /* Mobile view filter select */
         &.view-options {
