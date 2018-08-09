@@ -100,7 +100,6 @@ export class HCAFacetTermListComponent {
     public getTruncatedClass(termName) {
 
         if ( termName.indexOf(" ") == -1 && termName.indexOf("_") >= 0 ) {
-            console.log(termName);
             return "truncate";
         }
     }

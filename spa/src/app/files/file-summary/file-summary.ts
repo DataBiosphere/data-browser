@@ -7,10 +7,12 @@
 import { FileTypeSummary } from "./file-type-summary";
 
 export interface FileSummary {
+    donorCount: number;
     fileCount: number;
     fileTypeSummaries: FileTypeSummary[];
     organCount: number;
     projectCount: number;
     specimenCount: number;
+    totalCellCount: number;
     totalFileSize: number;
 }

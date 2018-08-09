@@ -75,11 +75,13 @@ export class FileEffects {
             const fileTypeSummary = fileSummary.fileTypeSummary;
 
             return {
+                donorCount: fileSummary.donorCount,
                 fileCount: fileSummary.fileCount,
                 fileTypeSummaries: fileSummary.fileTypeSummaries,
                 organCount: fileSummary.organCount,
                 projectCount: fileSummary.projectCount,
                 specimenCount: fileSummary.specimenCount,
+                totalCellCount: fileSummary.totalCellCount,
                 totalFileSize: fileSummary.totalFileSize
             };
         })
