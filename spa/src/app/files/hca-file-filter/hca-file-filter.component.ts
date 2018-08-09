@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from "@angular/material";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
@@ -72,7 +73,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             },
             {
                 facetGroupName: "Method",
-                facetNames: ["instrumentManufacturerModel", "libraryConstructionApproach"]
+                facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
             },
             {
                 facetGroupName: "Donor",
@@ -143,6 +144,21 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         else {
             this.searchReturnsEmpty = true;
             return this.filterableFacets;
+        }
+    }
+
+    /**
+     * Returns facet name in correct format.  preservationMethod is renamed Storage Method.
+     * @param facetName
+     * @returns {any}
+     */
+    public getFacetName(facetName) {
+
+        if ( facetName === "preservationMethod" ) {
+            return "Storage Method";
+        }
+        else {
+            return (new CamelToSpacePipe().transform(facetName));
         }
     }
 
