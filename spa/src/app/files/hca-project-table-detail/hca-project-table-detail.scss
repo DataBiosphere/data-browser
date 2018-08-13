@@ -1,0 +1,135 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA project table detail styles.
+ */
+@import "../../shared/theme/cgl.vars";
+
+:host {
+
+    /* Wrapper */
+    .wrapper {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 36px auto;
+        position: relative; /* Positions stats */
+    }
+
+    /* Project table detail */
+    .project-table-detail {
+        border-bottom: 1px solid $hca-gray-light;
+
+        /* Row */
+        > div > div {
+            align-items: flex-start;
+            border-bottom: 1px solid $hca-gray-light;
+            display: flex;
+            padding: 4px 0;
+            width: 668px;
+
+            /* Font - header and detail */
+            span {
+                font-family: "Montserrat", sans-serif;
+                font-size: 13px;
+                line-height: 20px;
+                margin: 0 16px;
+
+                /* Table heading */
+                &:first-of-type {
+                    font-weight: 500;
+                    width: 204px;
+                }
+
+                /* Table detail */
+                &:nth-of-type(2) {
+                    width: calc(100% - 204px - 32px);
+                }
+            }
+        }
+
+        /* Stats */
+        > div .stats {
+            border-bottom: none;
+            flex-direction: column;
+            left: 0;
+            position: absolute;
+            top: 0;
+
+            /* Stat */
+            .stat {
+                display: flex;
+                flex-direction: column;
+                padding-bottom: 16px;
+                width: 76px;
+
+                span {
+                    margin: 0;
+                    width: unset !important;
+
+                    &:first-of-type {
+                        font-weight: 400;
+                        padding-bottom: 4px;
+                    }
+
+                    &:nth-of-type(2) {
+                        font-family: "din-2014", sans-serif;
+                        font-size: 18px;
+                        font-weight: 500;
+                        line-height: 24px;
+                    }
+                }
+            }
+        }
+    }
+
+    /* Description, author and collaborators list, publications, contact */
+    .project-details {
+
+        > div > div {
+
+            /* Content */
+            div {
+                font-family: "Montserrat", sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 24px;
+
+                /* Title */
+                &:first-of-type {
+                    font-family: "din-2014", sans-serif;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 22px;
+                    padding: 36px 0 16px;
+                }
+            }
+        }
+
+        > div .description {
+            max-width: 668px;
+
+            > div:first-of-type {
+                padding: 0 0 16px;
+            }
+
+        }
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    :host {
+
+        /* Wrapper */
+        .wrapper {
+            max-width: 1140px; /* Snap to 1200px, gutter 30px */
+            //padding: 0 30px;
+        }
+    }
+}

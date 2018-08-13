@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Component displaying HCA tabs.
+ * Component displaying HCA project table details.
  */
 
 // Core dependencies
@@ -14,13 +14,13 @@ import {
 // App dependencies
 
 @Component({
-    selector: "hca-tab",
-    templateUrl: "./hca-tab.component.html",
-    styleUrls: ["./hca-tab.scss"],
+    selector: "hca-project-table-detail",
+    templateUrl: "./hca-project-table-detail.component.html",
+    styleUrls: ["./hca-project-table-detail.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HCATabComponent {
+export class HCAProjectTableDetailComponent {
 
     // Inputs
     @Input() tabs = [];

@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * HCA explore styles.
+ * HCA section title styles.
  */
 @import "../../shared/theme/cgl.vars";
 
@@ -13,14 +13,15 @@
     margin: 0 auto;
     padding: 0 16px; /* Gutter 16px */
 
-    /* Explore */
-    .explore {
+    /* Title */
+    .section-title {
         align-items: center;
         display: flex;
         font-family: "din-2014", sans-serif; /* TODO typography */
         font-size: 34px; /* TODO typography */
         font-weight: 500; /* TODO typography */
         height: 76px;
+        justify-content: space-between;
         letter-spacing: 0.54px; /* TODO typography */
         width: 100%;
     }

@@ -1,12 +1,12 @@
-<div class="layout-column" (window:resize)="onResize()">
+<div *ngIf="!projectDetail" class="layout-column" (window:resize)="onResize()">
     <div class="sticky-overlay" id="hcaStickyOverlay"></div>
-    <hca-explore id="hcaExplore"></hca-explore>
+    <hca-section-title id="hcaExplore" [title]="'Explore Data'"></hca-section-title>
     <hca-file-filter-wrapper id="hcaFilterWrapper"
                              [fileFacets]="fileFacets$ | async"
                              [selectedFacets]="selectedFileFacets$ | async"
                              (hcaFilterWrapperEvent)="getComponentHeight()">
     </hca-file-filter-wrapper>
-    <hca-tab id="hcaTab"></hca-tab>
+    <hca-tab id="hcaTab" [tabs]="getExploreTabs()"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="true"
                       [summary]="selectFileSummary$ | async">
@@ -15,4 +15,9 @@
     <hca-download-manifest
             [downloadActive]="false">
     </hca-download-manifest>
+</div>
+<div *ngIf="projectDetail" class="layout-column project-detail">
+    <hca-section-title [title]="'Census of Immune Cells'" [showDownload]="true"></hca-section-title>
+    <hca-tab [tabs]="getProjectDetailTabs()"></hca-tab>
+    <hca-project-table-detail></hca-project-table-detail>
 </div>

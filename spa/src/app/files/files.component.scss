@@ -11,7 +11,7 @@
     flex: 1; // Push footer to bottom of available space (inside snapper)
 
     /* Sticky components */
-    hca-explore, hca-file-filter-wrapper, hca-tab, hca-file-summary, hca-download-manifest {
+    hca-section-title, hca-file-filter-wrapper, hca-tab, hca-file-summary, hca-download-manifest {
         background: white;
         left: 0;
         position: sticky;

@@ -28,14 +28,16 @@ import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
 export class FilesComponent implements OnInit {
 
     // Public variables
+    public fileFacets$: Observable<FileFacet[]>;
     public hcaExplore;
     public hcaFileSummary;
     public hcaFilterWrapper;
     public hcaStickyOverlay;
     public hcaTab;
+    public projectDetail = true;
     public selectFileSummary$: Observable<FileSummary>;
-    public fileFacets$: Observable<FileFacet[]>;
     public selectedFileFacets$: Observable<FileFacet[]>;
+
     // Locals
     private route: ActivatedRoute;
     private store: Store<AppState>;
@@ -80,6 +82,18 @@ export class FilesComponent implements OnInit {
         this.hcaFilterWrapper.style.top = this.hcaExplore.offsetHeight + "px";
         this.hcaTab.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + "px";
         this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
+    }
+
+    /**
+     * Returns a list of tabs for the data browser
+     * @returns {[string , string , string]}
+     */
+    public getExploreTabs() {
+        return ["Specimens", "Projects", "Files"];
+    }
+
+    public getProjectDetailTabs() {
+        return ["Projects"];
     }
 
     /**
@@ -131,8 +145,9 @@ export class FilesComponent implements OnInit {
         this.getComponentElementById();
 
         // Return component heights for sticky header
-        this.getComponentHeight();
-
+        if ( !this.projectDetail ) {
+            this.getComponentHeight();
+        }
     }
 
     /**

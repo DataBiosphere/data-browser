@@ -51,13 +51,14 @@ import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
-import { HCAExploreComponent } from "app/files/hca-explore/hca-explore.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
 import { HCAFileFilterComponent } from "app/files/hca-file-filter/hca-file-filter.component";
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
+import { HCAProjectTableDetailComponent } from "./hca-project-table-detail/hca-project-table-detail";
+import { HCASectionTitleComponent } from "app/files/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { FilesDAO } from "./shared/files.dao";
@@ -113,12 +114,13 @@ import { FilesService } from "./shared/files.service";
         FileFacetWrapperComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
-        HCAExploreComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
+        HCAProjectTableDetailComponent,
+        HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
 

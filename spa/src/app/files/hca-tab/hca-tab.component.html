@@ -1,7 +1,5 @@
 <div class="wrapper">
     <div class="hca-tab-list">
-        <div class="hca-tab active">Specimens</div>
-        <div class="hca-tab disabled">Projects</div>
-        <div class="hca-tab disabled">Files</div>
+        <div class="hca-tab" *ngFor="let tab of tabs">{{tab}}</div>
     </div>
 </div>
