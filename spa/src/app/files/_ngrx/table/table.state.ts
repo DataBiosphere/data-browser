@@ -36,7 +36,7 @@ export class TableState {
      * @param {FetchTableDataSuccessAction} action
      * @returns {TableState}
      */
-    public static getNewTableModel(action: FetchTableDataSuccessAction) {
+    public static getNewTableState(action: FetchTableDataSuccessAction): TableState {
         return new TableState(action.tableModel);
     }
 }

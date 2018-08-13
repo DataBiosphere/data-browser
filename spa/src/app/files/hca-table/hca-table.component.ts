@@ -14,8 +14,12 @@ import { Observable } from "rxjs/Observable";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
+import {
+    FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
+    TablePreviousPageAction
+} from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
     selector: "hca-table",
@@ -90,7 +94,7 @@ export class HCATableComponent implements OnInit {
             order: pm.order
         };
 
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        this.store.dispatch(new TableNextPageAction(tableParamsModel));
     }
 
     /**
@@ -112,7 +116,7 @@ export class HCATableComponent implements OnInit {
             order: pm.order
         };
 
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        this.store.dispatch(new TablePreviousPageAction(tableParamsModel));
     }
 
     public getAgeUnit(ageUnit) {
@@ -128,29 +132,29 @@ export class HCATableComponent implements OnInit {
      * @param {PaginationModel} pm
      * @param {number} pageNumber
      */
-    public goToPage(pm: PaginationModel, pageNumber: number) {
-
-        let pageCount = this.getPageCount(pm);
-        this.pageError = false;
-
-        /* Prevent error on page number */
-        if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
-            this.pageError = true;
-            pageNumber = 1;
-        }
-
-        pageNumber = (pageNumber - 1);
-        let from = (pm.size * pageNumber) + 1;
-
-        let tableParamsModel = {
-            from: from,
-            size: pm.size,
-            sort: pm.sort,
-            order: pm.order
-        };
-
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-    }
+    // public goToPage(pm: PaginationModel, pageNumber: number) {
+    //
+    //     let pageCount = this.getPageCount(pm);
+    //     this.pageError = false;
+    //
+    //     /* Prevent error on page number */
+    //     if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
+    //         this.pageError = true;
+    //         pageNumber = 1;
+    //     }
+    //
+    //     pageNumber = (pageNumber - 1);
+    //     let from = (pm.size * pageNumber) + 1;
+    //
+    //     let tableParamsModel = {
+    //         from: from,
+    //         size: pm.size,
+    //         sort: pm.sort,
+    //         order: pm.order
+    //     };
+    //
+    //     this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+    // }
 
     /**
      * Sort the table given the sort param and the order.
@@ -160,8 +164,7 @@ export class HCATableComponent implements OnInit {
      */
     public sortTable(pm: PaginationModel, sort: Sort) {
 
-        let tableParamsModel = {
-            from: 1,
+        let tableParamsModel: TableParamsModel = {
             size: pm.size,
             sort: sort.active,
             order: sort.direction
@@ -249,8 +252,7 @@ export class HCATableComponent implements OnInit {
      */
     public setPageSize(pm: PaginationModel, pageSize: number) {
 
-        let tableParamsModel = {
-            from: 1,
+        let tableParamsModel: TableParamsModel = {
             size: pageSize,
             sort: pm.sort,
             order: pm.order

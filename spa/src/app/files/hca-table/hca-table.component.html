@@ -253,12 +253,15 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <div *ngIf="pagination$ | async; let pagination" class="pagination">
-            <button type="button" (click)="previousPageSelected(pagination)">
-                <mat-icon>chevron_left</mat-icon>
-            </button>
-            <button type="button" (click)="nextPageSelected(pagination)">
-                <mat-icon>chevron_right</mat-icon>
-            </button>
+            <ng-container *ngIf="pagination.current_page">
+                <button type="button" (click)="previousPageSelected(pagination)">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                Page {{pagination.current_page}} of {{getPageCount(pagination)}}
+                <button type="button" (click)="nextPageSelected(pagination)">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </ng-container>
         </div>
     </div>
 </div>

@@ -9,4 +9,6 @@ export interface PaginationModel {
     search_after_uid: string;
     search_before: string;
     search_before_uid: string;
+    last_page: number;
+    current_page: number;
 }

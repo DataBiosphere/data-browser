@@ -6,15 +6,31 @@ export class TableNextPageAction implements Action {
     public static ACTION_TYPE = "TABLE.NEXT_PAGE";
     public readonly type = TableNextPageAction.ACTION_TYPE;
 
-    constructor() {}
+    constructor(public tableParams: TableParamsModel) {}
 }
+
+export class TableNextPageSuccessAction implements Action {
+    public static ACTION_TYPE = "TABLE.NEXT_PAGE_FETCH_DATA_SUCCESS";
+    public readonly type = TableNextPageSuccessAction.ACTION_TYPE;
+
+    constructor(public readonly tableModel: TableModel) {}
+}
+
 
 export class TablePreviousPageAction implements Action {
     public static ACTION_TYPE = "TABLE.PREVIOUS_PAGE";
     public readonly type = TablePreviousPageAction.ACTION_TYPE;
 
-    constructor() {}
+    constructor(public tableParams: TableParamsModel) {}
 }
+
+export class TablePreviousPageSuccessAction implements Action {
+    public static ACTION_TYPE = "TABLE.PREVIOUS_PAGE_FETCH_DATA_SUCCESS";
+    public readonly type = TablePreviousPageSuccessAction.ACTION_TYPE;
+
+    constructor(public readonly tableModel: TableModel) {}
+}
+
 
 export class TableSetPageAction implements Action {
     public static ACTION_TYPE = "TABLE.SET_PAGE";

@@ -46,7 +46,8 @@ import { AppState } from "../../_ngrx/app.state";
 import {
     FetchInitialTableDataRequestAction,
     FetchPagedOrSortedTableDataRequestAction,
-    FetchTableDataSuccessAction
+    FetchTableDataSuccessAction, TableNextPageAction, TableNextPageSuccessAction, TablePreviousPageAction,
+    TablePreviousPageSuccessAction
 } from "./table/table.actions";
 import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
@@ -166,6 +167,29 @@ export class FileEffects {
         .map((tableModel: TableModel) => {
             return new FetchTableDataSuccessAction(tableModel);
         });
+
+    @Effect()
+    fetchNextPagedOrSortedTableData$: Observable<Action> = this.actions$
+        .ofType(TableNextPageAction.ACTION_TYPE)
+        .withLatestFrom(this.store.select(selectTableQueryParams))
+        .switchMap((results) => {
+            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as TableNextPageAction).tableParams);
+        })
+        .map((tableModel: TableModel) => {
+            return new TableNextPageSuccessAction(tableModel);
+        });
+
+    @Effect()
+    fetchPreviousPagedOrSortedTableData$: Observable<Action> = this.actions$
+        .ofType(TablePreviousPageAction.ACTION_TYPE)
+        .withLatestFrom(this.store.select(selectTableQueryParams))
+        .switchMap((results) => {
+            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as TablePreviousPageAction).tableParams);
+        })
+        .map((tableModel: TableModel) => {
+            return new TablePreviousPageSuccessAction(tableModel);
+        });
+
     /**
      *
      * Trigger downooad of manifest.
