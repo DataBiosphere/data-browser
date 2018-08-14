@@ -52,6 +52,59 @@ ul {
     }
 }
 
+/* HCA paragraph font class "xxs" */
+p.xxs {
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 18px;
+    margin: 0 0 14px;
+}
+
+/* HCA paragraph font class "xs" */
+p.xs {
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin: 0 0 16px;
+
+    /* Semi bold */
+    &.bold {
+        font-weight: 600;
+    }
+}
+
+/* HCA paragraph font class "s" */
+p.s {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 24px;
+    margin: 0 0 18px;
+}
+
+/* HCA h4 font class "m" */
+h4.m {
+    font-family: "din-2014", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    margin: 14px 0 16px;
+}
+
+/* HCA h3 font class "l" */
+h3.l {
+    font-family: "din-2014", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    margin: 16px 0 18px;
+}
+
 /**
 * Horizontal rule
 */

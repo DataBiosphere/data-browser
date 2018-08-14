@@ -8,51 +8,62 @@
 
 :host {
 
+    /* Separator between project highlights and description / author */
+    > div:first-of-type {
+        border-bottom: 1px solid $hca-gray-light;
+    }
+
     /* Wrapper */
     .wrapper {
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 36px auto;
+        margin: 0 auto;
+        padding: 0 16px; /* Gutter 16px */
         position: relative; /* Positions stats */
     }
 
-    /* Project table detail */
-    .project-table-detail {
-        border-bottom: 1px solid $hca-gray-light;
+    /* LHS container */
+    .lhs {
+        box-sizing: border-box;
+        width: 100%;
+    }
 
-        /* Row */
-        > div > div {
+    /* RHS container */
+    .rhs {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    /* Project highlights */
+    .project-highlights {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 36px 0;
+        position: relative; /* Positions stats */
+        width: 100%;
+
+        /* Row - excludes stats */
+        > div:not(.stats) {
             align-items: flex-start;
-            border-bottom: 1px solid $hca-gray-light;
+            border-bottom: 1px solid $hca-gray-lightest;
             display: flex;
+            flex-direction: column;
             padding: 4px 0;
-            width: 668px;
+            width: 100%;
 
-            /* Font - header and detail */
-            span {
-                font-family: "Montserrat", sans-serif;
-                font-size: 13px;
-                line-height: 20px;
-                margin: 0 16px;
-
-                /* Table heading */
-                &:first-of-type {
-                    font-weight: 500;
-                    width: 204px;
-                }
-
-                /* Table detail */
-                &:nth-of-type(2) {
-                    width: calc(100% - 204px - 32px);
-                }
+            /* Heading and content */
+            p {
+                margin: 0;
             }
         }
 
-        /* Stats */
-        > div .stats {
-            border-bottom: none;
+        /* Stats - hidden */
+        .stats {
+            display: none;
             flex-direction: column;
             left: 0;
             position: absolute;
@@ -65,56 +76,112 @@
                 padding-bottom: 16px;
                 width: 76px;
 
-                span {
+                p, h3 {
                     margin: 0;
-                    width: unset !important;
-
-                    &:first-of-type {
-                        font-weight: 400;
-                        padding-bottom: 4px;
-                    }
-
-                    &:nth-of-type(2) {
-                        font-family: "din-2014", sans-serif;
-                        font-size: 18px;
-                        font-weight: 500;
-                        line-height: 24px;
-                    }
                 }
             }
         }
     }
+}
 
-    /* Description, author and collaborators list, publications, contact */
-    .project-details {
+/* Description, author and collaborators list, publications, contact */
+.project-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 36px;
+    width: 100%;
 
-        > div > div {
+    > div {
 
-            /* Content */
-            div {
-                font-family: "Montserrat", sans-serif;
-                font-size: 14px;
-                font-weight: 400;
-                line-height: 24px;
+        /* Heading */
+        h4.m {
+            margin-top: 36px;
+        }
 
-                /* Title */
-                &:first-of-type {
-                    font-family: "din-2014", sans-serif;
-                    font-size: 16px;
-                    font-weight: 600;
-                    line-height: 22px;
-                    padding: 36px 0 16px;
+        /* Content */
+        p {
+            margin: 0;
+
+            /* Link */
+            &.link {
+                color: $hca-primary;
+                cursor: pointer;
+            }
+        }
+
+        /* RHS heading and content */
+        &.rhs p, &.rhs h4.m {
+            max-width: 256px;
+        }
+    }
+}
+
+/**
+ * Tablet +
+ */
+@media screen and (min-width: 768px) {
+
+    :host {
+
+        /* LHS container */
+        .lhs {
+            max-width: 220px;
+        }
+
+        /* RHS container */
+        .rhs {
+            max-width: calc(100% - 220px);
+        }
+
+        /* Project highlights */
+        .project-highlights {
+
+            /* Row - excludes stats */
+            > div:not(.stats) {
+                flex-direction: row;
+                max-width: 668px;
+
+                /* Heading and content */
+                p {
+                    padding: 0 16px;
                 }
             }
         }
 
-        > div .description {
+        /* Description, author and collaborators list, publications, contact */
+        .project-info {
             max-width: 668px;
 
-            > div:first-of-type {
-                padding: 0 0 16px;
+            > div {
+                padding: 0 16px;
+            }
+        }
+    }
+}
+
+/**
+ * Medium +
+ */
+@media screen and (min-width: 1024px) {
+
+    :host {
+
+        /* Project highlights */
+        .project-highlights {
+
+            > div {
+
+                /* Hide - estimated and donor count */
+                &:nth-of-type(n+7):not(.stats) {
+                    display: none;
+                }
             }
 
+            /* Show stats */
+            .stats {
+                display: flex;
+            }
         }
     }
 }
@@ -129,7 +196,7 @@
         /* Wrapper */
         .wrapper {
             max-width: 1140px; /* Snap to 1200px, gutter 30px */
-            //padding: 0 30px;
+            padding: 0 30px;
         }
     }
 }
