@@ -22,16 +22,16 @@ export function reducer(state: TableState = TableState.getDefaultState(), action
 
         case FetchTableDataSuccessAction.ACTION_TYPE:
             tableState = TableState.getNewTableState(action as FetchTableDataSuccessAction);
-            tableState.tableModel.pagination.current_page = 1;
+            tableState.getSelectedTable().pagination.current_page = 1;
             return tableState;
 
         case TableNextPageSuccessAction.ACTION_TYPE:
             tableState = TableState.getNewTableState(action as FetchTableDataSuccessAction);
-            tableState.tableModel.pagination.current_page = state.tableModel.pagination.current_page + 1;
+            tableState.getSelectedTable().pagination.current_page = state.getSelectedTable().pagination.current_page + 1;
             return tableState
         case TablePreviousPageSuccessAction.ACTION_TYPE:
             tableState = TableState.getNewTableState(action as FetchTableDataSuccessAction);
-            tableState.tableModel.pagination.current_page = state.tableModel.pagination.current_page - 1;
+            tableState.getSelectedTable().pagination.current_page = state.getSelectedTable().pagination.current_page - 1;
             return tableState
 
         default:

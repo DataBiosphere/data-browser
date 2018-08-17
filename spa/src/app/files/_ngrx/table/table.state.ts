@@ -12,13 +12,23 @@ import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 
 export class TableState {
 
-    public readonly tableModel: TableModel;
+    public readonly selectedTable: string;
+    public readonly tableModels: TableModel[];
 
     /**
      * @param {TableModel} tableModel
      */
-    constructor(tableModel: TableModel) {
-        this.tableModel = tableModel;
+    constructor(tableModels: TableModel[], selectedTable: string) {
+        this.tableModels = tableModels;
+        this.selectedTable = selectedTable;
+    }
+
+    /**
+     * @returns {TableModel}
+     */
+    public getSelectedTable(): TableModel {
+
+        return this.tableModels.find(tableModel => tableModel.tableName === this.selectedTable);
     }
 
     /**
@@ -26,8 +36,12 @@ export class TableState {
      *
      * @returns {TableState}
      */
-    public static getDefaultState() {
-        return new TableState(new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel));
+    public static getDefaultState(): TableState {
+        return new TableState(
+            [
+                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "SPECIMENS"),
+                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "FILES")
+            ], "SPECIMENS");
     }
 
     /**
@@ -37,7 +51,7 @@ export class TableState {
      * @returns {TableState}
      */
     public static getNewTableState(action: FetchTableDataSuccessAction): TableState {
-        return new TableState(action.tableModel);
+        return new TableState([action.tableModel], "SPECIMENS");
     }
 }
 

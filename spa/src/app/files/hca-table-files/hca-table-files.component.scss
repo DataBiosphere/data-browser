@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Styles for table - specimen related data.
+ * Styles for table - file related data.
  */
 @import "../../shared/theme/cgl.vars";
 
@@ -40,10 +40,11 @@
 
     /* HCA table */
     .hca-table {
+        background-color: hotpink;
         display: flex;
         flex: 1;
         flex-direction: column;
-        margin: 4px -16px 92px;
+        margin: 4px -16px 0;
         padding: 0 16px;
 
         /* Pagination */
@@ -154,12 +155,6 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                }
-
-                /* Hides ellipsis tooltip - Safari only */
-                > div:after {
-                    content: '';
-                    display: block;
                 }
 
                 /* Bio Material */

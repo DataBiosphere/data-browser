@@ -36,13 +36,13 @@ export const selectTableState = createFeatureSelector<TableState>("tableState");
  * @type {MemoizedSelector<object, PaginationModel>}
  */
 export const selectPagination = createSelector(selectTableState,(tableState: TableState) => {
-    return tableState.tableModel.pagination;
+    return tableState.getSelectedTable().pagination;
 });
 
 export const selectTableData = createSelector(
     selectTableState,
     (tableState: TableState) => {
-        return tableState.tableModel.data;
+        return tableState.getSelectedTable().data;
     });
 
 

@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Table component for displaying specimen related data.
+ * Table component for displaying file-related data.
  */
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
@@ -22,13 +22,13 @@ import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
-    selector: "hca-table",
-    templateUrl: "./hca-table.component.html",
-    styleUrls: ["./hca-table.component.scss"]
+    selector: "hca-table-files",
+    templateUrl: "./hca-table-files.component.html",
+    styleUrls: ["./hca-table-files.component.scss"]
 })
-export class HCATableComponent implements OnInit {
+export class HCATableFilesComponent implements OnInit {
 
-    display10 = 11;
+    display10 = 13;
     display12 = 16;
     display5 = 6;
     display7 = 10;
@@ -36,7 +36,6 @@ export class HCATableComponent implements OnInit {
         "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
-    tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
     // pageSizeOptions = [10, 15, 25, 50, 100, 200];
     // selectedPage = 15;
@@ -67,12 +66,12 @@ export class HCATableComponent implements OnInit {
      */
     public isTermNameTruncated(termName: string, length: number): boolean {
 
-        if ( !termName ) {
-
+        if ( termName ) {
+            return termName.length > length;
+        }
+        else {
             return false;
         }
-
-        return termName.length > length;
     }
 
     /**
@@ -192,7 +191,7 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-        // return (pm.from > 1);
+       // return (pm.from > 1);
         return pm.search_before !== null;
     }
 

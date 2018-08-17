@@ -12,14 +12,17 @@ export class TableModel {
 
     public pagination: PaginationModel;
     public data: any[];
+    public tableName: string;
 
     /**
      * @param {any[]} data
      * @param {PaginationModel} pagination
+     * @param {string} tableName
      */
-    constructor(data: any[], pagination: PaginationModel) {
+    constructor(data: any[], pagination: PaginationModel, tableName: string) {
 
         this.data = data;
         this.pagination = pagination;
+        this.tableName = tableName;
     }
 }

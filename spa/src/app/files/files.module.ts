@@ -61,6 +61,7 @@ import { HCAProjectTableDetailComponent } from "./hca-project-table-detail/hca-p
 import { HCASectionTitleComponent } from "app/files/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
+import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 
@@ -123,6 +124,7 @@ import { FilesService } from "./shared/files.service";
         HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
+        HCATableFilesComponent,
 
         FileNameShortenerPipe,
 
