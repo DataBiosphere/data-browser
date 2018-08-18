@@ -1,6 +1,6 @@
-# UCSC Boardwalk
+# HCA Data Portal
 
-UCSC Boardwalk is a MEAN stack app and uses standard setup/configuration tools (NPM and Grunt).
+HCA Data Portal is a MEAN stack app and uses standard setup/configuration tools (NPM and Grunt).
 
 See the following for more details:
 
@@ -9,15 +9,16 @@ See the following for more details:
 - [http://gruntjs.com](http://gruntjs.com)
 
 ## Prerequisites
-UCSC Boardwalk is an [Angular 2 app](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
 
-The only prerequisite is [Node 4](https://nodejs.org/en/blog/release/v4.0.0/).
+The HCA Data Portal is an [Angular 2 app](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
+
+It also requires [Node 4](https://nodejs.org/en/blog/release/v4.0.0/) to be installed.
 
 ## Environment Setup
 
 ### 1. Clone the UCSC Boardwalk Repo
 
-        git clone git@github.com:clevercanary/ucsc-boardwalk.git [folder_name]
+        git clone https://github.com/HumanCellAtlas/data-browser.git [folder_name]
 
 
 ### 2. Install Server-Side Dependencies
@@ -26,14 +27,18 @@ Use NPM to install server-side dependencies.
 
 		npm install
 
+Then, install Grunt CLI and Typescript globally if you haven't installed them.
+
+        npm install -g grunt-cli typscript
+
 From the `server` directory, install server-side typings:
 
-		typings install
+		../node-typings/.bin/typings install
 
 
 ### 3. Install Client-Side Dependencies
 
-Install Angular CLI if you don't have it already installed. Both of the following steps must be done with npm@3
+Install Angular CLI if you don't have it already installed. Both of the following steps must be done with NPM
 
 		npm install -g angular-cli
 
