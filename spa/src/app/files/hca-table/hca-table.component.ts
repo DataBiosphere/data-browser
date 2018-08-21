@@ -15,7 +15,8 @@ import { Observable } from "rxjs/Observable";
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
-    FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
+    FetchPagedOrSortedTableDataRequestAction,
+    TableNextPageAction,
     TablePreviousPageAction
 } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
@@ -66,7 +67,7 @@ export class HCATableComponent implements OnInit {
      */
     public isTermNameTruncated(termName: string, length: number): boolean {
 
-        if ( termName ) {
+        if (termName) {
             return termName.length > length;
         }
         else {
@@ -81,7 +82,7 @@ export class HCATableComponent implements OnInit {
      */
     public nextPageSelected(pm: PaginationModel) {
 
-        if ( !this.hasNext(pm) ) {
+        if (!this.hasNext(pm)) {
             return;
         }
 
@@ -103,7 +104,7 @@ export class HCATableComponent implements OnInit {
     public previousPageSelected(pm: PaginationModel) {
 
 
-        if ( !this.hasPrevious(pm) ) {
+        if (!this.hasPrevious(pm)) {
             return;
         }
 
@@ -121,7 +122,7 @@ export class HCATableComponent implements OnInit {
 
     public getAgeUnit(ageUnit) {
 
-        if ( ageUnit ) {
+        if (ageUnit) {
             return ageUnit.charAt(0);
         }
     }
@@ -191,7 +192,7 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-       // return (pm.from > 1);
+        // return (pm.from > 1);
         return pm.search_before !== null;
     }
 
@@ -237,7 +238,7 @@ export class HCATableComponent implements OnInit {
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for ( let i = 1; i <= pageCount; i++ ) {
+        for (let i = 1; i <= pageCount; i++) {
             pages.push(i);
         }
 
@@ -345,23 +346,26 @@ class TableElementDataSource extends DataSource<any> {
                 let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
 
-                let file = row.files[0] || {};
+             //   let file = row.files[0] || {};
 
                 /* File counts for primary file format (fastq.qz) and other */
-                let fileCounts = row.files.reduce((acc, file) => {
+                let fileCounts = row.fileTypeSummaries.reduce((acc, summary) => {
 
-                    if ( file.format === "fastq.gz" ) {
-                        acc.primaryCount++;
+                    if (summary.fileType === "fastq.gz") {
+                        acc.primaryCount += summary.count;
                     }
                     else {
-                        acc.secondaryCount++;
+                        acc.secondaryCount += summary.count;
                     }
+
+                    acc.totalCount += summary.count;
+
                     return acc;
 
-                }, {primaryCount: 0, secondaryCount: 0});
+                }, { primaryCount: 0, secondaryCount: 0, totalCount: 0 });
 
                 return {
-                    fileName: file.name,
+                    fileName: fileCounts.totalCount,
                     specimenId: this.getSelfOrFirst(specimens.id),
                     organ: specimens.organ,
                     organPart: specimens.organPart,
@@ -386,7 +390,7 @@ class TableElementDataSource extends DataSource<any> {
     rollUpMetadata(array): any {
 
         // if the array is empty we have no values.
-        if ( !array ) {
+        if (!array) {
             return {};
         }
 
@@ -398,17 +402,17 @@ class TableElementDataSource extends DataSource<any> {
                 let value = element[key];
 
                 // skip null values
-                if ( value ) {
+                if (value) {
 
                     // flatten arrays
-                    if ( value instanceof Array ) {
+                    if (value instanceof Array) {
                         value = value.join(",");
                     }
 
 
-                    if ( key === "totalCells" ) {
+                    if (key === "totalCells") {
 
-                        if ( acc[key] ) {
+                        if (acc[key]) {
                             acc[key] = acc[key] + value;
                         }
                         else {
@@ -431,8 +435,8 @@ class TableElementDataSource extends DataSource<any> {
                         }
 
 
-                        if ( cellValues.length ) {
-                            if ( !cellValues.some(cellValue => cellValue === value) ) {
+                        if (cellValues.length) {
+                            if (!cellValues.some(cellValue => cellValue === value)) {
                                 // apend the value to the existing key
                                 acc[key] = acc[key] + ", " + value;
                             }

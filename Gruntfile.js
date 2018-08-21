@@ -100,7 +100,8 @@ module.exports = function (grunt) {
                 //  BW_DATA_URL: "https://ucsc-cgp.org"
                // BW_DATA_URL: "https://dss-aws-staging.ucsc-cgp-dev.org"
              //   BW_DATA_URL: "https://80lxq6lpg5.execute-api.us-east-1.amazonaws.com",
-                BW_DATA_URL: "https://service.staging.explore.data.humancellatlas.org",
+             //   BW_DATA_URL: "https://service.staging.explore.data.humancellatlas.org",
+                BW_DATA_URL:"https://service.jyo.dev.explore.data.humancellatlas.org",
                 HCA_DATA_PORTAL_URL: "https://dev.data.humancellatlas.org"
 
             }

@@ -23,10 +23,10 @@
             </ng-container>
             <ng-container matColumnDef="fileName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="File name"
+                    <span matTooltip="File count"
                           matTooltipPosition="below"
                           matTooltipShowDelay="2000"
-                          matTooltipClass="hca-tooltip narrow">File Name</span>
+                          matTooltipClass="hca-tooltip narrow">File Count</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.fileName, display10)">
