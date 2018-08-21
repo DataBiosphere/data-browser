@@ -71,3 +71,16 @@
         }
     }
 }
+
+/* Filter select boxes */
+:host-context(.hca-options, .hca-options-small) {
+
+    .facet-term .term-summary {
+        margin-top: -3px;
+
+        .term-name, .term-count {
+            line-height: 18px;
+        }
+    }
+}
+
