@@ -37,6 +37,7 @@ export class HCATableComponent implements OnInit {
         "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
+    tooltipDelay = 150;
     pagination$: Observable<PaginationModel>;
     // pageSizeOptions = [10, 15, 25, 50, 100, 200];
     // selectedPage = 15;
