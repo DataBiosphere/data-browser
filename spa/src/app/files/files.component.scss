@@ -45,15 +45,3 @@
         bottom: 0;
     }
 }
-
-/**
- * Large +
- */
-@media (min-width: 1200px) {
-
-    :host {
-
-        padding-bottom: 92px; // Add space below table
-    }
-}
-

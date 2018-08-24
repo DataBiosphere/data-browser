@@ -28,7 +28,7 @@ import { TableParamsModel } from "../table/table-params.model";
 })
 export class HCATableComponent implements OnInit {
 
-    display10 = 13;
+    display10 = 11;
     display12 = 16;
     display5 = 6;
     display7 = 10;
@@ -36,6 +36,7 @@ export class HCATableComponent implements OnInit {
         "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
+    tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
     // pageSizeOptions = [10, 15, 25, 50, 100, 200];
     // selectedPage = 15;
@@ -66,12 +67,12 @@ export class HCATableComponent implements OnInit {
      */
     public isTermNameTruncated(termName: string, length: number): boolean {
 
-        if ( termName ) {
-            return termName.length > length;
-        }
-        else {
+        if ( !termName ) {
+
             return false;
         }
+
+        return termName.length > length;
     }
 
     /**
@@ -191,7 +192,7 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-       // return (pm.from > 1);
+        // return (pm.from > 1);
         return pm.search_before !== null;
     }
 
