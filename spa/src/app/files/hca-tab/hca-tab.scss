@@ -24,6 +24,7 @@
             justify-content: flex-start;
             margin: 24px -16px 0;
             overflow-x: auto; /* Horizontal scroll */
+            overflow-y: hidden;
 
             &::-webkit-scrollbar {
                 display: none;

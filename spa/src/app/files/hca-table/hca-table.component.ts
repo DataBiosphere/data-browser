@@ -28,7 +28,7 @@ import { TableParamsModel } from "../table/table-params.model";
 })
 export class HCATableComponent implements OnInit {
 
-    display10 = 13;
+    display10 = 10;
     display12 = 16;
     display5 = 6;
     display7 = 10;
