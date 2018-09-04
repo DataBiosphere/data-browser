@@ -31,6 +31,14 @@ export class HCADownloadManifestModalComponent implements OnInit {
         this.store = store;
     }
 
+    /**
+     * Close the dialog on click of view instructions.
+     */
+    public closeDialog() {
+
+        this.dialogRef.close();
+    }
+
     public getDownloadClass(step) {
 
         if ( step === 1 && this.hideDownload ) {

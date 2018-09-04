@@ -55,8 +55,5 @@ export class HCADownloadManifestComponent {
             disableClose: false,
             panelClass: "hca-form-dialog"
         });
-
-        dialogRef.afterClosed().subscribe(result => {
-        });
     }
 }
