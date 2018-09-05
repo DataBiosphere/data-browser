@@ -4,7 +4,7 @@
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="specimenId">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Specimen"
+                    <span matTooltip="A unique ID for this specimen."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Specimen Id</span>
@@ -23,7 +23,7 @@
             </ng-container>
             <ng-container matColumnDef="fileName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="File name"
+                    <span matTooltip="The filename of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Name</span>
@@ -80,7 +80,7 @@
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Library Construction"
+                    <span matTooltip="The general approach for sequencing library construction. Should be a child term of EFO - library preparation."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Library Construction</span>
@@ -101,7 +101,7 @@
             </ng-container>
             <ng-container matColumnDef="genusSpecies">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="genusSpecies"
+                    <span matTooltip="The scientific binomial name for the species of the biomaterial."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Species
@@ -121,7 +121,7 @@
             </ng-container>
             <ng-container matColumnDef="organismAge">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Age in age_units. Measured since birth."
+                    <span matTooltip="Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Age</span>
@@ -161,7 +161,7 @@
             </ng-container>
             <ng-container matColumnDef="disease">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Disease on the specimen level"
+                    <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Diseased</span>
@@ -181,7 +181,7 @@
             <ng-container matColumnDef="fileType">
                 <mat-header-cell *matHeaderCellDef>
                     <div class="file-type">
-                    <span matTooltip="File type"
+                    <span matTooltip="The format of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Types</span>
@@ -219,7 +219,7 @@
             </ng-container>
             <ng-container matColumnDef="totalCells">
                 <mat-header-cell *matHeaderCellDef>
-                    <span matTooltip="Cell count"
+                    <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Cell Count (Estimated)</span>
