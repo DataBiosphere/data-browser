@@ -49,7 +49,8 @@
 
         /* Facet term list - container */
         .facet-term-list {
-            padding: 0 48px;
+            -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+            padding: 0 24px;
         }
     }
 

@@ -64,6 +64,7 @@
 
                 /* Summary and count */
                 > div {
+                    min-width: 25%; /* Lines up 2nd and last summary */
                     padding: 0 8px;
 
                     /* Hide file size */
