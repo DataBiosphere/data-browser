@@ -146,7 +146,8 @@
         /* Wrapper around terms */
         .facet-term-list {
             max-height: 237.5px;
-            overflow-y: scroll;
+            -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+            overflow-y: auto; // Hide webkit scrollbar unless actively scrolling.
             padding: 2px 4px 0;
         }
 

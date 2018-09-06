@@ -38,9 +38,10 @@
 
     /* Facet term list - container */
     .facet-term-list {
-        max-height: 237.5px; /* For display of 9.5 terms at 237.5px total */
         margin: 14px -8px 0;
-        overflow-y: scroll; /* Scroll content */
+        max-height: 237.5px; /* For display of 9.5 terms at 237.5px total */
+        -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling
+        overflow-y: auto; // Scrollbar hidden on WebKit/Mac unless actively scrolling, scrollbar always visible for content that overflows on WebKit/Windows 
         padding: 0 8px;
     }
 }
