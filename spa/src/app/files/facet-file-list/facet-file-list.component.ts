@@ -6,23 +6,20 @@
  * count. Emits "facetTermSelected" event on click of term.
  *
  * Manually added MD checkbox to template to prevent flash of animation on select of facet. Once flash is fixed,
- * the following can be added back to the template, the corresponding hand-rolled code can be removed from the template. CSS
- * must also be updated.
- * <md-checkbox [checked]="term.selected">{{term.name}}<span class="md-caption secondary">{{term.count | localeString}}</span></md-checkbox>
- * HCA specific
+ * the following can be added back to the template, the corresponding hand-rolled code can be removed from the
+ * template. CSS must also be updated.
+ * <md-checkbox [checked]="term.selected">{{term.name}}<span class="md-caption secondary">{{term.count |
+ * localeString}}</span></md-checkbox> HCA specific
  */
-
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
-
 // App dependencies
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
 import { FileFacet } from "../shared/file-facet.model";
 import { Term } from "../shared/term.model";
-import { FileSummary } from "../file-summary/file-summary";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
 
@@ -33,13 +30,12 @@ import { FileTypeSummary } from "../file-summary/file-type-summary";
 })
 export class FacetFileListComponent {
 
-    // Locals
-    private fileNameShortenerPipe: FileNameShortenerPipe;
-    private store: Store<AppState>;
-
     // Inputs
     @Input() fileTypeSummaries: FileTypeSummary[];
     @Input() fileFacet: FileFacet[];
+    // Locals
+    private fileNameShortenerPipe: FileNameShortenerPipe;
+    private store: Store<AppState>;
 
     /**
      * Create file name shortener pipe for formatting selected file names (for search file facets only).
@@ -75,7 +71,15 @@ export class FacetFileListComponent {
      */
     public getDisplayList(): Term[] {
 
-        return this.getFacet("fileFormat").terms;
+        return this.getFacet("fileFormat").terms.filter((term) => {
+            // we were getting an "unknonw" file type in the facet that was not in the summary.
+            // https://github.com/DataBiosphere/azul/issues/297
+            const exists = this.getFileTypeSummary(term.name);
+            if (!exists) {
+                console.error("File type " + term.name + " is in file facet terms but not in file summary!");
+            }
+            return exists;
+        });
     }
 
     /**
@@ -83,7 +87,7 @@ export class FacetFileListComponent {
      */
     public getFacet(facetName: string): FileFacet {
 
-        const fileFacet = this.fileFacet.find(function (fileFacet) {
+        const fileFacet = this.fileFacet.find(function(fileFacet) {
             return fileFacet.name === facetName;
         });
 
@@ -92,9 +96,10 @@ export class FacetFileListComponent {
 
     public getFileTypeSummary(termName: string): FileTypeSummary {
 
-        const fileTypeSummary = this.fileTypeSummaries.find(function (fileTypeSummary) {
+        const fileTypeSummary = this.fileTypeSummaries.find(function(fileTypeSummary) {
             return fileTypeSummary.fileType === termName;
         });
+
 
         return fileTypeSummary;
     }
@@ -108,7 +113,7 @@ export class FacetFileListComponent {
     getLegendStyle(term: Term): any {
 
         // If term is selected, set the background color as well
-        if ( term.selected ) {
+        if (term.selected) {
 
             let style = {
                 "border-color": "#1F6B9A",
