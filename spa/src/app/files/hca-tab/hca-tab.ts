@@ -8,7 +8,7 @@
 // Core dependencies
 import {
     Component,
-    ChangeDetectionStrategy, Input
+    ChangeDetectionStrategy, Input, Output, EventEmitter
 } from "@angular/core";
 
 // App dependencies
@@ -23,5 +23,43 @@ import {
 export class HCATabComponent {
 
     // Inputs
+    @Input() activeTab: string;
     @Input() tabs = [];
+
+    // Outputs
+    @Output() tabSelected = new EventEmitter<string>();
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Sets Tab Class - active
+     *
+     * @param {string} selectedTab
+     * @param {string} tab
+     * @returns {any}
+     */
+    public getTabClass(selectedTab: string, tab: string) {
+
+        if ( selectedTab === tab ) {
+
+            return "hca-tab active";
+        }
+        else {
+
+            return "hca-tab";
+        }
+    }
+
+    /**
+     * Handle click on tab - emit event to parent.
+     *
+     * @param {string} tab
+     */
+    public onClickTab(tab: string): void {
+
+        this.tabSelected.emit(tab);
+    }
+
 }

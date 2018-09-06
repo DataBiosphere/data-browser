@@ -6,7 +6,7 @@
                              [selectedFacets]="selectedFileFacets$ | async"
                              (hcaFilterWrapperEvent)="getComponentHeight()">
     </hca-file-filter-wrapper>
-    <hca-tab id="hcaTab" [tabs]="getExploreTabs()"></hca-tab>
+    <hca-tab id="hcaTab" [tabs]="getExploreTabs()" [activeTab]="selectedTab" (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="true"
                       [summary]="selectFileSummary$ | async">

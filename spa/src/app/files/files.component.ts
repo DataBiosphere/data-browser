@@ -37,6 +37,7 @@ export class FilesComponent implements OnInit {
     public projectDetail = true;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedFileFacets$: Observable<FileFacet[]>;
+    public selectedTab: string; // TODO remove fran
 
     // Locals
     private route: ActivatedRoute;
@@ -105,6 +106,12 @@ export class FilesComponent implements OnInit {
         this.getComponentHeight();
     }
 
+    public onTabSelected(tab) {
+
+        this.selectedTab = tab;
+        // this.store.dispatch(new SelectTab(tab));
+    }
+
     /**
      * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
      */
@@ -162,7 +169,7 @@ export class FilesComponent implements OnInit {
         this.route.queryParams
             .map((params) => {
 
-                if (params && params["filter"] && params["filter"].length) {
+                if ( params && params["filter"] && params["filter"].length ) {
 
                     let filterParam = decodeURIComponent(params["filter"]);
                     let filter
@@ -170,10 +177,10 @@ export class FilesComponent implements OnInit {
                         filter = JSON.parse(filterParam);
                     }
                     catch (err) {
-                       console.log(err);
+                        console.log(err);
                     }
 
-                    if (filter && filter.facetName) {
+                    if ( filter && filter.facetName ) {
                         return filter;
                     }
                     else {
@@ -182,7 +189,7 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((filter) => {
-                if (filter) {
+                if ( filter ) {
                     this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
                 }
                 else {
