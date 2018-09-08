@@ -67,8 +67,17 @@ export class FetchTableDataSuccessAction implements Action {
     constructor(public readonly tableModel: TableModel) {}
 }
 
+
+export class EntitySelectAction implements Action {
+    public static ACTION_TYPE = "ENTITY.SELECT";
+    public readonly type = EntitySelectAction.ACTION_TYPE;
+
+    constructor(public key: string) {}
+}
+
 export type All
     = TableNextPageAction
     | TablePreviousPageAction
     | TableSetPageAction
-    | TableOrderByAction;
+    | TableOrderByAction
+    | EntitySelectAction;

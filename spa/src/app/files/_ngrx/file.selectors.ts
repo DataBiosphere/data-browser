@@ -4,10 +4,8 @@
  *
  * Selectors for querying file-related state from the file store.
  */
-
 // Core dependencies
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-
 // App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
@@ -32,10 +30,10 @@ export const selectTableState = createFeatureSelector<TableState>("tableState");
 
 /**
  * Returns current state of pagination, of file facet table.
- * 
+ *
  * @type {MemoizedSelector<object, PaginationModel>}
  */
-export const selectPagination = createSelector(selectTableState,(tableState: TableState) => {
+export const selectPagination = createSelector(selectTableState, (tableState: TableState) => {
     return tableState.getSelectedTable().pagination;
 });
 
@@ -51,4 +49,11 @@ export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, se
 });
 
 
+export const selectEntities = createSelector(selectTableState, (tableState: TableState) => {
+    return tableState.entitySpecs;
+});
+
+export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
+    return tableState.getSelectedEntity();
+});
 

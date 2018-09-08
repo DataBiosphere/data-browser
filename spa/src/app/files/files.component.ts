@@ -15,10 +15,12 @@ import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
 
 import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
-import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets } from "./_ngrx/file.selectors";
+import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets, selectEntities, selectSelectedEntity } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
+import EntitySpec from "./_ngrx/table/EntitySpec";
+import { EntitySelectAction } from "./_ngrx/table/table.actions";
 
 @Component({
     selector: "bw-files",
@@ -37,6 +39,8 @@ export class FilesComponent implements OnInit {
     public projectDetail = true;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedFileFacets$: Observable<FileFacet[]>;
+    public entities$: Observable<EntitySpec[]>;
+    public selectedEntity$: Observable<EntitySpec>;
     public selectedTab: string; // TODO remove fran
 
     // Locals
@@ -85,13 +89,6 @@ export class FilesComponent implements OnInit {
         this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
     }
 
-    /**
-     * Returns a list of tabs for the data browser
-     * @returns {[string , string , string]}
-     */
-    public getExploreTabs() {
-        return ["Specimens", "Projects", "Files"];
-    }
 
     public getProjectDetailTabs() {
         return ["Projects"];
@@ -108,8 +105,7 @@ export class FilesComponent implements OnInit {
 
     public onTabSelected(tab) {
 
-        this.selectedTab = tab;
-        // this.store.dispatch(new SelectTab(tab));
+         this.store.dispatch(new EntitySelectAction(tab.key));
     }
 
     /**
@@ -145,6 +141,9 @@ export class FilesComponent implements OnInit {
 
         this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
 
+        this.entities$ = this.store.select(selectEntities);
+        this.selectedEntity$  = this.store.select(selectSelectedEntity);
+
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
 
@@ -153,6 +152,7 @@ export class FilesComponent implements OnInit {
 
         // Return component heights for sticky header
         if ( !this.projectDetail ) {
+            // TODO I think this is causing an exception when adjusting screen size @fran
             this.getComponentHeight();
         }
     }

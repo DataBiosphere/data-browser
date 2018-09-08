@@ -8,6 +8,7 @@
 import { Action } from "@ngrx/store";
 import { TableState } from "./table.state";
 import {
+    EntitySelectAction,
     FetchTableDataSuccessAction,
     TableNextPageSuccessAction,
     TablePreviousPageSuccessAction
@@ -28,11 +29,13 @@ export function reducer(state: TableState = TableState.getDefaultState(), action
         case TableNextPageSuccessAction.ACTION_TYPE:
             tableState = TableState.getNewTableState(action as FetchTableDataSuccessAction);
             tableState.getSelectedTable().pagination.current_page = state.getSelectedTable().pagination.current_page + 1;
-            return tableState
+            return tableState;
         case TablePreviousPageSuccessAction.ACTION_TYPE:
             tableState = TableState.getNewTableState(action as FetchTableDataSuccessAction);
             tableState.getSelectedTable().pagination.current_page = state.getSelectedTable().pagination.current_page - 1;
-            return tableState
+            return tableState;
+        case EntitySelectAction.ACTION_TYPE:
+
 
         default:
             return state;

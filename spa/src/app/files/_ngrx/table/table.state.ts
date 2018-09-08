@@ -9,26 +9,24 @@ import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { FetchTableDataSuccessAction } from "./table.actions";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import EntitySpec from "./EntitySpec";
 
 export class TableState {
 
-    public readonly selectedTable: string;
+    public readonly selectedEntity: string;
     public readonly tableModels: TableModel[];
+    public readonly entitySpecs: EntitySpec[];
 
     /**
      * @param {TableModel} tableModel
      */
     constructor(tableModels: TableModel[], selectedTable: string) {
         this.tableModels = tableModels;
-        this.selectedTable = selectedTable;
-    }
+        this.selectedEntity = selectedTable;
 
-    /**
-     * @returns {TableModel}
-     */
-    public getSelectedTable(): TableModel {
-
-        return this.tableModels.find(tableModel => tableModel.tableName === this.selectedTable);
+        this.entitySpecs = [];
+        this.entitySpecs.push({ key: "specimens", displayName: "Specimens" });
+        this.entitySpecs.push({ key: "files", displayName: "Files" });
     }
 
     /**
@@ -39,9 +37,9 @@ export class TableState {
     public static getDefaultState(): TableState {
         return new TableState(
             [
-                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "SPECIMENS"),
-                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "FILES")
-            ], "SPECIMENS");
+                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "specimens"),
+                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "files")
+            ], "specimens");
     }
 
     /**
@@ -51,7 +49,20 @@ export class TableState {
      * @returns {TableState}
      */
     public static getNewTableState(action: FetchTableDataSuccessAction): TableState {
-        return new TableState([action.tableModel], "SPECIMENS");
+        return new TableState([action.tableModel], "specimens");
+    }
+
+    /**
+     * @returns {TableModel}
+     */
+    public getSelectedTable(): TableModel {
+
+        return this.tableModels.find(tableModel => tableModel.tableName === this.selectedEntity);
+    }
+
+
+    public getSelectedEntity(): EntitySpec {
+        return this.entitySpecs.find(entity => entity.key === this.selectedEntity);
     }
 }
 

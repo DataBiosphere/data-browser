@@ -10,6 +10,7 @@ import {
     Component,
     ChangeDetectionStrategy, Input, Output, EventEmitter
 } from "@angular/core";
+import EntitySpec from "../_ngrx/table/EntitySpec";
 
 // App dependencies
 
@@ -23,8 +24,8 @@ import {
 export class HCATabComponent {
 
     // Inputs
-    @Input() activeTab: string;
-    @Input() tabs = [];
+    @Input() activeTab: EntitySpec;
+    @Input() tabs: EntitySpec[];
 
     // Outputs
     @Output() tabSelected = new EventEmitter<string>();
