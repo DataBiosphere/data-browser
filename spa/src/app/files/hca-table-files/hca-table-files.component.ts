@@ -33,7 +33,7 @@ export class HCATableFilesComponent implements OnInit {
     display5 = 6;
     display7 = 10;
     displayedColumns = [
-        "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "fileName",  "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;

@@ -68,7 +68,7 @@ export class FilesDAO extends CCBaseDAO {
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/specimens`);
+        const url = this.buildApiUrl(`/repository/files`);
         const filterParams = Object.assign({ from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
@@ -85,7 +85,7 @@ export class FilesDAO extends CCBaseDAO {
      * @param {PaginationModel} pagination
      * @returns {Observable<TableModel>}
      */
-    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, seledtedEntity: string): Observable<TableModel> {
+    fetchEntityTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, seledtedEntity: string): Observable<TableModel> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 

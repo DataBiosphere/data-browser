@@ -46,7 +46,7 @@ export class FilesService {
      */
     public fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, selectedEntity: string): Observable<TableModel> {
 
-        return this.fileDAO.fetchFileTableData(selectedFacetsByName, tableParams, selectedEntity);
+        return this.fileDAO.fetchEntityTableData(selectedFacetsByName, tableParams, selectedEntity);
     }
 
     /**
