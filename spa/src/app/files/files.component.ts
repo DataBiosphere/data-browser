@@ -41,7 +41,6 @@ export class FilesComponent implements OnInit {
     public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
     public selectedEntity$: Observable<EntitySpec>;
-    public selectedTab: string; // TODO remove fran
 
     // Locals
     private route: ActivatedRoute;
@@ -100,6 +99,7 @@ export class FilesComponent implements OnInit {
      */
     public onResize() {
 
+        this.getComponentElementById();
         this.getComponentHeight();
     }
 
