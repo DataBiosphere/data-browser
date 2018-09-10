@@ -11,8 +11,8 @@
                       [showDownload]="true"
                       [summary]="selectFileSummary$ | async">
     </hca-file-summary>
-    <hca-table></hca-table>
-    <!--<hca-table-files></hca-table-files>-->
+    <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'" ></hca-table>
+    <<hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
     <hca-download-manifest
             [downloadActive]="false">
     </hca-download-manifest>
