@@ -44,14 +44,19 @@ import {
 } from "app/files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import {
+    EntitySelectAction,
     FetchInitialTableDataRequestAction,
     FetchPagedOrSortedTableDataRequestAction,
-    FetchTableDataSuccessAction, TableNextPageAction, TableNextPageSuccessAction, TablePreviousPageAction,
+    FetchTableDataSuccessAction,
+    TableNextPageAction,
+    TableNextPageSuccessAction,
+    TablePreviousPageAction,
     TablePreviousPageSuccessAction
 } from "./table/table.actions";
 import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import "rxjs/add/operator/do";
+import { getSelectedTable } from "./table/table.state";
 
 @Injectable()
 export class FileEffects {
@@ -88,7 +93,7 @@ export class FileEffects {
         })
         .map((fileSummary: FileSummary) => {
 
-            if ( typeof fileSummary.totalFileSize === "string" ) {
+            if (typeof fileSummary.totalFileSize === "string") {
                 fileSummary.totalFileSize = 0;
             }
 
@@ -131,7 +136,10 @@ export class FileEffects {
                     order: tableQueryParams.pagination.order
                 });
 
-            return this.fileService.fetchFileTableData(tableQueryParams.selectedFacets, tableParams);
+            return this.fileService.fetchFileTableData(
+                tableQueryParams.selectedFacets,
+                tableParams,
+                tableQueryParams.tableState.selectedEntity);
         })
         .map((tableModel: TableModel) => {
             return new FetchTableDataSuccessAction(tableModel);
@@ -139,10 +147,23 @@ export class FileEffects {
 
 
     @Effect()
+    switchTabs: Observable<Action> = this.actions$
+        .ofType(EntitySelectAction.ACTION_TYPE).switchMap(() => {
+            return this.store.select(selectTableQueryParams).first();
+        }).map((params) => {
+            if (getSelectedTable(params.tableState).data.length) {
+                return new NoOpAction();
+            }
+            else {
+                return new FetchInitialTableDataRequestAction();
+            }
+        });
+
+    @Effect()
     fileFacetsSuccess: Observable<Action> = this.actions$
         .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
             const ffsa = action as FetchFileFacetsSuccessAction;
-            if ( ffsa.fileFacetSelectedEvent ) {
+            if (ffsa.fileFacetSelectedEvent) {
                 return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
             }
             else {
@@ -162,7 +183,10 @@ export class FileEffects {
         .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams);
+            return this.fileService.fetchFileTableData(
+                results[1].selectedFacets,
+                (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams,
+                results[1].tableState.selectedEntity);
         })
         .map((tableModel: TableModel) => {
             return new FetchTableDataSuccessAction(tableModel);
@@ -173,7 +197,10 @@ export class FileEffects {
         .ofType(TableNextPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as TableNextPageAction).tableParams);
+            return this.fileService.fetchFileTableData(
+                results[1].selectedFacets,
+                (results[0] as TableNextPageAction).tableParams,
+                results[1].tableState.selectedEntity);
         })
         .map((tableModel: TableModel) => {
             return new TableNextPageSuccessAction(tableModel);
@@ -184,7 +211,10 @@ export class FileEffects {
         .ofType(TablePreviousPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(results[1].selectedFacets, (results[0] as TablePreviousPageAction).tableParams);
+            return this.fileService.fetchFileTableData(
+                results[1].selectedFacets,
+                (results[0] as TablePreviousPageAction).tableParams,
+                results[1].tableState.selectedEntity);
         })
         .map((tableModel: TableModel) => {
             return new TablePreviousPageSuccessAction(tableModel);
@@ -196,7 +226,7 @@ export class FileEffects {
      *
      * @type {Observable<Action>}
      */
-    @Effect({dispatch: false})
+    @Effect({ dispatch: false })
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(DownloadFileManifestAction.ACTION_TYPE)
         .switchMap(() => {
@@ -352,12 +382,12 @@ export class FileEffects {
                     return !!facet;
                 });
 
-                if ( !sortOrder || !sortOrder.length ) {
+                if (!sortOrder || !sortOrder.length) {
                     return fileFacets;
                 }
 
                 let newFileFacets = sortOrder.map((sortName) => {
-                    return _.find(fileFacets, {name: sortName});
+                    return _.find(fileFacets, { name: sortName });
                 });
 
                 // order may contain facets that do not exist so filter out any nulls.

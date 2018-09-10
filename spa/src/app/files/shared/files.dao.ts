@@ -24,6 +24,7 @@ import { ConfigService } from "../../config/config.service";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
+import EntitySpec from "../_ngrx/table/entity-spec";
 
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
@@ -84,16 +85,16 @@ export class FilesDAO extends CCBaseDAO {
      * @param {PaginationModel} pagination
      * @returns {Observable<TableModel>}
      */
-    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel): Observable<TableModel> {
+    fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, seledtedEntity: string): Observable<TableModel> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/specimens`);
+        const url = this.buildApiUrl(`/repository/` + seledtedEntity);
 
         // exract the size param
-        let filterParams = Object.assign({size: tableParams.size}, query);
+        let filterParams = Object.assign({ size: tableParams.size }, query);
 
         // see if there is a sort and order
         if (tableParams.sort && tableParams.order) {
@@ -119,14 +120,15 @@ export class FilesDAO extends CCBaseDAO {
         }
 
 
-
-
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
                     // keep our size as this is being lost on API return at the moment when the result set is less than
                     // the page size.
-                    let pagination = Object.assign(repositoryFiles.pagination, { size: tableParams.size, sort: tableParams.sort });
-                    return new TableModel(repositoryFiles.hits, repositoryFiles.pagination, "specimens");
+                    let pagination = Object.assign(repositoryFiles.pagination, {
+                        size: tableParams.size,
+                        sort: tableParams.sort
+                    });
+                    return { data: repositoryFiles.hits, pagination: repositoryFiles.pagination, tableName: seledtedEntity};
                 }
             );
     }

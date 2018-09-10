@@ -10,7 +10,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
-import { TableState } from "./table/table.state";
+import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
@@ -34,18 +34,22 @@ export const selectTableState = createFeatureSelector<TableState>("tableState");
  * @type {MemoizedSelector<object, PaginationModel>}
  */
 export const selectPagination = createSelector(selectTableState, (tableState: TableState) => {
-    return tableState.getSelectedTable().pagination;
+    return getSelectedTable(tableState).pagination;
 });
 
 export const selectTableData = createSelector(
     selectTableState,
     (tableState: TableState) => {
-        return tableState.getSelectedTable().data;
+        return getSelectedTable(tableState).data;
     });
 
+export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
+    return getSelectedEntity(tableState);
+});
 
-export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, selectPagination, (selectedFacets, pagination) => {
-    return { selectedFacets, pagination };
+
+export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, selectPagination, selectTableState, (selectedFacets, pagination, tableState) => {
+    return { selectedFacets, pagination, tableState };
 });
 
 
@@ -53,7 +57,4 @@ export const selectEntities = createSelector(selectTableState, (tableState: Tabl
     return tableState.entitySpecs;
 });
 
-export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
-    return tableState.getSelectedEntity();
-});
 

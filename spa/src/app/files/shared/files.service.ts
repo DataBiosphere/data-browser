@@ -8,6 +8,7 @@ import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summ
 import { FileFacet } from "./file-facet.model";
 import { TableModel } from "../table/table.model";
 import { TableParamsModel } from "../table/table-params.model";
+import EntitySpec from "../_ngrx/table/entity-spec";
 
 @Injectable()
 export class FilesService {
@@ -43,9 +44,9 @@ export class FilesService {
      * @param {TableParamsModel} tableParams
      * @returns {Observable<TableModel>}
      */
-    public fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel): Observable<TableModel> {
+    public fetchFileTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, selectedEntity: string): Observable<TableModel> {
 
-        return this.fileDAO.fetchFileTableData(selectedFacetsByName, tableParams);
+        return this.fileDAO.fetchFileTableData(selectedFacetsByName, tableParams, selectedEntity);
     }
 
     /**

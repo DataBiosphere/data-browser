@@ -19,7 +19,7 @@ import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
-import EntitySpec from "./_ngrx/table/EntitySpec";
+import EntitySpec from "./_ngrx/table/entity-spec";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 
 @Component({

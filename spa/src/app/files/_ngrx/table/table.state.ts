@@ -5,64 +5,63 @@
  * Model of state of table that displays file-facet related data.
  */
 
-import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
-import { FetchTableDataSuccessAction } from "./table.actions";
+import EntitySpec from "./entity-spec";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
-import EntitySpec from "./EntitySpec";
+import { PaginationModel } from "../../table/pagination.model";
 
-export class TableState {
+export interface TableState {
 
-    public readonly selectedEntity: string;
-    public readonly tableModels: TableModel[];
-    public readonly entitySpecs: EntitySpec[];
-
-    /**
-     * @param {TableModel} tableModel
-     */
-    constructor(tableModels: TableModel[], selectedTable: string) {
-        this.tableModels = tableModels;
-        this.selectedEntity = selectedTable;
-
-        this.entitySpecs = [];
-        this.entitySpecs.push({ key: "specimens", displayName: "Specimens" });
-        this.entitySpecs.push({ key: "files", displayName: "Files" });
-    }
-
-    /**
-     * Return the default state for setting up table.
-     *
-     * @returns {TableState}
-     */
-    public static getDefaultState(): TableState {
-        return new TableState(
-            [
-                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "specimens"),
-                new TableModel([], DEFAULT_TABLE_PARAMS as PaginationModel, "files")
-            ], "specimens");
-    }
-
-    /**
-     * Build new table state from data returned from table data API end point.
-     *
-     * @param {FetchTableDataSuccessAction} action
-     * @returns {TableState}
-     */
-    public static getNewTableState(action: FetchTableDataSuccessAction): TableState {
-        return new TableState([action.tableModel], "specimens");
-    }
-
-    /**
-     * @returns {TableModel}
-     */
-    public getSelectedTable(): TableModel {
-
-        return this.tableModels.find(tableModel => tableModel.tableName === this.selectedEntity);
-    }
-
-
-    public getSelectedEntity(): EntitySpec {
-        return this.entitySpecs.find(entity => entity.key === this.selectedEntity);
-    }
+    selectedEntity: string;
+    tableModels: TableModel[];
+    entitySpecs: EntitySpec[];
 }
+
+
+/**
+ * Return the default state for setting up table.
+ *
+ * @returns {TableState}
+ */
+export function getDefaultTableState(): TableState {
+    return {
+        selectedEntity: "specimens",
+        tableModels: [
+            { data: [], pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: "specimens" },
+            { data: [], pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: "files" },
+        ],
+        entitySpecs: [
+            { key: "specimens", displayName: "Specimens" },
+            { key: "files", displayName: "Files" }
+        ]
+    };
+}
+
+
+/**
+ * @returns {TableModel}
+ */
+export function getSelectedTable(tableState: TableState): TableModel {
+
+    return tableState.tableModels.find(
+        tableModel => tableModel.tableName === tableState.selectedEntity);
+}
+
+export function getSelectedEntity(tableState: TableState): EntitySpec {
+    return tableState.entitySpecs.find(entity => entity.key === tableState.selectedEntity);
+}
+
+export function updateTableModels(tableState: TableState, tableModel: TableModel): TableModel[] {
+
+    return tableState.tableModels.map((tm) => {
+
+        if (tm.tableName === tableState.selectedEntity) {
+            return tableModel;
+        }
+        else {
+            return tm;
+        }
+    });
+}
+
 

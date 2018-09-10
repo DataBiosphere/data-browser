@@ -10,7 +10,7 @@ import {
     Component,
     ChangeDetectionStrategy, Input, Output, EventEmitter
 } from "@angular/core";
-import EntitySpec from "../_ngrx/table/EntitySpec";
+import EntitySpec from "../_ngrx/table/entity-spec";
 
 // App dependencies
 
