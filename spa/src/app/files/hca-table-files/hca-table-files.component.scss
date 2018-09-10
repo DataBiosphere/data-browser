@@ -40,11 +40,10 @@
 
     /* HCA table */
     .hca-table {
-        background-color: hotpink;
         display: flex;
         flex: 1;
         flex-direction: column;
-        margin: 4px -16px 0;
+        margin: 4px -16px 92px;
         padding: 0 16px;
 
         /* Pagination */
@@ -155,6 +154,12 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                }
+
+                /* Hides ellipsis tooltip - Safari only */
+                > div:after {
+                    content: '';
+                    display: block;
                 }
 
                 /* Bio Material */

@@ -29,13 +29,13 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableFilesComponent implements OnInit {
 
     display10 = 13;
-    display12 = 16;
     display5 = 6;
     display7 = 10;
     displayedColumns = [
         "fileName",  "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
+    tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
     // pageSizeOptions = [10, 15, 25, 50, 100, 200];
     // selectedPage = 15;

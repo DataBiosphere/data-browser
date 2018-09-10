@@ -2,30 +2,11 @@
     <div class="hca-table">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="specimenId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Specimen"
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
-                          matTooltipClass="hca-tooltip narrow">Specimen Id</span>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.specimenId, display10)">
-                        <div *ngSwitchCase="true"
-                             matTooltip="{{element.specimentId}}"
-                             matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.specimenId}}
-                        </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.specimenId}}</div>
-                    </ng-container>
-                </mat-cell>
-            </ng-container>
             <ng-container matColumnDef="fileName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="File name"
+                    <span matTooltip="The filename of the data file."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Name</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -33,10 +14,29 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.fileName}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.fileName}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="specimenId">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="A unique ID for this specimen."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Specimen Id</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.specimenId, display10)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.specimenId}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.specimenId}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.specimenId}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
@@ -44,7 +44,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Organ</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -52,7 +52,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.organ}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.organ}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organ}}</div>
@@ -63,7 +63,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="A term for a specific part of the organ that the biomaterial came from."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Organ Part</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -71,7 +71,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.organPart}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.organPart}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organPart}}</div>
@@ -80,9 +80,9 @@
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Library Construction"
+                    <span matTooltip="The general approach for sequencing library construction. Should be a child term of EFO - library preparation."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Library Construction</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -90,7 +90,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.libraryConstructionApproach}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.libraryConstructionApproach}}
                         </div>
                         <div *ngSwitchDefault matTooltip
@@ -101,9 +101,9 @@
             </ng-container>
             <ng-container matColumnDef="genusSpecies">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="genusSpecies"
+                    <span matTooltip="The scientific binomial name for the species of the biomaterial."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Species
                     </span>
                 </mat-header-cell>
@@ -112,7 +112,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.genusSpecies}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.genusSpecies}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.genusSpecies}}</div>
@@ -121,9 +121,9 @@
             </ng-container>
             <ng-container matColumnDef="organismAge">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Age in age_units. Measured since birth."
+                    <span matTooltip="Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Age</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -131,7 +131,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.organismAge}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.organismAge}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organismAge}}
@@ -144,7 +144,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The biological sex of the organism. Should be one of male, female, mixed, or unknown."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Sex</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -152,7 +152,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.biologicalSex}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.biologicalSex}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.biologicalSex}}</div>
@@ -161,9 +161,9 @@
             </ng-container>
             <ng-container matColumnDef="disease">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Disease on the specimen level"
+                    <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Diseased</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -171,7 +171,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.disease}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.disease}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.disease}}</div>
@@ -181,23 +181,16 @@
             <ng-container matColumnDef="fileType">
                 <mat-header-cell *matHeaderCellDef>
                     <div class="file-type">
-                    <span matTooltip="File type"
+                    <span matTooltip="The format of the data file."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="2000"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Types</span>
                         <div><span>Primary</span><span>2nd</span></div>
                     </div>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.fileType, display12)">
-                        <div *ngSwitchCase="true"
-                             matTooltip="{{element.fileType}}"
-                             matTooltipPosition="below"
-                             matTooltipShowDelay="2000"
-                             matTooltipClass="hca-tooltip">{{element.fileType}}
-                        </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">
-                            <div class="file-type-data">
+                    <div>
+                        <div class="file-type-data">
                                 <span>
                                     <ng-container [ngSwitch]="element.fileTypePrimary > 0">
                                         <ng-container *ngSwitchDefault><img
@@ -206,7 +199,7 @@
                                                 src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
-                                <span>
+                            <span>
                                     <ng-container [ngSwitch]="element.fileTypeSecondary > 0">
                                         <ng-container *ngSwitchDefault><img
                                                 src="../../../assets/images/table/isFileType.png"></ng-container>
@@ -214,22 +207,21 @@
                                                 src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
-                            </div>
-                            <div class="file-type-info">
-                                <span class="file-title">Raw Data</span>
-                                <span>Fastqs: {{element.fileTypePrimary}}</span>
-                                <span class="file-title">Secondary Analysis</span>
-                                <span>None</span>
-                            </div>
                         </div>
-                    </ng-container>
+                        <div class="file-type-info">
+                            <span class="file-title">Raw Data</span>
+                            <span>Fastqs: {{element.fileTypePrimary}}</span>
+                            <span class="file-title">Secondary Analysis</span>
+                            <span>None</span>
+                        </div>
+                    </div>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="totalCells">
                 <mat-header-cell *matHeaderCellDef>
-                    <span matTooltip="Cell count"
+                    <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
                           matTooltipPosition="below"
-                          matTooltipShowDelay="500"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Cell Count (Estimated)</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -237,7 +229,7 @@
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.totalCells}}"
                              matTooltipPosition="below"
-                             matTooltipShowDelay="500"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip">{{element.totalCells}}
                         </div>
                         <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">

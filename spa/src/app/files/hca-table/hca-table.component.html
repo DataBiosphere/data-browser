@@ -189,8 +189,8 @@
                     </div>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                        <div>
-                            <div class="file-type-data">
+                    <div>
+                        <div class="file-type-data">
                                 <span>
                                     <ng-container [ngSwitch]="element.fileTypePrimary > 0">
                                         <ng-container *ngSwitchDefault><img
@@ -199,7 +199,7 @@
                                                 src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
-                                <span>
+                            <span>
                                     <ng-container [ngSwitch]="element.fileTypeSecondary > 0">
                                         <ng-container *ngSwitchDefault><img
                                                 src="../../../assets/images/table/isFileType.png"></ng-container>
@@ -207,14 +207,14 @@
                                                 src="../../../assets/images/table/isNotFileType.png"></ng-container>
                                     </ng-container>
                                 </span>
-                            </div>
-                            <div class="file-type-info">
-                                <span class="file-title">Raw Data</span>
-                                <span>Fastqs: {{element.fileTypePrimary}}</span>
-                                <span class="file-title">Secondary Analysis</span>
-                                <span>None</span>
-                            </div>
                         </div>
+                        <div class="file-type-info">
+                            <span class="file-title">Raw Data</span>
+                            <span>Fastqs: {{element.fileTypePrimary}}</span>
+                            <span class="file-title">Secondary Analysis</span>
+                            <span>None</span>
+                        </div>
+                    </div>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="totalCells">
