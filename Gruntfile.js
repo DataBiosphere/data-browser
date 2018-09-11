@@ -96,7 +96,7 @@ module.exports = function (grunt) {
             },
             local: {
                 NODE_ENV: "local",
-                BW_DATA_URL: "https://service.staging.explore.data.humancellatlas.org",
+                BW_DATA_URL: "https://service.dev.explore.data.humancellatlas.org",
                 HCA_DATA_PORTAL_URL: "https://dev.data.humancellatlas.org"
 
             }

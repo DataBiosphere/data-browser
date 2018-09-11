@@ -6,13 +6,7 @@
  * @returns {any}
  */
 import { Action } from "@ngrx/store";
-import {
-    clearUnSelectedTableModels,
-    getDefaultTableState,
-    getSelectedTable,
-    TableState,
-    updateSelectedTableModel
-} from "./table.state";
+import * as tableStateFxns from "./table.state";
 import {
     EntitySelectAction,
     FetchTableDataSuccessAction,
@@ -21,8 +15,9 @@ import {
 } from "./table.actions";
 import { TableModel } from "../../table/table.model";
 import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list.actions";
+import { TableState } from "./table.state";
 
-export function reducer(state: TableState = getDefaultTableState(), action: Action): TableState {
+export function reducer(state: TableState = tableStateFxns.getDefaultTableState(), action: Action): TableState {
 
 
     let tableModel: TableModel;
@@ -38,7 +33,7 @@ export function reducer(state: TableState = getDefaultTableState(), action: Acti
             nextState = {
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateFxns.updateSelectedTableModel(state, tableModel)
             };
 
             return nextState;
@@ -47,12 +42,12 @@ export function reducer(state: TableState = getDefaultTableState(), action: Acti
         case TableNextPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TableNextPageSuccessAction).tableModel;
-            tableModel.pagination.current_page = getSelectedTable(state).pagination.current_page + 1;
+            tableModel.pagination.current_page = tableStateFxns.getSelectedTable(state).pagination.current_page + 1;
 
             nextState = {
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateFxns.updateSelectedTableModel(state, tableModel)
             };
 
             return nextState;
@@ -61,12 +56,12 @@ export function reducer(state: TableState = getDefaultTableState(), action: Acti
         case TablePreviousPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TablePreviousPageSuccessAction).tableModel;
-            tableModel.pagination.current_page = getSelectedTable(state).pagination.current_page - 1;
+            tableModel.pagination.current_page = tableStateFxns.getSelectedTable(state).pagination.current_page - 1;
 
             nextState = {
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateFxns.updateSelectedTableModel(state, tableModel)
             };
 
             return nextState;
@@ -75,7 +70,7 @@ export function reducer(state: TableState = getDefaultTableState(), action: Acti
 
             nextState = {
                 ...state, selectedEntity: (action as EntitySelectAction).key
-            }
+            };
 
             return nextState;
 
@@ -84,7 +79,7 @@ export function reducer(state: TableState = getDefaultTableState(), action: Acti
             nextState = {
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: clearUnSelectedTableModels(state)
+                tableModels: tableStateFxns.clearUnSelectedTableModels(state)
             };
 
             return nextState;
