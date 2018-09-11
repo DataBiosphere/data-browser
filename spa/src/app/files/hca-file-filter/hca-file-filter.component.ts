@@ -221,6 +221,18 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Returns class truncate if termName is not spaced
+     * @param termName
+     * @returns {string}
+     */
+    public getTruncatedClass(termName) {
+
+        if ( termName.indexOf(" ") == -1 ) {
+            return "truncate";
+        }
+    }
+
+    /**
      * Will show more filters on screens greater than 1200px
      * @returns {boolean}
      */

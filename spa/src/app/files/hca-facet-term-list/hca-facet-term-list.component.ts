@@ -93,13 +93,13 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Returns class truncate if termName is not spaced and words are joined by an underscore
-     * @param fileFacetName
+     * Returns class truncate if termName is not spaced
+     * @param termName
      * @returns {string}
      */
     public getTruncatedClass(termName) {
 
-        if ( termName.indexOf(" ") == -1 && termName.indexOf("_") >= 0 ) {
+        if ( termName.indexOf(" ") == -1 ) {
             return "truncate";
         }
     }
