@@ -280,6 +280,11 @@
             white-space: pre-wrap;
         }
 
+        /** Truncate long term names - where term names are not spaced */
+        .truncate {
+            word-break: break-all;
+        }
+
         /* Count */
         > span:nth-of-type(2) {
             flex-basis: 36px; /* approx. 4 digit number */

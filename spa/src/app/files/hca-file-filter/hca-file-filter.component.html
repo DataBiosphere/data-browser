@@ -9,7 +9,7 @@
                           [label]="facet.facetName | camelToSpace"
                           [disabled]="facet.disabled">
                 <mat-option class="hca-option" *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
-                    <span>{{term.termName}}</span>
+                    <span [ngClass]="getTruncatedClass(term.termName)">{{term.termName}}</span>
                     <span>{{term.count}}</span>
                 </mat-option>
             </mat-optgroup>

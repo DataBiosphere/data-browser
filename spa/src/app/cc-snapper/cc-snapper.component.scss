@@ -9,7 +9,8 @@
 
 :host {
 
-    /** Add flex to snapper to push footer to bottom of snapper container */    display: flex;
+    /** Add flex to snapper to push footer to bottom of snapper container */
+    display: flex;
     flex-direction: column;
     flex: 1;
     overflow-y: auto;
