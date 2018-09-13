@@ -6,21 +6,20 @@
  */
 // Core dependencies
 import { Component, ElementRef, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 // App dependencies
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
-
 import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
 import {
+    selectEntities,
     selectFileFacetsFileFacets,
     selectFileSummary,
-    selectSelectedFileFacets,
-    selectEntities,
-    selectSelectedEntity
+    selectSelectedEntity,
+    selectSelectedFileFacets
 } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
@@ -44,22 +43,15 @@ export class FilesComponent implements OnInit {
     public selectedEntity$: Observable<EntitySpec>;
     public noScroll: boolean;
 
-    // Locals
-    private elementRef: ElementRef;
-    private route: ActivatedRoute;
-    private store: Store<AppState>;
-
     /**
      * @param route {ActivatedRoute}
      * @param store {Store<AppState>}
      */
-    constructor(route: ActivatedRoute,
-                store: Store<AppState>,
-                elementRef: ElementRef) {
+    constructor(private elementRef: ElementRef,
+                private route: ActivatedRoute,
+                private router: Router,
+                private store: Store<AppState>) {
 
-        this.elementRef = elementRef;
-        this.route = route;
-        this.store = store;
         this.projectDetail = false;
     }
 
@@ -82,11 +74,6 @@ export class FilesComponent implements OnInit {
         this.preventScroll();
     }
 
-    public onTabSelected(tab) {
-
-        this.store.dispatch(new EntitySelectAction(tab.key));
-    }
-
     /**
      * Prevent scroll on body when menu is open
      */
@@ -100,6 +87,13 @@ export class FilesComponent implements OnInit {
         else if ( !this.noScroll && openedMenu ) {
             nativeElement.classList.remove("noScroll");
         }
+    }
+
+    public onTabSelected(tab) {
+
+        // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
+        this.router.navigate(["/" + tab.key], { queryParams: { entity: tab.key }}], { relativeTo: this.route });
+      //  this.store.dispatch(new EntitySelectAction(tab.key));
     }
 
     /**
@@ -132,6 +126,15 @@ export class FilesComponent implements OnInit {
 
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
+
+        // Sets up element by id
+        this.getComponentElementById();
+
+        // Return component heights for sticky header
+        if (!this.projectDetail) {
+            // TODO I think this is causing an exception when adjusting screen size @fran
+            this.getComponentHeight();
+        }
     }
 
     /**
@@ -146,7 +149,7 @@ export class FilesComponent implements OnInit {
         this.route.queryParams
             .map((params) => {
 
-                if ( params && params["filter"] && params["filter"].length ) {
+                if (params && params["filter"] && params["filter"].length) {
 
                     let filterParam = decodeURIComponent(params["filter"]);
                     let filter
@@ -157,7 +160,7 @@ export class FilesComponent implements OnInit {
                         console.log(err);
                     }
 
-                    if ( filter && filter.facetName ) {
+                    if (filter && filter.facetName) {
                         return filter;
                     }
                     else {
@@ -166,7 +169,7 @@ export class FilesComponent implements OnInit {
                 }
             })
             .subscribe((filter) => {
-                if ( filter ) {
+                if (filter) {
                     this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
                 }
                 else {
