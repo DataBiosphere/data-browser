@@ -13,7 +13,7 @@
                 <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
             </ng-container>
         </div>
-        <div class="term-count md-caption secondary">{{term.count | localeString}}</div>
+        <div class="term-count md-caption secondary">{{term.count | countSize}}</div>
         <div class="term-count md-caption secondary">{{getFileTypeSummary(term.name).totalSize | fileSize}}</div>
     </div>
 </div>

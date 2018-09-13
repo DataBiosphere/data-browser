@@ -1,6 +1,6 @@
 <div class="facet-title">
     <span>{{getFacetName(fileFacet.name)}}</span>
-    <span>{{fileFacet.total | localeString}}</span>
+    <span>{{fileFacet.total | countSize}}</span>
 </div>
 <div class="facet-term-list">
     <hca-facet-term-list [fileFacet]="fileFacet"
