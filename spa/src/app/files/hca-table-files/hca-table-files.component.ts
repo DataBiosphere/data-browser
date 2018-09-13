@@ -37,10 +37,6 @@ export class HCATableFilesComponent implements OnInit {
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
-    // pageSizeOptions = [10, 15, 25, 50, 100, 200];
-    // selectedPage = 15;
-    // pageValue: number;
-    pageError: boolean;
 
     // Locals
     private store: Store<AppState>;
@@ -353,7 +349,7 @@ class TableElementDataSource extends DataSource<any> {
                     if ( file.format === "fastq.gz" ) {
                         acc.primaryCount++;
                     }
-                    else {
+                    else if (file.format === "bam" ) {
                         acc.secondaryCount++;
                     }
                     return acc;

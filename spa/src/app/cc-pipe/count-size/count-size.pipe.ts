@@ -20,7 +20,6 @@ export class CountSizePipe implements PipeTransform {
         while (val >= 1000) {
             val = val / 1000;
             sigFig += 1;
-            console.log(val, sigFig);
         }
 
         // No format of count size - tens, hundreds
