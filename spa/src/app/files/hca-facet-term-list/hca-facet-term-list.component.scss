@@ -50,6 +50,7 @@
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px;
                 flex: 1; // Always title to consume remaining space (excluding count)
+                padding-right: 4px;
 
                 /** Truncate long term names - where term names are not spaced */
                 &.truncate {
@@ -62,10 +63,9 @@
                 color: $hca-gray-medium;
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px;
-                flex-basis: 36px; // Always set width of count to 36px
+                flex-basis: 56px; // Always set width of count to 56px
                 flex-shrink: 0;
                 text-align: right;
-                //line-height: 16px; // Match line height of term name (for vertical alignment)
             }
         }
     }
