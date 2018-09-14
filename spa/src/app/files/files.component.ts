@@ -5,7 +5,7 @@
  * Core files component, displays results summary as well as facets.
  */
 // Core dependencies
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -25,14 +25,16 @@ import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
 import EntitySpec from "./_ngrx/table/entity-spec";
-import { EntitySelectAction } from "./_ngrx/table/table.actions";
+import { EntitySelectAction } from "app/files/_ngrx/table/table.actions";
+import { Subscription } from "rxjs/Subscription";
+
 
 @Component({
     selector: "bw-files",
     templateUrl: "files.component.html",
     styleUrls: ["files.component.scss"]
 })
-export class FilesComponent implements OnInit {
+export class FilesComponent implements OnInit, OnDestroy {
 
     // Public variables
     public fileFacets$: Observable<FileFacet[]>;
@@ -42,17 +44,34 @@ export class FilesComponent implements OnInit {
     public entities$: Observable<EntitySpec[]>;
     public selectedEntity$: Observable<EntitySpec>;
     public noScroll: boolean;
+    private actionsSubscription: Subscription;
+    private facetsSubscription: Subscription;
 
     /**
      * @param route {ActivatedRoute}
      * @param store {Store<AppState>}
      */
     constructor(private elementRef: ElementRef,
-                private route: ActivatedRoute,
+                private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private store: Store<AppState>) {
 
         this.projectDetail = false;
+
+        // this.actionsSubscription = activatedRoute.params
+        //     .pipe(map((params) => {
+        //
+        //         let tab = activatedRoute.snapshot.url[0].path
+        //         return new EntitySelectAction(tab);
+        //
+        //     }))
+        //     .subscribe(store);
+    }
+
+
+    ngOnDestroy() {
+        this.actionsSubscription.unsubscribe();
+        this.facetsSubscription.unsubscribe();
     }
 
     /**
@@ -92,8 +111,9 @@ export class FilesComponent implements OnInit {
     public onTabSelected(tab) {
 
         // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
-        this.router.navigate(["/" + tab.key], { queryParams: { entity: tab.key }}], { relativeTo: this.route });
-      //  this.store.dispatch(new EntitySelectAction(tab.key));
+        this.router.navigate(["/" + tab.key]);
+
+        this.store.dispatch(new EntitySelectAction(tab.key));
     }
 
     /**
@@ -132,49 +152,70 @@ export class FilesComponent implements OnInit {
 
         // Return component heights for sticky header
         if (!this.projectDetail) {
-            // TODO I think this is causing an exception when adjusting screen size @fran
             this.getComponentHeight();
+        }
+
+        this.selectedFileFacets$.do((selectedFacets) => {
+            console.log("poo poo");
+
+            let tab = this.activatedRoute.snapshot.url[0].path
+
+            let facetyFacets = selectedFacets.map((facet) => {
+                return {
+                    facetName: facet.name,
+                    terms: facet.terms.map((term) => {
+                        return { name: term.name};
+                    })
+                };
+            });
+
+            this.router.navigate(["/" + tab], { queryParams: { filter: JSON.stringify(facetyFacets) } });
+
+            }).subscribe();
+        }
+
+        /**
+         * PRIVATES
+         */
+
+        /**
+         * Parse queryParams into file filters
+         */
+    private
+        initQueryParams()
+        {
+
+            this.activatedRoute.queryParams
+                .map((params) => {
+
+                    if (params && params["filter"] && params["filter"].length) {
+
+                        let filterParam = decodeURIComponent(params["filter"]);
+                        let filter
+                        try {
+                            filter = JSON.parse(filterParam);
+                        }
+                        catch (err) {
+                            console.log(err);
+                        }
+
+                        if (filter && filter.facetName) {
+                            return filter;
+                        }
+                        else {
+                            return "";
+                        }
+                    }
+                })
+                .subscribe((filter) => {
+                    if (filter) {
+                        this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
+                    }
+                    else {
+                        this.store.dispatch(new FetchFileFacetsRequestAction());
+                    }
+                });
         }
     }
 
-    /**
-     * PRIVATES
-     */
-
-    /**
-     * Parse queryParams into file filters
-     */
-    private initQueryParams() {
-
-        this.route.queryParams
-            .map((params) => {
-
-                if (params && params["filter"] && params["filter"].length) {
-
-                    let filterParam = decodeURIComponent(params["filter"]);
-                    let filter
-                    try {
-                        filter = JSON.parse(filterParam);
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-
-                    if (filter && filter.facetName) {
-                        return filter;
-                    }
-                    else {
-                        return "";
-                    }
-                }
-            })
-            .subscribe((filter) => {
-                if (filter) {
-                    this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
-                }
-                else {
-                    this.store.dispatch(new FetchFileFacetsRequestAction());
-                }
-            });
-    }
-}
+// TODO unsubscribe!
