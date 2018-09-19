@@ -55,10 +55,18 @@ export class NoOpAction implements Action {
     constructor() {}
 }
 
+export class SetViewStateAction implements Action {
+    public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SET_VIEW_STATE";
+    public readonly type = SetViewStateAction.ACTION_TYPE;
+
+    constructor(public selectedEntity: string, public selectedFacets: FileFacet[]) {}
+}
+
 export type All
-    = FetchFileFacetsRequestAction
+    =  ClearSelectedFileFacetsAction
+    | FetchFileFacetsRequestAction
     | FetchFileFacetsSuccessAction
-    | SelectFileFacetAction
     | NoOpAction
-    | ClearSelectedFileFacetsAction;
+    | SelectFileFacetAction
+    | SetViewStateAction;
 

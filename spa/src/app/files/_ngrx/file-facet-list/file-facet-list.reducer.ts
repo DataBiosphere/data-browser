@@ -10,10 +10,12 @@ import { Action } from "@ngrx/store";
 // App dependencies
 import { FileFacetListState } from "./file-facet-list.state";
 import {
-    ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
+    ClearSelectedFileFacetsAction,
+    ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
-    SelectFileFacetAction
+    SelectFileFacetAction,
+    SetViewStateAction
 } from "./file-facet-list.actions";
 
 /**
@@ -22,6 +24,8 @@ import {
  * @returns {FileFacetListState}
  */
 export function reducer(state: FileFacetListState = FileFacetListState.getDefaultState(), action: Action): FileFacetListState {
+
+    console.log(action.type);
 
     switch (action.type) {
 
@@ -43,6 +47,9 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
 
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FileFacetListState.getDefaultState();
+
+        case SetViewStateAction.ACTION_TYPE:
+
 
         default:
             return state;

@@ -24,9 +24,10 @@ import {
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
-import EntitySpec from "./_ngrx/table/entity-spec";
 import { EntitySelectAction } from "app/files/_ngrx/table/table.actions";
 import { Subscription } from "rxjs/Subscription";
+import EntitySpec from "./shared/entity-spec";
+import QueryStringFacet from "./shared/QueryStringFacet";
 
 
 @Component({
@@ -46,6 +47,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     public noScroll: boolean;
     private actionsSubscription: Subscription;
     private facetsSubscription: Subscription;
+
+
+    /**
+     * Parse queryParams into file filters
+     */
+    private selectedFacetsSubscription: Subscription;
 
     /**
      * @param route {ActivatedRoute}
@@ -83,6 +90,19 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Sets up element by id
+     */
+    public getComponentElementById() {
+
+        // Set up component HTML reference
+        this.hcaStickyOverlay = document.getElementById("hcaStickyOverlay");
+        this.hcaExplore = document.getElementById("hcaExplore");
+        this.hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
+        this.hcaTab = document.getElementById("hcaTab");
+        this.hcaFileSummary = document.getElementById("hcaFileSummary");
+    }
+
+    /**
      * Remove scroll on body when menu is open
      *
      * @param value
@@ -112,9 +132,13 @@ export class FilesComponent implements OnInit, OnDestroy {
 
         // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
         this.router.navigate(["/" + tab.key]);
-
         this.store.dispatch(new EntitySelectAction(tab.key));
     }
+
+
+    /**
+     * Life cycle hooks
+     */
 
     /**
      * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
@@ -145,7 +169,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.selectedEntity$ = this.store.select(selectSelectedEntity);
 
         // Initialize the filter state from the params in the route.
-        this.initQueryParams();
+      //  this.initQueryParams();
 
         // Sets up element by id
         this.getComponentElementById();
@@ -155,67 +179,30 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.getComponentHeight();
         }
 
-        this.selectedFileFacets$.do((selectedFacets) => {
-            console.log("poo poo");
+        // Setup to write the browser address bar when the selected facets change.
+        this.selectedFacetsSubscription = this.selectedFileFacets$.do((selectedFacets) => {
 
-            let tab = this.activatedRoute.snapshot.url[0].path
+                let tab = this.activatedRoute.snapshot.url[0].path;
 
-            let facetyFacets = selectedFacets.map((facet) => {
-                return {
-                    facetName: facet.name,
-                    terms: facet.terms.map((term) => {
-                        return { name: term.name};
-                    })
-                };
-            });
-
-            this.router.navigate(["/" + tab], { queryParams: { filter: JSON.stringify(facetyFacets) } });
-
-            }).subscribe();
-        }
-
-        /**
-         * PRIVATES
-         */
-
-        /**
-         * Parse queryParams into file filters
-         */
-    private
-        initQueryParams()
-        {
-
-            this.activatedRoute.queryParams
-                .map((params) => {
-
-                    if (params && params["filter"] && params["filter"].length) {
-
-                        let filterParam = decodeURIComponent(params["filter"]);
-                        let filter
-                        try {
-                            filter = JSON.parse(filterParam);
-                        }
-                        catch (err) {
-                            console.log(err);
-                        }
-
-                        if (filter && filter.facetName) {
-                            return filter;
-                        }
-                        else {
-                            return "";
-                        }
-                    }
-                })
-                .subscribe((filter) => {
-                    if (filter) {
-                        this.store.dispatch(new FetchFileFacetsRequestAction(new FileFacetSelectedEvent(filter.facetName, filter.termName, true)));
-                    }
-                    else {
-                        this.store.dispatch(new FetchFileFacetsRequestAction());
-                    }
+                let queryStringFacets: QueryStringFacet[] = selectedFacets.map((facet) => {
+                    return {
+                        facetName: facet.name,
+                        terms: facet.selectedTerms.map((term) => {
+                            return term.name;
+                        })
+                    } as QueryStringFacet;
                 });
-        }
-    }
 
-// TODO unsubscribe!
+                // only add the query string if there are selected facdts.
+                if (queryStringFacets.length) {
+                    this.router.navigate(["/" + tab], { queryParams: { filter: JSON.stringify(queryStringFacets) } });
+                }
+                else {
+                    this.router.navigate(["/" + tab]);
+                }
+
+            }
+        ).subscribe();
+    }
+}
+

@@ -27,7 +27,8 @@ import {
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
     NoOpAction,
-    SelectFileFacetAction
+    SelectFileFacetAction,
+    SetViewStateAction
 } from "./file-facet-list/file-facet-list.actions";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import {
@@ -38,6 +39,7 @@ import {
 import { FileFacet } from "../shared/file-facet.model";
 import {
     selectFileFacetMetadataSummary,
+    selectSelectedEntity,
     selectSelectedFacetsMap,
     selectSelectedFileFacets,
     selectTableQueryParams
@@ -69,7 +71,7 @@ export class FileEffects {
      */
     @Effect()
     fetchSummary$: Observable<Action> = this.actions$
-        .ofType(SelectFileFacetAction.ACTION_TYPE, FetchFileFacetsRequestAction.ACTION_TYPE)
+        .ofType(FetchFileSummaryRequestAction.ACTION_TYPE)
         .switchMap(() => {
             return this.store.select(selectSelectedFileFacets).first();
         })
@@ -99,9 +101,9 @@ export class FileEffects {
 
             return new FetchFileSummarySuccessAction(fileSummary);
         });
+
     /**
      * Trigger fetch and display of manifest summary once manifest is requested.
-     *
      * @type {Observable<Action>}
      */
     @Effect()
@@ -116,8 +118,10 @@ export class FileEffects {
         .map((fileManifestSummary) => {
             return new FetchFileManifestSummarySuccessAction(fileManifestSummary);
         });
+
     /**
-     *
+     * Fetch the initial table data.
+     * @type {Observable<FetchTableDataSuccessAction>}
      */
     @Effect()
     fetchInitialTableData$: Observable<Action> = this.actions$
@@ -136,7 +140,7 @@ export class FileEffects {
                     order: tableQueryParams.pagination.order
                 });
 
-            return this.fileService.fetchFileTableData(
+            return this.fileService.fetchEntityTableData(
                 tableQueryParams.selectedFacets,
                 tableParams,
                 tableQueryParams.tableState.selectedEntity);
@@ -155,35 +159,29 @@ export class FileEffects {
                 return new NoOpAction();
             }
             else {
-                return new FetchInitialTableDataRequestAction();
+                // this relooads the facets with counts for the selected entity.
+                return new FetchFileFacetsRequestAction();
             }
         });
 
-    @Effect()
-    fileFacetsSuccess: Observable<Action> = this.actions$
-        .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
-            const ffsa = action as FetchFileFacetsSuccessAction;
-            if (ffsa.fileFacetSelectedEvent) {
-                return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
-            }
-            else {
-                return new NoOpAction();
-            }
-        });
+    // @Effect()
+    // fileFacetsSuccess: Observable<Action> = this.actions$
+    //     .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
+    //         const ffsa = action as FetchFileFacetsSuccessAction;
+    //         if (ffsa.fileFacetSelectedEvent) {
+    //             return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
+    //         }
+    //         else {
+    //             return new NoOpAction();
+    //         }
+    //     });
 
-
-    /**
-     * Effects
-     */
-    /**
-     *
-     */
     @Effect()
     fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
         .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(
+            return this.fileService.fetchEntityTableData(
                 results[1].selectedFacets,
                 (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams,
                 results[1].tableState.selectedEntity);
@@ -197,7 +195,7 @@ export class FileEffects {
         .ofType(TableNextPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(
+            return this.fileService.fetchEntityTableData(
                 results[1].selectedFacets,
                 (results[0] as TableNextPageAction).tableParams,
                 results[1].tableState.selectedEntity);
@@ -211,7 +209,7 @@ export class FileEffects {
         .ofType(TablePreviousPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchFileTableData(
+            return this.fileService.fetchEntityTableData(
                 results[1].selectedFacets,
                 (results[0] as TablePreviousPageAction).tableParams,
                 results[1].tableState.selectedEntity);
@@ -221,9 +219,7 @@ export class FileEffects {
         });
 
     /**
-     *
      * Trigger downooad of manifest.
-     *
      * @type {Observable<Action>}
      */
     @Effect({ dispatch: false })
@@ -235,52 +231,55 @@ export class FileEffects {
         .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
         });
+
     private colorWheelSet: boolean;
     private colors: string[];
     private colorWheel: Map<string, string>;
+
+
     /**
      * Trigger update of facets once a facet term is selected/deselected.
      *
      * @type {Observable<Action>}
      */
-    @Effect()
-    fetchFacets$: Observable<Action> = this.actions$
-        .ofType(SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFacetsMap).first();
-        })
-        .switchMap((selectedFacets) => {
-
-            return Observable.concat(
-                Observable.of(new FetchFileSummaryRequestAction()),
-                Observable.of(new FetchInitialTableDataRequestAction()),
-
-                // map AND concat?
-                this.fetchOrderedFileFacets(selectedFacets)
-                    .map((fileFacets) => {
-
-                        fileFacets.forEach((fileFacet) => {
-
-                            fileFacet.terms.forEach((term) => {
-                                const key = fileFacet.name + ":" + term.name;
-                                term.color = this.colorWheel.get(key);
-                            });
-                        });
-                        return new FetchFileFacetsSuccessAction(fileFacets);
-                    })
-            );
-        });
+    // @Effect()
+    // fetchFacets$: Observable<Action> = this.actions$
+    //     .ofType(SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE)
+    //     .switchMap(() => {
+    //         return this.store.select(selectSelectedFacetsMap).first();
+    //     })
+    //     .switchMap((selectedFacets) => {
+    //
+    //         return Observable.concat(
+    //             Observable.of(new FetchFileSummaryRequestAction()),
+    //             Observable.of(new FetchInitialTableDataRequestAction()),
+    //
+    //             // map AND concat?
+    //             this.fetchOrderedFileFacets(selectedFacets)
+    //                 .map((fileFacets) => {
+    //
+    //                     fileFacets.forEach((fileFacet) => {
+    //
+    //                         fileFacet.terms.forEach((term) => {
+    //                             const key = fileFacet.name + ":" + term.name;
+    //                             term.color = this.colorWheel.get(key);
+    //                         });
+    //                     });
+    //                     return new FetchFileFacetsSuccessAction(fileFacets);
+    //                 })
+    //         );
+    //     });
     /**
-     * Trigger update of facet counts on init.
-     *
+     * Trigger fetch of facets, summary counts and the table on init.
      * @type {Observable<Action>}
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
-        .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
+        .ofType(SetViewStateAction.ACTION_TYPE, SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE, FetchFileFacetsRequestAction.ACTION_TYPE)
         .switchMap((action: FetchFileFacetsRequestAction) => {
             return Observable.forkJoin(
                 this.store.select(selectSelectedFacetsMap).first(),
+                this.store.select(selectSelectedEntity).first(),
                 Observable.from([action])
             );
         })
@@ -291,7 +290,7 @@ export class FileEffects {
                 // Request Table Data
                 Observable.of(new FetchInitialTableDataRequestAction()),
                 // Request Facets, and sort by metadata
-                this.fetchOrderedFileFacets(result[0])
+                this.fetchOrderedFileFacets(result[0], result[1].key)
                     .map((fileFacets: FileFacet[]) => {
 
                         fileFacets.forEach((fileFacet) => {
@@ -305,8 +304,9 @@ export class FileEffects {
                             });
                         });
 
-                        const ffra = result[1] as FetchFileFacetsRequestAction;
-                        return new FetchFileFacetsSuccessAction(fileFacets, ffra.fileFacetSelectedEvent);
+                        //  const ffra = result[1] as FetchFileFacetsRequestAction;
+
+                        return new FetchFileFacetsSuccessAction(fileFacets);
                     })
             );
         });
@@ -366,7 +366,7 @@ export class FileEffects {
      * @param selectedFacets
      * @returns {Observable<FileFacet[]>}
      */
-    private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>): Observable<FileFacet[]> {
+    private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
         const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary);
 
         const sortOrder$ = this.store.select(selectFileFacetMetadataSummary)
@@ -374,7 +374,7 @@ export class FileEffects {
             .combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
 
         return this.fileService
-            .fetchOrderedFileFacets(selectedFacets)
+            .fetchOrderedFileFacets(selectedFacets, tab)
             .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
 
                 // TODO why do we need to filter out null facets here?

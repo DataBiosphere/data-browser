@@ -61,13 +61,13 @@ export class FilesDAO extends CCBaseDAO {
      * @param ordering
      * @returns {Observable<FileFacet[]>}
      */
-    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>, ordering): Observable<FileFacet[]> {
+    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>, ordering, tab: string): Observable<FileFacet[]> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/files`);
+        const url = this.buildApiUrl(`/repository/` + tab);
         const filterParams = Object.assign({ from: 1, size: 1 }, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
@@ -152,7 +152,7 @@ export class FilesDAO extends CCBaseDAO {
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @returns {Observable<FileFacet[]>}
      */
-    fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>): Observable<FileFacet[]> {
+    fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
 
         return this.fetchFacetOrdering()
             .switchMap((ordering: Ordering) => {
@@ -177,7 +177,7 @@ export class FilesDAO extends CCBaseDAO {
                 ];
 
                 ordering.order = bypassOrdering;
-                return this.fetchFileFacets(selectedFacetsByName, ordering);
+                return this.fetchFileFacets(selectedFacetsByName, ordering, tab);
             });
     }
 

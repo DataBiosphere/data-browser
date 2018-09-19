@@ -7,6 +7,7 @@
  */
 import { Action } from "@ngrx/store";
 import * as tableStateFxns from "./table.state";
+import { TableState } from "./table.state";
 import {
     EntitySelectAction,
     FetchTableDataSuccessAction,
@@ -14,8 +15,7 @@ import {
     TablePreviousPageSuccessAction
 } from "./table.actions";
 import { TableModel } from "../../table/table.model";
-import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list.actions";
-import { TableState } from "./table.state";
+import { FetchFileFacetsSuccessAction, SetViewStateAction } from "../file-facet-list/file-facet-list.actions";
 
 export function reducer(state: TableState = tableStateFxns.getDefaultTableState(), action: Action): TableState {
 
@@ -70,6 +70,14 @@ export function reducer(state: TableState = tableStateFxns.getDefaultTableState(
 
             nextState = {
                 ...state, selectedEntity: (action as EntitySelectAction).key
+            };
+
+            return nextState;
+
+        case SetViewStateAction.ACTION_TYPE:
+
+            nextState = {
+                ...state, selectedEntity: (action as SetViewStateAction).selectedEntity
             };
 
             return nextState;

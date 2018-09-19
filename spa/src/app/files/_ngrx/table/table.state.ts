@@ -6,9 +6,9 @@
  */
 
 import { TableModel } from "../../table/table.model";
-import EntitySpec from "./entity-spec";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 import { PaginationModel } from "../../table/pagination.model";
+import EntitySpec from "../../shared/entity-spec";
 
 export interface TableState {
 
