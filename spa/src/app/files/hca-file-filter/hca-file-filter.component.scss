@@ -99,7 +99,7 @@
     /* Mobile view select field */
     .hca-options-small {
         background-color: $hca-white;
-        height: calc(100vh - 180px - 60px - 24px); // Footer, sticky plus 24px padding, header
+        height: calc(100vh - 250px - 24px); // Footer, sticky plus 24px padding, header
         left: 0;
         overflow-y: scroll;
         padding: 0 16px 24px;
@@ -217,9 +217,12 @@
 /* Select overlay */
 .hca-select-overlay {
     background-color: transparent;
+    bottom: 0;
     height: 100vh;
     left: 0;
+    overflow: hidden;
     position: fixed;
+    right: 0;
     top: 0;
     width: 100vw;
     z-index: 10; /* z-index < hca-options */

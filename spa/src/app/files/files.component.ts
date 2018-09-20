@@ -15,7 +15,13 @@ import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
 
 import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
-import { selectFileFacetsFileFacets, selectFileSummary, selectSelectedFileFacets, selectEntities, selectSelectedEntity } from "./_ngrx/file.selectors";
+import {
+    selectFileFacetsFileFacets,
+    selectFileSummary,
+    selectSelectedFileFacets,
+    selectEntities,
+    selectSelectedEntity
+} from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "./_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacetSelectedEvent } from "./file-facets/file-facet.events";
@@ -36,7 +42,8 @@ export class FilesComponent implements OnInit {
     public hcaFilterWrapper;
     public hcaStickyOverlay;
     public hcaTab;
-    public projectDetail = true;
+    public hcaTabHeight;
+    public projectDetail;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
@@ -55,6 +62,7 @@ export class FilesComponent implements OnInit {
 
         this.route = route;
         this.store = store;
+        this.projectDetail = false;
     }
 
     /**
@@ -85,7 +93,14 @@ export class FilesComponent implements OnInit {
         this.hcaExplore.style.top = "0px";
         this.hcaFilterWrapper.style.top = this.hcaExplore.offsetHeight + "px";
         this.hcaTab.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + "px";
-        this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
+        if ( this.hcaTab.offsetHeight < 55 ) {
+            this.hcaTabHeight = 55;
+        }
+        else {
+            this.hcaTabHeight = this.hcaTab.offsetHeight;
+        }
+
+        this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTabHeight + "px";
     }
 
 
@@ -105,7 +120,7 @@ export class FilesComponent implements OnInit {
 
     public onTabSelected(tab) {
 
-         this.store.dispatch(new EntitySelectAction(tab.key));
+        this.store.dispatch(new EntitySelectAction(tab.key));
     }
 
     /**
@@ -142,7 +157,7 @@ export class FilesComponent implements OnInit {
         this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
 
         this.entities$ = this.store.select(selectEntities);
-        this.selectedEntity$  = this.store.select(selectSelectedEntity);
+        this.selectedEntity$ = this.store.select(selectSelectedEntity);
 
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
@@ -151,10 +166,7 @@ export class FilesComponent implements OnInit {
         this.getComponentElementById();
 
         // Return component heights for sticky header
-        if ( !this.projectDetail ) {
-            // TODO I think this is causing an exception when adjusting screen size @fran
-            this.getComponentHeight();
-        }
+        this.getComponentHeight();
     }
 
     /**

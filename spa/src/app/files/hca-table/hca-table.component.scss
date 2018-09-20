@@ -7,7 +7,7 @@
 @import "../../shared/theme/cgl.vars";
 
 :host {
-    //height: 100%; /* Table to take up available space */
+    height: 100%; /* Table to take up available space */
     position: relative; /* Positions fade on horizontal scroll */
 
     /* Fade on horizontal scroll */
@@ -37,7 +37,7 @@
     align-items: center;
     display: flex;
     overflow-x: auto; /* Horizontal scroll */
-    //-ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling..
+    -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling..
     padding: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
 
     /* HCA table */
