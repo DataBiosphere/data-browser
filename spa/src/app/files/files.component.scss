@@ -10,6 +10,10 @@
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
 
+    .layout-column {
+        //height: 100%; // Content to take available space
+    }
+
     /* Sticky components */
     hca-section-title, hca-file-filter-wrapper, hca-tab, hca-file-summary, hca-download-manifest {
         background: white;

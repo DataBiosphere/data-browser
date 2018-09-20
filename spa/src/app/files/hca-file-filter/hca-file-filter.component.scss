@@ -148,7 +148,8 @@
             max-height: 237.5px;
             -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
             overflow-y: auto; // Hide webkit scrollbar unless actively scrolling.
-            padding: 2px 4px 0;
+            padding: 2px 20px 0;
+            margin: 0 -16px;
         }
 
         /* Styles applied when Facet is open */
