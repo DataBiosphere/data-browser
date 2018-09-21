@@ -36,7 +36,7 @@
         letter-spacing: 0.4px; /* TODO typography */
         margin: 0 4px;
         padding: 0 16px;
-        z-index: 12; /* Positions above overlay - to allow for direct change of menu selection */
+        z-index: 14; /* Positions above overlay - to allow for direct change of menu selection */
 
         /* Mobile view filter select */
         &.view-options {
@@ -99,14 +99,22 @@
     /* Mobile view select field */
     .hca-options-small {
         background-color: $hca-white;
-        height: calc(100vh - 250px - 24px); // Footer, sticky plus 24px padding, header
+        bottom: 0;
         left: 0;
-        overflow-y: scroll;
-        padding: 0 16px 24px;
-        position: absolute;
+        padding: 0 16px;
+        position: fixed;
         right: 0;
-        top: 54px;
-        z-index: 20;
+        top: calc(60px + 76px + 54px); /* Header, heading, filters */
+        z-index: 40;
+
+        > div {
+            height: calc(100% - 60px); /* Apply button 60px */
+            margin: 0 -16px;
+            overflow-y: auto;
+            overflow-x: hidden; /* Firefox */
+            padding: 0 16px;
+            position: relative;
+        }
 
         /* Facet Group */
         .facet-group {
@@ -216,7 +224,6 @@
 
 /* Select overlay */
 .hca-select-overlay {
-    background-color: transparent;
     bottom: 0;
     height: 100vh;
     left: 0;
@@ -225,7 +232,7 @@
     right: 0;
     top: 0;
     width: 100vw;
-    z-index: 10; /* z-index < hca-options */
+    z-index: 12; /* z-index < hca-options */
 }
 
 /* mat-option panel */

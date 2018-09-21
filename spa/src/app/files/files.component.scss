@@ -9,43 +9,18 @@
 :host {
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
+    overflow: hidden;
 
     .layout-column {
-        height: 100%; // Content to take available space
-    }
-
-    /* Sticky components */
-    hca-section-title, hca-file-filter-wrapper, hca-tab, hca-file-summary, hca-download-manifest {
-        background: white;
-        left: 0;
-        position: sticky;
-        right: 0;
-        z-index: 10;
-    }
-
-    /* Z index set above hca-tab and hca-file-summary */
-    hca-file-filter-wrapper {
-        z-index: 12;
-    }
-
-    /* Overlay hidden underneath sticky headers */
-    /* Devised to counter delay in re-positioning components below hca-file-filter-wrapper */
-    .sticky-overlay {
-        background-color: $hca-white;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 60px; /* Below header */
-        z-index: 9; /* Z index set below other sticky components */
-    }
-
-    /* Table scroll */
-    hca-table {
-        overflow-y: auto;
+        height: 100%;
     }
 
     /* Download manifest */
     hca-download-manifest {
         bottom: 0;
+        left: 0;
+        position: sticky;
+        right: 0;
+        z-index: 10;
     }
 }

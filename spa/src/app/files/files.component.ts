@@ -37,12 +37,6 @@ export class FilesComponent implements OnInit {
 
     // Public variables
     public fileFacets$: Observable<FileFacet[]>;
-    public hcaExplore;
-    public hcaFileSummary;
-    public hcaFilterWrapper;
-    public hcaStickyOverlay;
-    public hcaTab;
-    public hcaTabHeight;
     public projectDetail;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedFileFacets$: Observable<FileFacet[]>;
@@ -69,53 +63,8 @@ export class FilesComponent implements OnInit {
      * Public API
      */
 
-    /**
-     * Sets up element by id
-     */
-    public getComponentElementById() {
-
-        // Set up component HTML reference
-        this.hcaStickyOverlay = document.getElementById("hcaStickyOverlay");
-        this.hcaExplore = document.getElementById("hcaExplore");
-        this.hcaFilterWrapper = document.getElementById("hcaFilterWrapper");
-        this.hcaTab = document.getElementById("hcaTab");
-        this.hcaFileSummary = document.getElementById("hcaFileSummary");
-    }
-
-    /**
-     * Returns component heights for calculating sticky header position
-     */
-    public getComponentHeight() {
-
-        // Get height for each component
-        // Allocate top position based on calculated height
-        this.hcaStickyOverlay.style.height = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTab.offsetHeight + "px";
-        this.hcaExplore.style.top = "0px";
-        this.hcaFilterWrapper.style.top = this.hcaExplore.offsetHeight + "px";
-        this.hcaTab.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + "px";
-        if ( this.hcaTab.offsetHeight < 55 ) {
-            this.hcaTabHeight = 55;
-        }
-        else {
-            this.hcaTabHeight = this.hcaTab.offsetHeight;
-        }
-
-        this.hcaFileSummary.style.top = this.hcaExplore.offsetHeight + this.hcaFilterWrapper.offsetHeight + this.hcaTabHeight + "px";
-    }
-
-
     public getProjectDetailTabs() {
         return ["Projects"];
-    }
-
-    /**
-     * Window resize triggers a re-calculation of component heights
-     * @param event
-     */
-    public onResize() {
-
-        this.getComponentElementById();
-        this.getComponentHeight();
     }
 
     public onTabSelected(tab) {
@@ -130,14 +79,6 @@ export class FilesComponent implements OnInit {
 
         this.store.dispatch(new FetchFileManifestSummaryRequestAction());
     }
-
-    /**
-     * Dispatch action to download manifest summary.
-     */
-    // public onDownloadManifest() {
-    //
-    //     this.store.dispatch(new DownloadFileManifestAction());
-    // }
 
     /**
      * Life cycle hooks
@@ -161,12 +102,6 @@ export class FilesComponent implements OnInit {
 
         // Initialize the filter state from the params in the route.
         this.initQueryParams();
-
-        // Sets up element by id
-        this.getComponentElementById();
-
-        // Return component heights for sticky header
-        this.getComponentHeight();
     }
 
     /**

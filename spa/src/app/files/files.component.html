@@ -1,17 +1,17 @@
-<div class="layout-column" (window:resize)="onResize()">
-    <div class="sticky-overlay" id="hcaStickyOverlay"></div>
+<div class="layout-column">
     <hca-section-title id="hcaExplore" [title]="'Explore Data'"></hca-section-title>
     <hca-file-filter-wrapper id="hcaFilterWrapper"
                              [fileFacets]="fileFacets$ | async"
                              [selectedFacets]="selectedFileFacets$ | async"
                              (hcaFilterWrapperEvent)="getComponentHeight()">
     </hca-file-filter-wrapper>
-    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async" (tabSelected)="onTabSelected($event)"></hca-tab>
+    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="true"
                       [summary]="selectFileSummary$ | async">
     </hca-file-summary>
-    <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'" ></hca-table>
+    <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
     <hca-download-manifest
             [downloadActive]="false">

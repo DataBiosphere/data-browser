@@ -4,7 +4,9 @@
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto" (click)="onHCASelectClose()">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
                           [displayWith]="displayFn">
-            <mat-option *ngIf="searchReturnsEmpty" class="hca-option error">Oops! We don’t have an exact match, it may be called by a different name. Scroll through the list to see what data we currently have available.</mat-option>
+            <mat-option *ngIf="searchReturnsEmpty" class="hca-option error">Oops! We don’t have an exact match, it may
+                be called by a different name. Scroll through the list to see what data we currently have available.
+            </mat-option>
             <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async"
                           [label]="facet.facetName | camelToSpace"
                           [disabled]="facet.disabled">
@@ -36,26 +38,29 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </div>
                 <div [ngClass]="getOptionsSmallClass()">
-                    <ng-container *ngFor="let facetGroup of facetGroups; let f = index">
-                        <div class="facet-group">{{facetGroup.facetGroupName}}</div>
-                        <ng-container *ngIf="fileFacets.length">
-                            <div [ngClass]="getIsOpenClass(f, t)" *ngFor="let facetName of facetGroup.facetNames; let t = index">
-                                <div class="facet" (click)="onHCAFacetSelect(f, t)">
-                                    <span>{{getFacetName(facetName)}}</span>
-                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                    <div>
+                        <ng-container *ngFor="let facetGroup of facetGroups; let f = index">
+                            <div class="facet-group">{{facetGroup.facetGroupName}}</div>
+                            <ng-container *ngIf="fileFacets.length">
+                                <div [ngClass]="getIsOpenClass(f, t)"
+                                     *ngFor="let facetName of facetGroup.facetNames; let t = index">
+                                    <div class="facet" (click)="onHCAFacetSelect(f, t)">
+                                        <span>{{getFacetName(facetName)}}</span>
+                                        <mat-icon>keyboard_arrow_down</mat-icon>
+                                    </div>
+                                    <div class="facet-term-list">
+                                        <hca-facet-term-list [fileFacet]="getFacet(facetName)"
+                                                             (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
+                                    </div>
                                 </div>
-                                <div class="facet-term-list">
-                                    <hca-facet-term-list [fileFacet]="getFacet(facetName)"
-                                                         (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
-                                </div>
-                            </div>
+                            </ng-container>
                         </ng-container>
                         <div class="apply">
                             <button (click)="onHCASelectClose()">
                                 <span class="spacer">Apply</span>
                             </button>
                         </div>
-                    </ng-container>
+                    </div>
                 </div>
             </ng-container>
         </ng-container>

@@ -13,11 +13,10 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow-y: auto;
 
     &.snap {
 
-        /deep/ hca-file-summary {
+        /deep/ hca-table .wrapper .hca-table mat-table mat-header-row {
             box-shadow: 0 2px 4px 0 rgba($hca-black, 0.06);
         }
     }
