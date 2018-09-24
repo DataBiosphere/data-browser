@@ -78,3 +78,8 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     padding: 0 !important;
 }
 
+/* Overrides styles for Angular Spinner (mat-spinner) */
+.hca-spinner circle {
+    stroke: $hca-secondary;
+}
+

@@ -25,6 +25,12 @@
             display: flex;
             flex-wrap: wrap; /* Wraps on smaller devices */
 
+            /* Buttons - download and request matrix */
+            &.download-buttons {
+                flex: none;
+                flex-wrap: nowrap;
+            }
+
             /* Summary and count */
             > div {
                 display: flex;
@@ -49,7 +55,7 @@
     }
 }
 
-/* Download manifest summary */
+/* Download manifest summary & request expression matrix */
 :host-context(.hca-download) {
 
     .wrapper {

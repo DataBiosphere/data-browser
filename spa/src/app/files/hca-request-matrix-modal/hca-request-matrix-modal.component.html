@@ -1,0 +1,33 @@
+<div class="hca-download" *ngIf="selectFileSummary$ | async as fileSummary">
+    <p class="fontsize-l">Request Expression Matrix</p>
+    <hca-file-summary
+            [showDownload]="false"
+            [summary]="selectFileSummary$ | async"></hca-file-summary>
+    <div class="separator"></div>
+    <hca-file-filter-result *ngIf="selectedFileFacets$ | async"
+                            [removable]="false"
+                            [selectedFacets]="selectedFileFacets$ | async"></hca-file-filter-result>
+    <div class="hca-download-content">
+        <ng-container *ngIf="isStep(2)">
+            <p class="fontsize-s">Your expression matrix is bringing prepared.</p>
+            <p class="fontsize-s">Wait times are currently about a minute.</p>
+        </ng-container>
+        <ng-container *ngIf="isStep(3)">
+            <p class="fontsize-s">Your expression matrix is ready.</p>
+            <p class="fontsize-xxs">https://dev.explore.data.humancellatlas.org/12348dediadk.txt.</p>
+        </ng-container>
+    </div>
+    <div class="hca-download-action">
+        <button *ngIf="isStep(1)" type="button" (click)="onRequestMatrix()">Request Expression Matrix</button>
+        <mat-spinner *ngIf="isStep(2)"
+                class="hca-spinner"
+                [diameter]="28"
+                [mode]="indeterminate">
+        </mat-spinner>
+        <ng-container *ngIf="isStep(3)">
+            <button type="button" (click)="onDownloadMatrix()">Download Matrix</button>
+            <button type="button" (click)="onCopyLinkToClipboard()" class="hca-outline-button">
+                <img src="../../../assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
+        </ng-container>
+    </div>
+</div>

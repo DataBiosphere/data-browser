@@ -21,7 +21,7 @@
         min-height: 26px; /* Placeholder for empty list */
 
         /* List of selected terms - chips */
-        .selected-term {
+        .selected-term, .no-selected-term {
             align-items: center;
             background-color: $hca-off-white;
             border-radius: 3px;
@@ -67,6 +67,10 @@
             }
         }
 
+        .no-selected-term {
+            display: none;
+        }
+
         /* Clear all button */
         .clear-all {
             color: $hca-primary;
@@ -77,6 +81,24 @@
             margin: 3px;
             min-width: 0;
             padding: 0 4px; /* Overrides MD button spec - button text positioned 10px right of last selected chip */
+        }
+    }
+}
+
+/* Request matrix expression */
+:host-context(.hca-download) {
+
+    .wrapper {
+        padding: 0 24px;
+
+        /* Show no selected term if 0 terms selected */
+        .filter-result .no-selected-term {
+            display: flex;
+        }
+
+        /* Hide "clear all" */
+        .clear-all {
+            display: none;
         }
     }
 }

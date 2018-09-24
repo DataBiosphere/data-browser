@@ -22,6 +22,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatSortModule,
     MatTableModule,
@@ -59,7 +60,9 @@ import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
-import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
+import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
+import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
+import { HCASectionTitleComponent } from "app/files/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
@@ -83,6 +86,7 @@ import { ProjectDAO } from "./shared/project.dao";
         MatIconModule,
         MatInputModule,
         MatMenuModule,
+        MatProgressSpinnerModule,
         MatSelectModule,
         MatSortModule,
         MatTableModule,
@@ -127,6 +131,8 @@ import { ProjectDAO } from "./shared/project.dao";
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
         HCAProjectComponent,
+        HCARequestMatrixComponent,
+        HCARequestMatrixModalComponent,
         HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
@@ -139,7 +145,8 @@ import { ProjectDAO } from "./shared/project.dao";
         HCAFileSummaryComponent
     ],
     exports: [
-        HCADownloadManifestModalComponent
+        HCADownloadManifestModalComponent,
+        HCARequestMatrixModalComponent
     ],
     providers: [
         ConfigService,
@@ -151,6 +158,7 @@ import { ProjectDAO } from "./shared/project.dao";
     ],
     entryComponents: [
         HCADownloadManifestModalComponent,
+        HCARequestMatrixModalComponent
     ]
 })
 export class FilesModule {

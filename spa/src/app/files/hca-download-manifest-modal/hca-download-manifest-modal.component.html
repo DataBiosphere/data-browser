@@ -7,14 +7,14 @@
             [showDownload]="false"
             [summary]="selectFileSummary$ | async"></hca-file-summary>
     <ng-container *ngIf="fileFacets$ | async">
-        <div class="hca-card-content">
+        <div class="hca-download-content">
             <div class="facet-term-list">
                 <facet-file-list [fileFacet]="fileFacets$ | async" [fileTypeSummaries]="fileSummary.fileTypeSummaries"
                                  (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
             </div>
         </div>
     </ng-container>
-    <div class="hca-card-action">
+    <div class="hca-download-action">
         <button type="button" (click)="onDownloadManifest()">Download Manifest</button>
         <div class="file-size">These files are {{fileSummary.totalFileSize | fileSize}} of data, from the HCA CLI</div>
     </div>
@@ -24,7 +24,7 @@
         <span>You've downloaded the manifest</span>
         <span class="fontsize-s">The manifest is a tab-delimited file containing ID and version information about the data bundles and associated files that you requested.</span>
     </div>
-    <div class="hca-card-action">
+    <div class="hca-download-action">
         <a class="hca-button"
            target="_blank"
            href="{{portalURL}}/learn/userguides/accessing-data/"

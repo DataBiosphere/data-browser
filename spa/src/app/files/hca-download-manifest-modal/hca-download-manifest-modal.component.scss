@@ -48,7 +48,7 @@
     }
 
     /* Content - list of terms */
-    .hca-card-content {
+    .hca-download-content {
         margin-top: -24px;
         padding: 24px 0 40px;
 
@@ -60,7 +60,7 @@
     }
 
     /* Action */
-    .hca-card-action {
+    .hca-download-action {
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -83,7 +83,7 @@
             height: 38px; /* HCA specific style */
             letter-spacing: 0.21px; /* TODO typography */
             min-width: 84px;
-            padding: 0 9px;
+            padding: 0 12px;
 
             &:hover {
                 background-color: $hca-secondary-hover;

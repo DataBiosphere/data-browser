@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Component displaying three summary counts: files, donors, and file size.
+ * Component to request expression matrix.
  */
 
 // Core dependencies
@@ -15,23 +15,20 @@ import { AppState } from "../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { HCADownloadManifestModalComponent } from "../hca-download-manifest-modal/hca-download-manifest-modal.component";
+import { HCARequestMatrixModalComponent } from "../hca-request-matrix-modal/hca-request-matrix-modal.component";
 import { MatDialog } from "@angular/material";
 
 @Component({
-    selector: "hca-download-manifest",
-    templateUrl: "./hca-download-manifest.component.html",
-    styleUrls: ["./hca-download-manifest.component.scss"],
+    selector: "hca-request-matrix",
+    templateUrl: "./hca-request-matrix.component.html",
+    styleUrls: ["./hca-request-matrix.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HCADownloadManifestComponent {
+export class HCARequestMatrixComponent {
 
     // Locals
     private store: Store<AppState>;
-
-    // Inputs
-    @Input() downloadActive: boolean;
 
     /**
      * @param route {ActivatedRoute}
@@ -43,12 +40,12 @@ export class HCADownloadManifestComponent {
     }
 
     /**
-     * Open dialog to download manifest summary.
+     * Open dialog to request matrix summary.
      *
      */
-    onDownloadManifest(): void {
+    onRequestMatrix(): void {
 
-        const dialogRef = this.dialog.open(HCADownloadManifestModalComponent, {
+        const dialogRef = this.dialog.open(HCARequestMatrixModalComponent, {
             backdropClass: "hca-form-backdrop",
             disableClose: false,
             panelClass: "hca-form-dialog"

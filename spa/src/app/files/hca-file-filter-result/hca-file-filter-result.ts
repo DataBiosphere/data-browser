@@ -23,10 +23,10 @@ export class HCAFileFilterResultComponent {
 
     // Inputs
     @Input() selectedFacets: FileFacet[];
+    @Input() removable: boolean;
 
     // locals
     store: Store<AppState>;
-    removable = true;
 
     constructor(store: Store<AppState>) {
         this.store = store;

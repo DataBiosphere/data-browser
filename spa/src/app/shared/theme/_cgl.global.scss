@@ -52,8 +52,8 @@ ul {
     }
 }
 
-/* HCA paragraph font class "xxs" */
-p.xxs {
+/* HCA paragraph font class "fontsize-xxs" */
+p.fontsize-xxs {
     font-family: "Montserrat", sans-serif;
     font-size: 12px;
     font-weight: 400;
@@ -62,8 +62,8 @@ p.xxs {
     margin: 0 0 14px;
 }
 
-/* HCA paragraph font class "xs" */
-p.xs {
+/* HCA paragraph font class "fontsize-xs" */
+p.fontsize-xs {
     font-family: "Montserrat", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -77,8 +77,8 @@ p.xs {
     }
 }
 
-/* HCA paragraph font class "s" */
-p.s {
+/* HCA paragraph font class "fontsize-s" */
+p.fontsize-s {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -87,8 +87,18 @@ p.s {
     margin: 0 0 18px;
 }
 
-/* HCA h4 font class "m" */
-h4.m {
+/* HCA paragraph font class "fontsize-l" */
+p.fontsize-l {
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 30px;
+    margin: 0 0 24px;
+}
+
+/* HCA h4 font class "fontsize-m" */
+h4.fontsize-m {
     font-family: "din-2014", sans-serif;
     font-size: 16px;
     font-weight: 500;
@@ -96,8 +106,8 @@ h4.m {
     margin: 14px 0 16px;
 }
 
-/* HCA h3 font class "l" */
-h3.l {
+/* HCA h3 font class "fontsize-l" */
+h3.fontsize-l {
     font-family: "din-2014", sans-serif;
     font-size: 18px;
     font-weight: 500;

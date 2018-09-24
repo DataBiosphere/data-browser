@@ -1,4 +1,4 @@
-<div id="hcaFilterResult" class="wrapper">
+<div class="wrapper">
     <div class="filter-result">
         <mat-chip-list>
             <ng-container *ngFor="let facet of selectedFacets">
@@ -13,6 +13,7 @@
                     </mat-chip>
                 </ng-container>
             </ng-container>
+            <mat-chip *ngIf="selectedFacets.length === 0" [removable]="removable" class="no-selected-term">No selected terms</mat-chip>
             <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets()" class="clear-all">
                 Clear All
             </button>
