@@ -39,13 +39,6 @@ export class HCARequestMatrixModalComponent implements OnInit {
     }
 
     /**
-     * Copy of the link to clipboard
-     */
-    public onCopyLinkToClipboard() {
-        // Copy to clipboard
-    }
-
-    /**
      * Dispatch action to download matrix expression.
      */
     public onDownloadMatrix() {

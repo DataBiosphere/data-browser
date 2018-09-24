@@ -6,6 +6,7 @@
  */
 
 // Core dependencies
+import { ClipboardModule } from "ngx-clipboard";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
@@ -74,6 +75,7 @@ import { ProjectDAO } from "./shared/project.dao";
 
 @NgModule({
     imports: [
+        ClipboardModule,
         CommonModule,
         FormsModule,
         MatAutocompleteModule,

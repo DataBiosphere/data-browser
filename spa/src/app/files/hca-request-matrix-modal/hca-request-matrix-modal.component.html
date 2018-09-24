@@ -26,7 +26,10 @@
         </mat-spinner>
         <ng-container *ngIf="isStep(3)">
             <button type="button" (click)="onDownloadMatrix()">Download Matrix</button>
-            <button type="button" (click)="onCopyLinkToClipboard()" class="hca-outline-button">
+            <button type="button"
+                    ngxClipboard
+                    [cbContent]="('Insert href text here')"
+                    class="hca-outline-button">
                 <img src="../../../assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
         </ng-container>
     </div>
