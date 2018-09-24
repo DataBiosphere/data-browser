@@ -9,7 +9,11 @@
 :host {
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
-    overflow: hidden;
+    overflow: visible; /* Scroll */
+
+    &.noScroll {
+        overflow: hidden; /* No scroll on body when filtering menus are open */
+    }
 
     .layout-column {
         height: 100%;
@@ -22,5 +26,15 @@
         position: sticky;
         right: 0;
         z-index: 10;
+    }
+}
+
+/**
+ * Tablet +
+ */
+@media screen and (min-height: 768px) and (min-width: 768px) {
+
+    :host {
+        overflow: hidden; /* Scroll on table */
     }
 }

@@ -7,7 +7,10 @@
 
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
+import {
+    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+    ViewChild
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { map, startWith } from "rxjs/operators";
@@ -40,6 +43,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     // Inputs
     @Input() fileFacets: FileFacet[];
     @Input() selectedFacets: FileFacet[];
+
+    // Output
+    @Output() menuOpen = new EventEmitter<boolean>();
 
     // Template variables
     active = false;
@@ -279,6 +285,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public onHCASelect(i) {
 
+        this.menuOpen.emit(true);
         this.selectIndex = i;
     }
 
@@ -286,6 +293,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * HCA hide select box on mouse leave.
      */
     public onHCASelectClose() {
+        this.menuOpen.emit(false);
         this.selectIndex = null;
         this.openIndex = null;
     }

@@ -3,7 +3,7 @@
     <hca-file-filter-wrapper id="hcaFilterWrapper"
                              [fileFacets]="fileFacets$ | async"
                              [selectedFacets]="selectedFileFacets$ | async"
-                             (hcaFilterWrapperEvent)="getComponentHeight()">
+                             (menuOpen)="isMenuOpen($event)">
     </hca-file-filter-wrapper>
     <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
              (tabSelected)="onTabSelected($event)"></hca-tab>

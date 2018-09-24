@@ -1,7 +1,8 @@
 <ng-container id="hcaFilterWrapper">
 <hca-file-filter
         [selectedFacets]="selectedFacets"
-        [fileFacets]="fileFacets">
+        [fileFacets]="fileFacets"
+        (menuOpen)="isMenuOpen($event)">
 </hca-file-filter>
 <hca-file-filter-result
         [selectedFacets]="selectedFacets">

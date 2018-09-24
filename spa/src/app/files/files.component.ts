@@ -5,7 +5,7 @@
  * Core files component, displays results summary as well as facets.
  */
 // Core dependencies
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -42,8 +42,10 @@ export class FilesComponent implements OnInit {
     public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
     public selectedEntity$: Observable<EntitySpec>;
+    public noScroll: boolean;
 
     // Locals
+    private elementRef: ElementRef;
     private route: ActivatedRoute;
     private store: Store<AppState>;
 
@@ -52,8 +54,10 @@ export class FilesComponent implements OnInit {
      * @param store {Store<AppState>}
      */
     constructor(route: ActivatedRoute,
-                store: Store<AppState>) {
+                store: Store<AppState>,
+                elementRef: ElementRef) {
 
+        this.elementRef = elementRef;
         this.route = route;
         this.store = store;
         this.projectDetail = false;
@@ -67,9 +71,35 @@ export class FilesComponent implements OnInit {
         return ["Projects"];
     }
 
+    /**
+     * Remove scroll on body when menu is open
+     *
+     * @param value
+     */
+    public isMenuOpen(value) {
+
+        this.noScroll = value;
+        this.preventScroll();
+    }
+
     public onTabSelected(tab) {
 
         this.store.dispatch(new EntitySelectAction(tab.key));
+    }
+
+    /**
+     * Prevent scroll on body when menu is open
+     */
+    public preventScroll() {
+
+        let nativeElement = this.elementRef.nativeElement;
+        let openedMenu = nativeElement.classList.contains("noScroll");
+        if ( this.noScroll && !openedMenu ) {
+            nativeElement.classList.add("noScroll");
+        }
+        else if ( !this.noScroll && openedMenu ) {
+            nativeElement.classList.remove("noScroll");
+        }
     }
 
     /**
