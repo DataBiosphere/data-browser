@@ -9,6 +9,7 @@
 :host {
     display: flex;
     height: 100%; /* Table to take up remaining space */
+    min-height: 0; /* Firefox overflow */
     position: relative; /* Positions fade on horizontal scroll */
 
     /* Fade on horizontal scroll */
@@ -38,9 +39,8 @@
 .wrapper {
     align-items: flex-start;
     display: flex;
-    flex-direction: column;
     flex: 1;
-    //height: calc(100vh - 60px - 275px - 96px - 46px - 16px); /* Heading, filters, summary, footer, no download */
+    flex-direction: column;
     overflow: auto; /* Scroll */
     -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
     margin-top: 4px;
@@ -61,8 +61,8 @@
             font-weight: 600; /* TODO typography */
             height: 56px;
             justify-content: flex-start;
-            padding: 0 10px; /* Left aligns button with table content */
             margin-top: -120px;
+            padding: 0 10px; /* Left aligns button with table content */
 
             /* Pagination button */
             button {
@@ -99,9 +99,9 @@
         }
 
         mat-table {
-            padding-bottom: 120px; /* For file type hover */
             max-width: 1140px;
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
+            padding-bottom: 120px; /* For file type hover */
 
             mat-row, mat-header-row {
                 padding: 0 12px; /* Total left and right padding is 16px */
@@ -349,7 +349,6 @@
 
     /* Wrapper */
     .wrapper {
-        //height: calc(100vh - 60px - 275px - 96px); /* Heading, filters, summary, footer */
         margin: 0 auto;
         max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px; /* Gutter 30px */
