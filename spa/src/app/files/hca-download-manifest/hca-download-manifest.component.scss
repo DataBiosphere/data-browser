@@ -51,6 +51,10 @@ button {
             margin: 0 3px;
         }
 
+        img {
+            height: 20px;
+        }
+
         &:hover {
             background-color: $hca-secondary-hover;
         }

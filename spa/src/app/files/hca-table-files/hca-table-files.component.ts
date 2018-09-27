@@ -49,6 +49,14 @@ export class HCATableFilesComponent implements OnInit {
      * Public API
      */
 
+
+    public getFileDownload(step) {
+
+        if ( step === 1 ) {
+            console.log("hi");
+        }
+    }
+
     /**
      * Returns class truncate if file name is not spaced.
      * Always returns class hca-tooltip and narrow.

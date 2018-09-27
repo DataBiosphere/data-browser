@@ -181,9 +181,22 @@
 
                 /* File Name */
                 &:first-of-type {
+                    align-items: baseline;
                     color: $hca-primary;
+                    display: flex;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
+
+                    img {
+                        cursor: pointer;
+                        height: 12px;
+                        opacity: 0.4;
+                        padding-right: 4px;
+
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
                 }
 
                 /* Bio Material */
