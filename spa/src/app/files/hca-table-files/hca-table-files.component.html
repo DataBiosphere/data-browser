@@ -10,6 +10,12 @@
                           matTooltipClass="hca-tooltip narrow">File Name</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
+                    <img matTooltip="Download file"
+                         matTooltipPosition="below"
+                         matTooltipShowDelay="{{tooltipShowDelay}}"
+                         matTooltipClass="hca-tooltip narrow"
+                         src="../../../assets/images/icon/hca-download-black.png"
+                         (click)="getFileDownload(1)">
                     <div #file
                          matTooltip="{{element.fileName}}"
                          matTooltipPosition="below"
