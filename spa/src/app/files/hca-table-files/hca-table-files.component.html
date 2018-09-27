@@ -9,13 +9,24 @@
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Name</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <img matTooltip="Download file"
+                <mat-cell *matCellDef="let element let i=index;">
+                    <img *ngIf="isStep(1, i)"
+                         matTooltip="Download file"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip narrow"
                          src="../../../assets/images/icon/hca-download-black.png"
-                         (click)="getFileDownload(1)">
+                         (click)="onRequestFile(i)">
+                    <mat-spinner *ngIf="isStep(2, i)"
+                                 class="hca-spinner"
+                                 [diameter]="12"
+                                 [mode]="indeterminate"
+                                 (click)="onFileReady(i)">
+                    </mat-spinner>
+                    <img *ngIf="isStep(3, i)"
+                         src="../../../assets/images/icon/check-black.png"
+                         (click)="removeFileFromDownload(i)">
+                    <div *ngIf="isStep(3, i)" class="file-download"><span>Download</span><span>Copy Curl Command</span></div>
                     <div #file
                          matTooltip="{{element.fileName}}"
                          matTooltipPosition="below"

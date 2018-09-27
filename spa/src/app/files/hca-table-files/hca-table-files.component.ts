@@ -31,9 +31,12 @@ export class HCATableFilesComponent implements OnInit {
     displayedColumns = [
         "fileName", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
+    filesReady = [];
+    filesRequested = [];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
+    step: number;
 
     // Locals
     private store: Store<AppState>;
@@ -43,18 +46,48 @@ export class HCATableFilesComponent implements OnInit {
      */
     constructor(store: Store<AppState>, private cdref: ChangeDetectorRef) {
         this.store = store;
+        this.step = 1;
     }
 
     /**
      * Public API
      */
 
+    /**
+     * Returns ageUnit, truncated at first character
+     * @param ageUnit
+     * @returns {string}
+     */
+    public getAgeUnit(ageUnit) {
 
-    public getFileDownload(step) {
-
-        if ( step === 1 ) {
-            console.log("hi");
+        if ( ageUnit ) {
+            return ageUnit.charAt(0);
         }
+    }
+
+    /**
+     * Returns true - if user has requested file download, is waiting for download, or can download file.
+     * @param step
+     * @returns {boolean}
+     */
+    public isStep(step, row): boolean {
+
+        let filesRequested = this.filesRequested.indexOf(row);
+        let filesReady = this.filesReady.indexOf(row);
+
+        // Step 1 - no action
+        if ( step === 1 && filesRequested < 0 && filesReady < 0 ) {
+            return true;
+        }
+        // Step 2 - file has been requested
+        if ( step === 2 && filesRequested >= 0 ) {
+            return true;
+        }
+        // Step 3 - file is ready for download
+        if ( step === 3 && filesReady >= 0 ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -123,6 +156,28 @@ export class HCATableFilesComponent implements OnInit {
         this.store.dispatch(new TableNextPageAction(tableParamsModel));
     }
 
+    // TODO fix - this should be triggered when file is ready for download
+    public onFileReady(row) {
+
+        // Take row off filesRequested array
+        this.filesRequested.splice(this.filesRequested.indexOf(row), 1);
+
+        // Add row to filesReady array - files are ready for download
+        this.filesReady.push(row);
+    }
+
+    /**
+     * Dispatch action to request file for download.
+     */
+    public onRequestFile(row) {
+
+        // Add row to array of files that have been requested for download
+        this.filesRequested.push(row);
+
+        // Request the file download.
+        // TODO
+    }
+
     /**
      * Called when table previous page selected.
      */
@@ -145,11 +200,15 @@ export class HCATableFilesComponent implements OnInit {
         this.store.dispatch(new TablePreviousPageAction(tableParamsModel));
     }
 
-    public getAgeUnit(ageUnit) {
+    /**
+     * Remove row from list of files already downloaded
+     * @param row
+     */
+    public removeFileFromDownload(row) {
 
-        if ( ageUnit ) {
-            return ageUnit.charAt(0);
-        }
+        // Take row off filesRequested array
+        this.filesReady.splice(this.filesReady.indexOf(row), 1);
+        console.log(this.filesReady);
     }
 
     /**
