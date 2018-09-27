@@ -118,6 +118,7 @@
 
             mat-row {
                 border-bottom: 1px solid $hca-gray-lightest;
+                position: relative; /* Positions file download information */
             }
 
             mat-header-cell {
@@ -189,12 +190,36 @@
 
                     img {
                         cursor: pointer;
-                        height: 12px;
                         opacity: 0.4;
-                        padding-right: 4px;
+                        margin-right: 4px;
+                        width: 12px;
 
                         &:hover {
                             opacity: 0.8;
+                        }
+                    }
+
+                    mat-spinner {
+                        flex: none;
+                        margin-right: 4px;
+                    }
+
+                    /* File download links */
+                    .file-download {
+                        bottom: 0;
+                        left: 0;
+                        padding: 0 28px;
+                        position: absolute;
+
+                        span {
+                            color: $hca-secondary;
+                            cursor: pointer;
+                            font-size: 10px;
+                            margin: 0 4px;
+
+                            &:hover {
+                                color: $hca-secondary-hover;
+                            }
                         }
                     }
                 }
