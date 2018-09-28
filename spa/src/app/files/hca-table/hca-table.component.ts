@@ -32,7 +32,7 @@ export class HCATableComponent implements OnInit {
     display5 = 6;
     display7 = 10;
     displayedColumns = [
-        "specimenId", "fileName", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "specimenId", "fileCount", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -281,7 +281,7 @@ export class HCATableComponent implements OnInit {
  * Elements in Material Design table that displays HCA-specific file related data.
  */
 export interface Element {
-    fileName: string;
+    fileCount: number;
     // biomaterial: string; // TODO check not array
     organ: string;
     organPart: string;
@@ -341,23 +341,26 @@ class TableElementDataSource extends DataSource<any> {
                 let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
 
-                let file = row.files[0] || {};
+              //  let file = row.files[0] || {};
 
                 /* File counts for primary file format (fastq.qz) and other */
-                let fileCounts = row.files.reduce((acc, file) => {
+                let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-                    if ( file.format === "fastq.gz" ) {
-                        acc.primaryCount++;
+                    if ( fileTypeSummary.fileType === "fastq.gz" ) {
+                        acc.primaryCount = acc.primaryCount + fileTypeSummary.count;
                     }
-                    else if (file.format === "bam" ) {
+                    else if (fileTypeSummary.fileType === "bam" ) {
                         acc.secondaryCount++;
                     }
+
+                    acc.totalCount = acc.totalCount + fileTypeSummary.count;
+
                     return acc;
 
-                }, {primaryCount: 0, secondaryCount: 0});
+                }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
 
                 return {
-                    fileName: file.name,
+                    fileCount: fileCounts.totalCount,
                     specimenId: this.getSelfOrFirst(specimens.id),
                     organ: specimens.organ,
                     organPart: specimens.organPart,

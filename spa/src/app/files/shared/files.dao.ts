@@ -24,7 +24,6 @@ import { ConfigService } from "../../config/config.service";
 import { TableModel } from "../table/table.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
-import EntitySpec from "../_ngrx/table/entity-spec";
 
 @Injectable()
 export class FilesDAO extends CCBaseDAO {
@@ -47,7 +46,7 @@ export class FilesDAO extends CCBaseDAO {
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/files/summary`);
+        const url = this.buildApiUrl(`/repository/summary/files`);
         const filterParams = Object.assign({}, query);
         return this.get<any>(url, filterParams);
     }
@@ -128,7 +127,11 @@ export class FilesDAO extends CCBaseDAO {
                         size: tableParams.size,
                         sort: tableParams.sort
                     });
-                    return { data: repositoryFiles.hits, pagination: repositoryFiles.pagination, tableName: seledtedEntity};
+                    return {
+                        data: repositoryFiles.hits,
+                        pagination: repositoryFiles.pagination,
+                        tableName: seledtedEntity
+                    };
                 }
             );
     }
@@ -273,6 +276,10 @@ export class FilesDAO extends CCBaseDAO {
 
                 // Create term from response, maintaining the currently selected term.
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
+
+                    if (responseTerm.term == null) {
+                        responseTerm.term = "Unspecified";
+                    }
 
                     let oldTerm: Term;
                     if (oldFacet) {

@@ -21,22 +21,22 @@
                     </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="fileName">
+            <ng-container matColumnDef="fileCount">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The filename of the data file."
+                    <span matTooltip="The count of files for this specimen."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">File Name</span>
+                          matTooltipClass="hca-tooltip narrow">File Count</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="isTermNameTruncated(element.fileName, display10)">
                         <div *ngSwitchCase="true"
-                             matTooltip="{{element.fileName}}"
+                             matTooltip="{{element.fileCount}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="{{tooltipShowDelay}}"
-                             matTooltipClass="hca-tooltip">{{element.fileName}}
+                             matTooltipClass="hca-tooltip">{{element.fileCount}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileName}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.fileCount}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>
