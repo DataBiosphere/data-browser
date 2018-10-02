@@ -8,7 +8,7 @@
 // Core dependencies
 import { Action } from "@ngrx/store";
 // App dependencies
-import { FileFacetListState } from "./file-facet-list.state";
+import { FileFacetListState, getDefaultState } from "./file-facet-list.state";
 import {
     ClearSelectedFileFacetsAction,
     ClearSelectedTermsAction,
@@ -23,7 +23,7 @@ import {
  * @param action {Action}
  * @returns {FileFacetListState}
  */
-export function reducer(state: FileFacetListState = FileFacetListState.getDefaultState(), action: Action): FileFacetListState {
+export function reducer(state: FileFacetListState = getDefaultState(), action: Action): FileFacetListState {
 
     console.log(action.type);
 
