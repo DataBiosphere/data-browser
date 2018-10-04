@@ -48,15 +48,13 @@ export class FilesComponent implements OnInit, OnDestroy {
     private actionsSubscription: Subscription;
     private facetsSubscription: Subscription;
 
-
-    /**
-     * Parse queryParams into file filters
-     */
+    // Locals
     private selectedFacetsSubscription: Subscription;
 
     /**
-     * @param route {ActivatedRoute}
-     * @param store {Store<AppState>}
+     * @param {Router} router
+     * @param {Store<AppState>} store
+     * @param {ActivatedRoute} activatedRoute
      */
     constructor(private elementRef: ElementRef,
                 private activatedRoute: ActivatedRoute,
@@ -75,19 +73,9 @@ export class FilesComponent implements OnInit, OnDestroy {
         //     .subscribe(store);
     }
 
-
-    ngOnDestroy() {
-        this.actionsSubscription.unsubscribe();
-        this.facetsSubscription.unsubscribe();
-    }
-
     /**
      * Public API
      */
-
-    public getProjectDetailTabs() {
-        return ["Projects"];
-    }
 
     /**
      * Sets up element by id
@@ -115,6 +103,16 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     /**
      * Prevent scroll on body when menu is open
+    /**
+     * @returns {string[]}
+     */
+    public getProjectDetailTabs(): string[] {
+
+        return ["Projects"];
+    }
+
+    /**
+     * Window resize triggers a re-calculation of component heights
      */
     public preventScroll() {
 
@@ -128,17 +126,15 @@ export class FilesComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * @param tab
+     */
     public onTabSelected(tab) {
 
         // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
         this.router.navigate(["/" + tab.key]);
         this.store.dispatch(new EntitySelectAction(tab.key));
     }
-
-
-    /**
-     * Life cycle hooks
-     */
 
     /**
      * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
@@ -151,6 +147,19 @@ export class FilesComponent implements OnInit, OnDestroy {
     /**
      * Life cycle hooks
      */
+
+    /**
+     * Kill subscriptions on destroy of component.
+     */
+    public ngOnDestroy() {
+
+        if ( this.selectedFacetsSubscription ) {
+            this.selectedFacetsSubscription.unsubscribe();
+        }
+
+        this.actionsSubscription.unsubscribe();
+        this.facetsSubscription.unsubscribe();
+    }
 
     /**
      * Set up selectors and request initial data set.
@@ -169,40 +178,43 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.selectedEntity$ = this.store.select(selectSelectedEntity);
 
         // Initialize the filter state from the params in the route.
-      //  this.initQueryParams();
+        //  this.initQueryParams();
 
         // Sets up element by id
         this.getComponentElementById();
 
         // Return component heights for sticky header
-        if (!this.projectDetail) {
+        if ( !this.projectDetail ) {
             this.getComponentHeight();
         }
 
-        // Setup to write the browser address bar when the selected facets change.
-        this.selectedFacetsSubscription = this.selectedFileFacets$.do((selectedFacets) => {
-
-                let tab = this.activatedRoute.snapshot.url[0].path;
-
-                let queryStringFacets: QueryStringFacet[] = selectedFacets.map((facet) => {
-                    return {
-                        facetName: facet.name,
-                        terms: facet.selectedTerms.map((term) => {
-                            return term.name;
-                        })
-                    } as QueryStringFacet;
-                });
-
-                // only add the query string if there are selected facdts.
-                if (queryStringFacets.length) {
-                    this.router.navigate(["/" + tab], { queryParams: { filter: JSON.stringify(queryStringFacets) } });
-                }
-                else {
-                    this.router.navigate(["/" + tab]);
-                }
-
-            }
-        ).subscribe();
+        // // Setup to write the browser address bar when the selected facets change.
+        // this.selectedFacetsSubscription = this.selectedFileFacets$.subscribe((selectedFacets) => {
+        //
+        //     let tab = this.activatedRoute.snapshot.url[0].path;
+        //
+        //     let queryStringFacets: QueryStringFacet[] = selectedFacets.map((facet) => {
+        //         return {
+        //             facetName: facet.name,
+        //             terms: facet.selectedTerms.map((term) => {
+        //                 return term.name;
+        //             })
+        //         } as QueryStringFacet;
+        //     });
+        //
+        //     // Only add the query string if there are selected facets.
+        //     if ( queryStringFacets.length ) {
+        //         this.router.navigate(["/" + tab], {
+        //             queryParams: {
+        //                 filter: JSON.stringify(queryStringFacets)
+        //             }
+        //         });
+        //     }
+        //     else {
+        //         this.router.navigate(["/" + tab]);
+        //     }
+        //
+        // });
     }
 }
 

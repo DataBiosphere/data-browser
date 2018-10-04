@@ -269,21 +269,30 @@ export class FileEffects {
     //                 })
     //         );
     //     });
+
     /**
      * Trigger fetch of facets, summary counts and the table on init.
      * @type {Observable<Action>}
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
-        .ofType(SetViewStateAction.ACTION_TYPE, SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE, FetchFileFacetsRequestAction.ACTION_TYPE)
+        .ofType(
+            SetViewStateAction.ACTION_TYPE,
+            SelectFileFacetAction.ACTION_TYPE,
+            ClearSelectedTermsAction.ACTION_TYPE,
+            FetchFileFacetsRequestAction.ACTION_TYPE)
         .switchMap((action: FetchFileFacetsRequestAction) => {
+
+            // Selected facets - previously selected facets, entity - selected "tab" (eg files or specimens)
             return Observable.forkJoin(
                 this.store.select(selectSelectedFacetsMap).first(),
                 this.store.select(selectSelectedEntity).first(),
-                Observable.from([action])
+                Observable.from([action]) // We need the data from the action at a later point
             );
         })
         .switchMap((result) => {
+// do we need the observable from action above? (only 0 and 1 are being used below)
+// why do we need the new actions below
             return Observable.concat(
                 // Request Summary
                 Observable.of(new FetchFileSummaryRequestAction()),

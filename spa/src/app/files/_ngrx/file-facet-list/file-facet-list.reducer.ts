@@ -5,17 +5,17 @@
  * File facet list reducer, handles actions related to selecting and deselecting facet terms, and corresponding knock-on
  * actions such as requesting updated list of facets.
  */
+
 // Core dependencies
 import { Action } from "@ngrx/store";
+
 // App dependencies
-import { FileFacetListState, getDefaultState } from "./file-facet-list.state";
+import { FileFacetListState } from "./file-facet-list.state";
 import {
-    ClearSelectedFileFacetsAction,
-    ClearSelectedTermsAction,
+    ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
-    SelectFileFacetAction,
-    SetViewStateAction
+    SelectFileFacetAction
 } from "./file-facet-list.actions";
 
 /**
@@ -23,9 +23,7 @@ import {
  * @param action {Action}
  * @returns {FileFacetListState}
  */
-export function reducer(state: FileFacetListState = getDefaultState(), action: Action): FileFacetListState {
-
-    console.log(action.type);
+export function reducer(state: FileFacetListState = FileFacetListState.getDefaultState(), action: Action): FileFacetListState {
 
     switch (action.type) {
 
@@ -47,9 +45,6 @@ export function reducer(state: FileFacetListState = getDefaultState(), action: A
 
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FileFacetListState.getDefaultState();
-
-        case SetViewStateAction.ACTION_TYPE:
-
 
         default:
             return state;

@@ -55,10 +55,12 @@ export class NoOpAction implements Action {
     constructor() {}
 }
 
+/**
+ * Action dispatched when current facet list state is to be stored.
+ */
 export class SetViewStateAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SET_VIEW_STATE";
     public readonly type = SetViewStateAction.ACTION_TYPE;
-
     constructor(public selectedEntity: string, public selectedFacets: FileFacet[]) {}
 }
 
