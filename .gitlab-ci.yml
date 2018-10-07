@@ -13,7 +13,7 @@ cache:
   image: node:6.9.5
   stage: build
   before_script:
-    - npm install npm@6.4.1 --global
+    - npm install -g npm@6.4.1
     - cd spa
     - npm install
 
