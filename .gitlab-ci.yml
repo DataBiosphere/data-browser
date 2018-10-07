@@ -10,7 +10,7 @@ stages:
   image: node:6.9.5
   stage: build
   before_script:
-    - npm install -g npm@6.4.1
+    - sudo npm install -g npm@6.4.1
     - cd spa
     - npm -v
     - npm install
