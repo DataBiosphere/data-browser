@@ -3,9 +3,6 @@ stages:
   - build
   - deploy
 
-cache:
-  paths:
-  - node_modules/
 
 # Build Jobs
 # Build Job Template
