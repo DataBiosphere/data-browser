@@ -12,6 +12,7 @@ stages:
   before_script:
     - npm install -g npm@6.4.1
     - cd spa
+    - npm -v
     - npm install
 
   artifacts:
@@ -24,7 +25,7 @@ build_develop:
   environment:
     name: develop
   script:
-    - npm -v
+
     - npm run build develop
   only:
     - serverless
