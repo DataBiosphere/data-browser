@@ -1,0 +1,99 @@
+
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+  - node_modules/
+
+# Build Jobs
+# Build Job Template
+.build_template: &build_template
+  image: node:6.9.5
+  stage: build
+  before_script:
+    - npm install npm@6.4.1 --global
+    - cd spa
+    - npm install
+
+  artifacts:
+      paths:
+        - dist
+
+# Develop Build
+build_develop:
+  <<: *build_template
+  environment:
+    name: develop
+  script:
+    - npm run build develop
+  only:
+    - serverless
+
+# Integration Build
+#build_integration:
+#  <<: *build_template
+#  environment:
+#    name: integration
+#  script:
+#    npm run build integration
+#  only:
+#    - integration
+#
+## Staging Build
+#build_staging:
+#  <<: *build_template
+#  environment:
+#    name: staging
+#  script:
+#    npm run build staging
+#  only:
+#    - staging
+
+########################################
+# Deploy Jobs
+########################################
+
+
+# Deploy Job Template
+.deploy_template: &deploy_template
+  stage: deploy
+  image: python:3.5
+  before_script:
+    - pip install awscli
+
+# Dev Deploy
+deploy_develop:
+  <<: *deploy_template
+  environment:
+    name: serverless
+  script:
+    - export BUCKET=s3://dev.explore.data.humancellatlas.org/
+    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    #- aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
+  only:
+    - develop
+# Integration Deploy
+#deploy_integration:
+#  <<: *deploy_template
+#  environment:
+#    name: integration
+#  script:
+#    - export BUCKET=s3://integration.data.humancellatlas.org/
+#    - aws s3 sync --acl public-read public/ $BUCKET --delete
+#    - aws cloudfront create-invalidation --distribution-id E2MB44J9QEJOYP --paths "/*"
+#  only:
+#    - integration
+#
+## Staging Deploy
+#deploy_staging:
+#  <<: *deploy_template
+#  environment:
+#    name: staging
+#  script:
+#    - export BUCKET=s3://staging.data.humancellatlas.org/
+#    - aws s3 sync --acl public-read public/ $BUCKET --delete
+#    - aws cloudfront create-invalidation --distribution-id E38D6Y96QKYO6 --paths "/*"
+#  only:
+#    - staging

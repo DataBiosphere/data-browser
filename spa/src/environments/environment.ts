@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  dataURL: "https://service.dev.explore.data.humancellatlas.org",
+  portalURL: "https://dev.data.humancellatlas.org"
 };

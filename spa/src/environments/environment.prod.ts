@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+    production: true,
+    dataURL: "https://service.explore.data.humancellatlas.org",
+    portalURL: "https://data.humancellatlas.org"
 };

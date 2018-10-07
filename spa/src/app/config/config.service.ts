@@ -15,6 +15,8 @@ import { Config } from "./config.model";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 
+import { environment } from "../../environments/environment";
+
 @Injectable()
 export class ConfigService {
 
@@ -32,6 +34,8 @@ export class ConfigService {
 
         this.configDAO = configDAO;
         this.store = store;
+        console.log("free pizza and beer");
+        console.log(environment);
     }
 
     /**
@@ -48,11 +52,14 @@ export class ConfigService {
      */
     public initConfig(): Promise<Config> {
 
-        let promise = this.configDAO.fetchConfig();
-        promise.then((config: Config) => {
-            this.storeConfig(config);
-        });
-        return promise;
+        // let promise = this.configDAO.fetchConfig();
+        // promise.then((config: Config) => {
+        //     this.storeConfig(config);
+        // });
+        // return promise;
+
+        this.storeConfig(environment as Config);
+        return Promise.resolve(environment as Config);
     }
 
     /**
