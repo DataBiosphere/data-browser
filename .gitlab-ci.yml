@@ -72,7 +72,7 @@ deploy_develop:
     #- aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
   only:
     - serverless
-    
+
 # Integration Deploy
 #deploy_integration:
 #  <<: *deploy_template
