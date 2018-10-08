@@ -69,7 +69,7 @@ deploy_develop:
   script:
     - export BUCKET=s3://dev.explore.data.humancellatlas.org/
     - aws s3 sync --acl public-read dist/ $BUCKET --delete
-    #- aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
+    - aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
   only:
     - serverless
 
