@@ -34,8 +34,6 @@ export class ConfigService {
 
         this.configDAO = configDAO;
         this.store = store;
-        console.log("free pizza and beer");
-        console.log(environment);
     }
 
     /**
@@ -51,13 +49,7 @@ export class ConfigService {
      * @returns {Promise<Config>}
      */
     public initConfig(): Promise<Config> {
-
-        // let promise = this.configDAO.fetchConfig();
-        // promise.then((config: Config) => {
-        //     this.storeConfig(config);
-        // });
-        // return promise;
-
+        
         this.storeConfig(environment as Config);
         return Promise.resolve(environment as Config);
     }
