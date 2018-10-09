@@ -69,7 +69,7 @@ deploy_develop:
     - aws s3 sync --acl public-read dist/ $BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
   only:
-    - serverless
+    - develop
 
 # Integration Deploy
 #deploy_integration:
