@@ -3,7 +3,6 @@ stages:
   - build
   - deploy
 
-
 # Build Jobs
 # Build Job Template
 .build_template: &build_template
@@ -24,7 +23,6 @@ build_develop:
   environment:
     name: develop
   script:
-
     - npm run build-develop
   only:
     - serverless
