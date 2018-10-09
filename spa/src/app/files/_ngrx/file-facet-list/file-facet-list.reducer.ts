@@ -15,7 +15,8 @@ import {
     ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction,
-    SelectFileFacetAction
+    SelectFileFacetAction,
+    SetViewStateAction
 } from "./file-facet-list.actions";
 
 /**
@@ -36,7 +37,7 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
             return state.selectTerm(action as SelectFileFacetAction);
 
         // Handle cases where facet list has been re/requested and updated list of facets have been returned from end
-        // point
+        // point.
         case FetchFileFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFileFacets(action as FetchFileFacetsSuccessAction);
 
@@ -45,6 +46,12 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
 
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FileFacetListState.getDefaultState();
+
+        // Handle the case where the view state has been parsed from URL param on app init - must do this here to set
+        // the initial set of selected facet terms.
+        case SetViewStateAction.ACTION_TYPE:
+
+            return state.setSelectedTermsFromViewState(action as SetViewStateAction);
 
         default:
             return state;

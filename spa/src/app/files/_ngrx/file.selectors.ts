@@ -4,14 +4,17 @@
  *
  * Selectors for querying file-related state from the file store.
  */
+
 // Core dependencies
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+
 // App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 
+// Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
@@ -57,4 +60,12 @@ export const selectEntities = createSelector(selectTableState, (tableState: Tabl
     return tableState.entitySpecs;
 });
 
-
+/**
+ * Return the selected view state - both the selected entity and the selected facets
+ */
+export const selectSelectedViewState = createSelector(selectSelectedFileFacets, selectSelectedEntity, (selectSelectedFileFacets, selectSelectedEntity) => {
+    return {
+        selectSelectedFileFacets,
+        selectSelectedEntity
+    };
+});

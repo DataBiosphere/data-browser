@@ -8,6 +8,7 @@
 import { Action } from "@ngrx/store";
 import { FileFacet } from "../../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../../file-facets/file-facet.events";
+import { QueryStringFacet } from "../../shared/query-string-facet.model";
 
 export class FetchFileFacetsRequestAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.FETCH_REQUEST";
@@ -27,7 +28,7 @@ export class FetchFileFacetsSuccessAction implements Action {
  * Action that is triggered when file facet term is selected. Select can be dispatched from facet card itself or from
  * corresponding term menu displayed over facet card (this includes search facets and their menus).
  */
-export class SelectFileFacetAction implements Action {
+export class SelectFileFacetAction implements Action { // TODO rename to SelectFileFacetTermAction - this is fired when a term is selected from a facet drop down (and not when a drop down itself is opened)
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SELECT_FACET";
     public readonly type = SelectFileFacetAction.ACTION_TYPE;
 
@@ -56,12 +57,13 @@ export class NoOpAction implements Action {
 }
 
 /**
- * Action dispatched when current facet list state is to be stored.
+ * Action dispatched when current set of selected facet terms, as well as the corresponding tab (entity) are to be
+ * stored. Currently, this action is dispatched on app init when app state is read from URL params.
  */
 export class SetViewStateAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SET_VIEW_STATE";
     public readonly type = SetViewStateAction.ACTION_TYPE;
-    constructor(public selectedEntity: string, public selectedFacets: FileFacet[]) {}
+    constructor(public selectedEntity: string, public selectedFacets: QueryStringFacet[]) {}
 }
 
 export type All

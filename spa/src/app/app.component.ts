@@ -8,13 +8,15 @@
 // Core dependencies
 import { Location } from "@angular/common";
 import { Component } from "@angular/core";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
+import { ActivatedRoute, ParamMap, Params, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
+import "rxjs/add/operator/skip";
+import { Subscription } from "rxjs/Subscription";
 
 // App dependencies
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/file-facet-list.actions";
 import { AppState } from "./_ngrx/app.state";
+import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 
 @Component({
     selector: "app-root",
@@ -57,45 +59,67 @@ export class AppComponent {
     }
 
     /**
+     * Determine the current selected tab.
+     *
+     * @returns {string}
+     */
+    private parseTab(): string {
+
+        const path = this.location.path().split("?")[0];
+        if ( path === "/files" ) {
+            return "files";
+        }
+
+        return "specimens";
+    }
+
+    /**
+     * Parse the "filter" query string param, if specified.
+     *
+     * @param {ParamMap} paramMap
+     * @returns {QueryStringFacet[]}
+     */
+    private parseQueryStringFacets(paramMap: ParamMap): QueryStringFacet[] {
+
+        if ( this.isFilterParamSpecified(paramMap) ) {
+
+            // We have a filter, let's extract it.
+            let filter;
+            const filterParam = paramMap.get("filter");
+            try {
+                filter = JSON.parse(filterParam);
+            }
+            catch (error) {
+                console.log(error);
+            }
+
+            let queryStringFacets = [];
+            if ( filter && filter.length && filter[0].facetName ) {
+                queryStringFacets = filter.map((selectedFacet) => {
+                    return new QueryStringFacet(selectedFacet["facetName"], selectedFacet["terms"]);
+                });
+            }
+
+            return queryStringFacets;
+        }
+
+        return [];
+    }
+
+    /**
      * Set up app state from query string parameters, if any.
      */
     private setAppStateFromURL() {
 
         this.actionsSubscription =
             this.activatedRoute.queryParamMap
-                .filter(this.isFilterParamSpecified)
-                .take(1)
-                .map((paramMap: ParamMap) => {
+                .map((paramMap: ParamMap): QueryStringFacet[] => {
 
-                    // We have a filter, let's extract it.
-                    const filterParam = paramMap.get("filter");
-                    let filter;
-                    try {
-                        filter = JSON.parse(filterParam);
-                    }
-                    catch (error) {
-                        console.log(error);
-                        return; // Intentionally returning undefined here
-                    }
-
-                    if ( filter && filter.length && filter[0].facetName ) {
-                        return filter;
-                    }
-
-                    return; // Intentionally returning undefined here
+                    return this.parseQueryStringFacets(paramMap);
                 })
-                .filter(filter => !!filter)
-                .subscribe((filter) => {
+                .subscribe((filter: QueryStringFacet[]) => {
 
-                    let tab;
-                    const path = this.location.path().split("?")[0];
-                    if ( path === "/files" ) {
-                        tab = "files";
-                    }
-                    else {
-                        tab = "specimens";
-                    }
-
+                    const tab = this.parseTab();
                     this.store.dispatch(new SetViewStateAction(tab, filter));
                 });
     }
@@ -109,7 +133,9 @@ export class AppComponent {
      */
     public ngOnDestroy() {
 
-        this.actionsSubscription.unsubscribe();
+        if ( !!this.actionsSubscription ) {
+            this.actionsSubscription.unsubscribe();
+        }
     }
 
     /**

@@ -4,6 +4,7 @@
  *
  * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
  */
+
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect } from "@ngrx/effects";
@@ -19,6 +20,7 @@ import "rxjs/add/operator/withLatestFrom";
 import "rxjs/add/observable/forkJoin";
 import "rxjs/add/observable/from";
 import * as _ from "lodash";
+
 // App dependencies
 import { FilesService } from "../shared/files.service";
 import { FileSummary } from "../file-summary/file-summary";
@@ -63,6 +65,56 @@ import { getSelectedTable } from "./table/table.state";
 @Injectable()
 export class FileEffects {
 
+    // Locals
+    private colors: string[];
+    private colorWheel: Map<string, string>;
+    private colorWheelSet: boolean;
+
+    /**
+     * @param {Store<AppState>} store
+     * @param {Actions} actions$
+     * @param {FilesService} fileService
+     */
+    constructor(private store: Store<AppState>,
+                private actions$: Actions,
+                private fileService: FilesService) {
+        this.colorWheel = new Map<string, string>();
+        this.colorWheelSet = false;
+
+        this.colors = [
+
+            "#172984",
+            "#4A90E2",
+            "#24D1F2",
+            "#B8A2E3",
+            "#E1B5EC",
+            "#EC5C6D",
+            "#FF6C19",
+            "#FFA560",
+            "#FFDD88",
+            "#FFBABA",
+            "#FFD2AF",
+            "#F8FEC1",
+
+            // TODO revisit - will need to re-enable this for BW instances
+            // "#1A535C",
+            // "#4CC9C0",
+            // "#5C83D0",
+            // "#FF6B6B",
+            // "#FFA560",
+            // "#FFE66D",
+            // "#113871", // dark blue
+            // "#336C74", // light green
+            // "#ABF0EB", // light turquoise
+            // "#B3C9F2", // light light purple
+            // "#B6D67E", // lime green
+            // "#BE5951", // salmon
+            // "#FFBABA", // light peach
+            // "#FFD2AF", // light orange
+            "#eeeeee"
+        ];
+    }
+
     /**
      * Trigger update of file summary if a facet changes (ie term is selected or deseclted. File summary includes the
      * donor count, file count etc that is displayed above the facets.
@@ -95,7 +147,7 @@ export class FileEffects {
         })
         .map((fileSummary: FileSummary) => {
 
-            if (typeof fileSummary.totalFileSize === "string") {
+            if ( typeof fileSummary.totalFileSize === "string" ) {
                 fileSummary.totalFileSize = 0;
             }
 
@@ -149,32 +201,26 @@ export class FileEffects {
             return new FetchTableDataSuccessAction(tableModel);
         });
 
-
+    /**
+     * Handle action where tab is selected (eg Specimens or Files).
+     *
+     * @type {Observable<NoOpAction | FetchFileFacetsRequestAction>}
+     */
     @Effect()
     switchTabs: Observable<Action> = this.actions$
-        .ofType(EntitySelectAction.ACTION_TYPE).switchMap(() => {
+        .ofType(EntitySelectAction.ACTION_TYPE)
+        .switchMap(() => {
             return this.store.select(selectTableQueryParams).first();
         }).map((params) => {
-            if (getSelectedTable(params.tableState).data.length) {
+
+            // Return cached table, if available
+            if ( getSelectedTable(params.tableState).data.length ) {
                 return new NoOpAction();
             }
-            else {
-                // this relooads the facets with counts for the selected entity.
-                return new FetchFileFacetsRequestAction();
-            }
-        });
 
-    // @Effect()
-    // fileFacetsSuccess: Observable<Action> = this.actions$
-    //     .ofType(FetchFileFacetsSuccessAction.ACTION_TYPE).map((action) => {
-    //         const ffsa = action as FetchFileFacetsSuccessAction;
-    //         if (ffsa.fileFacetSelectedEvent) {
-    //             return new SelectFileFacetAction(ffsa.fileFacetSelectedEvent);
-    //         }
-    //         else {
-    //             return new NoOpAction();
-    //         }
-    //     });
+            // Table data has not been previously loaded, load with the facets with counts for the selected entity.
+            return new FetchFileFacetsRequestAction();
+        });
 
     @Effect()
     fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
@@ -222,7 +268,7 @@ export class FileEffects {
      * Trigger downooad of manifest.
      * @type {Observable<Action>}
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(DownloadFileManifestAction.ACTION_TYPE)
         .switchMap(() => {
@@ -232,74 +278,43 @@ export class FileEffects {
             return this.fileService.downloadFileManifest(query);
         });
 
-    private colorWheelSet: boolean;
-    private colors: string[];
-    private colorWheel: Map<string, string>;
-
-
     /**
-     * Trigger update of facets once a facet term is selected/deselected.
+     * Trigger fetch of facets, summary counts and the table. This executes:
+     * 1. on initial set up of app state from URL params
+     * 2. on any change of the facet terms (either select or clear all)
      *
-     * @type {Observable<Action>}
-     */
-    // @Effect()
-    // fetchFacets$: Observable<Action> = this.actions$
-    //     .ofType(SelectFileFacetAction.ACTION_TYPE, ClearSelectedTermsAction.ACTION_TYPE)
-    //     .switchMap(() => {
-    //         return this.store.select(selectSelectedFacetsMap).first();
-    //     })
-    //     .switchMap((selectedFacets) => {
-    //
-    //         return Observable.concat(
-    //             Observable.of(new FetchFileSummaryRequestAction()),
-    //             Observable.of(new FetchInitialTableDataRequestAction()),
-    //
-    //             // map AND concat?
-    //             this.fetchOrderedFileFacets(selectedFacets)
-    //                 .map((fileFacets) => {
-    //
-    //                     fileFacets.forEach((fileFacet) => {
-    //
-    //                         fileFacet.terms.forEach((term) => {
-    //                             const key = fileFacet.name + ":" + term.name;
-    //                             term.color = this.colorWheel.get(key);
-    //                         });
-    //                     });
-    //                     return new FetchFileFacetsSuccessAction(fileFacets);
-    //                 })
-    //         );
-    //     });
-
-    /**
-     * Trigger fetch of facets, summary counts and the table on init.
      * @type {Observable<Action>}
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
         .ofType(
-            SetViewStateAction.ACTION_TYPE,
-            SelectFileFacetAction.ACTION_TYPE,
-            ClearSelectedTermsAction.ACTION_TYPE,
-            FetchFileFacetsRequestAction.ACTION_TYPE)
-        .switchMap((action: FetchFileFacetsRequestAction) => {
+            SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
+            SelectFileFacetAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
+            ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
+            FetchFileFacetsRequestAction.ACTION_TYPE // Fetch all facets (need to re-query for facets as counts change as terms are selected)
+        )
+        .switchMap(() => {
 
-            // Selected facets - previously selected facets, entity - selected "tab" (eg files or specimens)
+            // Grab the current selected facets and entity
             return Observable.forkJoin(
-                this.store.select(selectSelectedFacetsMap).first(),
-                this.store.select(selectSelectedEntity).first(),
-                Observable.from([action]) // We need the data from the action at a later point
+                this.store.select(selectSelectedFacetsMap).first(), // Selected facets (eg file type "matrix")
+                this.store.select(selectSelectedEntity).first() // Files vs specimen vs project (ie selected tab)
             );
         })
         .switchMap((result) => {
-// do we need the observable from action above? (only 0 and 1 are being used below)
-// why do we need the new actions below
+
+            const selectedFacetsMap = result[0];
+            const selectedEntity = result[1];
+
+            // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
+            // for file summary and table data.
             return Observable.concat(
-                // Request Summary
-                Observable.of(new FetchFileSummaryRequestAction()),
-                // Request Table Data
+                // Update table data to match selected terms, if any TODO why does order matter here? code is more readable if this is grouped with the FetchFielSummaryRequestAction below but then action is not triggered correctly?
                 Observable.of(new FetchInitialTableDataRequestAction()),
-                // Request Facets, and sort by metadata
-                this.fetchOrderedFileFacets(result[0], result[1].key)
+
+                // Request facets and sort by metadata, map file facet terms to unique colors, to enable graphing of
+                // terms (graphs not currently implemented in this instance of the browser).
+                this.fetchOrderedFileFacets(selectedFacetsMap, selectedEntity.key)
                     .map((fileFacets: FileFacet[]) => {
 
                         fileFacets.forEach((fileFacet) => {
@@ -313,69 +328,27 @@ export class FileEffects {
                             });
                         });
 
-                        //  const ffra = result[1] as FetchFileFacetsRequestAction;
-
                         return new FetchFileFacetsSuccessAction(fileFacets);
-                    })
+                    }),
+
+                // We also need to request the summary here as selected terms may have changed counts
+                Observable.of(new FetchFileSummaryRequestAction())
             );
         });
 
     /**
-     * @param {Store<AppState>} store
-     * @param {Actions} actions$
-     * @param {FilesService} fileService
-     */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private fileService: FilesService) {
-        this.colorWheel = new Map<string, string>();
-        this.colorWheelSet = false;
-
-        this.colors = [
-
-            "#172984",
-            "#4A90E2",
-            "#24D1F2",
-            "#B8A2E3",
-            "#E1B5EC",
-            "#EC5C6D",
-            "#FF6C19",
-            "#FFA560",
-            "#FFDD88",
-            "#FFBABA",
-            "#FFD2AF",
-            "#F8FEC1",
-
-            // TODO revisit - will need to re-enable this for BW instances
-            // "#1A535C",
-            // "#4CC9C0",
-            // "#5C83D0",
-            // "#FF6B6B",
-            // "#FFA560",
-            // "#FFE66D",
-            // "#113871", // dark blue
-            // "#336C74", // light green
-            // "#ABF0EB", // light turquoise
-            // "#B3C9F2", // light light purple
-            // "#B6D67E", // lime green
-            // "#BE5951", // salmon
-            // "#FFBABA", // light peach
-            // "#FFD2AF", // light orange
-            "#eeeeee"
-        ];
-    }
-
-    /**
-     * PRIVATES
+     * Privates
      */
 
     /**
      * Fetch ordered file facets
      *
      * @param selectedFacets
+     * @param {string} tab
      * @returns {Observable<FileFacet[]>}
      */
     private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
+
         const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary);
 
         const sortOrder$ = this.store.select(selectFileFacetMetadataSummary)
@@ -391,12 +364,12 @@ export class FileEffects {
                     return !!facet;
                 });
 
-                if (!sortOrder || !sortOrder.length) {
+                if ( !sortOrder || !sortOrder.length ) {
                     return fileFacets;
                 }
 
                 let newFileFacets = sortOrder.map((sortName) => {
-                    return _.find(fileFacets, { name: sortName });
+                    return _.find(fileFacets, {name: sortName});
                 });
 
                 // order may contain facets that do not exist so filter out any nulls.

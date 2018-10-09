@@ -2,36 +2,28 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component searches facet and term names for filtering.
+ * Component responsible for searching across facet and term names for filtering.
  */
 
 // Core dependencies
-import { AppState } from "../../_ngrx/app.state";
 import {
-    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges,
     ViewChild
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs/Observable";
-import { map, startWith } from "rxjs/operators";
 import { MatAutocompleteSelectedEvent } from "@angular/material";
 import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+import { map, startWith } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
-import { FileFacet } from "../shared/file-facet.model";
+import { FacetGroup } from "./facet-group.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { FilterableFacet } from "./filterable-facet.model";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
-
-interface FilterableFacet {
-    facetName: string;
-    terms: { termName: string; count: number }[];
-}
-
-interface FacetGroup {
-    facetGroupName: string;
-    facetNames: string[];
-}
+import { FileFacet } from "../shared/file-facet.model";
 
 @Component({
     selector: "hca-file-filter",
@@ -39,6 +31,30 @@ interface FacetGroup {
     styleUrls: ["./hca-file-filter.component.scss"],
 })
 export class HCAFileFilterComponent implements OnInit, OnChanges {
+
+    // Constants
+    private FACET_GROUPS = [
+        {
+            facetGroupName: "Organ",
+            facetNames: ["organ", "organPart"]
+        },
+        {
+            facetGroupName: "Method",
+            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
+        },
+        {
+            facetGroupName: "Donor",
+            facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
+        },
+        {
+            facetGroupName: "Specimen",
+            facetNames: ["disease"]
+        },
+        {
+            facetGroupName: "More",
+            facetNames: ["project", "laboratory", "protocol", "fileFormat"]
+        }
+    ];
 
     // Inputs
     @Input() fileFacets: FileFacet[];
@@ -48,9 +64,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     @Output() menuOpen = new EventEmitter<boolean>();
 
     // Template variables
-    active = false;
     facetGroups: FacetGroup[];
-    facetGroupCount: number;
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
     filterControl: FormControl = new FormControl();
@@ -60,7 +74,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     selectedFacet: number;
     selectIndex: number;
     selectedTermSet: Set<string>;
-    store: Store<AppState>;
     widthSelectBoxes = 782;
 
     // View child/ren
@@ -69,39 +82,11 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      * @param {Store<AppState>} store
      */
-    constructor(store: Store<AppState>) {
-        this.store = store;
-
-        this.facetGroups = [
-            {
-                facetGroupName: "Organ",
-                facetNames: ["organ", "organPart"]
-            },
-            {
-                facetGroupName: "Method",
-                facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
-            },
-            {
-                facetGroupName: "Donor",
-                facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
-            },
-            {
-                facetGroupName: "Specimen",
-                facetNames: ["disease"]
-            },
-            {
-                facetGroupName: "More",
-                facetNames: ["project", "laboratory", "protocol", "fileFormat"]
-            },
-        ];
-
-        this.facetGroupCount = this.facetGroups.length;
-    }
+    constructor(private store: Store<AppState>) {}
 
     /**
      * Public API
      */
-
 
     /**
      *
@@ -168,26 +153,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         }
     }
 
-    public getOptionsClass(i) {
-
-        if ( this.selectIndex == i ) {
-            return "hca-options";
-        }
-        else {
-            return "hca-options hide";
-        }
-    }
-
-    public getOptionsSmallClass() {
-
-        if ( this.selectIndex == 1 ) {
-            return "hca-options-small";
-        }
-        else {
-            return "hca-options-small hide";
-        }
-    }
-
     /**
      * Returns the facet given a facet name
      */
@@ -200,14 +165,18 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         return fileFacet;
     }
 
+    /**
+     * @param f
+     * @param t
+     * @returns {string}
+     */
     public getIsOpenClass(f, t) {
 
         if ( this.openIndex === t && this.selectedFacet === f ) {
             return "open";
         }
-        else {
-            return "closed";
-        }
+
+        return "closed";
     }
 
     /**
@@ -223,7 +192,33 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         else {
             return "hca-select";
         }
+    }
 
+    /**
+     * @param i
+     * @returns {string}
+     */
+    public getOptionsClass(i) {
+
+        if ( this.selectIndex == i ) {
+            return "hca-options";
+        }
+        else {
+            return "hca-options hide";
+        }
+    }
+
+    /**
+     * @returns {string}
+     */
+    public getOptionsSmallClass() {
+
+        if ( this.selectIndex == 1 ) {
+            return "hca-options-small";
+        }
+        else {
+            return "hca-options-small hide";
+        }
     }
 
     /**
@@ -243,6 +238,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * @returns {boolean}
      */
     public getWindowWidth() {
+
         let windowWidth = document.body.offsetWidth;
 
         if ( windowWidth >= 1200 ) {
@@ -252,6 +248,11 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             return false;
         }
     }
+
+    /**
+     * Returns true if the facet is specified in the set of facets to display. This is a basic null protection
+     * against the hard-coded facet grouping and the
+     */
 
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
@@ -268,7 +269,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * HCA show terms for selected Facet
      * @param t
      */
-    onHCAFacetSelect(f, t) {
+    public onHCAFacetSelect(f, t) {
 
         if ( this.selectedFacet == f && this.openIndex == t ) {
             this.selectedFacet = null;
@@ -313,14 +314,18 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Returns options container positioning
-     * @returns {{styles}}
+     * Returns options container positioning.
+     *
+     * @param {number} i
+     * @param {number} numberOfFacets
+     * @param {number} facetGroupCount
+     * @returns {{[rule: string]: string}}
      */
-    public setStyles(i, numberOfFacets) {
+    public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): {[key: string]: string} {
 
         let widthRequired = numberOfFacets * 256 + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
         let allowableWidth = (this.widthSelectBoxes - (158 * i)); // width of select boxes total is 782px, i is position of select box, 158px is width inclusive of margin on the select box
-        let right = (158 * (this.facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
+        let right = (158 * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
 
         /* Check if the drop down can be left aligned with its select box */
         /* Needs to be right aligned */
@@ -340,27 +345,21 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 widthRequired = (numberOfFacetsPerRow * 256) + 14;
             }
 
-            let style = {
+            return {
                 "left": "unset",
                 "maxWidth": (this.widthSelectBoxes + "px"),
                 "minWidth": (widthRequired + "px"),
                 "right": (-right + "px")
             };
-
-            return style;
         }
-        /* Can be left aligned with its select box */
-        else {
 
-            let style = {
-                "left": "0",
-                "maxWidth": (allowableWidth + "px"),
-                "minWidth": (widthRequired + "px"),
-                "right": "unset"
-            };
-
-            return style;
-        }
+        // Can be left aligned with its select box
+        return {
+            "left": "0",
+            "maxWidth": (allowableWidth + "px"),
+            "minWidth": (widthRequired + "px"),
+            "right": "unset"
+        };
     }
 
     /**
@@ -402,16 +401,43 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Privates
+     */
+
+    /**
+     * Group the specified facets into groups, for display in facet drop downs.
+     */
+    private initFacetGroups() {
+
+        // Get the set of available facets.
+        const specifiedFacetNames = this.fileFacets.map(facet => facet.name);
+
+        // Iterate over the facet groups definition and filter out any facets that are not in the set of
+        // available facets.
+        this.facetGroups = this.FACET_GROUPS.map((group) => {
+
+            const groupFacetNames = group.facetNames.filter((facetName: string) => {
+                return specifiedFacetNames.indexOf(facetName) >= 0;
+            });
+
+            return Object.assign({}, group, {
+                facetNames: groupFacetNames
+            });
+        });
+    }
+
+    /**
      * Lifecycle hooks
      */
 
     /**
-     * Set up search terms and reset filter input value, on change of component inputs.
+     * Set up search terms and facet groups, and reset filter input value, on change of component inputs.
      *
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
 
+        this.initFacetGroups();
         this.setupSearchTerms();
         this.filterControl.setValue("");
     }

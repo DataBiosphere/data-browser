@@ -67,7 +67,9 @@ export class FetchTableDataSuccessAction implements Action {
     constructor(public readonly tableModel: TableModel) {}
 }
 
-
+/**
+ * Action dispatched when tab is selected (eg Files or Specimens).
+ */
 export class EntitySelectAction implements Action {
     public static ACTION_TYPE = "ENTITY.SELECT";
     public readonly type = EntitySelectAction.ACTION_TYPE;
