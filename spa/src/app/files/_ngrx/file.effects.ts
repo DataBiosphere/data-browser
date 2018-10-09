@@ -310,8 +310,10 @@ export class FileEffects {
             // for file summary and table data.
             return Observable.concat(
                 // Update table data to match selected terms, if any TODO why does order matter here? code is more readable if this is grouped with the FetchFielSummaryRequestAction below but then action is not triggered correctly?
+                // Request Summary
+                Observable.of(new FetchFileSummaryRequestAction()),
+                // Request Table Data
                 Observable.of(new FetchInitialTableDataRequestAction()),
-
                 // Request facets and sort by metadata, map file facet terms to unique colors, to enable graphing of
                 // terms (graphs not currently implemented in this instance of the browser).
                 this.fetchOrderedFileFacets(selectedFacetsMap, selectedEntity.key)
@@ -329,10 +331,7 @@ export class FileEffects {
                         });
 
                         return new FetchFileFacetsSuccessAction(fileFacets);
-                    }),
-
-                // We also need to request the summary here as selected terms may have changed counts
-                Observable.of(new FetchFileSummaryRequestAction())
+                    })
             );
         });
 
