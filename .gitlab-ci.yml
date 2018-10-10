@@ -38,14 +38,14 @@ build_integration:
     - integration
 
 ## Staging Build
-#build_staging:
-#  <<: *build_template
-#  environment:
-#    name: staging
-#  script:
-#    npm run build staging
-#  only:
-#    - staging
+build_staging:
+  <<: *build_template
+  environment:
+    name: staging
+  script:
+    npm run build-staging
+  only:
+    - staging
 
 ########################################
 # Deploy Jobs
@@ -84,13 +84,13 @@ deploy_integration:
     - integration
 
 ## Staging Deploy
-#deploy_staging:
-#  <<: *deploy_template
-#  environment:
-#    name: staging
-#  script:
-#    - export BUCKET=s3://staging.explore.data.humancellatlas.org/
-#    - aws s3 sync --acl public-read dist/ $BUCKET --delete
-#    - aws cloudfront create-invalidation --distribution-id E38D6Y96QKYO6 --paths "/*"
-#  only:
-#    - staging
+deploy_staging:
+  <<: *deploy_template
+  environment:
+    name: staging
+  script:
+    - export BUCKET=s3://staging.explore.data.humancellatlas.org/
+    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    - aws cloudfront create-invalidation --distribution-id E38D6Y96QKYO6 --paths "/*"
+  only:
+    - staging
