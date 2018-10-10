@@ -78,7 +78,7 @@ deploy_integration:
     name: integration
   script:
     - export BUCKET=s3://integration.explore.data.humancellatlas.org/
-    - aws s3 sync --acl public-read public/ $BUCKET --delete
+    - aws s3 sync --acl public-read dist/ $BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id E2MB44J9QEJOYP --paths "/*"
   only:
     - integration
@@ -89,8 +89,8 @@ deploy_integration:
 #  environment:
 #    name: staging
 #  script:
-#    - export BUCKET=s3://staging.data.humancellatlas.org/
-#    - aws s3 sync --acl public-read public/ $BUCKET --delete
+#    - export BUCKET=s3://staging.explore.data.humancellatlas.org/
+#    - aws s3 sync --acl public-read dist/ $BUCKET --delete
 #    - aws cloudfront create-invalidation --distribution-id E38D6Y96QKYO6 --paths "/*"
 #  only:
 #    - staging
