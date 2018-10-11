@@ -24,12 +24,14 @@ export interface TableState {
  */
 export function getDefaultTableState(): TableState {
     return {
-        selectedEntity: "specimens",
+        selectedEntity: "projects",
         tableModels: [
+            createEmptyTableModel("projects"),
             createEmptyTableModel("specimens"),
             createEmptyTableModel("files")
         ],
         entitySpecs: [
+            { key: "projects", displayName: "Projects" },
             { key: "specimens", displayName: "Specimens" },
             { key: "files", displayName: "Files" }
         ]
