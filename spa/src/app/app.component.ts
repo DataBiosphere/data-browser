@@ -70,7 +70,11 @@ export class AppComponent {
             return "files";
         }
 
-        return "specimens";
+        if ( path === "/specimens" ) {
+            return "specimens";
+        }
+
+        return "projects";
     }
 
     /**

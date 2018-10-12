@@ -9,5 +9,9 @@ export const routes: Route[] = [
     {
         path: "specimens",
         component: FilesComponent
+    },
+    {
+        path: "projects",
+        component: FilesComponent
     }
 ];
