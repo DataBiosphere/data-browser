@@ -29,7 +29,7 @@ Use NPM to install server-side dependencies.
 
 Then, install Grunt CLI and Typescript globally if you haven't installed them.
 
-        npm install -g grunt-cli typscript
+        npm install -g grunt-cli typescript
 
 From the `server` directory, install server-side typings:
 
