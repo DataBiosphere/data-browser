@@ -11,20 +11,7 @@
     display: flex; /* Scroll content */
     flex-direction: column; /* Scroll content */
     padding: 18px;
-    position: relative; /* Positions fade on vertical scroll */
     width: 220px;
-
-    /* Fade on vertical scroll */
-    &::after {
-        bottom: 0;
-        background: linear-gradient(-180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.80) 60%, #FFFFFF 100%);
-        content: "";
-        height: 36px;
-        position: absolute;
-        right: 0;
-        width: 100%;
-        z-index: 80;
-    }
 
     /* Facet title */
     .facet-title {
