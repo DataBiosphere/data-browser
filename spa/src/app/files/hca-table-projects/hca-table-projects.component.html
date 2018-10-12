@@ -1,0 +1,205 @@
+<div class="wrapper">
+    <div class="hca-table">
+        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
+                   (matSortChange)="sortTable(pagination, $event)">
+            <ng-container matColumnDef="projectTitle">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The project name of the data file."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Project Name</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.projectTitle, display20)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.projectTitle}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.projectTitle}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.projectTitle}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="organ">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Organ</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.organ, display12)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.organ}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.organ}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.organ}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="libraryConstructionApproach">
+                <mat-header-cell *matHeaderCellDef>
+                    <span matTooltip="The general approach for sequencing library construction. Should be a child term of EFO - library preparation."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Library Construction</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.libraryConstructionApproach, display12)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.libraryConstructionApproach}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.libraryConstructionApproach}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip
+                             [matTooltipDisabled]="true">{{element.libraryConstructionApproach}}
+                        </div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="genusSpecies">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The scientific binomial name for the species of the biomaterial."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Species
+                    </span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.genusSpecies, display12)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.genusSpecies}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.genusSpecies}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.genusSpecies}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="disease">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Diseased</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.disease, display12)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.disease}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.disease}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.disease}}</div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="fileType">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="file-type">
+                    <span matTooltip="The format of the data file."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">File Types</span>
+                        <div><span>Primary</span><span>2nd</span></div>
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div>
+                        <div class="file-type-data">
+                                <span>
+                                    <ng-container [ngSwitch]="element.fileTypePrimary > 0">
+                                        <ng-container *ngSwitchDefault><img
+                                                src="assets/images/table/isFileType.png"></ng-container>
+                                        <ng-container *ngSwitchCase="false"><img
+                                                src="assets/images/table/isNotFileType.png"></ng-container>
+                                    </ng-container>
+                                </span>
+                            <span>
+                                    <ng-container [ngSwitch]="element.fileTypeSecondary > 0">
+                                        <ng-container *ngSwitchDefault><img
+                                                src="assets/images/table/isFileType.png"></ng-container>
+                                        <ng-container *ngSwitchCase="false"><img
+                                                src="assets/images/table/isNotFileType.png"></ng-container>
+                                    </ng-container>
+                                </span>
+                        </div>
+                        <div class="file-type-info">
+                            <span class="file-title">Raw Data</span>
+                            <span>Fastqs: {{element.fileTypePrimary}}</span>
+                            <span class="file-title">Secondary Analysis</span>
+                            <span>BAMs: {{element.fileTypeSecondary}}</span>
+                        </div>
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="donorCount">
+                <mat-header-cell *matHeaderCellDef>
+                    <span matTooltip="Donor count."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Donor Count</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.donorCount, display10)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.donorCount}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.donorCount}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">
+                            <ng-container *ngIf="element.donorCount">{{element.donorCount |
+                                localeString}}
+                            </ng-container>
+                            <ng-container *ngIf="!element.donorCount">No Data</ng-container>
+                        </div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="estimatedCellCount">
+                <mat-header-cell *matHeaderCellDef>
+                    <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Cell Count (Estimated)</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.estimatedCellCount, display10)">
+                        <div *ngSwitchCase="true"
+                             matTooltip="{{element.estimatedCellCount}}"
+                             matTooltipPosition="below"
+                             matTooltipShowDelay="{{tooltipShowDelay}}"
+                             matTooltipClass="hca-tooltip">{{element.estimatedCellCount}}
+                        </div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">
+                            <ng-container *ngIf="element.totalCells">{{element.estimatedCellCount |
+                                localeString}}
+                            </ng-container>
+                            <ng-container *ngIf="!element.estimatedCellCount">No Data</ng-container>
+                        </div>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <div *ngIf="pagination$ | async; let pagination" class="pagination">
+            <ng-container *ngIf="pagination.current_page">
+                <button type="button" (click)="previousPageSelected(pagination)">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                Page {{pagination.current_page}} of {{getPageCount(pagination)}}
+                <button type="button" (click)="nextPageSelected(pagination)">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</div>

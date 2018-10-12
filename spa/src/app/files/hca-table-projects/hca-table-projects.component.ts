@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Table component for displaying specimen related data.
+ * Table component for displaying project-related data.
  */
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
@@ -22,17 +22,17 @@ import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
-    selector: "hca-table",
-    templateUrl: "./hca-table.component.html",
-    styleUrls: ["./hca-table.component.scss"]
+    selector: "hca-table-projects",
+    templateUrl: "./hca-table-projects.component.html",
+    styleUrls: ["./hca-table-projects.component.scss"]
 })
-export class HCATableComponent implements OnInit {
+export class HCATableProjectsComponent implements OnInit {
 
-    display10 = 11;
-    display5 = 6;
-    display7 = 10;
+    display10 = 10;
+    display12 = 10;
+    display20 = 30;
     displayedColumns = [
-        "specimenId", "fileCount", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -62,12 +62,12 @@ export class HCATableComponent implements OnInit {
      */
     public isTermNameTruncated(termName: string, length: number): boolean {
 
-        if ( !termName ) {
-
+        if ( termName ) {
+            return termName.length > length;
+        }
+        else {
             return false;
         }
-
-        return termName.length > length;
     }
 
     /**
@@ -115,13 +115,6 @@ export class HCATableComponent implements OnInit {
         this.store.dispatch(new TablePreviousPageAction(tableParamsModel));
     }
 
-    public getAgeUnit(ageUnit) {
-
-        if ( ageUnit ) {
-            return ageUnit.charAt(0);
-        }
-    }
-
     /**
      * Sort the table given the sort param and the order.
      *
@@ -146,6 +139,7 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasNext(pm: PaginationModel): boolean {
+        // return (pm.from + pm.count) < pm.total;
         return pm.search_after !== null;
     }
 
@@ -156,6 +150,7 @@ export class HCATableComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
+        // return (pm.from > 1);
         return pm.search_before !== null;
     }
 
@@ -219,26 +214,23 @@ export class HCATableComponent implements OnInit {
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Elements in Material Design table that displays HCA-specific file related data.
+ * Elements in Material Design table that displays HCA-specific project related data.
  */
 export interface Element {
-    fileCount: number;
+    projectTitle: string;
     organ: string;
-    organPart: string;
     libraryConstructionApproach: string;
     genusSpecies: string;
-    organismAge: string;
-    ageUnit: string;
-    biologicalSex: string;
-    disease: string; // TODO check not array
-    totalCells: number;
+    disease: string;
+    donorCount: number;
+    estimatedCellCount: number;
 }
 
 /**
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Data source backing Material Design table that displays file related data.
+ * Data source backing Material Design table that displays project related data.
  */
 class TableElementDataSource extends DataSource<any> {
 
@@ -252,34 +244,11 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
-                // let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
+                let project = row.projects[0] || {};
+                let projectSummary = row.projectSummary;
 
-                // const biomaterials = row.biomaterials.reduce((acc, biomaterial) => {
-                //
-                //     Object.keys(biomaterial).forEach((key) => {
-                //
-                //         let value = biomaterial[key];
-                //         if (value) {
-                //
-                //             if (value instanceof Array) {
-                //
-                //                 value = value.join(",");
-                //             }
-                //
-                //
-                //             acc[key] = value;
-                //         }
-                //
-                //     });
-                //
-                //     return acc;
-                //
-                //
-                // }, {});
-
-
-                let specimens = this.rollUpMetadata(row.specimens);
-                let processes = this.rollUpMetadata(row.processes);
+                let organs = this.rollUpMetadata(row.projectSummary.organSummaries);
+                let projectTitle = this.rollUpMetadata(row.projects);
 
                 /* File counts for primary file format (fastq.qz) and other */
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
@@ -287,7 +256,7 @@ class TableElementDataSource extends DataSource<any> {
                     if ( fileTypeSummary.fileType === "fastq.gz" ) {
                         acc.primaryCount = acc.primaryCount + fileTypeSummary.count;
                     }
-                    else if (fileTypeSummary.fileType === "bam" ) {
+                    else if ( fileTypeSummary.fileType === "bam" ) {
                         acc.secondaryCount++;
                     }
 
@@ -298,26 +267,22 @@ class TableElementDataSource extends DataSource<any> {
                 }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
 
                 return {
-                    fileCount: fileCounts.totalCount,
-                    specimenId: this.getSelfOrFirst(specimens.id),
-                    organ: specimens.organ,
-                    organPart: specimens.organPart,
-                    libraryConstructionApproach: processes.libraryConstructionApproach,
-                    genusSpecies: specimens.genusSpecies,
-                    organismAge: specimens.organismAge,
-                    ageUnit: specimens.organismAgeUnit,
-                    biologicalSex: specimens.biologicalSex,
-                    disease: specimens.disease,
+                    projectTitle: projectTitle.projectTitle,
+                    organ: organs.organType,
+                    libraryConstructionApproach: projectSummary.libraryConstructionApproach,
+                    genusSpecies: projectSummary.genusSpecies,
+                    disease: projectSummary.disease,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: specimens.totalCells
+                    donorCount: projectSummary.donorCount,
+                    estimatedCellCount: projectSummary.totalCellCount,
                 };
             });
         });
     }
 
     // Each bundle contains multiple biomaterials which are in a hierarchy
-    // leading back to the root biomaterial. Biomarerials are in an array.
+    // leading back to the root biomaterial. Biomaterials are in an array.
     // This rolls up the metadata values to a single object.
 
     rollUpMetadata(array): any {
@@ -343,7 +308,7 @@ class TableElementDataSource extends DataSource<any> {
                     }
 
 
-                    if ( key === "totalCells" ) {
+                    if ( key === "totalCellCount" ) {
 
                         if ( acc[key] ) {
                             acc[key] = acc[key] + value;
@@ -370,12 +335,12 @@ class TableElementDataSource extends DataSource<any> {
 
                         if ( cellValues.length ) {
                             if ( !cellValues.some(cellValue => cellValue === value) ) {
-                                // apend the value to the existing key
+                                // append the value to the existing key
                                 acc[key] = acc[key] + ", " + value;
                             }
                         }
                         else {
-                            // if no existing key or the vaues are the same just set the value.
+                            // if no existing key or the values are the same just set the value.
                             acc[key] = value;
                         }
                     }

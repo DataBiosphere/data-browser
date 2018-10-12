@@ -13,7 +13,7 @@
     </hca-file-summary>
     <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table *ngIf="(selectedEntity$ | async).key == 'projects'"></hca-table>
+    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"></hca-table-projects>
     <hca-download-manifest
             [downloadActive]="false">
     </hca-download-manifest>

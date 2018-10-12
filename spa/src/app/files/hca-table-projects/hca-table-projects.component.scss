@@ -1,0 +1,335 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table - project related data.
+ */
+@import "../../shared/theme/cgl.vars";
+
+:host {
+    display: flex;
+    height: 100%; /* Table to take up remaining space */
+    min-height: 0; /* Firefox overflow */
+    position: relative; /* Positions fade on horizontal scroll */
+
+    /* Fade on horizontal scroll */
+    &::after, &::before {
+        content: "";
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 16px;
+        z-index: 8;
+    }
+
+    /* Fade on horizontal scroll RHS */
+    &::after {
+        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
+        right: 0;
+    }
+
+    /* Fade on horizontal scroll LHS */
+    &::before {
+        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
+        left: 0;
+    }
+}
+
+/* Wrapper */
+.wrapper {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: auto; /* Scroll */
+    -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+    margin-top: 4px;
+    padding: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
+
+    /* HCA table */
+    .hca-table {
+        margin: 0 -16px;
+        padding: 0 16px;
+
+        /* Pagination */
+        .pagination {
+            align-items: center;
+            color: $hca-gray-dark;
+            display: flex;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 13px; /* TODO typography */
+            font-weight: 600; /* TODO typography */
+            height: 56px;
+            justify-content: flex-start;
+            margin-top: -120px;
+            padding: 0 10px; /* Left aligns button with table content */
+
+            /* Pagination button */
+            button {
+                align-items: center;
+                background-color: $hca-white;
+                border: none;
+                border-radius: 3px;
+                color: $hca-primary;
+                display: flex;
+                flex-shrink: 0;
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 11px; /* TODO typography */
+                font-weight: 400; /* TODO typography */
+                height: 38px; /* HCA specific style */
+                letter-spacing: 0.34px; /* TODO typography */
+                padding: 0;
+
+                mat-icon {
+                    font-size: 18px;
+                    height: 18px;
+                    width: 18px;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            > span {
+                height: 38px; /* Matches button */
+                line-height: 36px; /* Bottom aligns text with button text */
+                padding: 0 16px;
+            }
+        }
+
+        mat-table {
+            min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
+            max-width: 1140px;
+            padding-bottom: 120px; /* For file type hover */
+
+            mat-row, mat-header-row {
+                padding: 0 12px; /* Total left and right padding is 16px */
+            }
+
+            mat-header-row {
+                background-color: $hca-white;
+                border-bottom: 2px solid $hca-gray-light;
+                position: sticky;
+                top: 0;
+                z-index: 6;
+            }
+
+            mat-row {
+                border-bottom: 1px solid $hca-gray-lightest;
+            }
+
+            mat-header-cell {
+                color: $hca-black;
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 12px; /* TODO typography */
+                font-weight: 600; /* TODO typography */
+                letter-spacing: 0.36px; /* TODO typography */
+                line-height: 18px; /* TODO typography */
+                overflow: visible;
+                position: relative; /* Positions sort arrow */
+
+                /* File Types */
+                .file-type {
+                    align-items: flex-start;
+                    display: flex;
+                    flex: 1;
+                    flex-direction: column;
+
+                    > div {
+                        width: 100%;
+
+                        /* Primary, secondary */
+                        > span {
+                            align-self: center;
+                            display: inline-block;
+                            font-family: "Montserrat", sans-serif; /* TODO typography */
+                            font-size: 10px; /* TODO typography */
+                            font-weight: 400;
+                            text-align: left;
+                            width: 50px;
+                        }
+                    }
+                }
+            }
+
+            mat-cell {
+                color: $hca-gray-dark;
+                font-family: "Montserrat", sans-serif; /* TODO typography */
+                font-size: 12px; /* TODO typography */
+                font-weight: 400; /* TODO typography */
+                line-height: 18px; /* TODO typography */
+
+                /* Ellipsis on cell text */
+                > div {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                /* Hides ellipsis tooltip - Safari only */
+                > div:after {
+                    content: '';
+                    display: block;
+                }
+
+                /* Project Name */
+                &:first-of-type {
+                    color: $hca-primary;
+                    font-family: "Montserrat", sans-serif; /* TODO typography */
+                    font-weight: 500; /* TODO typography */
+                }
+
+                /* File types */
+                &:nth-of-type(6) {
+                    align-items: center;
+                    display: flex;
+                    min-height: 48px;
+                    overflow: visible;
+                    position: relative; /* Positions file type info */
+
+                    /* Primary, secondary ticks */
+                    .file-type-data {
+                        align-items: center;
+                        cursor: pointer;
+                        display: flex;
+
+                        > span {
+                            display: inline-flex;
+                            width: 50px;
+                        }
+                    }
+
+                    /* File type info */
+                    .file-type-info {
+                        height: 0;
+                        visibility: hidden;
+                    }
+
+                    /* File type info - hover state */
+                    &:hover .file-type-info {
+                        background-color: $hca-white;
+                        border: 1px solid $hca-gray-dark;
+                        border-radius: 2px;
+                        color: $hca-black;
+                        display: flex;
+                        flex-direction: column;
+                        height: unset;
+                        padding: 16px;
+                        position: absolute;
+                        right: 50%;
+                        top: 48px;
+                        transition: all 0.25s ease 2s;
+                        transition-delay: 0.5s;
+                        visibility: visible;
+                        z-index: 4;
+
+                        &:before {
+                            border: 12px solid transparent;
+                            border-bottom-color: $hca-gray-light;
+                            content: '';
+                            position: absolute;
+                            right: 25%;
+                            top: -25px;
+                            z-index: 3;
+                        }
+
+                        /* File type title */
+                        .file-title {
+                            font-weight: 500;
+                            margin-top: 8px;
+
+                            &:first-of-type {
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            mat-cell, mat-header-cell {
+                flex: none;
+                flex-shrink: 0;
+                padding-left: 4px;
+                padding-right: 4px;
+
+                /* Project Name */
+                &:first-of-type {
+                    width: calc(20% - 8px); /* 8px for left and right padding */
+                }
+
+                /* Organ */
+                &:nth-of-type(2) {
+                    width: calc(12% - 8px);
+                }
+
+                /* Library construction */
+                &:nth-of-type(3) {
+                    width: calc(12% - 8px);
+                }
+
+                /* Species */
+                &:nth-of-type(4) {
+                    width: calc(12% - 8px);
+                }
+
+                /* Diseased */
+                &:nth-of-type(5) {
+                    width: calc(12% - 8px);
+                }
+
+                /* File types */
+                &:nth-of-type(6) {
+                    width: calc(12% - 8px);
+                }
+
+                /* Donor count */
+                &:nth-of-type(7) {
+                    width: calc(10% - 8px);
+                }
+
+                /* Estimated count */
+                &:nth-of-type(8) {
+                    width: calc(10% - 8px);
+                }
+
+                /* Table header text alignment */
+                /deep/ .mat-sort-header-button {
+                    flex: 1;
+                    line-height: 18px; /* TODO typography */
+                    text-align: left !important;
+                }
+
+                /* Sort icon - reposition to upper left of title */
+                /deep/ .mat-sort-header-arrow {
+                    left: -8px;
+                    margin: 0;
+                    position: absolute;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    :host {
+
+        /* Hide fade on larger screens */
+        &::after, &::before {
+            display: none;
+        }
+    }
+
+    /* Wrapper */
+    .wrapper {
+        margin: 0 auto;
+        max-width: 1140px; /* Snap to 1200px, gutter 30px */
+        padding: 0 30px; /* Gutter 30px */
+    }
+}
+

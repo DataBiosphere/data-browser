@@ -312,32 +312,6 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
-                // let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
-
-                // const biomaterials = row.biomaterials.reduce((acc, biomaterial) => {
-                //
-                //     Object.keys(biomaterial).forEach((key) => {
-                //
-                //         let value = biomaterial[key];
-                //         if (value) {
-                //
-                //             if (value instanceof Array) {
-                //
-                //                 value = value.join(",");
-                //             }
-                //
-                //
-                //             acc[key] = value;
-                //         }
-                //
-                //     });
-                //
-                //     return acc;
-                //
-                //
-                // }, {});
-
-
                 let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
 
