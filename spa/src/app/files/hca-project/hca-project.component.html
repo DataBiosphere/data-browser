@@ -1,90 +1,93 @@
-<div>
-    <div class="wrapper">
-        <div class="project-highlights">
-            <div>
-                <p class="xs bold lhs">Project</p>
-                <p class="xs rhs">Census of Immune Cells</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Species</p>
-                <p class="xs rhs">Homo sapiens</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Organ</p>
-                <p class="xs rhs">Umbilical cord blood and bone marrow</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Diseased</p>
-                <p class="xs rhs">Normal</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Experimental Approach</p>
-                <p class="xs rhs">10x</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">File Type</p>
-                <p class="xs rhs">Expression matrix, fastq, metadata, BAM, SAM, JAM, Toast, Several, Specific</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Estimated Cell Count</p>
-                <p class="xs rhs">530k</p>
-            </div>
-            <div>
-                <p class="xs bold lhs">Donor Count</p>
-                <p class="xs rhs">16</p>
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <p class="xs">Estimated Cell Count</p>
-                    <h3 class="l">530k</h3>
+<ng-container *ngIf="project$ | async as project">
+    <hca-section-title [title]="getProjectTitle(project)" [showDownload]="false"></hca-section-title>
+    <div>
+        <div class="wrapper">
+            <div class="project-highlights">
+                <div>
+                    <p class="xs bold lhs">Project</p>
+                    <p class="xs rhs">Census of Immune Cells</p>
                 </div>
-                <div class="stat">
-                    <p class="xs">Donor Count</p>
-                    <h3 class="l">16</h3>
+                <div>
+                    <p class="xs bold lhs">Species</p>
+                    <p class="xs rhs">Homo sapiens</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">Organ</p>
+                    <p class="xs rhs">Umbilical cord blood and bone marrow</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">Diseased</p>
+                    <p class="xs rhs">Normal</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">Experimental Approach</p>
+                    <p class="xs rhs">10x</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">File Type</p>
+                    <p class="xs rhs">Expression matrix, fastq, metadata, BAM, SAM, JAM, Toast, Several, Specific</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">Estimated Cell Count</p>
+                    <p class="xs rhs">530k</p>
+                </div>
+                <div>
+                    <p class="xs bold lhs">Donor Count</p>
+                    <p class="xs rhs">16</p>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <p class="xs">Estimated Cell Count</p>
+                        <h3 class="l">530k</h3>
+                    </div>
+                    <div class="stat">
+                        <p class="xs">Donor Count</p>
+                        <h3 class="l">16</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div>
-    <div class="wrapper">
-        <div class="project-info">
-            <div>
-                <h4 class="m">Description</h4>
-                <p class="s">Diverse cells of the immune system maintain and protect tissue function, integrity, and
-                    homeostasis
-                    upon changes in functional demands and diverse perturbations. Recent advances such as massively
-                    parallel
-                    single-cell RNA-sequencing and sophisticated computational methods help shed new light on this
-                    complexity. This immune cell census aims to profile up to 2M immunocytes, the first tranche of this
-                    is
-                    currently available. With computational methods optimized to a massive scale, we can readily
-                    identify
-                    cell types and markers, as well as the process of hematopoietic differentiation. The high quality
-                    and
-                    comprehensive reference map is provided as an open community resource for understanding human health
-                    and
-                    disease.
-                </p>
+    <div>
+        <div class="wrapper">
+            <div class="project-info">
+                <div>
+                    <h4 class="m">Description</h4>
+                    <p class="s">Diverse cells of the immune system maintain and protect tissue function, integrity, and
+                        homeostasis
+                        upon changes in functional demands and diverse perturbations. Recent advances such as massively
+                        parallel
+                        single-cell RNA-sequencing and sophisticated computational methods help shed new light on this
+                        complexity. This immune cell census aims to profile up to 2M immunocytes, the first tranche of this
+                        is
+                        currently available. With computational methods optimized to a massive scale, we can readily
+                        identify
+                        cell types and markers, as well as the process of hematopoietic differentiation. The high quality
+                        and
+                        comprehensive reference map is provided as an open community resource for understanding human health
+                        and
+                        disease.
+                    </p>
+                </div>
+                <div class="lhs">
+                    <h4 class="m">Contact</h4>
+                    <p class="xxs">Regev Lab</p>
+                    <p class="xxs">Broad Institute</p>
+                    <p class="xxs">help@broadinstitute.org</p>
+                    <h4 class="m">Publications</h4>
+                    <p class="xxs">Census of the Immune</p>
+                    <p class="xxs link">View here</p>
+                </div>
+                <div class="rhs">
+                    <h4 class="m">Author List</h4>
+                    <p class="xxs">Bo Li, Monika S Kowalczyk, Danielle Dionne, Orr Ashenberg, Marcin Tabaka, Timothy Tickle,
+                        Jane Lee,
+                        Karthik Shekhar, Michal Slyper, Julia Waldman, Orit Rozenblatt-Rosen, Aviv Regev.</p>
+                    <h4 class="m">Collaborating Organisations</h4>
+                    <p class="xxs">Broad Institute, Massachusetts Institute of Technology, Howard Hughes Medical
+                        Institute.</p>
+                </div>
             </div>
-            <div class="lhs">
-                <h4 class="m">Contact</h4>
-                <p class="xxs">Regev Lab</p>
-                <p class="xxs">Broad Institute</p>
-                <p class="xxs">help@broadinstitute.org</p>
-                <h4 class="m">Publications</h4>
-                <p class="xxs">Census of the Immune</p>
-                <p class="xxs link">View here</p>
-            </div>
-            <div class="rhs">
-                <h4 class="m">Author List</h4>
-                <p class="xxs">Bo Li, Monika S Kowalczyk, Danielle Dionne, Orr Ashenberg, Marcin Tabaka, Timothy Tickle,
-                    Jane Lee,
-                    Karthik Shekhar, Michal Slyper, Julia Waldman, Orit Rozenblatt-Rosen, Aviv Regev.</p>
-                <h4 class="m">Collaborating Organisations</h4>
-                <p class="xxs">Broad Institute, Massachusetts Institute of Technology, Howard Hughes Medical
-                    Institute.</p>
-            </div>
-        </div>f60206f3-3474-43fa-8864-d7595b80b222
+        </div>
     </div>
-</div>
+</ng-container>

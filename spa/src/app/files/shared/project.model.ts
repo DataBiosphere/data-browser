@@ -6,8 +6,11 @@
  */
 
 // App dependencies
-import { Entry } from "./entry.model";
+import { Contributor } from "./contributor.model";
 
-export interface Project extends Entry {
-    
+export interface Project {
+    contributors: Contributor[];
+    entryId: string;
+    projectDescription: string;
+    projectTitle: string;
 }

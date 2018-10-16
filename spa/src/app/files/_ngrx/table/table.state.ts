@@ -7,13 +7,13 @@
 
 // App dependencies
 import EntitySpec from "../../shared/entity-spec";
-import { Entry } from "../../shared/entry.model";
 import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import { Project } from "../../shared/project.model";
 
 export interface TableState {
-    selectedEntry: Entry; // Current selected row in table (eg Project)
+    selectedProject: Project; // Current selected project in table 
     selectedEntity: string; // Current selected tab (eg Projects, Specimens)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];
@@ -50,7 +50,7 @@ function createEmptyTableModel(entityName: string): TableModel {
  */
 export function getDefaultTableState(): TableState {
     return {
-        selectedEntry: null,
+        selectedProject: null,
         selectedEntity: "projects",
         tableModels: [
             createEmptyTableModel("projects"),

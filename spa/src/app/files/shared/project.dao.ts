@@ -14,6 +14,7 @@ import "rxjs/add/observable/of";
 // App depenencies
 import { ConfigService } from "../../config/config.service";
 import { Project } from "./project.model";
+import { Contributor } from "./contributor.model";
 
 // App dependencies
 
@@ -37,13 +38,34 @@ export class ProjectDAO {
      */
     fetchProjectById(projectId: string): Observable<Project> {
 
-        const url = this.buildApiUrl(`/projects/${projectId}`);
-        return this.httpClient.get<Project>(url);
+        const url = this.buildApiUrl(`/repository/projects/${projectId}`);
+        return this.httpClient.get<Project>(url).map(this.bindProject);
     }
 
     /**
      * Privates
      */
+
+    /**
+     * Bind the raw response to Project object.
+     *
+     * @param {any} response
+     * @returns {Project}
+     */
+    private bindProject(response: any): Project {
+console.log(response)
+        const project = response.projects[0];
+        if ( !project ) {
+            return {} as Project;
+        }
+
+        return {
+            contributors: project.contributors as Contributor[],
+            entryId: response.entryId,
+            projectDescription: project.projectDescription,
+            projectTitle: project.projectTitle
+        } as any;
+    }
 
     /**
      * Build full API URL

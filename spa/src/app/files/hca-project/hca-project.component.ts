@@ -16,7 +16,7 @@ import { Observable } from "rxjs/Observable";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectSelectedEntry } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { Project } from "../shared/project.model";
 
@@ -38,6 +38,21 @@ export class HCAProjectComponent implements OnInit {
     public constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
     /**
+     * Public API
+     */
+
+    /**
+     * Return the title of the project.
+     *
+     * @param {Project} project
+     * @returns {string[]}
+     */
+    public getProjectTitle(project: Project) {
+
+        return project.projectTitle;
+    }
+
+    /**
      * Life cycle hooks
      */
 
@@ -51,6 +66,6 @@ export class HCAProjectComponent implements OnInit {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        this.project$ = this.store.select(selectSelectedEntry);
+        this.project$ = this.store.select(selectSelectedProject);
     }
 }

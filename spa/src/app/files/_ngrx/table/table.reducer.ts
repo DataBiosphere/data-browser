@@ -108,7 +108,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
 
             return {
                 ...state,
-                selectedEntry: (action as FetchProjectSuccessAction).project
+                selectedProject: (action as FetchProjectSuccessAction).project
             };
 
         default:

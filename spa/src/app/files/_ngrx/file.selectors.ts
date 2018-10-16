@@ -62,9 +62,9 @@ export const selectEntities = createSelector(selectTableState, (tableState: Tabl
 /**
  * Return the selected entry (ie the selected row in the table).
  */
-export const selectSelectedEntry = createSelector(selectTableState, (tableState: TableState) => {
+export const selectSelectedProject = createSelector(selectTableState, (tableState: TableState) => {
 
-    return tableState.selectedEntry;
+    return tableState.selectedProject;
 });
 
 /**

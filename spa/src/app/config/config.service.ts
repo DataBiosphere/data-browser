@@ -49,7 +49,7 @@ export class ConfigService {
      * @returns {Promise<Config>}
      */
     public initConfig(): Promise<Config> {
-        
+
         this.storeConfig(environment as Config);
         return Promise.resolve(environment as Config);
     }
@@ -86,7 +86,7 @@ export class ConfigService {
     }
 
     /**
-     * Save the data URL as a local variable on this instance, and update the corresponding config value in the store.
+     * Save the data URL as a local variable ogetAPIURLn this instance, and update the corresponding config value in the store.
      *
      * @param config {Config}
      */

@@ -41,7 +41,6 @@ export class FilesComponent implements OnDestroy, OnInit {
 
     // Public variables
     public fileFacets$: Observable<FileFacet[]>;
-    public projectDetail;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
@@ -60,19 +59,11 @@ export class FilesComponent implements OnDestroy, OnInit {
     constructor(private router: Router,
                 private store: Store<AppState>,
                 private elementRef: ElementRef,
-                private location: Location) {
-
-        this.projectDetail = false;
-    }
+                private location: Location) {}
 
     /**
      * Public API
      */
-
-    public getProjectDetailTabs() {
-
-        return ["Projects"];
-    }
 
     /**
      * Remove scroll on body when menu is open
