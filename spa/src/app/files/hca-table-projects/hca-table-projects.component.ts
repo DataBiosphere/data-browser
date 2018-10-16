@@ -217,13 +217,14 @@ export class HCATableProjectsComponent implements OnInit {
  * Elements in Material Design table that displays HCA-specific project related data.
  */
 export interface Element {
-    projectTitle: string;
-    organ: string;
-    libraryConstructionApproach: string;
-    genusSpecies: string;
     disease: string;
     donorCount: number;
+    entryId: string;
     estimatedCellCount: number;
+    genusSpecies: string;
+    libraryConstructionApproach: string;
+    organ: string;
+    projectTitle: string;
 }
 
 /**
@@ -267,15 +268,16 @@ class TableElementDataSource extends DataSource<any> {
                 }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
 
                 return {
-                    projectTitle: projectTitle.projectTitle,
-                    organ: organs.organType,
-                    libraryConstructionApproach: projectSummary.libraryConstructionApproach,
-                    genusSpecies: projectSummary.genusSpecies,
                     disease: projectSummary.disease,
-                    fileTypePrimary: fileCounts.primaryCount,
-                    fileTypeSecondary: fileCounts.secondaryCount,
                     donorCount: projectSummary.donorCount,
                     estimatedCellCount: projectSummary.totalCellCount,
+                    entryId: row.entryId,
+                    fileTypePrimary: fileCounts.primaryCount,
+                    fileTypeSecondary: fileCounts.secondaryCount,
+                    genusSpecies: projectSummary.genusSpecies,
+                    libraryConstructionApproach: projectSummary.libraryConstructionApproach,
+                    organ: organs.organType,
+                    projectTitle: projectTitle.projectTitle
                 };
             });
         });

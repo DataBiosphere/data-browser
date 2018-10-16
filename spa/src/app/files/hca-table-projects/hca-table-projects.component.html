@@ -15,9 +15,10 @@
                              matTooltip="{{element.projectTitle}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="{{tooltipShowDelay}}"
-                             matTooltipClass="hca-tooltip">{{element.projectTitle}}
+                             matTooltipClass="hca-tooltip"
+                             [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true">{{element.projectTitle}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true" [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>

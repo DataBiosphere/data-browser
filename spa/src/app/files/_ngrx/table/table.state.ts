@@ -5,18 +5,44 @@
  * Model of state of table that displays file-facet related data.
  */
 
+// App dependencies
+import EntitySpec from "../../shared/entity-spec";
+import { Entry } from "../../shared/entry.model";
+import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
-import { PaginationModel } from "../../table/pagination.model";
-import EntitySpec from "../../shared/entity-spec";
 
 export interface TableState {
-
-    selectedEntity: string;
+    selectedEntry: Entry; // Current selected row in table (eg Project)
+    selectedEntity: string; // Current selected tab (eg Projects, Specimens)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];
 }
 
+/**
+ * @param {TableState} tableState
+ * @returns {TableModel[]}
+ */
+export function clearUnSelectedTableModels(tableState: TableState): TableModel[] {
+
+    return tableState.tableModels.map((tm) => {
+
+        if (tm.tableName !== tableState.selectedEntity) {
+            return createEmptyTableModel(tm.tableName);
+        }
+        else {
+            return tm;
+        }
+    });
+}
+
+/**
+ * @param {string} entityName
+ * @returns {TableModel}
+ */
+function createEmptyTableModel(entityName: string): TableModel {
+    return { data: [], pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: entityName };
+}
 
 /**
  * Return the default state for setting up tables.
@@ -24,6 +50,7 @@ export interface TableState {
  */
 export function getDefaultTableState(): TableState {
     return {
+        selectedEntry: null,
         selectedEntity: "projects",
         tableModels: [
             createEmptyTableModel("projects"),
@@ -37,7 +64,6 @@ export function getDefaultTableState(): TableState {
         ]
     };
 }
-
 
 /**
  * Return the table corresponding to the selected entity.
@@ -77,24 +103,4 @@ export function updateSelectedTableModel(tableState: TableState, tableModel: Tab
         }
     });
 }
-
-export function clearUnSelectedTableModels(tableState: TableState): TableModel[] {
-
-    return tableState.tableModels.map((tm) => {
-
-        if (tm.tableName !== tableState.selectedEntity) {
-            return createEmptyTableModel(tm.tableName);
-        }
-        else {
-            return tm;
-        }
-    });
-}
-
-
-function createEmptyTableModel(entityName: string): TableModel {
-    return { data: [], pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: entityName };
-}
-
-
 

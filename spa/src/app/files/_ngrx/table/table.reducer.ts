@@ -16,10 +16,10 @@ import {
 import * as tableStateService from "./table.state";
 import { TableState } from "./table.state";
 import {
-    EntitySelectAction,
+    EntitySelectAction, FetchProjectRequestAction,
     FetchTableDataSuccessAction,
     TableNextPageSuccessAction,
-    TablePreviousPageSuccessAction
+    TablePreviousPageSuccessAction, FetchProjectSuccessAction
 } from "./table.actions";
 import { TableModel } from "../../table/table.model";
 
@@ -36,6 +36,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             tableModel.pagination.current_page = 1;
 
             nextState = {
+                ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
                 tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
@@ -50,6 +51,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page + 1;
 
             nextState = {
+                ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
                 tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
@@ -64,6 +66,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page - 1;
 
             nextState = {
+                ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
                 tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
@@ -91,12 +94,22 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
         case FetchFileFacetsSuccessAction.ACTION_TYPE:
 
             nextState = {
+                ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
                 tableModels: tableStateService.clearUnSelectedTableModels(state)
             };
 
             return nextState;
+
+        // Handle case where project has been selected from the table and corresponding details have been
+        // successfully requested from the server
+        case FetchProjectSuccessAction.ACTION_TYPE:
+
+            return {
+                ...state,
+                selectedEntry: (action as FetchProjectSuccessAction).project
+            };
 
         default:
 

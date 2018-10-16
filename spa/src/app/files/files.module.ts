@@ -10,6 +10,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -57,14 +58,16 @@ import { HCAFileFilterComponent } from "app/files/hca-file-filter/hca-file-filte
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
-import { HCAProjectTableDetailComponent } from "./hca-project-table-detail/hca-project-table-detail";
-import { HCASectionTitleComponent } from "app/files/hca-section-title/hca-section-title.component";
+import { HCAProjectComponent } from "./hca-project/hca-project.component";
+import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "app/files/hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
+import { ProjectService } from "./shared/project.service";
+import { ProjectDAO } from "./shared/project.dao";
 
 @NgModule({
     imports: [
@@ -92,7 +95,9 @@ import { FilesService } from "./shared/files.service";
         CCStopPropagationModule,
         CcTypeaheadModule,
 
-        KeywordsModule
+        KeywordsModule,
+
+        HttpClientModule
 
         // EffectsModule.run(FilesEffects)
     ],
@@ -121,7 +126,7 @@ import { FilesService } from "./shared/files.service";
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
-        HCAProjectTableDetailComponent,
+        HCAProjectComponent,
         HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
@@ -140,6 +145,8 @@ import { FilesService } from "./shared/files.service";
         ConfigService,
         FilesService,
         FilesDAO,
+        ProjectService,
+        ProjectDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [

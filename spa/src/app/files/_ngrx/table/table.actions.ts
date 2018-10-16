@@ -1,6 +1,7 @@
 import { Action } from "@ngrx/store";
 import { TableModel } from "../../table/table.model";
 import { TableParamsModel } from "../../table/table-params.model";
+import { Project } from "../../shared/project.model";
 
 export class TableNextPageAction implements Action {
     public static ACTION_TYPE = "TABLE.NEXT_PAGE";
@@ -77,9 +78,41 @@ export class EntitySelectAction implements Action {
     constructor(public key: string) {}
 }
 
+/**
+ * Action dispatched when a project has been selected from the projects table and the corresponding project details are
+ * to be requested from the server.
+ */
+export class FetchProjectRequestAction implements Action {
+    public static ACTION_TYPE = "PROJECT.FETCH_REQUEST";
+    public readonly type = FetchProjectRequestAction.ACTION_TYPE;
+    constructor(public projectId: string) {}
+}
+
+/**
+ * Action dispatched when requesting the details of a project from the projects table has successfully completed.
+ */
+export class FetchProjectSuccessAction implements Action {
+    public static ACTION_TYPE = "PROJECT.FETCH_SUCCESS";
+    public readonly type = FetchProjectSuccessAction.ACTION_TYPE;
+    constructor(public project: Project) {}
+}
+
+/**
+ * Action dispatched when an error has occurred when requesting the details of a project that was selected from the
+ * projects table.
+ */
+export class FetchProjectFailureAction implements Action {
+    public static ACTION_TYPE = "PROJECT.FETCH_FAILURE";
+    public readonly type = FetchProjectFailureAction.ACTION_TYPE;
+    constructor(public error: any) {}
+}
+
 export type All
     = TableNextPageAction
     | TablePreviousPageAction
     | TableSetPageAction
     | TableOrderByAction
-    | EntitySelectAction;
+    | EntitySelectAction
+    | FetchProjectRequestAction
+    | FetchProjectSuccessAction
+    | FetchProjectFailureAction;

@@ -8,7 +8,7 @@
 // Core dependencies
 import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import * as _ from "lodash";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -52,16 +52,12 @@ export class FilesComponent implements OnDestroy, OnInit {
     private urlUpdater: Subscription;
 
     /**
-     * @param {ActivatedRoute} activatedRoute
-     * @param {ActivatedRoute} route
      * @param {Router} router
      * @param {Store<AppState>} store
      * @param {ElementRef} elementRef
      * @param {Location} location
      */
-    constructor(private activatedRoute: ActivatedRoute,
-                private route: ActivatedRoute,
-                private router: Router,
+    constructor(private router: Router,
                 private store: Store<AppState>,
                 private elementRef: ElementRef,
                 private location: Location) {

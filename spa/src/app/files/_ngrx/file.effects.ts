@@ -50,7 +50,7 @@ import { AppState } from "../../_ngrx/app.state";
 import {
     EntitySelectAction,
     FetchInitialTableDataRequestAction,
-    FetchPagedOrSortedTableDataRequestAction,
+    FetchPagedOrSortedTableDataRequestAction, FetchProjectRequestAction, FetchProjectSuccessAction,
     FetchTableDataSuccessAction,
     TableNextPageAction,
     TableNextPageSuccessAction,
@@ -61,6 +61,8 @@ import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import "rxjs/add/operator/do";
 import { getSelectedTable } from "./table/table.state";
+import { Project } from "../shared/project.model";
+import { ProjectService } from "../shared/project.service";
 
 @Injectable()
 export class FileEffects {
@@ -77,7 +79,9 @@ export class FileEffects {
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                private fileService: FilesService) {
+                private fileService: FilesService,
+                private projectService: ProjectService) {
+
         this.colorWheel = new Map<string, string>();
         this.colorWheelSet = false;
 
@@ -202,6 +206,21 @@ export class FileEffects {
         });
 
     /**
+     * Trigger fetch and display of project, when selected from the project table.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchProject: Observable<Action> = this.actions$
+        .ofType(FetchProjectRequestAction.ACTION_TYPE)
+        .switchMap((action: FetchProjectRequestAction) => {
+            return this.projectService.fetchProjectById(action.projectId);
+        })
+        .map((project: Project) => {
+            return new FetchProjectSuccessAction(project);
+        });
+
+    /**
      * Handle action where tab is selected (eg Specimens or Files).
      *
      * @type {Observable<NoOpAction | FetchFileFacetsRequestAction>}
@@ -265,7 +284,7 @@ export class FileEffects {
         });
 
     /**
-     * Trigger downooad of manifest.
+     * Trigger download of manifest.
      * @type {Observable<Action>}
      */
     @Effect({dispatch: false})

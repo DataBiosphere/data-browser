@@ -55,9 +55,16 @@ export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, se
     return { selectedFacets, pagination, tableState };
 });
 
-
 export const selectEntities = createSelector(selectTableState, (tableState: TableState) => {
     return tableState.entitySpecs;
+});
+
+/**
+ * Return the selected entry (ie the selected row in the table).
+ */
+export const selectSelectedEntry = createSelector(selectTableState, (tableState: TableState) => {
+
+    return tableState.selectedEntry;
 });
 
 /**

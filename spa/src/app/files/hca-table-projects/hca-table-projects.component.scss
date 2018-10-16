@@ -181,6 +181,7 @@
                 /* Project Name */
                 &:first-of-type {
                     color: $hca-primary;
+                    cursor: pointer;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
                 }
