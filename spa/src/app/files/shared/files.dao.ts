@@ -217,17 +217,30 @@ export class FilesDAO extends CCBaseDAO {
      * @param selectedFacets
      * @returns {any}
      */
-    downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
+    public downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
 
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
+        window.location.href = this.buildManifestUrl(selectedFacets, "tarball");
+        return Observable.of(true); // TODO error handling? I'm not sure setting the href causes any errors
+    }
+
+    /**
+     * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
+     * export.
+     *
+     * @param {FileFacet[]} selectedFacets
+     * @param {string} format
+     * @returns {string}
+     */
+    public buildManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+
+        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), format);
 
         let params = new URLSearchParams();
         Object.keys(query).forEach((paramName) => {
             params.append(paramName, query[paramName]);
         });
 
-        window.location.href = this.buildApiUrl(`/repository/files/export?${params.toString()}`);
-        return Observable.of(true); // TODO error handling? I'm not sure setting the href causes any errors
+        return this.buildApiUrl(`/repository/files/export?${params.toString()}`);
     }
 
     /**

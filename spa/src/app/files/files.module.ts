@@ -10,6 +10,7 @@ import { ClipboardModule } from "ngx-clipboard";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -56,15 +57,15 @@ import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-downlo
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
-import { HCAFileFilterComponent } from "app/files/hca-file-filter/hca-file-filter.component";
+import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
-import { HCASectionTitleComponent } from "app/files/hca-section-title/hca-section-title.component";
-import { HCATabComponent } from "app/files/hca-tab/hca-tab";
+import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
+import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
@@ -72,6 +73,8 @@ import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
 import { ProjectDAO } from "./shared/project.dao";
+import { MatrixService } from "./shared/matrix.service";
+import { MatrixDAO } from "./shared/matrix.dao";
 
 @NgModule({
     imports: [
@@ -103,7 +106,7 @@ import { ProjectDAO } from "./shared/project.dao";
 
         KeywordsModule,
 
-        HttpClientModule
+        HttpClientModule,
 
         // EffectsModule.run(FilesEffects)
     ],
@@ -156,6 +159,8 @@ import { ProjectDAO } from "./shared/project.dao";
         FilesDAO,
         ProjectService,
         ProjectDAO,
+        MatrixService,
+        MatrixDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [
