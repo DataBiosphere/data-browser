@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Component displaying three summary counts: files, donors, and file size.
+ * Component displaying summary counts as well as Matrix and download buttons.
  */
 
 // Core dependencies
@@ -32,10 +32,10 @@ export class HCAFileSummaryComponent {
 
     // Inputs
     @Input() showDownload: boolean;
+    @Input() showRequestMatrix: boolean;
     @Input() summary: FileSummary;
 
     /**
-     * @param route {ActivatedRoute}
      * @param store {Store<AppState>}
      */
     constructor(store: Store<AppState>) {

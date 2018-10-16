@@ -25,7 +25,9 @@ import {
     selectFileSummary,
     selectSelectedFileFacets,
     selectEntities,
-    selectSelectedEntity, selectSelectedViewState
+    selectSelectedEntity,
+    selectSelectedViewState,
+    selectFileTypeMatrix
 } from "./_ngrx/file.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
@@ -45,6 +47,7 @@ export class FilesComponent implements OnDestroy, OnInit {
     public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
     public selectedEntity$: Observable<EntitySpec>;
+    public fileTypeMatrix$: Observable<boolean>;
     public noScroll: boolean;
 
     // Locals
@@ -142,6 +145,9 @@ export class FilesComponent implements OnDestroy, OnInit {
 
         // Determine the current selected tab
         this.selectedEntity$ = this.store.select(selectSelectedEntity);
+
+        // Determine if Matrix files are included in the current files result set.
+        this.fileTypeMatrix$ = this.store.select(selectFileTypeMatrix);
 
         // Set up the URL state management - write the browser address bar when the selected facets change.
         this.store.select(selectSelectedViewState)

@@ -8,11 +8,29 @@ import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summ
 import { FileFacet } from "./file-facet.model";
 import { TableModel } from "../table/table.model";
 import { TableParamsModel } from "../table/table-params.model";
+import { ICGCQuery } from "./icgc-query";
+import { URLSearchParams } from "@angular/http";
 
 @Injectable()
 export class FilesService {
 
+    /**
+     * @param {FilesDAO} fileDAO
+     */
     constructor(private fileDAO: FilesDAO) {}
+
+    /**
+     * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
+     * export.
+     *
+     * @param {FileFacet[]} selectedFacets
+     * @param {string} format
+     * @returns {string}
+     */
+    public buildManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+
+        return this.fileDAO.buildManifestUrl(selectedFacets, format);
+    }
 
     /**
      * Download File Manifest

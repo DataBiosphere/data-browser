@@ -67,6 +67,17 @@ export const selectSelectedProject = createSelector(selectTableState, (tableStat
     return tableState.selectedProject;
 });
 
+/*
+ * Returns true if there are files of file type Matrix for the current set of selected facets, if any.
+ */
+export const selectFileTypeMatrix = createSelector(selectFileFacets, (fileFacetState) => {
+    return fileFacetState.fileFacets.some(fileFacet => {
+        return fileFacet.terms.some(term => {
+            return term.name === "matrix" && term.count > 0;
+        });
+    });
+});
+
 /**
  * Return the selected view state - both the selected entity and the selected facets
  */

@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Component to request expression matrix.
+ * Top-level component handling Matrix request-related functionality.
  */
 
 // Core dependencies
@@ -27,21 +27,14 @@ import { MatDialog } from "@angular/material";
 
 export class HCARequestMatrixComponent {
 
-    // Locals
-    private store: Store<AppState>;
-
     /**
-     * @param route {ActivatedRoute}
-     * @param store {Store<AppState>}
+     * @param {MatDialog} dialog
      */
-    constructor(store: Store<AppState>,
-                public dialog: MatDialog) {
-        this.store = store;
+    constructor(public dialog: MatDialog) {
     }
 
     /**
      * Open dialog to request matrix summary.
-     *
      */
     onRequestMatrix(): void {
 
