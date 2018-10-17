@@ -81,7 +81,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public getMatrixLink(response: MatrixResponse): string {
 
-        return response.key;
+        return response.matrixUrl;
     }
 
     /**

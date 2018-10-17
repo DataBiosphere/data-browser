@@ -89,6 +89,7 @@ export class MatrixDAO {
     private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
 
         return Object.assign({}, response, {
+            matrixUrl: response.matrix_location,
             requestId: response.request_id,
             status: this.translateMatrixStatus(response.status)
         });
