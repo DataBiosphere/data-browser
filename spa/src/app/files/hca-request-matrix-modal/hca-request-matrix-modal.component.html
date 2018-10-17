@@ -11,11 +11,14 @@
             <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
                 <ng-container *ngIf="isRequestInProgress(matrixResponse)">
                     <p class="fontsize-s">Your expression matrix is bringing prepared.</p>
-                    <p class="fontsize-s">Wait times are currently about {{matrixResponse.eta}}.</p>
+                    <p class="fontsize-s">Wait times are currently about {{formatETA(matrixResponse.eta)}}.</p>
                 </ng-container>
                 <ng-container *ngIf="isRequestCompleted(matrixResponse)">
                     <p class="fontsize-s">Your expression matrix is ready.</p>
                     <p class="fontsize-xxs">{{getMatrixLink(matrixResponse)}}</p>
+                </ng-container>
+                <ng-container *ngIf="isRequestFailed(matrixResponse)">
+                    <p class="fontsize-s">An error has occurred.</p>
                 </ng-container>
             </ng-container>
     </div>

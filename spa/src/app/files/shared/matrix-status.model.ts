@@ -6,7 +6,7 @@
  */
 
 export enum MatrixStatus {
-    "IN_PROGRESS",
-    "COMPLETE",
-    "FAILED"
+    "IN_PROGRESS" = "IN_PROGRESS",
+    "COMPLETE" = "COMPLETE",
+    "FAILED" = "FAILED"
 }
