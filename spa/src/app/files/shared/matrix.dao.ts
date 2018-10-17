@@ -44,14 +44,14 @@ export class MatrixDAO {
     public getMatrixStatus(requestId: string): Observable<MatrixResponse> {
 
         // Build up the request params
-        const params = new HttpParams()
-            .append("request_id", requestId);
+        // const params = new HttpParams()
+        //     .append("request_id", requestId);
 
         // Set up headers
         const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
 
         return this.httpClient
-            .get<MatrixHttpResponse>(this.MATRIX_URL, {params, headers})
+            .get<MatrixHttpResponse>(`${this.MATRIX_URL}/${requestId}`, {/*params,*/ headers})
             .map(this.bindMatrixResponse);
     }
 
