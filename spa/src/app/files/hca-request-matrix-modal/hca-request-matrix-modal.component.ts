@@ -148,8 +148,10 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
             // Request is still in progress - check status again
             .subscribe((response: MatrixResponse) => {
 
-                return this.updateMatrixStatus(response.key);
+                return this.updateMatrixStatus(response.requestId);
             });
+
+        this.matrixResponse$.subscribe(console.log)
     }
 
     /**

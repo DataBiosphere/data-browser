@@ -45,10 +45,13 @@ export class MatrixDAO {
 
         // Build up the request params
         const params = new HttpParams()
-            .set("request_id", requestId);
+            .append("request_id", requestId);
+
+        // Set up headers
+        const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
 
         return this.httpClient
-            .get<MatrixHttpResponse>(this.MATRIX_URL, {params})
+            .get<MatrixHttpResponse>(this.MATRIX_URL, {params, headers})
             .map(this.bindMatrixResponse);
     }
 
@@ -63,17 +66,18 @@ export class MatrixDAO {
      */
     public requestMatrix(manifestUrl: string, matrixFormat: MatrixFormat): Observable<MatrixResponse> {
 
-        // Build up the request params
-        const params = new HttpParams()
-            .set("bundle_fqids_url", manifestUrl)
-            .set("format", MatrixFormat[matrixFormat]);
+        // Build up the POST body
+        const body = {
+            bundle_fqids_url: manifestUrl,
+            format: MatrixFormat[matrixFormat]
+        };
 
         // Set up headers
         const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
 
         return this.httpClient
-            .post<MatrixHttpResponse>(this.MATRIX_URL, {params}, {headers})
-            .map(this.bindMatrixResponse);
+            .post<MatrixHttpResponse>(this.MATRIX_URL, body, {headers})
+            .map(this.bindMatrixResponse.bind(this));
     }
 
     /**
@@ -84,9 +88,10 @@ export class MatrixDAO {
      */
     private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
 
+        const matrixStatus = this.translateMatrixStatus(response.status);
         return Object.assign({}, response, {
             requestId: response.request_id,
-            status: this.translateMatrixStatus(response.status)
+            status: matrixStatus
         });
     }
 
