@@ -33,7 +33,8 @@ export class HCAProjectComponent implements OnInit {
     public project$: Observable<Project>;
 
     /**
-     * @param {Store} store
+     * @param {ActivatedRoute} activatedRoute
+     * @param {Store<AppState>} store
      */
     public constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
@@ -42,14 +43,14 @@ export class HCAProjectComponent implements OnInit {
      */
 
     /**
-     * Return the title of the project.
+     * Return string-concat'ed version of the specified array.
      *
-     * @param {Project} project
-     * @returns {string[]}
+     * @param {any[]} values
+     * @returns {string}
      */
-    public getProjectTitle(project: Project) {
+    public stringifyValues(values: any[]): string {
 
-        return project.projectTitle;
+        return values.join(", ");
     }
 
     /**

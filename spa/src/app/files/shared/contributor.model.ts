@@ -10,5 +10,5 @@ export interface Contributor {
     correspondingContributor: string;
     email: string;
     institution: string;
-    laboratory: string;
+    laboratory: string[];
 }

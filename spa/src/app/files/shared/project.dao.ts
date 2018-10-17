@@ -39,7 +39,7 @@ export class ProjectDAO {
     fetchProjectById(projectId: string): Observable<Project> {
 
         const url = this.buildApiUrl(`/repository/projects/${projectId}`);
-        return this.httpClient.get<Project>(url).map(this.bindProject);
+        return this.httpClient.get<Project>(url).map(this.bindProject.bind(this));
     }
 
     /**
@@ -53,18 +53,22 @@ export class ProjectDAO {
      * @returns {Project}
      */
     private bindProject(response: any): Project {
-console.log(response)
-        const project = response.projects[0];
-        if ( !project ) {
+console.log(response);
+        const responseProject = response.projects[0];
+        if ( !responseProject ) {
             return {} as Project;
         }
+        const responseProjectSummary = response.projectSummary;
 
-        return {
-            contributors: project.contributors as Contributor[],
+        const mappedProject = {
+            contributors: responseProject.contributors as Contributor[],
             entryId: response.entryId,
-            projectDescription: project.projectDescription,
-            projectTitle: project.projectTitle
+            projectDescription: responseProject.projectDescription,
+            projectTitle: responseProject.projectTitle,
+            species: responseProjectSummary.genusSpecies
         } as any;
+console.log(mappedProject);
+        return mappedProject;
     }
 
     /**

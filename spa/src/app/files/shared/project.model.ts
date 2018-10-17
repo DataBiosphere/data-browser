@@ -13,4 +13,5 @@ export interface Project {
     entryId: string;
     projectDescription: string;
     projectTitle: string;
+    species: string[];
 }

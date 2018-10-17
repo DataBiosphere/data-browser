@@ -1,5 +1,5 @@
 <ng-container *ngIf="project$ | async as project">
-    <hca-section-title [title]="getProjectTitle(project)" [showDownload]="false"></hca-section-title>
+    <hca-section-title [title]="project.projectTitle" [showDownload]="false"></hca-section-title>
     <div>
         <div class="wrapper">
             <div class="project-highlights">
@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <p class="xs bold lhs">Species</p>
-                    <p class="xs rhs">Homo sapiens</p>
+                    <p class="xs rhs">{{stringifyValues(project.species)}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Organ</p>
@@ -53,21 +53,7 @@
             <div class="project-info">
                 <div>
                     <h4 class="m">Description</h4>
-                    <p class="s">Diverse cells of the immune system maintain and protect tissue function, integrity, and
-                        homeostasis
-                        upon changes in functional demands and diverse perturbations. Recent advances such as massively
-                        parallel
-                        single-cell RNA-sequencing and sophisticated computational methods help shed new light on this
-                        complexity. This immune cell census aims to profile up to 2M immunocytes, the first tranche of this
-                        is
-                        currently available. With computational methods optimized to a massive scale, we can readily
-                        identify
-                        cell types and markers, as well as the process of hematopoietic differentiation. The high quality
-                        and
-                        comprehensive reference map is provided as an open community resource for understanding human health
-                        and
-                        disease.
-                    </p>
+                    <p class="s">{{project.projectDescription}}</p>
                 </div>
                 <div class="lhs">
                     <h4 class="m">Contact</h4>
