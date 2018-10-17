@@ -13,7 +13,7 @@ import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 import { Project } from "../../shared/project.model";
 
 export interface TableState {
-    selectedProject: Project; // Current selected project in table 
+    selectedProject: Project; // Current selected project in table
     selectedEntity: string; // Current selected tab (eg Projects, Specimens)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];

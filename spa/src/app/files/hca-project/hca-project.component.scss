@@ -110,6 +110,11 @@
             }
         }
 
+        /* Contacts */
+        .contacts:not(:last-of-type) {
+            padding-bottom: 8px;
+        }
+
         /* RHS heading and content */
         &.rhs p, &.rhs h4.m {
             max-width: 256px;

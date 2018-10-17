@@ -1,11 +1,13 @@
-<ng-container *ngIf="project$ | async as project">
+<div *ngIf="project$ | async as project">
     <hca-section-title [title]="project.projectTitle" [showDownload]="false"></hca-section-title>
+    <hca-tab class="project-detail" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()"
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <div>
         <div class="wrapper">
             <div class="project-highlights">
                 <div>
                     <p class="xs bold lhs">Project</p>
-                    <p class="xs rhs">Census of Immune Cells</p>
+                    <p class="xs rhs">{{project.projectTitle}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Species</p>
@@ -13,36 +15,36 @@
                 </div>
                 <div>
                     <p class="xs bold lhs">Organ</p>
-                    <p class="xs rhs">Umbilical cord blood and bone marrow</p>
+                    <p class="xs rhs">{{stringifyValues(project.organ)}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Diseased</p>
-                    <p class="xs rhs">Normal</p>
+                    <p class="xs rhs">{{stringifyValues(project.disease)}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Experimental Approach</p>
-                    <p class="xs rhs">10x</p>
+                    <p class="xs rhs">{{stringifyValues(project.libraryConstructionApproach)}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">File Type</p>
-                    <p class="xs rhs">Expression matrix, fastq, metadata, BAM, SAM, JAM, Toast, Several, Specific</p>
+                    <p class="xs rhs">{{stringifyValues(project.fileType)}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Estimated Cell Count</p>
-                    <p class="xs rhs">530k</p>
+                    <p class="xs rhs">{{project.cellCount | countSize}}</p>
                 </div>
                 <div>
                     <p class="xs bold lhs">Donor Count</p>
-                    <p class="xs rhs">16</p>
+                    <p class="xs rhs">{{project.donorCount | countSize}}</p>
                 </div>
                 <div class="stats">
                     <div class="stat">
                         <p class="xs">Estimated Cell Count</p>
-                        <h3 class="l">530k</h3>
+                        <h3 class="l">{{project.cellCount | countSize}}</h3>
                     </div>
                     <div class="stat">
                         <p class="xs">Donor Count</p>
-                        <h3 class="l">16</h3>
+                        <h3 class="l">{{project.donorCount | countSize}}</h3>
                     </div>
                 </div>
             </div>
@@ -57,16 +59,24 @@
                 </div>
                 <div class="lhs">
                     <h4 class="m">Contact</h4>
-                    <p class="xxs">Regev Lab</p>
-                    <p class="xxs">Broad Institute</p>
-                    <p class="xxs">help@broadinstitute.org</p>
+                    <div *ngFor="let contributor of project.contributors" class="contacts">
+                        <p class="xxs">{{contributor.contactName}}</p>
+                        <p class="xxs">{{contributor.institution}}</p>
+                        <p class="xxs">{{contributor.email}}</p>
+                    </div>
                     <h4 class="m">Publications</h4>
-                    <p class="xxs">Census of the Immune</p>
-                    <p class="xxs link">View here</p>
+                    <ng-container [ngSwitch]="project.publications.length > 0">
+                        <ng-container *ngSwitchCase="true">
+                            <p class="xxs">{{stringifyValues(project.publications)}}</p>
+                            <p class="xxs link">View here</p>
+                        </ng-container>
+                        <p *ngSwitchDefault class="xxs">None</p>
+                    </ng-container>
                 </div>
                 <div class="rhs">
                     <h4 class="m">Author List</h4>
-                    <p class="xxs">Bo Li, Monika S Kowalczyk, Danielle Dionne, Orr Ashenberg, Marcin Tabaka, Timothy Tickle,
+                    <p class="xxs">Bo Li, Monika S Kowalczyk, Danielle Dionne, Orr Ashenberg, Marcin Tabaka, Timothy
+                        Tickle,
                         Jane Lee,
                         Karthik Shekhar, Michal Slyper, Julia Waldman, Orit Rozenblatt-Rosen, Aviv Regev.</p>
                     <h4 class="m">Collaborating Organisations</h4>
@@ -76,4 +86,4 @@
             </div>
         </div>
     </div>
-</ng-container>
+</div>

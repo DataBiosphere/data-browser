@@ -11,7 +11,14 @@ import { Contributor } from "./contributor.model";
 export interface Project {
     contributors: Contributor[];
     entryId: string;
+    cellCount: number;
+    disease: string[];
+    donorCount: number;
+    fileType: string[];
+    libraryConstructionApproach: string[];
+    organ: string[];
     projectDescription: string;
     projectTitle: string;
+    publications: string[],
     species: string[];
 }

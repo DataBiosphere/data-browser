@@ -63,8 +63,15 @@ console.log(response);
         const mappedProject = {
             contributors: responseProject.contributors as Contributor[],
             entryId: response.entryId,
+            cellCount: responseProjectSummary.totalCellCount,
+            disease: responseProjectSummary.disease,
+            donorCount: responseProjectSummary.donorCount,
+            fileType: response.fileTypeSummaries.map(fileType => fileType.fileType),
+            libraryConstructionApproach: responseProjectSummary.libraryConstructionApproach,
+            organ: responseProjectSummary.organSummaries.map(organ => organ.organType),
             projectDescription: responseProject.projectDescription,
             projectTitle: responseProject.projectTitle,
+            publications: responseProject.publications,
             species: responseProjectSummary.genusSpecies
         } as any;
 console.log(mappedProject);
