@@ -52,7 +52,7 @@ export class MatrixDAO {
 
         return this.httpClient
             .get<MatrixHttpResponse>(`${this.MATRIX_URL}/${requestId}`, {/*params,*/ headers})
-            .map(this.bindMatrixResponse);
+            .map(this.bindMatrixResponse.bind(this));
     }
 
     /**
@@ -88,10 +88,9 @@ export class MatrixDAO {
      */
     private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
 
-        const matrixStatus = this.translateMatrixStatus(response.status);
         return Object.assign({}, response, {
             requestId: response.request_id,
-            status: matrixStatus
+            status: this.translateMatrixStatus(response.status)
         });
     }
 

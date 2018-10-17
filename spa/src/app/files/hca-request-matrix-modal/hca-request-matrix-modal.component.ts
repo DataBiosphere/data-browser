@@ -8,6 +8,7 @@
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
+import * as moment from "moment";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/interval";
 import "rxjs/add/operator/combineLatest";
@@ -59,13 +60,28 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return the link to the matrix.
+     * Format time remaining into human-readable format.
+     *
+     * @param {string} eta
+     * @returns {string}
+     */
+    public formatETA(eta: string): string {
+
+        if ( !eta ) {
+            return "";
+        }
+
+        return moment.duration(eta, "ms").humanize(false);
+    }
+
+    /**
+     * Return the link to download the matrix.
      *
      * @returns {string}
      */
     public getMatrixLink(response: MatrixResponse): string {
 
-        return response.links[0];
+        return response.key;
     }
 
     /**
@@ -77,6 +93,17 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     public isRequestCompleted(response: MatrixResponse): boolean {
 
         return !!response && this.matrixService.isMatrixRequestCompleted(response);
+    }
+
+    /**
+     * Returns true if matrix has been requested and request is completed.
+     *
+     * @param {MatrixResponse} response
+     * @returns {boolean}
+     */
+    public isRequestFailed(response: MatrixResponse): boolean {
+
+        return !!response && this.matrixService.isMatrixRequestFailed(response);
     }
 
     /**
@@ -150,8 +177,6 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
                 return this.updateMatrixStatus(response.requestId);
             });
-
-        this.matrixResponse$.subscribe(console.log)
     }
 
     /**
