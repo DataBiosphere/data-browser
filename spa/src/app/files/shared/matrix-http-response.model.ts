@@ -8,7 +8,6 @@
 export interface MatrixHttpResponse {
 
     eta: string;
-    links: any[];
     matrix_location: string;
     message: string;
     request_id: string;
