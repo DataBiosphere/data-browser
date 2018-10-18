@@ -24,27 +24,26 @@
         > span {
             display: block;
             font-family: "Montserrat", sans-serif; /* TODO typography */
-
-            &.fontsize-s {
-                font-size: 14px;
-                line-height: 24px;
-                padding: 16px 0 8px;
-            }
         }
 
         /* Title */
         > span:first-of-type {
-            font-size: 22px; /* TODO typography */
-            font-weight: 600; /* TODO typography */
-            line-height: 30px; /* TODO typography */
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 30px;
         }
 
         /* Sub-title */
         > span:last-of-type {
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 14px; /* TODO typography */
-            font-weight: 500; /* TODO typography */
-            line-height: 24px; /* TODO typography */
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 24px;
+        }
+
+        /* Download text */
+        > span.fontsize-s {
+            font-weight: 400;
+            padding: 16px 0 8px;
         }
     }
 
