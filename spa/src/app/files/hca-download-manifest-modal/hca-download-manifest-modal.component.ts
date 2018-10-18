@@ -4,6 +4,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-manifest-summary.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
@@ -20,15 +21,23 @@ import { selectFileFacetsFileFacets, selectFileSummary } from "../_ngrx/file.sel
 export class HCADownloadManifestModalComponent implements OnInit {
 
     // Privates
-    public selectFileSummary$: Observable<FileSummary>;
-    public fileFacets$: Observable<FileFacet[]>;
     private store: Store<AppState>;
 
     // Template variables
-    hideDownload = false;
+    public fileFacets$: Observable<FileFacet[]>;
+    public hideDownload = false;
+    public portalURL: string;
+    public selectFileSummary$: Observable<FileSummary>;
 
-    constructor(store: Store<AppState>, public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
+    /**
+     *
+     * @param {ConfigService} configService
+     * @param {Store<AppState>} store
+     * @param {MatDialogRef<HCADownloadManifestModalComponent>} dialogRef
+     */
+    constructor(private configService: ConfigService, store: Store<AppState>, public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
         this.store = store;
+        this.portalURL = this.configService.getPortalURL();
     }
 
     /**
