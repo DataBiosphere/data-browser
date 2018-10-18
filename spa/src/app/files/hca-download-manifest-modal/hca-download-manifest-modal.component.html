@@ -22,12 +22,13 @@
 <div class="hca-download instructions" [ngClass]="getDownloadClass(2)">
     <div>
         <span>Congrats! You’ve downloaded the manifest!</span>
+        <span class="fontsize-s">The manifest is a tab-delimited file containing ID and version information about the data bundles and associated files that you requested.</span>
         <span>Find instructions on how to download the files here:</span>
     </div>
     <div class="hca-card-action">
         <a class="hca-button"
            target="_blank"
-           href="https://dev.data.humancellatlas.org/learn/userguides/accessing-data/using-the-cli-to-access-data/" 
+           href="https://dev.data.humancellatlas.org/learn/userguides/accessing-data/"
            (click)="closeDialog()">Get
             Download Instructions</a>
     </div>

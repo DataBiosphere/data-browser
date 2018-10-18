@@ -129,7 +129,7 @@
                 overflow: visible;
                 position: relative; /* Positions sort arrow */
 
-                /* File Types */
+                /* Data (file types) */
                 .file-type {
                     align-items: flex-start;
                     display: flex;
@@ -139,7 +139,7 @@
                     > div {
                         width: 100%;
 
-                        /* Primary, secondary */
+                        /* Raw, Processed */
                         > span {
                             align-self: center;
                             display: inline-block;
@@ -147,7 +147,12 @@
                             font-size: 10px; /* TODO typography */
                             font-weight: 400;
                             text-align: left;
-                            width: 50px;
+                            width: 40px;
+
+                            /* Processed */
+                            &:last-of-type {
+                                width: 60px;
+                            }
                         }
                     }
                 }
@@ -187,7 +192,7 @@
                     font-weight: 500; /* TODO typography */
                 }
 
-                /* File types */
+                /* Data (File Types) */
                 &:nth-of-type(10) {
                     align-items: center;
                     display: flex;
@@ -195,7 +200,7 @@
                     overflow: visible;
                     position: relative; /* Positions file type info */
 
-                    /* Primary, secondary ticks */
+                    /* Raw, Processed ticks */
                     .file-type-data {
                         align-items: center;
                         cursor: pointer;
@@ -203,7 +208,12 @@
 
                         > span {
                             display: inline-flex;
-                            width: 50px;
+                            width: 40px;
+
+                            /* Processed */
+                            &:last-of-type {
+                                width: 60px;
+                            }
                         }
                     }
 
@@ -213,7 +223,7 @@
                         visibility: hidden;
                     }
 
-                    /* File type info - hover state */
+                    /* Data (file type) info - hover state */
                     &:hover .file-type-info {
                         background-color: $hca-white;
                         border: 1px solid $hca-gray-dark;
@@ -241,7 +251,7 @@
                             z-index: 3;
                         }
 
-                        /* File type title */
+                        /* Data (file type) title */
                         .file-title {
                             font-weight: 500;
                             margin-top: 8px;
@@ -306,7 +316,7 @@
                     width: calc(10% - 8px);
                 }
 
-                /* File types */
+                /* Data (file types) */
                 &:nth-of-type(10) {
                     width: calc(12.5% - 8px);
                 }
