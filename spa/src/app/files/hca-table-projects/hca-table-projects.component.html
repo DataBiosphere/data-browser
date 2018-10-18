@@ -106,8 +106,8 @@
                     <span matTooltip="The format of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">File Types</span>
-                        <div><span>Primary</span><span>2nd</span></div>
+                          matTooltipClass="hca-tooltip narrow">Data</span>
+                        <div><span>Raw</span><span>Processed</span></div>
                     </div>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -133,7 +133,7 @@
                         <div class="file-type-info">
                             <span class="file-title">Raw Data</span>
                             <span>Fastqs: {{element.fileTypePrimary}}</span>
-                            <span class="file-title">Secondary Analysis</span>
+                            <span class="file-title">Processed Data</span>
                             <span>BAMs: {{element.fileTypeSecondary}}</span>
                         </div>
                     </div>
