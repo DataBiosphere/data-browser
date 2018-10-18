@@ -53,13 +53,17 @@ export class ProjectDAO {
      * @returns {Project}
      */
     private bindProject(response: any): Project {
-console.log(response);
+
+        // Grab the project from the response
         const responseProject = response.projects[0];
         if ( !responseProject ) {
             return {} as Project;
         }
+
+        // Grab the summary from the response
         const responseProjectSummary = response.projectSummary;
 
+        // Build up FE-friendly version of the project
         const mappedProject = {
             contributors: responseProject.contributors as Contributor[],
             entryId: response.entryId,
@@ -74,7 +78,7 @@ console.log(response);
             publications: responseProject.publications,
             species: responseProjectSummary.genusSpecies
         } as any;
-console.log(mappedProject);
+
         return mappedProject;
     }
 

@@ -10,7 +10,7 @@ import {
     Component,
     ChangeDetectionStrategy, OnInit
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
@@ -35,9 +35,13 @@ export class HCAProjectComponent implements OnInit {
 
     /**
      * @param {ActivatedRoute} activatedRoute
+     * @param {Router} router
      * @param {Store<AppState>} store
      */
-    public constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {
+    public constructor(
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private store: Store<AppState>) {
     }
 
     /**
@@ -46,28 +50,55 @@ export class HCAProjectComponent implements OnInit {
 
     /**
      * Tab provides opportunity to return back to Project table.
+     *
      * @returns {EntitySpec[]}
      */
     public getProjectDetailTabs(): EntitySpec[] {
+
         return [{key: "projects", displayName: "Projects"}];
     }
 
     /**
      * Returns null value for EntitySpec, no need for an active tab.
+     *
      * @returns {EntitySpec}
      */
     public getActiveTab(): EntitySpec {
+
         return {key: "", displayName: ""};
     }
 
     /**
-     * Handle click on tab - user to be returned back to Project table.
+     * Return the list of authors of the project, or N/A if not specified.
+     *
+     * @param {Project} project
+     * @returns {string}
+     */
+    public listAuthors(project: Project): string {
+
+        return "N/A";
+    }
+
+    /**
+     * Return the list of collaborating organizations of the project, or N/A if not specified.
+     *
+     * @param {Project} project
+     * @returns {string}
+     */
+    public listCollaboratingOrganizations(project: Project): string {
+
+        return "N/A";
+    }
+
+    /**
+     * Handle click on tab - update selected entity in state and return user back to project table.
      *
      * @param {EntitySpec} tab
      */
     public onTabSelected(tab: EntitySpec) {
 
         this.store.dispatch(new EntitySelectAction(tab.key));
+        this.router.navigate(["/projects"]);
     }
 
     /**
