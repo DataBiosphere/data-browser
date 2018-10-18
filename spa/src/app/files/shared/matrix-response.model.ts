@@ -11,7 +11,6 @@ import { MatrixStatus } from "./matrix-status.model";
 export interface MatrixResponse {
 
     eta: string;
-    links: any[];
     matrixUrl: string;
     message: string;
     requestId: string;
