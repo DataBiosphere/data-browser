@@ -20,11 +20,17 @@
         font-family: "din-2014", sans-serif; /* TODO typography */
         font-size: 34px; /* TODO typography */
         font-weight: 500; /* TODO typography */
-        height: 76px;
+        min-height: 76px;
         justify-content: space-between;
         letter-spacing: 0.54px; /* TODO typography */
         width: 100%;
     }
+}
+
+:host-context(.project-detail) .section-title {
+    box-sizing: border-box;
+    font-size: 24px;
+    padding: 8px 0;
 }
 
 /**
@@ -36,6 +42,10 @@
     .wrapper {
         max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px;
+    }
+
+    :host-context(.secondary) .section-title {
+        max-width: 70%;
     }
 }
 

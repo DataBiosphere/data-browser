@@ -20,6 +20,7 @@ import EntitySpec from "../shared/entity-spec";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { Project } from "../shared/project.model";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { Contributor } from "../shared/contributor.model";
 
 @Component({
     selector: "hca-project",
@@ -38,10 +39,9 @@ export class HCAProjectComponent implements OnInit {
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    public constructor(
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
-        private store: Store<AppState>) {
+    public constructor(private activatedRoute: ActivatedRoute,
+                       private router: Router,
+                       private store: Store<AppState>) {
     }
 
     /**
@@ -69,25 +69,50 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Return the list of authors of the project, or N/A if not specified.
-     *
-     * @param {Project} project
-     * @returns {string}
+     * Returns the list of contributors of the project
+     * @param contributors
+     * @returns {Contributor[]}
      */
-    public listAuthors(project: Project): string {
+    public listContributors(contributors): Contributor[] {
 
-        return "N/A";
+        return contributors.filter(contributor => contributor.correspondingContributor === true);
     }
 
     /**
-     * Return the list of collaborating organizations of the project, or N/A if not specified.
-     *
-     * @param {Project} project
+     * Return the list of authors of the project, or N/A if not specified.
+     * @param contributors
      * @returns {string}
      */
-    public listCollaboratingOrganizations(project: Project): string {
+    public listAuthors(contributors): string {
 
-        return "N/A";
+        let listOfAuthors = contributors.filter(contributor => contributor.correspondingContributor != true).map(contributor => contributor.contactName);
+
+        if ( listOfAuthors ) {
+            return this.stringifyValues(listOfAuthors);
+        }
+        else {
+            return "N/A";
+        }
+    }
+
+    /**
+     * Return the distinct list of collaborating organizations of the project, or N/A if not specified.
+     * @param contributors
+     * @returns {string}
+     */
+    public listCollaboratingOrganizations(contributors): string {
+
+        let listOfCollaboratingOrganizations = contributors.filter(contributor => contributor.correspondingContributor != true).map(contributor => contributor.institution);
+
+        // Find the distinct list of collaborating organisations
+        let uniqueListOfCollaboratingOrganizations = listOfCollaboratingOrganizations.filter((o, i, a) => a.indexOf(o) === i);
+
+        if ( uniqueListOfCollaboratingOrganizations ) {
+            return this.stringifyValues(uniqueListOfCollaboratingOrganizations);
+        }
+        else {
+            return "N/A";
+        }
     }
 
     /**

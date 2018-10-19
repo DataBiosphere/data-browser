@@ -9,7 +9,7 @@
 :host {
 
     /* Separator between project highlights and description / author */
-    > div:first-of-type {
+    > div > div:first-of-type {
         border-bottom: 1px solid $hca-gray-light;
     }
 
@@ -49,7 +49,6 @@
         /* Row - excludes stats */
         > div:not(.stats) {
             align-items: flex-start;
-            border-bottom: 1px solid $hca-gray-lightest;
             display: flex;
             flex-direction: column;
             padding: 4px 0;
@@ -104,16 +103,23 @@
             margin: 0;
 
             /* Link */
-            &.link {
+            .link {
                 color: $hca-primary;
                 cursor: pointer;
+                font: inherit;
             }
         }
 
-        /* Contacts */
-        .contacts:not(:last-of-type) {
-            padding-bottom: 8px;
+        /* Contacts, publications */
+        .details {
+            padding-top: 8px;
         }
+
+        /* Contacts, publications - first list */
+        h4 + .details {
+            padding-top: 0;
+        }
+
 
         /* RHS heading and content */
         &.rhs p, &.rhs h4.m {
