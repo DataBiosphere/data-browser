@@ -46,7 +46,7 @@ export class FilesDAO extends CCBaseDAO {
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/summary/files`);
+        const url = this.buildApiUrl(`/repository/summary`);
         const filterParams = Object.assign({}, query);
         return this.get<any>(url, filterParams);
     }
