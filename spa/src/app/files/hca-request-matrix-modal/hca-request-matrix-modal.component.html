@@ -11,7 +11,7 @@
             <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
                 <ng-container *ngIf="isRequestInProgress(matrixResponse)">
                     <p class="fontsize-s">Your expression matrix is bringing prepared.</p>
-                    <p class="fontsize-s">Wait times are currently about {{formatETA(matrixResponse.eta)}}.</p>
+                    <p class="fontsize-s" *ngIf="isETASpecified(matrixResponse)">Wait times are currently about {{formatETA(matrixResponse.eta)}}.</p>
                 </ng-container>
                 <ng-container *ngIf="isRequestCompleted(matrixResponse)">
                     <p class="fontsize-s">Your expression matrix is ready.</p>

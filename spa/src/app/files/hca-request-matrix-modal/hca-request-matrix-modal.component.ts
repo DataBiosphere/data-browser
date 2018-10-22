@@ -85,6 +85,17 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if an ETA is specified in the matrix response.
+     *
+     * @param {MatrixResponse} response
+     * @returns {boolean}
+     */
+    public isETASpecified(response: MatrixResponse): boolean {
+
+        return !!response.eta;
+    }
+
+    /**
      * Returns true if matrix has been requested and request is completed.
      *
      * @param {MatrixResponse} response
