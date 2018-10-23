@@ -143,6 +143,6 @@ export class MatrixService {
             selectedFacetsClone.push(fileFacet);
         }
 
-        return this.filesService.buildManifestUrl(selectedFacetsClone);
+        return this.filesService.buildManifestUrl(selectedFacetsClone, "tarball");
     }
 }
