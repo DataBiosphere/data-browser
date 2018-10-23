@@ -248,7 +248,8 @@ class TableElementDataSource extends DataSource<any> {
                 let project = row.projects[0] || {};
                 let projectSummary = row.projectSummary;
 
-                let organs = this.rollUpMetadata(row.projectSummary.organSummaries);
+                // only roll up organType
+                let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => { return {organType: s.organType}}));
                 let projectTitle = this.rollUpMetadata(row.projects);
 
                 /* File counts for primary file format (fastq.qz) and other */
