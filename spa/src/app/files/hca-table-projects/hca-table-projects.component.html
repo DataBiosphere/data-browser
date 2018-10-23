@@ -10,15 +10,15 @@
                           matTooltipClass="hca-tooltip narrow">Project Name</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <ng-container [ngSwitch]="isTermNameTruncated(element.projectTitle, display20)">
+                    <ng-container [ngSwitch]="isTermNameTruncated(element.projectShortname, display20)">
                         <div *ngSwitchCase="true"
                              matTooltip="{{element.projectTitle}}"
                              matTooltipPosition="below"
                              matTooltipShowDelay="{{tooltipShowDelay}}"
                              matTooltipClass="hca-tooltip"
-                             [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
+                             [routerLink]="['/projects', element.entryId]">{{element.projectShortname}}
                         </div>
-                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true" [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}</div>
+                        <div *ngSwitchDefault matTooltip [matTooltipDisabled]="true" [routerLink]="['/projects', element.entryId]">{{element.projectShortname}}</div>
                     </ng-container>
                 </mat-cell>
             </ng-container>

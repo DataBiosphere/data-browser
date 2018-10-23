@@ -225,6 +225,7 @@ export interface Element {
     libraryConstructionApproach: string;
     organ: string;
     projectTitle: string;
+    projectShortname: string;
 }
 
 /**
@@ -278,7 +279,8 @@ class TableElementDataSource extends DataSource<any> {
                     genusSpecies: projectSummary.genusSpecies,
                     libraryConstructionApproach: projectSummary.libraryConstructionApproach,
                     organ: organs.organType,
-                    projectTitle: projectTitle.projectTitle
+                    projectTitle: projectTitle.projectTitle,
+                    projectShortname: projectTitle.projectShortname
                 };
             });
         });
