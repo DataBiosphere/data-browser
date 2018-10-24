@@ -75,6 +75,18 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Return the curl command to download the matrix.
+     *
+     * @returns {string}
+     */
+    public getMatrixCurlCommand(response: MatrixResponse): string {
+
+        const link = this.getMatrixLink(response);
+        const fileName = link.split("/").pop();
+        return `curl ${link} --output ${fileName}`;
+    }
+
+    /**
      * Return the link to download the matrix.
      *
      * @returns {string}
@@ -160,7 +172,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
         // Request the matrix expression.
         this.matrixService
-            .requestMatrix(selectedFacets, MatrixFormat.zarr)
+            .requestMatrix(selectedFacets, MatrixFormat.loom)
             .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
                 this.matrixResponse$.next(response);
             });
