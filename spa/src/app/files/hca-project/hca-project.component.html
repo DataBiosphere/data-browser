@@ -60,7 +60,7 @@
                 <div class="lhs">
                     <h4 class="m">Contact</h4>
                     <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
-                        <p class="xxs">{{contributor.contactName}}</p>
+                        <p class="xxs">{{formatContributor(contributor.contactName)}}</p>
                         <p class="xxs">{{contributor.laboratory}}</p>
                         <p class="xxs">{{contributor.institution}}</p>
                         <p class="xxs">{{contributor.email}}</p>

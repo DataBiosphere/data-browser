@@ -49,13 +49,13 @@ export class HCAProjectComponent implements OnInit {
      */
 
     /**
-     * Tab provides opportunity to return back to Project table.
-     *
-     * @returns {EntitySpec[]}
+     * Returns formatted name from "firstName,middleName,lastName" to "firstName middleName lastName"
+     * @param {string} commaDelimitedName
+     * @returns {string}
      */
-    public getProjectDetailTabs(): EntitySpec[] {
+    public formatContributor(commaDelimitedName: string): string {
 
-        return [{key: "projects", displayName: "Projects"}];
+        return commaDelimitedName.split(/[ ,]+/).join(" ");
     }
 
     /**
@@ -69,13 +69,13 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Returns the list of contributors of the project
-     * @param contributors
-     * @returns {Contributor[]}
+     * Tab provides opportunity to return back to Project table.
+     *
+     * @returns {EntitySpec[]}
      */
-    public listContributors(contributors): Contributor[] {
+    public getProjectDetailTabs(): EntitySpec[] {
 
-        return contributors.filter(contributor => contributor.correspondingContributor === true);
+        return [{key: "projects", displayName: "Projects"}];
     }
 
     /**
@@ -83,12 +83,12 @@ export class HCAProjectComponent implements OnInit {
      * @param contributors
      * @returns {string}
      */
-    public listAuthors(contributors): string {
+    public listAuthors(contributors: Contributor[]): string {
 
-        let listOfAuthors = contributors.filter(contributor => contributor.correspondingContributor != true).map(contributor => contributor.contactName);
+        let listOfAuthors = contributors.filter(contributor => !contributor.correspondingContributor).map(contributor => contributor.contactName);
 
         if ( listOfAuthors ) {
-            return this.stringifyValues(listOfAuthors);
+            return this.stringifyValues((listOfAuthors.map(name => this.formatContributor(name))));
         }
         else {
             return "N/A";
@@ -113,6 +113,16 @@ export class HCAProjectComponent implements OnInit {
         else {
             return "N/A";
         }
+    }
+
+    /**
+     * Returns the list of contributors of the project
+     * @param contributors
+     * @returns {Contributor[]}
+     */
+    public listContributors(contributors: Contributor[]): Contributor[] {
+
+        return contributors.filter(contributor => contributor.correspondingContributor);
     }
 
     /**

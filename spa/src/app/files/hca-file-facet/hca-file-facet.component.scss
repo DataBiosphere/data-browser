@@ -27,13 +27,20 @@
             min-width: 0;
         }
 
-        /* Facet count */
+        /* Facet label */
         span:last-of-type {
+            color: transparent;
             font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 14px; /* TODO typography */
+            font-size: 10px;
             height: 18px;
             line-height: 18px;
+            padding-left: 8px;
         }
+    }
+
+    /* Facet label shows on hover of facet */
+    &:hover .facet-title span:last-of-type {
+        color: $hca-gray-medium;
     }
 
     /* Facet term list - container */

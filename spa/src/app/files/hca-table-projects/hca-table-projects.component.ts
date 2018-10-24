@@ -260,7 +260,7 @@ class TableElementDataSource extends DataSource<any> {
                         acc.primaryCount = acc.primaryCount + fileTypeSummary.count;
                     }
                     else if ( fileTypeSummary.fileType === "bam" ) {
-                        acc.secondaryCount++;
+                        acc.secondaryCount = acc.secondaryCount + fileTypeSummary.count;
                     }
 
                     acc.totalCount = acc.totalCount + fileTypeSummary.count;

@@ -7,7 +7,7 @@
 
 export interface Contributor {
     contactName: string;
-    correspondingContributor: string;
+    correspondingContributor: boolean;
     email: string;
     institution: string;
     laboratory: string[];
