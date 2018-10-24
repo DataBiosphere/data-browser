@@ -170,6 +170,11 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+
+                    /* Remove outline on focus - project name */
+                    &:focus {
+                        outline: none;
+                    }
                 }
 
                 /* Hides ellipsis tooltip - Safari only */
