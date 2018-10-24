@@ -8,13 +8,12 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ConfigService } from "./config.service";
-import { ConfigDAO } from "./config.dao";
 
 @NgModule({
     imports: [
         CommonModule
     ],
-    providers: [ConfigService, ConfigDAO]
+    providers: [ConfigService]
 })
 export class ConfigModule {
 }

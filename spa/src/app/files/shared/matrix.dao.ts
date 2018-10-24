@@ -29,8 +29,7 @@ import { MatrixStatus } from "./matrix-status.model";
 export class MatrixDAO {
 
     // Constants
-    private MATRIX_URL = "https://matrix.integration.data.humancellatlas.org/v0/matrix";
-    private MATRIX_API_KEY = "***REMOVED***";
+    private MATRIX_API_KEY = "***REMOVED***"; // TODO convert to env var or open API
 
     /**
      * @param {ConfigService} configService
@@ -52,12 +51,8 @@ export class MatrixDAO {
         // Set up headers
         const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
 
-        // return this.httpClient
-        //     .get<MatrixHttpResponse>(`${this.MATRIX_URL}/${requestId}`, {headers})
-        //     .map(this.bindMatrixResponse.bind(this));
-
         return this.httpClient
-            .get<MatrixHttpResponse>(`${this.MATRIX_URL}/${requestId}`, {headers})
+            .get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`, {headers})
             .pipe(
                 retry(3),
                 catchError(this.handleMatrixStatusError.bind(this, requestId)),
@@ -86,7 +81,7 @@ export class MatrixDAO {
         const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
 
         return this.httpClient
-            .post<MatrixHttpResponse>(this.MATRIX_URL, body, {headers})
+            .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body, {headers})
             .map(this.bindMatrixResponse.bind(this));
     }
 

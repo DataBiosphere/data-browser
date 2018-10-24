@@ -75,7 +75,11 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.
         {
             provide: APP_INITIALIZER,
-            useFactory: (configService: ConfigService) => {return () => {return configService.initConfig()}},
+            useFactory: (configService: ConfigService) => {
+                return () => {
+                    return configService.initConfig();
+                };
+            },
             deps: [ConfigService],
             multi: true
         }

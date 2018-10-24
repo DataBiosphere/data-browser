@@ -4,35 +4,33 @@
  *
  * Client-side configuration file.
  */
+
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/take";
+
 // App dependencies
-import { ConfigDAO } from "./config.dao";
 import { Config } from "./config.model";
+import { environment } from "../../environments/environment";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
-
-import { environment } from "../../environments/environment";
 
 @Injectable()
 export class ConfigService {
 
     // Locals
-    private configDAO: ConfigDAO;
     private dataURL: string; // Pulled from config store, saved as local state here on service
+    private matrixURL: string;
     private portalURL: string;
     private store: Store<AppState>;
 
     /**
-     * @param {ConfigDAO} configDAO
      * @param store {Store<AppState>}
      */
-    constructor(configDAO: ConfigDAO, store: Store<AppState>) {
+    constructor(store: Store<AppState>) {
 
-        this.configDAO = configDAO;
         this.store = store;
     }
 
@@ -65,6 +63,16 @@ export class ConfigService {
     }
 
     /**
+     * Return the matrix URL for this Boardwalk instance.
+     *
+     * @returns {string}
+     */
+    public getMatrixURL(): string {
+
+        return this.matrixURL;
+    }
+
+    /**
      * Return the data URL for this Boardwalk instance.
      *
      * @returns {string}
@@ -73,7 +81,6 @@ export class ConfigService {
 
         return this.portalURL;
     }
-
 
     /**
      * Return the full data API URL for this Boardwalk instance.
@@ -93,6 +100,7 @@ export class ConfigService {
     private storeConfig(config: Config): void {
 
         this.dataURL = config.dataURL;
+        this.matrixURL = config.matrixURL;
         this.portalURL = config.portalURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }

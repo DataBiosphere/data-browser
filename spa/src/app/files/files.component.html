@@ -9,7 +9,7 @@
              (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="true"
-                      [showRequestMatrix]="fileTypeMatrix$ | async"
+                      [matrixEnabled]="fileTypeMatrix$ | async"
                       [summary]="selectFileSummary$ | async">
     </hca-file-summary>
     <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>

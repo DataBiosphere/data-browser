@@ -11,8 +11,6 @@ import {
     Input,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { AppState } from "../../_ngrx/app.state";
-import { Store } from "@ngrx/store";
 
 // App dependencies
 import { HCARequestMatrixModalComponent } from "../hca-request-matrix-modal/hca-request-matrix-modal.component";
@@ -26,6 +24,9 @@ import { MatDialog } from "@angular/material";
 })
 
 export class HCARequestMatrixComponent {
+
+    // Inputs
+    @Input() matrixEnabled = true;
 
     /**
      * @param {MatDialog} dialog

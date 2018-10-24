@@ -34,8 +34,12 @@ button {
         min-width: 84px;
         padding: 0 12px;
 
-        &:hover {
+        &:not([disabled]):hover {
             background-color: $hca-secondary-hover;
+        }
+        
+        &[disabled] {
+            background-color: $hca-gray-lightest;
         }
 
         &:focus {
