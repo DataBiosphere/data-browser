@@ -285,10 +285,10 @@ class TableElementDataSource extends DataSource<any> {
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
                     if ( fileTypeSummary.fileType === "fastq.gz" ) {
-                        acc.primaryCount = acc.primaryCount + fileTypeSummary.count;
+                        acc.primaryCount = fileTypeSummary.count;
                     }
                     else if (fileTypeSummary.fileType === "bam" ) {
-                        acc.secondaryCount++;
+                        acc.secondaryCount = fileTypeSummary.count;
                     }
 
                     acc.totalCount = acc.totalCount + fileTypeSummary.count;
