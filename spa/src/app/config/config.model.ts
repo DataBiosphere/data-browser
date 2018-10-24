@@ -8,14 +8,18 @@
 export class Config {
 
     public readonly dataURL: string;
+    public readonly matrixURL: string;
     public readonly portalURL: string;
 
     /**
-     * @param dataURL {string}
+     * @param {string} dataURL
+     * @param {string} matrixURL
+     * @param {string} portalURL
      */
-    constructor(dataURL: string, portalURL: string) {
+    constructor(dataURL: string, matrixURL: string, portalURL: string) {
 
         this.dataURL = dataURL;
+        this.matrixURL = matrixURL;
         this.portalURL = portalURL;
     }
 }

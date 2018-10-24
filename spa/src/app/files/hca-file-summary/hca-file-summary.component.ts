@@ -32,7 +32,7 @@ export class HCAFileSummaryComponent {
 
     // Inputs
     @Input() showDownload: boolean;
-    @Input() showRequestMatrix: boolean;
+    @Input() matrixEnabled: boolean;
     @Input() summary: FileSummary;
 
     /**
