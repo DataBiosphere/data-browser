@@ -37,7 +37,7 @@
         > span:last-of-type {
             font-size: 14px;
             font-weight: 500;
-            line-height: 24px;
+            line-height: 20px;
         }
 
         /* Download text */
@@ -93,14 +93,11 @@
                 outline: none;
             }
         }
-
-        /* File size */
-        .file-size {
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 14px; /* TODO typography */
-            font-weight: 400; /* TODO typography */
-            padding: 12px 16px;
-        }
     }
+}
+
+/* Download subtitle */
+.hca-download > div:first-of-type > span.fontsize-s {
+    padding-bottom: 0;
 }
 

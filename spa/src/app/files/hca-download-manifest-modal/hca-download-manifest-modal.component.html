@@ -1,7 +1,7 @@
 <div class="hca-download" [ngClass]="getDownloadClass(1)" *ngIf="selectFileSummary$ | async as fileSummary">
     <div>
         <span>Select Manifest File Types</span>
-        <span>Once you have your manifest, use it to download your data with the HCA CLI</span>
+        <span class="fontsize-s">Once you have your manifest, use it to download your data with the HCA CLI</span>
     </div>
     <hca-file-summary
             [showDownload]="false"
