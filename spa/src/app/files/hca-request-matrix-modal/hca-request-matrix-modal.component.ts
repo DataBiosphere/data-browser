@@ -8,7 +8,6 @@
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
-import * as moment from "moment";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/interval";
 import "rxjs/add/operator/combineLatest";
@@ -71,7 +70,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
             return "";
         }
 
-        return moment.duration(eta, "ms").humanize(false);
+        return eta;
     }
 
     /**
