@@ -1,0 +1,51 @@
+
+stages:
+  - build
+  - deploy
+
+# Build Jobs
+# Build Job Template
+.build_template: &build_template
+  image: node:10.0.0
+  stage: build
+  before_script:
+    - cd spa
+    - npm install
+
+  artifacts:
+      paths:
+        - dist
+
+# Develop Build
+build_develop:
+  <<: *build_template
+  environment:
+    name: prod
+  script:
+    - npm run build-prod
+  only:
+    - master
+
+########################################
+# Deploy Jobs
+########################################
+
+
+# Deploy Job Template
+.deploy_template: &deploy_template
+  stage: deploy
+  image: python:3.5
+  before_script:
+    - pip install awscli
+
+# Dev Deploy
+deploy_prod:
+  <<: *deploy_template
+  environment:
+    name: prod
+  script:
+    - export BUCKET=s3://org-humancellatlas-data-browser-prod/
+    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    - aws cloudfront create-invalidation --distribution-id E3QDNPF7XH7O7G --paths "/*"
+  only:
+    - master
