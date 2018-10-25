@@ -18,7 +18,7 @@
         display: flex;
         flex: 1;
         justify-content: space-between;
-        margin: 16px 0 16px -16px; /* Negative left margin to allow for first tab's padding */
+        margin: 16px 0 16px -8px; /* Negative left margin to allow for first tab's padding */
 
         /* Summaries and counts - container */
         > div {
@@ -35,7 +35,7 @@
             > div {
                 display: flex;
                 margin: 4px 0;
-                padding: 0 12px;
+                padding: 0 4px;
 
                 /* Font style for summary and count */
                 > span {
@@ -48,6 +48,7 @@
                     /* Count */
                     &:last-of-type {
                         color: $hca-gray-medium;
+                        text-transform: none;
                     }
                 }
             }
