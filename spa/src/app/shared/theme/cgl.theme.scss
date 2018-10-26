@@ -75,6 +75,11 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
             display: none;
         }
     }
+
+    /* Force break on longer tooltips where there are no spaces */
+    &.truncate {
+        word-break: break-all;
+    }
 }
 
 /* Overrides styles for Angular Material Dialog (backdrop) */

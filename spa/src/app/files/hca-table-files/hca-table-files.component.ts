@@ -29,7 +29,7 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableFilesComponent implements OnInit {
 
     displayedColumns = [
-        "fileName",  "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "fileName", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -48,6 +48,20 @@ export class HCATableFilesComponent implements OnInit {
     /**
      * Public API
      */
+
+    /**
+     * Returns class truncate if file name is not spaced.
+     * Always returns class hca-tooltip and narrow.
+     * @param name
+     * @returns {any}
+     */
+    getTooltipClass(name) {
+
+        if ( name.indexOf(" ") == -1 ) {
+            return "hca-tooltip narrow truncate";
+        }
+        return "hca-tooltip narrow";
+    }
 
     /**
      * Returns false if the text is longer than its container.
@@ -195,7 +209,7 @@ export class HCATableFilesComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-       // return (pm.from > 1);
+        // return (pm.from > 1);
         return pm.search_before !== null;
     }
 
@@ -336,7 +350,7 @@ class TableElementDataSource extends DataSource<any> {
                     if ( file.format === "fastq.gz" ) {
                         acc.primaryCount++;
                     }
-                    else if (file.format === "bam" ) {
+                    else if ( file.format === "bam" ) {
                         acc.secondaryCount++;
                     }
                     return acc;
