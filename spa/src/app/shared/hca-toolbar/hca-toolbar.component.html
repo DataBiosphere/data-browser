@@ -3,8 +3,8 @@
         <a href={{portalURL}}>
         <img src="assets/images/logos/hca/logo-hca.png"/>
         </a>
-        <div menu-open cc-hamburger class="menu-dropdown">Menu</div>
-        <div menu-close cc-hamburger class="menu-dropdown-close">Menu</div>
+        <div menu-open cc-hamburger class="menu-dropdown" (click)="isMenuOpen(true)">Menu</div>
+        <div menu-close cc-hamburger class="menu-dropdown-close" (click)="isMenuOpen(false)">Menu</div>
         <cc-toolbar-nav>
             <cc-toolbar-nav-item class="active">
                 <a href="#">

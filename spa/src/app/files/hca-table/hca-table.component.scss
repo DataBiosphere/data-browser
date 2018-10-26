@@ -50,6 +50,7 @@
     .hca-table {
         margin: 0 -16px;
         padding: 0 16px;
+        width: 100%; /* To take up full width of screen */
 
         /* Pagination */
         .pagination {
@@ -99,7 +100,7 @@
         }
 
         mat-table {
-            max-width: 1140px;
+            //max-width: 1140px;
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
             padding-bottom: 120px; /* For file type hover */
 
@@ -165,8 +166,8 @@
                 font-weight: 400; /* TODO typography */
                 line-height: 18px; /* TODO typography */
 
-                /* Ellipsis on cell text */
-                > div {
+                /* Ellipsis on cell text - excludes file type */
+                &:not(:nth-of-type(10)) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -239,6 +240,7 @@
                         transition: all 0.25s ease 2s;
                         transition-delay: 0.5s;
                         visibility: visible;
+                        width: 100px;
                         z-index: 4;
 
                         &:before {
@@ -266,64 +268,18 @@
             }
 
             mat-cell, mat-header-cell {
-                flex: none;
-                flex-shrink: 0;
+                flex: 0 1 10%;
                 padding-left: 4px;
                 padding-right: 4px;
 
                 /* Bio Material */
                 &:first-of-type {
-                    width: calc(10% - 8px); /* 8px for left and right padding */
-                }
-
-                /* File Name */
-                &:nth-of-type(2) {
-                    width: calc(10% - 8px);
-                }
-
-                /* Organ */
-                &:nth-of-type(3) {
-                    width: calc(10% - 8px);
-                }
-
-                /* Organ Part */
-                &:nth-of-type(4) {
-                    width: calc(10% - 8px);
-                }
-
-                /* Library construction */
-                &:nth-of-type(5) {
-                    width: calc(10% - 8px);
-                }
-
-                /* Species */
-                &:nth-of-type(6) {
-                    width: calc(10% - 8px);
-                }
-
-                /* Age */
-                &:nth-of-type(7) {
-                    width: calc(5% - 8px);
-                }
-
-                /* Sex */
-                &:nth-of-type(8) {
-                    width: calc(5% - 8px);
-                }
-
-                /* Disease */
-                &:nth-of-type(9) {
-                    width: calc(10% - 8px);
+                    flex: 1 1 20%;
                 }
 
                 /* Data (file types) */
                 &:nth-of-type(10) {
-                    width: calc(12.5% - 8px);
-                }
-
-                /* Cell count */
-                &:nth-of-type(11) {
-                    width: calc(7.5% - 8px);
+                    min-width: 110px;
                 }
 
                 /* Table header text alignment */
@@ -360,7 +316,7 @@
     /* Wrapper */
     .wrapper {
         margin: 0 auto;
-        max-width: 1140px; /* Snap to 1200px, gutter 30px */
+        //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px; /* Gutter 30px */
     }
 }

@@ -5,8 +5,9 @@
  * Core toolbar component for HCA instance, displays HCA logo and HCA-related menu items.
  */
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { Store } from "@ngrx/store";
+
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
@@ -18,6 +19,9 @@ import { AppState } from "../../_ngrx/app.state";
 })
 
 export class HCAToolbarComponent {
+
+    // Output
+    @Output() menuOpen = new EventEmitter<boolean>();
 
     // Locals
     rootUrl: string;
@@ -34,4 +38,14 @@ export class HCAToolbarComponent {
         this.portalURL = this.configService.getPortalURL();
     }
 
+    /**
+     * Public API
+     */
+
+    /**
+     * Event emitted when mobile navigation menu is open - to prevent body scroll.
+     */
+    public isMenuOpen(value) {
+        this.menuOpen.emit(value);
+    }
 }

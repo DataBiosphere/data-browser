@@ -12,6 +12,10 @@
     flex-direction: column;
     height: 100%; // Required to force height to reach at least bottom of screen, before content is loaded
 
+    &.noScroll {
+        overflow: hidden; /* No scroll on body when filtering menus are open */
+    }
+
     /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */
     header {
         display: block;
