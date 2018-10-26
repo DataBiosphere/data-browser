@@ -10,4 +10,5 @@ export interface FileState {
     fileManifestSummary: FileManifestSummaryState;
     fileFacetMetadataSummary: FileFacetMetadataSummaryState;
     tableState: TableState;
+    unfacetedFileSummary: FileSummaryState;
 }

@@ -14,7 +14,7 @@
             </ng-container>
         </div>
         <div class="term-count md-caption secondary">{{term.count | countSize}}</div>
-        <div class="term-count md-caption secondary">{{getFileTypeSummary(term.name).totalSize | fileSize}}</div>
+        <div class="term-count md-caption secondary">{{getUnfacetedFileTypeTotal(term.name) | fileSize}}</div>
     </div>
 </div>
 </ng-container>

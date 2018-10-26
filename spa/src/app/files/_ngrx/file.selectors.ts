@@ -30,6 +30,7 @@ export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (stat
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
 export const selectFileFacetMetadataSummary = createFeatureSelector<FileFacetMetadataSummaryState>("fileFacetMetadataSummary");
 export const selectTableState = createFeatureSelector<TableState>("tableState");
+export const selectUnfacetedFileSummary = createFeatureSelector<FileSummaryState>("unfacetedFileSummary");
 
 /**
  * Returns current state of pagination, of file facet table.

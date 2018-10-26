@@ -11,10 +11,12 @@
  * <md-checkbox [checked]="term.selected">{{term.name}}<span class="md-caption secondary">{{term.count |
  * localeString}}</span></md-checkbox> HCA specific
  */
+
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { Component, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
+
 // App dependencies
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
@@ -33,6 +35,8 @@ export class FacetFileListComponent {
     // Inputs
     @Input() fileTypeSummaries: FileTypeSummary[];
     @Input() fileFacet: FileFacet[];
+    @Input() unfacetedFileTypeSummaries: FileTypeSummary[];
+
     // Locals
     private fileNameShortenerPipe: FileNameShortenerPipe;
     private store: Store<AppState>;
@@ -57,7 +61,7 @@ export class FacetFileListComponent {
      * @param termName {string}
      * @returns {string}
      */
-    formatTermName(termName: string): string {
+    public formatTermName(termName: string): string {
 
         // Otherwise return term name as is
         return termName;
@@ -71,15 +75,7 @@ export class FacetFileListComponent {
      */
     public getDisplayList(): Term[] {
 
-        return this.getFacet("fileFormat").terms.filter((term) => {
-            // we were getting an "unknonw" file type in the facet that was not in the summary.
-            // https://github.com/DataBiosphere/azul/issues/297
-            const exists = this.getFileTypeSummary(term.name);
-            if (!exists) {
-                console.error("File type " + term.name + " is in file facet terms but not in file summary!");
-            }
-            return exists;
-        });
+        return this.getFacet("fileFormat").terms;
     }
 
     /**
@@ -94,14 +90,30 @@ export class FacetFileListComponent {
         return fileFacet;
     }
 
-    public getFileTypeSummary(termName: string): FileTypeSummary {
+    /**
+     * @param {FileTypeSummary[]} fileTypeSummaries
+     * @param {string} termName
+     * @returns {FileTypeSummary}
+     */
+    public getFileTypeSummary(fileTypeSummaries: FileTypeSummary[], termName: string): FileTypeSummary {
 
-        const fileTypeSummary = this.fileTypeSummaries.find(function(fileTypeSummary) {
+        const fileTypeSummary = fileTypeSummaries.find(function(fileTypeSummary) {
             return fileTypeSummary.fileType === termName;
         });
 
-
         return fileTypeSummary;
+    }
+
+    /**
+     * Return the total size for the specified term.
+     *
+     * @param {string} termName
+     * @returns {number}
+     */
+    public getUnfacetedFileTypeTotal(termName: string): number {
+
+        const fileTypeSummary = this.getFileTypeSummary(this.unfacetedFileTypeSummaries, termName);
+        return fileTypeSummary ? fileTypeSummary.totalSize : 0;
     }
 
     /**
@@ -110,7 +122,7 @@ export class FacetFileListComponent {
      * @param term {Term}
      * @returns {any}
      */
-    getLegendStyle(term: Term): any {
+    public getLegendStyle(term: Term): any {
 
         // If term is selected, set the background color as well
         if (term.selected) {
@@ -121,9 +133,7 @@ export class FacetFileListComponent {
             };
 
             return style;
-
         }
-
     }
 
     /**
@@ -133,7 +143,7 @@ export class FacetFileListComponent {
      * @param termName {string}
      * @returns {boolean}
      */
-    isTermNameTruncated(termName: string): boolean {
+    public isTermNameTruncated(termName: string): boolean {
 
         return termName.length > 33;
     }

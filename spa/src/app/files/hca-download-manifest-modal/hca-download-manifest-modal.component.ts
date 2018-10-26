@@ -1,3 +1,10 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Component responsible for displaying manifest download modal, and handling the corresponding functionality.
+ */
+
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { Component, Inject, OnInit } from "@angular/core";
@@ -6,13 +13,15 @@ import { Store } from "@ngrx/store";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-manifest-summary.actions";
-import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { FileSummary } from "../file-summary/file-summary";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MatDialogRef } from "@angular/material";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { Observable } from "rxjs/Observable";
-import { selectFileFacetsFileFacets, selectFileSummary } from "../_ngrx/file.selectors";
+import { selectFileFacetsFileFacets, selectFileSummary, selectUnfacetedFileSummary } from "../_ngrx/file.selectors";
+import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
+import { FetchUnfacetedFileSummaryRequestAction } from "../_ngrx/file-summary/file-summary.actions";
+import { FileSummary } from "../file-summary/file-summary";
+import { FileTypeSummary } from "../file-summary/file-type-summary";
 
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
@@ -24,10 +33,9 @@ export class HCADownloadManifestModalComponent implements OnInit {
     private store: Store<AppState>;
 
     // Template variables
-    public fileFacets$: Observable<FileFacet[]>;
     public hideDownload = false;
     public portalURL: string;
-    public selectFileSummary$: Observable<FileSummary>;
+    public state$: Observable<HCADownloadManifestModalState>;
 
     /**
      *
@@ -35,7 +43,11 @@ export class HCADownloadManifestModalComponent implements OnInit {
      * @param {Store<AppState>} store
      * @param {MatDialogRef<HCADownloadManifestModalComponent>} dialogRef
      */
-    constructor(private configService: ConfigService, store: Store<AppState>, public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
+    constructor(
+        private configService: ConfigService,
+        store: Store<AppState>,
+        public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
+
         this.store = store;
         this.portalURL = this.configService.getPortalURL();
     }
@@ -48,6 +60,9 @@ export class HCADownloadManifestModalComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    /**
+     *
+     */
     public getDownloadClass(step) {
 
         if ( step === 1 && this.hideDownload ) {
@@ -63,8 +78,19 @@ export class HCADownloadManifestModalComponent implements OnInit {
         }
     }
 
-    onNoClick(): void {
-        this.dialogRef.close();
+    /**
+     * Return the file type summary of the specifiled file summaries.
+     *
+     * @param {FileSummary} fileSummary
+     * @returns {FileTypeSummary[]}
+     */
+    public getFileTypeSummaries(fileSummary: FileSummary): FileTypeSummary[] {
+
+        if ( fileSummary ) {
+            return fileSummary.fileTypeSummaries;
+        }
+
+        return [];
     }
 
     /**
@@ -88,14 +114,39 @@ export class HCADownloadManifestModalComponent implements OnInit {
     }
 
     /**
+     *
+     */
+    public onNoClick(): void {
+
+        this.dialogRef.close();
+    }
+
+    /**
      * Set up selectors and request initial data set.
      */
     public ngOnInit() {
 
-        // File Summary
-        this.selectFileSummary$ = this.store.select(selectFileSummary);
+        // Kick off request for unfaceted file summaries
+        this.store.dispatch(new FetchUnfacetedFileSummaryRequestAction());
 
-        // File Facets
-        this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
+        // Grab file summary current state
+        const selectFileSummary$ = this.store.select(selectFileSummary);
+
+        // Grab the current set of file facets
+        const fileFacets$ = this.store.select(selectFileFacetsFileFacets);
+
+        // Grab unfaceted file summary
+        const selectUnfacetedFileSummary$ = this.store.select(selectUnfacetedFileSummary);
+
+        this.state$ =
+            fileFacets$.combineLatest(selectFileSummary$, selectUnfacetedFileSummary$,
+            (fileFacets, fileSummary, unfacetedFileSummary) => {
+
+            return {
+                fileFacets,
+                fileSummary,
+                unfacetedFileSummary
+            };
+        });
     }
 }

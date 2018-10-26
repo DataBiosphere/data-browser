@@ -40,7 +40,7 @@ export class FilesDAO extends CCBaseDAO {
      * @param [selectedFacets]
      * @returns {Observable<FileSummary>}
      */
-    fetchFileSummary(selectedFacets?: FileFacet[]): Observable<any> {
+    fetchFileSummary(selectedFacets: FileFacet[]): Observable<any> {
 
         // todo convert back from any to FileSummary.
 

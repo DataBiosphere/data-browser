@@ -14,7 +14,6 @@ import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/startWith";
 import "rxjs/add/operator/takeUntil";
 import "rxjs/add/operator/takeWhile";
-
 import { Observable } from "rxjs/Observable";
 
 // App dependencies
@@ -249,7 +248,8 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
         this.initMatrixDownloadPoller();
 
         // Grab file summary and selected facets for displaying on the modal
-        this.state$ = selectFileSummary$.combineLatest(selectSelectedFileFacets$, (fileSummary, selectedFileFacets) => {
+        this.state$ =
+            selectFileSummary$.combineLatest(selectSelectedFileFacets$, (fileSummary, selectedFileFacets) => {
 
             return {
                 fileSummary,
