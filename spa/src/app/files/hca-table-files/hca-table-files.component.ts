@@ -6,7 +6,7 @@
  */
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
@@ -28,9 +28,6 @@ import { TableParamsModel } from "../table/table-params.model";
 })
 export class HCATableFilesComponent implements OnInit {
 
-    display10 = 13;
-    display5 = 6;
-    display7 = 10;
     displayedColumns = [
         "fileName",  "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
@@ -44,13 +41,24 @@ export class HCATableFilesComponent implements OnInit {
     /**
      * @param store {Store<AppState>}
      */
-    constructor(store: Store<AppState>) {
+    constructor(store: Store<AppState>, private cdref: ChangeDetectorRef) {
         this.store = store;
     }
 
     /**
      * Public API
      */
+
+    /**
+     * Returns false if the text is longer than its container.
+     * If false, an ellipsis has been applied to the text.
+     * @param el
+     * @returns {boolean}
+     */
+    public isDisabled(el) {
+
+        return !( el.scrollWidth > el.clientWidth );
+    }
 
     /**
      * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
@@ -271,6 +279,11 @@ export class HCATableFilesComponent implements OnInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.select(selectPagination);
+    }
+
+    ngAfterContentChecked() {
+
+        this.cdref.detectChanges();
     }
 }
 
