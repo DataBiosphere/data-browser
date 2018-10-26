@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Reducer handling file summary-related actions.
+ * Reducer handling unfaceted file summary-related actions.
  */
 
 // Core dependencies
@@ -10,8 +10,8 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import {
-    FetchFileSummaryRequestAction,
-    FetchFileSummarySuccessAction
+    FetchUnfacetedFileSummaryRequestAction,
+    UnfacetedFetchFileSummarySuccessAction
 } from "./file-summary.actions";
 import { FileSummaryState } from "./file-summary.state";
 
@@ -19,11 +19,11 @@ export function reducer(state: FileSummaryState = FileSummaryState.getDefaultSta
 
     switch (action.type) {
 
-        case FetchFileSummaryRequestAction.ACTION_TYPE:
+        case FetchUnfacetedFileSummaryRequestAction.ACTION_TYPE:
             return state.fetchSummaryRequest();
 
-        case FetchFileSummarySuccessAction.ACTION_TYPE:
-            return state.fetchSummarySuccess(action as FetchFileSummarySuccessAction);
+        case UnfacetedFetchFileSummarySuccessAction.ACTION_TYPE:
+            return state.fetchSummarySuccess(action as UnfacetedFetchFileSummarySuccessAction);
 
         default:
             return state;

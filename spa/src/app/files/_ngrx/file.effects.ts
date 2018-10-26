@@ -32,7 +32,11 @@ import {
     SelectFileFacetAction,
     SetViewStateAction
 } from "./file-facet-list/file-facet-list.actions";
-import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
+import {
+    FetchFileSummaryRequestAction,
+    FetchFileSummarySuccessAction,
+    FetchUnfacetedFileSummaryRequestAction, UnfacetedFetchFileSummarySuccessAction
+} from "./file-summary/file-summary.actions";
 import {
     DownloadFileManifestAction,
     FetchFileManifestSummaryRequestAction,
@@ -120,7 +124,7 @@ export class FileEffects {
     }
 
     /**
-     * Trigger update of file summary if a facet changes (ie term is selected or deseclted. File summary includes the
+     * Trigger update of file summary if a facet changes (ie term is selected or deselected. File summary includes the
      * donor count, file count etc that is displayed above the facets.
      *
      * @type {Observable<Action>}
@@ -218,6 +222,40 @@ export class FileEffects {
         })
         .map((project: Project) => {
             return new FetchProjectSuccessAction(project);
+        });
+
+    /**
+     * Fetch over all (original state) of file summary that is unaffected by any selected facets.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchUnfacetedSummary: Observable<Action> = this.actions$
+        .ofType(FetchUnfacetedFileSummaryRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+
+            return this.fileService.fetchFileSummary();
+        })
+        .map((fileSummary: any) => {
+
+            return {
+                donorCount: fileSummary.donorCount,
+                fileCount: fileSummary.fileCount,
+                fileTypeSummaries: fileSummary.fileTypeSummaries,
+                organCount: fileSummary.organCount,
+                projectCount: fileSummary.projectCount,
+                specimenCount: fileSummary.specimenCount,
+                totalCellCount: fileSummary.totalCellCount,
+                totalFileSize: fileSummary.totalFileSize
+            };
+        })
+        .map((fileSummary: FileSummary) => {
+
+            if ( typeof fileSummary.totalFileSize === "string" ) {
+                fileSummary.totalFileSize = 0;
+            }
+
+            return new UnfacetedFetchFileSummarySuccessAction(fileSummary);
         });
 
     /**

@@ -67,14 +67,14 @@ export class FilesService {
     }
 
     /**
-     * Fetch File Summary Observable
+     * Fetch file summary, optionally passing in the current set of selected facets.
      *
-     * @param selectedFacets
+     * @param {FileFacet[]} selectedFacets
      * @returns {Observable<Action>}
      */
-    public fetchFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
-        return this.fileDAO
-            .fetchFileSummary(selectedFacets);
+    public fetchFileSummary(selectedFacets: FileFacet[] = []): Observable<FileSummary> {
+
+        return this.fileDAO.fetchFileSummary(selectedFacets);
     }
 
     /**

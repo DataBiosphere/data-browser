@@ -1,15 +1,17 @@
-<div class="hca-download" [ngClass]="getDownloadClass(1)" *ngIf="selectFileSummary$ | async as fileSummary">
+<div class="hca-download" [ngClass]="getDownloadClass(1)" *ngIf="state$ | async as state">
     <div>
         <span>Select Manifest File Types</span>
         <span class="fontsize-s">Once you have your manifest, use it to download your data with the HCA CLI</span>
     </div>
     <hca-file-summary
             [showDownload]="false"
-            [summary]="selectFileSummary$ | async"></hca-file-summary>
-    <ng-container *ngIf="fileFacets$ | async">
+            [summary]="state.fileSummary"></hca-file-summary>
+    <ng-container *ngIf="state.fileFacets">
         <div class="hca-download-content">
             <div class="facet-term-list">
-                <facet-file-list [fileFacet]="fileFacets$ | async" [fileTypeSummaries]="fileSummary.fileTypeSummaries"
+                <facet-file-list [fileFacet]="state.fileFacets" 
+                                 [fileTypeSummaries]="getFileTypeSummaries(state.fileSummary)"
+                                 [unfacetedFileTypeSummaries]="getFileTypeSummaries(state.unfacetedFileSummary)"
                                  (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
             </div>
         </div>

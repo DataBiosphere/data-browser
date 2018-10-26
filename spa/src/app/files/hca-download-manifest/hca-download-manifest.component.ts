@@ -11,12 +11,10 @@ import {
     Input,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { AppState } from "../../_ngrx/app.state";
-import { Store } from "@ngrx/store";
+import { MatDialog } from "@angular/material";
 
 // App dependencies
 import { HCADownloadManifestModalComponent } from "../hca-download-manifest-modal/hca-download-manifest-modal.component";
-import { MatDialog } from "@angular/material";
 
 @Component({
     selector: "hca-download-manifest",
@@ -27,20 +25,13 @@ import { MatDialog } from "@angular/material";
 
 export class HCADownloadManifestComponent {
 
-    // Locals
-    private store: Store<AppState>;
-
     // Inputs
     @Input() downloadActive: boolean;
 
     /**
-     * @param route {ActivatedRoute}
-     * @param store {Store<AppState>}
+     * @param {MatDialog} dialog
      */
-    constructor(store: Store<AppState>,
-                public dialog: MatDialog) {
-        this.store = store;
-    }
+    constructor(public dialog: MatDialog) {}
 
     /**
      * Open dialog to download manifest summary.
@@ -48,7 +39,7 @@ export class HCADownloadManifestComponent {
      */
     onDownloadManifest(): void {
 
-        const dialogRef = this.dialog.open(HCADownloadManifestModalComponent, {
+        this.dialog.open(HCADownloadManifestModalComponent, {
             backdropClass: "hca-form-backdrop",
             disableClose: false,
             panelClass: "hca-form-dialog"
