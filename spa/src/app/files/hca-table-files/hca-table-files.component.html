@@ -14,7 +14,7 @@
                          matTooltip="{{element.fileName}}"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip narrow"
+                         matTooltipClass="{{getTooltipClass(element.fileName)}}"
                          matTooltipDisabled="{{isDisabled(file)}}">{{element.fileName}}
                     </div>
                 </mat-cell>
