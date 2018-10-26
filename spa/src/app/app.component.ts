@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ElementRef } from "@angular/core";
 import { ActivatedRoute, ParamMap, Params, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import "rxjs/add/operator/skip";
@@ -26,6 +26,9 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 
 export class AppComponent {
 
+    // Public variables
+    public noScroll: boolean;
+
     // Locals
     private actionsSubscription: Subscription;
 
@@ -38,7 +41,38 @@ export class AppComponent {
     constructor(private router: Router,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
+                private elementRef: ElementRef,
                 private location: Location) {
+    }
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Remove scroll on body when menu is open
+     *
+     * @param value
+     */
+    public isMenuOpen(value) {
+
+        this.noScroll = value;
+        this.preventScroll();
+    }
+
+    /**
+     * Prevent scroll on body when menu is open
+     */
+    public preventScroll() {
+
+        let nativeElement = this.elementRef.nativeElement;
+        let openedMenu = nativeElement.classList.contains("noScroll");
+        if ( this.noScroll && !openedMenu ) {
+            nativeElement.classList.add("noScroll");
+        }
+        else if ( !this.noScroll && openedMenu ) {
+            nativeElement.classList.remove("noScroll");
+        }
     }
 
     /**

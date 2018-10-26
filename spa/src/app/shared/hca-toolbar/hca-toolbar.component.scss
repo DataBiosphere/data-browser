@@ -30,6 +30,7 @@ mat-toolbar {
 
         > a {
             height: 40px; /* Image height */
+            width: 200px; /* Allocate equal width to image and About to centre navigation */
         }
 
         /* Hide RHS about */
@@ -145,7 +146,7 @@ mat-toolbar {
     mat-toolbar {
 
         mat-toolbar-row {
-            max-width: 1200px; /* Snap to 1200px, gutter 30px */
+            //max-width: 1200px; /* Snap to 1200px, gutter 30px */
             padding: 0 30px; /* Gutter 30px */
 
             /* About */
@@ -157,6 +158,7 @@ mat-toolbar {
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 14px; /* TODO typography */
                 font-weight: 400; /* TODO typography */
+                justify-content: flex-end;
 
                 /* About hover */
                 &:hover {
@@ -179,7 +181,7 @@ mat-toolbar {
             padding: 0 16px; /* HCA specific override */
 
             /* Hide cc-toolbar-nav-item about */
-            &.about a {
+            &.about {
                 display: none;
             }
 
