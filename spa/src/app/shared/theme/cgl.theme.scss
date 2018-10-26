@@ -42,7 +42,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     position: relative; /* Positions tooltip arrow */
     z-index: 3;
 
-    /* Tooltip arrow */
+    /* Tooltip arrow - where tooltip is positioned below */
     &:before {
         background-color: $hca-black;
         content: "";
@@ -56,9 +56,24 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
         z-index: 2;
     }
 
+    /* Tooltip arrow - where tooltip is positioned above */
+    &.above:before {
+        bottom: -8px;
+        top: unset;
+    }
+
     /* Wrap text */
     &.narrow {
         max-width: 152px !important;
+    }
+
+    /* Tooltip for counts */
+    &.count {
+        margin: 0 !important;
+
+        &:before {
+            display: none;
+        }
     }
 }
 

@@ -12,6 +12,11 @@
                 <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
             </ng-container>
         </div>
-        <div class="term-count md-caption secondary">{{term.count | countSize}}</div>
+        <div matTooltip="{{term.count | localeString}}"
+             matTooltipPosition="above"
+             matTooltipShowDelay="150"
+             matTooltipClass="hca-tooltip count"
+             matTooltipDisabled="{{isDisabled(term.count)}}"
+             class="term-count md-caption secondary">{{term.count | countSize}}</div>
     </div>
 </div>
