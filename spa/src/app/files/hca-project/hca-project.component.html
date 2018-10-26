@@ -6,46 +6,36 @@
         <div class="wrapper">
             <div class="project-highlights">
                 <div>
-                    <p class="xs bold lhs">Project</p>
-                    <p class="xs rhs">{{project.projectTitle}}</p>
+                    <p class="fontsize-xs bold lhs">Project</p>
+                    <p class="fontsize-xs rhs">{{project.projectTitle}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Species</p>
-                    <p class="xs rhs">{{stringifyValues(project.species)}}</p>
+                    <p class="fontsize-xs bold lhs">Species</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.species)}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Organ</p>
-                    <p class="xs rhs">{{stringifyValues(project.organ)}}</p>
+                    <p class="fontsize-xs bold lhs">Organ</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ)}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Diseased</p>
-                    <p class="xs rhs">{{stringifyValues(project.disease)}}</p>
+                    <p class="fontsize-xs bold lhs">Diseased</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease)}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Experimental Approach</p>
-                    <p class="xs rhs">{{stringifyValues(project.libraryConstructionApproach)}}</p>
+                    <p class="fontsize-xs bold lhs">Experimental Approach</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.libraryConstructionApproach)}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">File Type</p>
-                    <p class="xs rhs">{{stringifyValues(project.fileType)}}</p>
+                    <p class="fontsize-xs bold lhs">File Type</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType)}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Estimated Cell Count</p>
-                    <p class="xs rhs">{{project.cellCount | countSize}}</p>
+                    <p class="fontsize-xs bold lhs">Estimated Cell Count</p>
+                    <p class="fontsize-xs rhs">{{project.cellCount | countSize}}</p>
                 </div>
                 <div>
-                    <p class="xs bold lhs">Donor Count</p>
-                    <p class="xs rhs">{{project.donorCount | countSize}}</p>
-                </div>
-                <div class="stats">
-                    <div class="stat">
-                        <p class="xs">Estimated Cell Count</p>
-                        <h3 class="l">{{project.cellCount | countSize}}</h3>
-                    </div>
-                    <div class="stat">
-                        <p class="xs">Donor Count</p>
-                        <h3 class="l">{{project.donorCount | countSize}}</h3>
-                    </div>
+                    <p class="fontsize-xs bold lhs">Donor Count</p>
+                    <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
                 </div>
             </div>
         </div>
@@ -54,35 +44,35 @@
         <div class="wrapper">
             <div class="project-info">
                 <div>
-                    <h4 class="m">Description</h4>
-                    <p class="s">{{project.projectDescription}}</p>
+                    <h4 class="fontsize-m">Description</h4>
+                    <p class="fontsize-s">{{project.projectDescription}}</p>
                 </div>
                 <div class="lhs">
-                    <h4 class="m">Contact</h4>
+                    <h4 class="fontsize-m">Contact</h4>
                     <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
-                        <p class="xxs">{{formatContributor(contributor.contactName)}}</p>
-                        <p class="xxs">{{contributor.laboratory}}</p>
-                        <p class="xxs">{{contributor.institution}}</p>
-                        <p class="xxs">{{contributor.email}}</p>
+                        <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
+                        <p class="fontsize-xxs">{{contributor.laboratory}}</p>
+                        <p class="fontsize-xxs">{{contributor.institution}}</p>
+                        <p class="fontsize-xxs">{{contributor.email}}</p>
                     </div>
-                    <p class="xxs" *ngIf="!listContributors(project.contributors).length">None</p>
-                    <h4 class="m">Publications</h4>
+                    <p class="fontsize-xxs" *ngIf="!listContributors(project.contributors).length">None</p>
+                    <h4 class="fontsize-m">Publications</h4>
                     <ng-container [ngSwitch]="project.publications.length > 0">
                         <ng-container *ngSwitchCase="true">
                             <div *ngFor="let publication of project.publications" class="details">
-                                <p class="xxs">{{publication.publicationTitle}}</p>
-                                <p class="xxs"><a href="{{publication.publicationUrl}}" target="_blank" class="link">View
+                                <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
+                                <p class="fontsize-xxs"><a href="{{publication.publicationUrl}}" target="_blank" class="link">View
                                     here</a></p>
                             </div>
                         </ng-container>
-                        <p *ngSwitchDefault class="xxs">None</p>
+                        <p *ngSwitchDefault class="fontsize-xxs">None</p>
                     </ng-container>
                 </div>
                 <div class="rhs">
-                    <h4 class="m">Author List</h4>
-                    <p class="xxs">{{listAuthors(project.contributors)}}</p>
-                    <h4 class="m">Collaborating Organisations</h4>
-                    <p class="xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
+                    <h4 class="fontsize-m">Contributor List</h4>
+                    <p class="fontsize-xxs">{{listAuthors(project.contributors)}}</p>
+                    <h4 class="fontsize-m">Collaborating Organisations</h4>
+                    <p class="fontsize-xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
                 </div>
             </div>
         </div>

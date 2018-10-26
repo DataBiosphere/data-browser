@@ -21,7 +21,6 @@
         justify-content: center;
         margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
-        position: relative; /* Positions stats */
     }
 
     /* LHS container */
@@ -43,11 +42,10 @@
         flex-direction: column;
         justify-content: center;
         margin: 36px 0;
-        position: relative; /* Positions stats */
         width: 100%;
 
-        /* Row - excludes stats */
-        > div:not(.stats) {
+        /* Row */
+        > div {
             align-items: flex-start;
             display: flex;
             flex-direction: column;
@@ -57,27 +55,6 @@
             /* Heading and content */
             p {
                 margin: 0;
-            }
-        }
-
-        /* Stats - hidden */
-        .stats {
-            display: none;
-            flex-direction: column;
-            left: 0;
-            position: absolute;
-            top: 0;
-
-            /* Stat */
-            .stat {
-                display: flex;
-                flex-direction: column;
-                padding-bottom: 16px;
-                width: 76px;
-
-                p, h3 {
-                    margin: 0;
-                }
             }
         }
     }
@@ -94,7 +71,7 @@
     > div {
 
         /* Heading */
-        h4.m {
+        h4.fontsize-m {
             margin-top: 36px;
         }
 
@@ -122,7 +99,7 @@
 
 
         /* RHS heading and content */
-        &.rhs p, &.rhs h4.m {
+        &.rhs p, &.rhs h4.fontsize-m {
             max-width: 256px;
         }
     }
@@ -148,8 +125,8 @@
         /* Project highlights */
         .project-highlights {
 
-            /* Row - excludes stats */
-            > div:not(.stats) {
+            /* Row */
+            > div {
                 flex-direction: row;
                 max-width: 668px;
 
@@ -166,32 +143,6 @@
 
             > div {
                 padding: 0 16px;
-            }
-        }
-    }
-}
-
-/**
- * Medium +
- */
-@media screen and (min-width: 1024px) {
-
-    :host {
-
-        /* Project highlights */
-        .project-highlights {
-
-            > div {
-
-                /* Hide - estimated and donor count */
-                &:nth-of-type(n+7):not(.stats) {
-                    display: none;
-                }
-            }
-
-            /* Show stats */
-            .stats {
-                display: flex;
             }
         }
     }
