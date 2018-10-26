@@ -15,8 +15,9 @@ import { AppState } from "../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { FileFacet } from "../shared/file-facet.model";
+import { CountSizePipe } from "../../cc-pipe/count-size/count-size.pipe";
 import { FileSummary } from "../file-summary/file-summary";
+import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 
 @Component({
     selector: "hca-file-summary",
@@ -40,5 +41,16 @@ export class HCAFileSummaryComponent {
      */
     constructor(store: Store<AppState>) {
         this.store = store;
+    }
+
+    /**
+     * Returns true if the count value is not formatted by CountSizePipe.
+     * Value will be less than 1,000 if true.
+     * @param {number} count
+     * @returns {boolean}
+     */
+    public isDisabled(count: number): boolean {
+
+        return new CountSizePipe().transform(count) === new LocaleStringPipe().transform(count);
     }
 }

@@ -16,9 +16,11 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
+import { CountSizePipe } from "../../cc-pipe/count-size/count-size.pipe";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
 import { FileFacet } from "../shared/file-facet.model";
+import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { Term } from "../shared/term.model";
 
 @Component({
@@ -102,6 +104,17 @@ export class HCAFacetTermListComponent {
         if ( termName.indexOf(" ") == -1 ) {
             return "truncate";
         }
+    }
+
+    /**
+     * Returns true if the term count value is not formatted by CountSizePipe.
+     * Value will be less than 1,000 if true.
+     * @param {number} termCount
+     * @returns {boolean}
+     */
+    public isDisabled(termCount: number): boolean {
+
+        return new CountSizePipe().transform(termCount) === new LocaleStringPipe().transform(termCount);
     }
 
     /**
