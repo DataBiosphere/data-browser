@@ -66,31 +66,6 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Returns true - if user has requested file download, is waiting for download, or can download file.
-     * @param step
-     * @returns {boolean}
-     */
-    public isStep(step, row): boolean {
-
-        let filesRequested = this.filesRequested.indexOf(row);
-        let filesReady = this.filesReady.indexOf(row);
-
-        // Step 1 - no action
-        if ( step === 1 && filesRequested < 0 && filesReady < 0 ) {
-            return true;
-        }
-        // Step 2 - file has been requested
-        if ( step === 2 && filesRequested >= 0 ) {
-            return true;
-        }
-        // Step 3 - file is ready for download
-        if ( step === 3 && filesReady >= 0 ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Returns class truncate if file name is not spaced.
      * Always returns class hca-tooltip and narrow.
      * @param name
@@ -116,21 +91,29 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
-     * controlled by CSS) and is just an approximation.
-     *
-     * @param termName {string}
-     * @param length {number}
+     * Returns true - if user has requested file download, is waiting for download, or can download file.
+     * @param step
      * @returns {boolean}
      */
-    public isTermNameTruncated(termName: string, length: number): boolean {
+    public isStep(step, rowRef): boolean {
 
-        if ( termName ) {
-            return termName.length > length;
+        let filesRequested = this.filesRequested.indexOf(rowRef);
+        let filesReady = this.filesReady.indexOf(rowRef);
+
+        // Step 1 - no action
+        if ( step === 1 && filesRequested < 0 && filesReady < 0 ) {
+            return true;
         }
-        else {
-            return false;
+        // Step 2 - file has been requested
+        if ( step === 2 && filesRequested >= 0 ) {
+            return true;
         }
+        // Step 3 - file is ready for download
+        if ( step === 3 && filesReady >= 0 ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
