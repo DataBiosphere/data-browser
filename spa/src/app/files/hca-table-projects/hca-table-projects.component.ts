@@ -61,24 +61,6 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
-     * controlled by CSS) and is just an approximation.
-     *
-     * @param termName {string}
-     * @param length {number}
-     * @returns {boolean}
-     */
-    public isTermNameTruncated(termName: string, length: number): boolean {
-
-        if ( termName ) {
-            return termName.length > length;
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
      * Called when table next page selected.
      *
      * @param {PaginationModel} pm
