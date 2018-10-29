@@ -292,6 +292,7 @@ class TableElementDataSource extends DataSource<any> {
 
 
                 let specimens = this.rollUpMetadata(row.specimens);
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let processes = this.rollUpMetadata(row.processes);
 
                 /* File counts for primary file format (fastq.qz) and other */
@@ -323,7 +324,7 @@ class TableElementDataSource extends DataSource<any> {
                     disease: specimens.disease,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: specimens.totalCells
+                    totalCells: cellSuspensions.totalCells
                 };
             });
         });
