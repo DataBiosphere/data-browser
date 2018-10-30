@@ -53,6 +53,7 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
@@ -69,6 +70,8 @@ import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
+import { DownloadService } from "./shared/download.service";
+import { DownloadDAO } from "./shared/download.dao";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
@@ -128,6 +131,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
+        HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
         HCAFacetTermListComponent,
@@ -155,6 +159,8 @@ import { MatrixDAO } from "./shared/matrix.dao";
     ],
     providers: [
         ConfigService,
+        DownloadService,
+        DownloadDAO,
         FilesService,
         FilesDAO,
         ProjectService,
