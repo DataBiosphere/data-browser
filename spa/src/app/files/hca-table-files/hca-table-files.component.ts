@@ -325,6 +325,8 @@ class TableElementDataSource extends DataSource<any> {
 
                 let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+
 
                 let file = row.files[0] || {};
 
@@ -354,7 +356,7 @@ class TableElementDataSource extends DataSource<any> {
                     disease: specimens.disease,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: specimens.totalCells,
+                    totalCells: cellSuspensions.totalCells,
                     url: file.url
                 };
             });

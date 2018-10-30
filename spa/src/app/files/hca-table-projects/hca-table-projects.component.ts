@@ -243,6 +243,8 @@ class TableElementDataSource extends DataSource<any> {
 
                 let project = row.projects[0] || {};
                 let projectSummary = row.projectSummary;
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+
 
                 // only roll up organType
                 let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => { return {organType: s.organType}}));
@@ -267,7 +269,7 @@ class TableElementDataSource extends DataSource<any> {
                 return {
                     disease: projectSummary.disease,
                     donorCount: projectSummary.donorCount,
-                    estimatedCellCount: projectSummary.totalCellCount,
+                    estimatedCellCount: cellSuspensions.totalCellCount,
                     entryId: row.entryId,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
