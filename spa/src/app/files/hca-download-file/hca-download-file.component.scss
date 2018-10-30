@@ -1,0 +1,29 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table - file related data.
+ */
+@import "../../shared/theme/cgl.vars";
+
+:host {
+    img {
+        cursor: pointer;
+        opacity: 0.4;
+        margin-right: 4px;
+        width: 12px;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    mat-spinner {
+        flex: none;
+        margin-right: 4px;
+    }
+    .error {
+        color: red;
+        min-width: 16px;
+    }
+}
+

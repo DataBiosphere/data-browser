@@ -1,0 +1,13 @@
+<ng-container *ngIf="(observeFileDownloadStatus() | async) as downloadStatus">
+    <img *ngIf="isDownloadNotStarted(downloadStatus)"
+         src="../../../assets/images/icon/hca-download-black.png"
+         (click)="onRequestFile()">
+    <mat-spinner *ngIf="isDownloadInProgress(downloadStatus)"
+                 class="hca-spinner"
+                 [diameter]="12"
+                 [mode]="indeterminate">
+    </mat-spinner>
+    <ng-container *ngIf="isDownloadFailed(downloadStatus)"><div class="error">x</div></ng-container>
+    <img *ngIf="isDownloadComplete(downloadStatus)"
+         src="../../../assets/images/icon/check-black.png">
+</ng-container>
