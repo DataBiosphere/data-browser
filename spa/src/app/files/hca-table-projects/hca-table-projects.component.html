@@ -33,7 +33,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(organ)}}">{{element.organ}}
+                         matTooltipDisabled="{{isDisabled(organ)}}">{{isSpecified(element.organ)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -50,7 +50,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(approach)}}">{{element.libraryConstructionApproach}}
+                         matTooltipDisabled="{{isDisabled(approach)}}">{{isSpecified(element.libraryConstructionApproach)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -68,7 +68,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(genus)}}">{{element.genusSpecies}}
+                         matTooltipDisabled="{{isDisabled(genus)}}">{{isSpecified(element.genusSpecies)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -77,7 +77,7 @@
                     <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Diseased</span>
+                          matTooltipClass="hca-tooltip narrow">Known Diseases</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #disease
@@ -85,7 +85,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(disease)}}">{{element.disease}}
+                         matTooltipDisabled="{{isDisabled(disease)}}">{{isSpecified(element.disease)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -141,9 +141,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(donorCount)}}">
-                        <ng-container *ngIf="element.donorCount">{{element.donorCount | localeString}}</ng-container>
-                        <ng-container *ngIf="!element.donorCount">No Data</ng-container>
+                         matTooltipDisabled="{{isDisabled(donorCount)}}">{{getCount(element.donorCount)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -161,7 +159,7 @@
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
                          matTooltipDisabled="{{isDisabled(cellCount)}}">
-                        {{getEstimatedCellCount(element.estimatedCellCount)}}
+                        {{getCount(element.estimatedCellCount)}}
                     </div>
                 </mat-cell>
             </ng-container>
