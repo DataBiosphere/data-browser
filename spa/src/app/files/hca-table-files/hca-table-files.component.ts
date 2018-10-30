@@ -13,6 +13,7 @@ import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
@@ -47,15 +48,49 @@ export class HCATableFilesComponent implements OnInit {
      */
 
     /**
+     * Returns age and ageUnit.
+     * @param age
+     * @param ageUnit
+     * @returns {string}
+     */
+    public getAge(age: string, ageUnit: string): string {
+
+        let ageUnitTruncated = this.getAgeUnit(ageUnit);
+
+        if ( age ) {
+
+            return age + " " + ageUnitTruncated;
+        }
+
+        return "Unspecified";
+    }
+
+    /**
      * Returns ageUnit, truncated at first character
      * @param ageUnit
      * @returns {string}
      */
-    public getAgeUnit(ageUnit) {
+    public getAgeUnit(ageUnit: string): string {
 
         if ( ageUnit ) {
             return ageUnit.charAt(0);
         }
+    }
+
+    /**
+     * Returns Count.
+     * If value is unspecified, returns "Unspecified".
+     * @param {number} value
+     * @returns {any}
+     */
+    public getCount(value: number) {
+
+        if ( value ) {
+
+            return (new LocaleStringPipe().transform(value));
+        }
+
+        return "Unspecified";
     }
 
     /**
@@ -81,6 +116,21 @@ export class HCATableFilesComponent implements OnInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
+    }
+
+    /**
+     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * @param {string} value
+     * @returns {string}
+     */
+    public isSpecified(value: string): string {
+
+        if ( value ) {
+
+            return value;
+        }
+
+        return "Unspecified";
     }
 
     /**
@@ -129,36 +179,6 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Call to go directly to a page by page number.
-     *
-     * @param {PaginationModel} pm
-     * @param {number} pageNumber
-     */
-    // public goToPage(pm: PaginationModel, pageNumber: number) {
-    //
-    //     let pageCount = this.getPageCount(pm);
-    //     this.pageError = false;
-    //
-    //     /* Prevent error on page number */
-    //     if ( pageNumber > pageCount || !pageNumber || pageNumber <= 0 ) {
-    //         this.pageError = true;
-    //         pageNumber = 1;
-    //     }
-    //
-    //     pageNumber = (pageNumber - 1);
-    //     let from = (pm.size * pageNumber) + 1;
-    //
-    //     let tableParamsModel = {
-    //         from: from,
-    //         size: pm.size,
-    //         sort: pm.sort,
-    //         order: pm.order
-    //     };
-    //
-    //     this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-    // }
-
-    /**
      * Sort the table given the sort param and the order.
      *
      * @param {PaginationModel} pm
@@ -196,33 +216,6 @@ export class HCATableFilesComponent implements OnInit {
         // return (pm.from > 1);
         return pm.search_before !== null;
     }
-
-    // /**
-    //  * Return the index of the last row in the table (starting from 1).
-    //  *
-    //  * @param {PaginationModel} pm
-    //  * @returns {number}
-    //  */
-    // getToIndex(pm: PaginationModel): number {
-    //     let to: number = pm.from + (pm.size - 1);
-    //     if (to <= pm.total) {
-    //         return to;
-    //     }
-    //     else {
-    //         return pm.total;
-    //     }
-    // }
-    //
-    // /**
-    //  * Return the current page number.
-    //  *
-    //  * @param {PaginationModel} pm
-    //  * @returns {number}
-    //  */
-    // getCurrentPage(pm: PaginationModel): number {
-    //     return Math.floor(pm.from / pm.size) + 1;
-    // }
-
 
     /**
      * Return the total number of pages.
@@ -326,8 +319,6 @@ class TableElementDataSource extends DataSource<any> {
                 let specimens = this.rollUpMetadata(row.specimens);
                 let processes = this.rollUpMetadata(row.processes);
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-
-
                 let file = row.files[0] || {};
 
                 /* File counts for primary file format (fastq.qz) and other */
@@ -438,7 +429,9 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     public getSelfOrFirst(value) {
-        if(!value){
+
+        if ( !value ) {
+
             return "";
         }
         const vals = value.split(",");

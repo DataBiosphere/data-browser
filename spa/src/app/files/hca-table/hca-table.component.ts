@@ -51,6 +51,24 @@ export class HCATableComponent implements OnInit {
      */
 
     /**
+     * Returns age and ageUnit.
+     * @param age
+     * @param ageUnit
+     * @returns {string}
+     */
+    public getAge(age: string, ageUnit: string): string {
+
+        let ageUnitTruncated = this.getAgeUnit(ageUnit);
+
+        if ( age ) {
+
+            return age + " " + ageUnitTruncated;
+        }
+
+        return "Unspecified";
+    }
+
+    /**
      * Returns first character of age unit.
      * @param ageUnit
      * @returns {string}
@@ -77,12 +95,12 @@ export class HCATableComponent implements OnInit {
     }
 
     /**
-     * Returns Estimated Cell Count.
+     * Returns Count.
      * If value is unspecified, returns "Unspecified".
      * @param {number} value
      * @returns {any}
      */
-    public getEstimatedCellCount(value: number) {
+    public getCount(value: number) {
 
         if ( value ) {
 
@@ -101,6 +119,21 @@ export class HCATableComponent implements OnInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
+    }
+
+    /**
+     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * @param {string} value
+     * @returns {string}
+     */
+    public isSpecified(value: string): string {
+
+        if ( value ) {
+
+            return value;
+        }
+
+        return "Unspecified";
     }
 
     /**
@@ -286,6 +319,7 @@ class TableElementDataSource extends DataSource<any> {
                 let specimens = this.rollUpMetadata(row.specimens);
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let processes = this.rollUpMetadata(row.processes);
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
 
                 /* File counts for primary file format (fastq.qz) and other */
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
@@ -313,7 +347,7 @@ class TableElementDataSource extends DataSource<any> {
                     organismAge: specimens.organismAge,
                     ageUnit: specimens.organismAgeUnit,
                     biologicalSex: specimens.biologicalSex,
-                    disease: this.getDisease(specimens.disease),
+                    disease: specimens.disease,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
                     totalCells: cellSuspensions.totalCells
@@ -400,15 +434,6 @@ class TableElementDataSource extends DataSource<any> {
         const vals = value.split(",");
         return vals[0];
     }
-
-    public getDisease(value) {
-
-        if ( value ) {
-            return value;
-        }
-        return "Unspecified";
-    }
-
 
     connect(): Observable<Element[]> {
         return this.element$;
