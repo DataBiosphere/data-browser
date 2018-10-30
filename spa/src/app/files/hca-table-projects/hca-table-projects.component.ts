@@ -11,8 +11,10 @@ import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
+
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
@@ -58,6 +60,22 @@ export class HCATableProjectsComponent implements OnInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
+    }
+
+    /**
+     * Returns Estimated Cell Count.
+     * If value is unspecified, returns "Unspecified".
+     * @param {number} value
+     * @returns {any}
+     */
+    public getEstimatedCellCount(value: number) {
+
+        if ( value ) {
+
+            return (new LocaleStringPipe().transform(value));
+        }
+
+        return "Unspecified";
     }
 
     /**
@@ -247,7 +265,9 @@ class TableElementDataSource extends DataSource<any> {
 
 
                 // only roll up organType
-                let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => { return {organType: s.organType}}));
+                let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
+                    return {organType: s.organType}
+                }));
                 let projectTitle = this.rollUpMetadata(row.projects);
 
                 /* File counts for primary file format (fastq.qz) and other */

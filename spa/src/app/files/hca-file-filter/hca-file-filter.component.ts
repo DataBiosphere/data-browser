@@ -82,7 +82,8 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {}
+    constructor(private store: Store<AppState>) {
+    }
 
     /**
      * Public API
@@ -139,14 +140,21 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Returns facet name in correct format.  preservationMethod is renamed Storage Method.
+     * Returns facet name in correct format.
+     * preservationMethod is renamed Storage Method.
+     * disease is renamed Known Diseases.
      * @param facetName
      * @returns {any}
      */
     public getFacetName(facetName) {
 
         if ( facetName === "preservationMethod" ) {
+
             return "Storage Method";
+        }
+        if ( facetName === "disease" ) {
+
+            return "Known Diseases";
         }
         else {
             return (new CamelToSpacePipe().transform(facetName));
@@ -228,7 +236,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public getTruncatedClass(termName) {
 
-        if ( termName.indexOf(" ") == -1 ) {
+        if ( termName && termName.indexOf(" ") == -1 ) {
             return "truncate";
         }
     }
@@ -321,7 +329,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * @param {number} facetGroupCount
      * @returns {{[rule: string]: string}}
      */
-    public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): {[key: string]: string} {
+    public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): { [key: string]: string } {
 
         let widthRequired = numberOfFacets * 256 + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
         let allowableWidth = (this.widthSelectBoxes - (158 * i)); // width of select boxes total is 782px, i is position of select box, 158px is width inclusive of margin on the select box

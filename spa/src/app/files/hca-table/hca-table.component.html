@@ -209,9 +209,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(totalCells)}}">
-                        <ng-container *ngIf="element.totalCells">{{element.totalCells | localeString}}</ng-container>
-                        <ng-container *ngIf="!element.totalCells">No Data</ng-container>
+                         matTooltipDisabled="{{isDisabled(totalCells)}}">{{getEstimatedCellCount(element.totalCells)}}
                     </div>
                 </mat-cell>
             </ng-container>
