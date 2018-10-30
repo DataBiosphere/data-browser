@@ -13,6 +13,7 @@ import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
@@ -48,6 +49,48 @@ export class HCATableComponent implements OnInit {
     /**
      * Public API
      */
+
+    /**
+     * Returns first character of age unit.
+     * @param ageUnit
+     * @returns {string}
+     */
+    public getAgeUnit(ageUnit: string): string {
+
+        if ( ageUnit ) {
+            return ageUnit.charAt(0);
+        }
+    }
+
+    /**
+     * Returns "Unspecified" if disease is unspecified.
+     * @param {string} disease
+     * @returns {string}
+     */
+    public getDisease(disease: string): string {
+
+        if ( disease ) {
+
+            return disease;
+        }
+        return "Unspecified";
+    }
+
+    /**
+     * Returns Estimated Cell Count.
+     * If value is unspecified, returns "Unspecified".
+     * @param {number} value
+     * @returns {any}
+     */
+    public getEstimatedCellCount(value: number) {
+
+        if ( value ) {
+
+            return (new LocaleStringPipe().transform(value));
+        }
+
+        return "Unspecified";
+    }
 
     /**
      * Returns false if the text is longer than its container.
@@ -103,13 +146,6 @@ export class HCATableComponent implements OnInit {
         };
 
         this.store.dispatch(new TablePreviousPageAction(tableParamsModel));
-    }
-
-    public getAgeUnit(ageUnit) {
-
-        if ( ageUnit ) {
-            return ageUnit.charAt(0);
-        }
     }
 
     /**
@@ -247,32 +283,6 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
-                // let biomaterials = row.biomaterials[0] || {}; // TODO revisit - samples is an array for single hit?
-
-                // const biomaterials = row.biomaterials.reduce((acc, biomaterial) => {
-                //
-                //     Object.keys(biomaterial).forEach((key) => {
-                //
-                //         let value = biomaterial[key];
-                //         if (value) {
-                //
-                //             if (value instanceof Array) {
-                //
-                //                 value = value.join(",");
-                //             }
-                //
-                //
-                //             acc[key] = value;
-                //         }
-                //
-                //     });
-                //
-                //     return acc;
-                //
-                //
-                // }, {});
-
-
                 let specimens = this.rollUpMetadata(row.specimens);
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let processes = this.rollUpMetadata(row.processes);
@@ -303,7 +313,7 @@ class TableElementDataSource extends DataSource<any> {
                     organismAge: specimens.organismAge,
                     ageUnit: specimens.organismAgeUnit,
                     biologicalSex: specimens.biologicalSex,
-                    disease: specimens.disease,
+                    disease: this.getDisease(specimens.disease),
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
                     totalCells: cellSuspensions.totalCells
@@ -389,6 +399,14 @@ class TableElementDataSource extends DataSource<any> {
     public getSelfOrFirst(value) {
         const vals = value.split(",");
         return vals[0];
+    }
+
+    public getDisease(value) {
+
+        if ( value ) {
+            return value;
+        }
+        return "Unspecified";
     }
 
 

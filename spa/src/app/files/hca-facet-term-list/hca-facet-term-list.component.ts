@@ -101,7 +101,7 @@ export class HCAFacetTermListComponent {
      */
     public getTruncatedClass(termName) {
 
-        if ( termName.indexOf(" ") == -1 ) {
+        if ( termName && termName.indexOf(" ") == -1 ) {
             return "truncate";
         }
     }
@@ -142,8 +142,7 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Return the base list of terms to display - if no facets have been selected, display up to the first
-     * three terms, otherwise display up to the first three selected terms.
+     * Return the base list of terms to display.
      *
      * @returns {Term[]}
      */
