@@ -436,6 +436,9 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     public getSelfOrFirst(value) {
+        if(!value){
+            return "";
+        }
         const vals = value.split(",");
         return vals[0];
     }
