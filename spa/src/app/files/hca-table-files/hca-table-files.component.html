@@ -50,7 +50,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(organ)}}">{{element.organ}}
+                         matTooltipDisabled="{{isDisabled(organ)}}">{{isSpecified(element.organ)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -67,7 +67,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(organPart)}}">{{element.organPart}}
+                         matTooltipDisabled="{{isDisabled(organPart)}}">{{isSpecified(element.organPart)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -84,7 +84,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(approach)}}">{{element.libraryConstructionApproach}}
+                         matTooltipDisabled="{{isDisabled(approach)}}">{{isSpecified(element.libraryConstructionApproach)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -102,7 +102,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(genus)}}">{{element.genusSpecies}}
+                         matTooltipDisabled="{{isDisabled(genus)}}">{{isSpecified(element.genusSpecies)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -119,8 +119,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(age)}}">{{element.organismAge}}
-                        {{getAgeUnit(element.ageUnit)}}
+                         matTooltipDisabled="{{isDisabled(age)}}">{{getAge(element.organismAge, element.ageUnit)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -137,7 +136,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(sex)}}">{{element.biologicalSex}}
+                         matTooltipDisabled="{{isDisabled(sex)}}">{{isSpecified(element.biologicalSex)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -146,7 +145,7 @@
                     <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Diseased</span>
+                          matTooltipClass="hca-tooltip narrow">Known Diseases</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #disease
@@ -154,7 +153,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(disease)}}">{{element.disease}}
+                         matTooltipDisabled="{{isDisabled(disease)}}">{{isSpecified(element.disease)}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -210,9 +209,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(totalCells)}}">
-                        <ng-container *ngIf="element.totalCells">{{element.totalCells | localeString}}</ng-container>
-                        <ng-container *ngIf="!element.totalCells">No Data</ng-container>
+                         matTooltipDisabled="{{isDisabled(totalCells)}}">{{getCount(element.totalCells)}}
                     </div>
                 </mat-cell>
             </ng-container>

@@ -291,7 +291,7 @@ export class FilesDAO extends CCBaseDAO {
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
 
                     if (responseTerm.term == null) {
-                        responseTerm.term = null;
+                        responseTerm.term = "Unspecified";
                     }
 
                     let oldTerm: Term;

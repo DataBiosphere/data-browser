@@ -101,7 +101,7 @@ export class HCAFacetTermListComponent {
      */
     public getTruncatedClass(termName) {
 
-        if ( termName && termName.indexOf(" ") == -1 ) {
+        if ( termName.indexOf(" ") == -1 ) {
             return "truncate";
         }
     }

@@ -63,16 +63,31 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Returns Estimated Cell Count.
+     * Returns Cell Count.
      * If value is unspecified, returns "Unspecified".
      * @param {number} value
      * @returns {any}
      */
-    public getEstimatedCellCount(value: number) {
+    public getCount(value: number) {
 
         if ( value ) {
 
             return (new LocaleStringPipe().transform(value));
+        }
+
+        return "Unspecified";
+    }
+
+    /**
+     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * @param {string} value
+     * @returns {string}
+     */
+    public isSpecified(value: string): string {
+
+        if ( value ) {
+
+            return value;
         }
 
         return "Unspecified";
