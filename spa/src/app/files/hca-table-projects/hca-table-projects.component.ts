@@ -271,7 +271,7 @@ class TableElementDataSource extends DataSource<any> {
                 return {
                     disease: this.isSpecified(projectSummary.disease),
                     donorCount: this.isSpecified(projectSummary.donorCount),
-                    estimatedCellCount: this.isSpecified(cellSuspensions.totalCellCount),
+                    estimatedCellCount: this.isSpecified(cellSuspensions.totalCells),
                     entryId: row.entryId,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
@@ -312,7 +312,7 @@ class TableElementDataSource extends DataSource<any> {
                     }
 
 
-                    if ( key === "totalCellCount" ) {
+                    if ( key === "totalCells" ) {
 
                         if ( acc[key] ) {
                             acc[key] = acc[key] + value;
@@ -334,6 +334,7 @@ class TableElementDataSource extends DataSource<any> {
                             console.log(key);
                             console.log(value);
                             console.log(acc[key]);
+                            return;
                         }
 
 
