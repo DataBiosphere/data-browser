@@ -166,16 +166,11 @@
                 font-weight: 400; /* TODO typography */
                 line-height: 18px; /* TODO typography */
 
-                /* Ellipsis on cell text - excludes data (file types) */
-                &:not(:nth-of-type(6)) > div {
+                /* Ellipsis on cell text - excludes project name and data (file types) */
+                &:not(:first-of-type):not(:nth-of-type(6)) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-
-                    /* Remove outline on focus - project name */
-                    &:focus {
-                        outline: none;
-                    }
                 }
 
                 /* Hides ellipsis tooltip - Safari only */
@@ -190,6 +185,17 @@
                     cursor: pointer;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
+
+                    /* Project name padding - for wrap */
+                    > div {
+                        padding: 4px 0;
+
+                        /* Remove outline on focus - project name */
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
                 }
 
                 /* Data (file types) */
@@ -267,13 +273,19 @@
             }
 
             mat-cell, mat-header-cell {
-                flex: 0 1 10%;
+                flex: 0 1 11%;
                 padding-left: 4px;
                 padding-right: 4px;
 
                 /* Project Name */
                 &:first-of-type {
-                    flex: 1 1 10%;
+                    flex: 1 1 9%;
+                    padding-right: 8px;
+
+                    /* For extra large screen */
+                    > div {
+                        max-width: 500px;
+                    }
                 }
 
                 /* Data (file types) */

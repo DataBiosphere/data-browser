@@ -11,12 +11,11 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #title
-                         matTooltip="{{element.projectTitle}}"
+                         matTooltip="{{element.projectShortname}}"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip narrow"
-                         matTooltipDisabled="{{isDisabled(title)}}"
-                         [routerLink]="['/projects', element.entryId]">{{element.projectShortname}}
+                         [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
                     </div>
                 </mat-cell>
             </ng-container>
