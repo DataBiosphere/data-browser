@@ -7,20 +7,29 @@
 @import "../../shared/theme/cgl.vars";
 
 :host {
+
+    align-items: baseline;
+    display: flex;
+
+    /* Download image */
     img {
         cursor: pointer;
         opacity: 0.4;
-        margin-right: 4px;
-        width: 12px;
+        margin-right: 16px;
+        width: 14px;
 
         &:hover {
             opacity: 0.8;
         }
     }
+
+    /* Spinner */
     mat-spinner {
         flex: none;
-        margin-right: 4px;
+        margin-right: 16px;
     }
+
+    /* Error */
     .error {
         color: red;
         min-width: 16px;

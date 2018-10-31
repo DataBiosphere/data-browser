@@ -20,6 +20,23 @@
                     </div>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="fileSize">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The file size of the data file."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">File Size</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element let i=index;">
+                    <div #fileSize
+                         matTooltip="{{element.fileSize}}"
+                         matTooltipPosition="below"
+                         matTooltipShowDelay="{{tooltipShowDelay}}"
+                         matTooltipClass="hca-tooltip"
+                         matTooltipDisabled="{{isDisabled(fileSize)}}">{{element.fileSize | fileSize}}
+                    </div>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="specimenId">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span matTooltip="A unique ID for this specimen."

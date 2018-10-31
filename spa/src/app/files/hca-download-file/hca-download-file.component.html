@@ -4,7 +4,7 @@
          (click)="onRequestFile()">
     <mat-spinner *ngIf="isDownloadInProgress(downloadStatus)"
                  class="hca-spinner"
-                 [diameter]="12"
+                 [diameter]="14"
                  [mode]="indeterminate">
     </mat-spinner>
     <ng-container *ngIf="isDownloadFailed(downloadStatus)"><div class="error">x</div></ng-container>
