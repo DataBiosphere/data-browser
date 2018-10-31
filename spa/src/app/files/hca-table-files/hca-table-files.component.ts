@@ -373,6 +373,7 @@ class TableElementDataSource extends DataSource<any> {
                             console.log(key);
                             console.log(value);
                             console.log(acc[key]);
+                            return;
                         }
 
 
