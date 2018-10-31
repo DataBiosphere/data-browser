@@ -29,7 +29,7 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableFilesComponent implements OnInit {
 
     displayedColumns = [
-        "fileName", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "fileName", "fileSize", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -82,7 +82,7 @@ export class HCATableFilesComponent implements OnInit {
      * @param name
      * @returns {any}
      */
-    getTooltipClass(name) {
+    public getTooltipClass(name) {
 
         if ( name.indexOf(" ") == -1 ) {
             return "hca-tooltip narrow truncate";
@@ -254,6 +254,7 @@ export class HCATableFilesComponent implements OnInit {
  */
 export interface Element {
     fileName: string;
+    fileSize: number;
     // biomaterial: string; // TODO check not array
     organ: string;
     organPart: string;
@@ -304,6 +305,7 @@ class TableElementDataSource extends DataSource<any> {
 
                 return {
                     fileName: file.name,
+                    fileSize: this.isSpecified(file.size),
                     specimenId: this.getSelfOrFirst(specimens.id),
                     organ: this.isSpecified(specimens.organ),
                     organPart: this.isSpecified(specimens.organPart),
