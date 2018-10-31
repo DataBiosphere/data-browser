@@ -57,6 +57,26 @@ export class NoOpAction implements Action {
 }
 
 /**
+ * Action dispatched when overall, original, file-related file facets are to be requested from the endpoint API.
+ */
+export class FetchUnfacetedFileFacetsRequestAction implements Action {
+    public static ACTION_TYPE = "FILE.UNFACETED_FILE_FACETS.FETCH_REQUEST";
+    public readonly type = FetchUnfacetedFileFacetsRequestAction.ACTION_TYPE;
+    constructor() {}
+}
+
+/**
+ * Action dispatched when overall, original, file-realted file facets have been requested and successfully returned 
+ * from the endpoint API.
+ */
+export class FetchUnfacetedFileFacetsSuccessAction implements Action {
+    public static ACTION_TYPE = "FILE.UNFACETED_FILE_FACETS.FETCH_SUCCESS";
+    public readonly type = FetchUnfacetedFileFacetsSuccessAction.ACTION_TYPE;
+    constructor(public readonly fileFacets: FileFacet[]) {}
+}
+
+
+/**
  * Action dispatched when current set of selected facet terms, as well as the corresponding tab (entity) are to be
  * stored. Currently, this action is dispatched on app init when app state is read from URL params.
  */
@@ -72,5 +92,7 @@ export type All
     | FetchFileFacetsSuccessAction
     | NoOpAction
     | SelectFileFacetAction
-    | SetViewStateAction;
+    | SetViewStateAction
+    | FetchUnfacetedFileFacetsSuccessAction
+    | FetchUnfacetedFileFacetsRequestAction;
 

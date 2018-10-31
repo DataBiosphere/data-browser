@@ -11,7 +11,7 @@ import { Action } from "@ngrx/store";
 // App dependencies
 import {
     FetchUnfacetedFileSummaryRequestAction,
-    UnfacetedFetchFileSummarySuccessAction
+    FetchUnfacetedFileSummarySuccessAction
 } from "./file-summary.actions";
 import { FileSummaryState } from "./file-summary.state";
 
@@ -22,8 +22,8 @@ export function reducer(state: FileSummaryState = FileSummaryState.getDefaultSta
         case FetchUnfacetedFileSummaryRequestAction.ACTION_TYPE:
             return state.fetchSummaryRequest();
 
-        case UnfacetedFetchFileSummarySuccessAction.ACTION_TYPE:
-            return state.fetchSummarySuccess(action as UnfacetedFetchFileSummarySuccessAction);
+        case FetchUnfacetedFileSummarySuccessAction.ACTION_TYPE:
+            return state.fetchSummarySuccess(action as FetchUnfacetedFileSummarySuccessAction);
 
         default:
             return state;
