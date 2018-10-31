@@ -27,15 +27,16 @@ import { FileSummary } from "../file-summary/file-summary";
 import {
     ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
-    FetchFileFacetsSuccessAction,
+    FetchFileFacetsSuccessAction, FetchUnfacetedFileFacetsRequestAction,
     NoOpAction,
     SelectFileFacetAction,
-    SetViewStateAction
+    SetViewStateAction, FetchUnfacetedFileFacetsSuccessAction
 } from "./file-facet-list/file-facet-list.actions";
 import {
     FetchFileSummaryRequestAction,
     FetchFileSummarySuccessAction,
-    FetchUnfacetedFileSummaryRequestAction, UnfacetedFetchFileSummarySuccessAction
+    FetchUnfacetedFileSummaryRequestAction,
+    FetchUnfacetedFileSummarySuccessAction
 } from "./file-summary/file-summary.actions";
 import {
     DownloadFileManifestAction,
@@ -122,6 +123,10 @@ export class FileEffects {
             "#eeeeee"
         ];
     }
+
+    /**
+     * Fetch file facets
+     */
 
     /**
      * Trigger update of file summary if a facet changes (ie term is selected or deselected. File summary includes the
@@ -225,7 +230,24 @@ export class FileEffects {
         });
 
     /**
-     * Fetch over all (original state) of file summary that is unaffected by any selected facets.
+     * Fetch overall (original state) of file facets that are unaffected by any selected facets.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchUnfacetedFacets: Observable<Action> = this.actions$
+        .ofType(FetchUnfacetedFileFacetsRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+
+            return this.fetchOrderedFileFacets(new Map(), "files");
+        })
+        .map((fileFacets) => {
+
+            return new FetchUnfacetedFileFacetsSuccessAction(fileFacets);
+        });
+
+    /**
+     * Fetch overall (original state) of file summary that is unaffected by any selected facets.
      *
      * @type {Observable<Action>}
      */
@@ -255,7 +277,7 @@ export class FileEffects {
                 fileSummary.totalFileSize = 0;
             }
 
-            return new UnfacetedFetchFileSummarySuccessAction(fileSummary);
+            return new FetchUnfacetedFileSummarySuccessAction(fileSummary);
         });
 
     /**

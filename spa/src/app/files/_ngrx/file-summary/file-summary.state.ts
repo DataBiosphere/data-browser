@@ -7,7 +7,7 @@
 
 // App dependencies
 import { FileSummary } from "../../file-summary/file-summary";
-import { FetchFileSummarySuccessAction, UnfacetedFetchFileSummarySuccessAction } from "./file-summary.actions";
+import { FetchFileSummarySuccessAction, FetchUnfacetedFileSummarySuccessAction } from "./file-summary.actions";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 
 // Default file summary
@@ -49,7 +49,7 @@ export class FileSummaryState implements FileSummary {
      * @param {FetchFileSummarySuccessAction} action
      * @returns {FileSummaryState}
      */
-    public fetchSummarySuccess(action: FetchFileSummarySuccessAction | UnfacetedFetchFileSummarySuccessAction) {
+    public fetchSummarySuccess(action: FetchFileSummarySuccessAction | FetchUnfacetedFileSummarySuccessAction) {
         return new FileSummaryState(action.fileSummary);
     }
 

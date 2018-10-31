@@ -13,11 +13,13 @@ import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
+import { FileFacet } from "../shared/file-facet.model";
 
 // Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
+export const selectUnfacetedFileFacets = createFeatureSelector<FileFacet[]>("unfacetedFileFacets");
 
 /**
  * Return the list of file facets from the store.

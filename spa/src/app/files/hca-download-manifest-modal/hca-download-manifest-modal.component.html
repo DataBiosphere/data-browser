@@ -3,33 +3,29 @@
         <span>Select Manifest File Types</span>
         <span class="fontsize-s">Once you have your manifest, use it to download your data with the HCA CLI</span>
     </div>
-    <hca-file-summary
-            [showDownload]="false"
-            [summary]="state.fileSummary"></hca-file-summary>
-    <ng-container *ngIf="state.fileFacets">
-        <div class="hca-download-content">
-            <div class="facet-term-list">
-                <facet-file-list [fileFacet]="state.fileFacets" 
-                                 [fileTypeSummaries]="getFileTypeSummaries(state.fileSummary)"
-                                 [unfacetedFileTypeSummaries]="getFileTypeSummaries(state.unfacetedFileSummary)"
-                                 (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
-            </div>
+    <ng-container [ngSwitch]="state.unfacetedFileFacets.length > 0">
+        <ng-container *ngSwitchCase="true">
+            <hca-file-summary
+                    [showDownload]="false"
+                    [summary]="state.unfacetedFileSummary"></hca-file-summary>
+            <ng-container *ngIf="state.unfacetedFileFacets">
+                <div class="hca-download-content">
+                    <div class="facet-term-list">
+                        <facet-file-list [selectedFileFacets]="state.selectedFileFacets" 
+                                         [unfacetedFileFacets]="state.unfacetedFileFacets"
+                                         [unfacetedFileTypeSummaries]="getFileTypeSummaries(state.unfacetedFileSummary)"
+                                         (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="hca-download-action">
+                <button type="button" (click)="onDownloadManifest()">Download File Manifest</button>
+            </div>            
+        </ng-container>
+        <div *ngSwitchDefault class="hca-spinner">
+            <mat-spinner [diameter]="28"
+                         [mode]="indeterminate">
+            </mat-spinner>
         </div>
     </ng-container>
-    <div class="hca-download-action">
-        <button type="button" (click)="onDownloadManifest()">Download File Manifest</button>
-    </div>
-</div>
-<div class="hca-download instructions" [ngClass]="getDownloadClass(2)">
-    <div>
-        <span>Your Manifest is Downloading</span>
-        <span class="fontsize-s">When it completes, use the manifest to retrieve the data files with the HCA CLI</span>
-    </div>
-    <div class="hca-download-action">
-        <a class="hca-button"
-           target="_blank"
-           href="{{portalURL}}/learn/userguides/accessing-data/"
-           (click)="closeDialog()">Get
-            HCA CLI Instructions</a>
-    </div>
-</div>
+

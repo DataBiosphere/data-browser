@@ -62,6 +62,18 @@
                 text-align: right;
             }
         }
+        
+        &.list-headers {
+            .term-summary {
+                .term-name, .term-count {
+                    color: $hca-black;
+                    font-weight: 500;
+                }
+            }
+            .chart-legend-bar {
+                border: 0;
+            }
+        }
     }
 }
 

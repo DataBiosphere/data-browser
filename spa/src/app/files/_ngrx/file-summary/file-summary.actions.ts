@@ -33,9 +33,9 @@ export class FetchUnfacetedFileSummaryRequestAction implements Action {
  * Action dispatched when overall, original, file summary has been requested and successfully returned from the endpoint
  * API.
  */
-export class UnfacetedFetchFileSummarySuccessAction implements Action {
+export class FetchUnfacetedFileSummarySuccessAction implements Action {
     public static ACTION_TYPE = "FILE.UNFACETED_FILE_SUMMARY.FETCH_SUCCESS";
-    public readonly type = UnfacetedFetchFileSummarySuccessAction.ACTION_TYPE;
+    public readonly type = FetchUnfacetedFileSummarySuccessAction.ACTION_TYPE;
     constructor(public readonly fileSummary) {}
 }
 
@@ -43,4 +43,4 @@ export type All
     = FetchFileSummaryRequestAction
     | FetchFileSummarySuccessAction
     | FetchUnfacetedFileSummaryRequestAction
-    | UnfacetedFetchFileSummarySuccessAction;
+    | FetchUnfacetedFileSummarySuccessAction;

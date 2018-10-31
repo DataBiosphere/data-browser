@@ -33,8 +33,8 @@ import { FileTypeSummary } from "../file-summary/file-type-summary";
 export class FacetFileListComponent {
 
     // Inputs
-    @Input() fileTypeSummaries: FileTypeSummary[];
-    @Input() fileFacet: FileFacet[];
+    @Input() selectedFileFacets: FileFacet[];
+    @Input() unfacetedFileFacets: FileFacet[];
     @Input() unfacetedFileTypeSummaries: FileTypeSummary[];
 
     // Locals
@@ -75,15 +75,19 @@ export class FacetFileListComponent {
      */
     public getDisplayList(): Term[] {
 
-        return this.getFacet("fileFormat").terms;
+        return this.getFacet(this.unfacetedFileFacets, "fileFormat").terms;
     }
 
     /**
      * Returns the facet given a facet name
+     *
+     * @param {FileFacet[]} facets
+     * @param {string} facetName
+     * @returns {FileFacet}
      */
-    public getFacet(facetName: string): FileFacet {
+    public getFacet(facets: FileFacet[], facetName: string): FileFacet {
 
-        const fileFacet = this.fileFacet.find(function(fileFacet) {
+        const fileFacet = facets.find(function(fileFacet) {
             return fileFacet.name === facetName;
         });
 
@@ -125,15 +129,15 @@ export class FacetFileListComponent {
     public getLegendStyle(term: Term): any {
 
         // If term is selected, set the background color as well
-        if (term.selected) {
+        if ( this.isTermSelected(term.name) ) {
 
-            let style = {
+            return {
                 "border-color": "#1F6B9A",
                 "background-color": "#1C7CC7"
             };
-
-            return style;
         }
+
+        return {};
     }
 
     /**
@@ -149,9 +153,28 @@ export class FacetFileListComponent {
     }
 
     /**
+     * Returns true if the specified term is currently selected in the set of facets.
+     *
+     * @param {string} termName
+     * @returns {string}
+     */
+    public isTermSelected(termName: string): boolean {
+
+        const fileFormatFacets = this.getFacet(this.selectedFileFacets, "fileFormat");
+        if ( !fileFormatFacets ) {
+            return false;
+        }
+
+        const selectedTerm = fileFormatFacets.terms.find((term) => {
+            return term.name === termName;
+        });
+
+        return (selectedTerm && selectedTerm.selected);
+    }
+
+    /**
      * Handle click on individual term - emit event to parent.
      *
-     * @param fileFacet {FileFacet}
      * @param term {Term}
      */
     public onClickFacetTerm(term: Term): void {
