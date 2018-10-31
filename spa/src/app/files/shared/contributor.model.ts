@@ -11,4 +11,5 @@ export interface Contributor {
     email: string;
     institution: string;
     laboratory: string[];
+    projectRole: string;
 }

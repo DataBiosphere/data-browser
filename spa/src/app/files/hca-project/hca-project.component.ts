@@ -80,12 +80,26 @@ export class HCAProjectComponent implements OnInit {
 
     /**
      * Return the list of authors of the project, or N/A if not specified.
+     * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
      * @param contributors
      * @returns {string}
      */
     public listAuthors(contributors: Contributor[]): string {
 
-        let listOfAuthors = contributors.filter(contributor => !contributor.correspondingContributor).map(contributor => contributor.contactName);
+        let listOfAuthors = contributors.filter((contributor) => {
+
+            if ( contributor.correspondingContributor ) {
+
+                return false;
+            }
+
+            if ( this.isHCAWrangler(contributor.projectRole) ) {
+
+                return false;
+            }
+
+            return true;
+        }).map(contributor => contributor.contactName);
 
         if ( listOfAuthors ) {
             return this.stringifyValues((listOfAuthors.map(name => this.formatContributor(name))));
@@ -97,12 +111,13 @@ export class HCAProjectComponent implements OnInit {
 
     /**
      * Return the distinct list of collaborating organizations of the project, or N/A if not specified.
+     * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
      * @param contributors
      * @returns {string}
      */
     public listCollaboratingOrganizations(contributors): string {
 
-        let listOfCollaboratingOrganizations = contributors.filter(contributor => contributor.correspondingContributor != true).map(contributor => contributor.institution);
+        let listOfCollaboratingOrganizations = contributors.filter(contributor => contributor.correspondingContributor != true && !this.isHCAWrangler(contributor.projectRole)).map(contributor => contributor.institution);
 
         // Find the distinct list of collaborating organisations
         let uniqueListOfCollaboratingOrganizations = listOfCollaboratingOrganizations.filter((o, i, a) => a.indexOf(o) === i);
@@ -134,6 +149,16 @@ export class HCAProjectComponent implements OnInit {
 
         this.store.dispatch(new EntitySelectAction(tab.key));
         this.router.navigate(["/projects"]);
+    }
+
+    /**
+     * Returns true if the projectRole is "Human Cell Atlas wrangler".
+     * @param {string} projectRole
+     * @returns {boolean}
+     */
+    public isHCAWrangler(projectRole: string): boolean {
+
+        return projectRole && projectRole.toLowerCase() === "human cell atlas wrangler";
     }
 
     /**
