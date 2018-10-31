@@ -14,7 +14,6 @@ import { Observable } from "rxjs/Observable";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
@@ -60,37 +59,6 @@ export class HCATableProjectsComponent implements OnInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
-    }
-
-    /**
-     * Returns Cell Count.
-     * If value is unspecified, returns "Unspecified".
-     * @param {number} value
-     * @returns {any}
-     */
-    public getCount(value: number) {
-
-        if ( value ) {
-
-            return (new LocaleStringPipe().transform(value));
-        }
-
-        return "Unspecified";
-    }
-
-    /**
-     * Returns the value if it is specified, otherwise returns "Unspecified".
-     * @param {string} value
-     * @returns {string}
-     */
-    public isSpecified(value: string): string {
-
-        if ( value ) {
-
-            return value;
-        }
-
-        return "Unspecified";
     }
 
     /**
@@ -274,16 +242,15 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let project = row.projects[0] || {};
                 let projectSummary = row.projectSummary;
-                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-
+                let projectTitle = this.rollUpMetadata(row.projects);
 
                 // only roll up organType
                 let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
-                    return {organType: s.organType}
+                    return {organType: s.organType};
                 }));
-                let projectTitle = this.rollUpMetadata(row.projects);
 
                 /* File counts for primary file format (fastq.qz) and other */
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
@@ -302,17 +269,17 @@ class TableElementDataSource extends DataSource<any> {
                 }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
 
                 return {
-                    disease: projectSummary.disease,
-                    donorCount: projectSummary.donorCount,
-                    estimatedCellCount: cellSuspensions.totalCellCount,
+                    disease: this.isSpecified(projectSummary.disease),
+                    donorCount: this.isSpecified(projectSummary.donorCount),
+                    estimatedCellCount: this.isSpecified(cellSuspensions.totalCellCount),
                     entryId: row.entryId,
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    genusSpecies: projectSummary.genusSpecies,
-                    libraryConstructionApproach: projectSummary.libraryConstructionApproach,
-                    organ: organs.organType,
-                    projectTitle: projectTitle.projectTitle,
-                    projectShortname: projectTitle.projectShortname
+                    genusSpecies: this.isSpecified(projectSummary.genusSpecies),
+                    libraryConstructionApproach: this.isSpecified(projectSummary.libraryConstructionApproach),
+                    organ: this.isSpecified(organs.organType),
+                    projectTitle: this.isSpecified(projectTitle.projectTitle),
+                    projectShortname: this.isSpecified(projectTitle.projectShortname)
                 };
             });
         });
@@ -397,6 +364,20 @@ class TableElementDataSource extends DataSource<any> {
         return vals[0];
     }
 
+    /**
+     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * @param {any} value
+     * @returns {any}
+     */
+    public isSpecified(value: any): any {
+
+        if ( value ) {
+
+            return value;
+        }
+
+        return "Unspecified";
+    }
 
     connect(): Observable<Element[]> {
         return this.element$;
