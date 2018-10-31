@@ -168,7 +168,7 @@
                 line-height: 18px; /* TODO typography */
 
                 /* Ellipsis on cell text - excludes file type */
-                &:not(:nth-of-type(10)) > div {
+                &:not(:nth-of-type(11)) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -183,56 +183,11 @@
                 /* File Name */
                 &:first-of-type {
                     align-items: baseline;
-                    color: $hca-primary;
                     display: flex;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-weight: 500; /* TODO typography */
-
-                    img {
-                        cursor: pointer;
-                        opacity: 0.4;
-                        margin-right: 4px;
-                        width: 12px;
-
-                        &:hover {
-                            opacity: 0.8;
-                        }
-                    }
-
-                    mat-spinner {
-                        flex: none;
-                        margin-right: 4px;
-                    }
-
-                    /* File download links */
-                    .file-download {
-                        bottom: 0;
-                        left: 0;
-                        padding: 0 28px;
-                        position: absolute;
-
-                        span {
-                            color: $hca-secondary;
-                            cursor: pointer;
-                            font-size: 10px;
-                            margin: 0 4px;
-
-                            &:hover {
-                                color: $hca-secondary-hover;
-                            }
-                        }
-                    }
-                }
-
-                /* Bio Material */
-                &:nth-of-type(2) {
-                    color: $hca-gray-darkest;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-weight: 500; /* TODO typography */
                 }
 
                 /* Data (file types) */
-                &:nth-of-type(10) {
+                &:nth-of-type(11) {
                     align-items: center;
                     display: flex;
                     min-height: 48px;
@@ -312,11 +267,11 @@
 
                 /* File Name */
                 &:first-of-type {
-                    flex: 1 1 20%;
+                    flex: 1 1 25%;
                 }
 
                 /* Data (file types) */
-                &:nth-of-type(10) {
+                &:nth-of-type(11) {
                     min-width: 110px;
                 }
 

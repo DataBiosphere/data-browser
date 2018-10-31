@@ -167,7 +167,7 @@
                 line-height: 18px; /* TODO typography */
 
                 /* Ellipsis on cell text - excludes file type */
-                &:not(:nth-of-type(10)) > div {
+                &:not(:nth-of-type(9)) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -179,22 +179,8 @@
                     display: block;
                 }
 
-                /* Bio Material */
-                &:first-of-type {
-                    color: $hca-primary;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-weight: 500; /* TODO typography */
-                }
-
-                /* File Name */
-                &:nth-of-type(2) {
-                    color: $hca-gray-darkest;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-weight: 500; /* TODO typography */
-                }
-
                 /* Data (File Types) */
-                &:nth-of-type(10) {
+                &:nth-of-type(9) {
                     align-items: center;
                     display: flex;
                     min-height: 48px;
@@ -278,7 +264,7 @@
                 }
 
                 /* Data (file types) */
-                &:nth-of-type(10) {
+                &:nth-of-type(9) {
                     min-width: 110px;
                 }
 

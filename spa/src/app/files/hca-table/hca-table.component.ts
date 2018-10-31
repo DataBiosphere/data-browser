@@ -29,7 +29,7 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableComponent implements OnInit {
 
     displayedColumns = [
-        "specimenId", "fileCount", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
