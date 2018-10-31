@@ -68,7 +68,7 @@ export class FilesDAO extends CCBaseDAO {
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
         const url = this.buildApiUrl(`/repository/` + tab);
-        const filterParams = Object.assign({ from: 1, size: 1 }, query);
+        const filterParams = Object.assign({from: 1, size: 1}, query);
 
         return this.get<FilesAPIResponse>(url, filterParams)
             .map((repositoryFiles: FilesAPIResponse) => {
@@ -93,10 +93,10 @@ export class FilesDAO extends CCBaseDAO {
         const url = this.buildApiUrl(`/repository/` + seledtedEntity);
 
         // exract the size param
-        let filterParams = Object.assign({ size: tableParams.size }, query);
+        let filterParams = Object.assign({size: tableParams.size}, query);
 
         // see if there is a sort and order
-        if (tableParams.sort && tableParams.order) {
+        if ( tableParams.sort && tableParams.order ) {
             filterParams = Object.assign(filterParams, {
                 sort: tableParams.sort,
                 order: tableParams.order
@@ -104,14 +104,14 @@ export class FilesDAO extends CCBaseDAO {
         }
 
         // check if there is paging
-        if (tableParams.search_after && tableParams.search_after_uid) {
+        if ( tableParams.search_after && tableParams.search_after_uid ) {
             filterParams = Object.assign(filterParams, {
                 search_after: tableParams.search_after,
                 search_after_uid: tableParams.search_after_uid
             });
         }
 
-        if (tableParams.search_before && tableParams.search_before_uid) {
+        if ( tableParams.search_before && tableParams.search_before_uid ) {
             filterParams = Object.assign(filterParams, {
                 search_before: tableParams.search_before,
                 search_before_uid: tableParams.search_before_uid
@@ -194,7 +194,7 @@ export class FilesDAO extends CCBaseDAO {
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
 
-        if (filters.file && filters.file.repoName) {
+        if ( filters.file && filters.file.repoName ) {
             repoNames = filters.file.repoName.is;
         }
 
@@ -285,22 +285,22 @@ export class FilesDAO extends CCBaseDAO {
 
             // the response from ICGC is missing the terms field instead of being an empty array
             // we need to check it's existence before iterating over it.
-            if (responseFileFacet.terms) {
+            if ( responseFileFacet.terms ) {
 
                 // Create term from response, maintaining the currently selected term.
                 responseTerms = responseFileFacet.terms.map((responseTerm) => {
 
-                    if (responseTerm.term == null) {
+                    if ( responseTerm.term == null ) {
                         responseTerm.term = "Unspecified";
                     }
 
                     let oldTerm: Term;
-                    if (oldFacet) {
+                    if ( oldFacet ) {
                         oldTerm = oldFacet.termsByName.get(responseTerm.term);
                     }
 
                     let selected = false;
-                    if (oldTerm) {
+                    if ( oldTerm ) {
                         selected = oldTerm.selected;
                     }
 
@@ -308,7 +308,7 @@ export class FilesDAO extends CCBaseDAO {
                 });
             }
 
-            if (!responseFileFacet.total) {
+            if ( !responseFileFacet.total ) {
                 responseFileFacet.total = 0; // their default is undefined instead of zero
             }
 
@@ -317,12 +317,12 @@ export class FilesDAO extends CCBaseDAO {
         });
 
         let fileIdTerms = [];
-        if (selectedFacetsByName.get("fileId")) {
+        if ( selectedFacetsByName.get("fileId") ) {
             fileIdTerms = selectedFacetsByName.get("fileId").terms;
         }
 
         let donorIdTerms = [];
-        if (selectedFacetsByName.get("donorId")) {
+        if ( selectedFacetsByName.get("donorId") ) {
             donorIdTerms = selectedFacetsByName.get("donorId").terms;
         }
 
@@ -335,7 +335,7 @@ export class FilesDAO extends CCBaseDAO {
         newFileFacets.unshift(fileIdFileFacet);
 
         // Check if we have a sort order and if so, order facets accordingly
-        if (ordering.order.length) {
+        if ( ordering.order.length ) {
 
             const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
                 return acc.set(facet.name, facet);
@@ -387,10 +387,10 @@ export class FilesDAO extends CCBaseDAO {
 
         // Generalize term count for display
         let maxTermCount = parseInt(termCount, 10);
-        if (maxTermCount <= 3) {
+        if ( maxTermCount <= 3 ) {
             maxTermCount = 3;
         }
-        else if (maxTermCount > 10) {
+        else if ( maxTermCount > 10 ) {
             maxTermCount = 10;
         }
 
@@ -414,25 +414,31 @@ export class FilesDAO extends CCBaseDAO {
         let filters = selectedFacets.reduce((facetAcc, facet) => {
 
             // paranoid check for no facets.
-            if (!facet.terms || !facet.terms.length) {
+            if ( !facet.terms || !facet.terms.length ) {
                 return facetAcc;
             }
 
             // get an array of term names if any
             const termNames = facet.selectedTerms.map((term) => {
+
+                // Returns "none" if term name is "Unspecified".
+                if ( term.name === "Unspecified" ) {
+                    return "null";
+                }
+
                 return term.name;
             });
 
-            if (termNames.length) {
+            if ( termNames.length ) {
                 // only add the facet if there is a selected term.
-                facetAcc[facet.name] = { is: termNames };
+                facetAcc[facet.name] = {is: termNames};
             }
 
             return facetAcc;
         }, {});
 
         // empty object if it doesn't have any filters;
-        const result = Object.keys(filters).length ? { file: filters } : {};
+        const result = Object.keys(filters).length ? {file: filters} : {};
         return JSON.stringify(result);
     }
 }

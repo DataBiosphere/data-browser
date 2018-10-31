@@ -13,7 +13,6 @@ import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
@@ -57,7 +56,7 @@ export class HCATableFilesComponent implements OnInit {
 
         let ageUnitTruncated = this.getAgeUnit(ageUnit);
 
-        if ( age ) {
+        if ( age && age !== "Unspecified" ) {
 
             return age + " " + ageUnitTruncated;
         }
@@ -75,22 +74,6 @@ export class HCATableFilesComponent implements OnInit {
         if ( ageUnit ) {
             return ageUnit.charAt(0);
         }
-    }
-
-    /**
-     * Returns Count.
-     * If value is unspecified, returns "Unspecified".
-     * @param {number} value
-     * @returns {any}
-     */
-    public getCount(value: number) {
-
-        if ( value ) {
-
-            return (new LocaleStringPipe().transform(value));
-        }
-
-        return "Unspecified";
     }
 
     /**
@@ -116,21 +99,6 @@ export class HCATableFilesComponent implements OnInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
-    }
-
-    /**
-     * Returns the value if it is specified, otherwise returns "Unspecified".
-     * @param {string} value
-     * @returns {string}
-     */
-    public isSpecified(value: string): string {
-
-        if ( value ) {
-
-            return value;
-        }
-
-        return "Unspecified";
     }
 
     /**
@@ -316,10 +284,10 @@ class TableElementDataSource extends DataSource<any> {
 
             return rows.map((row: any) => {
 
-                let specimens = this.rollUpMetadata(row.specimens);
-                let processes = this.rollUpMetadata(row.processes);
-                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let file = row.files[0] || {};
+                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                let processes = this.rollUpMetadata(row.processes);
+                let specimens = this.rollUpMetadata(row.specimens);
 
                 /* File counts for primary file format (fastq.qz) and other */
                 let fileCounts = row.files.reduce((acc, file) => {
@@ -337,17 +305,17 @@ class TableElementDataSource extends DataSource<any> {
                 return {
                     fileName: file.name,
                     specimenId: this.getSelfOrFirst(specimens.id),
-                    organ: specimens.organ,
-                    organPart: specimens.organPart,
-                    libraryConstructionApproach: processes.libraryConstructionApproach,
-                    genusSpecies: specimens.genusSpecies,
-                    organismAge: specimens.organismAge,
+                    organ: this.isSpecified(specimens.organ),
+                    organPart: this.isSpecified(specimens.organPart),
+                    libraryConstructionApproach: this.isSpecified(processes.libraryConstructionApproach),
+                    genusSpecies: this.isSpecified(specimens.genusSpecies),
+                    organismAge: this.isSpecified(specimens.organismAge),
                     ageUnit: specimens.organismAgeUnit,
-                    biologicalSex: specimens.biologicalSex,
-                    disease: specimens.disease,
+                    biologicalSex: this.isSpecified(specimens.biologicalSex),
+                    disease: this.isSpecified(specimens.disease),
                     fileTypePrimary: fileCounts.primaryCount,
                     fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: cellSuspensions.totalCells,
+                    totalCells: this.isSpecified(cellSuspensions.totalCells),
                     url: file.url
                 };
             });
@@ -438,6 +406,20 @@ class TableElementDataSource extends DataSource<any> {
         return vals[0];
     }
 
+    /**
+     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * @param {any} value
+     * @returns {any}
+     */
+    public isSpecified(value: any): any {
+
+        if ( value ) {
+
+            return value;
+        }
+
+        return "Unspecified";
+    }
 
     connect(): Observable<Element[]> {
         return this.element$;
