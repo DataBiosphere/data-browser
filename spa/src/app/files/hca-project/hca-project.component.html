@@ -22,7 +22,7 @@
                     <p class="fontsize-xs rhs">{{stringifyValues(project.disease)}}</p>
                 </div>
                 <div>
-                    <p class="fontsize-xs bold lhs">Experimental Approach</p>
+                    <p class="fontsize-xs bold lhs">Library Construction Approach</p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.libraryConstructionApproach)}}</p>
                 </div>
                 <div>
@@ -61,7 +61,8 @@
                         <ng-container *ngSwitchCase="true">
                             <div *ngFor="let publication of project.publications" class="details">
                                 <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
-                                <p class="fontsize-xxs"><a href="{{publication.publicationUrl}}" target="_blank" class="link">View
+                                <p class="fontsize-xxs"><a href="{{publication.publicationUrl}}" target="_blank"
+                                                           class="link">View
                                     here</a></p>
                             </div>
                         </ng-container>

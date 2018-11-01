@@ -100,7 +100,7 @@
 
         /* RHS heading and content */
         &.rhs p, &.rhs h4.fontsize-m {
-            max-width: 256px;
+            max-width: 272px;
         }
     }
 }
@@ -114,12 +114,12 @@
 
         /* LHS container */
         .lhs {
-            max-width: 220px;
+            max-width: 240px;
         }
 
         /* RHS container */
         .rhs {
-            max-width: calc(100% - 220px);
+            max-width: calc(100% - 240px);
         }
 
         /* Project highlights */
@@ -128,7 +128,7 @@
             /* Row */
             > div {
                 flex-direction: row;
-                max-width: 668px;
+                max-width: 688px;
 
                 /* Heading and content */
                 p {
@@ -139,7 +139,7 @@
 
         /* Description, author and collaborators list, publications, contact */
         .project-info {
-            max-width: 668px;
+            max-width: 688px;
 
             > div {
                 padding: 0 16px;
