@@ -136,26 +136,32 @@
                     display: flex;
                     flex: 1;
                     flex-direction: column;
+                }
 
-                    > div {
-                        width: 100%;
+                /* File types - sub text */
+                .raw-and-processed, .show-files {
+                    width: 100%;
 
-                        /* Raw, processed */
-                        > span {
-                            align-self: center;
-                            display: inline-block;
-                            font-family: "Montserrat", sans-serif; /* TODO typography */
-                            font-size: 10px; /* TODO typography */
-                            font-weight: 400;
-                            text-align: left;
-                            width: 40px;
+                    /* Raw, processed */
+                    > span {
+                        align-self: center;
+                        display: inline-block;
+                        font-family: "Montserrat", sans-serif; /* TODO typography */
+                        font-size: 10px; /* TODO typography */
+                        font-weight: 400;
+                        text-align: left;
+                        width: 40px;
 
-                            /* Processed */
-                            &:last-of-type {
-                                width: 60px;
-                            }
+                        /* Processed */
+                        &:last-of-type {
+                            width: 60px;
                         }
                     }
+                }
+
+                /* Hide file types - large screen only */
+                .show-files {
+                    display: none;
                 }
             }
 
@@ -205,6 +211,12 @@
                     min-height: 48px;
                     overflow: visible;
                     position: relative; /* Positions file type info */
+
+
+                    /* Hide fastq, bam, matrix, other */
+                    .show-files {
+                        display: none;
+                    }
 
                     /* Raw, Processed ticks */
                     .file-type-data {
@@ -334,6 +346,42 @@
         margin: 0 auto;
         //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px; /* Gutter 30px */
+    }
+}
+
+/**
+ * Large ++
+ */
+@media screen and (min-width: 1920px) {
+
+    .wrapper .hca-table mat-table {
+
+        mat-header-cell, mat-cell {
+
+            /* Data (file types) - min width set for display at 1920px */
+            &:nth-of-type(6) {
+                min-width: 224px;
+
+                /* Hide raw, processed */
+                .raw-and-processed {
+                    display: none;
+                }
+
+                /* Show fastq, bam, matrix and other */
+                .show-files {
+                    display: inline-flex;
+
+                    > span {
+                        display: block;
+                        width: 50px;
+
+                        &:nth-of-type(n+2) {
+                            padding-left: 8px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
