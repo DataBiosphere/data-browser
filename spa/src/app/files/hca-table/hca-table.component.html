@@ -170,7 +170,7 @@
                     <div>
                         <div class="file-type-data">
                                 <span>
-                                    <ng-container [ngSwitch]="element.fileTypePrimary > 0">
+                                    <ng-container [ngSwitch]="element.rawCount > 0">
                                         <ng-container *ngSwitchDefault><img
                                                 src="assets/images/table/isFileType.png"></ng-container>
                                         <ng-container *ngSwitchCase="false"><img
@@ -178,7 +178,7 @@
                                     </ng-container>
                                 </span>
                             <span>
-                                    <ng-container [ngSwitch]="element.fileTypeSecondary > 0">
+                                    <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
                                         <ng-container *ngSwitchDefault><img
                                                 src="assets/images/table/isFileType.png"></ng-container>
                                         <ng-container *ngSwitchCase="false"><img
@@ -188,9 +188,11 @@
                         </div>
                         <div class="file-type-info">
                             <span class="file-title">Raw Data</span>
-                            <span>Fastqs: {{element.fileTypePrimary}}</span>
+                            <span>Fastqs: {{element.rawCount | localeString}}</span>
                             <span class="file-title">Processed Data</span>
-                            <span>BAMs: {{element.fileTypeSecondary}}</span>
+                            <span>BAMs: {{element.processedCount | localeString}}</span>
+                            <span>Matrix: {{element.matrixCount | localeString}}</span>
+                            <span class="file-other">Other: {{element.otherFileCount | localeString}}</span>
                         </div>
                     </div>
                 </mat-cell>
