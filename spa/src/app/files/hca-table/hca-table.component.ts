@@ -296,7 +296,6 @@ class TableElementDataSource extends DataSource<any> {
 
                 }, {rawCount: 0, processedCount: 0, matrixCount: 0, otherFileCount: 0, totalCount: 0});
 
-                console.log(fileCounts.rawCount, fileCounts.processedCount, fileCounts.matrixCount, fileCounts.otherFileCount, fileCounts.totalCount);
                 return {
                     ageUnit: specimens.organismAgeUnit,
                     biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),

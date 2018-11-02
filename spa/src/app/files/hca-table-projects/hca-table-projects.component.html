@@ -90,16 +90,20 @@
             </ng-container>
             <ng-container matColumnDef="fileType">
                 <mat-header-cell *matHeaderCellDef>
-                    <div class="file-type">
-                    <span matTooltip="The format of the data file."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Data</span>
-                        <div><span>Raw</span><span>Processed</span></div>
+                    <div class="file-type"
+                         matTooltip="The format of the data file."
+                         matTooltipPosition="below"
+                         matTooltipShowDelay="{{tooltipShowDelay}}"
+                         matTooltipClass="hca-tooltip narrow">
+                    <span>Data</span>
+                        <div class="raw-and-processed"><span>Raw</span><span>Processed</span></div>
+                        <div class="show-files">
+                            <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span>
+                        </div>
                     </div>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div>
+                    <div class="raw-and-processed">
                         <div class="file-type-data">
                                 <span>
                                     <ng-container [ngSwitch]="element.rawCount > 0">
@@ -126,6 +130,12 @@
                             <span>Matrix: {{element.matrixCount | localeString}}</span>
                             <span class="file-other">Other: {{element.otherFileCount | localeString}}</span>
                         </div>
+                    </div>
+                    <div class="show-files">
+                        <span>{{element.rawCount | localeString}}</span>
+                        <span>{{element.processedCount | localeString}}</span>
+                        <span>{{element.matrixCount | localeString}}</span>
+                        <span>{{element.otherFileCount | localeString}}</span>
                     </div>
                 </mat-cell>
             </ng-container>
