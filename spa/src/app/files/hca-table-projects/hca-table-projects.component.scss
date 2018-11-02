@@ -62,7 +62,7 @@
             font-weight: 600; /* TODO typography */
             height: 56px;
             justify-content: flex-start;
-            margin-top: -120px;
+            margin-top: -158px; /* To position based on the margin at bottom of table */
             padding: 0 10px; /* Left aligns button with table content */
 
             /* Pagination button */
@@ -102,7 +102,7 @@
         mat-table {
             //max-width: 1140px;
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
-            padding-bottom: 120px; /* For file type hover */
+            padding-bottom: 158px; /* For file type hover */
 
             mat-row, mat-header-row {
                 padding: 0 12px; /* Total left and right padding is 16px */
@@ -266,6 +266,11 @@
                             &:first-of-type {
                                 margin-top: 0;
                             }
+                        }
+
+                        /* Other files */
+                        .file-other {
+                            margin-top: 8px;
                         }
                     }
                 }
