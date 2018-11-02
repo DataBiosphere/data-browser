@@ -29,7 +29,7 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableFilesComponent implements OnInit {
 
     displayedColumns = [
-        "fileName", "fileSize", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "fileName", "fileFormat", "fileSize", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -253,9 +253,9 @@ export class HCATableFilesComponent implements OnInit {
  * Elements in Material Design table that displays HCA-specific file related data.
  */
 export interface Element {
+    fileFormat: string;
     fileName: string;
     fileSize: number;
-    // biomaterial: string; // TODO check not array
     organ: string;
     organPart: string;
     libraryConstructionApproach: string;
@@ -290,34 +290,20 @@ class TableElementDataSource extends DataSource<any> {
                 let processes = this.rollUpMetadata(row.processes);
                 let specimens = this.rollUpMetadata(row.specimens);
 
-                /* File counts for primary file format (fastq.qz) and other */
-                let fileCounts = row.files.reduce((acc, file) => {
-
-                    if ( file.format === "fastq.gz" ) {
-                        acc.primaryCount++;
-                    }
-                    else if ( file.format === "bam" ) {
-                        acc.secondaryCount++;
-                    }
-                    return acc;
-
-                }, {primaryCount: 0, secondaryCount: 0});
-
                 return {
+                    fileFormat: file.format,
                     fileName: file.name,
-                    fileSize: this.isSpecified(file.size),
+                    fileSize: this.getUnspecifiedIfNullValue(file.size),
                     specimenId: this.getSelfOrFirst(specimens.id),
-                    organ: this.isSpecified(specimens.organ),
-                    organPart: this.isSpecified(specimens.organPart),
-                    libraryConstructionApproach: this.isSpecified(processes.libraryConstructionApproach),
-                    genusSpecies: this.isSpecified(specimens.genusSpecies),
-                    organismAge: this.isSpecified(specimens.organismAge),
+                    organ: this.getUnspecifiedIfNullValue(specimens.organ),
+                    organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
+                    genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
+                    organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                     ageUnit: specimens.organismAgeUnit,
-                    biologicalSex: this.isSpecified(specimens.biologicalSex),
-                    disease: this.isSpecified(specimens.disease),
-                    fileTypePrimary: fileCounts.primaryCount,
-                    fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: this.isSpecified(cellSuspensions.totalCells),
+                    biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
+                    disease: this.getUnspecifiedIfNullValue(specimens.disease),
+                    totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                     url: file.url
                 };
             });
@@ -410,11 +396,11 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     /**
-     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
      * @param {any} value
      * @returns {any}
      */
-    public isSpecified(value: any): any {
+    public getUnspecifiedIfNullValue(value: any): any {
 
         if ( value ) {
 

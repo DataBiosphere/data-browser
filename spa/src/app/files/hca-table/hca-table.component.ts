@@ -240,15 +240,15 @@ export class HCATableComponent implements OnInit {
  * Elements in Material Design table that displays HCA-specific file related data.
  */
 export interface Element {
-    fileCount: number;
-    organ: string;
-    organPart: string;
-    libraryConstructionApproach: string;
-    genusSpecies: string;
-    organismAge: string;
     ageUnit: string;
     biologicalSex: string;
     disease: string; // TODO check not array
+    fileCount: number;
+    genusSpecies: string;
+    libraryConstructionApproach: string;
+    organ: string;
+    organismAge: string;
+    organPart: string;
     totalCells: number;
 }
 
@@ -278,32 +278,41 @@ class TableElementDataSource extends DataSource<any> {
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
                     if ( fileTypeSummary.fileType === "fastq.gz" ) {
-                        acc.primaryCount = fileTypeSummary.count;
+                        acc.rawCount = fileTypeSummary.count;
                     }
                     else if ( fileTypeSummary.fileType === "bam" ) {
-                        acc.secondaryCount = fileTypeSummary.count;
+                        acc.processedCount = fileTypeSummary.count;
+                    }
+                    else if ( fileTypeSummary.fileType === "matrix" ) {
+                        acc.matrixCount = fileTypeSummary.count;
+                    }
+                    else {
+                        acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                     }
 
                     acc.totalCount = acc.totalCount + fileTypeSummary.count;
 
                     return acc;
 
-                }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
+                }, {rawCount: 0, processedCount: 0, matrixCount: 0, otherFileCount: 0, totalCount: 0});
 
+                console.log(fileCounts.rawCount, fileCounts.processedCount, fileCounts.matrixCount, fileCounts.otherFileCount, fileCounts.totalCount);
                 return {
-                    fileCount: this.isSpecified(fileCounts.totalCount),
-                    specimenId: this.getSelfOrFirst(specimens.id),
-                    organ: this.isSpecified(specimens.organ),
-                    organPart: this.isSpecified(specimens.organPart),
-                    libraryConstructionApproach: this.isSpecified(processes.libraryConstructionApproach),
-                    genusSpecies: this.isSpecified(specimens.genusSpecies),
-                    organismAge: this.isSpecified(specimens.organismAge),
                     ageUnit: specimens.organismAgeUnit,
-                    biologicalSex: this.isSpecified(specimens.biologicalSex),
-                    disease: this.isSpecified(specimens.disease),
-                    fileTypePrimary: fileCounts.primaryCount,
-                    fileTypeSecondary: fileCounts.secondaryCount,
-                    totalCells: this.isSpecified(cellSuspensions.totalCells)
+                    biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
+                    disease: this.getUnspecifiedIfNullValue(specimens.disease),
+                    fileCount: this.getUnspecifiedIfNullValue(fileCounts.totalCount),
+                    genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
+                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
+                    matrixCount: fileCounts.matrixCount,
+                    organ: this.getUnspecifiedIfNullValue(specimens.organ),
+                    organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
+                    organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                    otherFileCount: fileCounts.otherFileCount,
+                    processedCount: fileCounts.processedCount,
+                    rawCount: fileCounts.rawCount,
+                    specimenId: this.getSelfOrFirst(specimens.id),
+                    totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                 };
             });
         });
@@ -390,11 +399,11 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     /**
-     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
      * @param {any} value
      * @returns {any}
      */
-    public isSpecified(value: any): any {
+    public getUnspecifiedIfNullValue(value: any): any {
 
         if ( value ) {
 

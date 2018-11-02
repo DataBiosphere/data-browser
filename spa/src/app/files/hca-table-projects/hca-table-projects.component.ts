@@ -220,8 +220,8 @@ export interface Element {
     genusSpecies: string;
     libraryConstructionApproach: string;
     organ: string;
-    projectTitle: string;
     projectShortname: string;
+    projectTitle: string;
 }
 
 /**
@@ -243,7 +243,6 @@ class TableElementDataSource extends DataSource<any> {
             return rows.map((row: any) => {
 
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-                let project = row.projects[0] || {};
                 let projectSummary = row.projectSummary;
                 let projectTitle = this.rollUpMetadata(row.projects);
 
@@ -256,30 +255,38 @@ class TableElementDataSource extends DataSource<any> {
                 let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
                     if ( fileTypeSummary.fileType === "fastq.gz" ) {
-                        acc.primaryCount = acc.primaryCount + fileTypeSummary.count;
+                        acc.rawCount = fileTypeSummary.count;
                     }
                     else if ( fileTypeSummary.fileType === "bam" ) {
-                        acc.secondaryCount = acc.secondaryCount + fileTypeSummary.count;
+                        acc.processedCount = fileTypeSummary.count;
+                    }
+                    else if ( fileTypeSummary.fileType === "matrix" ) {
+                        acc.matrixCount = fileTypeSummary.count;
+                    }
+                    else {
+                        acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                     }
 
                     acc.totalCount = acc.totalCount + fileTypeSummary.count;
 
                     return acc;
 
-                }, {primaryCount: 0, secondaryCount: 0, totalCount: 0});
+                }, {rawCount: 0, processedCount: 0, matrixCount: 0, otherFileCount: 0, totalCount: 0});
 
                 return {
-                    disease: this.isSpecified(projectSummary.disease),
-                    donorCount: this.isSpecified(projectSummary.donorCount),
-                    estimatedCellCount: this.isSpecified(cellSuspensions.totalCells),
+                    disease: this.getUnspecifiedIfNullValue(projectSummary.disease),
+                    donorCount: this.getUnspecifiedIfNullValue(projectSummary.donorCount),
+                    estimatedCellCount: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                     entryId: row.entryId,
-                    fileTypePrimary: fileCounts.primaryCount,
-                    fileTypeSecondary: fileCounts.secondaryCount,
-                    genusSpecies: this.isSpecified(projectSummary.genusSpecies),
-                    libraryConstructionApproach: this.isSpecified(projectSummary.libraryConstructionApproach),
-                    organ: this.isSpecified(organs.organType),
-                    projectTitle: this.isSpecified(projectTitle.projectTitle),
-                    projectShortname: this.isSpecified(projectTitle.projectShortname)
+                    genusSpecies: this.getUnspecifiedIfNullValue(projectSummary.genusSpecies),
+                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
+                    matrixCount: fileCounts.matrixCount,
+                    organ: this.getUnspecifiedIfNullValue(organs.organType),
+                    otherFileCount: fileCounts.otherFileCount,
+                    processedCount: fileCounts.processedCount,
+                    projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                    projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
+                    rawCount: fileCounts.rawCount
                 };
             });
         });
@@ -366,11 +373,11 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     /**
-     * Returns the value if it is specified, otherwise returns "Unspecified".
+     * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
      * @param {any} value
      * @returns {any}
      */
-    public isSpecified(value: any): any {
+    public getUnspecifiedIfNullValue(value: any): any {
 
         if ( value ) {
 
