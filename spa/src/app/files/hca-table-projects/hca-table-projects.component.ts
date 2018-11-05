@@ -243,6 +243,7 @@ class TableElementDataSource extends DataSource<any> {
             return rows.map((row: any) => {
 
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                let fileTypeSummaries = row.fileTypeSummaries;
                 let projectSummary = row.projectSummary;
                 let projectTitle = this.rollUpMetadata(row.projects);
 
@@ -251,27 +252,16 @@ class TableElementDataSource extends DataSource<any> {
                     return {organType: s.organType};
                 }));
 
-                /* File counts for primary file format (fastq.qz) and other */
-                let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
+                /* File counts for file formats - excludes fastq.gz, bam, matrix */
+                let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-                    if ( fileTypeSummary.fileType === "fastq.gz" ) {
-                        acc.rawCount = fileTypeSummary.count;
-                    }
-                    else if ( fileTypeSummary.fileType === "bam" ) {
-                        acc.processedCount = fileTypeSummary.count;
-                    }
-                    else if ( fileTypeSummary.fileType === "matrix" ) {
-                        acc.matrixCount = fileTypeSummary.count;
-                    }
-                    else {
+                    if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") ) {
+
                         acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                     }
-
-                    acc.totalCount = acc.totalCount + fileTypeSummary.count;
-
                     return acc;
 
-                }, {rawCount: 0, processedCount: 0, matrixCount: 0, otherFileCount: 0, totalCount: 0});
+                }, {otherFileCount: 0});
 
                 return {
                     disease: this.getUnspecifiedIfNullValue(projectSummary.disease),
@@ -280,13 +270,13 @@ class TableElementDataSource extends DataSource<any> {
                     entryId: row.entryId,
                     genusSpecies: this.getUnspecifiedIfNullValue(projectSummary.genusSpecies),
                     libraryConstructionApproach: this.getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
-                    matrixCount: fileCounts.matrixCount,
+                    matrixCount: this.getFileCount("matrix", fileTypeSummaries),
                     organ: this.getUnspecifiedIfNullValue(organs.organType),
                     otherFileCount: fileCounts.otherFileCount,
-                    processedCount: fileCounts.processedCount,
+                    processedCount: this.getFileCount("bam", fileTypeSummaries),
                     projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                     projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                    rawCount: fileCounts.rawCount
+                    rawCount: this.getFileCount("fastq.gz", fileTypeSummaries)
                 };
             });
         });
@@ -365,6 +355,25 @@ class TableElementDataSource extends DataSource<any> {
 
         return rollup;
 
+    }
+
+    /**
+     * Returns the count for file type.
+     * @param {string} fileTypeName
+     * @param {any[]} fileTypeSummaries
+     * @returns {number}
+     */
+    public getFileCount(fileTypeName: string, fileTypeSummaries: any[]): number {
+
+        let fileTypeSummary = fileTypeSummaries.find(fileSummary => fileSummary.fileType === fileTypeName);
+
+        // Returns a count if fileType exists, otherwise returns 0.
+        if ( fileTypeSummary ) {
+
+            return fileTypeSummary.count;
+        }
+
+        return 0;
     }
 
     public getSelfOrFirst(value) {

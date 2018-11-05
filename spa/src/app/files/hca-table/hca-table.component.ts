@@ -271,30 +271,20 @@ class TableElementDataSource extends DataSource<any> {
             return rows.map((row: any) => {
 
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                let fileTypeSummaries = row.fileTypeSummaries;
                 let processes = this.rollUpMetadata(row.processes);
                 let specimens = this.rollUpMetadata(row.specimens);
 
-                /* File counts for primary file format (fastq.qz) and other */
-                let fileCounts = row.fileTypeSummaries.reduce((acc, fileTypeSummary) => {
+                /* File counts for file formats - excludes fastq.gz, bam, matrix */
+                let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-                    if ( fileTypeSummary.fileType === "fastq.gz" ) {
-                        acc.rawCount = fileTypeSummary.count;
-                    }
-                    else if ( fileTypeSummary.fileType === "bam" ) {
-                        acc.processedCount = fileTypeSummary.count;
-                    }
-                    else if ( fileTypeSummary.fileType === "matrix" ) {
-                        acc.matrixCount = fileTypeSummary.count;
-                    }
-                    else {
+                    if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") ) {
+
                         acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                     }
-
-                    acc.totalCount = acc.totalCount + fileTypeSummary.count;
-
                     return acc;
 
-                }, {rawCount: 0, processedCount: 0, matrixCount: 0, otherFileCount: 0, totalCount: 0});
+                }, {otherFileCount: 0});
 
                 return {
                     ageUnit: specimens.organismAgeUnit,
@@ -303,15 +293,15 @@ class TableElementDataSource extends DataSource<any> {
                     fileCount: this.getUnspecifiedIfNullValue(fileCounts.totalCount),
                     genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
                     libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
-                    matrixCount: fileCounts.matrixCount,
+                    matrixCount: this.getFileCount("matrix", fileTypeSummaries),
                     organ: this.getUnspecifiedIfNullValue(specimens.organ),
                     organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                     organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
                     otherFileCount: fileCounts.otherFileCount,
-                    processedCount: fileCounts.processedCount,
-                    rawCount: fileCounts.rawCount,
+                    processedCount: this.getFileCount("bam", fileTypeSummaries),
                     specimenId: this.getSelfOrFirst(specimens.id),
-                    totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells)
+                    totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                    rawCount: this.getFileCount("fastq.gz", fileTypeSummaries)
                 };
             });
         });
@@ -390,6 +380,25 @@ class TableElementDataSource extends DataSource<any> {
 
         return rollup;
 
+    }
+
+    /**
+     * Returns the count for file type.
+     * @param {string} fileTypeName
+     * @param {any[]} fileTypeSummaries
+     * @returns {number}
+     */
+    public getFileCount(fileTypeName: string, fileTypeSummaries: any[]): number {
+
+        let fileTypeSummary = fileTypeSummaries.find(fileSummary => fileSummary.fileType === fileTypeName);
+
+        // Returns a count if fileType exists, otherwise returns 0.
+        if ( fileTypeSummary ) {
+
+            return fileTypeSummary.count;
+        }
+
+        return 0;
     }
 
     public getSelfOrFirst(value) {
