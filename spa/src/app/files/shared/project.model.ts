@@ -17,8 +17,9 @@ export interface Project {
     fileType: string[];
     libraryConstructionApproach: string[];
     organ: string[];
+    organPart: string[];
     projectDescription: string;
     projectTitle: string;
-    publications: string[],
+    publications: string[];
     species: string[];
 }
