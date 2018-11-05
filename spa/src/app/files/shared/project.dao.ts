@@ -60,6 +60,9 @@ export class ProjectDAO {
             return {} as Project;
         }
 
+        // Grab the specimens from the response
+        const responseSpecimens = response.specimens[0];
+
         // Grab the summary from the response
         const responseProjectSummary = response.projectSummary;
 
@@ -73,6 +76,7 @@ export class ProjectDAO {
             fileType: response.fileTypeSummaries.map(fileType => fileType.fileType),
             libraryConstructionApproach: responseProjectSummary.libraryConstructionApproach,
             organ: responseProjectSummary.organSummaries.map(organ => organ.organType),
+            organPart: responseSpecimens.organPart,
             projectDescription: responseProject.projectDescription,
             projectTitle: responseProject.projectTitle,
             publications: responseProject.publications,
