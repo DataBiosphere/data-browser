@@ -9,14 +9,9 @@
 :host {
     background-color: #ffffff;
     flex: 1; // Push footer to bottom of available space (inside snapper)
-    overflow: visible; /* Scroll */
-
-    &.noScroll {
-        overflow: hidden; /* No scroll on body when filtering menus are open */
-    }
 
     .layout-column {
-        height: 100%;
+        height: 100%; // Required for download banner hca-download-manifest
     }
 
     /* Download manifest */
@@ -26,15 +21,5 @@
         position: sticky;
         right: 0;
         z-index: 10;
-    }
-}
-
-/**
- * Tablet +
- */
-@media screen and (min-height: 768px) and (min-width: 768px) {
-
-    :host {
-        overflow: hidden; /* Scroll on table */
     }
 }

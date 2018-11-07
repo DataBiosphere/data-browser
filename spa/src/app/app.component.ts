@@ -7,8 +7,8 @@
 
 // Core dependencies
 import { Location } from "@angular/common";
-import { Component, ElementRef } from "@angular/core";
-import { ActivatedRoute, ParamMap, Params, Router } from "@angular/router";
+import { Component, Inject, Renderer2 } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Store } from "@ngrx/store";
 import "rxjs/add/operator/skip";
 import { Subscription } from "rxjs/Subscription";
@@ -26,23 +26,21 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 
 export class AppComponent {
 
-    // Public variables
-    public noScroll: boolean;
-
     // Locals
     private actionsSubscription: Subscription;
 
     /**
-     * @param {Router} router
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Location} location
+     * @param {Renderer2} renderer
+     * @param {Window} window
      */
-    constructor(private router: Router,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
-                private elementRef: ElementRef,
-                private location: Location) {
+                private location: Location,
+                private renderer: Renderer2,
+                @Inject("Window") private window: Window) {
     }
 
     /**
@@ -50,28 +48,19 @@ export class AppComponent {
      */
 
     /**
-     * Remove scroll on body when menu is open
+     * Remove scroll on body when menu is open.
+     * Adds class no-scroll to body tag.
+     * Class defined in _cgl.global.scss.
      *
-     * @param value
+     * @param opened: boolean
      */
-    public isMenuOpen(value) {
+    public onMenuOpen(opened: boolean) {
 
-        this.noScroll = value;
-        this.preventScroll();
-    }
-
-    /**
-     * Prevent scroll on body when menu is open
-     */
-    public preventScroll() {
-
-        let nativeElement = this.elementRef.nativeElement;
-        let openedMenu = nativeElement.classList.contains("noScroll");
-        if ( this.noScroll && !openedMenu ) {
-            nativeElement.classList.add("noScroll");
+        if ( opened ) {
+            this.renderer.addClass(document.body, "no-scroll");
         }
-        else if ( !this.noScroll && openedMenu ) {
-            nativeElement.classList.remove("noScroll");
+        else {
+            this.renderer.removeClass(document.body, "no-scroll");
         }
     }
 

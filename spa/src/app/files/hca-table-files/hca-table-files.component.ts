@@ -4,13 +4,16 @@
  *
  * Table component for displaying file-related data.
  */
+
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
 import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
@@ -26,8 +29,9 @@ import { TableParamsModel } from "../table/table-params.model";
     templateUrl: "./hca-table-files.component.html",
     styleUrls: ["./hca-table-files.component.scss"]
 })
-export class HCATableFilesComponent implements OnInit {
+export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
+    // Template variables
     displayedColumns = [
         "fileName", "fileFormat", "fileSize", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
@@ -35,11 +39,20 @@ export class HCATableFilesComponent implements OnInit {
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
 
+    // Locals
+    private ngDestroy$ = new Subject();
+    private snapped: boolean;
+
     /**
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
+     * @param {ElementRef} elementRef
+     * @param {Window} window
      */
-    constructor(private store: Store<AppState>, private cdref: ChangeDetectorRef) {
+    constructor(private store: Store<AppState>,
+                private cdref: ChangeDetectorRef,
+                private elementRef: ElementRef,
+                @Inject("Window") private window: Window) {
     }
 
     /**
@@ -74,6 +87,31 @@ export class HCATableFilesComponent implements OnInit {
         if ( ageUnit ) {
             return ageUnit.charAt(0);
         }
+    }
+
+    /**
+     * Return the set of CSS class names that are currently applicable to the table header row.
+     *
+     * @returns {[className: string]: boolean}
+     */
+    public getHeaderClass(): { [className: string]: boolean } {
+
+        return {
+            snapped: this.snapped
+        };
+    }
+
+    /**
+     * Return the set of CSS class names that are currently applicable to the first row in the table.
+     *
+     * @param {number} rowIndex
+     * @returns {[className: string]: boolean}
+     */
+    public getRowClass(rowIndex: number): { [className: string]: boolean } {
+
+        return {
+            snapped: (rowIndex === 0) && this.snapped
+        };
     }
 
     /**
@@ -228,6 +266,44 @@ export class HCATableFilesComponent implements OnInit {
      * Lifecycle hooks
      */
 
+    ngAfterContentChecked() {
+
+        this.cdref.detectChanges();
+    }
+
+    /**
+     * Update snapped status of table, on scroll of component.
+     */
+    public ngAfterViewInit() {
+
+        const nativeElement = this.elementRef.nativeElement;
+        const scrolls$ = Observable.fromEvent(this.window, "scroll");
+        const wheels$ = Observable.fromEvent(this.window, "wheel");
+
+        scrolls$.merge(wheels$)
+            .takeUntil(this.ngDestroy$)
+            .subscribe(() => {
+
+                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+
+                    this.snapped = true;
+                }
+                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+
+                    this.snapped = false;
+                }
+            });
+    }
+
+    /**
+     * Kill subscriptions on destroy of component.
+     */
+    public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
     /**
      *  Set up table data source and pagination
      */
@@ -238,11 +314,6 @@ export class HCATableFilesComponent implements OnInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.select(selectPagination);
-    }
-
-    ngAfterContentChecked() {
-
-        this.cdref.detectChanges();
     }
 }
 

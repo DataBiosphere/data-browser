@@ -95,7 +95,7 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip narrow">
-                    <span>Data</span>
+                        <span>Data</span>
                         <div class="raw-and-processed"><span>Raw</span><span>Processed</span></div>
                         <div class="show-files">
                             <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span>
@@ -173,8 +173,8 @@
                     </div>
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass()"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [ngClass]="getRowClass(i)"></mat-row>
         </mat-table>
         <div *ngIf="pagination$ | async; let pagination" class="pagination">
             <ng-container *ngIf="pagination.current_page">
@@ -189,3 +189,5 @@
         </div>
     </div>
 </div>
+
+

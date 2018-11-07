@@ -312,6 +312,15 @@ button {
 }
 
 /**
+ * Prevents scroll on body when menu is open.
+ */
+.no-scroll {
+    left: 0;
+    position: fixed;
+    right: 0;
+}
+
+/**
  * Large
  */
 @media (min-width: 1200px) {

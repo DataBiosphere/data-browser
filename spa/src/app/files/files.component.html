@@ -1,21 +1,21 @@
 <div class="layout-column">
-    <hca-section-title id="hcaExplore" [title]="'Explore Data'"></hca-section-title>
-    <hca-file-filter-wrapper id="hcaFilterWrapper"
-                             [fileFacets]="fileFacets$ | async"
-                             [selectedFacets]="selectedFileFacets$ | async"
-                             (menuOpen)="isMenuOpen($event)">
-    </hca-file-filter-wrapper>
-    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
-             (tabSelected)="onTabSelected($event)"></hca-tab>
-    <hca-file-summary id="hcaFileSummary"
-                      [showDownload]="true"
-                      [matrixEnabled]="fileTypeMatrix$ | async"
-                      [summary]="selectFileSummary$ | async">
-    </hca-file-summary>
-    <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
-    <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"></hca-table-projects>
-    <hca-download-manifest
-            [downloadActive]="false">
-    </hca-download-manifest>
+<hca-section-title id="hcaExplore" [title]="'Explore Data'"></hca-section-title>
+<hca-file-filter-wrapper id="hcaFilterWrapper"
+                         [fileFacets]="fileFacets$ | async"
+                         [selectedFacets]="selectedFileFacets$ | async"
+                         (menuOpen)="onMenuOpen($event)">
+</hca-file-filter-wrapper>
+<hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
+         (tabSelected)="onTabSelected($event)"></hca-tab>
+<hca-file-summary id="hcaFileSummary"
+                  [showDownload]="true"
+                  [matrixEnabled]="fileTypeMatrix$ | async"
+                  [summary]="selectFileSummary$ | async">
+</hca-file-summary>
+<hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
+<hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
+<hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"></hca-table-projects>
+<hca-download-manifest
+        [downloadActive]="false">
+</hca-download-manifest>
 </div>
