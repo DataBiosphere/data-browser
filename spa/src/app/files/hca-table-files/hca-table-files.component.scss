@@ -7,9 +7,7 @@
 @import "../../shared/theme/cgl.vars";
 
 :host {
-    display: flex;
-    height: 100%; /* Table to take up remaining space */
-    min-height: 0; /* Firefox overflow */
+    height: 100%; /* Table to take up remaining space - positions mobile download banner to bottom hca-download-manifest */
     position: relative; /* Positions fade on horizontal scroll */
 
     /* Fade on horizontal scroll */
@@ -41,7 +39,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    overflow: auto; /* Scroll */
+    overflow-x: auto; /* Horizontal scroll */
     -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
     margin-top: 4px;
     padding: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
@@ -62,7 +60,7 @@
             font-weight: 600; /* TODO typography */
             height: 56px;
             justify-content: flex-start;
-            margin-top: -120px;
+            margin-bottom: 102px; /* To allow for hover on file type */
             padding: 0 10px; /* Left aligns button with table content */
 
             /* Pagination button */
@@ -100,9 +98,7 @@
         }
 
         mat-table {
-            //max-width: 1140px;
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
-            padding-bottom: 120px; /* For file type hover */
 
             mat-row, mat-header-row {
                 padding: 0 12px; /* Total left and right padding is 16px */
@@ -111,9 +107,6 @@
             mat-header-row {
                 background-color: $hca-white;
                 border-bottom: 2px solid $hca-gray-light;
-                position: sticky;
-                top: 0;
-                z-index: 6;
             }
 
             mat-row {
@@ -128,7 +121,7 @@
                 font-weight: 600; /* TODO typography */
                 letter-spacing: 0.36px; /* TODO typography */
                 line-height: 18px; /* TODO typography */
-                overflow: visible;
+                overflow: visible; /* Provides visibility for sort arrow */
                 position: relative; /* Positions sort arrow */
             }
 
@@ -203,8 +196,24 @@
     /* Wrapper */
     .wrapper {
         margin: 0 auto;
-        //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px; /* Gutter 30px */
+
+        .hca-table mat-table {
+
+            /* Snapped header row */
+            mat-header-row.snapped {
+                left: 30px;
+                position: fixed;
+                right: 30px;
+                top: 0;
+                z-index: 20;
+            }
+
+            /* Snapped first row */
+            mat-row.snapped {
+                padding-top: 58px;
+            }
+        }
     }
 }
 

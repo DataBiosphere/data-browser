@@ -6,9 +6,8 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { Location } from "@angular/common";
-import { Router } from "@angular/router";
 import * as _ from "lodash";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -39,7 +38,7 @@ import { Subscription } from "rxjs/Subscription";
     templateUrl: "files.component.html",
     styleUrls: ["files.component.scss"]
 })
-export class FilesComponent implements OnDestroy, OnInit {
+export class FilesComponent implements OnInit, OnDestroy {
 
     // Public variables
     public fileFacets$: Observable<FileFacet[]>;
@@ -48,35 +47,41 @@ export class FilesComponent implements OnDestroy, OnInit {
     public entities$: Observable<EntitySpec[]>;
     public selectedEntity$: Observable<EntitySpec>;
     public fileTypeMatrix$: Observable<boolean>;
-    public noScroll: boolean;
 
     // Locals
     private urlUpdater: Subscription;
 
     /**
-     * @param {Router} router
      * @param {Store<AppState>} store
-     * @param {ElementRef} elementRef
      * @param {Location} location
+     * @param {Renderer2} renderer
+     * @param {Window} window
      */
-    constructor(private router: Router,
-                private store: Store<AppState>,
-                private elementRef: ElementRef,
-                private location: Location) {}
+    constructor(private store: Store<AppState>,
+                private location: Location,
+                private renderer: Renderer2,
+                @Inject("Window") private window: Window) {
+    }
 
     /**
      * Public API
      */
 
     /**
-     * Remove scroll on body when menu is open
+     * Remove scroll on body when menu is open.
+     * Adds class no-scroll to body tag.
+     * Class defined in _cgl.global.scss.
      *
-     * @param value
+     * @param opened: boolean
      */
-    public isMenuOpen(value) {
+    public onMenuOpen(opened: boolean) {
 
-        this.noScroll = value;
-        this.preventScroll();
+        if ( opened ) {
+            this.renderer.addClass(document.body, "no-scroll");
+        }
+        else {
+            this.renderer.removeClass(document.body, "no-scroll");
+        }
     }
 
     /**
@@ -87,21 +92,6 @@ export class FilesComponent implements OnDestroy, OnInit {
     public onTabSelected(tab: EntitySpec) {
 
         this.store.dispatch(new EntitySelectAction(tab.key));
-    }
-
-    /**
-     * Prevent scroll on body when menu is open
-     */
-    public preventScroll() {
-
-        let nativeElement = this.elementRef.nativeElement;
-        let openedMenu = nativeElement.classList.contains("noScroll");
-        if ( this.noScroll && !openedMenu ) {
-            nativeElement.classList.add("noScroll");
-        }
-        else if ( !this.noScroll && openedMenu ) {
-            nativeElement.classList.remove("noScroll");
-        }
     }
 
     /**
