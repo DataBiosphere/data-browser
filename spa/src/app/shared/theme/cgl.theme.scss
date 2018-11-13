@@ -42,26 +42,6 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     position: relative; /* Positions tooltip arrow */
     z-index: 3;
 
-    /* Tooltip arrow - where tooltip is positioned below */
-    &:before {
-        background-color: $hca-black;
-        content: "";
-        display: block;
-        height: 10px;
-        left: 50%;
-        position: absolute;
-        top: 0;
-        transform: rotate(45deg) translateX(-50%);
-        width: 10px;
-        z-index: 2;
-    }
-
-    /* Tooltip arrow - where tooltip is positioned above */
-    &.above:before {
-        bottom: -8px;
-        top: unset;
-    }
-
     /* Wrap text */
     &.narrow {
         max-width: 152px !important;
