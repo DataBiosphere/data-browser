@@ -55,17 +55,12 @@ export class HCAFileFacetComponent implements OnInit {
 
     /**
      * Returns facet name in correct format.
-     * preservationMethod is renamed Storage Method.
      * disease is renamed "Known Diseases".
      * @param facetName
      * @returns {any}
      */
     public getFacetName(facetName) {
 
-        if ( facetName === "preservationMethod" ) {
-
-            return "Storage Method";
-        }
         if ( facetName === "disease" ) {
 
             return "Known Diseases";
