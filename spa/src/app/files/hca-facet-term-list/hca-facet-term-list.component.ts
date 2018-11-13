@@ -73,6 +73,20 @@ export class HCAFacetTermListComponent {
     }
 
     /**
+     * Return the base list of terms to display.
+     *
+     * @returns {Term[]}
+     */
+    public getDisplayList(): Term[] {
+
+        if ( this.useShortList ) {
+            return this.fileFacet.shortList;
+        }
+
+        return this.fileFacet.terms;
+    }
+
+    /**
      * Return the inline style configuration for the chart legend, for the specified term.
      *
      * @param term {Term}
@@ -142,16 +156,13 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Return the base list of terms to display.
-     *
-     * @returns {Term[]}
+     * Track by function used when displaying the list of terms.
+     * @param index
+     * @param term
      */
-    public getDisplayList(): Term[] {
+    trackByFn(index, term) {
 
-        if ( this.useShortList ) {
-            return this.fileFacet.shortList;
-        }
-
-        return this.fileFacet.terms;
+        console.log("term")
+        return term.name;
     }
 }

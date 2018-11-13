@@ -7,7 +7,7 @@
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
                       matTooltipDisabled="{{isDisabled(summary.projectCount)}}"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.projectCount | countSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.projectCount | countSize}}</span>
             </div>
             <div>
                 <span>Donors</span>
@@ -15,7 +15,7 @@
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
                       matTooltipDisabled="{{isDisabled(summary.donorCount)}}"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.donorCount | countSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.donorCount | countSize}}</span>
             </div>
             <div>
                 <span>Specimens</span>
@@ -23,7 +23,7 @@
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
                       matTooltipDisabled="{{isDisabled(summary.specimenCount)}}"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.specimenCount | countSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.specimenCount | countSize}}</span>
             </div>
             <div>
                 <span>Estimated Cells</span>
@@ -31,7 +31,7 @@
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
                       matTooltipDisabled="{{isDisabled(summary.totalCellCount)}}"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.totalCellCount | countSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.totalCellCount | countSize}}</span>
             </div>
             <div>
                 <span>Files</span>
@@ -39,14 +39,14 @@
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
                       matTooltipDisabled="{{isDisabled(summary.fileCount)}}"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.fileCount | countSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.fileCount | countSize}}</span>
             </div>
             <div>
                 <span>File Size</span>
                 <span matTooltip="{{summary.totalFileSize | localeString}}"
                       matTooltipPosition="above"
                       matTooltipShowDelay="150"
-                      matTooltipClass="hca-tooltip narrow above">{{summary.totalFileSize | fileSize}}</span>
+                      matTooltipClass="hca-tooltip narrow">{{summary.totalFileSize | fileSize}}</span>
             </div>
         </div>
         <div *ngIf="showDownload" class="download-buttons">
