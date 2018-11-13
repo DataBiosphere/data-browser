@@ -34,7 +34,7 @@ export class FileFacet {
      * @param name {string}
      * @param total {number}
      * @param terms {Term[]}
-     * @param shortListLength {number} 
+     * @param shortListLength {number}
      * @param interfaceType {string}
      */
     constructor(name: string, total: number, terms: Term[], shortListLength: number, interfaceType?: string) { // TODO finalize interfaceType type and optionality
@@ -43,8 +43,8 @@ export class FileFacet {
         this.total = total;
         this.terms = terms;
         this.interfaceType = interfaceType;
-        
-        if (this.interfaceType === "SEARCH") {
+
+        if ( this.interfaceType === "SEARCH" ) {
             this.shortListLength = 3;
         }
         else {
@@ -66,10 +66,10 @@ export class FileFacet {
 
         this.termCount = terms.length;
         this.selectedTermCount = this.selectedTerms.length;
-        
+
         // Set the short list
         if ( !this.selected || this.isTermListShort() ) {
-            // If we are not selected or if there are less than the short term list length (as there is no term menu), 
+            // If we are not selected or if there are less than the short term list length (as there is no term menu).
             // use the full list.
             this.shortList = this.terms.slice(0, Math.min(this.shortListLength, this.terms.length));
         }
@@ -95,23 +95,23 @@ export class FileFacet {
 
     /**
      * Returns true if there are less than 10 terms for this file facet.
-     * 
+     *
      * @returns {boolean}
      */
     public isTermListShort(): boolean {
-        
+
         return this.termCount < this.shortListLength;
     }
 
     /**
      * Update flag indicating whether specified term is selected and return new FileFacet with updated term list.
-     * 
+     *
      * @param {string} termName
      * @returns {FileFacet}
      */
     public selectTerm(termName: string): FileFacet {
 
-        if (this.isInterfaceTypeSearch()) {
+        if ( this.isInterfaceTypeSearch() ) {
             return this.selectSearchTerm(termName);
         }
 
@@ -119,7 +119,7 @@ export class FileFacet {
         // otherwise keep the term as is.
         const newTerms = this.terms.map(term => {
 
-            if (term.name === termName) {
+            if ( term.name === termName ) {
                 // Flip term selected instead of setting it.
                 return new Term(termName, term.count, !term.selected, term.color);
             }
@@ -139,7 +139,6 @@ export class FileFacet {
 
     /**
      * Update flag indicating whether specified term is selected.
-     * 
      * @param {string} id - Either file ID or donor ID
      * @returns {FileFacet}
      */
@@ -151,7 +150,7 @@ export class FileFacet {
             return id === t.name;
         });
 
-        if (contains) {
+        if ( contains ) {
             // remove
             newTerms = this.terms.filter((t) => {
                 return id !== t.name;
