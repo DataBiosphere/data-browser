@@ -27,6 +27,16 @@ build_develop:
   only:
     - develop
 
+# UX-Dev Build
+build_ux-dev:
+  <<: *build_template
+  environment:
+    name: ux-dev
+  script:
+    - npm run build-develop
+  only:
+    - ux-dev
+
 # Integration Build
 build_integration:
   <<: *build_template
@@ -70,6 +80,19 @@ deploy_develop:
     - aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
   only:
     - develop
+
+# UX-Dev Deploy
+deploy_ux-dev:
+  <<: *deploy_template
+  environment:
+    name: ux-dev
+  script:
+    - export BUCKET=s3://ux-dev.explore.data.humancellatlas.org/
+    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    - aws cloudfront create-invalidation --distribution-id E3JWRFLK4O8V1L --paths "/*"
+  only:
+    - ux-dev
+
 
 # Integration Deploy
 deploy_integration:
