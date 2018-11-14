@@ -4,6 +4,7 @@
  *
  * Data access object, connecting to file-related end points.
  */
+
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Http, URLSearchParams } from "@angular/http";
@@ -11,7 +12,9 @@ import * as _ from "lodash";
 import { Observable } from "rxjs/Observable";
 import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
+
 // App dependencies
+import { EntitySearchResults } from "./entity-search-results.model";
 import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
@@ -21,8 +24,6 @@ import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../config/config.service";
-import { TableModel } from "../table/table.model";
-import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Injectable()
@@ -53,15 +54,21 @@ export class FilesDAO extends CCBaseDAO {
 
 
     /**
-     * Fetch FileFacets
+     * Fetch the set of facets matching the current set of selected facets, for the current selected tab. Offset and
+     * limit are set to 1 and 1 to minimize response size. Currently only used when displaying the "unfaceted" counts
+     * on manifest download modal.
      *
      * http://docs.icgc.org/portal/api-endpoints/#!/repository/findAll
      *
-     * @param selectedFacetsByName
-     * @param ordering
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {string} tab
+     * @param {Ordering} ordering
      * @returns {Observable<FileFacet[]>}
      */
-    fetchFileFacets(selectedFacetsByName: Map<string, FileFacet>, ordering, tab: string): Observable<FileFacet[]> {
+    fetchFileFacets(
+        selectedFacetsByName: Map<string, FileFacet>,
+        tab: string,
+        ordering?: Ordering): Observable<FileFacet[]> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
@@ -78,19 +85,24 @@ export class FilesDAO extends CCBaseDAO {
     }
 
     /**
-     * Fetch the table data
+     * Fetch data to populate rows in table, depending on the current selected tab (eg projects, specimens, files), as
+     * well as facet terms and their corresponding counts.
      *
      * @param {Map<string, FileFacet>} selectedFacetsByName
-     * @param {PaginationModel} pagination
-     * @returns {Observable<TableModel>}
+     * @param {TableParamsModel} tableParams
+     * @param {string} selectedEntity
+     * @returns {Observable<EntitySearchResults>}
      */
-    fetchEntityTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, seledtedEntity: string): Observable<TableModel> {
+    fetchEntitySearchResults(
+        selectedFacetsByName: Map<string, FileFacet>,
+        tableParams: TableParamsModel,
+        selectedEntity: string): Observable<EntitySearchResults> {
 
         const selectedFacets = Array.from(selectedFacetsByName.values());
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
 
-        const url = this.buildApiUrl(`/repository/` + seledtedEntity);
+        const url = this.buildApiUrl(`/repository/` + selectedEntity);
 
         // exract the size param
         let filterParams = Object.assign({size: tableParams.size}, query);
@@ -118,19 +130,20 @@ export class FilesDAO extends CCBaseDAO {
             });
         }
 
-
         return this.get<FilesAPIResponse>(url, filterParams)
-            .map((repositoryFiles: FilesAPIResponse) => {
-                    // keep our size as this is being lost on API return at the moment when the result set is less than
-                    // the page size.
-                    let pagination = Object.assign(repositoryFiles.pagination, {
-                        size: tableParams.size,
-                        sort: tableParams.sort
-                    });
+            .map((response: FilesAPIResponse) => {
+
+                    const fileFacets = this.createFileFacets(selectedFacetsByName, response);
+
+                    const tableModel = {
+                        data: response.hits,
+                        pagination: response.pagination,
+                        tableName: selectedEntity
+                    };
+
                     return {
-                        data: repositoryFiles.hits,
-                        pagination: repositoryFiles.pagination,
-                        tableName: seledtedEntity
+                        fileFacets,
+                        tableModel
                     };
                 }
             );
@@ -177,8 +190,18 @@ export class FilesDAO extends CCBaseDAO {
                 ];
 
                 ordering.order = bypassOrdering;
-                return this.fetchFileFacets(selectedFacetsByName, ordering, tab);
+                return this.fetchFileFacets(selectedFacetsByName, tab, ordering);
             });
+    }
+
+    /**
+     * Fetch the complete set of file facets for the files tab.
+     *
+     * @returns {Observable<FileFacet[]>}
+     */
+    fetchUnfacetedFileFileFacets(): Observable<FileFacet[]> {
+
+        return this.fetchFileFacets(new Map(), "files");
     }
 
     /**
@@ -267,10 +290,19 @@ export class FilesDAO extends CCBaseDAO {
      * @param {Ordering} ordering
      * @returns {FileFacet[]}
      */
-    private createFileFacets(selectedFacetsByName: Map<string, FileFacet>, filesAPIResponse: FilesAPIResponse, ordering: Ordering): FileFacet[] {
+    private createFileFacets(
+        selectedFacetsByName: Map<string, FileFacet>,
+        filesAPIResponse: FilesAPIResponse,
+        ordering?: Ordering): FileFacet[] {
 
         // Determine the set of facets that are to be displayed
-        const visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;
+        let visibleFacets;
+        if ( !!ordering ) {
+            visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;
+        }
+        else {
+            visibleFacets = Object.assign({}, filesAPIResponse.termFacets);
+        }
 
         // Calculate the number of terms to display on each facet card
         const shortListLength = this.calculateShortListLength(visibleFacets);
@@ -335,7 +367,7 @@ export class FilesDAO extends CCBaseDAO {
         newFileFacets.unshift(fileIdFileFacet);
 
         // Check if we have a sort order and if so, order facets accordingly
-        if ( ordering.order.length ) {
+        if ( ordering && ordering.order.length ) {
 
             const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
                 return acc.set(facet.name, facet);

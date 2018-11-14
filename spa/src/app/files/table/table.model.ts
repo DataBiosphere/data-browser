@@ -4,6 +4,7 @@
  *
  * Model of table that displays file facet data.
  */
+
 // App dependencies
 import { PaginationModel } from "./pagination.model";
 
