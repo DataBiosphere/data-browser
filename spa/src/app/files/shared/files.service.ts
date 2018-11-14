@@ -6,10 +6,8 @@ import { FileSummary } from "../file-summary/file-summary";
 import { Dictionary } from "../../shared/dictionary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileFacet } from "./file-facet.model";
-import { TableModel } from "../table/table.model";
 import { TableParamsModel } from "../table/table-params.model";
-import { ICGCQuery } from "./icgc-query";
-import { URLSearchParams } from "@angular/http";
+import { EntitySearchResults } from "./entity-search-results.model";
 
 @Injectable()
 export class FilesService {
@@ -44,37 +42,20 @@ export class FilesService {
     }
 
     /**
-     * Fetch File Facets
-     *
-     * @param selectedFacetsByName
-     * @returns {Observable<FileFacet[]>}
-     */
-    public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
-
-        return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName, tab);
-    }
-
-    /**
-     * Fetch the table data
+     * Fetch data to populate rows in table, depending on the current selected tab (eg projects, specimens, files), as
+     * well as facet terms and their corresponding counts.
      *
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<TableModel>}
+     * @param {string} selectedEntity
+     * @returns {Observable<EntitySearchResults>}
      */
-    public fetchEntityTableData(selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel, selectedEntity: string): Observable<TableModel> {
+    public fetchEntitySearchResults(
+        selectedFacetsByName: Map<string, FileFacet>,
+        tableParams: TableParamsModel,
+        selectedEntity: string): Observable<EntitySearchResults> {
 
-        return this.fileDAO.fetchEntityTableData(selectedFacetsByName, tableParams, selectedEntity);
-    }
-
-    /**
-     * Fetch file summary, optionally passing in the current set of selected facets.
-     *
-     * @param {FileFacet[]} selectedFacets
-     * @returns {Observable<Action>}
-     */
-    public fetchFileSummary(selectedFacets: FileFacet[] = []): Observable<FileSummary> {
-
-        return this.fileDAO.fetchFileSummary(selectedFacets);
+        return this.fileDAO.fetchEntitySearchResults(selectedFacetsByName, tableParams, selectedEntity);
     }
 
     /**
@@ -89,4 +70,35 @@ export class FilesService {
             .fetchFileManifestSummary(selectedFacets);
     }
 
+    /**
+     * Fetch file summary, optionally passing in the current set of selected facets.
+     *
+     * @param {FileFacet[]} selectedFacets
+     * @returns {Observable<Action>}
+     */
+    public fetchFileSummary(selectedFacets: FileFacet[] = []): Observable<FileSummary> {
+
+        return this.fileDAO.fetchFileSummary(selectedFacets);
+    }
+
+    /**
+     * Fetch File Facets
+     *
+     * @param selectedFacetsByName
+     * @returns {Observable<FileFacet[]>}
+     */
+    public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
+
+        return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName, tab);
+    }
+
+    /**
+     * Fetch the complete set of file facets for the files tab.
+     *
+     * @returns {Observable<FileFacet[]>}
+     */
+    public fetchUnfacetedFileFileFacets(): Observable<FileFacet[]> {
+
+        return this.fileDAO.fetchUnfacetedFileFileFacets();
+    }
 }

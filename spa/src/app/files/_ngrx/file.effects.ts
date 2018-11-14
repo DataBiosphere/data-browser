@@ -66,6 +66,7 @@ import { TableModel } from "../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import "rxjs/add/operator/do";
 import { getSelectedTable } from "./table/table.state";
+import { EntitySearchResults } from "../shared/entity-search-results.model";
 import { Project } from "../shared/project.model";
 import { ProjectService } from "../shared/project.service";
 
@@ -129,7 +130,7 @@ export class FileEffects {
      */
 
     /**
-     * Trigger update of file summary if a facet changes (ie term is selected or deselected. File summary includes the
+     * Trigger update of file summary if a facet changes (ie term is selected or deselected). File summary includes the
      * donor count, file count etc that is displayed above the facets.
      *
      * @type {Observable<Action>}
@@ -186,6 +187,7 @@ export class FileEffects {
 
     /**
      * Fetch the initial table data.
+     *
      * @type {Observable<FetchTableDataSuccessAction>}
      */
     @Effect()
@@ -205,13 +207,32 @@ export class FileEffects {
                     order: tableQueryParams.pagination.order
                 });
 
-            return this.fileService.fetchEntityTableData(
+            return this.fileService.fetchEntitySearchResults(
                 tableQueryParams.selectedFacets,
                 tableParams,
                 tableQueryParams.tableState.selectedEntity);
         })
-        .map((tableModel: TableModel) => {
-            return new FetchTableDataSuccessAction(tableModel);
+        .switchMap((entitySearchResults: EntitySearchResults) => {
+
+            // Update term color indicators for potential charting of term count %
+            const fileFacets = entitySearchResults.fileFacets;
+            fileFacets.forEach((fileFacet) => {
+
+                let colorIndex = 0;
+                fileFacet.terms.forEach((term) => {
+                    term.color = this.colors[colorIndex];
+                    const key = fileFacet.name + ":" + term.name;
+                    this.colorWheel.set(key, term.color);
+                    colorIndex++;
+                });
+            });
+
+            return Observable.concat(
+                // Return success action to populate table rows
+                Observable.of(new FetchTableDataSuccessAction(entitySearchResults.tableModel)),
+                // Return file facets and their corresponding terms, to populate facet drop downs
+                Observable.of(new FetchFileFacetsSuccessAction(fileFacets))
+            );
         });
 
     /**
@@ -306,13 +327,13 @@ export class FileEffects {
         .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchEntityTableData(
+            return this.fileService.fetchEntitySearchResults(
                 results[1].selectedFacets,
                 (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams,
                 results[1].tableState.selectedEntity);
         })
-        .map((tableModel: TableModel) => {
-            return new FetchTableDataSuccessAction(tableModel);
+        .map((entitySearchResults: EntitySearchResults) => {
+            return new FetchTableDataSuccessAction(entitySearchResults.tableModel);
         });
 
     @Effect()
@@ -320,13 +341,13 @@ export class FileEffects {
         .ofType(TableNextPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchEntityTableData(
+            return this.fileService.fetchEntitySearchResults(
                 results[1].selectedFacets,
                 (results[0] as TableNextPageAction).tableParams,
                 results[1].tableState.selectedEntity);
         })
-        .map((tableModel: TableModel) => {
-            return new TableNextPageSuccessAction(tableModel);
+        .map((entitySearchResults: EntitySearchResults) => {
+            return new TableNextPageSuccessAction(entitySearchResults.tableModel);
         });
 
     @Effect()
@@ -334,13 +355,13 @@ export class FileEffects {
         .ofType(TablePreviousPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
-            return this.fileService.fetchEntityTableData(
+            return this.fileService.fetchEntitySearchResults(
                 results[1].selectedFacets,
                 (results[0] as TablePreviousPageAction).tableParams,
                 results[1].tableState.selectedEntity);
         })
-        .map((tableModel: TableModel) => {
-            return new TablePreviousPageSuccessAction(tableModel);
+        .map((entitySearchResults: EntitySearchResults) => {
+            return new TablePreviousPageSuccessAction(entitySearchResults.tableModel);
         });
 
     /**
@@ -388,29 +409,10 @@ export class FileEffects {
             // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
             // for file summary and table data.
             return Observable.concat(
-                // Update table data to match selected terms, if any TODO why does order matter here? code is more readable if this is grouped with the FetchFielSummaryRequestAction below but then action is not triggered correctly?
                 // Request Summary
                 Observable.of(new FetchFileSummaryRequestAction()),
                 // Request Table Data
-                Observable.of(new FetchInitialTableDataRequestAction()),
-                // Request facets and sort by metadata, map file facet terms to unique colors, to enable graphing of
-                // terms (graphs not currently implemented in this instance of the browser).
-                this.fetchOrderedFileFacets(selectedFacetsMap, selectedEntity.key)
-                    .map((fileFacets: FileFacet[]) => {
-
-                        fileFacets.forEach((fileFacet) => {
-
-                            let colorIndex = 0;
-                            fileFacet.terms.forEach((term) => {
-                                term.color = this.colors[colorIndex];
-                                const key = fileFacet.name + ":" + term.name;
-                                this.colorWheel.set(key, term.color);
-                                colorIndex++;
-                            });
-                        });
-
-                        return new FetchFileFacetsSuccessAction(fileFacets);
-                    })
+                Observable.of(new FetchInitialTableDataRequestAction())
             );
         });
 

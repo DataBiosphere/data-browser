@@ -54,6 +54,9 @@ export class FetchPagedOrSortedTableDataRequestAction implements Action {
     constructor(public tableParams: TableParamsModel) {}
 }
 
+/**
+ * Action dispatched when the initial set of data that populates table rows, is requested from the server.
+ */
 export class FetchInitialTableDataRequestAction implements Action {
     public static ACTION_TYPE = "TABLE.DATA_REQUEST";
     public readonly type = FetchInitialTableDataRequestAction.ACTION_TYPE;
