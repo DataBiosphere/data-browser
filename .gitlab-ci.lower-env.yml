@@ -33,7 +33,7 @@ build_ux-dev:
   environment:
     name: ux-dev
   script:
-    - npm run build-develop
+    - npm run build-ux-dev
   only:
     - ux-dev
 

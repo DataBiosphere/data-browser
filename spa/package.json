@@ -7,6 +7,7 @@
     "start": "ng serve -v --proxy-config proxy.conf.json",
     "build": "ng build --prod -aot false -op ../dist",
     "build-develop": "ng build --prod -aot false -op ../dist/explore --env=develop --base-href=/explore/",
+    "build-ux-dev": "ng build --prod -aot false -op ../dist/explore --env=ux-dev --base-href=/explore/",
     "build-integration": "ng build --prod -aot false -op ../dist/explore --env=integration --base-href=/explore/",
     "build-staging": "ng build --prod -aot false -op ../dist/explore --env=staging --base-href=/explore/",
     "build-prod": "ng build --prod -aot false -op ../dist/explore --env=prod --base-href=/explore/",
