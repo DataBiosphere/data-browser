@@ -162,7 +162,6 @@ export class HCAFacetTermListComponent {
      */
     trackByFn(index, term) {
 
-        console.log("term")
         return term.name;
     }
 }
