@@ -3,17 +3,16 @@
         <span>Select Manifest File Types</span>
         <span class="fontsize-s">Once you have your manifest, use it to download your data with the HCA CLI</span>
     </div>
-    <ng-container [ngSwitch]="state.unfacetedFileFacets.length > 0">
+    <ng-container [ngSwitch]="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
         <ng-container *ngSwitchCase="true">
             <hca-file-summary
                     [showDownload]="false"
-                    [summary]="state.unfacetedFileSummary"></hca-file-summary>
-            <ng-container *ngIf="state.unfacetedFileFacets">
+                    [summary]="state.manifestDownloadFileSummary"></hca-file-summary>
+            <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
                 <div class="hca-download-content">
                     <div class="facet-term-list">
-                        <facet-file-list [selectedFileFacets]="state.selectedFileFacets" 
-                                         [unfacetedFileFacets]="state.unfacetedFileFacets"
-                                         [unfacetedFileTypeSummaries]="getFileTypeSummaries(state.unfacetedFileSummary)"
+                        <facet-file-list [selectedFileFacets]="state.selectedFileFacets"
+                                         [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
                                          (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
                     </div>
                 </div>

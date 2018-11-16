@@ -21,26 +21,27 @@ export class FetchFileSummarySuccessAction implements Action {
 }
 
 /**
- * Action dispatched when overall, original, file summary is to be requested from the endpoint API.
+ * Action dispatched when file summary is to be requested to populate file type summaries on manifest modal. Include
+ * all selected facets except any selected file types, in request.
  */
-export class FetchUnfacetedFileSummaryRequestAction implements Action {
-    public static ACTION_TYPE = "FILE.UNFACETED_FILE_SUMMARY.FETCH_REQUEST";
-    public readonly type = FetchUnfacetedFileSummaryRequestAction.ACTION_TYPE;
+export class FetchManifestDownloadFileSummaryRequestAction implements Action {
+    public static ACTION_TYPE = "FILE.MANIFEST_DOWNLOAD_FILE_SUMMARY.FETCH_REQUEST";
+    public readonly type = FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE;
     constructor() {}
 }
 
 /**
- * Action dispatched when overall, original, file summary has been requested and successfully returned from the endpoint
- * API.
+ * Action dispatched when file summary to populate file type summaries on manifest modal, has been requested and 
+ * successfully returned from the endpoint API.
  */
-export class FetchUnfacetedFileSummarySuccessAction implements Action {
-    public static ACTION_TYPE = "FILE.UNFACETED_FILE_SUMMARY.FETCH_SUCCESS";
-    public readonly type = FetchUnfacetedFileSummarySuccessAction.ACTION_TYPE;
+export class FetchManifestDownloadFileSummarySuccessAction implements Action {
+    public static ACTION_TYPE = "FILE.MANIFEST_DOWNLOAD_FILE_SUMMARY.FETCH_SUCCESS";
+    public readonly type = FetchManifestDownloadFileSummarySuccessAction.ACTION_TYPE;
     constructor(public readonly fileSummary) {}
 }
 
 export type All
     = FetchFileSummaryRequestAction
     | FetchFileSummarySuccessAction
-    | FetchUnfacetedFileSummaryRequestAction
-    | FetchUnfacetedFileSummarySuccessAction;
+    | FetchManifestDownloadFileSummaryRequestAction
+    | FetchManifestDownloadFileSummarySuccessAction;

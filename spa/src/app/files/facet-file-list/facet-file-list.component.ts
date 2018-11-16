@@ -2,14 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Displays list of facet terms, including checkbox indicating if term is currently selected, as well as corresponding
- * count. Emits "facetTermSelected" event on click of term.
- *
- * Manually added MD checkbox to template to prevent flash of animation on select of facet. Once flash is fixed,
- * the following can be added back to the template, the corresponding hand-rolled code can be removed from the
- * template. CSS must also be updated.
- * <md-checkbox [checked]="term.selected">{{term.name}}<span class="md-caption secondary">{{term.count |
- * localeString}}</span></md-checkbox> HCA specific
+ * Displays list file type summaries, and checkbox indicating if file type is currently in set of selected file facets.
  */
 
 // Core dependencies
@@ -24,6 +17,7 @@ import { FileFacet } from "../shared/file-facet.model";
 import { Term } from "../shared/term.model";
 import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
+import { FacetFileTypeSummary } from "./facet-file-type-summary.model";
 
 @Component({
     selector: "facet-file-list",
@@ -34,18 +28,15 @@ export class FacetFileListComponent {
 
     // Inputs
     @Input() selectedFileFacets: FileFacet[];
-    @Input() unfacetedFileFacets: FileFacet[];
-    @Input() unfacetedFileTypeSummaries: FileTypeSummary[];
+    @Input() fileTypeSummaries: FileTypeSummary[];
 
     // Locals
     private fileNameShortenerPipe: FileNameShortenerPipe;
-    private store: Store<AppState>;
 
     /**
      * Create file name shortener pipe for formatting selected file names (for search file facets only).
      */
-    constructor(store: Store<AppState>) {
-        this.store = store;
+    constructor(private store: Store<AppState>) {
         this.fileNameShortenerPipe = new FileNameShortenerPipe();
     }
 
@@ -54,82 +45,36 @@ export class FacetFileListComponent {
      */
 
     /**
-     * Depending on the type of facet, return a formatted version of the term name. If facet is a search facet,
-     * term name is truncated according to pipe definition. Term names for facets that are not search, are left
-     * as is, and are truncated via CSS with an ellipsis.
-     *
-     * @param termName {string}
-     * @returns {string}
-     */
-    public formatTermName(termName: string): string {
-
-        // Otherwise return term name as is
-        return termName;
-    }
-
-    /**
-     * Return the base list of terms to display - if no facets have been selected, display up to the first
-     * three terms, otherwise display up to the first three selected terms.
+     * Return the list of file types to display.
      *
      * @returns {Term[]}
      */
-    public getDisplayList(): Term[] {
+    public getDisplayList(): FacetFileTypeSummary[] {
 
-        return this.getFacet(this.unfacetedFileFacets, "fileFormat").terms;
-    }
+        // Determine the current set of selected file types
+        const selectedFileTypes = this.listSelectedFileTypes(this.selectedFileFacets);
 
-    /**
-     * Returns the facet given a facet name
-     *
-     * @param {FileFacet[]} facets
-     * @param {string} facetName
-     * @returns {FileFacet}
-     */
-    public getFacet(facets: FileFacet[], facetName: string): FileFacet {
+        return this.fileTypeSummaries.map(fileTypeSummary => {
 
-        const fileFacet = facets.find(function(fileFacet) {
-            return fileFacet.name === facetName;
+            return {
+                count: fileTypeSummary.count,
+                selected: selectedFileTypes.indexOf(fileTypeSummary.fileType) >= 0,
+                size: fileTypeSummary.totalSize,
+                termName: fileTypeSummary.fileType
+            };
         });
-
-        return fileFacet;
     }
 
     /**
-     * @param {FileTypeSummary[]} fileTypeSummaries
-     * @param {string} termName
-     * @returns {FileTypeSummary}
-     */
-    public getFileTypeSummary(fileTypeSummaries: FileTypeSummary[], termName: string): FileTypeSummary {
-
-        const fileTypeSummary = fileTypeSummaries.find(function(fileTypeSummary) {
-            return fileTypeSummary.fileType === termName;
-        });
-
-        return fileTypeSummary;
-    }
-
-    /**
-     * Return the total size for the specified term.
+     * Return the inline style configuration for the chart legend, for the specified facet file type summary.
      *
-     * @param {string} termName
-     * @returns {number}
-     */
-    public getUnfacetedFileTypeTotal(termName: string): number {
-
-        const fileTypeSummary = this.getFileTypeSummary(this.unfacetedFileTypeSummaries, termName);
-        return fileTypeSummary ? fileTypeSummary.totalSize : 0;
-    }
-
-    /**
-     * Return the inline style configuration for the chart legend, for the specified term.
-     *
-     * @param term {Term}
+     * @param facetFileTypeSummary {FacetFileTypeSummary}
      * @returns {any}
      */
-    public getLegendStyle(term: Term): any {
+    public getLegendStyle(facetFileTypeSummary: FacetFileTypeSummary): any {
 
         // If term is selected, set the background color as well
-        if ( this.isTermSelected(term.name) ) {
+        if ( facetFileTypeSummary.selected ) {
 
             return {
                 "border-color": "#1F6B9A",
@@ -153,33 +98,34 @@ export class FacetFileListComponent {
     }
 
     /**
-     * Returns true if the specified term is currently selected in the set of facets.
+     * Return list of file types that are in the current set of selected file facets.
      *
-     * @param {string} termName
-     * @returns {string}
+     * @param {FileFacet[]} selectedFileFacets
+     * @returns {string[]}
      */
-    public isTermSelected(termName: string): boolean {
+    public listSelectedFileTypes(selectedFileFacets: FileFacet[]): string[] {
 
-        const fileFormatFacets = this.getFacet(this.selectedFileFacets, "fileFormat");
-        if ( !fileFormatFacets ) {
-            return false;
-        }
+        return this.selectedFileFacets.reduce((accum, fileFacet) => {
 
-        const selectedTerm = fileFormatFacets.terms.find((term) => {
-            return term.name === termName;
-        });
+            fileFacet.terms.forEach(term => {
 
-        return (selectedTerm && selectedTerm.selected);
+                if ( term.selected ) {
+                    accum.push(term.name);
+                }
+            });
+
+            return accum;
+        }, []);
     }
 
     /**
-     * Handle click on individual term - emit event to parent.
+     * Handle click on individual facet file type summary - emit event to parent.
      *
-     * @param term {Term}
+     * @param facetFileTypeSummary {FacetFileTypeSummary}
      */
-    public onClickFacetTerm(term: Term): void {
+    public onClickFacetTerm(facetFileTypeSummary: FacetFileTypeSummary): void {
 
         this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent("fileFormat", term.name, true)));
+            new FileFacetSelectedEvent("fileFormat", facetFileTypeSummary.termName, true)));
     }
 }

@@ -12,6 +12,5 @@ import { FileFacet } from "../shared/file-facet.model";
 export interface HCADownloadManifestModalState {
 
     selectedFileFacets: FileFacet[];
-    unfacetedFileFacets: FileFacet[];
-    unfacetedFileSummary: FileSummary;
+    manifestDownloadFileSummary: FileSummary;
 }

@@ -55,8 +55,9 @@ export class FilesDAO extends CCBaseDAO {
 
     /**
      * Fetch the set of facets matching the current set of selected facets, for the current selected tab. Offset and
-     * limit are set to 1 and 1 to minimize response size. Currently only used when displaying the "unfaceted" counts
-     * on manifest download modal.
+     * limit are set to 1 and 1 to minimize response size. Currently only used when displaying the counts on manifest
+     * download modal (where we are ignoring any file formats in the set of selected facets and need to do an explicit
+     * query to grab the correct counts for that state).
      *
      * http://docs.icgc.org/portal/api-endpoints/#!/repository/findAll
      *
@@ -192,16 +193,6 @@ export class FilesDAO extends CCBaseDAO {
                 ordering.order = bypassOrdering;
                 return this.fetchFileFacets(selectedFacetsByName, tab, ordering);
             });
-    }
-
-    /**
-     * Fetch the complete set of file facets for the files tab.
-     *
-     * @returns {Observable<FileFacet[]>}
-     */
-    fetchUnfacetedFileFileFacets(): Observable<FileFacet[]> {
-
-        return this.fetchFileFacets(new Map(), "files");
     }
 
     /**

@@ -16,18 +16,16 @@ import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { MatDialogRef } from "@angular/material";
 import {
-    FetchUnfacetedFileFacetsRequestAction,
     SelectFileFacetAction
 } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { Observable } from "rxjs/Observable";
 import {
     selectFileFacetsFileFacets,
-    selectUnfacetedFileFacets,
-    selectUnfacetedFileSummary
+    selectDownloadManifestFileSummary
 } from "../_ngrx/file.selectors";
 import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
 import {
-    FetchUnfacetedFileSummaryRequestAction
+    FetchManifestDownloadFileSummaryRequestAction
 } from "../_ngrx/file-summary/file-summary.actions";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
@@ -135,26 +133,21 @@ export class HCADownloadManifestModalComponent implements OnInit {
      */
     public ngOnInit() {
 
-        // Kick off request for unfaceted file facets and file summaries
-        this.store.dispatch(new FetchUnfacetedFileSummaryRequestAction());
-        this.store.dispatch(new FetchUnfacetedFileFacetsRequestAction());
+        // Kick off request for file summaries, ignoring any currently selected file types
+        this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of file facets
         const selectedFileFacets$ = this.store.select(selectFileFacetsFileFacets);
 
-        // Grab unfaceted file facets
-        const selectUnfacetedFileFacets$ = this.store.select(selectUnfacetedFileFacets);
-
-        // Grab unfaceted file summary
-        const selectUnfacetedFileSummary$ = this.store.select(selectUnfacetedFileSummary);
+        // Grab file summary for populating file type counts on manifest downlaod modal
+        const selectManifestDownloadFileSummary$ = this.store.select(selectDownloadManifestFileSummary);
 
         this.state$ =
-            selectedFileFacets$.combineLatest(selectUnfacetedFileFacets$, selectUnfacetedFileSummary$, (selectedFileFacets, unfacetedFileFacets, unfacetedFileSummary) => {
+            selectedFileFacets$.combineLatest(selectManifestDownloadFileSummary$, (selectedFileFacets, manifestDownloadFileSummary) => {
 
             return {
                 selectedFileFacets,
-                unfacetedFileFacets,
-                unfacetedFileSummary
+                manifestDownloadFileSummary
             };
         });
     }

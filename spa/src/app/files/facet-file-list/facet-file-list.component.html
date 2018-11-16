@@ -1,4 +1,4 @@
-<ng-container *ngIf="unfacetedFileFacets.length">
+<ng-container *ngIf="fileTypeSummaries.length">
     <div class="facet-term list-headers layout-row ng-scope layout-row layout-align-space-between-center">
         <div class="chart-legend-bar"></div>
         <div class="term-summary">
@@ -10,21 +10,21 @@
         </div>
     </div>
     <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
-         *ngFor="let term of getDisplayList()"
-         (click)="onClickFacetTerm(term)">
-        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)"><mat-icon *ngIf="isTermSelected(term.name)">check</mat-icon></div>
+         *ngFor="let facetFileTypeSummary of getDisplayList()"
+         (click)="onClickFacetTerm(facetFileTypeSummary)">
+        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary)"><mat-icon *ngIf="facetFileTypeSummary.selected">check</mat-icon></div>
         <div class="term-summary">
             <div class="term-name">
-                <ng-container [ngSwitch]="isTermNameTruncated(term.name)">
+                <ng-container [ngSwitch]="isTermNameTruncated(facetFileTypeSummary.termName)">
                     <span *ngSwitchCase="true"
-                          matTooltip="{{formatTermName(term.name)}}" 
+                          matTooltip="{{facetFileTypeSummary.termName}}" 
                           [matTooltipPosition]="'above'" 
-                          matTooltipShowDelay="500">{{formatTermName(term.name)}}</span>
-                    <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
+                          matTooltipShowDelay="500">{{facetFileTypeSummary.termName}}</span>
+                    <span *ngSwitchDefault>{{facetFileTypeSummary.termName}}</span>
                 </ng-container>
             </div>
-            <div class="term-count md-caption secondary">{{term.count | countSize}}</div>
-            <div class="term-count md-caption secondary">{{getUnfacetedFileTypeTotal(term.name) | fileSize}}</div>
+            <div class="term-count md-caption secondary">{{facetFileTypeSummary.count | countSize}}</div>
+            <div class="term-count md-caption secondary">{{facetFileTypeSummary.size | fileSize}}</div>
         </div>
     </div>
 </ng-container>
