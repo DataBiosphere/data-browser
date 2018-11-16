@@ -27,16 +27,16 @@ import { FileSummary } from "../file-summary/file-summary";
 import {
     ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
-    FetchFileFacetsSuccessAction, FetchUnfacetedFileFacetsRequestAction,
+    FetchFileFacetsSuccessAction,
     NoOpAction,
     SelectFileFacetAction,
-    SetViewStateAction, FetchUnfacetedFileFacetsSuccessAction
+    SetViewStateAction
 } from "./file-facet-list/file-facet-list.actions";
 import {
     FetchFileSummaryRequestAction,
     FetchFileSummarySuccessAction,
-    FetchUnfacetedFileSummaryRequestAction,
-    FetchUnfacetedFileSummarySuccessAction
+    FetchManifestDownloadFileSummaryRequestAction,
+    FetchManifestDownloadFileSummarySuccessAction
 } from "./file-summary/file-summary.actions";
 import {
     DownloadFileManifestAction,
@@ -251,33 +251,20 @@ export class FileEffects {
         });
 
     /**
-     * Fetch overall (original state) of file facets that are unaffected by any selected facets.
+     * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
+     * selected file types, in request.
      *
      * @type {Observable<Action>}
      */
     @Effect()
-    fetchUnfacetedFacets: Observable<Action> = this.actions$
-        .ofType(FetchUnfacetedFileFacetsRequestAction.ACTION_TYPE)
+    fetchManifestDownloadtFileSummary: Observable<Action> = this.actions$
+        .ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE)
         .switchMap(() => {
-
-            return this.fetchOrderedFileFacets(new Map(), "files");
+            return this.store.select(selectSelectedFileFacets).first();
         })
-        .map((fileFacets) => {
+        .switchMap((selectedFileFacets) => {
 
-            return new FetchUnfacetedFileFacetsSuccessAction(fileFacets);
-        });
-
-    /**
-     * Fetch overall (original state) of file summary that is unaffected by any selected facets.
-     *
-     * @type {Observable<Action>}
-     */
-    @Effect()
-    fetchUnfacetedSummary: Observable<Action> = this.actions$
-        .ofType(FetchUnfacetedFileSummaryRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-
-            return this.fileService.fetchFileSummary();
+            return this.fileService.fetchManifestDownloadFileSummary(selectedFileFacets);
         })
         .map((fileSummary: any) => {
 
@@ -298,7 +285,7 @@ export class FileEffects {
                 fileSummary.totalFileSize = 0;
             }
 
-            return new FetchUnfacetedFileSummarySuccessAction(fileSummary);
+            return new FetchManifestDownloadFileSummarySuccessAction(fileSummary);
         });
 
     /**

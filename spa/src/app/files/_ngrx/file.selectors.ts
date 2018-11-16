@@ -19,7 +19,6 @@ import { FileFacet } from "../shared/file-facet.model";
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
-export const selectUnfacetedFileFacets = createFeatureSelector<FileFacet[]>("unfacetedFileFacets");
 
 /**
  * Return the list of file facets from the store.
@@ -32,7 +31,7 @@ export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (stat
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
 export const selectFileFacetMetadataSummary = createFeatureSelector<FileFacetMetadataSummaryState>("fileFacetMetadataSummary");
 export const selectTableState = createFeatureSelector<TableState>("tableState");
-export const selectUnfacetedFileSummary = createFeatureSelector<FileSummaryState>("unfacetedFileSummary");
+export const selectDownloadManifestFileSummary = createFeatureSelector<FileSummaryState>("manifestDownloadFileSummary");
 
 /**
  * Returns current state of pagination, of file facet table.

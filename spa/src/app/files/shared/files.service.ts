@@ -71,14 +71,29 @@ export class FilesService {
     }
 
     /**
-     * Fetch file summary, optionally passing in the current set of selected facets.
+     * Fetch file summary, passing in the current set of selected facets.
      *
      * @param {FileFacet[]} selectedFacets
      * @returns {Observable<Action>}
      */
-    public fetchFileSummary(selectedFacets: FileFacet[] = []): Observable<FileSummary> {
+    public fetchFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
 
         return this.fileDAO.fetchFileSummary(selectedFacets);
+    }
+
+    /**
+     * Fetch file summary for displaying the manifest modal, passing in the current set of selected facets except any
+     * selected file types.
+     *
+     * @param {FileFacet[]} selectedFacets
+     * @returns {Observable<Action>}
+     */
+    public fetchManifestDownloadFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
+
+        const selectedFacetsExceptFileTypes = selectedFacets.filter((fileFacet) => {
+            return fileFacet.name !== "fileFormat";
+        });
+        return this.fetchFileSummary(selectedFacetsExceptFileTypes);
     }
 
     /**
@@ -90,15 +105,5 @@ export class FilesService {
     public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
 
         return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName, tab);
-    }
-
-    /**
-     * Fetch the complete set of file facets for the files tab.
-     *
-     * @returns {Observable<FileFacet[]>}
-     */
-    public fetchUnfacetedFileFileFacets(): Observable<FileFacet[]> {
-
-        return this.fileDAO.fetchUnfacetedFileFileFacets();
     }
 }
