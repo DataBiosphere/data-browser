@@ -53,6 +53,7 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
@@ -131,6 +132,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
         FileFacetWrapperComponent,
+        HCADesktopBannerComponent,
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,

@@ -311,13 +311,23 @@
 }
 
 /**
+ * XSmall - iphone 5/SE
+ */
+@media screen and (max-width: 374px) {
+
+    /* Input on x-small device */
+    .wrapper .hca-input {
+        width: 200px;
+    }
+}
+
+/**
  * Large +
  */
 @media screen and (min-width: 1200px) {
 
     /* Wrapper */
     .wrapper {
-        //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px;
 
         /* Search input field */
