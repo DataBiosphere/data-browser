@@ -22,6 +22,7 @@ import { AppRoutes } from "./app.routes";
 import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
+import { DeviceDetectorModule } from "ngx-device-detector";
 import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
 import { AppReducers } from "./_ngrx/app.reducer";
@@ -55,7 +56,8 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         ConfigModule,
         FilesModule,
         //   TableModule,
-        CCSnapperModule
+        CCSnapperModule,
+        DeviceDetectorModule.forRoot()
     ],
     declarations: [
 

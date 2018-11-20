@@ -14,9 +14,10 @@
     padding: 0 16px; /* Gutter is 16px */
 
     .file-summary {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         flex: 1;
+        flex-direction: column;
         justify-content: space-between;
         margin: 16px 0 16px -8px; /* Negative left margin to allow for first tab's padding */
 
@@ -24,11 +25,20 @@
         > div {
             display: flex;
             flex-wrap: wrap; /* Wraps on smaller devices */
+            padding-bottom: 12px;
 
             /* Buttons - download and request matrix */
             &.download-buttons {
                 flex: none;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
+
+                hca-download-manifest {
+                    margin: 0 0 4px 8px;
+                }
+
+                hca-request-matrix {
+                    margin: 0 0 4px 8px;
+                }
             }
 
             /* Summary and count */
@@ -83,6 +93,36 @@
                     > span {
                         font-size: 11px;
                     }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Medium +
+ */
+@media screen and (min-width: 768px) {
+    /* Wrapper */
+    .wrapper .file-summary {
+        align-items: center;
+        flex-direction: row;
+
+        /* Summaries and counts - container */
+        > div {
+            padding-bottom: 0;
+
+            /* Buttons - download and request matrix */
+            &.download-buttons {
+                flex-wrap: nowrap;
+                margin-left: 0;
+
+                hca-download-manifest {
+                    margin: 0;
+                }
+
+                hca-request-matrix {
+                    margin: 0 0 0 8px;
                 }
             }
         }

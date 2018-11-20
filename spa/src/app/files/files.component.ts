@@ -16,6 +16,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 
 // App dependencies
+import { DeviceDetectorService } from "ngx-device-detector";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
 import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
@@ -49,15 +50,18 @@ export class FilesComponent implements OnInit, OnDestroy {
     public fileTypeMatrix$: Observable<boolean>;
 
     // Locals
+    private deviceInfo = null;
     private urlUpdater: Subscription;
 
     /**
+     * @param {DeviceDetectorService} deviceService
      * @param {Store<AppState>} store
      * @param {Location} location
      * @param {Renderer2} renderer
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,
+    constructor(private deviceService: DeviceDetectorService,
+                private store: Store<AppState>,
                 private location: Location,
                 private renderer: Renderer2,
                 @Inject("Window") private window: Window) {
@@ -66,6 +70,20 @@ export class FilesComponent implements OnInit, OnDestroy {
     /**
      * Public API
      */
+
+
+    /**
+     * Returns true if device is either mobile or tablet.
+     * @returns {boolean}
+     */
+    public isDeviceHandheld(): boolean {
+
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        const isTablet = this.deviceService.isTablet();
+
+        return (isMobile || isTablet);
+    }
 
     /**
      * Remove scroll on body when menu is open.

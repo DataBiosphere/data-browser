@@ -1,0 +1,23 @@
+/*
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * HCA no download banner for mobile and desktop devices.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Download text - no download */
+.no-download {
+    align-items: center;
+    background-color: $hca-off-white;
+    display: flex;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 14px; /* TODO typography */
+    font-weight: 600; /* TODO typography */
+    margin-top: 16px;
+    padding: 16px; /* TODO review */
+}
+
+
+
