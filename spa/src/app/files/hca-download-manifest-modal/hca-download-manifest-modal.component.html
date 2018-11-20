@@ -27,4 +27,17 @@
             </mat-spinner>
         </div>
     </ng-container>
-
+</div>
+<div class="hca-download instructions" [ngClass]="getDownloadClass(2)">
+    <div>
+        <span>Your Manifest is Downloading</span>
+        <span class="fontsize-s">When it completes, use the manifest to retrieve the data files with the HCA CLI</span>
+    </div>
+    <div class="hca-download-action">
+        <a class="hca-button"
+           target="_blank"
+           href="{{portalURL}}/learn/userguides/accessing-data/"
+           (click)="closeDialog()">Get
+            HCA CLI Instructions</a>
+    </div>
+</div>
