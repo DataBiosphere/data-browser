@@ -1,10 +1,7 @@
-<ng-container [ngSwitch]="downloadActive">
-    <button *ngSwitchCase="true" (click)="onDownloadManifest()"
+<button (click)="onDownloadManifest()"
         matTooltip="Request a file manifest for downloading the selected data with the HCA CLI"
         matTooltipPosition="below"
         matTooltipShowDelay="150"
         matTooltipClass="hca-tooltip narrow">
     <span class="spacer">Request File Manifest</span>
 </button>
-<div *ngSwitchDefault class="no-download">You will need to use a desktop to download data</div>
-</ng-container>

@@ -25,13 +25,11 @@ import { HCADownloadManifestModalComponent } from "../hca-download-manifest-moda
 
 export class HCADownloadManifestComponent {
 
-    // Inputs
-    @Input() downloadActive: boolean;
-
     /**
      * @param {MatDialog} dialog
      */
-    constructor(public dialog: MatDialog) {}
+    constructor(public dialog: MatDialog) {
+    }
 
     /**
      * Open dialog to download manifest summary.
