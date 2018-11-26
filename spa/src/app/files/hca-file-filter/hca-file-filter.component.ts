@@ -152,17 +152,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Returns facet name in correct format.
-     *
-     * @param {string} facetName
-     * @returns {any}
-     */
-    public getFacetName(facetName: string): string {
-
-        return facetName;
-    }
-
-    /**
      * Returns the facet given a facet name
      */
     public getFacet(facetName: string): FileFacet {
@@ -432,10 +421,12 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                         return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
                     });
 
-                const displayName = this.FACET_DISPLAY_NAMES[fileFacet.name];
-                const formattedFacetName = displayName ? displayName : camelToSpacePipe.transform(fileFacet.name);
+                const facetName = fileFacet.name;
+                const displayName = this.FACET_DISPLAY_NAMES[facetName];
+                const formattedFacetName = displayName ? displayName : camelToSpacePipe.transform(facetName);
                 return {
-                    facetName: formattedFacetName,
+                    displayName: formattedFacetName,
+                    facetName: facetName,
                     terms: terms
                 };
             })

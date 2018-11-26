@@ -8,7 +8,7 @@
                 be called by a different name. Scroll through the list to see what data we currently have available.
             </mat-option>
             <mat-optgroup class="hca-optgroup" *ngFor="let facet of filteredFacets$ | async"
-                          [label]="getFacetName(facet.facetName)"
+                          [label]="facet.displayName"
                           [disabled]="facet.disabled">
                 <mat-option class="hca-option" *ngFor="let term of facet.terms" [value]="{facet:facet, term:term}">
                     <span [ngClass]="getTruncatedClass(term.termName)">{{term.termName}}</span>
@@ -43,7 +43,7 @@
                                 <div [ngClass]="getIsOpenClass(f, t)"
                                      *ngFor="let facetName of facetGroup.facetNames; let t = index">
                                     <div class="facet" (click)="onHCAFacetSelect(f, t)">
-                                        <span>{{getFacetName(facetName)}}</span>
+                                        <span>{{facetName}}</span>
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <div class="facet-term-list">

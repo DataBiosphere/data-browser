@@ -6,6 +6,7 @@
  */
 
 export interface FilterableFacet {
+    displayName: string;
     facetName: string;
     terms: { termName: string; count: number }[];
 }
