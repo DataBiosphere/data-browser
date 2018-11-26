@@ -56,6 +56,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         }
     ];
 
+    // Facet blacklist - exclude from autosuggest
+    private FACET_BLACKLIST = [
+        "institution",
+        "organismAge",
+        "organismAgeUnit"
+    ];
+
     // Inputs
     @Input() fileFacets: FileFacet[];
     @Input() selectedFacets: FileFacet[];
@@ -366,44 +373,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     *
-     */
-    public setupSearchTerms() {
-
-        // Make a set that is easy to query to see if a term is selected.
-        this.selectedTermSet = this.selectedFacets.reduce((acc, facet) => {
-
-            facet.selectedTerms.forEach((term) => {
-                acc.add(facet.name + ":" + term.name);
-            });
-
-            return acc;
-
-        }, new Set<string>());
-
-        // map file facets to filterable facets.
-        this.filterableFacets = this.fileFacets.map(fileFacet => {
-
-            const terms = fileFacet.terms.map(term => {
-                // map to the filterable / display structure
-                return {termName: term.name, count: term.count};
-            }).filter((term) => {
-                // remove any seleted terms from the term list
-                return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
-            });
-
-            return {
-                facetName: fileFacet.name,
-                terms: terms
-            };
-
-        }).filter((facet) => {
-            // now filter out any empty facets.
-            return facet.terms.length > 0;
-        });
-    }
-
-    /**
      * Privates
      */
 
@@ -427,6 +396,56 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 facetNames: groupFacetNames
             });
         });
+    }
+
+    /**
+     * Set up the set of facets that can be searched over.
+     */
+    private setupSearchTerms() {
+
+        // Make a set that is easy to query to see if a term is selected.
+        this.selectedTermSet = this.selectedFacets.reduce((acc, facet) => {
+
+            facet.selectedTerms.forEach((term) => {
+                acc.add(facet.name + ":" + term.name);
+            });
+
+            return acc;
+
+        }, new Set<string>());
+
+        // map file facets to filterable facets.
+        const filterableFacets = this.fileFacets
+            .filter(fileFacet => {
+
+                return this.FACET_BLACKLIST.indexOf(fileFacet.name) === -1;
+            })
+            .map(fileFacet => {
+
+            const terms = fileFacet.terms.map(term => {
+                // map to the filterable / display structure
+                return {termName: term.name, count: term.count};
+            }).filter((term) => {
+                // remove any selected terms from the term list
+                return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
+            });
+
+            return {
+                facetName: fileFacet.name,
+                terms: terms
+            };
+
+        }).filter((facet) => {
+            // now filter out any empty facets.
+            return facet.terms.length > 0;
+        });
+
+        // Sort by facet name
+        filterableFacets.sort((facet0, facet1) => {
+            return facet0.facetName > facet1.facetName ? 1 : -1;
+        });
+
+        this.filterableFacets = filterableFacets;
     }
 
     /**
