@@ -58,10 +58,15 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     // Facet blacklist - exclude from autosuggest
     private FACET_BLACKLIST = [
-        "institution",
+        "laboratory",
         "organismAge",
         "organismAgeUnit"
     ];
+
+    // Facet display names
+    private FACET_DISPLAY_NAMES = {
+        "disease": "Known Diseases"
+    };
 
     // Inputs
     @Input() fileFacets: FileFacet[];
@@ -148,19 +153,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     /**
      * Returns facet name in correct format.
-     * disease is renamed Known Diseases.
-     * @param facetName
+     *
+     * @param {string} facetName
      * @returns {any}
      */
-    public getFacetName(facetName) {
+    public getFacetName(facetName: string): string {
 
-        if ( facetName === "disease" ) {
-
-            return "Known Diseases";
-        }
-        else {
-            return (new CamelToSpacePipe().transform(facetName));
-        }
+        return facetName;
     }
 
     /**
@@ -415,6 +414,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         }, new Set<string>());
 
         // map file facets to filterable facets.
+        const camelToSpacePipe = new CamelToSpacePipe();
         const filterableFacets = this.fileFacets
             .filter(fileFacet => {
 
@@ -422,23 +422,27 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             })
             .map(fileFacet => {
 
-            const terms = fileFacet.terms.map(term => {
-                // map to the filterable / display structure
-                return {termName: term.name, count: term.count};
-            }).filter((term) => {
-                // remove any selected terms from the term list
-                return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
+                const terms = fileFacet.terms
+                    .map(term => {
+                        // map to the filterable / display structure
+                        return {termName: term.name, count: term.count};
+                    })
+                    .filter((term) => {
+                        // remove any selected terms from the term list
+                        return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
+                    });
+
+                const displayName = this.FACET_DISPLAY_NAMES[fileFacet.name];
+                const formattedFacetName = displayName ? displayName : camelToSpacePipe.transform(fileFacet.name);
+                return {
+                    facetName: formattedFacetName,
+                    terms: terms
+                };
+            })
+            .filter((facet) => {
+                // now filter out any empty facets.
+                return facet.terms.length > 0;
             });
-
-            return {
-                facetName: fileFacet.name,
-                terms: terms
-            };
-
-        }).filter((facet) => {
-            // now filter out any empty facets.
-            return facet.terms.length > 0;
-        });
 
         // Sort by facet name
         filterableFacets.sort((facet0, facet1) => {
