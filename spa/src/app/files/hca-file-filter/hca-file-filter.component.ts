@@ -58,6 +58,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     // Facet blacklist - exclude from autosuggest
     private FACET_BLACKLIST = [
+        "contactName",
         "laboratory",
         "organismAge",
         "organismAgeUnit"
