@@ -88,6 +88,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     selectedTermSet: Set<string>;
     widthSelectBoxes = 782;
 
+    // Privates
+    private camelToSpacePipe = new CamelToSpacePipe();
+
     // View child/ren
     @ViewChild("filterInput") filterInput: ElementRef;
 
@@ -136,7 +139,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 return term.termName.toLowerCase().includes(searchString.toLowerCase());
             });
 
-            return {facetName: fileFacet.facetName, terms: terms};
+            const facetName = fileFacet.facetName;
+            const displayName = this.getFileFacetDisplayName(facetName);
+            return {
+                displayName: displayName,
+                facetName: facetName,
+                terms: terms
+            };
 
         });
 
@@ -365,6 +374,18 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
 
     /**
+     * Determine display name for specified file facet name.
+     *
+     * @param {string} fileFacetName
+     * @returns {name}
+     */
+    private getFileFacetDisplayName(fileFacetName: string): string {
+
+        const displayName = this.FACET_DISPLAY_NAMES[fileFacetName];
+        return displayName ? displayName : this.camelToSpacePipe.transform(fileFacetName);
+    }
+
+    /**
      * Group the specified facets into groups, for display in facet drop downs.
      */
     private initFacetGroups() {
@@ -403,7 +424,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         }, new Set<string>());
 
         // map file facets to filterable facets.
-        const camelToSpacePipe = new CamelToSpacePipe();
         const filterableFacets = this.fileFacets
             .filter(fileFacet => {
 
@@ -422,10 +442,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                     });
 
                 const facetName = fileFacet.name;
-                const displayName = this.FACET_DISPLAY_NAMES[facetName];
-                const formattedFacetName = displayName ? displayName : camelToSpacePipe.transform(facetName);
+                const displayName = this.getFileFacetDisplayName(facetName);
                 return {
-                    displayName: formattedFacetName,
+                    displayName: displayName,
                     facetName: facetName,
                     terms: terms
                 };
