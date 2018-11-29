@@ -7,6 +7,7 @@
  */
 
 // Core dependencies
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -30,6 +31,7 @@ import { AppEffects } from "./_ngrx/app.effects";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
+import { HCAEncodeHttpParamsInterceptor } from "app/shared/http/hca-encode-http-params.interceptor";
 import { HCAFooterComponent } from "./shared/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component";
 
@@ -83,6 +85,11 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
                 };
             },
             deps: [ConfigService],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HCAEncodeHttpParamsInterceptor,
             multi: true
         }
     ]
