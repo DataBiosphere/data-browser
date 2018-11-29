@@ -457,7 +457,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
         // Sort by facet name
         filterableFacets.sort((facet0, facet1) => {
-            return facet0.facetName > facet1.facetName ? 1 : -1;
+            return facet0.displayName > facet1.displayName ? 1 : -1;
         });
 
         this.filterableFacets = filterableFacets;
