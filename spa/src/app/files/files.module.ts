@@ -32,7 +32,6 @@ import {
 } from "@angular/material";
 
 // App dependencies
-import { CCHttpModule } from "../cc-http/cc-http.module";
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CCStopPropagationModule } from "../cc-stop-propagation/cc-stop-propagation.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
@@ -103,7 +102,6 @@ import { MatrixDAO } from "./shared/matrix.dao";
         ReactiveFormsModule,
         RouterModule.forChild(routes),
 
-        CCHttpModule,
         CcPipeModule,
         CCStopPropagationModule,
         CcTypeaheadModule,

@@ -7,10 +7,8 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Http, URLSearchParams } from "@angular/http";
 import * as _ from "lodash";
 import { Observable } from "rxjs/Observable";
-import { CCBaseDAO } from "./../../cc-http";
 import "rxjs/add/observable/of";
 
 // App dependencies
@@ -25,13 +23,16 @@ import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../config/config.service";
 import { TableParamsModel } from "../table/table-params.model";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
-export class FilesDAO extends CCBaseDAO {
+export class FilesDAO {
 
-    constructor(http: Http, private configService: ConfigService) {
-        super(http);
-    }
+    /**
+     * @param {ConfigService} configService
+     * @param {HttpClient} httpClient
+     */
+    constructor(private configService: ConfigService, private httpClient: HttpClient) {}
 
     /**
      * Fet FileSummary
@@ -45,11 +46,17 @@ export class FilesDAO extends CCBaseDAO {
 
         // todo convert back from any to FileSummary.
 
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
-
+        // Build up API URL
         const url = this.buildApiUrl(`/repository/summary`);
-        const filterParams = Object.assign({}, query);
-        return this.get<any>(url, filterParams);
+
+        // Build up the query params
+        const filters = this.facetsToQueryString(selectedFacets);
+
+        return this.httpClient.get<any>(url, {
+            params: {
+                filters
+            }
+        });
     }
 
 
@@ -71,14 +78,21 @@ export class FilesDAO extends CCBaseDAO {
         tab: string,
         ordering?: Ordering): Observable<FileFacet[]> {
 
-        const selectedFacets = Array.from(selectedFacetsByName.values());
-
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
-
+        // Build the API URL
         const url = this.buildApiUrl(`/repository/` + tab);
-        const filterParams = Object.assign({from: 1, size: 1}, query);
 
-        return this.get<FilesAPIResponse>(url, filterParams)
+        // Build up the query params
+        const selectedFacets = Array.from(selectedFacetsByName.values());
+        const filters = this.facetsToQueryString(selectedFacets);
+
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {
+                params: {
+                    from: "1",
+                    size: "1",
+                    filters
+                }
+            })
             .map((repositoryFiles: FilesAPIResponse) => {
                     return this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering);
                 }
@@ -99,46 +113,44 @@ export class FilesDAO extends CCBaseDAO {
         tableParams: TableParamsModel,
         selectedEntity: string): Observable<EntitySearchResults> {
 
-        const selectedFacets = Array.from(selectedFacetsByName.values());
-
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
-
+        // Build API URL
         const url = this.buildApiUrl(`/repository/` + selectedEntity);
 
-        // exract the size param
-        let filterParams = Object.assign({size: tableParams.size}, query);
+        // Build query params
+        const selectedFacets = Array.from(selectedFacetsByName.values());
+        const filters = this.facetsToQueryString(selectedFacets);
 
-        // see if there is a sort and order
+        const paramMap = {
+            filters,
+            size: tableParams.size.toString(10)
+        };
+
         if ( tableParams.sort && tableParams.order ) {
-            filterParams = Object.assign(filterParams, {
-                sort: tableParams.sort,
-                order: tableParams.order
-            });
+            paramMap["sort"] = tableParams.sort;
+            paramMap["order"] = tableParams.order;
         }
 
         // check if there is paging
         if ( tableParams.search_after && tableParams.search_after_uid ) {
-            filterParams = Object.assign(filterParams, {
-                search_after: tableParams.search_after,
-                search_after_uid: tableParams.search_after_uid
-            });
+
+            paramMap["search_after"] = tableParams.search_after;
+            paramMap["search_after_uid"] = tableParams.search_after_uid;
         }
 
         if ( tableParams.search_before && tableParams.search_before_uid ) {
-            filterParams = Object.assign(filterParams, {
-                search_before: tableParams.search_before,
-                search_before_uid: tableParams.search_before_uid
-            });
+
+            paramMap["search_before"] = tableParams.search_before;
+            paramMap["search_before_uid"] = tableParams.search_before_uid;
         }
 
-        return this.get<FilesAPIResponse>(url, filterParams)
-            .map((response: FilesAPIResponse) => {
+        return this.httpClient.get<FilesAPIResponse>(url, {params: paramMap})
+            .map((repositoryFiles: FilesAPIResponse) => {
 
-                    const fileFacets = this.createFileFacets(selectedFacetsByName, response);
+                    const fileFacets = this.createFileFacets(selectedFacetsByName, repositoryFiles);
 
                     const tableModel = {
-                        data: response.hits,
-                        pagination: response.pagination,
+                        data: repositoryFiles.hits,
+                        pagination: repositoryFiles.pagination,
                         tableName: selectedEntity
                     };
 
@@ -156,8 +168,9 @@ export class FilesDAO extends CCBaseDAO {
      * @returns {Observable<Ordering>}
      */
     fetchFacetOrdering(): Observable<Ordering> {
+
         const url = this.buildApiUrl(`/repository/files/order`);
-        return this.get(url);
+        return this.httpClient.get<Ordering>(url);
     }
 
     /**
@@ -222,7 +235,7 @@ export class FilesDAO extends CCBaseDAO {
 
         const url = this.buildApiUrl("/repository/files/summary/manifest");
 
-        return this.post<Dictionary<FileManifestSummary>>(url, form);
+        return this.httpClient.post<Dictionary<FileManifestSummary>>(url, form);
     }
 
     /**
