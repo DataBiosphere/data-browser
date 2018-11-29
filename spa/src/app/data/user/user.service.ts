@@ -1,15 +1,25 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Data access object for hitting user-related API end points.
+ */
+
+// Core dependencies
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { CCBaseDAO } from "../../cc-http/shared/cc-base.dao";
-import { User } from "./user.model";
 import { Observable } from "rxjs/Observable";
 
-@Injectable()
-export class UserService extends CCBaseDAO {
+// App dependencies
+import { User } from "./user.model";
 
-    constructor(http: Http) {
-        super(http);
-    }
+@Injectable()
+export class UserService {
+
+    /**
+     * @param {HttpClient} httpClient
+     */
+    constructor(private httpClient: HttpClient) {}
 
     /**
      * Sync Session
@@ -27,7 +37,7 @@ export class UserService extends CCBaseDAO {
      */
     // downloadRedwoodToken(): Observable<boolean> {
     //     window.location.href = `/api/user/redwood-token`;
-    //     // return this.get(`/api/user/redwood-token`);
+    //     // return this.httpClient.get(`/api/user/redwood-token`);
     //     return Observable.of(true);
     // }
 }
