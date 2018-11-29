@@ -52,7 +52,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         },
         {
             facetGroupName: "More",
-            facetNames: ["project", "laboratory", "fileFormat"]
+            facetNames: ["project", "fileFormat"]
         }
     ];
 
