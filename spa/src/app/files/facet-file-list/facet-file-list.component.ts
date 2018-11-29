@@ -54,14 +54,15 @@ export class FacetFileListComponent {
         // Determine the current set of selected file types
         const selectedFileTypes = this.listSelectedFileTypes(this.selectedFileFacets);
 
-        return this.fileTypeSummaries.map(fileTypeSummary => {
+        // Return fileTypeSummary, excluding matrix file type
+        return this.fileTypeSummaries.filter(fileTypeSummary => fileTypeSummary.fileType !== "matrix").map(fileTypeSummary => {
 
-            return {
-                count: fileTypeSummary.count,
-                selected: selectedFileTypes.indexOf(fileTypeSummary.fileType) >= 0,
-                size: fileTypeSummary.totalSize,
-                termName: fileTypeSummary.fileType
-            };
+                return {
+                    count: fileTypeSummary.count,
+                    selected: selectedFileTypes.indexOf(fileTypeSummary.fileType) >= 0,
+                    size: fileTypeSummary.totalSize,
+                    termName: fileTypeSummary.fileType
+                };
         });
     }
 

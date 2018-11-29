@@ -15,7 +15,8 @@ export class FilesService {
     /**
      * @param {FilesDAO} fileDAO
      */
-    constructor(private fileDAO: FilesDAO) {}
+    constructor(private fileDAO: FilesDAO) {
+    }
 
     /**
      * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
@@ -38,7 +39,24 @@ export class FilesService {
      */
     public downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
 
-        return this.fileDAO.downloadFileManifest(selectedFacets);
+        // Remove facet "fileFormat" term "matrix" from selectedTerms
+        let selectedFacetsFiltered = selectedFacets.map(selectedFacet => {
+
+            if ( selectedFacet.name === "fileFormat" ) {
+
+                // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
+                const copyOfFacet = {...selectedFacet};
+
+                // Filter out matrix
+                copyOfFacet.selectedTerms = copyOfFacet.selectedTerms.filter(term => term.name !== "matrix");
+                return copyOfFacet;
+            }
+
+            return selectedFacet;
+        });
+
+        console.log(selectedFacetsFiltered);
+        return this.fileDAO.downloadFileManifest(selectedFacetsFiltered as FileFacet[]);
     }
 
     /**
@@ -50,10 +68,9 @@ export class FilesService {
      * @param {string} selectedEntity
      * @returns {Observable<EntitySearchResults>}
      */
-    public fetchEntitySearchResults(
-        selectedFacetsByName: Map<string, FileFacet>,
-        tableParams: TableParamsModel,
-        selectedEntity: string): Observable<EntitySearchResults> {
+    public fetchEntitySearchResults(selectedFacetsByName: Map<string, FileFacet>,
+                                    tableParams: TableParamsModel,
+                                    selectedEntity: string): Observable<EntitySearchResults> {
 
         return this.fileDAO.fetchEntitySearchResults(selectedFacetsByName, tableParams, selectedEntity);
     }
