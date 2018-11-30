@@ -18,13 +18,14 @@
         </mat-autocomplete>
         <ng-container [ngSwitch]="getWindowWidth()">
             <ng-container *ngSwitchDefault>
-                <ng-container *ngFor="let facetGroup of facetGroups; let i = index">
+                <ng-container *ngFor="let facetGroup of facetGroups; let i = index;trackBy: trackFacetGroupByFn">
                     <div [ngClass]="getSelectClass(i)" (click)="onHCASelect(i)">
                         <span>{{facetGroup.facetGroupName}}</span>
                         <mat-icon>keyboard_arrow_down</mat-icon>
                         <ng-container *ngIf="fileFacets.length">
                             <div [ngClass]="getOptionsClass(i)" [ngStyle]="getFacetStyles(i, facetGroup.facetNames.length, facetGroups.length)" (mouseleave)="onHCASelectClose()">
-                                <hca-file-facet [fileFacet]="getFacet(facetName)" *ngFor="let facetName of facetGroup.facetNames"></hca-file-facet>
+                                <hca-file-facet [fileFacet]="getFacet(facetName)" 
+                                                *ngFor="let facetName of facetGroup.facetNames;trackBy: trackFileFacetByFn"></hca-file-facet>
                             </div>
                         </ng-container>
                     </div>
