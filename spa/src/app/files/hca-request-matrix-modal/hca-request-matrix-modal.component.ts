@@ -33,6 +33,7 @@ import { Subject } from "rxjs/Subject";
 export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
     // Template variables
+    public fileFormat = MatrixFormat.loom;
     public matrixResponse$ = new Subject<MatrixResponse>();
     public state$: Observable<HCARequestMatrixModalState>;
 
@@ -70,6 +71,20 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
         }
 
         return eta;
+    }
+
+    /**
+     * Return the possible set of file formats for downloading the matrix.
+     *
+     * @returns {string[]}
+     */
+    public getFileFormats(): string[] {
+
+        return Object.keys(MatrixFormat).reduce((accum, format) => {
+
+            accum.push(format);
+            return accum;
+        }, []);
     }
 
     /**
@@ -165,12 +180,13 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      * Request matrix.
      *
      * @param {FileFacet[]} selectedFacets
+     * @param {MatrixFormat} fileFormat
      */
-    public onRequestMatrix(selectedFacets: FileFacet[]) {
+    public onRequestMatrix(selectedFacets: FileFacet[], fileFormat: MatrixFormat) {
 
         // Request the matrix expression.
         this.matrixService
-            .requestMatrix(selectedFacets, MatrixFormat.loom)
+            .requestMatrix(selectedFacets, fileFormat)
             .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
                 this.matrixResponse$.next(response);
             });
