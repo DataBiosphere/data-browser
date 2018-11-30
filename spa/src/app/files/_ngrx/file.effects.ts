@@ -45,6 +45,7 @@ import {
 } from "./file-manifest-summary/file-manifest-summary.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import {
+    selectFileFacets,
     selectFileFacetMetadataSummary,
     selectSelectedEntity,
     selectSelectedFacetsMap,
@@ -359,7 +360,7 @@ export class FileEffects {
     downloadFileManifest$: Observable<Action> = this.actions$
         .ofType(DownloadFileManifestAction.ACTION_TYPE)
         .switchMap(() => {
-            return this.store.select(selectSelectedFileFacets).first();
+            return this.store.select(selectFileFacets).first();
         })
         .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
