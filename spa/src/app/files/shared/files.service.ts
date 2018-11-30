@@ -8,6 +8,7 @@ import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summ
 import { FileFacet } from "./file-facet.model";
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitySearchResults } from "./entity-search-results.model";
+import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
 
 @Injectable()
 export class FilesService {
@@ -33,14 +34,30 @@ export class FilesService {
 
     /**
      * Download File Manifest
-     *
-     * @param selectedFacets
-     * @returns {any}
+     * Removes all instances of fileFormat term "matrix".
+     * @param {FileFacetListState} ffls
+     * @returns {Observable<any>}
      */
-    public downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
+    public downloadFileManifest(ffls: FileFacetListState): Observable<any> {
 
-        // Remove facet "fileFormat" term "matrix" from selectedTerms
-        let selectedFacetsFiltered = selectedFacets.map(selectedFacet => {
+        let selectedFacets = ffls.selectedFileFacets || [];
+        let allFacets = ffls.fileFacets || [];
+
+        // If the facet "fileFacet" is missing i.e. no fileFacet terms have been selected, then add the facet to the selectedFacets
+        if ( !selectedFacets.some(facet => facet.name === "fileFormat") ) {
+
+            let fileFacet = allFacets.find(facet => facet.name === "fileFormat");
+
+            // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
+            const copyOfFacet = {...fileFacet};
+
+            // Filter out matrix
+            copyOfFacet.selectedTerms = copyOfFacet.terms.filter(term => term.name !== "matrix");
+            selectedFacets.push(copyOfFacet as FileFacet);
+        }
+
+        // Remove the term "matrix" from selectedTerms
+        selectedFacets = selectedFacets.map(selectedFacet => {
 
             if ( selectedFacet.name === "fileFormat" ) {
 
@@ -49,14 +66,13 @@ export class FilesService {
 
                 // Filter out matrix
                 copyOfFacet.selectedTerms = copyOfFacet.selectedTerms.filter(term => term.name !== "matrix");
-                return copyOfFacet;
+                return copyOfFacet as FileFacet;
             }
 
             return selectedFacet;
         });
 
-        console.log(selectedFacetsFiltered);
-        return this.fileDAO.downloadFileManifest(selectedFacetsFiltered as FileFacet[]);
+        return this.fileDAO.downloadFileManifest(selectedFacets);
     }
 
     /**
