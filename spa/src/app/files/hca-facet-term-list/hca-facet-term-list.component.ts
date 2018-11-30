@@ -103,9 +103,7 @@ export class HCAFacetTermListComponent {
             };
 
             return style;
-
         }
-
     }
 
     /**
@@ -138,7 +136,7 @@ export class HCAFacetTermListComponent {
      * @param termName {string}
      * @returns {boolean}
      */
-    isTermNameTruncated(termName: string): boolean {
+    public isTermNameTruncated(termName: string): boolean {
 
         return termName.length > 33;
     }
@@ -149,7 +147,7 @@ export class HCAFacetTermListComponent {
      * @param fileFacet {FileFacet}
      * @param term {Term}
      */
-    onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
+    public onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
 
         // Update facet state
         this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
@@ -157,10 +155,12 @@ export class HCAFacetTermListComponent {
 
     /**
      * Track by function used when displaying the list of terms.
-     * @param index
-     * @param term
+     *
+     * @param {number} index
+     * @param {Term} term
+     * @returns {string}
      */
-    trackByFn(index, term) {
+    public trackByFn(index: number, term: Term): string {
 
         return term.name;
     }

@@ -258,11 +258,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Returns true if the facet is specified in the set of facets to display. This is a basic null protection
-     * against the hard-coded facet grouping and the
-     */
-
-    /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
      * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
@@ -368,6 +363,30 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             "minWidth": (widthRequired + "px"),
             "right": "unset"
         };
+    }
+
+    /**
+     * Track by function used when drawing list of file facets.
+     *
+     * @param index
+     * @param {FileFacet} fileFacet
+     * @returns {string}
+     */
+    public trackFileFacetByFn(index, fileFacet: FileFacet): string {
+
+        return fileFacet.name;
+    }
+
+    /**
+     * Track by function used when drawing list of facet groups.
+     *
+     * @param {number} index
+     * @param {any} facetGroup
+     * @returns {string}
+     */
+    public trackFacetGroupByFn(index: number, facetGroup: any): string {
+
+        return facetGroup.facetGroupName;
     }
 
     /**
