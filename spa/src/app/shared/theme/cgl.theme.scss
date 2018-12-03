@@ -83,3 +83,16 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     stroke: $hca-secondary;
 }
 
+/* Overrides styles for Angular Radio Button (mat-radio-button) */
+.hca-radio .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: $hca-secondary;
+}
+
+/* Overrides styles for Angular Radio Button (mat-radio-button) */
+.hca-radio .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: $hca-secondary;
+}
+
+.hca-radio .mat-radio-label {
+    text-transform: capitalize;
+}
