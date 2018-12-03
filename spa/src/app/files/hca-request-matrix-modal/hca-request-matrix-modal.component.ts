@@ -82,8 +82,13 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
         return Object.keys(MatrixFormat).reduce((accum, format) => {
 
-            accum.push(format);
-            return accum;
+            if ( format === "csv") {
+                accum.push(format.toUpperCase());
+            }
+            else {
+                accum.push(format);
+            }
+            return accum.sort();
         }, []);
     }
 
