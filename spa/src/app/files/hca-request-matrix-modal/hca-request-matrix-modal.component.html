@@ -8,34 +8,37 @@
                             [removable]="false"
                             [selectedFacets]="state.selectedFileFacets"></hca-file-filter-result>
     <div class="hca-download-content">
-            <ng-container *ngIf="matrixResponse$ | async as matrixResponse; else selectFileType">
-                <ng-container *ngIf="isRequestInProgress(matrixResponse)">
-                    <p class="fontsize-s">Your expression matrix is being prepared.</p>
-                    <p class="fontsize-s" *ngIf="isETASpecified(matrixResponse)">Wait times are currently about {{formatETA(matrixResponse.eta)}}.</p>
-                </ng-container>
-                <ng-container *ngIf="isRequestCompleted(matrixResponse)">
-                    <p class="fontsize-s">Your expression matrix is ready.</p>
-                    <p class="fontsize-xxs">{{getMatrixLink(matrixResponse)}}</p>
-                </ng-container>
-                <ng-container *ngIf="isRequestFailed(matrixResponse)">
-                    <p class="fontsize-s">An error has occurred.</p>
-                </ng-container>
+        <ng-container *ngIf="matrixResponse$ | async as matrixResponse; else selectFileType">
+            <ng-container *ngIf="isRequestInProgress(matrixResponse)">
+                <p class="fontsize-s">Your expression matrix is being prepared.</p>
+                <p class="fontsize-s" *ngIf="isETASpecified(matrixResponse)">Wait times are currently about
+                    {{formatETA(matrixResponse.eta)}}.</p>
             </ng-container>
-            <ng-template #selectFileType>
-                <mat-form-field>
-                    <mat-select [(value)]="fileFormat" placeholder="File Format">
-                        <mat-option *ngFor="let fileFormat of getFileFormats()" [value]="fileFormat">{{fileFormat}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </ng-template>
+            <ng-container *ngIf="isRequestCompleted(matrixResponse)">
+                <p class="fontsize-s">Your expression matrix is ready.</p>
+                <p class="fontsize-xxs">{{getMatrixLink(matrixResponse)}}</p>
+            </ng-container>
+            <ng-container *ngIf="isRequestFailed(matrixResponse)">
+                <p class="fontsize-s">An error has occurred.</p>
+            </ng-container>
+        </ng-container>
+        <ng-template #selectFileType>
+            <p class="fontsize-s">Select a File Format:</p>
+            <mat-radio-group [(value)]="fileFormat" class="hca-radio">
+                <mat-radio-button *ngFor="let fileFormat of getFileFormats()" [value]="fileFormat">{{fileFormat}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </ng-template>
     </div>
     <div class="hca-download-action">
-        <button *ngIf="isRequestNew(matrixResponse$ | async)" type="button" (click)="onRequestMatrix(state.selectedFileFacets, fileFormat)">Request Expression Matrix</button>
+        <button *ngIf="isRequestNew(matrixResponse$ | async)" type="button"
+                (click)="onRequestMatrix(state.selectedFileFacets, fileFormat)">Request Expression Matrix
+        </button>
         <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
             <mat-spinner *ngIf="isRequestInProgress(matrixResponse)"
-                    class="hca-spinner"
-                    [diameter]="28"
-                    [mode]="indeterminate">
+                         class="hca-spinner"
+                         [diameter]="28"
+                         [mode]="indeterminate">
             </mat-spinner>
             <ng-container *ngIf="isRequestCompleted(matrixResponse)">
                 <button type="button" (click)="onDownloadMatrix(matrixResponse)">Download Matrix</button>

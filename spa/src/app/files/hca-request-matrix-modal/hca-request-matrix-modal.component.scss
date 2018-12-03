@@ -36,6 +36,15 @@
         .fontsize-s, .fontsize-xxs {
             margin: 0;
         }
+
+        mat-radio-group {
+            display: flex;
+            margin-top: 8px;
+        }
+
+        mat-radio-button {
+            padding-right: 16px;
+        }
     }
 
     /* Action */
