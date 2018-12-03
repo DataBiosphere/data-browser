@@ -12,6 +12,7 @@ stages:
     - cd spa
     - npm -v
     - npm install
+    - cd ..
 
   artifacts:
       paths:
@@ -23,7 +24,8 @@ build_develop:
   environment:
     name: develop
   script:
-    - ../insert-gtm-snippet.sh
+    - insert-gtm-snippet.sh
+    - cd spa
     - npm run build-develop
   only:
     - develop
