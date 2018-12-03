@@ -13,7 +13,7 @@ replaceHead=$"s/<!-- REPLACE-ME: GOOGLE TAG MANAGER HEAD -->/""$gtmHead"/g
 replaceBody=$"s/<!-- REPLACE-ME: GOOGLE TAG MANAGER BODY -->/""$gtmBody"/g
 
 echo "Begin replace head"
-sed -i .bak "$replaceHead" spa/src/index.html
+#sed -i .bak "$replaceHead" spa/src/index.html
 
 echo "Begin replace body"
 sed -i .bak "$replaceBody" spa/src/index.html
