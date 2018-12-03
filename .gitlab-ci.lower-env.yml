@@ -23,7 +23,7 @@ build_develop:
   environment:
     name: develop
   script:
-    - insert-gtm-snippet.sh
+    - ../insert-gtm-snippet.sh
     - npm run build-develop
   only:
     - develop
