@@ -23,8 +23,14 @@
 
     /* Line separator */
     .separator {
-        border-bottom: 1px solid $hca-gray-light;
+        border-bottom: 1px solid $hca-gray-lightest;
         margin: 0 24px 16px;
+    }
+
+    /* List of selected facet terms */
+    hca-file-filter-result {
+        display: block;
+        margin-bottom: 16px;
     }
 
     /* Content - list of terms */

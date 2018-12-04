@@ -94,5 +94,6 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 }
 
 .hca-radio .mat-radio-label {
-    text-transform: capitalize;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 12px;
 }
