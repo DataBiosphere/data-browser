@@ -43,6 +43,14 @@
             margin: 0;
         }
 
+        .matrix-error {
+            background-color: #fafafa;
+            font-family: monospace;
+            margin-top: 12px;
+            padding: 8px;
+            white-space: pre-wrap;
+        }
+
         mat-radio-group {
             display: flex;
             margin-top: 8px;
