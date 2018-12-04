@@ -7,6 +7,7 @@
     <hca-file-filter-result *ngIf="state.selectedFileFacets"
                             [removable]="false"
                             [selectedFacets]="state.selectedFileFacets"></hca-file-filter-result>
+    <div class="separator"></div>
     <div class="hca-download-content">
         <ng-container *ngIf="matrixResponse$ | async as matrixResponse; else selectFileType">
             <ng-container *ngIf="isRequestInProgress(matrixResponse)">
@@ -24,7 +25,7 @@
         </ng-container>
         <ng-template #selectFileType>
             <p class="fontsize-s">Select a File Format:</p>
-            <mat-radio-group [(value)]="fileFormat" class="hca-radio">
+            <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
                 <mat-radio-button *ngFor="let fileFormat of getFileFormats()" [value]="fileFormat">{{fileFormat}}
                 </mat-radio-button>
             </mat-radio-group>
