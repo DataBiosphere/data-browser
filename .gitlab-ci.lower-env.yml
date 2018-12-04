@@ -24,6 +24,9 @@ build_develop:
   environment:
     name: develop
   script:
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=9YN1zUWSooX9gvYK43KPlg
+    - export GTM_ENV=env-6
     - pwd
     - ./insert-gtm-snippet.sh
     - cd spa

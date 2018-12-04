@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 set -e
-echo $CI_ENVIRONMENT_NAME
 
-gtmHead=$(cat "./gtm/"$CI_ENVIRONMENT_NAME".head.txt")
-gtmBody=$(cat "./gtm/"$CI_ENVIRONMENT_NAME".body.txt")
+gtmHead=$(cat "./gtm/gtm.head.txt")
+gtmBody=$(cat "./gtm/gtm.body.txt")
+
+gtmHead=$(echo $gtmHead | sed s/GTM_ID/"$GTM_ID"/g)
+gtmHead=$(echo $gtmHead | sed s/GTM_AUTH/"$GTM_AUTH"/g)
+gtmHead=$(echo $gtmHead | sed s/GTM_ENV/"$GTM_ENV"/g)
+
+gtmBody=$(echo $gtmBody | sed s/GTM_ID/"$GTM_ID"/g)
+gtmBody=$(echo $gtmBody | sed s/GTM_AUTH/"$GTM_AUTH"/g)
+gtmBody=$(echo $gtmBody | sed s/GTM_ENV/"$GTM_ENV"/g)
 
 echo $gtmHead
 echo $gtmBody
