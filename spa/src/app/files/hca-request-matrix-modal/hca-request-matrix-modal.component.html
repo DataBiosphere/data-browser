@@ -21,6 +21,7 @@
             </ng-container>
             <ng-container *ngIf="isRequestFailed(matrixResponse)">
                 <p class="fontsize-s">An error has occurred.</p>
+                <p class="fontsize-s matrix-error" [innerHTML]="matrixResponse.message"></p>
             </ng-container>
         </ng-container>
         <ng-template #selectFileType>
