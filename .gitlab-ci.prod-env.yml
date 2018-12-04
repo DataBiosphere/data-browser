@@ -11,6 +11,7 @@ stages:
   before_script:
     - cd spa
     - npm install
+    - cd ..
 
   artifacts:
       paths:
@@ -22,6 +23,12 @@ build_develop:
   environment:
     name: prod
   script:
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=xm3qglWPEFim7Lb4AxXnsA
+    - export GTM_ENV=env-2
+    - pwd
+    - ./insert-gtm-snippet.sh
+    - cd spa
     - npm run build-prod
   only:
     - master
