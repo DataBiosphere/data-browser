@@ -40,6 +40,12 @@ build_ux-dev:
   environment:
     name: ux-dev
   script:
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=V6JsS1EO6wZraCRRVvsrlw
+    - export GTM_ENV=env-11
+    - pwd
+    - ./insert-gtm-snippet.sh
+    - cd spa
     - npm run build-ux-dev
   only:
     - ux-dev
@@ -50,7 +56,13 @@ build_integration:
   environment:
     name: integration
   script:
-    npm run build-integration
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=idWkz24fhkH__F0XXIBNGA
+    - export GTM_ENV=env-8
+    - pwd
+    - ./insert-gtm-snippet.sh
+    - cd spa
+    - npm run build-integration
   only:
     - integration
 
@@ -60,7 +72,13 @@ build_staging:
   environment:
     name: staging
   script:
-    npm run build-staging
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=CVR6RDnBikpJoyAEnybSBw
+    - export GTM_ENV=env-10
+    - pwd
+    - ./insert-gtm-snippet.sh
+    - cd spa
+    - npm run build-staging
   only:
     - staging
 
