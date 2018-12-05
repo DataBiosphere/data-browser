@@ -53,26 +53,6 @@ export class HCAFacetTermListComponent {
      */
 
     /**
-     * Depending on the type of facet, return a formatted version of the term name. If facet is a search facet,
-     * term name is truncated according to pipe definition. Term names for facets that are not search, are left
-     * as is, and are truncated via CSS with an ellipsis.
-     *
-     * @param termName {string}
-     * @returns {string}
-     */
-    formatTermName(termName: string): string {
-
-        // Truncate term name if file facet is search (file ID or donor ID).
-        if ( this.fileFacet.isInterfaceTypeSearch() ) {
-
-            return this.fileNameShortenerPipe.transform(termName);
-        }
-
-        // Otherwise return term name as is
-        return termName;
-    }
-
-    /**
      * Return the base list of terms to display.
      *
      * @returns {Term[]}
@@ -130,15 +110,13 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Returns true if term name is truncated with ellipsis. Note, this is not calculated exactly (as ellipsis is
-     * controlled by CSS) and is just an approximation.
-     *
-     * @param termName {string}
+     * Returns true if the the facet is project.
+     * @param {string} facetName
      * @returns {boolean}
      */
-    public isTermNameTruncated(termName: string): boolean {
+    public isFacetProject(facetName: FileFacet): boolean {
 
-        return termName.length > 33;
+        return (facetName.name === "project");
     }
 
     /**

@@ -6,13 +6,12 @@
     </div>
     <div class="term-summary">
         <div class="term-name" [ngClass]="getTruncatedClass(term.name)">
-            <ng-container [ngSwitch]="isTermNameTruncated(term.name)">
-                <span *ngSwitchCase="true"
-                      matTooltip="{{formatTermName(term.name)}}"
-                      [matTooltipPosition]="'above'"
-                      matTooltipShowDelay="500">{{formatTermName(term.name)}}</span>
-                <span *ngSwitchDefault>{{formatTermName(term.name)}}</span>
-            </ng-container>
+                <span matTooltip="{{term.name}}"
+                      matTooltipPosition="above"
+                      matTooltipShowDelay="150"
+                      matTooltipClass="hca-tooltip narrow"
+                      matTooltipDisabled="{{!isFacetProject(fileFacet)}}">{{term.name}}
+                </span>
         </div>
         <div matTooltip="{{term.count | localeString}}"
              matTooltipPosition="above"
