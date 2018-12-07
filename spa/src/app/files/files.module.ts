@@ -11,6 +11,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
 import {
@@ -82,6 +83,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
 
 @NgModule({
     imports: [
+        BrowserAnimationsModule,
         ClipboardModule,
         CommonModule,
         FormsModule,

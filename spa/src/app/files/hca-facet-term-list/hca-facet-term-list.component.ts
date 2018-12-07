@@ -110,16 +110,6 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Returns true if the the facet is project.
-     * @param {string} facetName
-     * @returns {boolean}
-     */
-    public isFacetProject(facetName: FileFacet): boolean {
-
-        return (facetName.name === "project");
-    }
-
-    /**
      * Handle click on individual term - emit event to parent.
      *
      * @param fileFacet {FileFacet}

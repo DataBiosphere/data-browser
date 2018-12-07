@@ -56,6 +56,12 @@
             p {
                 margin: 0;
             }
+
+            /* Add project to selected facets */
+            .add-project {
+                color: $hca-gray-medium;
+                cursor: pointer;
+            }
         }
     }
 }
@@ -96,7 +102,6 @@
         h4 + .details {
             padding-top: 0;
         }
-
 
         /* RHS heading and content */
         &.rhs p, &.rhs h4.fontsize-m {
@@ -157,7 +162,6 @@
 
         /* Wrapper */
         .wrapper {
-            //max-width: 1140px; /* Snap to 1200px, gutter 30px */
             padding: 0 30px;
         }
     }

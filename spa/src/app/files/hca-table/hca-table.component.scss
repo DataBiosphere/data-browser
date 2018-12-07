@@ -201,6 +201,10 @@
                             display: inline-flex;
                             width: 40px;
 
+                            img {
+                                height: 18px;
+                            }
+
                             /* Processed */
                             &:last-of-type {
                                 width: 60px;

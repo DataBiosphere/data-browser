@@ -7,7 +7,10 @@
             <div class="project-highlights">
                 <div>
                     <p class="fontsize-xs bold lhs">Project</p>
-                    <p class="fontsize-xs rhs">{{project.projectTitle}}</p>
+                    <div class="rhs">
+                        <p class="fontsize-xs">{{project.projectTitle}}</p>
+                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xxs add-project" (click)="onProjectSelected(project.projectShortname)">+ Add Project</p>
+                    </div>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">Species</p>

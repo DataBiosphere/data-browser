@@ -78,6 +78,7 @@ export class ProjectDAO {
             organ: responseProjectSummary.organSummaries.map(organ => organ.organType),
             organPart: responseSpecimens.organPart,
             projectDescription: responseProject.projectDescription,
+            projectShortname: responseProject.projectShortname,
             projectTitle: responseProject.projectTitle,
             publications: responseProject.publications,
             species: responseProjectSummary.genusSpecies

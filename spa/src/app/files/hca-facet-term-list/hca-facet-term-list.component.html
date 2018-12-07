@@ -6,12 +6,7 @@
     </div>
     <div class="term-summary">
         <div class="term-name" [ngClass]="getTruncatedClass(term.name)">
-                <span matTooltip="{{term.name}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipClass="hca-tooltip narrow"
-                      matTooltipDisabled="{{!isFacetProject(fileFacet)}}">{{term.name}}
-                </span>
+                <span>{{term.name}}</span>
         </div>
         <div matTooltip="{{term.count | localeString}}"
              matTooltipPosition="above"
