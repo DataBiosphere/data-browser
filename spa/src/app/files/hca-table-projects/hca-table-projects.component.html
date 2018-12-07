@@ -9,13 +9,20 @@
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Project Name</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <mat-cell *matCellDef="let element let i=index;" class="hasControls" (mouseenter)="getShowControl(true, i)" (mouseleave)="getShowControl(false, i)">
                     <div #title
                          matTooltip="{{element.projectShortname}}"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip narrow"
                          [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
+                    </div>
+                    <div class="add-term"
+                         (click)="onTermSelected('project', element.projectShortname)" [@showControl]="showControl && showControlRow === i ? 'show' : 'hide'">
+                        <ng-container [ngSwitch]="isTermSelected('project', element.projectShortname)">
+                            <div *ngSwitchCase="true" class="fontsize-xxs">- Remove Project</div>
+                            <div *ngSwitchDefault class="fontsize-xxs">+ Add Project</div>
+                        </ng-container>
                     </div>
                 </mat-cell>
             </ng-container>
@@ -105,22 +112,18 @@
                 <mat-cell *matCellDef="let element">
                     <div class="raw-and-processed">
                         <div class="file-type-data">
-                                <span>
-                                    <ng-container [ngSwitch]="element.rawCount > 0">
-                                        <ng-container *ngSwitchDefault><img
-                                                src="assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img
-                                                src="assets/images/table/isNotFileType.png"></ng-container>
-                                    </ng-container>
-                                </span>
                             <span>
-                                    <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
-                                        <ng-container *ngSwitchDefault><img
-                                                src="assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img
-                                                src="assets/images/table/isNotFileType.png"></ng-container>
-                                    </ng-container>
-                                </span>
+                                <ng-container [ngSwitch]="element.rawCount > 0">
+                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                </ng-container>
+                            </span>
+                            <span>
+                                <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
+                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                </ng-container>
+                            </span>
                         </div>
                         <div class="file-type-info">
                             <span class="file-title">Raw Data</span>
@@ -174,7 +177,8 @@
                 </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass()"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [ngClass]="getRowClass(i)"></mat-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
+                     [ngClass]="getRowClass(i)"></mat-row>
         </mat-table>
         <div *ngIf="pagination$ | async; let pagination" class="pagination">
             <ng-container *ngIf="pagination.current_page">
