@@ -14,6 +14,6 @@
     </hca-file-summary>
     <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"></hca-table-projects>
+    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedFacets]="selectedFileFacets$ | async"></hca-table-projects>
     <hca-desktop-banner *ngIf="isDeviceHandheld()"></hca-desktop-banner>
 </div>

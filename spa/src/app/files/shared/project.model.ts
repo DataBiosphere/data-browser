@@ -19,6 +19,7 @@ export interface Project {
     organ: string[];
     organPart: string[];
     projectDescription: string;
+    projectShortname: string;
     projectTitle: string;
     publications: string[];
     species: string[];

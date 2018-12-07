@@ -164,6 +164,7 @@
                 font-size: 12px; /* TODO typography */
                 font-weight: 400; /* TODO typography */
                 line-height: 18px; /* TODO typography */
+                position: relative; /* Positions add remove controls */
 
                 /* Ellipsis on cell text - excludes project name and data (file types) */
                 &:not(:first-of-type):not(:nth-of-type(6)) > div {
@@ -186,8 +187,8 @@
                     font-weight: 500; /* TODO typography */
 
                     /* Project name padding - for wrap */
-                    > div {
-                        padding: 4px 0;
+                    > div:first-of-type {
+                        padding: 16px 0;
 
                         /* Remove outline on focus - project name */
                         &:focus {
@@ -195,6 +196,9 @@
                         }
                     }
 
+                    &.hasControls .add-term {
+                        bottom: 0;
+                    }
                 }
 
                 /* Data (file types) */
@@ -219,6 +223,10 @@
                         > span {
                             display: inline-flex;
                             width: 40px;
+
+                            img {
+                                height: 18px;
+                            }
 
                             /* Processed */
                             &:last-of-type {
@@ -279,6 +287,21 @@
                     }
                 }
 
+                &.hasControls {
+                    overflow: visible;
+
+                    /* Add term - angular animations */
+                    .add-term {
+                        align-items: center;
+                        bottom: -16px;
+                        color: $hca-gray-medium;
+                        cursor: pointer;
+                        display: block;
+                        font-size: 10px;
+                        left: 4px;
+                        position: absolute;
+                    }
+                }
             }
 
             mat-cell, mat-header-cell {

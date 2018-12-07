@@ -173,22 +173,18 @@
                 <mat-cell *matCellDef="let element">
                     <div class="raw-and-processed">
                         <div class="file-type-data">
-                                <span>
-                                    <ng-container [ngSwitch]="element.rawCount > 0">
-                                        <ng-container *ngSwitchDefault><img
-                                                src="assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img
-                                                src="assets/images/table/isNotFileType.png"></ng-container>
-                                    </ng-container>
-                                </span>
                             <span>
-                                    <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
-                                        <ng-container *ngSwitchDefault><img
-                                                src="assets/images/table/isFileType.png"></ng-container>
-                                        <ng-container *ngSwitchCase="false"><img
-                                                src="assets/images/table/isNotFileType.png"></ng-container>
-                                    </ng-container>
-                                </span>
+                                <ng-container [ngSwitch]="element.rawCount > 0">
+                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                </ng-container>
+                            </span>
+                            <span>
+                                <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
+                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                </ng-container>
+                            </span>
                         </div>
                         <div class="file-type-info">
                             <span class="file-title">Raw Data</span>

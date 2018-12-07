@@ -6,7 +6,8 @@
  */
 
 // Core dependencies
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { trigger, state, style, animate, transition } from "@angular/animations";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Sort } from "@angular/material";
 import { Store } from "@ngrx/store";
@@ -17,25 +18,44 @@ import { Subject } from "rxjs/Subject";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import {
     FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
     TablePreviousPageAction
 } from "../_ngrx/table/table.actions";
+import { FileFacet } from "../shared/file-facet.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
     selector: "hca-table-projects",
     templateUrl: "./hca-table-projects.component.html",
-    styleUrls: ["./hca-table-projects.component.scss"]
+    styleUrls: ["./hca-table-projects.component.scss"],
+    animations: [
+        trigger("showControl", [
+            state("show", style({
+                opacity: 1
+            })),
+            state("hide", style({
+                opacity: 0
+            })),
+            transition("hide <=> show", [
+                animate("150ms")
+            ]),
+        ])
+    ]
 })
+
 export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Template variables
     displayedColumns = [
         "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
     ];
+    showControl = false;
+    showControlRow;
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
@@ -43,6 +63,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Locals
     private ngDestroy$ = new Subject();
     private snapped: boolean;
+
+    // Inputs
+    @Input() selectedFacets: FileFacet[];
 
     /**
      * @param {Store<AppState>} store
@@ -86,6 +109,17 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Will show or hide add/remove controls when mouse event fired.
+     * @param {boolean} b
+     * @param {number} index
+     */
+    public getShowControl(b: boolean, index: number) {
+
+        this.showControl = b;
+        this.showControlRow = index;
+    }
+
+    /**
      * Returns false if the text is longer than its container.
      * If false, an ellipsis has been applied to the text.
      * @param el
@@ -94,6 +128,32 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isDisabled(el) {
 
         return !( el.scrollWidth > el.clientWidth );
+    }
+
+    /**
+     * Returns true if the term is a selected facet.
+     * @param {string} termName
+     * @returns {boolean}
+     */
+    public isTermSelected(facetName: string, termName: string): boolean {
+
+        let isFacetSelected = this.selectedFacets.filter(fileFacet => fileFacet.name === facetName);
+
+        if ( isFacetSelected.length ) {
+            return isFacetSelected[0].selectedTerms.some(term => term.name === termName);
+        }
+
+        return false;
+    }
+
+    /**
+     * Handle click on term in list of terms - update store with selected project.
+     * @param {string} termName
+     */
+    public onTermSelected(facetName: string, termName: string) {
+
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent(facetName, termName, true)));
     }
 
     /**

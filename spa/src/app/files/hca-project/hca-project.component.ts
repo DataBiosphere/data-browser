@@ -16,11 +16,14 @@ import { Observable } from "rxjs/Observable";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import EntitySpec from "../shared/entity-spec";
+import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
+import { selectSelectedFileFacets, selectSelectedProject } from "../_ngrx/file.selectors";
+import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { Project } from "../shared/project.model";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { Contributor } from "../shared/contributor.model";
+import EntitySpec from "../shared/entity-spec";
+import { FileFacet } from "../shared/file-facet.model";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "hca-project",
@@ -30,6 +33,9 @@ import { Contributor } from "../shared/contributor.model";
 })
 
 export class HCAProjectComponent implements OnInit {
+
+    // Public variables
+    public selectedFileFacets$: Observable<FileFacet[]>;
 
     // Template variables
     public project$: Observable<Project>;
@@ -141,6 +147,17 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
+     * Handle click on term in list of terms - update store with selected project and return user back to project table.
+     * @param {string} projectShortName
+     */
+    public onProjectSelected(projectShortName: string) {
+
+        this.store.dispatch(new SelectFileFacetAction(
+            new FileFacetSelectedEvent("project", projectShortName, true)));
+        this.router.navigate(["/projects"]);
+    }
+
+    /**
      * Handle click on tab - update selected entity in state and return user back to project table.
      *
      * @param {EntitySpec} tab
@@ -159,6 +176,23 @@ export class HCAProjectComponent implements OnInit {
     public isHCAWrangler(projectRole: string): boolean {
 
         return projectRole && projectRole.toLowerCase() === "human cell atlas wrangler";
+    }
+
+    /**
+     * Returns true if project is a selected facet.
+     * @param {string} projectShortName
+     * @param {FileFacet[]} selectedFacets
+     * @returns {boolean}
+     */
+    public isProjectSelected(projectShortName: string, selectedFacets: FileFacet[]): boolean {
+
+        let isProjectFacetSelected = selectedFacets.filter(fileFacet => fileFacet.name === "project");
+
+        if ( isProjectFacetSelected.length ) {
+            return isProjectFacetSelected[0].selectedTerms.some(term => term.name === projectShortName);
+        }
+
+        return false;
     }
 
     /**
@@ -187,5 +221,8 @@ export class HCAProjectComponent implements OnInit {
 
         // Grab reference to selected project
         this.project$ = this.store.select(selectSelectedProject);
+
+        // Get the set of selected facet terms
+        this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
     }
 }
