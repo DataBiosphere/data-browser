@@ -17,11 +17,11 @@
                          matTooltipClass="hca-tooltip narrow"
                          [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
                     </div>
-                    <div class="add-term"
+                    <div class="select-term"
                          (click)="onTermSelected('project', element.projectShortname)" [@showControl]="showControl && showControlRow === i ? 'show' : 'hide'">
                         <ng-container [ngSwitch]="isTermSelected('project', element.projectShortname)">
                             <div *ngSwitchCase="true" class="fontsize-xxs">- Remove Project</div>
-                            <div *ngSwitchDefault class="fontsize-xxs">+ Add Project</div>
+                            <div *ngSwitchDefault class="fontsize-xxs">+ Select Project</div>
                         </ng-container>
                     </div>
                 </mat-cell>
