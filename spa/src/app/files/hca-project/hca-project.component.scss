@@ -58,9 +58,13 @@
             }
 
             /* Add project to selected facets */
-            .add-project {
+            .select-project {
                 color: $hca-gray-medium;
                 cursor: pointer;
+
+                &:hover {
+                    color: $hca-black;
+                }
             }
         }
     }
