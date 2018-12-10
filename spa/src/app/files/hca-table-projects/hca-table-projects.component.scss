@@ -188,7 +188,7 @@
 
                     /* Project name padding - for wrap */
                     > div:first-of-type {
-                        padding: 16px 0;
+                        padding: 20px 0;
 
                         /* Remove outline on focus - project name */
                         &:focus {
@@ -196,7 +196,7 @@
                         }
                     }
 
-                    &.hasControls .add-term {
+                    &.hasControls .select-term {
                         bottom: 0;
                     }
                 }
@@ -291,15 +291,19 @@
                     overflow: visible;
 
                     /* Add term - angular animations */
-                    .add-term {
+                    .select-term {
                         align-items: center;
                         bottom: -16px;
                         color: $hca-gray-medium;
                         cursor: pointer;
                         display: block;
-                        font-size: 10px;
+                        font-weight: 400;
                         left: 4px;
                         position: absolute;
+
+                        &:hover {
+                            color: $hca-black;
+                        }
                     }
                 }
             }

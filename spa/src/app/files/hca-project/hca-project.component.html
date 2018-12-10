@@ -9,7 +9,7 @@
                     <p class="fontsize-xs bold lhs">Project</p>
                     <div class="rhs">
                         <p class="fontsize-xs">{{project.projectTitle}}</p>
-                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xxs add-project" (click)="onProjectSelected(project.projectShortname)">+ Add Project</p>
+                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname)">+ Select Project</p>
                     </div>
                 </div>
                 <div>
