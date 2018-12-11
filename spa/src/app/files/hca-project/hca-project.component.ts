@@ -147,15 +147,16 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Handle click on term in list of terms - update store with selected project and return user back to project table.
+     * Handle click on term in list of terms - update store with selected / unsselected project and return user back to project table.
      * @param {string} projectShortName
      */
-    public onProjectSelected(projectShortName: string) {
+    public onProjectSelected(projectShortName: string, select: boolean) {
 
         this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent("project", projectShortName, true)));
+            new FileFacetSelectedEvent("project", projectShortName, select)));
         this.router.navigate(["/projects"]);
     }
+
 
     /**
      * Handle click on tab - update selected entity in state and return user back to project table.
