@@ -175,14 +175,14 @@
                         <div class="file-type-data">
                             <span>
                                 <ng-container [ngSwitch]="element.rawCount > 0">
-                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
-                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                    <img *ngSwitchDefault src="assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="assets/images/icon/noFileType.png"/>
                                 </ng-container>
                             </span>
                             <span>
                                 <ng-container [ngSwitch]="element.processedCount > 0 || element.matrixCount > 0">
-                                    <img *ngSwitchDefault src="../../../assets/images/icon/fileType.png"/>
-                                    <img *ngSwitchCase="false" src="../../../assets/images/icon/noFileType.png"/>
+                                    <img *ngSwitchDefault src="assets/images/icon/fileType.png"/>
+                                    <img *ngSwitchCase="false" src="assets/images/icon/noFileType.png"/>
                                 </ng-container>
                             </span>
                         </div>
