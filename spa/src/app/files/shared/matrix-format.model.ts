@@ -6,7 +6,8 @@
  */
 
 export enum MatrixFormat {
-    "zarr" = "zarr",
+    "csv" = "csv",
     "loom" = "loom",
-    "csv" = "csv"
+    "mtx" = "mtx",
+    "zarr" = "zarr"
 }

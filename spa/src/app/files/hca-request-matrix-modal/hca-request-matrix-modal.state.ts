@@ -12,5 +12,6 @@ import { FileFacet } from "../shared/file-facet.model";
 export interface HCARequestMatrixModalState {
 
     fileSummary: FileSummary;
+    matrixFileFormats: string[];
     selectedFileFacets: FileFacet[];
 }
