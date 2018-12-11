@@ -11,6 +11,7 @@ import * as fileFacetMetadataSummaryReducer from "./file-facet-metadata-summary/
 import * as fileManifestSummaryReducer from "./file-manifest-summary/file-manifest-summary.reducer";
 import * as fileSummaryReducer from "./file-summary/file-summary.reducer";
 import * as manifestFileSummaryReducer from "./file-summary/manifest-download-file-summary.reducer";
+import * as matrixReducer from "./matrix/matrix.reducer";
 import * as tableReducer from "./table/table.reducer";
 
 export const reducer = {
@@ -19,5 +20,6 @@ export const reducer = {
     fileManifestSummary: fileManifestSummaryReducer.reducer,
     fileSummary: fileSummaryReducer.reducer,
     manifestDownloadFileSummary: manifestFileSummaryReducer.reducer,
+    matrix: matrixReducer.reducer,
     tableState: tableReducer.reducer
 };

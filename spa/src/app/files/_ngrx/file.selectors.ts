@@ -14,6 +14,7 @@ import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { FileFacet } from "../shared/file-facet.model";
+import { MatrixState } from "./matrix/matrix.state";
 
 // Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
@@ -79,6 +80,16 @@ export const selectFileTypeMatrix = createSelector(selectFileFacets, (fileFacetS
         });
     });
 });
+
+/**
+ * Returns the matrix-related slice of state.
+ */
+export const selectMatrix = createFeatureSelector<MatrixState>("matrix");
+
+/**
+ * Returns the set of possible file formats for the Matrix download
+ */
+export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => state.fileFormats);
 
 /**
  * Return the selected view state - both the selected entity and the selected facets

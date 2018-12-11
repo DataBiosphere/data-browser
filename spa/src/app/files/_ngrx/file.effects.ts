@@ -10,6 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/combineLatest";
@@ -22,8 +23,9 @@ import "rxjs/add/observable/from";
 import * as _ from "lodash";
 
 // App dependencies
-import { FilesService } from "../shared/files.service";
+import { FetchMatrixFileFormatsRequestAction, FetchMatrixFileFormatsSuccessAction } from "./matrix/matrix.actions";
 import { FileSummary } from "../file-summary/file-summary";
+import { FilesService } from "../shared/files.service";
 import {
     ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
@@ -43,7 +45,6 @@ import {
     FetchFileManifestSummaryRequestAction,
     FetchFileManifestSummarySuccessAction
 } from "./file-manifest-summary/file-manifest-summary.actions";
-import { FileFacet } from "../shared/file-facet.model";
 import {
     selectFileFacets,
     selectFileFacetMetadataSummary,
@@ -53,6 +54,13 @@ import {
     selectTableQueryParams
 } from "app/files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
+import { EntitySearchResults } from "../shared/entity-search-results.model";
+import { FileFacet } from "../shared/file-facet.model";
+import { MatrixService } from "../shared/matrix.service";
+import { Project } from "../shared/project.model";
+import { ProjectService } from "../shared/project.service";
+import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
+import { getSelectedTable } from "./table/table.state";
 import {
     EntitySelectAction,
     FetchInitialTableDataRequestAction,
@@ -63,13 +71,6 @@ import {
     TablePreviousPageAction,
     TablePreviousPageSuccessAction
 } from "./table/table.actions";
-import { TableModel } from "../table/table.model";
-import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
-import "rxjs/add/operator/do";
-import { getSelectedTable } from "./table/table.state";
-import { EntitySearchResults } from "../shared/entity-search-results.model";
-import { Project } from "../shared/project.model";
-import { ProjectService } from "../shared/project.service";
 
 @Injectable()
 export class FileEffects {
@@ -87,6 +88,7 @@ export class FileEffects {
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
                 private fileService: FilesService,
+                private matrixService: MatrixService,
                 private projectService: ProjectService) {
 
         this.colorWheel = new Map<string, string>();
@@ -287,6 +289,21 @@ export class FileEffects {
             }
 
             return new FetchManifestDownloadFileSummarySuccessAction(fileSummary);
+        });
+
+    /**
+     * Trigger fetch and display of matrix file formats.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    fetchMatrixFileFormats: Observable<Action> = this.actions$
+        .ofType(FetchMatrixFileFormatsRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+            return this.matrixService.fetchFileFormats();
+        })
+        .map((fileFormats: string[]) => {
+            return new FetchMatrixFileFormatsSuccessAction(fileFormats);
         });
 
     /**

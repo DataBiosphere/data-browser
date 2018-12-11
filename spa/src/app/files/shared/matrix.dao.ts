@@ -39,6 +39,18 @@ export class MatrixDAO {
     }
 
     /**
+     * Request the set of possible matrix file formats.
+     *
+     * Docs at: https://github.com/HumanCellAtlas/matrix-service/blob/develop/config/matrix-api.yml
+     *
+     * @returns {Observable<string[]>}
+     */
+    public fetchFileFormats(): Observable<string[]> {
+
+        return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
+    }
+
+    /**
      * Query matrix request status.
      *
      * Docs at: https://github.com/HumanCellAtlas/matrix-service/blob/develop/config/matrix-api.yml
@@ -74,7 +86,7 @@ export class MatrixDAO {
         // Build up the POST body
         const body = {
             bundle_fqids_url: manifestUrl,
-            format: MatrixFormat[matrixFormat]
+            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
         };
 
         // Set up headers
