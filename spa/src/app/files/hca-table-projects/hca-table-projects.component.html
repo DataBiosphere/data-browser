@@ -11,16 +11,12 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element let i=index;" class="hasControls" (mouseenter)="getShowControl(true, i)" (mouseleave)="getShowControl(false, i)">
                     <div #title
-                         matTooltip="{{element.projectShortname}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip narrow"
                          [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
                     </div>
                     <div class="select-term"
-                         (click)="onTermSelected('project', element.projectShortname)" [@showControl]="showControl && showControlRow === i ? 'show' : 'hide'">
+                         (click)="onTermSelected('project', element.projectShortname)"   [@showControl]="showControl && showControlRow === i ? 'show' : 'hide'">
                         <ng-container [ngSwitch]="isTermSelected('project', element.projectShortname)">
-                            <div *ngSwitchCase="true" class="fontsize-xxs">- Remove Project</div>
+                            <div *ngSwitchCase="true" class="fontsize-xxs">- Unselect Project</div>
                             <div *ngSwitchDefault class="fontsize-xxs">+ Select Project</div>
                         </ng-container>
                     </div>

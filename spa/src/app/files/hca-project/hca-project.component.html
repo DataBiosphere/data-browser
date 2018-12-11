@@ -9,8 +9,13 @@
                     <p class="fontsize-xs bold lhs">Project</p>
                     <div class="rhs">
                         <p class="fontsize-xs">{{project.projectTitle}}</p>
-                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname)">+ Select Project</p>
+                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname,true)">+ Select Project</p>
+                        <p *ngIf="isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname,false)">+ Unselect Project</p>
                     </div>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">Short Name</p>
+                    <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">Species</p>
