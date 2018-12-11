@@ -27,9 +27,14 @@
         <ng-template #selectFileType>
             <p class="fontsize-s">Select a File Format:</p>
             <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
-                <mat-radio-button *ngFor="let fileFormat of getFileFormats()" [value]="fileFormat">{{fileFormat}}
+                <mat-radio-button *ngFor="let fileFormat of getFileFormats(state)" [value]="fileFormat">{{fileFormat}}
                 </mat-radio-button>
             </mat-radio-group>
+            <mat-spinner *ngIf="!state.matrixFileFormats.length"
+                         class="hca-spinner"
+                         [diameter]="20"
+                         [mode]="indeterminate">
+            </mat-spinner>
         </ng-template>
     </div>
     <div class="hca-download-action">

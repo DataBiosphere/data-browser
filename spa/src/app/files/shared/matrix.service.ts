@@ -29,6 +29,16 @@ export class MatrixService {
     }
 
     /**
+     * Request the set of possible matrix file formats.
+     *
+     * @returns {Observable<string[]>}
+     */
+    public fetchFileFormats(): Observable<string[]> {
+
+        return this.matrixDAO.fetchFileFormats();
+    }
+
+    /**
      * Query matrix request status.
      *
      * @param {string} requestId
@@ -51,7 +61,7 @@ export class MatrixService {
         // Build up the manifest URL - add file type "matrix" to selected facets if it isn't already selected
         const manifestUrl = this.buildManifestUrl(selectedFacets);
 
-        // Kick off matrix request113
+        // Kick off matrix request
         return this.matrixDAO.requestMatrix(manifestUrl, matrixFormat);
     }
 

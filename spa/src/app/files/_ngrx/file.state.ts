@@ -11,6 +11,7 @@ import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/fil
 import { FileManifestSummaryState } from "./file-manifest-summary/file-manifest-summary.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { TableState } from "./table/table.state";
+import { MatrixState } from "./matrix/matrix.state";
 
 export interface FileState {
     fileSummary: FileSummaryState;
@@ -18,5 +19,6 @@ export interface FileState {
     fileManifestSummary: FileManifestSummaryState;
     fileFacetMetadataSummary: FileFacetMetadataSummaryState;
     manifestDownloadFileSummary: FileSummaryState;
+    matrix: MatrixState;
     tableState: TableState;
 }

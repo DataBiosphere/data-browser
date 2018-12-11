@@ -20,7 +20,8 @@ import { Observable } from "rxjs/Observable";
 import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
 import { MatrixService } from "../shared/matrix.service";
 import { AppState } from "../../_ngrx/app.state";
-import { selectFileSummary, selectSelectedFileFacets } from "../_ngrx/file.selectors";
+import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/matrix.actions";
+import { selectFileSummary, selectMatrixFileFormats, selectSelectedFileFacets } from "../_ngrx/file.selectors";
 import { FileFacet } from "../shared/file-facet.model";
 import { MatrixFormat } from "../shared/matrix-format.model";
 import { MatrixResponse } from "../shared/matrix-response.model";
@@ -76,16 +77,12 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     /**
      * Return the possible set of file formats for downloading the matrix.
      *
+     * @param {HCARequestMatrixModalState} state
      * @returns {string[]}
      */
-    public getFileFormats(): string[] {
+    public getFileFormats(state: HCARequestMatrixModalState): string[] {
 
-        const formats = Object.keys(MatrixFormat).reduce((accum, format) => {
-
-            accum.push(format);
-            return accum;
-        }, []);
-
+        const formats = [...state.matrixFileFormats];
         return formats.sort();
     }
 
@@ -262,15 +259,21 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
         // Grab the selected facets for displaying on the modal
         const selectSelectedFileFacets$ = this.store.select(selectSelectedFileFacets);
 
+        // Request possible set of file types
+        this.store.dispatch(new FetchMatrixFileFormatsRequestAction());
+        const selectMatrixFileFormats$ = this.store.select(selectMatrixFileFormats);
+
         // Set up listener to poll for matrix request completion
         this.initMatrixDownloadPoller();
 
         // Grab file summary and selected facets for displaying on the modal
         this.state$ =
-            selectFileSummary$.combineLatest(selectSelectedFileFacets$, (fileSummary, selectedFileFacets) => {
+            selectFileSummary$.combineLatest(
+                selectSelectedFileFacets$, selectMatrixFileFormats$, (fileSummary, selectedFileFacets, matrixFileFormats) => {
 
             return {
                 fileSummary,
+                matrixFileFormats,
                 selectedFileFacets
             };
         });
