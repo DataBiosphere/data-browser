@@ -25,7 +25,7 @@
             </ng-container>
         </ng-container>
         <ng-template #selectFileType>
-            <p class="fontsize-s">Select a File Format:</p>
+            <p class="fontsize-s">Select Output File Format:</p>
             <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
                 <mat-radio-button *ngFor="let fileFormat of getFileFormats(state)" [value]="fileFormat">{{fileFormat}}
                 </mat-radio-button>
