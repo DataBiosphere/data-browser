@@ -82,7 +82,9 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public getFileFormats(state: HCARequestMatrixModalState): string[] {
 
-        const formats = [...state.matrixFileFormats];
+        const formats = state.matrixFileFormats.filter((fileFormat: string) => {
+            return fileFormat !== MatrixFormat.zarr;
+        });
         return formats.sort();
     }
 
