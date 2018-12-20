@@ -7,7 +7,7 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import "rxjs/add/observable/of";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
@@ -16,29 +16,38 @@ import { Subject } from "rxjs/Subject";
 // App dependencies
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadStatus } from "../shared/file-download-status.model";
+import {Element} from "../hca-table-files/hca-table-files.component";
 
 @Component({
     selector: "hca-download-file",
     templateUrl: "./hca-download-file.component.html",
     styleUrls: ["./hca-download-file.component.scss"]
 })
-export class HCADownloadFileComponent implements OnDestroy {
+export class HCADownloadFileComponent implements OnDestroy, OnInit{
+
 
     // Locals
     private ngDestroy$ = new Subject();
+    public fileName: string;
+    public fileUrl: string;
 
     // Template variables
     downloadStatus$ = new BehaviorSubject<FileDownloadStatus>(FileDownloadStatus.NOT_STARTED);
 
     // Inputs
-    @Input() fileName: string;
-    @Input() fileUrl: string;
+    @Input() file: Element;
     @Output() fileUrlGenerated = new EventEmitter<string>();
 
     /**
      * @param {DownloadService} downloadService
      */
     constructor(private downloadService: DownloadService) {
+    }
+
+    ngOnInit(): void {
+       this.fileName = this.file.fileName;
+       this.fileUrl = this.file.url;
+
     }
 
     /**
