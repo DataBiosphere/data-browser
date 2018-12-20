@@ -336,6 +336,7 @@ export interface Element {
     biologicalSex: string;
     disease: string; // TODO check not array
     totalCells: number;
+    url: string;
 }
 
 /**
