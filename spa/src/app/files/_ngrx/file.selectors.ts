@@ -73,11 +73,9 @@ export const selectSelectedProject = createSelector(selectTableState, (tableStat
 /*
  * Returns true if there are files of file type Matrix for the current set of selected facets, if any.
  */
-export const selectFileTypeMatrix = createSelector(selectFileFacets, (fileFacetState) => {
-    return fileFacetState.fileFacets.some(fileFacet => {
-        return fileFacet.terms.some(term => {
-            return term.name === "matrix" && term.count > 0;
-        });
+export const selectFileTypeMatrix = createSelector(selectFileSummary, (fileSummaryState: FileSummaryState) => {
+    return fileSummaryState.fileTypeSummaries.some(fileTypeSummary => {
+        return fileTypeSummary.fileType === "matrix" && fileTypeSummary.count > 0;
     });
 });
 
