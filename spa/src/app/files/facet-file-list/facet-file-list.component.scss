@@ -84,4 +84,15 @@
     .facet-term .term-summary .term-count {
         flex-basis: 100px;
     }
+
+    /* Select button */
+    .select-toggle {
+        background-color: transparent;
+        color: $hca-primary;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+        font-size: 13px;
+        margin: 0 21px;
+        padding: 6px 0;
+    }
 }
