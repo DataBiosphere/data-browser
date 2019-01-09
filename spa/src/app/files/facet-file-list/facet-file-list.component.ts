@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -24,7 +24,7 @@ import { FacetFileTypeSummary } from "./facet-file-type-summary.model";
     templateUrl: "facet-file-list.component.html",
     styleUrls: ["facet-file-list.component.scss"]
 })
-export class FacetFileListComponent {
+export class FacetFileListComponent implements OnInit {
 
     // Inputs
     @Input() selectedFileFacets: FileFacet[];
@@ -32,6 +32,7 @@ export class FacetFileListComponent {
 
     // Locals
     private fileNameShortenerPipe: FileNameShortenerPipe;
+    private selectToggle = false;
 
     /**
      * Create file name shortener pipe for formatting selected file names (for search file facets only).
@@ -128,5 +129,35 @@ export class FacetFileListComponent {
 
         this.store.dispatch(new SelectFileFacetAction(
             new FileFacetSelectedEvent("fileFormat", facetFileTypeSummary.termName, true)));
+    }
+
+    /**
+     * Handle click on "select all" facet file types.
+     */
+    public onClickSelectAll(): void {
+
+        this.selectToggle = !this.selectToggle;
+        this.getDisplayList().map((facetFileTypeSummary) => {
+
+            if ( this.selectToggle && facetFileTypeSummary.selected === false ) {
+                this.onClickFacetTerm(facetFileTypeSummary);
+            }
+
+            if ( !this.selectToggle && facetFileTypeSummary.selected === true ) {
+                this.onClickFacetTerm(facetFileTypeSummary);
+            }
+        });
+    }
+
+    /**
+     * Life cycle hooks
+     */
+
+    /**
+     * Set up state of selectToggle.
+     */
+    public ngOnInit() {
+
+        this.selectToggle = !this.getDisplayList().some(facetFileTypeSummary => facetFileTypeSummary.selected === false);
     }
 }
