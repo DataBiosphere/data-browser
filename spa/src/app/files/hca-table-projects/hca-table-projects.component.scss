@@ -124,7 +124,7 @@
                 position: relative; /* Positions sort arrow */
 
                 /* Data (File Types) */
-                .file-type {
+                .file-header {
                     align-items: flex-start;
                     display: flex;
                     flex: 1;
@@ -167,7 +167,7 @@
                 position: relative; /* Positions add remove controls */
 
                 /* Ellipsis on cell text - excludes project name and data (file types) */
-                &:not(:first-of-type):not(:nth-of-type(6)) > div {
+                &:not(.project):not(.file-type) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -180,7 +180,7 @@
                 }
 
                 /* Project Name */
-                &:first-of-type {
+                &.project {
                     color: $hca-primary;
                     cursor: pointer;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
@@ -202,7 +202,7 @@
                 }
 
                 /* Data (file types) */
-                &:nth-of-type(6) {
+                &.file-type {
                     align-items: center;
                     display: flex;
                     min-height: 48px;
@@ -314,7 +314,7 @@
                 padding-right: 4px;
 
                 /* Project Name */
-                &:first-of-type {
+                &.project {
                     flex: 1 1 9%;
                     padding-right: 8px;
 
@@ -325,7 +325,7 @@
                 }
 
                 /* Data (file types) */
-                &:nth-of-type(6) {
+                &.file-type {
                     min-width: 110px;
                 }
 
@@ -394,7 +394,7 @@
         mat-header-cell, mat-cell {
 
             /* Data (file types) - min width set for display at 1920px */
-            &:nth-of-type(6) {
+            &.file-type {
                 min-width: 224px;
 
                 /* Hide raw, processed */

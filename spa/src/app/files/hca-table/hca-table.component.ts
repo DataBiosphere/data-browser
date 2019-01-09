@@ -34,7 +34,7 @@ export class HCATableComponent implements OnInit, AfterViewInit {
 
     // Template variables
     displayedColumns = [
-        "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
+        "specimenId", "projectTitle", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -318,6 +318,7 @@ export interface Element {
     organ: string;
     organismAge: string;
     organPart: string;
+    projectTitle: string;
     totalCells: number;
 }
 
@@ -343,6 +344,7 @@ class TableElementDataSource extends DataSource<any> {
                 let fileTypeSummaries = row.fileTypeSummaries;
                 let processes = this.rollUpMetadata(row.processes);
                 let specimens = this.rollUpMetadata(row.specimens);
+                let projectTitle = this.rollUpMetadata(row.projects);
 
                 /* File counts for file formats - excludes fastq.gz, bam, matrix */
                 let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
@@ -368,6 +370,7 @@ class TableElementDataSource extends DataSource<any> {
                     organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
                     otherFileCount: fileCounts.otherFileCount,
                     processedCount: this.getFileCount("bam", fileTypeSummaries),
+                    projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                     specimenId: this.getSelfOrFirst(specimens.id),
                     totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                     rawCount: this.getFileCount("fastq.gz", fileTypeSummaries)
