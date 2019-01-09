@@ -3,13 +3,13 @@
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="fileName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-header-cell class="file-name" *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The filename of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Name</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element let i=index;">
+                <mat-cell class="file-name" *matCellDef="let element let i=index;">
                     <hca-download-file [file]="element"></hca-download-file>
                     <div #file
                          matTooltip="{{element.fileName}}"
@@ -21,13 +21,13 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="fileSize">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-header-cell class="file-size" *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The file size of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Size</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element let i=index;">
+                <mat-cell class="file-size" *matCellDef="let element let i=index;">
                     <div #fileSize
                          matTooltip="{{element.fileSize}}"
                          matTooltipPosition="below"
@@ -38,19 +38,36 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="fileFormat">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-header-cell class="file-format" *matHeaderCellDef mat-sort-header>
                     <span matTooltip="The format of the file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">File Format</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element let i=index;">
+                <mat-cell class="file-format" *matCellDef="let element let i=index;">
                     <div #fileFormat
                          matTooltip="{{element.fileFormat}}"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
                          matTooltipDisabled="{{isDisabled(fileFormat)}}">{{element.fileFormat}}
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="projectTitle">
+                <mat-header-cell class="project" *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="The project name of the data file."
+                          matTooltipPosition="below"
+                          matTooltipShowDelay="{{tooltipShowDelay}}"
+                          matTooltipClass="hca-tooltip narrow">Project Name</span>
+                </mat-header-cell>
+                <mat-cell class="project" *matCellDef="let element">
+                    <div #projectTitle
+                         matTooltip="{{element.projectTitle}}"
+                         matTooltipPosition="below"
+                         matTooltipShowDelay="{{tooltipShowDelay}}"
+                         matTooltipClass="hca-tooltip"
+                         matTooltipDisabled="{{isDisabled(projectTitle)}}">{{element.projectTitle}}
                     </div>
                 </mat-cell>
             </ng-container>

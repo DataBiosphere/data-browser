@@ -33,7 +33,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
     // Template variables
     displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
@@ -335,6 +335,7 @@ export interface Element {
     ageUnit: string;
     biologicalSex: string;
     disease: string; // TODO check not array
+    projectTitle: string;
     totalCells: number;
     url: string;
 }
@@ -361,20 +362,22 @@ class TableElementDataSource extends DataSource<any> {
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
                 let processes = this.rollUpMetadata(row.processes);
                 let specimens = this.rollUpMetadata(row.specimens);
+                let projectTitle = this.rollUpMetadata(row.projects);
 
                 return {
-                    fileFormat: file.format,
-                    fileName: file.name,
-                    fileSize: this.getUnspecifiedIfNullValue(file.size),
-                    specimenId: this.getSelfOrFirst(specimens.id),
-                    organ: this.getUnspecifiedIfNullValue(specimens.organ),
-                    organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
-                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
-                    genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
-                    organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                     ageUnit: specimens.organismAgeUnit,
                     biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
                     disease: this.getUnspecifiedIfNullValue(specimens.disease),
+                    fileFormat: file.format,
+                    fileName: file.name,
+                    fileSize: this.getUnspecifiedIfNullValue(file.size),
+                    genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
+                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
+                    organ: this.getUnspecifiedIfNullValue(specimens.organ),
+                    organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
+                    organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                    projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                    specimenId: this.getSelfOrFirst(specimens.id),
                     totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                     url: file.url
                 };

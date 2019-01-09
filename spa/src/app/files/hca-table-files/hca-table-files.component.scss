@@ -132,11 +132,18 @@
                 font-weight: 400; /* TODO typography */
                 line-height: 18px; /* TODO typography */
 
-                /* Ellipsis on cell text */
-                > div {
+                /* Ellipsis on cell text - excludes project */
+                &:not(.project) > div {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                }
+
+                /* Project */
+                &.project > div {
+                    overflow: visible;
+                    padding: 8px 0;
+                    white-space: normal;
                 }
 
                 /* Hides ellipsis tooltip - Safari only */
@@ -146,7 +153,7 @@
                 }
 
                 /* File Name */
-                &:first-of-type {
+                &.file-name {
                     display: flex;
                 }
             }
@@ -157,8 +164,18 @@
                 padding-right: 4px;
 
                 /* File Name */
-                &:first-of-type {
-                    flex: 1 1 25%;
+                &.file-name {
+                    flex: 1 1 20%;
+                }
+
+                /* File size and format */
+                &.file-size, &.file-format {
+                    max-width: 100px;
+                }
+
+                /* Project Name */
+                &.project {
+                    flex: 0 1 25%;
                 }
 
                 /* Table header text alignment */
