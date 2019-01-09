@@ -12,13 +12,15 @@
     <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
          *ngFor="let facetFileTypeSummary of getDisplayList()"
          (click)="onClickFacetTerm(facetFileTypeSummary)">
-        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary)"><mat-icon *ngIf="facetFileTypeSummary.selected">check</mat-icon></div>
+        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary)">
+            <mat-icon *ngIf="facetFileTypeSummary.selected">check</mat-icon>
+        </div>
         <div class="term-summary">
             <div class="term-name">
                 <ng-container [ngSwitch]="isTermNameTruncated(facetFileTypeSummary.termName)">
                     <span *ngSwitchCase="true"
-                          matTooltip="{{facetFileTypeSummary.termName}}" 
-                          [matTooltipPosition]="'above'" 
+                          matTooltip="{{facetFileTypeSummary.termName}}"
+                          [matTooltipPosition]="'above'"
                           matTooltipShowDelay="500">{{facetFileTypeSummary.termName}}</span>
                     <span *ngSwitchDefault>{{facetFileTypeSummary.termName}}</span>
                 </ng-container>
@@ -26,5 +28,9 @@
             <div class="term-count md-caption secondary">{{facetFileTypeSummary.count | countSize}}</div>
             <div class="term-count md-caption secondary">{{facetFileTypeSummary.size | fileSize}}</div>
         </div>
+    </div>
+    <div [ngSwitch]="selectToggle" (click)="onClickSelectAll()" class="select-toggle">
+        <ng-container *ngSwitchCase="true">Clear All</ng-container>
+        <ng-container *ngSwitchDefault>Select All</ng-container>
     </div>
 </ng-container>
