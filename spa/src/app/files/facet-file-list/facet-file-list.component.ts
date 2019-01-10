@@ -70,13 +70,13 @@ export class FacetFileListComponent implements OnInit {
     /**
      * Return the inline style configuration for the chart legend, for the specified facet file type summary.
      *
-     * @param facetFileTypeSummary {FacetFileTypeSummary}
+     * @param showLegend
      * @returns {any}
      */
-    public getLegendStyle(facetFileTypeSummary: FacetFileTypeSummary): any {
+    public getLegendStyle(showLegend): any {
 
         // If term is selected, set the background color as well
-        if ( facetFileTypeSummary.selected ) {
+        if ( showLegend ) {
 
             return {
                 "border-color": "#1F6B9A",
