@@ -9,10 +9,19 @@
             <div class="term-count">File Size</div>
         </div>
     </div>
+    <div (click)="onClickSelectAll()"
+         class="facet-term layout-row ng-scope layout-row layout-align-space-between-center">
+        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(selectToggle)">
+            <mat-icon *ngIf="selectToggle">check</mat-icon>
+        </div>
+        <div class="term-summary">
+            <div class="term-name"><span>Select All</span></div>
+        </div>
+    </div>
     <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
          *ngFor="let facetFileTypeSummary of getDisplayList()"
          (click)="onClickFacetTerm(facetFileTypeSummary)">
-        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary)">
+        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary.selected)">
             <mat-icon *ngIf="facetFileTypeSummary.selected">check</mat-icon>
         </div>
         <div class="term-summary">
@@ -28,9 +37,5 @@
             <div class="term-count md-caption secondary">{{facetFileTypeSummary.count | countSize}}</div>
             <div class="term-count md-caption secondary">{{facetFileTypeSummary.size | fileSize}}</div>
         </div>
-    </div>
-    <div [ngSwitch]="selectToggle" (click)="onClickSelectAll()" class="select-toggle">
-        <ng-container *ngSwitchCase="true">Clear All</ng-container>
-        <ng-container *ngSwitchDefault>Select All</ng-container>
     </div>
 </ng-container>
