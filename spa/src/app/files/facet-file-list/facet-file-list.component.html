@@ -9,7 +9,7 @@
             <div class="term-count">File Size</div>
         </div>
     </div>
-    <div (click)="onClickSelectAll()"
+    <div *ngIf="getDisplayList().length > 1" (click)="onClickSelectAll()"
          class="facet-term layout-row ng-scope layout-row layout-align-space-between-center">
         <div class="chart-legend-bar" [ngStyle]="getLegendStyle(selectToggle)">
             <mat-icon *ngIf="selectToggle">check</mat-icon>

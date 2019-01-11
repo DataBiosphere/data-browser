@@ -58,22 +58,22 @@ export class FacetFileListComponent implements OnInit {
         // Return fileTypeSummary, excluding matrix file type
         return this.fileTypeSummaries.filter(fileTypeSummary => fileTypeSummary.fileType !== "matrix").map(fileTypeSummary => {
 
-                return {
-                    count: fileTypeSummary.count,
-                    selected: selectedFileTypes.indexOf(fileTypeSummary.fileType) >= 0,
-                    size: fileTypeSummary.totalSize,
-                    termName: fileTypeSummary.fileType
-                };
+            return {
+                count: fileTypeSummary.count,
+                selected: selectedFileTypes.indexOf(fileTypeSummary.fileType) >= 0,
+                size: fileTypeSummary.totalSize,
+                termName: fileTypeSummary.fileType
+            };
         });
     }
 
     /**
      * Return the inline style configuration for the chart legend, for the specified facet file type summary.
      *
-     * @param showLegend
+     * @param {boolean} showLegend
      * @returns {any}
      */
-    public getLegendStyle(showLegend): any {
+    public getLegendStyle(showLegend: boolean): any {
 
         // If term is selected, set the background color as well
         if ( showLegend ) {
