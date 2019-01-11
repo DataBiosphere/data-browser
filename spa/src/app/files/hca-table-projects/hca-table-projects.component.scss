@@ -123,7 +123,11 @@
                 overflow: visible; /* Provides visibility for sort arrow */
                 position: relative; /* Positions sort arrow */
 
-                /* Data (File Types) */
+                /* Project Name */
+                &.project {
+                    margin-left: 31px; /* Checkbox width */
+                }
+                    /* Data (File Types) */
                 .file-header {
                     align-items: flex-start;
                     display: flex;
@@ -181,14 +185,16 @@
 
                 /* Project Name */
                 &.project {
+                    align-items: center;
                     color: $hca-primary;
                     cursor: pointer;
+                    display: flex;
                     font-family: "Montserrat", sans-serif; /* TODO typography */
                     font-weight: 500; /* TODO typography */
 
                     /* Project name padding - for wrap */
-                    > div:first-of-type {
-                        padding: 20px 0;
+                    > div:nth-of-type(2) {
+                        padding: 4px 0;
 
                         /* Remove outline on focus - project name */
                         &:focus {
@@ -196,8 +202,32 @@
                         }
                     }
 
-                    &.hasControls .select-term {
-                        bottom: 0;
+                    /* Select box */
+                    .chart-legend-bar {
+                        border: 1px solid $hca-gray-light;
+                        border-radius: 3px;
+                        flex-shrink: 0;
+                        height: 13px;
+                        margin-right: 16px;
+                        position: relative; /* Positions check */
+                        width: 13px;
+
+                        &.selected {
+                            border-color: #1F6B9A;
+                            background-color: #1C7CC7;
+                        }
+
+                        /* Check */
+                        mat-icon {
+                            color: $hca-white;
+                            font-size: 10px;
+                            height: 10px;
+                            left: 50%;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateX(-50%) translateY(-50%);
+                            width: 10px;
+                        }
                     }
                 }
 
@@ -283,26 +313,6 @@
                         /* Other files */
                         .file-other {
                             margin-top: 8px;
-                        }
-                    }
-                }
-
-                &.hasControls {
-                    overflow: visible;
-
-                    /* Add term - angular animations */
-                    .select-term {
-                        align-items: center;
-                        bottom: -16px;
-                        color: $hca-gray-medium;
-                        cursor: pointer;
-                        display: block;
-                        font-weight: 400;
-                        left: 4px;
-                        position: absolute;
-
-                        &:hover {
-                            color: $hca-black;
                         }
                     }
                 }
