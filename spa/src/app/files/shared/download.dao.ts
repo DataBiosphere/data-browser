@@ -6,81 +6,88 @@
  */
 
 // Core dependencies
-import { DOCUMENT } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import { catchError, retry, startWith, switchMap } from "rxjs/operators";
+import "rxjs/add/observable/of";
+import { catchError, retry, switchMap } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
+import { FileDownloadHttpResponse } from "./download-http-response.model";
+import { FileDownloadResponse } from "./download-response.model";
 import { FileDownloadStatus } from "./file-download-status.model";
 
 @Injectable()
 export class DownloadDAO {
 
     /**
-     * @param {ConfigService} configService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService, private httpClient: HttpClient, @Inject(DOCUMENT) private document: any) {
+    constructor(private httpClient: HttpClient) {
     }
 
     /**
-     *  Download the file with the specified URL.
+     *  Request the file with the specified URL - returns location of either retry URL if file is not yet ready for
+     *  download, or the final file location if ready for download.
      *
-     * @param {string} fileName
-     * @param {string} fileUrl
-     * @returns {Subject<FileDownloadStatus>}
+     * @param {string} url - either initial file download URL, or URL to retrieve status of file download
+     * @returns {Subject<FileDownloadResponse>}
      *
      */
-    public downloadFile(fileName: string, fileUrl: string): Observable<FileDownloadStatus> {
+    public requestFileDownload(url: string): Observable<FileDownloadResponse> {
 
         return this.httpClient
-            .get<string>(fileUrl, {observe: "response", responseType: "blob" as any})
-            .pipe(
-                retry(3),
-                catchError(this.handleFileDownloadError.bind(this)),
-                switchMap((response) => { // TODO revisit - prevent execute on error
-                    return this.writeFile(response["body"], fileName);
-                }),
-                startWith(FileDownloadStatus.IN_PROGRESS)
-            );
+            .get<FileDownloadHttpResponse>(url)
+                .pipe(
+                    retry(3),
+                    catchError(this.handleFileDownloadError.bind(this)),
+                    switchMap(this.bindFileDownloadResponse.bind(this))
+                );
+    }
+
+    /**
+     * Normalize download HTTP response to FE-friendly format.
+     *
+     * @param {FileDownloadHttpResponse} response
+     * @returns {FileDownloadResponse}
+     */
+    private bindFileDownloadResponse(response: FileDownloadHttpResponse): Observable<FileDownloadResponse> {
+
+        return Observable.of({
+            location: response.Location,
+            retryAfter: response["Retry-After"],
+            status: this.translateFileDownloadStatus(response.Status)
+        });
     }
 
     /**
      * An error occurred during a file download - return error state.
      *
-     * @returns {FileDownloadStatus}
+     * @returns {FileDownloadResponse}
      */
-    private handleFileDownloadError(): Observable<FileDownloadStatus> {
+    private handleFileDownloadError(): Observable<FileDownloadResponse> {
 
-        return Observable.of(FileDownloadStatus.FAILED);
+        return Observable.of({
+            status: FileDownloadStatus.FAILED,
+            location: "",
+            retryAfter: 0
+        });
     }
 
     /**
-     * Trigger write of file.
+     * Convert the value of the file download status to FE-friendly value.
      *
-     * @param {Blob} file
-     * @param {string} fileName
-     * @returns {Observable<FileDownloadStatus>}
+     * @param {number} code
+     * @returns {FileDownloadStatus}
      */
-    private writeFile(file: Blob, fileName: string): Observable<FileDownloadStatus> {
+    private translateFileDownloadStatus(code: number): FileDownloadStatus {
 
-        if ( !file ) {
-            return Observable.of(FileDownloadStatus.FAILED);
+        if ( code === 301 ) {
+            return FileDownloadStatus.IN_PROGRESS;
         }
-
-        const blob = new Blob([file]);
-        const downloadUrl = URL.createObjectURL(blob);
-
-        const a = this.document.createElement("a");
-        a.href = downloadUrl;
-        a.download = fileName;
-        this.document.body.appendChild(a);
-        a.click();
-        a.parentNode.removeChild(a);
-
-        return Observable.of(FileDownloadStatus.COMPLETE);
+        if ( code === 302 ) {
+            return FileDownloadStatus.COMPLETE;
+        }
+        return FileDownloadStatus.FAILED;
     }
 }
