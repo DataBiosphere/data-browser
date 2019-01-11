@@ -32,20 +32,7 @@ import { TableParamsModel } from "../table/table-params.model";
 @Component({
     selector: "hca-table-projects",
     templateUrl: "./hca-table-projects.component.html",
-    styleUrls: ["./hca-table-projects.component.scss"],
-    animations: [
-        trigger("showControl", [
-            state("show", style({
-                opacity: 1
-            })),
-            state("hide", style({
-                opacity: 0
-            })),
-            transition("hide <=> show", [
-                animate("150ms")
-            ]),
-        ])
-    ]
+    styleUrls: ["./hca-table-projects.component.scss"]
 })
 
 export class HCATableProjectsComponent implements OnInit, AfterViewInit {
@@ -54,8 +41,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     displayedColumns = [
         "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
     ];
-    showControl = false;
-    showControlRow;
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
@@ -106,17 +91,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         return {
             snapped: (rowIndex === 0) && this.snapped
         };
-    }
-
-    /**
-     * Will show or hide add/remove controls when mouse event fired.
-     * @param {boolean} b
-     * @param {number} index
-     */
-    public getShowControl(b: boolean, index: number) {
-
-        this.showControl = b;
-        this.showControlRow = index;
     }
 
     /**

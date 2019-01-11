@@ -9,16 +9,12 @@
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Project Name</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element let i=index;" class="project hasControls" (mouseenter)="getShowControl(true, i)" (mouseleave)="getShowControl(false, i)">
+                <mat-cell *matCellDef="let element" class="project">
+                    <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}" (click)="onTermSelected('project', element.projectShortname)">
+                        <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
+                    </div>
                     <div #title
                          [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
-                    </div>
-                    <div class="select-term"
-                         (click)="onTermSelected('project', element.projectShortname)"   [@showControl]="showControl && showControlRow === i ? 'show' : 'hide'">
-                        <ng-container [ngSwitch]="isTermSelected('project', element.projectShortname)">
-                            <div *ngSwitchCase="true" class="fontsize-xxs">- Unselect Project</div>
-                            <div *ngSwitchDefault class="fontsize-xxs">+ Select Project</div>
-                        </ng-container>
                     </div>
                 </mat-cell>
             </ng-container>
