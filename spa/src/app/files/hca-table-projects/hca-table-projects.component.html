@@ -10,11 +10,14 @@
                           matTooltipClass="hca-tooltip narrow">Project Name</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
-                    <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}" (click)="onTermSelected('project', element.projectShortname)">
-                        <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
-                    </div>
-                    <div #title
-                         [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
+                    <div>
+                        <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}"
+                             (click)="onTermSelected('project', element.projectShortname)">
+                            <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
+                        </div>
+                        <div #title
+                             [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
+                        </div>
                     </div>
                 </mat-cell>
             </ng-container>
