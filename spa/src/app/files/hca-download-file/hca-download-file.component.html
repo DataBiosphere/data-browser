@@ -1,19 +1,20 @@
-<ng-container *ngIf="(observeFileDownloadStatus() | async) as downloadStatus">
-    <img *ngIf="file.fileFormat != 'matrix' && isDownloadNotStarted(downloadStatus)"
-         src="assets/images/icon/hca-download-black.png"
-         (click)="onRequestFile()">
-
-    <img *ngIf="file.fileFormat == 'matrix'"
-         src="assets/images/icon/noFileType.png">
-
-    <mat-spinner *ngIf="isDownloadInProgress(downloadStatus)"
-                 class="hca-spinner"
-                 [diameter]="14"
-                 [mode]="indeterminate">
-    </mat-spinner>
-    <ng-container *ngIf="isDownloadFailed(downloadStatus)"><div class="error">x</div></ng-container>
-    <img *ngIf="isDownloadComplete(downloadStatus)"
-         src="assets/images/icon/check-black.png">
+<ng-container [ngSwitch]="file.fileFormat === 'matrix'">
+    <ng-container *ngSwitchCase="true">
+        <img src="assets/images/icon/noFileType.png">
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <ng-container *ngIf="(observeFileDownloadStatus() | async) as downloadResponse">
+            <img *ngIf="isDownloadNotStarted(downloadResponse)"
+                 src="assets/images/icon/hca-download-black.png" (click)="onRequestFile()">
+            <mat-spinner *ngIf="showSpinner(downloadResponse)"
+                         class="hca-spinner"
+                         [diameter]="14"
+                         [mode]="indeterminate">
+            </mat-spinner>
+            <ng-container *ngIf="isDownloadFailed(downloadResponse)"><div class="error">x</div></ng-container>
+            <img *ngIf="isDownloading(downloadResponse)"
+                 src="assets/images/icon/check-black.png">
+        </ng-container>
+        <a download class="hidden" #download></a>
+    </ng-container>
 </ng-container>
-
-
