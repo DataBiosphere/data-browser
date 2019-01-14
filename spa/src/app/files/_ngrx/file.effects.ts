@@ -41,7 +41,7 @@ import {
     FetchManifestDownloadFileSummarySuccessAction
 } from "./file-summary/file-summary.actions";
 import {
-    DownloadFileManifestAction,
+    DownloadFileManifestAction, DownloadFileManifestRequestedAction,
     FetchFileManifestSummaryRequestAction,
     FetchFileManifestSummarySuccessAction
 } from "./file-manifest-summary/file-manifest-summary.actions";
@@ -381,6 +381,9 @@ export class FileEffects {
         })
         .switchMap((query) => {
             return this.fileService.downloadFileManifest(query);
+        })
+        .map(response => {
+            return new DownloadFileManifestRequestedAction(response);
         });
 
     /**
