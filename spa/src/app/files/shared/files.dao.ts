@@ -10,6 +10,7 @@ import { Injectable } from "@angular/core";
 import * as _ from "lodash";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
+import { catchError, retry, switchMap } from "rxjs/operators";
 
 // App dependencies
 import { EntitySearchResults } from "./entity-search-results.model";
@@ -23,7 +24,13 @@ import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
 import { ConfigService } from "../../config/config.service";
 import { TableParamsModel } from "../table/table-params.model";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { ManifestResponse } from "./manifest-response.model";
+import { ManifestStatus } from "./manifest-status.model";
+import { Subject } from "rxjs/Subject";
+import { ManifestHttpResponse } from "./manifest-http-response.model";
+import { Subscription } from "rxjs/Subscription";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class FilesDAO {
@@ -239,26 +246,50 @@ export class FilesDAO {
     }
 
     /**
-     * Download Manifest
+     * Download manifest - poll for manifest completion then initiate download.
      *
      * @param selectedFacets
      * @returns {any}
      */
-    public downloadFileManifest(selectedFacets: FileFacet[]): Observable<any> {
+    public downloadFileManifest(selectedFacets: FileFacet[]): Observable<ManifestResponse> {
 
-        window.location.href = this.buildManifestUrl(selectedFacets, "tarball");
-        return Observable.of(true); // TODO error handling? I'm not sure setting the href causes any errors
+        // Set up polling for file download completion - if file download request is still in progress, continue to
+        // poll. Otherwise kill polling subscription and download file.
+        const manifestResponse$ = new Subject<ManifestResponse>();
+        manifestResponse$.subscribe((response: ManifestResponse) => {
+
+            if ( response.status === ManifestStatus.IN_PROGRESS ) {
+                return this.updateManifestStatus(response, manifestResponse$);
+            }
+
+            manifestResponse$.unsubscribe();
+
+            if ( response.status === ManifestStatus.COMPLETE ) {
+                window.location.href = response.fileUrl;
+            }
+        });
+
+        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
+        let params = new HttpParams();
+        Object.keys(query).forEach((paramName) => {
+            params.append(paramName, query[paramName]);
+        });
+
+        const url = this.buildApiUrl(`/fetch/manifest/files?${params.toString()}`);
+        const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
+        this.requestManifest(getRequest, manifestResponse$);
+
+        return manifestResponse$.asObservable();
     }
 
     /**
-     * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
-     * export.
+     * Build the manifest download URL - required for requesting a Matrix export.
      *
      * @param {FileFacet[]} selectedFacets
      * @param {string} format
      * @returns {string}
      */
-    public buildManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+    public buildMatrixManifestUrl(selectedFacets: FileFacet[], format?: string): string {
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), format);
 
@@ -267,12 +298,27 @@ export class FilesDAO {
             params.append(paramName, query[paramName]);
         });
 
-        return this.buildApiUrl(`/repository/files/export?${params.toString()}`);
+        return this.buildApiUrl(`/manifest/files?${params.toString()}`);
     }
 
     /**
      * Privates
      */
+
+    /**
+     * Normalize download HTTP response to FE-friendly format.
+     *
+     * @param {ManifestHttpResponse} response
+     * @returns {ManifestResponse}
+     */
+    private bindManifestResponse(response: ManifestHttpResponse): Observable<ManifestResponse> {
+
+        return Observable.of({
+            fileUrl: response.Location,
+            retryAfter: response["Retry-After"],
+            status: this.translateFileDownloadStatus(response.Status)
+        });
+    }
 
     /**
      * Build full API URL
@@ -476,5 +522,71 @@ export class FilesDAO {
         // empty object if it doesn't have any filters;
         const result = Object.keys(filters).length ? {file: filters} : {};
         return JSON.stringify(result);
+    }
+
+    /**
+     * An error occurred during a file download - return error state.
+     *
+     * @returns {ManifestResponse}
+     */
+    private handleManifestError(): Observable<ManifestResponse> {
+
+        return Observable.of({
+            status: ManifestStatus.FAILED,
+            fileUrl: "",
+            retryAfter: 0
+        });
+    }
+
+    /**
+     * Request manifest download status for the specified URL.
+     *
+     * @param {Observable<ManifestHttpResponse>} getRequest
+     */
+    private requestManifest(getRequest: Observable<ManifestHttpResponse>,  manifestResponse$: Subject<ManifestResponse>) {
+
+        getRequest
+            .pipe(
+                retry(3),
+                catchError(this.handleManifestError.bind(this)),
+                switchMap(this.bindManifestResponse.bind(this))
+            )
+            .subscribe((response: ManifestResponse) => {
+                manifestResponse$.next(response);
+            });
+    }
+
+    /**
+     * Convert the value of the file download status to FE-friendly value.
+     *
+     * @param {number} code
+     * @returns {ManifestStatus}
+     */
+    private translateFileDownloadStatus(code: number): ManifestStatus {
+
+        if ( code === 301 ) {
+            return ManifestStatus.IN_PROGRESS;
+        }
+        if ( code === 302 ) {
+            return ManifestStatus.COMPLETE;
+        }
+        return ManifestStatus.FAILED;
+    }
+    
+    /**
+     * Send request to download manifest and poll for completion.
+     *
+     * @param {ManifestResponse} response
+     * @param {Subject<ManifestResponse>} manifestResponse$
+     */
+    private updateManifestStatus(response: ManifestResponse, manifestResponse$: Subject<ManifestResponse>) {
+
+        Observable
+            .interval(response.retryAfter * 1000)
+            .take(1)
+            .subscribe(() => {
+                const getRequest = this.httpClient.get<ManifestHttpResponse>(response.fileUrl);
+                this.requestManifest(getRequest, manifestResponse$);
+            });
     }
 }
