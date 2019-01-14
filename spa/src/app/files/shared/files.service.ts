@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
+import { EntitySearchResults } from "./entity-search-results.model";
 import { FilesDAO } from "./files.dao";
 import { FileSummary } from "../file-summary/file-summary";
 import { Dictionary } from "../../shared/dictionary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileFacet } from "./file-facet.model";
 import { TableParamsModel } from "../table/table-params.model";
-import { EntitySearchResults } from "./entity-search-results.model";
+import { ManifestResponse } from "./manifest-response.model";
 import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
 
 @Injectable()
@@ -27,18 +28,18 @@ export class FilesService {
      * @param {string} format
      * @returns {string}
      */
-    public buildManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+    public buildMatrixManifestUrl(selectedFacets: FileFacet[], format?: string): string {
 
-        return this.fileDAO.buildManifestUrl(selectedFacets, format);
+        return this.fileDAO.buildMatrixManifestUrl(selectedFacets, format);
     }
 
     /**
      * Download File Manifest
      * Removes all instances of fileFormat term "matrix".
      * @param {FileFacetListState} ffls
-     * @returns {Observable<any>}
+     * @returns {Observable<ManifestResponse>}
      */
-    public downloadFileManifest(ffls: FileFacetListState): Observable<any> {
+    public downloadFileManifest(ffls: FileFacetListState): Observable<ManifestResponse> {
 
         let selectedFacets = ffls.selectedFileFacets || [];
         let allFacets = ffls.fileFacets || [];
