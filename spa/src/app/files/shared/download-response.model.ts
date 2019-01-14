@@ -8,6 +8,6 @@
 export interface FileDownloadResponse {
 
     retryAfter?: number;
-    location?: string;
+    fileUrl?: string;
     status: string;
 }
