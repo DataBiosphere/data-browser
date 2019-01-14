@@ -54,7 +54,7 @@ export class DownloadDAO {
     private bindFileDownloadResponse(response: FileDownloadHttpResponse): Observable<FileDownloadResponse> {
 
         return Observable.of({
-            location: response.Location,
+            fileUrl: response.Location,
             retryAfter: response["Retry-After"],
             status: this.translateFileDownloadStatus(response.Status)
         });
@@ -69,7 +69,7 @@ export class DownloadDAO {
 
         return Observable.of({
             status: FileDownloadStatus.FAILED,
-            location: "",
+            fileUrl: "",
             retryAfter: 0
         });
     }
