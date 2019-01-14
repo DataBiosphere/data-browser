@@ -144,18 +144,15 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
         this.downloadResponse$
             .subscribe((response: FileDownloadResponse) => {
                 if ( this.isDownloadInProgress(response) ) {
-                    // this.updateFileDownloadStatus(response);
+                    this.updateFileDownloadStatus(response);
                 }
                 else if ( this.isDownloadComplete(response) ) {
-                    this.downloadFile(response.location);
+                    this.downloadFile(response.fileUrl);
                 }
             });
 
-        // Request file download
-        this.downloadService.requestFileDownload(this.fileUrl)
-            .subscribe((response) => {
-                this.downloadResponse$.next(response);
-            });
+        // Kick off request to download file
+        this.requestFileDownload(this.fileUrl);
     }
 
     /**
@@ -206,6 +203,19 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Request file download status for the specified URL.
+     *
+     * @param {string} fileUrl
+     */
+    private requestFileDownload(fileUrl: string) {
+
+        this.downloadService.requestFileDownload(fileUrl)
+            .subscribe((response) => {
+                this.downloadResponse$.next(response);
+            });
+    }
+
+    /**
      * Request update of download file request status, after a delay according to the previously returned "retry after"
      * value.
      *
@@ -213,7 +223,9 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
      */
     private updateFileDownloadStatus(response: FileDownloadResponse) {
 
-        this.emitAfterInterval(response => this.downloadResponse$.next(response), response.retryAfter * 1000);
+        this.emitAfterInterval(() => {
+            this.requestFileDownload(response.fileUrl);
+        }, response.retryAfter * 1000);
     }
 
     /**
