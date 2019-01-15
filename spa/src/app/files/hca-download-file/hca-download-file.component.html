@@ -15,6 +15,6 @@
             <img *ngIf="isDownloading(downloadResponse)"
                  src="assets/images/icon/check-black.png">
         </ng-container>
-        <a download class="hidden" #download></a>
+        <a download="{{file.fileName}}" class="hidden" #download></a>
     </ng-container>
 </ng-container>
