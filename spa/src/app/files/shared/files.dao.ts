@@ -270,12 +270,9 @@ export class FilesDAO {
         });
 
         const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
-        let params = new HttpParams();
-        Object.keys(query).forEach((paramName) => {
-            params.append(paramName, query[paramName]);
-        });
+        let params = new HttpParams({fromObject: query} as any);
 
-        const url = this.buildApiUrl(`/fetch/manifest/files?${params.toString()}`);
+        const url = this.buildApiUrl(`/fetch/manifest/files`);
         const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
         this.requestManifest(getRequest, manifestResponse$);
 
