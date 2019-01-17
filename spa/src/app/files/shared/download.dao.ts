@@ -31,13 +31,18 @@ export class DownloadDAO {
      *  download, or the final file location if ready for download.
      *
      * @param {string} url - either initial file download URL, or URL to retrieve status of file download
+     * @param {string} fileName
      * @returns {Subject<FileDownloadResponse>}
      *
      */
-    public requestFileDownload(url: string): Observable<FileDownloadResponse> {
+    public requestFileDownload(url: string, fileName?: string): Observable<FileDownloadResponse> {
 
+        const params = {};
+        if ( fileName ) {
+            params["fileName"] = fileName;
+        }
         return this.httpClient
-            .get<FileDownloadHttpResponse>(url)
+            .get<FileDownloadHttpResponse>(url, {params})
                 .pipe(
                     retry(3),
                     catchError(this.handleFileDownloadError.bind(this)),
