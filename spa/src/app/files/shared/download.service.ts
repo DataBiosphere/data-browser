@@ -94,10 +94,11 @@ export class DownloadService {
      * Request the download URL for the file with the specified URL.
      *
      * @param {string} url
+     * @param {string} fileName
      * @returns {Observable<FileDownloadResponse>}
      */
-    public requestFileDownload(url: string): Observable<FileDownloadResponse> {
+    public requestFileDownload(url: string, fileName?: string): Observable<FileDownloadResponse> {
 
-        return this.downloadDAO.requestFileDownload(url);
+        return this.downloadDAO.requestFileDownload(url, fileName);
     }
 }

@@ -152,7 +152,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
             });
 
         // Kick off request to download file
-        this.requestFileDownload(this.fileUrl);
+        this.requestFileDownload(this.fileUrl, this.fileName);
     }
 
     /**
@@ -206,10 +206,11 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
      * Request file download status for the specified URL.
      *
      * @param {string} fileUrl
+     * @param {string} fileName - only required for initial request that kicks of file download
      */
-    private requestFileDownload(fileUrl: string) {
+    private requestFileDownload(fileUrl: string, fileName?: string) {
 
-        this.downloadService.requestFileDownload(fileUrl)
+        this.downloadService.requestFileDownload(fileUrl, fileName)
             .subscribe((response) => {
                 this.downloadResponse$.next(response);
             });
