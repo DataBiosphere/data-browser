@@ -1,0 +1,38 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table pagination.
+ */
+@import "../../shared/theme/cgl.vars";
+
+/* Pagination */
+.pagination {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    height: 56px;
+    justify-content: flex-start;
+    margin-bottom: 102px; /* To allow for hover on file type */
+
+    /* Pagination button */
+    button:not([disabled]) {
+        color: $hca-primary;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+    }
+
+    > span {
+        color: $hca-gray-dark;
+        font-weight: 500;
+        margin: 0;
+    }
+}
+
+/* Projects and files tab - pagination indentation */
+:host-context(.projects, .files) .pagination {
+
+    padding: 0 30px; /* Left aligns button with table content */
+}
