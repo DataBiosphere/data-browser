@@ -71,6 +71,7 @@ import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
+import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { DownloadService } from "./shared/download.service";
 import { DownloadDAO } from "./shared/download.dao";
@@ -150,6 +151,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
         HCATabComponent,
         HCATableComponent,
         HCATableFilesComponent,
+        HCATablePaginationComponent,
         HCATableProjectsComponent,
 
         FileNameShortenerPipe,

@@ -50,28 +50,6 @@
         padding: 0 16px;
         width: 100%; /* To take up full width of screen */
 
-        /* Pagination */
-        .pagination {
-            align-items: center;
-            display: flex;
-            flex-shrink: 0;
-            height: 56px;
-            justify-content: flex-start;
-            margin-bottom: 102px; /* To allow for hover on file type */
-            padding: 0 30px; /* Left aligns button with table content */
-
-            /* Pagination button */
-            button:not([disabled]) {
-                color: $hca-primary;
-            }
-
-            > span {
-                color: $hca-gray-dark;
-                font-weight: 500;
-                margin: 0;
-            }
-        }
-
         mat-table {
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
 
@@ -119,6 +97,11 @@
                     overflow: visible;
                     padding: 8px 0;
                     white-space: normal;
+
+                    /* Break word if no spaces in data */
+                    &.truncate {
+                        word-break: break-all;
+                    }
                 }
 
                 /* Hides ellipsis tooltip - Safari only */
