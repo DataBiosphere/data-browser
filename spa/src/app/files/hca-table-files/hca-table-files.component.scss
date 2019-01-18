@@ -53,47 +53,22 @@
         /* Pagination */
         .pagination {
             align-items: center;
-            color: $hca-gray-dark;
             display: flex;
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 13px; /* TODO typography */
-            font-weight: 600; /* TODO typography */
+            flex-shrink: 0;
             height: 56px;
             justify-content: flex-start;
             margin-bottom: 102px; /* To allow for hover on file type */
-            padding: 0 10px; /* Left aligns button with table content */
+            padding: 0 30px; /* Left aligns button with table content */
 
             /* Pagination button */
-            button {
-                align-items: center;
-                background-color: $hca-white;
-                border: none;
-                border-radius: 3px;
+            button:not([disabled]) {
                 color: $hca-primary;
-                display: flex;
-                flex-shrink: 0;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 11px; /* TODO typography */
-                font-weight: 400; /* TODO typography */
-                height: 38px; /* HCA specific style */
-                letter-spacing: 0.34px; /* TODO typography */
-                padding: 0;
-
-                mat-icon {
-                    font-size: 18px;
-                    height: 18px;
-                    width: 18px;
-                }
-
-                &:focus {
-                    outline: none;
-                }
             }
 
             > span {
-                height: 38px; /* Matches button */
-                line-height: 36px; /* Bottom aligns text with button text */
-                padding: 0 16px;
+                color: $hca-gray-dark;
+                font-weight: 500;
+                margin: 0;
             }
         }
 
