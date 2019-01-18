@@ -10,6 +10,7 @@
 
     align-items: baseline;
     display: flex;
+    padding: 8px 0;
 
     /* Download image */
     img {
@@ -18,8 +19,13 @@
         margin-right: 16px;
         width: 14px;
 
-        &:hover {
+        &:not(.no-download):hover {
             opacity: 0.8;
+        }
+
+        &.no-download {
+            cursor: default;
+            padding: 2px 0;
         }
     }
 
