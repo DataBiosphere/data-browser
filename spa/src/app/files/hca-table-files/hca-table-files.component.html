@@ -72,13 +72,13 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="specimenId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-header-cell class="specimen" *matHeaderCellDef mat-sort-header>
                     <span matTooltip="A unique ID for this specimen."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
                           matTooltipClass="hca-tooltip narrow">Specimen Id</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <mat-cell class="specimen" *matCellDef="let element">
                     <div #specimen
                          matTooltip="{{element.specimenId}}"
                          matTooltipPosition="below"
