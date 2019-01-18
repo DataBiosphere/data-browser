@@ -1,6 +1,6 @@
 <ng-container [ngSwitch]="file.fileFormat === 'matrix'">
     <ng-container *ngSwitchCase="true">
-        <img src="assets/images/icon/noFileType.png">
+        <img class="no-download" src="assets/images/icon/noFileType.png">
     </ng-container>
     <ng-container *ngSwitchDefault>
         <ng-container *ngIf="(observeFileDownloadStatus() | async) as downloadResponse">
