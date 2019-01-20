@@ -76,38 +76,10 @@
                 overflow: visible; /* Provides visibility for sort arrow */
                 position: relative; /* Positions sort arrow */
 
-                /* Data (file types) */
-                .file-header {
-                    align-items: flex-start;
-                    display: flex;
-                    flex: 1;
-                    flex-direction: column;
-                }
-
-                /* File types - sub text */
-                .raw-and-processed, .show-files {
-                    width: 100%;
-
-                    /* Raw, Processed */
-                    > span {
-                        align-self: center;
-                        display: inline-block;
-                        font-family: "Montserrat", sans-serif; /* TODO typography */
-                        font-size: 10px; /* TODO typography */
-                        font-weight: 400;
-                        text-align: left;
-                        width: 40px;
-
-                        /* Processed */
-                        &:last-of-type {
-                            width: 60px;
-                        }
-                    }
-                }
-
-                /* Hide file types - large screen only */
-                .show-files {
-                    display: none;
+                /* Data - sub heading */
+                .file-counts > span {
+                    font-size: 10px;
+                    font-weight: 400;
                 }
             }
 
@@ -137,93 +109,6 @@
                     content: '';
                     display: block;
                 }
-
-                /* Data (File Type) */
-                &.file-type {
-                    align-items: center;
-                    display: flex;
-                    min-height: 48px;
-                    overflow: visible;
-                    position: relative; /* Positions file type info */
-
-                    /* Hide fastq, bam, matrix, other */
-                    .show-files {
-                        display: none;
-                    }
-
-                    /* Raw, Processed ticks */
-                    .file-type-data {
-                        align-items: center;
-                        cursor: pointer;
-                        display: flex;
-
-                        > span {
-                            display: inline-flex;
-                            width: 40px;
-
-                            img {
-                                height: 18px;
-                            }
-
-                            /* Processed */
-                            &:last-of-type {
-                                width: 60px;
-                            }
-                        }
-                    }
-
-                    /* File type info */
-                    .file-type-info {
-                        height: 0;
-                        visibility: hidden;
-                    }
-
-                    /* Data (file type) info - hover state */
-                    &:hover .file-type-info {
-                        background-color: $hca-white;
-                        border: 1px solid $hca-gray-dark;
-                        border-radius: 2px;
-                        color: $hca-black;
-                        display: flex;
-                        flex-direction: column;
-                        height: unset;
-                        padding: 16px;
-                        position: absolute;
-                        right: 50%;
-                        top: 48px;
-                        transition: all 0.25s ease 2s;
-                        transition-delay: 0.5s;
-                        visibility: visible;
-                        width: 100px;
-                        z-index: 4;
-
-                        &:before {
-                            border: 12px solid transparent;
-                            border-bottom-color: $hca-gray-light;
-                            content: '';
-                            position: absolute;
-                            right: 25%;
-                            top: -25px;
-                            z-index: 3;
-                        }
-
-                        /* Data (file type) title */
-                        .file-title {
-                            font-weight: 500;
-                            margin-top: 8px;
-
-                            &:first-of-type {
-                                margin-top: 0;
-                            }
-                        }
-
-                        /* Other files */
-                        .file-other {
-                            margin-top: 8px;
-                        }
-                    }
-                }
-
             }
 
             mat-cell, mat-header-cell {
@@ -243,7 +128,21 @@
 
                 /* Data (file types) */
                 &.file-type {
-                    min-width: 110px;
+                    min-width: 224px;
+                }
+
+                /* Show fastq, bam, matrix and other */
+                .file-counts {
+                    display: flex;
+
+                    > span {
+                        display: inline-block;
+                        width: 50px;
+
+                        &:nth-of-type(n+2) {
+                            padding-left: 8px;
+                        }
+                    }
                 }
 
                 /* Table header text alignment */
@@ -296,42 +195,6 @@
             /* Snapped first row */
             mat-row.snapped {
                 padding-top: 58px;
-            }
-        }
-    }
-}
-
-/**
- * Large ++
- */
-@media screen and (min-width: 1920px) {
-
-    .wrapper .hca-table mat-table {
-
-        mat-header-cell, mat-cell {
-
-            /* Data (file types) - min width set for display at 1920px */
-            &.file-type {
-                min-width: 224px;
-
-                /* Hide raw, processed */
-                .raw-and-processed {
-                    display: none;
-                }
-
-                /* Show fastq, bam, matrix and other */
-                .show-files {
-                    display: inline-flex;
-
-                    > span {
-                        display: block;
-                        width: 50px;
-
-                        &:nth-of-type(n+2) {
-                            padding-left: 8px;
-                        }
-                    }
-                }
             }
         }
     }
