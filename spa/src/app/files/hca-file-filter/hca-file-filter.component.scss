@@ -15,10 +15,27 @@
 
     /* Filter container */
     .filter {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
+        flex-direction: column;
         margin: 8px 0 8px -4px;
         width: 100%;
+
+        /* Small screen only - filter drop down */
+        &.small {
+            flex-direction: row;
+
+            .view-all-options {
+                margin-top: 0;
+            }
+        }
+
+        /* Filter options group - organ, method, donor etc */
+        .view-all-options {
+            align-items: center;
+            display: flex;
+            margin-top: 8px;
+        }
     }
 
     /* Search and select container */
@@ -67,7 +84,7 @@
         display: flex;
         justify-content: space-between;
         position: relative; /* Positions options */
-        width: 150px;
+        width: 120px;
 
         /* Text */
         > span {
@@ -322,6 +339,29 @@
 }
 
 /**
+ * Small Tablet - landscape
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 960px) {
+
+    /* Wrapper */
+    .wrapper {
+
+        /* Filter container */
+        .filter {
+            align-items: center;
+            flex-direction: row;
+
+            /* Filter options group - organ, method, donor etc */
+            .view-all-options {
+                margin-top: 0;
+            }
+        }
+    }
+
+}
+
+/**
  * Large +
  */
 @media screen and (min-width: 1200px) {
@@ -333,6 +373,11 @@
         /* Search input field */
         .hca-input {
             width: 350px;
+        }
+
+        /* Select field */
+        .hca-select {
+            width: 150px;
         }
     }
 }
