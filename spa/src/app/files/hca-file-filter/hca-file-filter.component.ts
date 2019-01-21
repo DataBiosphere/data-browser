@@ -7,7 +7,7 @@
 
 // Core dependencies
 import {
-    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges,
+    Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges,
     ViewChild
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
@@ -19,6 +19,7 @@ import { map, startWith } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { FacetGroup } from "./facet-group.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FilterableFacet } from "./filterable-facet.model";
@@ -87,7 +88,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     selectedFacet: number;
     selectIndex: number;
     selectedTermSet: Set<string>;
-    widthSelectBoxes = 782;
 
     // Privates
     private camelToSpacePipe = new CamelToSpacePipe();
@@ -98,7 +98,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {
+    constructor(private deviceService: DeviceDetectorService, private store: Store<AppState>, @Inject("Window") private window: Window) {
     }
 
     /**
@@ -174,6 +174,15 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Returns the width of each facet, determined by screen size
+     * @returns {number}
+     */
+    public getFacetWidth(): number {
+
+        return (this.isWindowWidthMedium() ? 216 : 256);
+    }
+
+    /**
      * @param f
      * @param t
      * @returns {string}
@@ -242,19 +251,30 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Will show more filters on screens greater than 1200px
+     * Returns true if device is mobile.
      * @returns {boolean}
      */
-    public getWindowWidth() {
+    public isDeviceMobile(): boolean {
 
-        let windowWidth = document.body.offsetWidth;
+        return (this.deviceService.isMobile());
+    }
 
-        if ( windowWidth >= 1200 ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    /**
+     * Returns true if window width is less than 1200px
+     * @returns {boolean}
+     */
+    public isWindowWidthMedium() {
+
+        return document.body.offsetWidth < 1200;
+    }
+
+    /**
+     * Returns true if window width is less than 675px
+     * @returns {boolean}
+     */
+    public isWindowWidthSmall() {
+
+        return document.body.offsetWidth < 675;
     }
 
     /**
@@ -326,12 +346,18 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): { [key: string]: string } {
 
-        let widthRequired = numberOfFacets * 256 + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
-        let allowableWidth = (this.widthSelectBoxes - (158 * i)); // width of select boxes total is 782px, i is position of select box, 158px is width inclusive of margin on the select box
-        let right = (158 * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
+        let widthOfEachFacet = this.getFacetWidth(); // Width of facet - either 216px or 256px
+        let widthOfSelectBox = document.getElementsByClassName("hca-select")[0].getBoundingClientRect().width + 8; // Width inclusive of margin 8px on the select box - 158px or 128px
+        let widthOfAllSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8; // With of select boxes (excludes first and last margin - 8px) - 782px or 632px
+        let widthRequired = numberOfFacets * widthOfEachFacet + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
+        let allowableWidth = (widthOfAllSelectBoxes - (widthOfSelectBox * i)); // width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box
+        let right = (widthOfSelectBox * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
+        let left = (widthOfSelectBox * (i)); // Calculates position left if there is a need to be left aligned
 
         /* Check if the drop down can be left aligned with its select box */
-        /* Needs to be right aligned */
+        /* Will be right aligned if width required is greater than allowable width */
+        /* Exception to this case is when the select boxes have wrapped under the search bar (< 960px) and the width required is greater than the select boxes width */
+        /* In this instance, the drop down will be left aligned with the screen */
         if ( widthRequired > allowableWidth ) {
 
             // Calculate a new allowable width - full width of filter area
@@ -344,13 +370,25 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
                 // Calculate number of facets that fits neatly in the first row of the allowable width
                 // Then calculate new width required
-                let numberOfFacetsPerRow = Math.trunc((rightSideAllowableWidth - 14) / 256);
-                widthRequired = (numberOfFacetsPerRow * 256) + 14;
+                let numberOfFacetsPerRow = Math.trunc((rightSideAllowableWidth - 14) / widthOfEachFacet);
+                widthRequired = (numberOfFacetsPerRow * widthOfEachFacet) + 14;
             }
 
+            /* Left aligned with screen */
+            if ( document.body.offsetWidth < 960 && widthRequired > widthOfAllSelectBoxes ) {
+
+                return {
+                    "left": (-left + "px"),
+                    "maxWidth": (widthOfAllSelectBoxes + "px"),
+                    "minWidth": (widthRequired + "px"),
+                    "right": "unset"
+                };
+            }
+
+            /* Right aligned */
             return {
                 "left": "unset",
-                "maxWidth": (this.widthSelectBoxes + "px"),
+                "maxWidth": (widthOfAllSelectBoxes + "px"),
                 "minWidth": (widthRequired + "px"),
                 "right": (-right + "px")
             };
