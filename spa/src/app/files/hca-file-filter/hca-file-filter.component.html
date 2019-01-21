@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div id="filter" class="filter">
+    <div id="filter" [ngClass]="{'filter': true, 'small': (isDeviceMobile() || isWindowWidthSmall())}">
         <input class="hca-input" type="text" placeholder="Search" aria-label="Number" matInput
                [formControl]="filterControl" #filterInput [matAutocomplete]="auto" (click)="onHCASelectClose()">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTermSelected($event)"
@@ -16,8 +16,8 @@
                 </mat-option>
             </mat-optgroup>
         </mat-autocomplete>
-        <ng-container [ngSwitch]="getWindowWidth()">
-            <ng-container *ngSwitchDefault>
+        <ng-container [ngSwitch]="isDeviceMobile() || isWindowWidthSmall()">
+            <div id="select" class="view-all-options" *ngSwitchDefault>
                 <ng-container *ngFor="let facetGroup of facetGroups; let i = index;trackBy: trackFacetGroupByFn">
                     <div [ngClass]="getSelectClass(i)" (click)="onHCASelect(i)">
                         <span>{{facetGroup.facetGroupName}}</span>
@@ -30,8 +30,8 @@
                         </ng-container>
                     </div>
                 </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="false">
+            </div>
+            <ng-container *ngSwitchCase="true">
                 <div class="view-options" [ngClass]="getSelectClass(1)" (click)="onHCASelect(1)">
                     <span>Filter</span>
                     <mat-icon>keyboard_arrow_down</mat-icon>
