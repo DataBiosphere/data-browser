@@ -206,7 +206,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
      * Request file download status for the specified URL.
      *
      * @param {string} fileUrl
-     * @param {string} fileName - only required for initial request that kicks of file download
+     * @param {string} fileName - only required for initial request that kicks off file download
      */
     private requestFileDownload(fileUrl: string, fileName?: string) {
 

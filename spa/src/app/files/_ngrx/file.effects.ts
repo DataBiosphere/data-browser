@@ -29,7 +29,7 @@ import { FilesService } from "../shared/files.service";
 import {
     ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
-    FetchFileFacetsSuccessAction,
+    FetchFileFacetsSuccessAction, InitEntityStateAction,
     NoOpAction,
     SelectFileFacetAction,
     SetViewStateAction
@@ -189,6 +189,42 @@ export class FileEffects {
         });
 
     /**
+     * Fetch data to populate facet menus.
+     *
+     * @type {Observable<FetchFileFacetsSuccessAction>}
+     */
+    @Effect()
+    fetchFacets$: Observable<Action> = this.actions$
+        .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
+        .switchMap(() => {
+            return this.store.select(selectTableQueryParams).first();
+        })
+        .switchMap((tableQueryParams) => {
+
+            return this.fileService.fetchEntitySearchResults(
+                tableQueryParams.selectedFacets,
+                DEFAULT_TABLE_PARAMS,
+                tableQueryParams.tableState.selectedEntity);
+        })
+        .map((entitySearchResults: EntitySearchResults) => {
+
+            // Update term color indicators for potential charting of term count %
+            const fileFacets = entitySearchResults.fileFacets;
+            fileFacets.forEach((fileFacet) => {
+
+                let colorIndex = 0;
+                fileFacet.terms.forEach((term) => {
+                    term.color = this.colors[colorIndex];
+                    const key = fileFacet.name + ":" + term.name;
+                    this.colorWheel.set(key, term.color);
+                    colorIndex++;
+                });
+            });
+
+            return new FetchFileFacetsSuccessAction(fileFacets);
+        });
+
+    /**
      * Fetch the initial table data.
      *
      * @type {Observable<FetchTableDataSuccessAction>}
@@ -210,32 +246,21 @@ export class FileEffects {
                     order: tableQueryParams.pagination.order
                 });
 
+            // Remove any selected project facets if user is currently viewing project tab. We do not want to restrict table
+            // result set to just the selected project facets.
+            const selectedEntity = tableQueryParams.tableState.selectedEntity;
+            const filteredSelectedFacets = new Map(tableQueryParams.selectedFacets);
+            if ( filteredSelectedFacets.has("project") ) {
+                filteredSelectedFacets.delete("project");
+            }
             return this.fileService.fetchEntitySearchResults(
-                tableQueryParams.selectedFacets,
+                filteredSelectedFacets,
                 tableParams,
-                tableQueryParams.tableState.selectedEntity);
+                selectedEntity);
         })
-        .switchMap((entitySearchResults: EntitySearchResults) => {
+        .map((entitySearchResults: EntitySearchResults) => {
 
-            // Update term color indicators for potential charting of term count %
-            const fileFacets = entitySearchResults.fileFacets;
-            fileFacets.forEach((fileFacet) => {
-
-                let colorIndex = 0;
-                fileFacet.terms.forEach((term) => {
-                    term.color = this.colors[colorIndex];
-                    const key = fileFacet.name + ":" + term.name;
-                    this.colorWheel.set(key, term.color);
-                    colorIndex++;
-                });
-            });
-
-            return Observable.concat(
-                // Return success action to populate table rows
-                Observable.of(new FetchTableDataSuccessAction(entitySearchResults.tableModel)),
-                // Return file facets and their corresponding terms, to populate facet drop downs
-                Observable.of(new FetchFileFacetsSuccessAction(fileFacets))
-            );
+            return new FetchTableDataSuccessAction(entitySearchResults.tableModel);
         });
 
     /**
@@ -323,8 +348,8 @@ export class FileEffects {
                 return new NoOpAction();
             }
 
-            // Table data has not been previously loaded, load with the facets with counts for the selected entity.
-            return new FetchFileFacetsRequestAction();
+            // Table data has not been previously loaded and is therefore not cached.
+            return new InitEntityStateAction();
         });
 
     @Effect()
@@ -399,7 +424,7 @@ export class FileEffects {
             SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
             SelectFileFacetAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
             ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
-            FetchFileFacetsRequestAction.ACTION_TYPE // Fetch all facets (need to re-query for facets as counts change as terms are selected)
+            InitEntityStateAction.ACTION_TYPE
         )
         .switchMap(() => {
 
@@ -417,9 +442,11 @@ export class FileEffects {
             // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
             // for file summary and table data.
             return Observable.concat(
-                // Request Summary
+                // Request summary
                 Observable.of(new FetchFileSummaryRequestAction()),
-                // Request Table Data
+                // Request facets
+                Observable.of(new FetchFileFacetsRequestAction()),
+                // Request table data
                 Observable.of(new FetchInitialTableDataRequestAction())
             );
         });
