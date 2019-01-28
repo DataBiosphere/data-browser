@@ -57,6 +57,15 @@ export class NoOpAction implements Action {
 }
 
 /**
+ * Action dispatched when entity state is not yet cached and needs to be initialized.
+ */
+export class InitEntityStateAction implements Action {
+    public static ACTION_TYPE = "FILE.FILE_FACET_LIST.INIT_ENTITY_STATE";
+    public readonly type = InitEntityStateAction.ACTION_TYPE;
+    constructor() {}
+}
+
+/**
  * Action dispatched when current set of selected facet terms, as well as the corresponding tab (entity) are to be
  * stored. Currently, this action is dispatched on app init when app state is read from URL params.
  */
@@ -70,6 +79,7 @@ export type All
     =  ClearSelectedFileFacetsAction
     | FetchFileFacetsRequestAction
     | FetchFileFacetsSuccessAction
+    | InitEntityStateAction
     | NoOpAction
     | SelectFileFacetAction
     | SetViewStateAction;
