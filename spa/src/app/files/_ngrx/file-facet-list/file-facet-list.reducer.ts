@@ -13,8 +13,7 @@ import { Action } from "@ngrx/store";
 import { FileFacetListState } from "./file-facet-list.state";
 import {
     ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
-    FetchFileFacetsRequestAction,
-    FetchFileFacetsSuccessAction,
+    FetchFileFacetsSuccessAction, InitEntityStateAction,
     SelectFileFacetAction,
     SetViewStateAction
 } from "./file-facet-list.actions";
@@ -28,7 +27,7 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
 
     switch (action.type) {
 
-        case FetchFileFacetsRequestAction.ACTION_TYPE:
+        case InitEntityStateAction.ACTION_TYPE:
             return state.requestFileFacets();
 
         // Handle case where term has been selected - selected/deselected state of term must be updated, and possibly
