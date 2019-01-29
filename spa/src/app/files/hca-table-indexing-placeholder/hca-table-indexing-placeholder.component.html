@@ -1,0 +1,7 @@
+<div *ngIf="indexing" [@indexingAnimation] class="indexing-overlay"></div>
+<div *ngIf="indexing" class="message">
+    <span class="fontsize-xs">Loading</span>
+    <mat-spinner class="hca-spinner"
+                 [diameter]="20"
+                 [mode]="indeterminate"></mat-spinner>
+</div>
