@@ -2,11 +2,11 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Styles for table indexing placeholder.
+ * Styles for table loading placeholder.
  */
 @import "../../shared/theme/cgl.vars";
 
-.indexing-overlay, .message {
+.loading-overlay, .message {
     left: 0;
     padding: 0 16px;
     position: absolute;
@@ -14,7 +14,7 @@
     z-index: 30;
 }
 
-.indexing-overlay {
+.loading-overlay {
     background-color: $hca-white;
     bottom: 0;
     right: 0;
@@ -27,7 +27,6 @@
 
     span {
         margin: 0;
-        padding-right: 8px;
     }
 }
 
@@ -36,7 +35,7 @@
  */
 @media screen and (min-width: 1200px) {
 
-    .indexing-overlay, .message {
+    .loading-overlay, .message {
         padding: 0 30px;
     }
 }

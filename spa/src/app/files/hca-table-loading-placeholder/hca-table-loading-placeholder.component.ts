@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Table indexing placeholder component.
+ * Table loading placeholder component.
  */
 
 
@@ -15,23 +15,23 @@ import "rxjs/add/observable/merge";
 import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
-    selector: "hca-table-indexing-placeholder",
-    templateUrl: "./hca-table-indexing-placeholder.component.html",
-    styleUrls: ["./hca-table-indexing-placeholder.component.scss"],
+    selector: "hca-table-loading-placeholder",
+    templateUrl: "./hca-table-loading-placeholder.component.html",
+    styleUrls: ["./hca-table-loading-placeholder.component.scss"],
     animations: [
         trigger(
-            "indexingAnimation", [
+            "loadingAnimation", [
                 transition(":leave", [
                     style({opacity: 1}),
-                    animate("1s 0.1s ease-out", style({opacity: 0}))
+                    animate("300ms 0.1s ease-out", style({opacity: 0}))
                 ])
             ]
         )
     ]
 })
 
-export class HCATableIndexingPlaceholderComponent {
+export class HCATableLoadingPlaceholderComponent {
 
     // Inputs
-    @Input() indexing: boolean;
+    @Input() loading: boolean;
 }

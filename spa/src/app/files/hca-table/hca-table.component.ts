@@ -17,7 +17,7 @@ import { Subject } from "rxjs/Subject";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectPagination, selectTableData } from "../_ngrx/file.selectors";
+import { selectPagination, selectTableData, selectTableLoading } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
@@ -33,6 +33,7 @@ export class HCATableComponent implements OnInit, AfterViewInit {
     displayedColumns = [
         "specimenId", "projectTitle", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
+    loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
@@ -190,6 +191,9 @@ export class HCATableComponent implements OnInit, AfterViewInit {
         // Initialize the new data source with an observable of the table data.
         this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
 
+        // Get an observable of the loading status of table.
+        this.loading$ = this.store.select(selectTableLoading);
+
         // Get an observable of the pagination model
         this.pagination$ = this.store.select(selectPagination);
     }
@@ -224,17 +228,12 @@ export interface Element {
 class TableElementDataSource extends DataSource<any> {
 
     element$: Observable<Element[]>;
-    isTableIndexed = false;
 
     constructor(tableData$: Observable<any[]>) {
 
         super();
 
         this.element$ = tableData$.map((rows: any[]) => {
-
-            if (rows.length > 0) {
-                this.isTableIndexed = true;
-            }
 
             return rows.map((row: any) => {
 

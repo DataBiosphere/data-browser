@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="hca-table">
-        <hca-table-indexing-placeholder [indexing]="!tableElementDataSource.isTableIndexed"></hca-table-indexing-placeholder>
+        <hca-table-loading-placeholder [loading]="loading$ | async"></hca-table-loading-placeholder>
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="specimenId">
