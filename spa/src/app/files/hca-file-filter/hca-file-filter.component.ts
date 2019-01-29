@@ -349,10 +349,17 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         let widthOfEachFacet = this.getFacetWidth(); // Width of facet - either 216px or 256px
         let widthOfSelectBox = document.getElementsByClassName("hca-select")[0].getBoundingClientRect().width + 8; // Width inclusive of margin 8px on the select box - 158px or 128px
         let widthOfAllSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8; // With of select boxes (excludes first and last margin - 8px) - 782px or 632px
-        let widthRequired = numberOfFacets * widthOfEachFacet + 14; // 14px for left and right padding and border, 256px for each facet inside drop down
+        let widthRequired = numberOfFacets * widthOfEachFacet + 14; // 14px for left and right padding and border, 216px or 256px for each facet inside drop down
         let allowableWidth = (widthOfAllSelectBoxes - (widthOfSelectBox * i)); // width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box
         let right = (widthOfSelectBox * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
         let left = (widthOfSelectBox * (i)); // Calculates position left if there is a need to be left aligned
+        let maxHeight;
+
+        // Calculate max allowable height of hca-options - scrolls if extends beyond page bounds
+        if ( this.selectIndex === i ) {
+
+            maxHeight = (document.body.getBoundingClientRect().height - document.getElementById("options").getBoundingClientRect().top) + "px";
+        }
 
         /* Check if the drop down can be left aligned with its select box */
         /* Will be right aligned if width required is greater than allowable width */
@@ -363,7 +370,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             // Calculate a new allowable width - full width of filter area
             let rightSideAllowableWidth = document.getElementById("filter").offsetWidth;
 
-            /* Check if width required is greater than the select boxes total width */
+            /* Check if width required is greater than the full width of filter area */
             /* If true, return a max width of hca-file-filter as a constraint */
             /* Facets will wrap within */
             if ( widthRequired > rightSideAllowableWidth ) {
@@ -374,29 +381,36 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 widthRequired = (numberOfFacetsPerRow * widthOfEachFacet) + 14;
             }
 
-            /* Left aligned with screen */
-            if ( document.body.offsetWidth < 960 && widthRequired > widthOfAllSelectBoxes ) {
+            /* Check if the new width required is still greater than the allowable width - to either left align with screen, or right align with last select box */
+            if ( widthRequired > allowableWidth ) {
 
+                /* Left aligned with screen - if screen size is less than 960px and is not the last select box */
+                if ( document.body.offsetWidth < 960 && i !== facetGroupCount - 1 ) {
+
+                    return {
+                        "left": (-left + "px"),
+                        "maxHeight": maxHeight,
+                        "maxWidth": (widthOfAllSelectBoxes + "px"),
+                        "minWidth": (widthRequired + "px"),
+                        "right": "unset"
+                    };
+                }
+
+                /* Right aligned */
                 return {
-                    "left": (-left + "px"),
+                    "left": "unset",
+                    "maxHeight": maxHeight,
                     "maxWidth": (widthOfAllSelectBoxes + "px"),
                     "minWidth": (widthRequired + "px"),
-                    "right": "unset"
+                    "right": (-right + "px")
                 };
             }
-
-            /* Right aligned */
-            return {
-                "left": "unset",
-                "maxWidth": (widthOfAllSelectBoxes + "px"),
-                "minWidth": (widthRequired + "px"),
-                "right": (-right + "px")
-            };
         }
 
         // Can be left aligned with its select box
         return {
             "left": "0",
+            "maxHeight": maxHeight,
             "maxWidth": (allowableWidth + "px"),
             "minWidth": (widthRequired + "px"),
             "right": "unset"
