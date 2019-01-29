@@ -41,7 +41,7 @@ export function clearUnSelectedTableModels(tableState: TableState): TableModel[]
  * @returns {TableModel}
  */
 function createEmptyTableModel(entityName: string): TableModel {
-    return { data: [], pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: entityName };
+    return { data: [], loading: true, pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: entityName };
 }
 
 /**
