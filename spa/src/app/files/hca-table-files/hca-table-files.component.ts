@@ -252,12 +252,17 @@ export interface Element {
 class TableElementDataSource extends DataSource<any> {
 
     element$: Observable<Element[]>;
+    isTableIndexed = false;
 
     constructor(tableData$: Observable<any[]>) {
 
         super();
 
         this.element$ = tableData$.map((rows: any[]) => {
+
+            if (rows.length > 0) {
+                this.isTableIndexed = true;
+            }
 
             return rows.map((row: any) => {
 
