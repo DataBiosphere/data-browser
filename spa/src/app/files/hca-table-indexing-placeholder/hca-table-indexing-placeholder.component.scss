@@ -1,0 +1,42 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table indexing placeholder.
+ */
+@import "../../shared/theme/cgl.vars";
+
+.indexing-overlay, .message {
+    left: 0;
+    padding: 0 16px;
+    position: absolute;
+    top: 0;
+    z-index: 30;
+}
+
+.indexing-overlay {
+    background-color: $hca-white;
+    bottom: 0;
+    right: 0;
+}
+
+.message {
+    align-items: center;
+    display: flex;
+    height: 58px;
+
+    span {
+        margin: 0;
+        padding-right: 8px;
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    .indexing-overlay, .message {
+        padding: 0 30px;
+    }
+}
