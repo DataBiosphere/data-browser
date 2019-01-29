@@ -71,7 +71,7 @@ import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
-import { HCATableIndexingPlaceholderComponent } from "./hca-table-indexing-placeholder/hca-table-indexing-placeholder.component";
+import { HCATableLoadingPlaceholderComponent } from "./hca-table-loading-placeholder/hca-table-loading-placeholder.component";
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { DownloadService } from "./shared/download.service";
@@ -152,7 +152,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
         HCATabComponent,
         HCATableComponent,
         HCATableFilesComponent,
-        HCATableIndexingPlaceholderComponent,
+        HCATableLoadingPlaceholderComponent,
         HCATablePaginationComponent,
         HCATableProjectsComponent,
 

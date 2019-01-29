@@ -35,9 +35,19 @@ export const selectTableState = createFeatureSelector<TableState>("tableState");
 export const selectDownloadManifestFileSummary = createFeatureSelector<FileSummaryState>("manifestDownloadFileSummary");
 
 /**
- * Returns current state of pagination, of file facet table.
+ * Returns current state of loading of file facet table.
  *
- * @type {MemoizedSelector<object, PaginationModel>}
+ * @type {MemoizedSelector<Object, boolean>}
+ */
+export const selectTableLoading = createSelector(
+    selectTableState,
+    (tableState: TableState) => {
+        return getSelectedTable(tableState).loading;
+    });
+
+/**
+ * Returns current state of pagination of file facet table.
+ * @type {MemoizedSelector<Object, PaginationModel>}
  */
 export const selectPagination = createSelector(selectTableState, (tableState: TableState) => {
     return getSelectedTable(tableState).pagination;
@@ -49,17 +59,16 @@ export const selectTableData = createSelector(
         return getSelectedTable(tableState).data;
     });
 
+export const selectEntities = createSelector(selectTableState, (tableState: TableState) => {
+    return tableState.entitySpecs;
+});
+
 export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
     return getSelectedEntity(tableState);
 });
 
-
 export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, selectPagination, selectTableState, (selectedFacets, pagination, tableState) => {
     return { selectedFacets, pagination, tableState };
-});
-
-export const selectEntities = createSelector(selectTableState, (tableState: TableState) => {
-    return tableState.entitySpecs;
 });
 
 /**

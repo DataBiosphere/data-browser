@@ -12,6 +12,7 @@ export interface TableModel {
 
     pagination: PaginationModel;
     data: any[];
+    loading?: boolean;
     tableName: string;
 
 }
