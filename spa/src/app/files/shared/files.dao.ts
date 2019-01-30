@@ -108,46 +108,33 @@ export class FilesDAO {
 
     /**
      * Fetch data to populate rows in table, depending on the current selected tab (eg projects, specimens, files), as
-     * well as facet terms and their corresponding counts.
+     * well as facet terms and their corresponding counts. When viewing the project tables, we want to remove any
+     * selected projects facets as we do not want to restrict the table result set to just the selected projects. That is,
+     * projects tab is not filterable by project.
      *
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
+     * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
     fetchEntitySearchResults(
         selectedFacetsByName: Map<string, FileFacet>,
         tableParams: TableParamsModel,
-        selectedEntity: string): Observable<EntitySearchResults> {
+        selectedEntity: string,
+        filterableByProject: boolean): Observable<EntitySearchResults> {
 
         // Build API URL
         const url = this.buildApiUrl(`/repository/` + selectedEntity);
 
-        // Build query params
-        const selectedFacets = Array.from(selectedFacetsByName.values());
-        const filters = this.facetsToQueryString(selectedFacets);
-
-        const paramMap = {
-            filters,
-            size: tableParams.size.toString(10)
-        };
-
-        if ( tableParams.sort && tableParams.order ) {
-            paramMap["sort"] = tableParams.sort;
-            paramMap["order"] = tableParams.order;
+        // Build up param map
+        let paramMap;
+        if ( filterableByProject ) {
+            paramMap = this.buildFetchSearchResultsQueryParams(selectedFacetsByName, tableParams);
         }
-
-        // check if there is paging
-        if ( tableParams.search_after && tableParams.search_after_uid ) {
-
-            paramMap["search_after"] = tableParams.search_after;
-            paramMap["search_after_uid"] = tableParams.search_after_uid;
-        }
-
-        if ( tableParams.search_before && tableParams.search_before_uid ) {
-
-            paramMap["search_before"] = tableParams.search_before;
-            paramMap["search_before_uid"] = tableParams.search_before_uid;
+        else {
+            const filteredSelectedFacetsByName = this.removeProjectFacet(selectedFacetsByName, selectedEntity);
+            paramMap = this.buildFetchSearchResultsQueryParams(filteredSelectedFacetsByName, tableParams);
         }
 
         return this.httpClient.get<FilesAPIResponse>(url, {params: paramMap})
@@ -327,6 +314,45 @@ export class FilesDAO {
 
         const domain = this.configService.getAPIURL();
         return `${domain}${url}`;
+    }
+
+    /**
+     * Build up set of query params for fetching search results.
+     *
+     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {TableParamsModel} tableParams
+     */
+    private buildFetchSearchResultsQueryParams(
+        selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel) {
+
+        // Build query params
+        const selectedFacets = Array.from(selectedFacetsByName.values());
+        const filters = this.facetsToQueryString(selectedFacets);
+
+        const paramMap = {
+            filters,
+            size: tableParams.size.toString(10)
+        };
+
+        if ( tableParams.sort && tableParams.order ) {
+            paramMap["sort"] = tableParams.sort;
+            paramMap["order"] = tableParams.order;
+        }
+
+        // check if there is paging
+        if ( tableParams.search_after && tableParams.search_after_uid ) {
+
+            paramMap["search_after"] = tableParams.search_after;
+            paramMap["search_after_uid"] = tableParams.search_after_uid;
+        }
+
+        if ( tableParams.search_before && tableParams.search_before_uid ) {
+
+            paramMap["search_before"] = tableParams.search_before;
+            paramMap["search_before_uid"] = tableParams.search_before_uid;
+        }
+
+        return paramMap;
     }
 
     /**
@@ -536,6 +562,23 @@ export class FilesDAO {
     }
 
     /**
+     * Remove project facet from list of selected facets if the currently selected entity is projects. We do not want
+     * to restrict the table result set to just the selected project.
+     *
+     * @param {Map<string, FileFacet>} selectedFacets
+     * @param {string} selectedEntity
+     * @returns {Map<string, FileFacet>}
+     */
+    private removeProjectFacet(selectedFacets: Map<string, FileFacet>, selectedEntity: string): Map<string, FileFacet> {
+
+        const filteredSelectedFacets = new Map(selectedFacets);
+        if ( filteredSelectedFacets.has("project") ) {
+            filteredSelectedFacets.delete("project");
+        }
+        return filteredSelectedFacets;
+    }
+
+    /**
      * Request manifest download status for the specified URL.
      *
      * @param {Observable<ManifestHttpResponse>} getRequest
@@ -569,7 +612,7 @@ export class FilesDAO {
         }
         return ManifestStatus.FAILED;
     }
-    
+
     /**
      * Send request to download manifest and poll for completion.
      *
