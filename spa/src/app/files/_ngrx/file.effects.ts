@@ -84,6 +84,8 @@ export class FileEffects {
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      * @param {FilesService} fileService
+     * @param {MatrixService} matrixService
+     * @param {ProjectService} projectService
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
@@ -225,7 +227,7 @@ export class FileEffects {
         });
 
     /**
-     * Fetch the initial table data.
+     * Fetch data to populate entity table.
      *
      * @type {Observable<FetchTableDataSuccessAction>}
      */
@@ -246,17 +248,10 @@ export class FileEffects {
                     order: tableQueryParams.pagination.order
                 });
 
-            // Remove any selected project facets if user is currently viewing project tab. We do not want to restrict table
-            // result set to just the selected project facets.
+            const selectedFacetsByName = tableQueryParams.selectedFacets;
             const selectedEntity = tableQueryParams.tableState.selectedEntity;
-            const filteredSelectedFacets = new Map(tableQueryParams.selectedFacets);
-            if ( filteredSelectedFacets.has("project") ) {
-                filteredSelectedFacets.delete("project");
-            }
             return this.fileService.fetchEntitySearchResults(
-                filteredSelectedFacets,
-                tableParams,
-                selectedEntity);
+                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
         })
         .map((entitySearchResults: EntitySearchResults) => {
 
@@ -352,43 +347,64 @@ export class FileEffects {
             return new InitEntityStateAction();
         });
 
+    /**
+     * Sort order or page size of entity table has been updated, update search results.
+     *
+     * @type {Observable<FetchTableDataSuccessAction>}
+     */
     @Effect()
     fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
         .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
+
+            const selectedFacetsByName = results[1].selectedFacets;
+            const tableParams = (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams;
+            const selectedEntity = results[1].tableState.selectedEntity;
             return this.fileService.fetchEntitySearchResults(
-                results[1].selectedFacets,
-                (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams,
-                results[1].tableState.selectedEntity);
+                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
         })
         .map((entitySearchResults: EntitySearchResults) => {
             return new FetchTableDataSuccessAction(entitySearchResults.tableModel);
         });
 
+    /**
+     * Grab the next page of table result set.
+     *
+     * @type {Observable<TableNextPageSuccessAction>}
+     */
     @Effect()
     fetchNextPagedOrSortedTableData$: Observable<Action> = this.actions$
         .ofType(TableNextPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
+
+            const selectedFacetsByName = results[1].selectedFacets;
+            const tableParams = (results[0] as TableNextPageAction).tableParams;
+            const selectedEntity = results[1].tableState.selectedEntity;
             return this.fileService.fetchEntitySearchResults(
-                results[1].selectedFacets,
-                (results[0] as TableNextPageAction).tableParams,
-                results[1].tableState.selectedEntity);
+                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
         })
         .map((entitySearchResults: EntitySearchResults) => {
             return new TableNextPageSuccessAction(entitySearchResults.tableModel);
         });
 
+    /**
+     * Grab the previous page of table result set.
+     *
+     * @type {Observable<TablePreviousPageSuccessAction>}
+     */
     @Effect()
     fetchPreviousPagedOrSortedTableData$: Observable<Action> = this.actions$
         .ofType(TablePreviousPageAction.ACTION_TYPE)
         .withLatestFrom(this.store.select(selectTableQueryParams))
         .switchMap((results) => {
+
+            const selectedFacetsByName = results[1].selectedFacets;
+            const tableParams = (results[0] as TablePreviousPageAction).tableParams;
+            const selectedEntity = results[1].tableState.selectedEntity;
             return this.fileService.fetchEntitySearchResults(
-                results[1].selectedFacets,
-                (results[0] as TablePreviousPageAction).tableParams,
-                results[1].tableState.selectedEntity);
+                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
         })
         .map((entitySearchResults: EntitySearchResults) => {
             return new TablePreviousPageSuccessAction(entitySearchResults.tableModel);

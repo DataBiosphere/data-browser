@@ -77,19 +77,22 @@ export class FilesService {
     }
 
     /**
-     * Fetch data to populate rows in table, depending on the current selected tab (eg projects, specimens, files), as
-     * well as facet terms and their corresponding counts.
+     * Fetch data to populate rows in table, depending on the current selected tab (eg specimens, files), as
+     * well as facet terms and their corresponding counts. See fetchProjectSearchResults for projects tab.
      *
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
+     * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
     public fetchEntitySearchResults(selectedFacetsByName: Map<string, FileFacet>,
                                     tableParams: TableParamsModel,
-                                    selectedEntity: string): Observable<EntitySearchResults> {
+                                    selectedEntity: string,
+                                    filterableByProject = true): Observable<EntitySearchResults> {
 
-        return this.fileDAO.fetchEntitySearchResults(selectedFacetsByName, tableParams, selectedEntity);
+        return this.fileDAO.fetchEntitySearchResults(
+            selectedFacetsByName, tableParams, selectedEntity, filterableByProject);
     }
 
     /**
