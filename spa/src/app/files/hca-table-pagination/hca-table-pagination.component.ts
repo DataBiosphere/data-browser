@@ -85,7 +85,7 @@ export class HCATablePaginationComponent implements OnInit {
         let tableParamsModel = {
 
             search_before: pm.search_before,
-            search_before_uid: pm.search_after_uid,
+            search_before_uid: pm.search_before_uid,
             size: pm.size,
             sort: pm.sort,
             order: pm.order
