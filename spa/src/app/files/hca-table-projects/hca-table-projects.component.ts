@@ -34,6 +34,7 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Template variables
+    data$: Observable<any[]>;
     displayedColumns = [
         "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
     ];
@@ -193,6 +194,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Initialize the new data source with an observable of the table data.
         this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
+
+        // Get an observable of the table data.
+        this.data$ = this.store.select(selectTableData);
 
         // Get an observable of the loading status of table.
         this.loading$ = this.store.select(selectTableLoading);

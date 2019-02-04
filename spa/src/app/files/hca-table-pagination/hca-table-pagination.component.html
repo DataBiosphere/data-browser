@@ -1,14 +1,15 @@
-<div *ngIf="pagination$ | async; let pagination" class="pagination">
-    <ng-container *ngIf="pagination.current_page">
-        <button mat-icon-button (click)="previousPageSelected(pagination)"
-                [disabled]="pagination.current_page === 1">
-            <mat-icon>chevron_left</mat-icon>
-        </button>
-        <span class="fontsize-xs">Page {{pagination.current_page}} of {{getPageCount(pagination)}}</span>
-        <button mat-icon-button (click)="nextPageSelected(pagination)"
-                [disabled]="!hasNext(pagination)">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
-    </ng-container>
-</div>
-
+<ng-container *ngIf="isData.length > 0">
+    <div *ngIf="pagination$ | async; let pagination" class="pagination">
+        <ng-container *ngIf="pagination.current_page">
+            <button mat-icon-button (click)="previousPageSelected(pagination)"
+                    [disabled]="pagination.current_page === 1">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span class="fontsize-xs">Page {{pagination.current_page}} of {{getPageCount(pagination)}}</span>
+            <button mat-icon-button (click)="nextPageSelected(pagination)"
+                    [disabled]="!hasNext(pagination)">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </ng-container>
+    </div>
+</ng-container>

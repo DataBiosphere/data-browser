@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="hca-table files">
-        <hca-table-loading-placeholder [loading]="loading$ | async"></hca-table-loading-placeholder>
-        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort matSortDirection="asc" matSortActive="fileName"
+        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
+                   matSortDirection="asc" matSortActive="fileName"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="fileName">
                 <mat-header-cell class="file-name" *matHeaderCellDef mat-sort-header>
@@ -229,8 +229,11 @@
                 </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass()"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [ngClass]="getRowClass(i)"></mat-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
+                     [ngClass]="getRowClass(i)"></mat-row>
         </mat-table>
-        <hca-table-pagination></hca-table-pagination>
+        <hca-table-data-status-placeholder [loading]="loading$ | async"
+                                           [isData]="data$ | async"></hca-table-data-status-placeholder>
+        <hca-table-pagination [isData]="data$ | async"></hca-table-pagination>
     </div>
 </div>
