@@ -35,6 +35,19 @@ export class HCARequestMatrixComponent {
     }
 
     /**
+     * Returns string text for expression matrix button for when button is enabled/disabled.
+     * @returns {string}
+     */
+    getExpressionButtonText(): string {
+
+        if ( this.matrixEnabled ) {
+            return "Request Expression Matrix";
+        }
+
+        return "Request Smart-seq2 Expression Matrix";
+    }
+
+    /**
      * Open dialog to request matrix summary.
      */
     onRequestMatrix(): void {
