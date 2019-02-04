@@ -47,6 +47,11 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
         max-width: 152px !important;
     }
 
+    /* Request tooltip */
+    &.request {
+        max-width: 250px !important;
+    }
+
     /* Tooltip for counts */
     &.count {
         margin: 0 !important;

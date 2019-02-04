@@ -51,7 +51,12 @@
         </div>
         <div *ngIf="showDownload" class="download-buttons">
             <hca-download-manifest></hca-download-manifest>
-            <hca-request-matrix [matrixEnabled]="matrixEnabled"></hca-request-matrix>
+            <hca-request-matrix [matrixEnabled]="matrixEnabled"
+                                matTooltip="The expression matrix concatenation service currently supports Smart-seq2 projects only. To use this service please select one or more Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest."
+                                matTooltipPosition="below"
+                                matTooltipShowDelay="150"
+                                matTooltipClass="hca-tooltip request"
+                                [matTooltipDisabled]="matrixEnabled"></hca-request-matrix>
         </div>
     </div>
 </div>
