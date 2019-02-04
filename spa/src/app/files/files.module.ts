@@ -70,8 +70,8 @@ import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-r
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
+import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
-import { HCATableLoadingPlaceholderComponent } from "./hca-table-loading-placeholder/hca-table-loading-placeholder.component";
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { DownloadService } from "./shared/download.service";
@@ -151,8 +151,8 @@ import { MatrixDAO } from "./shared/matrix.dao";
         HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
+        HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,
-        HCATableLoadingPlaceholderComponent,
         HCATablePaginationComponent,
         HCATableProjectsComponent,
 
