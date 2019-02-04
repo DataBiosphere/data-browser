@@ -35,9 +35,8 @@ export class HCATablePaginationComponent implements OnInit {
     // Template variables
     pagination$: Observable<PaginationModel>;
 
-    // Locals
-
     // Inputs
+    @Input() isData: any[];
 
     /**
      * @param {Store<AppState>} store

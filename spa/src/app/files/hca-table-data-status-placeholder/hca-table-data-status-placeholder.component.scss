@@ -1,0 +1,23 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table data status placeholder.
+ */
+@import "../../shared/theme/cgl.vars";
+
+.table-status {
+    align-items: center;
+    display: flex;
+    height: 58px;
+    padding: 0 16px;
+
+    span {
+        margin: 0;
+    }
+}
+
+/* Project table */
+:host-context(.projects) .table-status {
+    padding: 0 16px 0 46px;
+}
