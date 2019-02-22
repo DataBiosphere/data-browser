@@ -8,7 +8,9 @@
 import { AppState } from "../../_ngrx/app.state";
 import { Component, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
+
 // App dependencies
+import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { ClearSelectedTermsAction, SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
@@ -30,6 +32,28 @@ export class HCAFileFilterResultComponent {
 
     constructor(store: Store<AppState>) {
         this.store = store;
+    }
+
+    /**
+     * Returns facet name in correct format.
+     * disease is renamed "Known Diseases".
+     * libraryConstructionApproach is renamed to "Library Construction Method".
+     * @param facetName
+     * @returns {any}
+     */
+    public getFacetName(facetName: string): string {
+
+        if ( facetName === "disease" ) {
+
+            return "Known Diseases";
+        }
+        if ( facetName === "libraryConstructionApproach" ) {
+
+            return "Library Construction Method";
+        }
+        else {
+            return (new CamelToSpacePipe().transform(facetName));
+        }
     }
 
     /**

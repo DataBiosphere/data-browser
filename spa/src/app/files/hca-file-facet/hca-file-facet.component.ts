@@ -56,14 +56,19 @@ export class HCAFileFacetComponent implements OnInit {
     /**
      * Returns facet name in correct format.
      * disease is renamed "Known Diseases".
-     * @param facetName
-     * @returns {any}
+     * libraryConstructionApproach is renamed to "Library Construction Method".
+     * @param {string} facetName
+     * @returns {string}
      */
-    public getFacetName(facetName) {
+    public getFacetName(facetName: string): string {
 
         if ( facetName === "disease" ) {
 
             return "Known Diseases";
+        }
+        if ( facetName === "libraryConstructionApproach" ) {
+
+            return "Library Construction Method";
         }
         else {
             return (new CamelToSpacePipe().transform(facetName));
