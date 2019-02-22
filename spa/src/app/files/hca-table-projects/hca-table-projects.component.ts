@@ -252,16 +252,20 @@ class TableElementDataSource extends DataSource<any> {
                     return {organType: s.organType};
                 }));
 
-                /* File counts for file formats - excludes fastq.gz, bam, matrix */
+                /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
                 let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-                    if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") ) {
+                    if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") && (fileTypeSummary.fileType !== "fastq") ) {
 
                         acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                     }
                     return acc;
 
                 }, {otherFileCount: 0});
+
+
+                /* Fastq and Fastq.gz combined for raw count */
+                let rawCount = (this.getFileCount("fastq.gz", fileTypeSummaries) + this.getFileCount("fastq", fileTypeSummaries));
 
                 return {
                     disease: this.getUnspecifiedIfNullValue(projectSummary.disease),
@@ -276,7 +280,7 @@ class TableElementDataSource extends DataSource<any> {
                     processedCount: this.getFileCount("bam", fileTypeSummaries),
                     projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                     projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                    rawCount: this.getFileCount("fastq.gz", fileTypeSummaries)
+                    rawCount: rawCount
                 };
             });
         });
