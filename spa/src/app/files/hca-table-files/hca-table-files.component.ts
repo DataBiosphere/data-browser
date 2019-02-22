@@ -31,7 +31,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart", "libraryConstructionMethod", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;

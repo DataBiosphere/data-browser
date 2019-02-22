@@ -88,20 +88,20 @@
                     </div>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="libraryConstructionApproach">
+            <ng-container matColumnDef="libraryConstructionMethod">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The general approach for sequencing library construction. Should be a child term of EFO - library preparation."
+                    <span matTooltip="The general method for sequencing library construction."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Library Construction Approach</span>
+                          matTooltipClass="hca-tooltip narrow">Library Construction Method</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #approach
+                    <div #libraryMethod
                          matTooltip="{{element.libraryConstructionApproach}}"
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(approach)}}">{{element.libraryConstructionApproach}}
+                         matTooltipDisabled="{{isDisabled(libraryMethod)}}">{{element.libraryConstructionApproach}}
                     </div>
                 </mat-cell>
             </ng-container>
