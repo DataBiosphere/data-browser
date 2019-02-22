@@ -67,7 +67,8 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     // Facet display names
     private FACET_DISPLAY_NAMES = {
-        "disease": "Known Diseases"
+        "disease": "Known Diseases",
+        "libraryConstructionApproach": "Library Construction Method"
     };
 
     // Inputs

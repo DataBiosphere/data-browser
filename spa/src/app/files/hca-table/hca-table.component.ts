@@ -32,7 +32,7 @@ export class HCATableComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "specimenId", "projectTitle", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
+        "specimenId", "projectTitle", "organ", "organPart", "libraryConstructionMethod", "genusSpecies", "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
