@@ -14,7 +14,7 @@ import { FileFacetListState } from "./file-facet-list.state";
 import {
     ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
     FetchFileFacetsSuccessAction, InitEntityStateAction,
-    SelectFileFacetAction,
+    SelectFileFacetAction, SelectProjectAction,
     SetViewStateAction
 } from "./file-facet-list.actions";
 
@@ -34,6 +34,11 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
         // the selected facet itself (if user has switched from the previously selected facet, to select a new term).
         case SelectFileFacetAction.ACTION_TYPE:
             return state.selectTerm(action as SelectFileFacetAction);
+
+        // Handle case where project has been selected - selected/deselected state of term must be updated, and possibly
+        // the selected facet itself (if user has switched from the previously selected facet, to select a new term).
+        case SelectProjectAction.ACTION_TYPE:
+            return state.selectTerm(action as SelectProjectAction);
 
         // Handle cases where facet list has been re/requested and updated list of facets have been returned from end
         // point.
