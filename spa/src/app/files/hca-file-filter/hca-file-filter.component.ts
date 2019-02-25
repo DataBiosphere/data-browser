@@ -23,7 +23,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { FacetGroup } from "./facet-group.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FilterableFacet } from "./filterable-facet.model";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { SelectFileFacetAction, SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FileFacet } from "../shared/file-facet.model";
 
 @Component({
@@ -330,8 +330,14 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public onTermSelected(event: MatAutocompleteSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(event.option.value.facet.facetName, event.option.value.term.termName, true)));
+        const facetName = event.option.value.facet.facetName;
+        const termName = event.option.value.term.termName;
+        const fileFacetSelectedEvent = new FileFacetSelectedEvent(facetName, termName, true);
+        const action = facetName === "project" ?
+            new SelectProjectAction(fileFacetSelectedEvent) :
+            new SelectFileFacetAction(fileFacetSelectedEvent);
+
+        this.store.dispatch(action);
 
         // Clear the filter input.
         this.filterInput.nativeElement.blur();
