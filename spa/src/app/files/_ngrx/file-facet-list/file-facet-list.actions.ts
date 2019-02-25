@@ -35,6 +35,16 @@ export class SelectFileFacetAction implements Action { // TODO rename to SelectF
     constructor(public readonly event: FileFacetSelectedEvent) {}
 }
 
+/**
+ * Action that is triggered when a project is selected. Select can be dispatched from facet drop down, facet search or
+ * using the "select project" checkboxes on the project tab.
+ */
+export class SelectProjectAction implements Action {
+    public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SELECT_PROJECT";
+    public readonly type = SelectProjectAction.ACTION_TYPE;
+    constructor(public readonly event: FileFacetSelectedEvent) {}
+}
+
 export class ClearSelectedFileFacetsAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.CLEAR_SELECTED";
     public readonly type = ClearSelectedFileFacetsAction.ACTION_TYPE;

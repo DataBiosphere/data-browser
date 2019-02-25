@@ -7,7 +7,12 @@
  */
 
 // App dependencies
-import { FetchFileFacetsSuccessAction, SelectFileFacetAction, SetViewStateAction } from "./file-facet-list.actions";
+import {
+    FetchFileFacetsSuccessAction,
+    SelectFileFacetAction,
+    SelectProjectAction,
+    SetViewStateAction
+} from "./file-facet-list.actions";
 import { FileFacet } from "../../shared/file-facet.model";
 import { PaginationModel } from "../../table/pagination.model";
 import { Term } from "../../shared/term.model";
@@ -131,7 +136,7 @@ export class FileFacetListState {
      * @param {SelectFileFacetAction} action
      * @returns {FileFacetListState}
      */
-    public selectTerm(action: SelectFileFacetAction): FileFacetListState {
+    public selectTerm(action: SelectFileFacetAction | SelectProjectAction): FileFacetListState {
 
         const facetName = action.event.facetName;
         const termName = action.event.termName;

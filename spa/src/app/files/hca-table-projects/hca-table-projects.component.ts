@@ -19,7 +19,7 @@ import { Subject } from "rxjs/Subject";
 import { AppState } from "../../_ngrx/app.state";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectPagination, selectTableData, selectTableLoading } from "../_ngrx/file.selectors";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileFacet } from "../shared/file-facet.model";
 import { PaginationModel } from "../table/pagination.model";
@@ -124,7 +124,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
     public onTermSelected(facetName: string, termName: string) {
 
-        this.store.dispatch(new SelectFileFacetAction(
+        this.store.dispatch(new SelectProjectAction(
             new FileFacetSelectedEvent(facetName, termName, true)));
     }
 
