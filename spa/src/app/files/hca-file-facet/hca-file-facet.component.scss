@@ -17,35 +17,22 @@
         align-items: flex-start;
         display: flex;
         flex-shrink: 0;
-        justify-content: space-between;
 
         /* Facet name */
-        span:first-of-type {
-            font-family: "din-2014", sans-serif; /* TODO typography */
-            font-size: 18px; /* TODO typography */
-            font-weight: 500; /* TODO typography */
-            min-width: 0;
+        span {
+            border-bottom: 1px solid $hca-gray-lightest;
+            font-family: "din-2014", sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            min-height: 36px;
+            padding-bottom: 4px;
+            width: 100%;
         }
-
-        /* Facet label */
-        span:last-of-type {
-            color: transparent;
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 10px;
-            height: 18px;
-            line-height: 18px;
-            padding-left: 8px;
-        }
-    }
-
-    /* Facet label shows on hover of facet */
-    &:hover .facet-title span:last-of-type {
-        color: $hca-gray-medium;
     }
 
     /* Facet term list - container */
     .facet-term-list {
-        margin: 14px -8px 0;
+        margin: 8px -8px 0;
         max-height: 229.5px; /* For display of 8.5 terms at 229.5px total */
         -ms-overflow-style: none; // IE 10+, scrollbar hidden
         overflow-y: auto; // Firefox, scrollbar hidden unless actively scrolling
@@ -54,6 +41,14 @@
         // Safari and Chrome, scrollbar hidden
         &::-webkit-scrollbar {
             display: none;
+        }
+
+        /* Facet count label */
+        span {
+            color: $hca-gray-dark;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
         }
     }
 }
