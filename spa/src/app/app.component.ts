@@ -8,7 +8,7 @@
 // Core dependencies
 import { Location } from "@angular/common";
 import { Component, Inject, Renderer2 } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import "rxjs/add/operator/skip";
 import { Subscription } from "rxjs/Subscription";
@@ -27,7 +27,7 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 export class AppComponent {
 
     // Locals
-    private actionsSubscription: Subscription;
+    private routerEventsSubscription: Subscription;
 
     /**
      * @param {Store<AppState>} store
@@ -39,6 +39,7 @@ export class AppComponent {
     constructor(private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
                 private location: Location,
+                private router: Router,
                 private renderer: Renderer2,
                 @Inject("Window") private window: Window) {
     }
@@ -71,14 +72,12 @@ export class AppComponent {
     /**
      * Returns true if a filter state is encoded in the query params.
      *
-     * @param {ParamMap} paramMap
+     * @param {Params} params
      * @returns {boolean}
      */
-    private isFilterParamSpecified(paramMap: ParamMap): boolean {
+    private isFilterParamSpecified(params: Params): boolean {
 
-        return paramMap.keys.some((key: string) => {
-            return key === "filter";
-        });
+        return !!params["filter"];
     }
 
     /**
@@ -103,16 +102,16 @@ export class AppComponent {
     /**
      * Parse the "filter" query string param, if specified.
      *
-     * @param {ParamMap} paramMap
+     * @param {Params} params
      * @returns {QueryStringFacet[]}
      */
-    private parseQueryStringFacets(paramMap: ParamMap): QueryStringFacet[] {
+    private parseQueryStringFacets(params: Params): QueryStringFacet[] {
 
-        if ( this.isFilterParamSpecified(paramMap) ) {
+        if ( this.isFilterParamSpecified(params) ) {
 
             // We have a filter, let's extract it.
             let filter;
-            const filterParam = paramMap.get("filter");
+            const filterParam = params["filter"];
             try {
                 filter = JSON.parse(filterParam);
             }
@@ -138,17 +137,20 @@ export class AppComponent {
      */
     private setAppStateFromURL() {
 
-        this.actionsSubscription =
-            this.activatedRoute.queryParamMap
-                .map((paramMap: ParamMap): QueryStringFacet[] => {
+        // Using NavigationEnd here as subscribing to activatedRoute.queryParamsMap always emits an initial value,
+        // making it difficult to detect the difference between the initial value or an intentionally empty value. We
+        // are therefore unable to determine when app state setup is complete and can safely unsubscribe.
+        this.routerEventsSubscription = this.router.events.subscribe((evt) => {
 
-                    return this.parseQueryStringFacets(paramMap);
-                })
-                .subscribe((filter: QueryStringFacet[]) => {
+            if (evt instanceof NavigationEnd) {
 
-                    const tab = this.parseTab();
-                    this.store.dispatch(new SetViewStateAction(tab, filter));
-                });
+                const params = this.activatedRoute.snapshot.queryParams;
+                const filter = this.parseQueryStringFacets(params);
+                const tab = this.parseTab();
+                this.store.dispatch(new SetViewStateAction(tab, filter));
+                this.routerEventsSubscription.unsubscribe();
+            }
+        });
     }
 
     /**
@@ -160,8 +162,8 @@ export class AppComponent {
      */
     public ngOnDestroy() {
 
-        if ( !!this.actionsSubscription ) {
-            this.actionsSubscription.unsubscribe();
+        if ( !!this.routerEventsSubscription ) {
+            this.routerEventsSubscription.unsubscribe();
         }
     }
 
