@@ -48,6 +48,7 @@
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <div class="facet-term-list">
+                                        <span class="fontsize-xxs">{{getLabelName(selectedEntity$ | async)}}</span>
                                         <hca-facet-term-list [fileFacet]="getFacet(facetName)"
                                                              (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
                                     </div>

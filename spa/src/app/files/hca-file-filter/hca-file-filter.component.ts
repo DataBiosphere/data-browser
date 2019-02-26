@@ -20,11 +20,13 @@ import { map, startWith } from "rxjs/operators";
 import { AppState } from "../../_ngrx/app.state";
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { DeviceDetectorService } from "ngx-device-detector";
+import EntitySpec from "../shared/entity-spec";
 import { FacetGroup } from "./facet-group.model";
+import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FilterableFacet } from "./filterable-facet.model";
 import { SelectFileFacetAction, SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
-import { FileFacet } from "../shared/file-facet.model";
+import { selectSelectedEntity } from "../_ngrx/file.selectors";
 
 @Component({
     selector: "hca-file-filter",
@@ -92,6 +94,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     // Privates
     private camelToSpacePipe = new CamelToSpacePipe();
+    public selectedEntity$: Observable<EntitySpec>;
 
     // View child/ren
     @ViewChild("filterInput") filterInput: ElementRef;
@@ -100,6 +103,8 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      * @param {Store<AppState>} store
      */
     constructor(private deviceService: DeviceDetectorService, private store: Store<AppState>, @Inject("Window") private window: Window) {
+
+        this.store = store;
     }
 
     /**
@@ -425,6 +430,16 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Returns the name of the activeTab
+     * @param {EntitySpec} activeTab
+     * @returns {string}
+     */
+    public getLabelName(activeTab: EntitySpec): string {
+
+        return activeTab.displayName;
+    }
+
+    /**
      * Track by function used when drawing list of file facets.
      *
      * @param index
@@ -566,5 +581,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             .pipe(
                 startWith(""),
                 map(searchString => this.filterFacets(searchString)));
+
+        // Determine the current selected tab
+        this.selectedEntity$ = this.store.select(selectSelectedEntity);
+
     }
 }
