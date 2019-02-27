@@ -271,7 +271,7 @@ class TableElementDataSource extends DataSource<any> {
 
                 let file = row.files[0] || {};
                 let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-                let processes = this.rollUpMetadata(row.processes);
+                let protocols = this.rollUpMetadata(row.protocols);
                 let specimens = this.rollUpMetadata(row.specimens);
                 let projectTitle = this.rollUpMetadata(row.projects);
 
@@ -283,7 +283,7 @@ class TableElementDataSource extends DataSource<any> {
                     fileName: file.name,
                     fileSize: this.getUnspecifiedIfNullValue(file.size),
                     genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
-                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(processes.libraryConstructionApproach),
+                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
                     organ: this.getUnspecifiedIfNullValue(specimens.organ),
                     organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                     organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
