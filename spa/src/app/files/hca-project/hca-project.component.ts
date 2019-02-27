@@ -18,7 +18,7 @@ import { Observable } from "rxjs/Observable";
 import { AppState } from "../../_ngrx/app.state";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { selectSelectedFileFacets, selectSelectedProject } from "../_ngrx/file.selectors";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { SelectFileFacetAction, SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
@@ -148,13 +148,20 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Handle click on term in list of terms - update store with selected / unsselected project and return user back to project table.
+     * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
+     * project table.
+     *
      * @param {string} projectShortName
      */
     public onProjectSelected(projectShortName: string, select: boolean) {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent("project", projectShortName, select)));
+        const event = new FileFacetSelectedEvent("project", projectShortName, select);
+        if ( select ) {
+            this.store.dispatch(new SelectProjectAction(event));
+        }
+        else {
+            this.store.dispatch(new SelectFileFacetAction(event));
+        }
         this.router.navigate(["/projects"]);
     }
 
