@@ -36,7 +36,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "organ", "libraryConstructionMethod", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
+        "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
