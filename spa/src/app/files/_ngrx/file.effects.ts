@@ -31,7 +31,7 @@ import {
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction, InitEntityStateAction,
     NoOpAction,
-    SelectFileFacetAction,
+    SelectFileFacetAction, SelectProjectAction,
     SetViewStateAction
 } from "./file-facet-list/file-facet-list.actions";
 import {
@@ -444,17 +444,6 @@ export class FileEffects {
         )
         .switchMap(() => {
 
-            // Grab the current selected facets and entity
-            return Observable.forkJoin(
-                this.store.select(selectSelectedFacetsMap).first(), // Selected facets (eg file type "matrix")
-                this.store.select(selectSelectedEntity).first() // Files vs specimen vs project (ie selected tab)
-            );
-        })
-        .switchMap((result) => {
-
-            const selectedFacetsMap = result[0];
-            const selectedEntity = result[1];
-
             // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
             // for file summary and table data.
             return Observable.concat(
@@ -466,6 +455,28 @@ export class FileEffects {
                 Observable.of(new FetchInitialTableDataRequestAction())
             );
         });
+
+    /**
+     * Trigger fetch of facets and summary counts on select of project.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    selectProject$: Observable<Action> = this.actions$
+        .ofType(
+            SelectProjectAction.ACTION_TYPE
+        )
+        .switchMap(() => {
+
+            // Return an array of actions that need to be dispatched - request for file summary and file facets.
+            return Observable.concat(
+                // Request summary
+                Observable.of(new FetchFileSummaryRequestAction()),
+                // Request facets
+                Observable.of(new FetchFileFacetsRequestAction())
+            );
+        });
+
 
     /**
      * Privates
