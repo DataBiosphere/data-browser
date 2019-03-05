@@ -75,11 +75,6 @@ import {
 @Injectable()
 export class FileEffects {
 
-    // Locals
-    private colors: string[];
-    private colorWheel: Map<string, string>;
-    private colorWheelSet: boolean;
-
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
@@ -92,42 +87,6 @@ export class FileEffects {
                 private fileService: FilesService,
                 private matrixService: MatrixService,
                 private projectService: ProjectService) {
-
-        this.colorWheel = new Map<string, string>();
-        this.colorWheelSet = false;
-
-        this.colors = [
-
-            "#172984",
-            "#4A90E2",
-            "#24D1F2",
-            "#B8A2E3",
-            "#E1B5EC",
-            "#EC5C6D",
-            "#FF6C19",
-            "#FFA560",
-            "#FFDD88",
-            "#FFBABA",
-            "#FFD2AF",
-            "#F8FEC1",
-
-            // TODO revisit - will need to re-enable this for BW instances
-            // "#1A535C",
-            // "#4CC9C0",
-            // "#5C83D0",
-            // "#FF6B6B",
-            // "#FFA560",
-            // "#FFE66D",
-            // "#113871", // dark blue
-            // "#336C74", // light green
-            // "#ABF0EB", // light turquoise
-            // "#B3C9F2", // light light purple
-            // "#B6D67E", // lime green
-            // "#BE5951", // salmon
-            // "#FFBABA", // light peach
-            // "#FFD2AF", // light orange
-            "#eeeeee"
-        ];
     }
 
     /**
@@ -191,7 +150,8 @@ export class FileEffects {
         });
 
     /**
-     * Fetch data to populate facet menus.
+     * Fetch data to populate facet menus, facet summary and potentially table data. If we are currently on the projects
+     * tab with a selected project, table data is fetched separately.
      *
      * @type {Observable<FetchFileFacetsSuccessAction>}
      */
@@ -203,27 +163,40 @@ export class FileEffects {
         })
         .switchMap((tableQueryParams) => {
 
-            return this.fileService.fetchEntitySearchResults(
+            const entitySearchResults = this.fileService.fetchEntitySearchResults(
                 tableQueryParams.selectedFacets,
                 DEFAULT_TABLE_PARAMS,
                 tableQueryParams.tableState.selectedEntity);
+
+            // We need both table params and search entity results to determine if we need to query for table data
+            // separately
+            return Observable.forkJoin(Observable.of(tableQueryParams), entitySearchResults);
         })
-        .map((entitySearchResults: EntitySearchResults) => {
+        .switchMap((results) => { // tableQueryParams, entitySearchResults
 
-            // Update term color indicators for potential charting of term count %
+            // If the current entity is not projects, or if the current entity is projects but there is no project
+            // term selected, we can use the data returned from the entity search to populate the table. If we're on
+            // the projects tab and there is a project selected, we need to re-query for data to populate the table
+            // as the table is not restricted by any selected projects, in this case.
+            const tableQueryParams = results[0];
+            const selectedEntity = tableQueryParams.tableState.selectedEntity;
+            const facetsByName = tableQueryParams.selectedFacets;
+            const entitySearchResults = results[1];
+
+            let tableAction;
+            if ( selectedEntity === "projects" && this.isAnyProjectSelected(facetsByName) ) {
+                tableAction = Observable.of(new FetchInitialTableDataRequestAction());
+            }
+            else {
+                const tableModel = entitySearchResults.tableModel;
+                tableAction = Observable.of(new FetchTableDataSuccessAction(tableModel));
+            }
+
             const fileFacets = entitySearchResults.fileFacets;
-            fileFacets.forEach((fileFacet) => {
-
-                let colorIndex = 0;
-                fileFacet.terms.forEach((term) => {
-                    term.color = this.colors[colorIndex];
-                    const key = fileFacet.name + ":" + term.name;
-                    this.colorWheel.set(key, term.color);
-                    colorIndex++;
-                });
-            });
-
-            return new FetchFileFacetsSuccessAction(fileFacets);
+            return Observable.concat(
+                Observable.of(new FetchFileFacetsSuccessAction(fileFacets)),
+                tableAction
+            );
         });
 
     /**
@@ -450,9 +423,7 @@ export class FileEffects {
                 // Request summary
                 Observable.of(new FetchFileSummaryRequestAction()),
                 // Request facets
-                Observable.of(new FetchFileFacetsRequestAction()),
-                // Request table data
-                Observable.of(new FetchInitialTableDataRequestAction())
+                Observable.of(new FetchFileFacetsRequestAction())
             );
         });
 
@@ -522,5 +493,21 @@ export class FileEffects {
                 return newFileFacets;
 
             });
+    }
+
+    /**
+     * Returns true if there is currently any projects in the selected set of facet terms.
+     *
+     * @param {Map<string, FileFacet>} facetsByName
+     * @returns {boolean}
+     */
+    isAnyProjectSelected(facetsByName: Map<string, FileFacet>): boolean {
+
+        const projectFacet = facetsByName.get("project");
+        if ( !projectFacet ) {
+            return false;
+        }
+
+        return projectFacet.selectedTerms.length > 0;
     }
 }
