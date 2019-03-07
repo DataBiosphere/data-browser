@@ -105,7 +105,8 @@ deploy_develop:
     name: develop
   script:
     - export BUCKET=s3://dev.explore.data.humancellatlas.org/
-    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    - if [ "$MAINTENANCE" = "true" ];then export SRCDIR=maintenance/; else export SRCDIR=dist/; fi
+    - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id EDQUW4UP25O4L --paths "/*"
   only:
     - develop
