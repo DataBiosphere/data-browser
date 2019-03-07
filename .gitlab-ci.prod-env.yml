@@ -19,6 +19,7 @@ stages:
   artifacts:
       paths:
         - dist
+        - maintenance
 
 # Develop Build
 build_develop:
@@ -55,7 +56,8 @@ deploy_prod:
     name: prod
   script:
     - export BUCKET=s3://org-humancellatlas-data-browser-prod/
-    - aws s3 sync --acl public-read dist/ $BUCKET --delete
+    - if [ "$MAINTENANCE" = "true" ];then export SRCDIR=maintenance/; else export SRCDIR=dist/; fi
+    - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id E3QDNPF7XH7O7G --paths "/*"
   only:
     - master
