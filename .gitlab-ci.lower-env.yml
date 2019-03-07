@@ -146,7 +146,7 @@ deploy_staging:
   script:
     - export BUCKET=s3://staging.explore.data.humancellatlas.org/
     - if [ "$MAINTENANCE" = "true" ];then export SRCDIR=maintenance/; else export SRCDIR=dist/; fi
-  - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
+    - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id E38D6Y96QKYO6 --paths "/*"
   only:
     - staging
