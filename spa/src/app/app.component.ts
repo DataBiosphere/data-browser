@@ -7,16 +7,20 @@
 
 // Core dependencies
 import { Location } from "@angular/common";
-import { Component, Inject, Renderer2 } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import "rxjs/add/operator/skip";
+import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
+import { Subject } from "rxjs/Subject";
 
 // App dependencies
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/file-facet-list.actions";
 import { AppState } from "./_ngrx/app.state";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
+import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
+import { selectIndexing } from "./system/_ngrx/system.selectors";
 
 @Component({
     selector: "app-root",
@@ -24,9 +28,13 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
     styleUrls: ["app.component.scss"]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+
+    // Template/public variables
+    public indexing$: Observable<boolean>;
 
     // Locals
+    private ngDestroy$ = new Subject();
     private routerEventsSubscription: Subscription;
 
     /**
@@ -133,6 +141,15 @@ export class AppComponent {
     }
 
     /**
+     * Fetch current status of system and display information banners, if necessary.
+     */
+    private healthCheck() {
+
+        this.store.dispatch(new HealthRequestAction());
+        this.indexing$ = this.store.select(selectIndexing).takeUntil(this.ngDestroy$);
+    }
+
+    /**
      * Set up app state from query string parameters, if any.
      */
     private setAppStateFromURL() {
@@ -165,14 +182,18 @@ export class AppComponent {
         if ( !!this.routerEventsSubscription ) {
             this.routerEventsSubscription.unsubscribe();
         }
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
 
     /**
-     * Set up app state from URL, if specified.
+     * Set up app state from URL, if specified. Kick off health check.
      */
     public ngOnInit() {
 
         this.setAppStateFromURL();
+        this.healthCheck();
     }
 }
 

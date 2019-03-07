@@ -10,6 +10,17 @@
     display: flex; // Required for forcing height 100% on files component, with scroll for overflow
     flex-direction: column;
     height: 100%; // Required to force height to reach at least bottom of screen, before content is loaded
+    
+    .status {
+        align-items: center;
+        background-color: #000;
+        display: flex;
+        color: #fff;
+        font-family: Montserrat,sans-serif;
+        font-size: 18px;
+        justify-content: center;
+        min-height: 66px;
+    }
 
     /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */
     header {

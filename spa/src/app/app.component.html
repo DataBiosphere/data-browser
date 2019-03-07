@@ -1,3 +1,6 @@
+<div *ngIf="indexing$ | async as indexing" class="status">
+    Data indexing in progress. Search results may be incomplete.
+</div>
 <header>
     <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
 </header>
