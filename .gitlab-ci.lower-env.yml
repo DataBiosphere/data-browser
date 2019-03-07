@@ -19,6 +19,8 @@ stages:
   artifacts:
       paths:
         - dist
+        - maintenance
+
 
 # Develop Build
 build_develop:
