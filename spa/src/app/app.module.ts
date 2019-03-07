@@ -28,6 +28,8 @@ import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
 import { AppReducers } from "./_ngrx/app.reducer";
 import { AppEffects } from "./_ngrx/app.effects";
+import { SystemService } from "./system/shared/system.service";
+import { SystemDAO } from "./system/shared/system.dao";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
@@ -74,6 +76,8 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         HCAFooterComponent
     ],
     providers: [
+        SystemService,
+        SystemDAO,
         UserService,
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.

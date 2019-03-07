@@ -10,10 +10,12 @@ import * as authReducer from "../auth/_ngrx/auth.reducer";
 import * as configReducer from "../config/_ngrx/config.reducer";
 import * as fileReducer from "../files/_ngrx/file.reducer";
 import * as keywordReducer from "../keywords/_ngrx/keyword.reducer";
+import * as systemReducer from "../system/_ngrx/system.reducer";
 
 export const AppReducers = {
     ...fileReducer.reducer,
     auth: authReducer.reducer,
     config: configReducer.reducer,
-    keywords: keywordReducer.reducer
+    keywords: keywordReducer.reducer,
+    ...systemReducer.reducer
 };
