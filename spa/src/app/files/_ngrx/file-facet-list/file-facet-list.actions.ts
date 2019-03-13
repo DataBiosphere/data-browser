@@ -10,11 +10,18 @@ import { FileFacet } from "../../shared/file-facet.model";
 import { FileFacetSelectedEvent } from "../../file-facets/file-facet.events";
 import { QueryStringFacet } from "../../shared/query-string-facet.model";
 
+/**
+ * Action dispatched when file facets are to be updated. This can be on load of app, select or clear of facets, or 
+ * select of project.
+ * 
+ * @param {boolean} updateTableData - True if table data is to be updated. This is false on select of project as we
+ * want table data and state (eg pagination) to remain unchanged on select of project.
+ */
 export class FetchFileFacetsRequestAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_FACET_LIST.FETCH_REQUEST";
     public readonly type = FetchFileFacetsRequestAction.ACTION_TYPE;
 
-    constructor(public readonly fileFacetSelectedEvent?: FileFacetSelectedEvent) {}
+    constructor(public readonly updateTableData: boolean) {}
 }
 
 export class FetchFileFacetsSuccessAction implements Action {

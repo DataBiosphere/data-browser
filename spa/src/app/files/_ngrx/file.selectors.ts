@@ -19,7 +19,7 @@ import { MatrixState } from "./matrix/matrix.state";
 // Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
-export const selectSelectedFacetsMap = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
+export const selectSelectedFileFacetsByName = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
 
 /**
  * Return the list of file facets from the store.
@@ -67,8 +67,10 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
     return getSelectedEntity(tableState);
 });
 
-export const selectTableQueryParams = createSelector(selectSelectedFacetsMap, selectPagination, selectTableState, (selectedFacets, pagination, tableState) => {
-    return { selectedFacets, pagination, tableState };
+export const selectTableQueryParams = createSelector(selectSelectedFileFacetsByName, selectPagination, selectTableState,
+    (selectedFileFacetsByName, pagination, tableState) => {
+    return { selectedFileFacetsByName, pagination, tableState
+    };
 });
 
 /**

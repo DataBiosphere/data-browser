@@ -8,8 +8,7 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
+import { Observable, of } from "rxjs";
 import { catchError, retry, switchMap } from "rxjs/operators";
 
 // App dependencies
@@ -58,7 +57,7 @@ export class DownloadDAO {
      */
     private bindFileDownloadResponse(response: FileDownloadHttpResponse): Observable<FileDownloadResponse> {
 
-        return Observable.of({
+        return of({
             fileUrl: response.Location,
             retryAfter: response["Retry-After"],
             status: this.translateFileDownloadStatus(response.Status)
@@ -72,7 +71,7 @@ export class DownloadDAO {
      */
     private handleFileDownloadError(): Observable<FileDownloadResponse> {
 
-        return Observable.of({
+        return of({
             status: FileDownloadStatus.FAILED,
             fileUrl: "",
             retryAfter: 0

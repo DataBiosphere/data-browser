@@ -7,8 +7,10 @@
 
 // Core dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { Component, Inject, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
+import { Component, OnInit } from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import { combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -18,7 +20,7 @@ import { MatDialogRef } from "@angular/material";
 import {
     SelectFileFacetAction
 } from "../_ngrx/file-facet-list/file-facet-list.actions";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import {
     selectFileFacetsFileFacets,
     selectDownloadManifestFileSummary
@@ -137,18 +139,19 @@ export class HCADownloadManifestModalComponent implements OnInit {
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of file facets
-        const selectedFileFacets$ = this.store.select(selectFileFacetsFileFacets);
+        const selectedFileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
 
         // Grab file summary for populating file type counts on manifest downlaod modal
-        const selectManifestDownloadFileSummary$ = this.store.select(selectDownloadManifestFileSummary);
+        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectDownloadManifestFileSummary));
 
-        this.state$ =
-            selectedFileFacets$.combineLatest(selectManifestDownloadFileSummary$, (selectedFileFacets, manifestDownloadFileSummary) => {
+        this.state$ = combineLatest(selectedFileFacets$, selectManifestDownloadFileSummary$).pipe(
+            map((combined) => {
 
-            return {
-                selectedFileFacets,
-                manifestDownloadFileSummary
-            };
-        });
+                return {
+                    selectedFileFacets: combined[0],
+                    manifestDownloadFileSummary: combined[1]
+                };
+            })
+        );
     }
 }

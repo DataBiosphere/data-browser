@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 // App dependencies
 import { DownloadDAO } from "./download.dao";

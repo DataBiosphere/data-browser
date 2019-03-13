@@ -1,3 +1,10 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Component backing file facet menus.
+ */
+
 // Core dependencies
 import {
     Component,
@@ -7,8 +14,9 @@ import {
     OnInit,
     Output
 } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import * as _ from "lodash";
 
 // App dependencies
@@ -75,8 +83,10 @@ export class FileFacetMenuComponent implements OnInit {
      */
     ngOnInit() {
 
-        this.fileFacet$ = this.store.select(selectFileFacets)
-            .map(state => state.fileFacets)
-            .map(facets => _.find(facets, facet => facet.name === this.fileFacetName));
+        this.fileFacet$ = this.store.pipe(
+            select(selectFileFacets),
+            map(state => state.fileFacets),
+            map(facets => _.find(facets, facet => facet.name === this.fileFacetName))
+        );
     }
 }

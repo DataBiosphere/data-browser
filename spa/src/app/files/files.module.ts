@@ -39,16 +39,12 @@ import { CCStopPropagationModule } from "../cc-stop-propagation/cc-stop-propagat
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { ConfigService } from "../config/config.service";
 import { FacetFileListComponent } from "./facet-file-list/facet-file-list.component";
-import { FacetTermChartComponent } from "./facet-term-chart/facet-term-chart.component";
 import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
 import { FilesComponent } from "./files.component";
-import { FileFacetsComponent } from "./file-facets/file-facets.component";
-import { FileFacetComponent } from "./file-facet/file-facet.component";
 import { FileFacetMenuComponent } from "./file-facet-menu/file-facet-menu.component";
 import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
 import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
-import { FileFacetWrapperComponent } from "./file-facet-wrapper/file-facet-wrapper.component";
 import { routes } from "./files.routes";
 import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
@@ -121,21 +117,17 @@ import { MatrixDAO } from "./shared/matrix.dao";
     declarations: [
 
         FacetFileListComponent,
-        FacetTermChartComponent,
         FacetTermListComponent,
 
         FileSummaryComponent,
-        FileFacetsComponent,
         FileManifestSummaryComponent,
         FileSearchComponent,
 
         FilesComponent,
 
-        FileFacetComponent,
         FileFacetMenuComponent,
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
-        FileFacetWrapperComponent,
         HCADesktopBannerComponent,
         HCADownloadFileComponent,
         HCADownloadManifestComponent,

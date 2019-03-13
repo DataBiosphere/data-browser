@@ -7,20 +7,10 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/combineLatest";
-import "rxjs/add/operator/first";
-import "rxjs/add/observable/concat";
-import "rxjs/add/observable/of";
-import "rxjs/add/operator/withLatestFrom";
-import "rxjs/add/observable/forkJoin";
-import "rxjs/add/observable/from";
-import * as _ from "lodash";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Action, select, Store } from "@ngrx/store";
+import { Observable, of } from "rxjs";
+import { map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { FetchMatrixFileFormatsRequestAction, FetchMatrixFileFormatsSuccessAction } from "./matrix/matrix.actions";
@@ -47,9 +37,6 @@ import {
 } from "./file-manifest-summary/file-manifest-summary.actions";
 import {
     selectFileFacets,
-    selectFileFacetMetadataSummary,
-    selectSelectedEntity,
-    selectSelectedFacetsMap,
     selectSelectedFileFacets,
     selectTableQueryParams
 } from "app/files/_ngrx/file.selectors";
@@ -90,409 +77,316 @@ export class FileEffects {
     }
 
     /**
-     * Fetch file facets
-     */
-
-    /**
-     * Trigger update of file summary if a facet changes (ie term is selected or deselected). File summary includes the
-     * donor count, file count etc that is displayed above the facets.
-     *
-     * @type {Observable<Action>}
+     * Trigger download of manifest.
      */
     @Effect()
-    fetchSummary$: Observable<Action> = this.actions$
-        .ofType(FetchFileSummaryRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFileFacets).first();
-        })
-        .switchMap((selectedFacets) => {
-            return this.fileService.fetchFileSummary(selectedFacets);
-        })
-        .map((fileSummary: any) => {
-
-            const fileTypeSummary = fileSummary.fileTypeSummary;
-
-            return {
-                donorCount: fileSummary.donorCount,
-                fileCount: fileSummary.fileCount,
-                fileTypeSummaries: fileSummary.fileTypeSummaries,
-                organCount: fileSummary.organCount,
-                projectCount: fileSummary.projectCount,
-                specimenCount: fileSummary.specimenCount,
-                totalCellCount: fileSummary.totalCellCount,
-                totalFileSize: fileSummary.totalFileSize
-            };
-        })
-        .map((fileSummary: FileSummary) => {
-
-            if ( typeof fileSummary.totalFileSize === "string" ) {
-                fileSummary.totalFileSize = 0;
-            }
-
-            return new FetchFileSummarySuccessAction(fileSummary);
-        });
-
-    /**
-     * Trigger fetch and display of manifest summary once manifest is requested.
-     * @type {Observable<Action>}
-     */
-    @Effect()
-    fetchManifestSummary$: Observable<Action> = this.actions$
-        .ofType(FetchFileManifestSummaryRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFileFacets).first();
-        })
-        .switchMap((selectedFacets) => {
-            return this.fileService.fetchFileManifestSummary(selectedFacets);
-        })
-        .map((fileManifestSummary) => {
-            return new FetchFileManifestSummarySuccessAction(fileManifestSummary);
-        });
+    downloadFileManifest$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(DownloadFileManifestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectFileFacets),
+                take(1)
+            )),
+            switchMap((query) => this.fileService.downloadFileManifest(query)),
+            map(response => new DownloadFileManifestRequestedAction(response))
+        );
 
     /**
      * Fetch data to populate facet menus, facet summary and potentially table data. If we are currently on the projects
      * tab with a selected project, table data is fetched separately.
-     *
-     * @type {Observable<FetchFileFacetsSuccessAction>}
      */
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
-        .ofType(FetchFileFacetsRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectTableQueryParams).first();
-        })
-        .switchMap((tableQueryParams) => {
+        .pipe(
+            ofType(FetchFileFacetsRequestAction.ACTION_TYPE),
+            switchMap((action) => // TODO revisit - can we use withLatestFrom here?
+                this.store.pipe(
+                    select(selectTableQueryParams),
+                    take(1),
+                    map((tableQueryParams) => {
+                        return {action, tableQueryParams};
+                    })
+                )
+            ),
+            switchMap(({action, tableQueryParams}) => {
 
-            const entitySearchResults = this.fileService.fetchEntitySearchResults(
-                tableQueryParams.selectedFacets,
-                DEFAULT_TABLE_PARAMS,
-                tableQueryParams.tableState.selectedEntity);
+                const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+                const selectedEntity = tableQueryParams.tableState.selectedEntity;
+                return this.fileService.fetchEntitySearchResults(selectedFacetsByName, DEFAULT_TABLE_PARAMS, selectedEntity)
+                    .pipe(
+                        map((entitySearchResults) => {
+                            return {action, entitySearchResults, tableQueryParams};
+                        })
+                    );
+            }),
+            mergeMap((paramsAndEntitySearchResults) => {
 
-            // We need both table params and search entity results to determine if we need to query for table data
-            // separately
-            return Observable.forkJoin(Observable.of(tableQueryParams), entitySearchResults);
-        })
-        .switchMap((results) => { // tableQueryParams, entitySearchResults
+                // We need action, table params and search entity results to determine if we need to query for
+                // table data separately
+                const {action, tableQueryParams, entitySearchResults} = paramsAndEntitySearchResults;
 
-            // If the current entity is not projects, or if the current entity is projects but there is no project
-            // term selected, we can use the data returned from the entity search to populate the table. If we're on
-            // the projects tab and there is a project selected, we need to re-query for data to populate the table
-            // as the table is not restricted by any selected projects, in this case.
-            const tableQueryParams = results[0];
-            const selectedEntity = tableQueryParams.tableState.selectedEntity;
-            const facetsByName = tableQueryParams.selectedFacets;
-            const entitySearchResults = results[1];
+                // Set up fetch success action
+                const fileFacets = entitySearchResults.fileFacets;
+                const fetchSuccessAction = new FetchFileFacetsSuccessAction(fileFacets);
 
-            let tableAction;
-            if ( selectedEntity === "projects" && this.isAnyProjectSelected(facetsByName) ) {
-                tableAction = Observable.of(new FetchInitialTableDataRequestAction());
-            }
-            else {
-                const tableModel = entitySearchResults.tableModel;
-                tableAction = Observable.of(new FetchTableDataSuccessAction(tableModel));
-            }
+                // If we don't need to update the table data (eg if this fetch facets is triggered from a select project
+                // action), then just emit the fetch facet success action.
+                if ( !(action as FetchFileFacetsRequestAction).updateTableData ) {
+                    return of(fetchSuccessAction);
+                }
 
-            const fileFacets = entitySearchResults.fileFacets;
-            return Observable.concat(
-                Observable.of(new FetchFileFacetsSuccessAction(fileFacets)),
-                tableAction
-            );
-        });
+                // Otherwise, we need to update the table data:
+                // If the current entity is not projects, or if the current entity is projects but there is no project
+                // term selected, we can use the data returned from the entity search to populate the table. If we're on
+                // the projects tab and there is a project selected, we need to re-query for data to populate the table
+                // as the table is not restricted by any selected projects, in this case.
+                const selectedEntity = tableQueryParams.tableState.selectedEntity;
+                const facetsByName = tableQueryParams.selectedFileFacetsByName;
+                let tableDataAction;
+                if ( selectedEntity === "projects" && this.isAnyProjectSelected(facetsByName) ) {
+                    tableDataAction = new FetchInitialTableDataRequestAction();
+                }
+                else {
+                    const tableModel = entitySearchResults.tableModel;
+                    tableDataAction = new FetchTableDataSuccessAction(tableModel);
+                }
 
-    /**
-     * Fetch data to populate entity table.
-     *
-     * @type {Observable<FetchTableDataSuccessAction>}
-     */
-    @Effect()
-    fetchInitialTableData$: Observable<Action> = this.actions$
-        .ofType(FetchInitialTableDataRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectTableQueryParams).first();
-        })
-        .switchMap((tableQueryParams) => {
-
-            // Reset the pagination but keep the set page size if it was changed.
-            let tableParams = Object.assign(
-                DEFAULT_TABLE_PARAMS,
-                {
-                    size: tableQueryParams.pagination.size,
-                    sort: tableQueryParams.pagination.sort,
-                    order: tableQueryParams.pagination.order
-                });
-
-            const selectedFacetsByName = tableQueryParams.selectedFacets;
-            const selectedEntity = tableQueryParams.tableState.selectedEntity;
-            return this.fileService.fetchEntitySearchResults(
-                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
-        })
-        .map((entitySearchResults: EntitySearchResults) => {
-
-            return new FetchTableDataSuccessAction(entitySearchResults.tableModel);
-        });
+                // Update both facets and table data
+                return of(
+                    fetchSuccessAction,
+                    tableDataAction
+                );
+            })
+        );
 
     /**
-     * Trigger fetch and display of project, when selected from the project table.
-     *
-     * @type {Observable<Action>}
+     * Trigger fetch and display of manifest summary once manifest is requested.
      */
     @Effect()
-    fetchProject: Observable<Action> = this.actions$
-        .ofType(FetchProjectRequestAction.ACTION_TYPE)
-        .switchMap((action: FetchProjectRequestAction) => {
-            return this.projectService.fetchProjectById(action.projectId);
-        })
-        .map((project: Project) => {
-            return new FetchProjectSuccessAction(project);
-        });
+    fetchManifestSummary$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchFileManifestSummaryRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectSelectedFileFacets),
+                take(1)
+            )),
+            switchMap((selectedFacets: FileFacet[]) => this.fileService.fetchFileManifestSummary(selectedFacets)),
+            map((fileManifestSummary) => new FetchFileManifestSummarySuccessAction(fileManifestSummary))
+        );
 
     /**
      * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
      * selected file types, in request.
-     *
-     * @type {Observable<Action>}
      */
     @Effect()
-    fetchManifestDownloadtFileSummary: Observable<Action> = this.actions$
-        .ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectSelectedFileFacets).first();
-        })
-        .switchMap((selectedFileFacets) => {
-
-            return this.fileService.fetchManifestDownloadFileSummary(selectedFileFacets);
-        })
-        .map((fileSummary: any) => {
-
-            return {
-                donorCount: fileSummary.donorCount,
-                fileCount: fileSummary.fileCount,
-                fileTypeSummaries: fileSummary.fileTypeSummaries,
-                organCount: fileSummary.organCount,
-                projectCount: fileSummary.projectCount,
-                specimenCount: fileSummary.specimenCount,
-                totalCellCount: fileSummary.totalCellCount,
-                totalFileSize: fileSummary.totalFileSize
-            };
-        })
-        .map((fileSummary: FileSummary) => {
-
-            if ( typeof fileSummary.totalFileSize === "string" ) {
-                fileSummary.totalFileSize = 0;
-            }
-
-            return new FetchManifestDownloadFileSummarySuccessAction(fileSummary);
-        });
+    fetchManifestDownloadFileSummary: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectSelectedFileFacets),
+                take(1)
+            )),
+            switchMap((selectedFileFacets) => this.fileService.fetchManifestDownloadFileSummary(selectedFileFacets)),
+            map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
+        );
 
     /**
      * Trigger fetch and display of matrix file formats.
-     *
-     * @type {Observable<Action>}
      */
     @Effect()
     fetchMatrixFileFormats: Observable<Action> = this.actions$
-        .ofType(FetchMatrixFileFormatsRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.matrixService.fetchFileFormats();
-        })
-        .map((fileFormats: string[]) => {
-            return new FetchMatrixFileFormatsSuccessAction(fileFormats);
-        });
-
-    /**
-     * Handle action where tab is selected (eg Specimens or Files).
-     *
-     * @type {Observable<NoOpAction | FetchFileFacetsRequestAction>}
-     */
-    @Effect()
-    switchTabs: Observable<Action> = this.actions$
-        .ofType(EntitySelectAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectTableQueryParams).first();
-        }).map((params) => {
-
-            // Return cached table, if available
-            if ( getSelectedTable(params.tableState).data.length ) {
-                return new NoOpAction();
-            }
-
-            // Table data has not been previously loaded and is therefore not cached.
-            return new InitEntityStateAction();
-        });
-
-    /**
-     * Sort order or page size of entity table has been updated, update search results.
-     *
-     * @type {Observable<FetchTableDataSuccessAction>}
-     */
-    @Effect()
-    fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
-        .ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE)
-        .withLatestFrom(this.store.select(selectTableQueryParams))
-        .switchMap((results) => {
-
-            const selectedFacetsByName = results[1].selectedFacets;
-            const tableParams = (results[0] as FetchPagedOrSortedTableDataRequestAction).tableParams;
-            const selectedEntity = results[1].tableState.selectedEntity;
-            return this.fileService.fetchEntitySearchResults(
-                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
-        })
-        .map((entitySearchResults: EntitySearchResults) => {
-            return new FetchTableDataSuccessAction(entitySearchResults.tableModel);
-        });
+        .pipe(
+            ofType(FetchMatrixFileFormatsRequestAction.ACTION_TYPE),
+            switchMap(() => this.matrixService.fetchFileFormats()),
+            map((fileFormats: string[]) => new FetchMatrixFileFormatsSuccessAction(fileFormats))
+        );
 
     /**
      * Grab the next page of table result set.
-     *
-     * @type {Observable<TableNextPageSuccessAction>}
      */
     @Effect()
     fetchNextPagedOrSortedTableData$: Observable<Action> = this.actions$
-        .ofType(TableNextPageAction.ACTION_TYPE)
-        .withLatestFrom(this.store.select(selectTableQueryParams))
-        .switchMap((results) => {
+        .pipe(
+            ofType(TableNextPageAction.ACTION_TYPE),
+            withLatestFrom(this.store.pipe(select(selectTableQueryParams))),
+            switchMap(this.fetchPagedOrSortedTableData.bind(this)),
+            map((entitySearchResults: EntitySearchResults) =>
+                new TableNextPageSuccessAction(entitySearchResults.tableModel))
+        );
 
-            const selectedFacetsByName = results[1].selectedFacets;
-            const tableParams = (results[0] as TableNextPageAction).tableParams;
-            const selectedEntity = results[1].tableState.selectedEntity;
-            return this.fileService.fetchEntitySearchResults(
-                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
-        })
-        .map((entitySearchResults: EntitySearchResults) => {
-            return new TableNextPageSuccessAction(entitySearchResults.tableModel);
-        });
+    /**
+     * Sort order or page size of entity table has been updated, update search results.
+     */
+    @Effect()
+    fetchPagedOrSortedTableData$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE),
+            withLatestFrom(this.store.pipe(select(selectTableQueryParams))),
+            switchMap(this.fetchPagedOrSortedTableData.bind(this)),
+            map((entitySearchResults: EntitySearchResults) =>
+                new FetchTableDataSuccessAction(entitySearchResults.tableModel))
+        );
 
     /**
      * Grab the previous page of table result set.
-     *
-     * @type {Observable<TablePreviousPageSuccessAction>}
      */
     @Effect()
     fetchPreviousPagedOrSortedTableData$: Observable<Action> = this.actions$
-        .ofType(TablePreviousPageAction.ACTION_TYPE)
-        .withLatestFrom(this.store.select(selectTableQueryParams))
-        .switchMap((results) => {
-
-            const selectedFacetsByName = results[1].selectedFacets;
-            const tableParams = (results[0] as TablePreviousPageAction).tableParams;
-            const selectedEntity = results[1].tableState.selectedEntity;
-            return this.fileService.fetchEntitySearchResults(
-                selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
-        })
-        .map((entitySearchResults: EntitySearchResults) => {
-            return new TablePreviousPageSuccessAction(entitySearchResults.tableModel);
-        });
+        .pipe(
+            ofType(TablePreviousPageAction.ACTION_TYPE),
+            withLatestFrom(this.store.pipe(select(selectTableQueryParams))),
+            switchMap(this.fetchPagedOrSortedTableData.bind(this)),
+            map((entitySearchResults: EntitySearchResults) =>
+                new TablePreviousPageSuccessAction(entitySearchResults.tableModel))
+        );
 
     /**
-     * Trigger download of manifest.
-     * @type {Observable<Action>}
+     * Trigger fetch and display of project, when selected from the project table.
      */
-    @Effect({dispatch: false})
-    downloadFileManifest$: Observable<Action> = this.actions$
-        .ofType(DownloadFileManifestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.store.select(selectFileFacets).first();
-        })
-        .switchMap((query) => {
-            return this.fileService.downloadFileManifest(query);
-        })
-        .map(response => {
-            return new DownloadFileManifestRequestedAction(response);
-        });
+    @Effect()
+    fetchProject: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectRequestAction.ACTION_TYPE),
+            switchMap((action: FetchProjectRequestAction) => this.projectService.fetchProjectById(action.projectId)),
+            map((project: Project) => new FetchProjectSuccessAction(project))
+        );
+
+    /**
+     * Trigger update of file summary if a facet changes (ie term is selected or deselected). File summary includes the
+     * donor count, file count etc that is displayed above the facets.
+     */
+    @Effect()
+    fetchSummary$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchFileSummaryRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectSelectedFileFacets),
+                take(1)
+            )),
+            switchMap((selectedFacets: FileFacet[]) => this.fileService.fetchFileSummary(selectedFacets)),
+            map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
+        );
+
+    /**
+     * Fetch data to populate entity table.
+     */
+    @Effect()
+    fetchTableData$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchInitialTableDataRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectTableQueryParams),
+                take(1)
+            )),
+            switchMap((tableQueryParams) => {
+
+                // Reset the pagination but keep the set page size if it was changed.
+                let tableParams = Object.assign(
+                    DEFAULT_TABLE_PARAMS,
+                    {
+                        size: tableQueryParams.pagination.size,
+                        sort: tableQueryParams.pagination.sort,
+                        order: tableQueryParams.pagination.order
+                    });
+
+                const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+                const selectedEntity = tableQueryParams.tableState.selectedEntity;
+                return this.fileService.fetchEntitySearchResults(
+                    selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
+            }),
+            map((entitySearchResults: EntitySearchResults) =>
+                new FetchTableDataSuccessAction(entitySearchResults.tableModel))
+        );
 
     /**
      * Trigger fetch of facets, summary counts and the table. This executes:
      * 1. on initial set up of app state from URL params
      * 2. on any change of the facet terms (either select or clear all)
-     *
-     * @type {Observable<Action>}
      */
     @Effect()
     initFacets$: Observable<Action> = this.actions$
-        .ofType(
-            SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
-            SelectFileFacetAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
-            ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
-            InitEntityStateAction.ACTION_TYPE
-        )
-        .switchMap(() => {
+        .pipe(
+            ofType(
+                SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
+                SelectFileFacetAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
+                ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
+                InitEntityStateAction.ACTION_TYPE
+            ),
+            mergeMap(() => {
 
-            // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
-            // for file summary and table data.
-            return Observable.concat(
-                // Request summary
-                Observable.of(new FetchFileSummaryRequestAction()),
-                // Request facets
-                Observable.of(new FetchFileFacetsRequestAction())
-            );
-        });
+                // Return an array of actions that need to be dispatched - fetch success action, and then a re-request
+                // for file summary and table data.
+                return of(
+                    // Request summary
+                    new FetchFileSummaryRequestAction(),
+                    // Request facets
+                    new FetchFileFacetsRequestAction(true)
+                );
+            })
+        );
 
     /**
      * Trigger fetch of facets and summary counts on select of project.
-     *
-     * @type {Observable<Action>}
      */
     @Effect()
     selectProject$: Observable<Action> = this.actions$
-        .ofType(
-            SelectProjectAction.ACTION_TYPE
-        )
-        .switchMap(() => {
+        .pipe(
+            ofType(
+                SelectProjectAction.ACTION_TYPE
+            ),
+            mergeMap(() => {
 
-            // Return an array of actions that need to be dispatched - request for file summary and file facets.
-            return Observable.concat(
-                // Request summary
-                Observable.of(new FetchFileSummaryRequestAction()),
-                // Request facets
-                Observable.of(new FetchFileFacetsRequestAction())
-            );
-        });
+                // Return an array of actions that need to be dispatched - request for file summary and file facets.
+                return of(
+                    // Request summary
+                    new FetchFileSummaryRequestAction(),
+                    // Request facets
+                    new FetchFileFacetsRequestAction(false)
+                );
+            })
+        );
 
+    /**
+     * Handle action where tab is selected (eg Specimens or Files).
+     */
+    @Effect()
+    switchTabs: Observable<Action> = this.actions$
+        .pipe(
+            ofType(EntitySelectAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectTableQueryParams),
+                take(1)
+            )),
+            map((tableQueryParams) => {
+
+                // Return cached table, if available
+                if ( getSelectedTable(tableQueryParams.tableState).data.length ) {
+                    return new NoOpAction();
+                }
+
+                // Table data has not been previously loaded and is therefore not cached.
+                return new InitEntityStateAction();
+            })
+        );
 
     /**
      * Privates
      */
 
     /**
-     * Fetch ordered file facets
+     * Fetch the paged/sorted table data and map to appropriate format for FE.
      *
-     * @param selectedFacets
-     * @param {string} tab
-     * @returns {Observable<FileFacet[]>}
+     * @param {[FetchPagedOrSortedTableDataRequestAction | TableNextPageAction | TablePreviousPageAction,
+     * Map<string, FileFacet> & PaginationModel & TableState]} [action, tableQueryParams]
+     * @returns {Observable<EntitySearchResults>}
      */
-    private fetchOrderedFileFacets(selectedFacets: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
+    private fetchPagedOrSortedTableData([action , tableQueryParams]): Observable<EntitySearchResults> {
 
-        const sortOrderLoaded$ = this.store.select(selectFileFacetMetadataSummary);
-
-        const sortOrder$ = this.store.select(selectFileFacetMetadataSummary)
-            .map(state => state.sortOrder)
-            .combineLatest(sortOrderLoaded$, (sortOrder) => sortOrder);
-
-        return this.fileService
-            .fetchOrderedFileFacets(selectedFacets, tab)
-            .combineLatest(sortOrder$, (fileFacets: FileFacet[], sortOrder: string[]) => {
-
-                // TODO why do we need to filter out null facets here?
-                fileFacets = fileFacets.filter((facet) => {
-                    return !!facet;
-                });
-
-                if ( !sortOrder || !sortOrder.length ) {
-                    return fileFacets;
-                }
-
-                let newFileFacets = sortOrder.map((sortName) => {
-                    return _.find(fileFacets, {name: sortName});
-                });
-
-                // order may contain facets that do not exist so filter out any nulls.
-                newFileFacets = newFileFacets.filter((facet) => {
-                    return !!facet;
-                });
-
-                return newFileFacets;
-
-            });
+        const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+        const tableParams = action.tableParams;
+        const selectedEntity = tableQueryParams.tableState.selectedEntity;
+        return this.fileService.fetchEntitySearchResults(
+            selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
     }
 
     /**
@@ -501,7 +395,7 @@ export class FileEffects {
      * @param {Map<string, FileFacet>} facetsByName
      * @returns {boolean}
      */
-    isAnyProjectSelected(facetsByName: Map<string, FileFacet>): boolean {
+    private isAnyProjectSelected(facetsByName: Map<string, FileFacet>): boolean {
 
         const projectFacet = facetsByName.get("project");
         if ( !projectFacet ) {

@@ -11,8 +11,8 @@ import {
     ChangeDetectionStrategy, OnInit
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -258,9 +258,9 @@ export class HCAProjectComponent implements OnInit {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        this.project$ = this.store.select(selectSelectedProject);
+        this.project$ = this.store.pipe(select(selectSelectedProject));
 
         // Get the set of selected facet terms
-        this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
+        this.selectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
     }
 }

@@ -8,7 +8,7 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";

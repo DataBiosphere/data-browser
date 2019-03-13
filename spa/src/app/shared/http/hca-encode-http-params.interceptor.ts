@@ -13,7 +13,7 @@ import {
     HttpParams,
     HttpRequest
 } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 // App dependencies
 import { HCAHttpParameterCodec } from "./hca-http-parameter-codec";

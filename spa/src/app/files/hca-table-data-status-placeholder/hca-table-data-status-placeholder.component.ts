@@ -8,8 +8,6 @@
 
 // Core dependencies
 import { Component, Input } from "@angular/core";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
 
 // App dependencies
 import { animate, style, transition, trigger } from "@angular/animations";
