@@ -53,7 +53,7 @@
             width: 100%;
 
             /* Heading and content */
-            p {
+            p, a {
                 margin: 0;
             }
 
@@ -108,7 +108,7 @@
         }
 
         /* RHS heading and content */
-        &.rhs p, &.rhs h4.fontsize-m {
+        &.rhs p, &.rhs a, &.rhs h4.fontsize-m {
             max-width: 272px;
         }
     }
@@ -140,7 +140,7 @@
                 max-width: 688px;
 
                 /* Heading and content */
-                p {
+                p, a {
                     padding: 0 16px;
                 }
             }

@@ -12,8 +12,12 @@
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Project</p>
                     <div class="rhs">
                         <p class="fontsize-xs">{{project.projectTitle}}</p>
-                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname,true)">Select Project</p>
-                        <p *ngIf="isProjectSelected(project.projectShortname, selectedFileFacets$ | async)" class="fontsize-xs select-project" (click)="onProjectSelected(project.projectShortname,false)">Unselect Project</p>
+                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)"
+                           class="fontsize-xs select-project"
+                           (click)="onProjectSelected(project.projectShortname,true)">Select Project</p>
+                        <p *ngIf="isProjectSelected(project.projectShortname, selectedFileFacets$ | async)"
+                           class="fontsize-xs select-project"
+                           (click)="onProjectSelected(project.projectShortname,false)">Unselect Project</p>
                     </div>
                 </div>
                 <div>
@@ -56,7 +60,7 @@
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Library Construction Method</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.libraryConstructionApproach)}}</p>
+                    <p class="fontsize-xs rhs" [innerHTML]="stringifyValues(project.libraryConstructionApproach)"></p>
                 </div>
                 <div>
                     <p matTooltip="The format of the data file."

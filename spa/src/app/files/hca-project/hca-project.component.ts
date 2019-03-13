@@ -212,7 +212,30 @@ export class HCAProjectComponent implements OnInit {
      */
     public stringifyValues(values: any[]): string {
 
+        const linkedValue = "Smart-seq2";
+
+        if ( values.includes(linkedValue) ) {
+            return this.stringifyAndLinkValues(values, linkedValue);
+        }
+
         return values.join(", ");
+    }
+
+    /**
+     * Returns string-concat'ed version of the array,
+     * with the value of interest "Smart-seq2" linked to a page in the Data Portal.
+     * @param {any[]} values
+     * @param {string} linkedValue
+     * @returns {string}
+     */
+    public stringifyAndLinkValues(values: any[], linkedValue: string): string {
+
+        const posOfValue = values.indexOf(linkedValue);
+
+        const hrefOfValue = "https://prod.data.humancellatlas.org/learn/userguides/data-processing-pipelines/smart-seq2-workflow";
+        const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
+
+        return `${values.slice(0, posOfValue).concat(innerHTMLOfValue).concat(values.slice(posOfValue + 1, values.length)).join(", ")}`;
     }
 
     /**
