@@ -7,11 +7,10 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect } from "@ngrx/effects";
+import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
+import { Observable } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -42,16 +41,16 @@ export class SystemEffects {
      */
     @Effect()
     healthCheck$: Observable<Action> = this.actions$
-        .ofType(HealthRequestAction.ACTION_TYPE)
-        .switchMap(() => {
-            return this.systemService.healthCheck();
-        })
-        .map((response: HealthResponse) => {
+        .pipe(
+            ofType(HealthRequestAction.ACTION_TYPE),
+            switchMap(() => this.systemService.healthCheck()),
+            map((response: HealthResponse) => {
 
-            if ( response.status === HealthRequestStatus.COMPLETE ) {
-                return new HealthSuccessAction(response.indexing);
-            }
+                if ( response.status === HealthRequestStatus.COMPLETE ) {
+                    return new HealthSuccessAction(response.indexing);
+                }
 
-            return new HealthFailureAction();
-        });
+                return new HealthFailureAction();
+            })
+        );
 }

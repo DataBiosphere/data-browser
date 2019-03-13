@@ -8,9 +8,8 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
 import { catchError, retry, switchMap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -54,7 +53,7 @@ export class SystemDAO {
      */
     private bindHealthResponse(response: HealthHttpResponse): Observable<HealthResponse> {
 
-        return Observable.of({
+        return of({
             indexing: this.isIndexing(response),
             status: HealthRequestStatus.COMPLETE
         });
@@ -79,7 +78,7 @@ export class SystemDAO {
      */
     private handleHealthError(): Observable<HealthResponse> {
 
-        return Observable.of({
+        return of({
             indexing: false,
             status: HealthRequestStatus.FAILED
         });

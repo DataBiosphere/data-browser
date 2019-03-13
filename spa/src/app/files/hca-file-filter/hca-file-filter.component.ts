@@ -12,8 +12,8 @@ import {
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 
 // App dependencies
@@ -583,7 +583,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                 map(searchString => this.filterFacets(searchString)));
 
         // Determine the current selected tab
-        this.selectedEntity$ = this.store.select(selectSelectedEntity);
+        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
 
     }
 }

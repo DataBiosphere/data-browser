@@ -8,9 +8,8 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import * as _ from "lodash";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import { catchError, retry, switchMap } from "rxjs/operators";
+import { interval, Observable, of, Subject } from "rxjs";
+import { catchError, map, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { EntitySearchResults } from "./entity-search-results.model";
@@ -27,10 +26,7 @@ import { TableParamsModel } from "../table/table-params.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
-import { Subject } from "rxjs/Subject";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
-import { Subscription } from "rxjs/Subscription";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class FilesDAO {
@@ -100,9 +96,9 @@ export class FilesDAO {
                     filters
                 }
             })
-            .map((repositoryFiles: FilesAPIResponse) => {
-                    return this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering);
-                }
+            .pipe(
+                map((repositoryFiles: FilesAPIResponse) =>
+                    this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering))
             );
     }
 
@@ -137,8 +133,10 @@ export class FilesDAO {
             paramMap = this.buildFetchSearchResultsQueryParams(filteredSelectedFacetsByName, tableParams);
         }
 
-        return this.httpClient.get<FilesAPIResponse>(url, {params: paramMap})
-            .map((repositoryFiles: FilesAPIResponse) => {
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {params: paramMap})
+            .pipe(
+                map((repositoryFiles: FilesAPIResponse) => {
 
                     const fileFacets = this.createFileFacets(selectedFacetsByName, repositoryFiles);
 
@@ -152,7 +150,7 @@ export class FilesDAO {
                         fileFacets,
                         tableModel
                     };
-                }
+                })
             );
     }
 
@@ -176,30 +174,32 @@ export class FilesDAO {
     fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
 
         return this.fetchFacetOrdering()
-            .switchMap((ordering: Ordering) => {
+            .pipe(
+                switchMap((ordering: Ordering) => {
 
-                // Temporary manually order the facets.
-                const bypassOrdering = [
-                    "project",
-                    "genusSpecies",
-                    "biologicalSex",
-                    "organ",
-                    "organPart",
-                    "organismAge",
-                    "organismAgeUnit",
-                    "disease",
-                    "laboratory",
-                    "preservationMethod",
-                    "instrumentManufacturerModel",
-                    "libraryConstructionApproach",
-                    "protocol",
-                    "fileFormat",
-                    "totalCells"
-                ];
+                    // Temporary manually order the facets.
+                    const bypassOrdering = [
+                        "project",
+                        "genusSpecies",
+                        "biologicalSex",
+                        "organ",
+                        "organPart",
+                        "organismAge",
+                        "organismAgeUnit",
+                        "disease",
+                        "laboratory",
+                        "preservationMethod",
+                        "instrumentManufacturerModel",
+                        "libraryConstructionApproach",
+                        "protocol",
+                        "fileFormat",
+                        "totalCells"
+                    ];
 
-                ordering.order = bypassOrdering;
-                return this.fetchFileFacets(selectedFacetsByName, tab, ordering);
-            });
+                    ordering.order = bypassOrdering;
+                    return this.fetchFileFacets(selectedFacetsByName, tab, ordering);
+                })
+            );
     }
 
     /**
@@ -297,7 +297,7 @@ export class FilesDAO {
      */
     private bindManifestResponse(response: ManifestHttpResponse): Observable<ManifestResponse> {
 
-        return Observable.of({
+        return of({
             fileUrl: response.Location,
             retryAfter: response["Retry-After"],
             status: this.translateFileDownloadStatus(response.Status)
@@ -554,7 +554,7 @@ export class FilesDAO {
      */
     private handleManifestError(): Observable<ManifestResponse> {
 
-        return Observable.of({
+        return of({
             status: ManifestStatus.FAILED,
             fileUrl: "",
             retryAfter: 0
@@ -621,9 +621,11 @@ export class FilesDAO {
      */
     private updateManifestStatus(response: ManifestResponse, manifestResponse$: Subject<ManifestResponse>) {
 
-        Observable
-            .interval(response.retryAfter * 1000)
-            .take(1)
+
+        interval(response.retryAfter * 1000)
+            .pipe(
+                take(1)
+            )
             .subscribe(() => {
                 const getRequest = this.httpClient.get<ManifestHttpResponse>(response.fileUrl);
                 this.requestManifest(getRequest, manifestResponse$);

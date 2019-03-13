@@ -13,9 +13,7 @@
 // Core dependencies
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/operator/delay";
+import { Observable, of } from "rxjs";
 import { catchError, map, retry } from "rxjs/operators";
 
 // App dependencies
@@ -94,7 +92,9 @@ export class MatrixDAO {
 
         return this.httpClient
             .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body, {headers})
-            .map(this.bindMatrixResponse.bind(this));
+            .pipe(
+                map(this.bindMatrixResponse.bind(this))
+            );
     }
 
     /**
@@ -121,7 +121,7 @@ export class MatrixDAO {
      */
     private handleMatrixStatusError(requestId: string): Observable<MatrixResponse> {
 
-        return Observable.of({
+        return of({
             eta: "",
             matrixUrl: "",
             message: "",

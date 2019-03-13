@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { KeywordsDAO } from "./keywords.dao";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { KeywordQueryResponse } from "./keyword-query-response.model";
 
 @Injectable()

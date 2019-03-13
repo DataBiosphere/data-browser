@@ -8,10 +8,8 @@
 
 // Core dependencies
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import "rxjs/add/observable/of";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { BehaviorSubject, interval, Observable, Subject } from "rxjs";
+import { take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { Element } from "../hca-table-files/hca-table-files.component";
@@ -196,9 +194,8 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
      */
     private emitAfterInterval(fn, delay: number) {
 
-        Observable
-            .interval(delay)
-            .take(1)
+        interval(delay)
+            .pipe(take(1))
             .subscribe(fn);
     }
 
@@ -251,6 +248,6 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
         this.fileUrl = this.file.url;
 
         // Kill download subject on destroy of component
-        this.downloadResponse$.takeUntil(this.ngDestroy$);
+        this.downloadResponse$.pipe(takeUntil(this.ngDestroy$));
     }
 }

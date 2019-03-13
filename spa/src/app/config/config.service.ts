@@ -8,8 +8,6 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/take";
 
 // App dependencies
 import { Config } from "./config.model";

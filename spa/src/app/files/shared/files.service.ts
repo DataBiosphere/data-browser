@@ -1,15 +1,25 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Service for coordinating file-related functionality.
+ */
 
+// Core dependencies
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+
+// App dependencies
 import { EntitySearchResults } from "./entity-search-results.model";
 import { FilesDAO } from "./files.dao";
-import { FileSummary } from "../file-summary/file-summary";
-import { Dictionary } from "../../shared/dictionary";
-import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileFacet } from "./file-facet.model";
-import { TableParamsModel } from "../table/table-params.model";
-import { ManifestResponse } from "./manifest-response.model";
+import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
+import { FileSummary } from "../file-summary/file-summary";
 import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
+import { ManifestResponse } from "./manifest-response.model";
+import { Dictionary } from "../../shared/dictionary";
+import { TableParamsModel } from "../table/table-params.model";
 
 @Injectable()
 export class FilesService {
@@ -115,7 +125,9 @@ export class FilesService {
      */
     public fetchFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
 
-        return this.fileDAO.fetchFileSummary(selectedFacets);
+        return this.fileDAO.fetchFileSummary(selectedFacets).pipe(
+            map(this.bindFileSummaryResponse)
+        );
     }
 
     /**
@@ -142,5 +154,18 @@ export class FilesService {
     public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
 
         return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName, tab);
+    }
+
+    /**
+     * Create a new file summary object (to trigger change detecting) from the file summary response, and fix erroneous
+     * total file size count if applicable.
+     *
+     * @param {FileSummary} fileSummary
+     * @returns {FileSummary}
+     */
+    private bindFileSummaryResponse(fileSummary: FileSummary): FileSummary {
+
+        const totalFileSize = (typeof fileSummary.totalFileSize === "string") ? 0 : fileSummary.totalFileSize;
+        return Object.assign({}, fileSummary, {totalFileSize});
     }
 }

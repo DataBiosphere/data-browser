@@ -8,13 +8,9 @@
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
-import { Store } from "@ngrx/store";
-import "rxjs/add/observable/interval";
-import "rxjs/add/operator/combineLatest";
-import "rxjs/add/operator/startWith";
-import "rxjs/add/operator/takeUntil";
-import "rxjs/add/operator/takeWhile";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { combineLatest, interval, Observable, Subject } from "rxjs";
+import { map, take, takeUntil, takeWhile } from "rxjs/operators";
 
 // App dependencies
 import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
@@ -25,7 +21,6 @@ import { selectFileSummary, selectMatrixFileFormats, selectSelectedFileFacets } 
 import { FileFacet } from "../shared/file-facet.model";
 import { MatrixFormat } from "../shared/matrix-format.model";
 import { MatrixResponse } from "../shared/matrix-response.model";
-import { Subject } from "rxjs/Subject";
 
 @Component({
     templateUrl: "./hca-request-matrix-modal.component.html",
@@ -202,19 +197,20 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     private initMatrixDownloadPoller() {
 
-        this.matrixResponse$
+        this.matrixResponse$.pipe(
             // Kill subscription on destroy of component
-            .takeUntil(this.ngDestroy$)
+            takeUntil(this.ngDestroy$),
             // Keep polling until request is completed or failed
-            .takeWhile((response: MatrixResponse) => {
+            takeWhile((response: MatrixResponse) => {
 
                 return this.matrixService.isMatrixRequestInProgress(response);
             })
-            // Request is still in progress - check status again
-            .subscribe((response: MatrixResponse) => {
+        )
+        // Request is still in progress - check status again
+        .subscribe((response: MatrixResponse) => {
 
-                return this.updateMatrixStatus(response.requestId);
-            });
+            return this.updateMatrixStatus(response.requestId);
+        });
     }
 
     /**
@@ -224,17 +220,17 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     private updateMatrixStatus(matrixRequestKey: string) {
 
-        Observable
-            .interval(5000)
-            .take(1)
-            .subscribe(() => {
+        interval(5000).pipe(
+            take(1)
+        )
+        .subscribe(() => {
 
-                this.matrixService.getMatrixStatus(matrixRequestKey)
-                    .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
+            this.matrixService.getMatrixStatus(matrixRequestKey)
+                .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
 
-                        this.matrixResponse$.next(response);
-                    });
-            });
+                    this.matrixResponse$.next(response);
+                });
+        });
     }
 
     /**
@@ -256,28 +252,29 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     public ngOnInit() {
 
         // Grab the file summary for displaying on the modal
-        const selectFileSummary$ = this.store.select(selectFileSummary);
+        const selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         // Grab the selected facets for displaying on the modal
-        const selectSelectedFileFacets$ = this.store.select(selectSelectedFileFacets);
+        const selectSelectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
 
         // Request possible set of file types
         this.store.dispatch(new FetchMatrixFileFormatsRequestAction());
-        const selectMatrixFileFormats$ = this.store.select(selectMatrixFileFormats);
+        const selectMatrixFileFormats$ = this.store.pipe(select(selectMatrixFileFormats));
 
         // Set up listener to poll for matrix request completion
         this.initMatrixDownloadPoller();
 
         // Grab file summary and selected facets for displaying on the modal
         this.state$ =
-            selectFileSummary$.combineLatest(
-                selectSelectedFileFacets$, selectMatrixFileFormats$, (fileSummary, selectedFileFacets, matrixFileFormats) => {
+            combineLatest(selectFileSummary$, selectSelectedFileFacets$, selectMatrixFileFormats$).pipe(
+                    map((combined) => {
 
-            return {
-                fileSummary,
-                matrixFileFormats,
-                selectedFileFacets
-            };
-        });
+                        return {
+                            fileSummary: combined[0],
+                            matrixFileFormats: combined[2],
+                            selectedFileFacets: combined[1]
+                        };
+                    })
+            );
     }
 }

@@ -13,8 +13,8 @@ import {
     Input,
     ChangeDetectionStrategy, OnInit
 } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { select, Store } from "@ngrx/store";
 
 // App dependencies
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
@@ -122,6 +122,6 @@ export class HCAFileFacetComponent implements OnInit {
     ngOnInit() {
 
         // Determine the current selected tab
-        this.selectedEntity$ = this.store.select(selectSelectedEntity);
+        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
     }
 }
