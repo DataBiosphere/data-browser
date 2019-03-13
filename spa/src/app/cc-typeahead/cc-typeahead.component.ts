@@ -10,9 +10,7 @@ import {
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatInput } from "@angular/material";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
+import { distinctUntilChanged, debounceTime } from "rxjs/operators";
 
 // App dependencies
 import { CCTypeaheadSearchEvent } from "./cc-typeahead-search.event";
@@ -74,12 +72,13 @@ export class CcTypeaheadComponent implements OnInit {
         this.placeholder = this.placeholder || "Search";
 
         // Hook up subscription to input changes
-        this.searchTerm.valueChanges
-            .debounceTime(333)
-            .distinctUntilChanged()
-            .subscribe(term => {
-                this.triggerSearchChanged(term);
-            });
+        this.searchTerm.valueChanges.pipe(
+            debounceTime(333),
+            distinctUntilChanged()
+        )
+        .subscribe(term => {
+            this.triggerSearchChanged(term);
+        });
     }
 
     /**

@@ -15,8 +15,9 @@ import {
     Output,
     ViewChild
 } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { filter, map } from "rxjs/operators";
 import * as _ from "lodash";
 
 // App dependencies
@@ -129,16 +130,26 @@ export class FileFacetSearchMenuComponent implements OnInit {
     ngOnInit() {
 
         // Get the search facet to be displayed (either file or donor search).
-        this.fileFacet$ = this.store.select(selectFileFacets)
-            .map(state => state.fileFacets)
-            .map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName));
+        this.fileFacet$ = this.store.pipe(
+            select(selectFileFacets),
+            map(state => state.fileFacets),
+            map(facets => _.find(facets, facet => facet.name === this.fileSearchConfig.fileFacetName))
+        );
 
         // Get the list of currently selected files or donors (depending on the type of search being executed).
         if ( this.fileSearchConfig.isFileSearch() ) {
-            this.files$ = this.store.select(selectKeywords).filter(state => state.type === "file").map(state => state.hits);
+            this.files$ = this.store.pipe(
+                select(selectKeywords),
+                filter(state => state.type === "file"),
+                map(state => state.hits)
+            );
         }
         else {
-            this.files$ = this.store.select(selectKeywords).filter(state => state.type === "donor").map(state => state.hits);
+            this.files$ = this.store.pipe(
+                select(selectKeywords),
+                filter(state => state.type === "donor"),
+                map(state => state.hits)
+            );
         }
     }
 }

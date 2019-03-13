@@ -9,10 +9,9 @@
 import { DataSource } from "@angular/cdk/collections";
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { Sort } from "@angular/material";
-import { Store } from "@ngrx/store";
-import "rxjs/add/observable/of";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { select, Store } from "@ngrx/store";
+import { fromEvent, Observable, merge, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -182,22 +181,23 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit() {
 
         const nativeElement = this.elementRef.nativeElement;
-        const scrolls$ = Observable.fromEvent(this.window, "scroll");
-        const wheels$ = Observable.fromEvent(this.window, "wheel");
+        const scrolls$ = fromEvent(this.window, "scroll");
+        const wheels$ = fromEvent(this.window, "wheel");
 
-        scrolls$.merge(wheels$)
-            .takeUntil(this.ngDestroy$)
-            .subscribe(() => {
+        merge(scrolls$, wheels$).pipe(
+            takeUntil(this.ngDestroy$)
+        )
+        .subscribe(() => {
 
-                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+            if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
 
-                    this.snapped = true;
-                }
-                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+                this.snapped = true;
+            }
+            else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
 
-                    this.snapped = false;
-                }
-            });
+                this.snapped = false;
+            }
+        });
     }
 
     /**
@@ -215,16 +215,16 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
-        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
+        this.tableElementDataSource = new TableElementDataSource(this.store.pipe(select(selectTableData)));
 
         // Get an observable of the table data.
-        this.data$ = this.store.select(selectTableData);
+        this.data$ = this.store.pipe(select(selectTableData));
 
         // Get an observable of the loading status of table.
-        this.loading$ = this.store.select(selectTableLoading);
+        this.loading$ = this.store.pipe(select(selectTableLoading));
 
         // Get an observable of the pagination model
-        this.pagination$ = this.store.select(selectPagination);
+        this.pagination$ = this.store.pipe(select(selectPagination));
     }
 }
 
@@ -265,35 +265,37 @@ class TableElementDataSource extends DataSource<any> {
 
         super();
 
-        this.element$ = tableData$.map((rows: any[]) => {
+        this.element$ = tableData$.pipe(
+            map((rows: any[]) => {
 
-            return rows.map((row: any) => {
+                return rows.map((row: any) => {
 
-                let file = row.files[0] || {};
-                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-                let protocols = this.rollUpMetadata(row.protocols);
-                let specimens = this.rollUpMetadata(row.specimens);
-                let projectTitle = this.rollUpMetadata(row.projects);
+                    let file = row.files[0] || {};
+                    let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                    let protocols = this.rollUpMetadata(row.protocols);
+                    let specimens = this.rollUpMetadata(row.specimens);
+                    let projectTitle = this.rollUpMetadata(row.projects);
 
-                return {
-                    ageUnit: specimens.organismAgeUnit,
-                    biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
-                    disease: this.getUnspecifiedIfNullValue(specimens.disease),
-                    fileFormat: file.format,
-                    fileName: file.name,
-                    fileSize: this.getUnspecifiedIfNullValue(file.size),
-                    genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
-                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                    organ: this.getUnspecifiedIfNullValue(specimens.organ),
-                    organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
-                    organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
-                    projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                    specimenId: this.getSelfOrFirst(specimens.id),
-                    totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                    url: file.url
-                };
-            });
-        });
+                    return {
+                        ageUnit: specimens.organismAgeUnit,
+                        biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
+                        disease: this.getUnspecifiedIfNullValue(specimens.disease),
+                        fileFormat: file.format,
+                        fileName: file.name,
+                        fileSize: this.getUnspecifiedIfNullValue(file.size),
+                        genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
+                        libraryConstructionApproach: this.getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
+                        organ: this.getUnspecifiedIfNullValue(specimens.organ),
+                        organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
+                        organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                        projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        specimenId: this.getSelfOrFirst(specimens.id),
+                        totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        url: file.url
+                    };
+                });
+            })
+        );
     }
 
     // Each bundle contains multiple biomaterials which are in a hierarchy

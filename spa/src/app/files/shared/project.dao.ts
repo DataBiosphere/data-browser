@@ -8,8 +8,8 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 // App depenencies
 import { ConfigService } from "../../config/config.service";
@@ -39,7 +39,7 @@ export class ProjectDAO {
     fetchProjectById(projectId: string): Observable<Project> {
 
         const url = this.buildApiUrl(`/repository/projects/${projectId}`);
-        return this.httpClient.get<Project>(url).map(this.bindProject.bind(this));
+        return this.httpClient.get<Project>(url).pipe(map(this.bindProject.bind(this)));
     }
 
     /**

@@ -9,11 +9,9 @@
 import { Location } from "@angular/common";
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import "rxjs/add/operator/skip";
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
-import { Subject } from "rxjs/Subject";
+import { select, Store } from "@ngrx/store";
+import { Observable, Subscription, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/file-facet-list.actions";
@@ -146,7 +144,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private healthCheck() {
 
         this.store.dispatch(new HealthRequestAction());
-        this.indexing$ = this.store.select(selectIndexing).takeUntil(this.ngDestroy$);
+        this.indexing$ = this.store.pipe(
+            select(selectIndexing),
+            takeUntil(this.ngDestroy$)
+        );
     }
 
     /**

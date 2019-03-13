@@ -9,11 +9,9 @@
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { Location } from "@angular/common";
 import * as _ from "lodash";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/merge";
+import { select, Store } from "@ngrx/store";
+import { Observable ,  Subscription } from "rxjs";
+import { distinctUntilChanged } from "rxjs/operators";
 
 // App dependencies
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -32,7 +30,6 @@ import {
 import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import EntitySpec from "./shared/entity-spec";
-import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: "bw-files",
@@ -140,46 +137,48 @@ export class FilesComponent implements OnInit, OnDestroy {
     public ngOnInit() {
 
         // Grab the counts etc
-        this.selectFileSummary$ = this.store.select(selectFileSummary);
+        this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         // Get the list of facets to display
-        this.fileFacets$ = this.store.select(selectFileFacetsFileFacets);
+        this.fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
 
         // Get the set of selected facet terms
-        this.selectedFileFacets$ = this.store.select(selectSelectedFileFacets);
+        this.selectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
 
         // Grab the set of tabs to be displayed
-        this.entities$ = this.store.select(selectEntities);
+        this.entities$ = this.store.pipe(select(selectEntities));
 
         // Determine the current selected tab
-        this.selectedEntity$ = this.store.select(selectSelectedEntity);
+        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
 
         // Determine if Matrix files are included in the current files result set.
-        this.fileTypeMatrix$ = this.store.select(selectFileTypeMatrix);
+        this.fileTypeMatrix$ = this.store.pipe(select(selectFileTypeMatrix));
 
         // Set up the URL state management - write the browser address bar when the selected facets change.
-        this.store.select(selectSelectedViewState)
-            .distinctUntilChanged((previous, current) => {
+        this.store.pipe(
+            select(selectSelectedViewState),
+            distinctUntilChanged((previous, current) => {
                 return _.isEqual(previous, current);
             })
-            .subscribe((viewState) => {
+        )
+        .subscribe((viewState) => {
 
-                // Convert facets to query string state
-                const queryStringFacets = viewState.selectSelectedFileFacets.reduce((accum, selectedFacet) => {
-                    accum.add({
-                        facetName: selectedFacet.name,
-                        terms: selectedFacet.selectedTerms.map(term => term.name)
-                    });
-                    return accum;
-                }, new Set<any>());
+            // Convert facets to query string state
+            const queryStringFacets = viewState.selectSelectedFileFacets.reduce((accum, selectedFacet) => {
+                accum.add({
+                    facetName: selectedFacet.name,
+                    terms: selectedFacet.selectedTerms.map(term => term.name)
+                });
+                return accum;
+            }, new Set<any>());
 
-                const path = viewState.selectSelectedEntity.key;
-                const params = new URLSearchParams();
-                if ( queryStringFacets.size > 0 ) {
-                    params.set("filter", JSON.stringify(Array.from(queryStringFacets)));
-                }
+            const path = viewState.selectSelectedEntity.key;
+            const params = new URLSearchParams();
+            if ( queryStringFacets.size > 0 ) {
+                params.set("filter", JSON.stringify(Array.from(queryStringFacets)));
+            }
 
-                this.location.replaceState(path, params.toString());
-            });
+            this.location.replaceState(path, params.toString());
+        });
     }
 }

@@ -9,11 +9,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Sort } from "@angular/material";
-import { Store } from "@ngrx/store";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { select, Store } from "@ngrx/store";
+import { fromEvent, Observable , merge, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -160,11 +158,12 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit() {
 
         const nativeElement = this.elementRef.nativeElement;
-        const scrolls$ = Observable.fromEvent(this.window, "scroll");
-        const wheels$ = Observable.fromEvent(this.window, "wheel");
+        const scrolls$ = fromEvent(this.window, "scroll");
+        const wheels$ = fromEvent(this.window, "wheel");
 
-        scrolls$.merge(wheels$)
-            .takeUntil(this.ngDestroy$)
+        merge(scrolls$, wheels$).pipe(
+            takeUntil(this.ngDestroy$)
+        )
             .subscribe(() => {
 
                 if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
@@ -193,16 +192,16 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
-        this.tableElementDataSource = new TableElementDataSource(this.store.select(selectTableData));
+        this.tableElementDataSource = new TableElementDataSource(this.store.pipe(select(selectTableData)));
 
         // Get an observable of the table data.
-        this.data$ = this.store.select(selectTableData);
+        this.data$ = this.store.pipe(select(selectTableData));
 
         // Get an observable of the loading status of table.
-        this.loading$ = this.store.select(selectTableLoading);
+        this.loading$ = this.store.pipe(select(selectTableLoading));
 
         // Get an observable of the pagination model
-        this.pagination$ = this.store.select(selectPagination);
+        this.pagination$ = this.store.pipe(select(selectPagination));
     }
 }
 
@@ -238,52 +237,54 @@ class TableElementDataSource extends DataSource<any> {
 
         super();
 
-        this.element$ = tableData$.map((rows: any[]) => {
+        this.element$ = tableData$.pipe(
+            map((rows: any[]) => {
 
-            return rows.map((row: any) => {
+                return rows.map((row: any) => {
 
-                let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-                let fileTypeSummaries = row.fileTypeSummaries;
-                let projectSummary = row.projectSummary;
-                let projectTitle = this.rollUpMetadata(row.projects);
+                    let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                    let fileTypeSummaries = row.fileTypeSummaries;
+                    let projectSummary = row.projectSummary;
+                    let projectTitle = this.rollUpMetadata(row.projects);
 
-                // only roll up organType
-                let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
-                    return {organType: s.organType};
-                }));
+                    // only roll up organType
+                    let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
+                        return {organType: s.organType};
+                    }));
 
-                /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
-                let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
+                    /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
+                    let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-                    if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") && (fileTypeSummary.fileType !== "fastq") ) {
+                        if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") && (fileTypeSummary.fileType !== "fastq") ) {
 
-                        acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
-                    }
-                    return acc;
+                            acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
+                        }
+                        return acc;
 
-                }, {otherFileCount: 0});
+                    }, {otherFileCount: 0});
 
 
-                /* Fastq and Fastq.gz combined for raw count */
-                let rawCount = (this.getFileCount("fastq.gz", fileTypeSummaries) + this.getFileCount("fastq", fileTypeSummaries));
+                    /* Fastq and Fastq.gz combined for raw count */
+                    let rawCount = (this.getFileCount("fastq.gz", fileTypeSummaries) + this.getFileCount("fastq", fileTypeSummaries));
 
-                return {
-                    disease: this.getUnspecifiedIfNullValue(projectSummary.disease),
-                    donorCount: this.getUnspecifiedIfNullValue(projectSummary.donorCount),
-                    estimatedCellCount: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                    entryId: row.entryId,
-                    genusSpecies: this.getUnspecifiedIfNullValue(projectSummary.genusSpecies),
-                    libraryConstructionApproach: this.getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
-                    matrixCount: this.getFileCount("matrix", fileTypeSummaries),
-                    organ: this.getUnspecifiedIfNullValue(organs.organType),
-                    otherFileCount: fileCounts.otherFileCount,
-                    processedCount: this.getFileCount("bam", fileTypeSummaries),
-                    projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                    projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                    rawCount: rawCount
-                };
-            });
-        });
+                    return {
+                        disease: this.getUnspecifiedIfNullValue(projectSummary.disease),
+                        donorCount: this.getUnspecifiedIfNullValue(projectSummary.donorCount),
+                        estimatedCellCount: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        entryId: row.entryId,
+                        genusSpecies: this.getUnspecifiedIfNullValue(projectSummary.genusSpecies),
+                        libraryConstructionApproach: this.getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
+                        matrixCount: this.getFileCount("matrix", fileTypeSummaries),
+                        organ: this.getUnspecifiedIfNullValue(organs.organType),
+                        otherFileCount: fileCounts.otherFileCount,
+                        processedCount: this.getFileCount("bam", fileTypeSummaries),
+                        projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
+                        rawCount: rawCount
+                    };
+                });
+            })
+        );
     }
 
     // Each bundle contains multiple biomaterials which are in a hierarchy

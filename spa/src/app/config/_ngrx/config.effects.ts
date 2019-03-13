@@ -7,14 +7,10 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
+import { Actions } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
 
 // App dependencies
-import { ConfigService } from "../config.service";
 import { AppState } from "../../_ngrx/app.state";
 
 @Injectable()
@@ -25,7 +21,6 @@ export class ConfigEffects {
      * @param {Actions} actions$
      */
     constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private configService: ConfigService) {
+                private actions$: Actions) {
     }
 }

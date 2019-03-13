@@ -9,10 +9,8 @@
 // Core dependencies
 import { Component, Input, OnInit } from "@angular/core";
 import { Sort } from "@angular/material";
-import { Store } from "@ngrx/store";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
-import { Observable } from "rxjs/Observable";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -181,6 +179,6 @@ export class HCATablePaginationComponent implements OnInit {
     ngOnInit() {
 
         // Get an observable of the pagination model
-        this.pagination$ = this.store.select(selectPagination);
+        this.pagination$ = this.store.pipe(select(selectPagination));
     }
 }
