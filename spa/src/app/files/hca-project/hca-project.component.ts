@@ -24,6 +24,7 @@ import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
 import { Project } from "../shared/project.model";
+import { ConfigService } from "../../config/config.service";
 
 @Component({
     selector: "hca-project",
@@ -37,6 +38,9 @@ export class HCAProjectComponent implements OnInit {
     // Public variables
     public selectedFileFacets$: Observable<FileFacet[]>;
 
+    // Locals
+    portalURL: string;
+
     // Template variables
     public project$: Observable<Project>;
     tooltipShowDelay = 150;
@@ -48,7 +52,9 @@ export class HCAProjectComponent implements OnInit {
      */
     public constructor(private activatedRoute: ActivatedRoute,
                        private router: Router,
-                       private store: Store<AppState>) {
+                       private store: Store<AppState>,
+                       private configService: ConfigService) {
+        this.portalURL = this.configService.getPortalURL();
     }
 
     /**
@@ -232,7 +238,7 @@ export class HCAProjectComponent implements OnInit {
 
         const posOfValue = values.indexOf(linkedValue);
 
-        const hrefOfValue = "https://prod.data.humancellatlas.org/learn/userguides/data-processing-pipelines/smart-seq2-workflow";
+        const hrefOfValue = `${this.portalURL}/learn/userguides/data-processing-pipelines/smart-seq2-workflow`;
         const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
 
         return `${values.slice(0, posOfValue).concat(innerHTMLOfValue).concat(values.slice(posOfValue + 1, values.length)).join(", ")}`;
