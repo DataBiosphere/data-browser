@@ -1,4 +1,4 @@
-/*!
+/**
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
@@ -12,22 +12,8 @@
  */
 
 @mixin a-primary() {
-    color: $cgl-turquoise;
+    color: $hca-primary;
     &:hover {
-        color: $cgl-peach;
-    }
-}
-
-@mixin a-green() {
-    color: $cgl-green;
-    &:hover {
-        color: $cgl-turquoise;
-    }
-}
-
-@mixin a-white() {
-    color: #ffffff;
-    &:hover {
-        color: $cgl-turquoise;
+        color: $hca-primary-hover;
     }
 }
