@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --verbose --proxy-config proxy.conf.json",
-    "build": "ng build --prod ---aot false ---outputPath ../dist",
-    "build-develop": "ng build --prod --aot false ---outputPath ../dist/explore --env=develop --base-href=/explore/",
+    "build": "ng build --prod  ---outputPath ../dist",
+    "build-develop": "ng build --prod  ---outputPath ../dist/explore --env=develop --base-href=/explore/",
     "build-ux-dev": "ng build --prod --aot false ---outputPath ../dist/explore --env=ux-dev --base-href=/explore/",
     "build-integration": "ng build --prod --aot false ---outputPath ../dist/explore --env=integration --base-href=/explore/",
     "build-staging": "ng build --prod --aot false ---outputPath ../dist/explore --env=staging --base-href=/explore/",
