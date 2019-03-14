@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --prod --verbose --build-optimizer=false",
+    "start": "ng serve --prod --verbose --configuration=develop",
     "build": "ng build --prod  ---outputPath ../dist",
-    "build-develop": "ng build --prod  ---outputPath ../dist/explore ----configuration=develop --build-optimizer=false --base-href=/explore/",
+    "build-develop": "ng build --prod  ---outputPath ../dist/explore --configuration=develop  --base-href=/explore/",
     "build-ux-dev": "ng build --prod --aot false ---outputPath ../dist/explore ----configuration=ux-dev --base-href=/explore/",
     "build-integration": "ng build --prod --aot false ---outputPath ../dist/explore ----configuration=integration --base-href=/explore/",
     "build-staging": "ng build --prod --aot false ---outputPath ../dist/explore ----configuration=staging --base-href=/explore/",
