@@ -8,7 +8,11 @@
                     <span matTooltip="The project name of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Project Name</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'projectTitle'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Project Name</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
                     <div>
@@ -27,7 +31,11 @@
                     <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Organ</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'organ'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Organ</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #organ
@@ -44,7 +52,11 @@
                     <span matTooltip="The general method for sequencing library construction."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Library Construction Method</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'libraryConstructionApproach'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Library Construction Method</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #libraryMethod
@@ -61,7 +73,10 @@
                     <span matTooltip="The scientific binomial name for the species of the biomaterial."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Species
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'genusSpecies'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Species</hca-table-column-header>
                     </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -79,7 +94,11 @@
                     <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Known Diseases</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'disease'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Known Diseases</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #disease
@@ -97,7 +116,9 @@
                          matTooltipPosition="below"
                          matTooltipShowDelay="{{tooltipShowDelay}}"
                          matTooltipClass="hca-tooltip narrow">
-                        <span>Data</span>
+                        <hca-table-column-header [columnName]="'fileFormat'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Data</hca-table-column-header>
                         <div class="file-counts">
                             <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span>
                         </div>
@@ -117,7 +138,11 @@
                     <span matTooltip="Donor count."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Donor Count</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'donorCount'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Donor Count</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #donorCount
@@ -134,7 +159,11 @@
                     <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Estimated Cell Count</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'estimatedCellCount'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Estimated Cell Count</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #cellCount

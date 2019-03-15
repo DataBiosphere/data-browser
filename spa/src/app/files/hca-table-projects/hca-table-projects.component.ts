@@ -16,7 +16,12 @@ import { map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectPagination, selectTableData, selectTableLoading } from "../_ngrx/file.selectors";
+import {
+    selectPagination,
+    selectTableData,
+    selectTableLoading,
+    selectTermCountsByFacetName
+} from "../_ngrx/file.selectors";
 import { SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileFacet } from "../shared/file-facet.model";
@@ -34,12 +39,21 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType", "donorCount", "estimatedCellCount"
+        "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
+        "donorCount", "estimatedCellCount"
+    ];
+    domainCountsByColumnName$: Observable<Map<string, number>>;
+    domainCountVisibleForColumns = [
+        "disease",
+        "fileFormat",
+        "genusSpecies",
+        "libraryConstructionApproach",
+        "organ"
     ];
     loading$: Observable<boolean>;
+    pagination$: Observable<PaginationModel>;
     tableElementDataSource: TableElementDataSource;
     tooltipShowDelay = 150;
-    pagination$: Observable<PaginationModel>;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -102,6 +116,8 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     /**
      * Returns true if the term is a selected facet.
+     *
+     * @param {string} facetName
      * @param {string} termName
      * @returns {boolean}
      */
@@ -202,6 +218,10 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.pipe(select(selectPagination));
+
+        // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
+        // values for each column
+        this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
     }
 }
 
