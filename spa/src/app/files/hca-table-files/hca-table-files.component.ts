@@ -15,7 +15,12 @@ import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectPagination, selectTableData, selectTableLoading } from "../_ngrx/file.selectors";
+import {
+    selectPagination,
+    selectTableData,
+    selectTableLoading,
+    selectTermCountsByFacetName
+} from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
@@ -30,7 +35,17 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart", "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart",
+        "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+    ];
+    domainCountsByColumnName$: Observable<Map<string, number>>;
+    domainCountVisibleForColumns = [
+        "biologicalSex",
+        "disease",
+        "fileFormat",
+        "genusSpecies",
+        "libraryConstructionApproach",
+        "organ"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
@@ -225,6 +240,10 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.pipe(select(selectPagination));
+
+        // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
+        // values for each column
+        this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
     }
 }
 

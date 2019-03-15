@@ -356,7 +356,7 @@ export class FilesDAO {
     }
 
     /**
-     * Map files API response into FileFacet objects.
+     * Map files API response into FileFacet objects, maintaining selected state of terms.
      *
      * @param {Map<string, FileFacet>} selectedFacetsByName
      * @param {FilesAPIResponse} filesAPIResponse
@@ -503,7 +503,7 @@ export class FilesDAO {
     }
 
     /**
-     * Filter To Querystring
+     * Map current set of selected facets to query string format.
      *
      * return JSON string of: { file: { primarySite: { is: ["Brain"] } } }
      * if there aren't any file filters, it's just { }, not { file: { } }

@@ -20,6 +20,7 @@ import { MatrixState } from "./matrix/matrix.state";
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFileFacetsByName = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
+export const selectTermCountsByFacetName = createSelector(selectFileFacets, (state) => state.termCountsByFacetName);
 
 /**
  * Return the list of file facets from the store.

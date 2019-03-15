@@ -44,7 +44,11 @@
                     <span matTooltip="The format of the file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">File Format</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'fileFormat'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">File Format</hca-table-column-header>                        
+                    </span>
                 </mat-header-cell>
                 <mat-cell class="file-format" *matCellDef="let element let i=index;">
                     <div #fileFormat
@@ -61,7 +65,11 @@
                     <span matTooltip="The project name of the data file."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Project Name</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'projectTitle'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Project Name</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell class="project" *matCellDef="let element">
                     <div #projectTitle
@@ -96,7 +104,11 @@
                     <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Organ</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'organ'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Organ</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #organ
@@ -130,7 +142,11 @@
                     <span matTooltip="The general method for sequencing library construction."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Library Construction Method</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'libraryConstructionApproach'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Library Construction Method</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #libraryMethod
@@ -147,7 +163,10 @@
                     <span matTooltip="The scientific binomial name for the species of the biomaterial."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Species
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'genusSpecies'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Species</hca-table-column-header>
                     </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -165,7 +184,11 @@
                     <span matTooltip="Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Age</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'organismAge'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Age</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #age
@@ -182,7 +205,11 @@
                     <span matTooltip="The biological sex of the organism. Should be one of male, female, mixed, or unknown."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Sex</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'biologicalSex'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Sex</hca-table-column-header>                           
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #sex
@@ -199,7 +226,11 @@
                     <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Known Diseases</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'disease'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Known Diseases</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #disease
@@ -216,7 +247,11 @@
                     <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
                           matTooltipPosition="below"
                           matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">Estimated Cell Count</span>
+                          matTooltipClass="hca-tooltip narrow">
+                        <hca-table-column-header [columnName]="'estimatedCellCount'"
+                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Estimated Cell Count</hca-table-column-header>
+                    </span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <div #totalCells
