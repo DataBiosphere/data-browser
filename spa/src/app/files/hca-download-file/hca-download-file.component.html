@@ -8,8 +8,7 @@
                  src="assets/images/icon/hca-download-black.png" (click)="onRequestFile()">
             <mat-spinner *ngIf="showSpinner(downloadResponse)"
                          class="hca-spinner"
-                         [diameter]="14"
-                         [mode]="indeterminate">
+                         diameter="14">
             </mat-spinner>
             <ng-container *ngIf="isDownloadFailed(downloadResponse)"><div class="error">x</div></ng-container>
             <img *ngIf="isDownloading(downloadResponse)"
