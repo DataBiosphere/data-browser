@@ -68,12 +68,16 @@ export class ProjectDAO {
 
         // Build up FE-friendly version of the project
         const mappedProject = {
+            arrayExpressAccessions: responseProject.arrayExpressAccessions,
             contributors: responseProject.contributors as Contributor[],
             entryId: response.entryId,
             cellCount: responseProjectSummary.totalCellCount,
             disease: responseProjectSummary.disease,
             donorCount: responseProjectSummary.donorCount,
             fileType: response.fileTypeSummaries.map(fileType => fileType.fileType),
+            geoSeriesAccessions: responseProject.geoSeriesAccessions,
+            insdcProjectAccessions: responseProject.insdcProjectAccessions,
+            insdcStudyAccessions: responseProject.insdcStudyAccessions,
             libraryConstructionApproach: responseProjectSummary.libraryConstructionApproach,
             organ: responseProjectSummary.organSummaries.map(organ => organ.organType),
             organPart: responseSpecimens.organPart,

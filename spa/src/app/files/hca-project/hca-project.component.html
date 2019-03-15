@@ -32,42 +32,42 @@
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Species</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.species)}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.species, "-")}}</p>
                 </div>
                 <div>
                     <p matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Organ</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ)}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "-")}}</p>
                 </div>
                 <div>
                     <p matTooltip="A term for a specific part of the organ that the biomaterial came from."
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Organ Part</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organPart)}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "-")}}</p>
                 </div>
                 <div>
                     <p matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Diseased</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease)}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "-")}}</p>
                 </div>
                 <div>
                     <p matTooltip="The general method for sequencing library construction."
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">Library Construction Method</p>
-                    <p class="fontsize-xs rhs" [innerHTML]="stringifyValues(project.libraryConstructionApproach)"></p>
+                    <p class="fontsize-xs rhs" [innerHTML]="stringifyValues(project.libraryConstructionApproach, '-')"></p>
                 </div>
                 <div>
                     <p matTooltip="The format of the data file."
                        matTooltipPosition="above"
                        matTooltipShowDelay="{{tooltipShowDelay}}"
                        matTooltipClass="hca-tooltip narrow" class="fontsize-xs bold lhs">File Type</p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType)}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "-")}}</p>
                 </div>
                 <div>
                     <p matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
@@ -84,10 +84,6 @@
                     <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div>
-        <div class="wrapper">
             <div class="project-info">
                 <div>
                     <h4 class="fontsize-m">Description</h4>
@@ -95,12 +91,16 @@
                 </div>
                 <div class="lhs">
                     <h4 class="fontsize-m">Contact</h4>
-                    <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
-                        <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
-                        <p class="fontsize-xxs">{{contributor.institution}}</p>
-                        <p class="fontsize-xxs">{{contributor.email}}</p>
-                    </div>
-                    <p class="fontsize-xxs" *ngIf="!listContributors(project.contributors).length">None</p>
+                    <ng-container [ngSwitch]="listContributors(project.contributors).length > 0">
+                        <ng-container *ngSwitchCase="true">
+                            <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
+                                <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
+                                <p class="fontsize-xxs">{{contributor.institution}}</p>
+                                <p class="fontsize-xxs">{{contributor.email}}</p>
+                            </div>
+                        </ng-container>
+                        <p class="fontsize-xxs" *ngSwitchDefault>None</p>
+                    </ng-container>
                     <h4 class="fontsize-m">Publications</h4>
                     <ng-container [ngSwitch]="project.publications.length > 0">
                         <ng-container *ngSwitchCase="true">
@@ -119,6 +119,35 @@
                     <p class="fontsize-xxs">{{listAuthors(project.contributors)}}</p>
                     <h4 class="fontsize-m">Collaborating Organizations</h4>
                     <p class="fontsize-xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
+                </div>
+            </div>
+            <div class="project-accessions">
+                <div>
+                    <h4 class="fontsize-m">Accessions</h4>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">Array Express Accessions</p>
+                    <div class="rhs">
+                        <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions, "None")}}</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">GEO Series Accessions</p>
+                    <div class="rhs">
+                        <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "None")}}</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">INSDC Project Accessions</p>
+                    <div class="rhs">
+                        <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions, "None")}}</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">INSDC Study Accessions</p>
+                    <div class="rhs">
+                        <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "None")}}</p>
+                    </div>
                 </div>
             </div>
         </div>
