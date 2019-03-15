@@ -24,6 +24,12 @@
     }
 }
 
+:host-context(.content-centered) {
+    .wrapper {
+        text-align: center;
+    }
+}
+
 /**
  * Tablet +
  */

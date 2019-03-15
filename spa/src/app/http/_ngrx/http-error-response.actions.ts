@@ -1,0 +1,15 @@
+/**
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Action triggered when error response is returned from the server.
+ */
+
+// Core dependencies
+import { Action } from "@ngrx/store";
+
+export class ErrorResponseAction implements Action {
+    public static ACTION_TYPE = "HTTP.ERROR_RESPONSE";
+    public readonly type = ErrorResponseAction.ACTION_TYPE;
+    constructor(public readonly statusCode, public readonly errorMessage?: string) {}
+}

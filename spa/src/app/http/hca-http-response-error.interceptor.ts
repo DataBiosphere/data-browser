@@ -14,11 +14,13 @@ import {
     HttpRequest
 } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 import { EMPTY, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // App dependencies
-import { HCAHttpParameterCodec } from "./hca-http-parameter-codec";
+import { AppState } from "../_ngrx/app.state";
+import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
 
 export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
@@ -30,8 +32,9 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
     /**
      * @param {Router} router
+     * @param {Store<AppState>} store
      */
-    constructor(private router:  Router) {}
+    constructor(private router:  Router, private store: Store<AppState>) {}
 
     /**
      * @param {HttpRequest<any>} req
@@ -43,6 +46,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
             catchError((error) => {
 
                 if ( error instanceof HttpErrorResponse && this.ERROR_CODE_URLS.has(error.status) ) {
+                    this.store.dispatch(new ErrorResponseAction(error.status, error.error));
                     this.router.navigateByUrl(this.ERROR_CODE_URLS.get(error.status), {replaceUrl: true});
                     return EMPTY;
                 }

@@ -1,4 +1,14 @@
-<pop-layout class="centered">
+<pop-layout class="section-title-centered content-centered">
     <ng-container title>Error</ng-container>
-    <ng-container content><p>An error occurred processing your request.</p></ng-container>
+    <ng-container content>
+        <ng-container [ngSwitch]="!!(errorMessage$ | async)">
+            <ng-container *ngSwitchCase="true">
+                <p>The following error occurred processing your request:</p>
+                <p class="error-message" [innerHTML]="errorMessage$ | async"></p>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <p>An error occurred processing your request.</p>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </pop-layout>

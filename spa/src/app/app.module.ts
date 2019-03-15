@@ -15,7 +15,7 @@ import { Router, RouterModule } from "@angular/router";
 import { MatButtonModule, MatIconModule, MatToolbarModule } from "@angular/material";
 import { DeviceDetectorModule } from "ngx-device-detector";
 import { EffectsModule } from "@ngrx/effects";
-import { StoreModule } from "@ngrx/store";
+import { Store, StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 // App Dependencies
@@ -100,7 +100,7 @@ import { SystemDAO } from "./system/shared/system.dao";
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAHttpResponseErrorInterceptor,
-            deps: [Router],
+            deps: [Router, Store],
             multi: true
         }
     ]
