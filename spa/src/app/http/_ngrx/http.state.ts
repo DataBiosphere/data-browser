@@ -12,10 +12,12 @@ import { ClearErrorStateAction } from "./http-clear-state-error.actions";
 export class HttpState {
 
     /**
+     * @param {string} requestUrl
      * @param {number} statusCode
      * @param {string} errorMessage
      */
-    constructor(public readonly statusCode?: number, public readonly errorMessage?: string) {}
+    constructor(
+        public readonly requestUrl?: string, public readonly statusCode?: number, public readonly errorMessage?: string) {}
 
     /**
      * Create default state - no errors.
@@ -47,6 +49,6 @@ export class HttpState {
      */
     public receiveErrorResponse(action: ErrorResponseAction): HttpState {
 
-        return new HttpState(action.statusCode, action.errorMessage);
+        return new HttpState(action.requestUrl, action.statusCode, action.errorMessage);
     }
 }

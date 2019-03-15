@@ -11,5 +11,5 @@ import { Action } from "@ngrx/store";
 export class ErrorResponseAction implements Action {
     public static ACTION_TYPE = "HTTP.ERROR_RESPONSE";
     public readonly type = ErrorResponseAction.ACTION_TYPE;
-    constructor(public readonly statusCode, public readonly errorMessage?: string) {}
+    constructor(public readonly requestUrl, public readonly statusCode, public readonly errorMessage?: string) {}
 }
