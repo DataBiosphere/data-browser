@@ -18,7 +18,7 @@ import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summ
 import { FileSummary } from "../file-summary/file-summary";
 import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
 import { ManifestResponse } from "./manifest-response.model";
-import { Dictionary } from "../../shared/dictionary";
+import { Dictionary } from "../../dictionary";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Injectable()

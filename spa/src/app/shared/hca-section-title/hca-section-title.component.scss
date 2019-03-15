@@ -4,7 +4,7 @@
  *
  * HCA section title styles.
  */
-@import "../../shared/theme/cgl.vars";
+@import "../../site/theme/cgl.vars";
 
 /* Wrapper */
 .wrapper {
@@ -28,7 +28,7 @@
 }
 
 /* hca-project component */
-:host-context(.project-detail) .section-title {
+:host-context(.section-title-small) .section-title {
     box-sizing: border-box;
     font-size: 18px;
     line-height: 24px;
@@ -42,7 +42,7 @@
 @media screen and (min-width: 768px) {
 
     /* hca-project component */
-    :host-context(.project-detail) .section-title {
+    :host-context(.section-title-small) .section-title {
 
         max-width: 656px; /* 688px total width and 16px padding, in keeping with hca-project component */
     }

@@ -5,13 +5,16 @@
  * Config module definition.
  */
 
+// Core dependencies
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
+// App dependencies
 import { ConfigService } from "./config.service";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule
+        SharedModule
     ],
     providers: [ConfigService]
 })

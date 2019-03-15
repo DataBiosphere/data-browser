@@ -17,7 +17,7 @@ import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FilesAPIResponse } from "./files-api-response.model";
-import { Dictionary } from "../../shared/dictionary";
+import { Dictionary } from "../../dictionary";
 import { ICGCQuery } from "./icgc-query";
 import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
