@@ -8,11 +8,6 @@
 
 :host {
 
-    /* Separator between project highlights and description / author */
-    > div > div:first-of-type {
-        border-bottom: 1px solid $hca-gray-light;
-    }
-
     /* Wrapper */
     .wrapper {
         align-items: center;
@@ -35,9 +30,8 @@
         width: 100%;
     }
 
-    /* Project highlights */
-    .project-highlights {
-        align-items: center;
+    /* Project highlights, accessions */
+    .project-highlights, .project-accessions {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -75,7 +69,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-bottom: 36px;
     width: 100%;
 
     > div {
@@ -121,6 +114,10 @@
 
     :host {
 
+        .wrapper {
+            max-width: 688px;
+        }
+
         /* LHS container */
         .lhs {
             max-width: 240px;
@@ -131,13 +128,12 @@
             max-width: calc(100% - 240px);
         }
 
-        /* Project highlights */
-        .project-highlights {
+        /* Project highlights, accessions */
+        .project-highlights, .project-accessions {
 
             /* Row */
             > div {
                 flex-direction: row;
-                max-width: 688px;
 
                 /* Heading and content */
                 p, a {
@@ -146,12 +142,16 @@
             }
         }
 
+        .project-accessions > div:first-of-type {
+            padding: 0 16px;
+        }
+
         /* Description, author and collaborators list, publications, contact */
         .project-info {
-            max-width: 688px;
 
             > div {
                 padding: 0 16px;
+                width: 100%;
             }
         }
     }

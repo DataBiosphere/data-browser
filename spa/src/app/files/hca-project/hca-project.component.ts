@@ -92,7 +92,7 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Return the list of authors of the project, or N/A if not specified.
+     * Return the list of authors of the project, or "None" if not specified.
      * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
      * @param contributors
      * @returns {string}
@@ -106,24 +106,15 @@ export class HCAProjectComponent implements OnInit {
                 return false;
             }
 
-            if ( this.isHCAWrangler(contributor.projectRole) ) {
+            return !this.isHCAWrangler(contributor.projectRole);
 
-                return false;
-            }
-
-            return true;
         }).map(contributor => contributor.contactName);
 
-        if ( listOfAuthors ) {
-            return this.stringifyValues((listOfAuthors.map(name => this.formatContributor(name))));
-        }
-        else {
-            return "N/A";
-        }
+        return this.stringifyValues((listOfAuthors.map(name => this.formatContributor(name))), "None");
     }
 
     /**
-     * Return the distinct list of collaborating organizations of the project, or N/A if not specified.
+     * Return the distinct list of collaborating organizations of the project, or "None" if not specified.
      * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
      * @param contributors
      * @returns {string}
@@ -135,12 +126,7 @@ export class HCAProjectComponent implements OnInit {
         // Find the distinct list of collaborating organisations
         let uniqueListOfCollaboratingOrganizations = listOfCollaboratingOrganizations.filter((o, i, a) => a.indexOf(o) === i);
 
-        if ( uniqueListOfCollaboratingOrganizations ) {
-            return this.stringifyValues(uniqueListOfCollaboratingOrganizations);
-        }
-        else {
-            return "N/A";
-        }
+        return this.stringifyValues(uniqueListOfCollaboratingOrganizations, "None");
     }
 
     /**
@@ -214,11 +200,16 @@ export class HCAProjectComponent implements OnInit {
      * Return string-concat'ed version of the specified array.
      *
      * @param {any[]} values
+     * @param {string} emptyValue
      * @returns {string}
      */
-    public stringifyValues(values: any[]): string {
+    public stringifyValues(values: any[], valueIfNull: string): string {
 
         const linkedValue = "Smart-seq2";
+
+        if ( values.length === 0 ) {
+            return valueIfNull;
+        }
 
         if ( values.includes(linkedValue) ) {
             return this.stringifyAndLinkValues(values, linkedValue);
