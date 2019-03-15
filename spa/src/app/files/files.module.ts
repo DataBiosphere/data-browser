@@ -68,6 +68,7 @@ import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
+import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
 import { DownloadService } from "./shared/download.service";
 import { DownloadDAO } from "./shared/download.dao";
 import { FilesDAO } from "./shared/files.dao";
@@ -144,6 +145,7 @@ import { SharedModule } from "../shared/shared.module";
         HCATableFilesComponent,
         HCATablePaginationComponent,
         HCATableProjectsComponent,
+        HCATableColumnHeaderComponent,
 
         FileNameShortenerPipe,
 

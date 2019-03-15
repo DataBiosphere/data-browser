@@ -1,0 +1,15 @@
+/*!
+ * UCSC Genomics Institute - CGL
+ * https://cgl.genomics.ucsc.edu/
+ *
+ * Styles for table header label.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+    span {
+        display: inline-block;
+        margin-left: 4px;
+    }
+}
