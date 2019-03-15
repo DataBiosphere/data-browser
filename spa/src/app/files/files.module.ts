@@ -9,7 +9,6 @@
 import { ClipboardModule } from "ngx-clipboard";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
@@ -63,7 +62,6 @@ import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.com
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
-import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
@@ -78,12 +76,12 @@ import { ProjectService } from "./shared/project.service";
 import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
 import { MatrixDAO } from "./shared/matrix.dao";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
         BrowserAnimationsModule,
         ClipboardModule,
-        CommonModule,
         FormsModule,
         MatAutocompleteModule,
         MatButtonModule,
@@ -112,7 +110,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
 
         HttpClientModule,
 
-        // EffectsModule.run(FilesEffects)
+        SharedModule
     ],
     declarations: [
 
@@ -140,7 +138,6 @@ import { MatrixDAO } from "./shared/matrix.dao";
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
-        HCASectionTitleComponent,
         HCATabComponent,
         HCATableComponent,
         HCATableDataStatusPlaceholderComponent,

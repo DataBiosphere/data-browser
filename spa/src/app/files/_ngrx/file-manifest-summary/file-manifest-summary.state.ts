@@ -1,5 +1,5 @@
 import { FileManifestSummary } from "../../file-manifest-summary/file-manifest-summary";
-import { Dictionary } from "app/shared/dictionary";
+import { Dictionary } from "app/dictionary";
 import { FetchFileManifestSummarySuccessAction } from "./file-manifest-summary.actions";
 
 export class FileManifestSummaryState {

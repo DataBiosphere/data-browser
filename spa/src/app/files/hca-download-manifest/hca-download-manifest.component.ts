@@ -8,7 +8,6 @@
 // Core dependencies
 import {
     Component,
-    Input,
     ChangeDetectionStrategy
 } from "@angular/core";
 import { MatDialog } from "@angular/material";

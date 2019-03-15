@@ -21,9 +21,4 @@ import {
 })
 
 export class HCASectionTitleComponent {
-
-    // Inputs
-    @Input() showDownload: boolean;
-    @Input() title: string;
-
 }
