@@ -32,8 +32,7 @@
             </mat-radio-group>
             <mat-spinner *ngIf="!state.matrixFileFormats.length"
                          class="hca-spinner"
-                         [diameter]="20"
-                         [mode]="indeterminate">
+                         diameter="20">
             </mat-spinner>
         </ng-template>
     </div>
@@ -44,8 +43,7 @@
         <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
             <mat-spinner *ngIf="isRequestInProgress(matrixResponse)"
                          class="hca-spinner"
-                         [diameter]="28"
-                         [mode]="indeterminate">
+                         diameter="28">
             </mat-spinner>
             <ng-container *ngIf="isRequestCompleted(matrixResponse)">
                 <button type="button" (click)="onDownloadMatrix(matrixResponse)">Download Matrix</button>

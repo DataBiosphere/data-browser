@@ -25,6 +25,12 @@
         letter-spacing: 0.54px; /* TODO typography */
         width: 100%;
     }
+
+    :host-context(.centered) {
+        .section-title {
+            justify-content: center;
+        }
+    }
 }
 
 /* hca-project component */
