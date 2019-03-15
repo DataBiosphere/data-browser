@@ -9,12 +9,16 @@
 import { Contributor } from "./contributor.model";
 
 export interface Project {
+    arrayExpressAccessions: string[];
     contributors: Contributor[];
     entryId: string;
     cellCount: number;
     disease: string[];
     donorCount: number;
     fileType: string[];
+    geoSeriesAccessions: string[];
+    insdcProjectAccessions: string[];
+    insdcStudyAccessions: string[];
     libraryConstructionApproach: string[];
     organ: string[];
     organPart: string[];
