@@ -9,7 +9,8 @@
 import { AuthState } from "../auth/_ngrx/auth.state";
 import { ConfigState } from "../config/_ngrx/config.state";
 import { FileState } from "../files/_ngrx/file.state";
+import { HttpState } from "../http/_ngrx/http.state";
 import { KeywordState } from "../keywords/_ngrx/keyword.state";
 import { SystemState } from "../system/_ngrx/system.state";
 
-export interface AppState extends AuthState, ConfigState, FileState, KeywordState, SystemState {}
+export interface AppState extends AuthState, ConfigState, FileState, HttpState, KeywordState, SystemState {}
