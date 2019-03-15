@@ -9,12 +9,17 @@
 
     flex: 1;
 
-    .error-message {
+    .error-info {
         background-color: #fafafa;
         font-family: monospace;
         margin-top: 12px;
         padding: 8px;
         text-align: left;
         white-space: pre-wrap;
+    }
+    
+    .label {
+        font-weight: 500;
+        margin-bottom: 0;
     }
 }

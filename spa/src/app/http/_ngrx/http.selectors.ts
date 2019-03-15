@@ -31,3 +31,10 @@ export const selectStatusCode = createSelector(selectHTTP, (state: HttpState) =>
  * @type {MemoizedSelector<object, string>}
  */
 export const selectErrorMessage = createSelector(selectHTTP, (state: HttpState) => state.errorMessage);
+
+/**
+ * Return the request URL from the HTTP state.
+ *
+ * @type {MemoizedSelector<object, string>}
+ */
+export const selectRequestUrl = createSelector(selectHTTP, (state: HttpState) => state.requestUrl);
