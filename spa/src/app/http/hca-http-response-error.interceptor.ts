@@ -46,7 +46,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
             catchError((error) => {
 
                 if ( error instanceof HttpErrorResponse && this.ERROR_CODE_URLS.has(error.status) ) {
-                    this.store.dispatch(new ErrorResponseAction(error.status, error.error));
+                    this.store.dispatch(new ErrorResponseAction(req.url, error.status, error.error));
                     this.router.navigateByUrl(this.ERROR_CODE_URLS.get(error.status), {replaceUrl: true});
                     return EMPTY;
                 }
