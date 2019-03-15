@@ -11,8 +11,9 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { MatButtonModule, MatIconModule, MatToolbarModule } from "@angular/material";
+import { DeviceDetectorModule } from "ngx-device-detector";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -20,22 +21,22 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
-import { CCSnapperModule } from "./cc-snapper/cc-snapper.module";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
-import { DeviceDetectorModule } from "ngx-device-detector";
 import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
 import { AppReducers } from "./_ngrx/app.reducer";
+import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
+import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
 import { AppEffects } from "./_ngrx/app.effects";
+import { SharedModule } from "./shared/shared.module";
+import { CCHamburgerDirective } from "./site/cc-hamburger/cc-hamburger.directive";
+import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
+import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
+import { NotFoundComponent } from "./system/not-found/not-found.component";
+import { ErrorComponent } from "./system/error/error.component";
 import { SystemService } from "./system/shared/system.service";
 import { SystemDAO } from "./system/shared/system.dao";
-import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
-import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
-import { CCHamburgerDirective } from "./shared/cc-hamburger/cc-hamburger.directive";
-import { HCAEncodeHttpParamsInterceptor } from "app/shared/http/hca-encode-http-params.interceptor";
-import { HCAFooterComponent } from "./shared/hca-footer/hca-footer.component";
-import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -57,23 +58,23 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         }),
 
         // CHILD MODULES SETUP
+        SharedModule,
         ConfigModule,
         FilesModule,
-        //   TableModule,
-        CCSnapperModule,
         DeviceDetectorModule.forRoot()
     ],
     declarations: [
 
         AppComponent,
 
-        // Nav components
-        CCToolbarNavComponent,
-        CCToolbarNavItemComponent,
+        // HTTP components
+        ErrorComponent,
+        NotFoundComponent,
+
+        // Site components
         CCHamburgerDirective,
-        // Components specific to Boardwalk instances
-        HCAToolbarComponent,
-        HCAFooterComponent
+        HCAFooterComponent,
+        HCAToolbarComponent
     ],
     providers: [
         SystemService,
@@ -94,6 +95,12 @@ import { HCAToolbarComponent } from "./shared/hca-toolbar/hca-toolbar.component"
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAEncodeHttpParamsInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HCAHttpResponseErrorInterceptor,
+            deps: [Router],
             multi: true
         }
     ]

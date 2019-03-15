@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 import { FileManifestSummary } from "../../file-manifest-summary/file-manifest-summary";
-import { Dictionary } from "app/shared/dictionary";
+import { Dictionary } from "app/dictionary";
 import { ManifestResponse } from "../../shared/manifest-response.model";
 
 export class FetchFileManifestSummaryRequestAction implements Action {

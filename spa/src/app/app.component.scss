@@ -4,7 +4,7 @@
  *
  * App root styles.
  */
-@import "/shared/theme/cgl.vars";
+@import "/site/theme/cgl.vars";
 
 :host {
     display: flex; // Required for forcing height 100% on files component, with scroll for overflow

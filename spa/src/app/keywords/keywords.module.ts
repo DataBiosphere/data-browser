@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { KeywordsService } from "./shared/keywords.service";
 import { KeywordsDAO } from "./shared/keywords.dao";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule
+        SharedModule
     ],
     providers: [KeywordsService, KeywordsDAO]
 })

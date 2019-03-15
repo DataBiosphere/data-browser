@@ -23,7 +23,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/app/shared/theme/cgl.theme.scss"
+              "src/app/site/theme/cgl.theme.scss"
             ],
             "scripts": []
           },
@@ -154,7 +154,7 @@
             "scripts": [],
             "styles": [
               "src/styles.css",
-              "src/app/shared/theme/cgl.theme.scss"
+              "src/app/site/theme/cgl.theme.scss"
             ],
             "assets": [
               "src/assets",

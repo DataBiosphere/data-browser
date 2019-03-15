@@ -7,7 +7,7 @@
 
 // App dependencies
 import { FacetTermsResponse } from "./facet-terms-response.model";
-import { Dictionary } from "../../shared/dictionary";
+import { Dictionary } from "../../dictionary";
 import { PaginationModel } from "../table/pagination.model";
 
 export interface FilesAPIResponse {

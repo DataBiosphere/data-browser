@@ -2,7 +2,9 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * File filter wrapper styles.
+ * Styles for displaying error page.
  */
 
-@import "../../site/theme/cgl.vars";
+:host {
+    flex: 1;
+}
