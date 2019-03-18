@@ -29,9 +29,6 @@ export class FileFacetListState {
     private readonly fileFacetNames: string[];
     private readonly fileFacetsByName: Map<string, FileFacet>;
 
-    // Term counts keyed by facet name
-    public readonly termCountsByFacetName: Map<string, number>;
-
     /**
      * @param {string[]} fileFacetNames
      * @param {Map<string, FileFacet>} nameToFileFacetMap
@@ -54,8 +51,6 @@ export class FileFacetListState {
             this.fileFacetNames.map(name => this.fileFacetsByName.get(name)).reduce((map, val) => {
                 return map.set(val.name, val);
             }, new Map<string, FileFacet>());
-
-        this.termCountsByFacetName = this.mapTermCountsByFacetName(this.fileFacetsByName);
 
         this.fileFacets = this.fileFacetNames.map((facetName) => {
             return this.fileFacetsByName.get(facetName);
@@ -221,19 +216,5 @@ export class FileFacetListState {
         }, new Map<string, FileFacet>());
 
         return new FileFacetListState(fileFacetNames, fileFacetsMap, null, null);
-    }
-
-    /**
-     * Create map of terms counts for each file facet, keyed by the file facet name.
-     *
-     * @param {Map<string, FileFacet>} fileFacetsByName
-     */
-    private mapTermCountsByFacetName(fileFacetsByName: Map<string, FileFacet>): Map<string, number> {
-
-        return Array.from(fileFacetsByName.keys()).reduce((accum, facetName: string) => {
-
-            accum.set(facetName, fileFacetsByName.get(facetName).termCount);
-            return accum;
-        }, new Map<string, number>());
     }
 }

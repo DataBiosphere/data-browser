@@ -139,11 +139,13 @@ export class FilesDAO {
                 map((repositoryFiles: FilesAPIResponse) => {
 
                     const fileFacets = this.createFileFacets(selectedFacetsByName, repositoryFiles);
+                    const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
 
                     const tableModel = {
                         data: repositoryFiles.hits,
                         pagination: repositoryFiles.pagination,
-                        tableName: selectedEntity
+                        tableName: selectedEntity,
+                        termCountsByFacetName
                     };
 
                     return {
@@ -559,6 +561,21 @@ export class FilesDAO {
             fileUrl: "",
             retryAfter: 0
         });
+    }
+
+    /**
+     * Create map of terms counts for each file facet, keyed by the file facet name.
+     *
+     * @param {Map<string, FileFacet>} fileFacetsByName
+     */
+    private mapTermCountsByFacetName(fileFacets: FileFacet[]): Map<string, number> {
+
+        return Array.from(fileFacets).reduce((accum, fileFacet: FileFacet) => {
+
+            const termCount = fileFacet.selectedTermCount > 0 ? fileFacet.selectedTermCount : fileFacet.termCount;
+            accum.set(fileFacet.name, termCount);
+            return accum;
+        }, new Map<string, number>());
     }
 
     /**

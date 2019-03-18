@@ -13,18 +13,16 @@ import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
-import { FileFacet } from "../shared/file-facet.model";
 import { MatrixState } from "./matrix/matrix.state";
+import { PaginationModel } from "../table/pagination.model";
 
 // Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
 export const selectSelectedFileFacetsByName = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
-export const selectTermCountsByFacetName = createSelector(selectFileFacets, (state) => state.termCountsByFacetName);
 
 /**
  * Return the list of file facets from the store.
- * @type {MemoizedSelector<object, FileFacet[]>}
  */
 export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (state) => {
     return state.fileFacets;
@@ -32,42 +30,78 @@ export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (stat
 
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
 export const selectFileFacetMetadataSummary = createFeatureSelector<FileFacetMetadataSummaryState>("fileFacetMetadataSummary");
-export const selectTableState = createFeatureSelector<TableState>("tableState");
 export const selectDownloadManifestFileSummary = createFeatureSelector<FileSummaryState>("manifestDownloadFileSummary");
+
+/**
+ * Table selectors
+ */
+
+/**
+ * Returns complete table state, including state that has been cached for the current selected entity, and any previously
+ * selected entities.
+ *
+ * @returns {TableState}
+ */
+export const selectTableState = createFeatureSelector<TableState>("tableState");
+
+/**
+ * For the current selected entity, return the term counts for each facet, keyed by facet name.
+ *
+ * @returns {Map<string, number>}
+ */
+export const selectTermCountsByFacetName =
+    createSelector(selectTableState, (tableState) => getSelectedTable(tableState).termCountsByFacetName);
 
 /**
  * Returns current state of loading of file facet table.
  *
- * @type {MemoizedSelector<Object, boolean>}
+ * @returns {boolean}
  */
-export const selectTableLoading = createSelector(
-    selectTableState,
-    (tableState: TableState) => {
+export const selectTableLoading = createSelector(selectTableState, (tableState: TableState) => {
         return getSelectedTable(tableState).loading;
     });
 
 /**
- * Returns current state of pagination of file facet table.
- * @type {MemoizedSelector<Object, PaginationModel>}
+ * Returns pagination state of the current selected entity.
+ *
+ * @returns {PaginationModel}
  */
 export const selectPagination = createSelector(selectTableState, (tableState: TableState) => {
     return getSelectedTable(tableState).pagination;
 });
 
-export const selectTableData = createSelector(
-    selectTableState,
-    (tableState: TableState) => {
-        return getSelectedTable(tableState).data;
-    });
+/**
+ * Returns data used to populate the table of the current selected entity.
+ *
+ * @returns {any}
+ */
+export const selectTableData = createSelector(selectTableState, (tableState: TableState) => {
+    return getSelectedTable(tableState).data;
+});
 
+/**
+ * Returns set of entity specs in the system.
+ *
+ * @returns {EntitySpec[]}
+ */
 export const selectEntities = createSelector(selectTableState, (tableState: TableState) => {
     return tableState.entitySpecs;
 });
 
+/**
+ * Returns current selected entity spec.
+ *
+ * @returns {EntitySpec}
+ */
 export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
     return getSelectedEntity(tableState);
 });
 
+/**
+ * Returns a combination of selected entity facets, the current pagination state and the over all table state.
+ *
+ * @returns {Map<string, FileFacet> & PaginationModel & TableState}
+ */
 export const selectTableQueryParams = createSelector(selectSelectedFileFacetsByName, selectPagination, selectTableState,
     (selectedFileFacetsByName, pagination, tableState) => {
     return { selectedFileFacetsByName, pagination, tableState
