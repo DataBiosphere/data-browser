@@ -37,6 +37,17 @@ export class HCATableColumnHeaderComponent {
     }
 
     /**
+     * Return a count of the set of values for the specified column.
+     *
+     * @param {string} columnName
+     * @returns {number}
+     */
+    public getDomainCountDisplayText(columnName: string): string {
+
+        return `(${this.getDomainCount(columnName)})`;
+    }
+
+    /**
      * Returns true if the count of the set of values is to be displayed for specified column, and there are in fact
      * counts for this column.
      *
@@ -45,6 +56,6 @@ export class HCATableColumnHeaderComponent {
      */
     public isDomainCountVisible(columnName: string): boolean {
 
-        return this.domainCountVisibleForColumns.indexOf(columnName) >= 0 && !!this.getDomainCount(columnName);
+        return this.domainCountVisibleForColumns.indexOf(columnName) >= 0 && this.getDomainCount(columnName) > 0;
     }
 }
