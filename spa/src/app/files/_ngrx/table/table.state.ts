@@ -7,10 +7,10 @@
 
 // App dependencies
 import EntitySpec from "../../shared/entity-spec";
+import { Project } from "../../shared/project.model";
 import { PaginationModel } from "../../table/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
-import { Project } from "../../shared/project.model";
 
 export interface TableState {
     selectedProject: Project; // Current selected project in table
@@ -37,11 +37,19 @@ export function clearUnSelectedTableModels(tableState: TableState): TableModel[]
 }
 
 /**
+ * Return a default table state for the specified entity (eg projects, specimens, files).
+ *
  * @param {string} entityName
  * @returns {TableModel}
  */
 function createEmptyTableModel(entityName: string): TableModel {
-    return { data: [], loading: true, pagination: DEFAULT_TABLE_PARAMS as PaginationModel, tableName: entityName };
+    return {
+        data: [],
+        loading: true,
+        pagination: DEFAULT_TABLE_PARAMS as PaginationModel,
+        termCountsByFacetName: new Map<string, number>(),
+        tableName: entityName
+    };
 }
 
 /**
