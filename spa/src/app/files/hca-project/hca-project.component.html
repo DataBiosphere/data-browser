@@ -1,6 +1,6 @@
 <div *ngIf="project$ | async as project">
-    <hca-section-title class="section-title-small"><ng-container title>{{project.projectTitle}}</ng-container></hca-section-title>
-    <hca-tab class="project-detail" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()"
+    <hca-section-title class="section-title-centered small"><ng-container title>{{project.projectTitle}}</ng-container></hca-section-title>
+    <hca-tab class="project-detail secondary" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()"
              (tabSelected)="onTabSelected($event)"></hca-tab>
     <div>
         <div class="wrapper">

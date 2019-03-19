@@ -1,17 +1,17 @@
 <pop-layout class="section-title-centered">
-    <ng-container title>Error</ng-container>
-    <ng-container content>
-        <ng-container [ngSwitch]="!!(errorMessage$ | async)">
-            <ng-container *ngSwitchCase="true">
-                <p>An error occurred processing your request.</p>
-                <p class="label">Request URL</p>
-                <p class="error-info">{{requestUrl$ | async}}</p>
-                <p class="label">Error Message</p>
-                <p class="error-info" [innerHTML]="errorMessage$ | async"></p>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-                <p>An error occurred processing your request.</p>
+        <ng-container title>Error</ng-container>
+        <ng-container content>
+            <ng-container [ngSwitch]="!!(errorMessage$ | async)">
+                <ng-container *ngSwitchCase="true">
+                    <p class="fontsize-m">An error occurred processing your request.</p>
+                    <h4 class="fontsize-m">Request URL</h4>
+                    <p class="error-info fontsize-s">{{requestUrl$ | async}}</p>
+                    <h4 class="fontsize-m">Error Message</h4>
+                    <p class="error-info fontsize-s" [innerHTML]="errorMessage$ | async"></p>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <p>An error occurred processing your request.</p>
+                </ng-container>
             </ng-container>
         </ng-container>
-    </ng-container>
 </pop-layout>

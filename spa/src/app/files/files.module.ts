@@ -62,7 +62,6 @@ import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.com
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
-import { HCATabComponent } from "./hca-tab/hca-tab";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
@@ -139,7 +138,6 @@ import { SharedModule } from "../shared/shared.module";
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
-        HCATabComponent,
         HCATableComponent,
         HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,
