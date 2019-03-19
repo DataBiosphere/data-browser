@@ -1,14 +1,13 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Styles for displaying error page.
+ * Styles for a plain old page layout.
  */
 
 @import "../../site/theme/cgl.vars";
 
 :host {
-
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -21,6 +20,11 @@
         margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
         flex: 1;
+        width: 100%;
+    }
+
+    .content {
+        margin: 36px 0;
     }
 }
 

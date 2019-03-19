@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * HCA section title styles.
  */
@@ -25,16 +25,20 @@
         letter-spacing: 0.54px; /* TODO typography */
         width: 100%;
     }
+}
 
-    :host-context(.section-title-centered) {
-        .section-title {
-            justify-content: center;
-        }
+/* Section title, centered */
+/* Used by <hca-project>, <error> etc */
+:host-context(.section-title-centered) {
+
+    .wrapper {
+        justify-content: center;
     }
 }
 
-/* hca-project component */
-:host-context(.section-title-small) .section-title {
+/* Section title, reduced font size */
+/* Used by <hca-project> */
+:host-context(.small) .section-title {
     box-sizing: border-box;
     font-size: 18px;
     line-height: 24px;
@@ -47,9 +51,9 @@
  */
 @media screen and (min-width: 768px) {
 
-    /* hca-project component */
-    :host-context(.section-title-small) .section-title {
-
+    /* Centered section title */
+    /* Used by <hca-project>, <error> etc */
+    :host-context(.section-title-centered) .section-title {
         max-width: 656px; /* 688px total width and 16px padding, in keeping with hca-project component */
     }
 }
@@ -61,12 +65,7 @@
 
     /* Wrapper */
     .wrapper {
-        //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px;
-    }
-
-    :host-context(.secondary) .section-title {
-        max-width: 70%;
     }
 }
 

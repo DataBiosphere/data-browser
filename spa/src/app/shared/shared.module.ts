@@ -14,6 +14,7 @@ import { NgModule } from "@angular/core";
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
+import { HCATabComponent } from "./hca-tab/hca-tab";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 
 
@@ -26,6 +27,7 @@ import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         HCASectionTitleComponent,
+        HCATabComponent,
         PopLayoutComponent
     ],
     exports: [
@@ -33,6 +35,7 @@ import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         HCASectionTitleComponent,
+        HCATabComponent,
         PopLayoutComponent
     ]
 })
