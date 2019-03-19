@@ -1,9 +1,11 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for displaying "page not found".
  */
+
+@import "../../site/theme/cgl.global";
 
 :host {
     flex: 1;

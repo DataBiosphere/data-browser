@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * HCA tab styles.
  */
@@ -9,6 +9,7 @@
 :host {
     border-bottom: 1px solid $hca-gray-light; /* Tab line */
     display: block;
+    min-height: 54px;
 
     /* Wrapper */
     .wrapper {
@@ -70,13 +71,16 @@
     }
 }
 
+/* Tab secondary to heading */
+:host-context(.secondary) {
+    margin-top: -24px;
+}
+
 /* hca-project component */
 :host-context(.project-detail) {
 
     /* Back to projects */
     .wrapper .hca-tab-list .hca-tab:first-of-type {
-        border-bottom: none;
-        color: $hca-gray-medium;
         display: flex;
 
         &:before {

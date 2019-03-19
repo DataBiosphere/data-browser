@@ -1,8 +1,11 @@
-<hca-section-title class="section-title-small">
+<hca-section-title>
     <ng-container title>
         <ng-content select="[title]"></ng-content>
     </ng-container>
 </hca-section-title>
+<hca-tab class="secondary" select="[tab]"></hca-tab>
 <div class="wrapper">
-    <ng-content select="[content]"></ng-content>
+    <div class="content">
+        <ng-content select="[content]"></ng-content>
+    </div>
 </div>

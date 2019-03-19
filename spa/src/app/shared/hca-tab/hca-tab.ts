@@ -1,6 +1,6 @@
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Component displaying HCA tabs.
  */
@@ -10,7 +10,7 @@ import {
     Component,
     ChangeDetectionStrategy, Input, Output, EventEmitter
 } from "@angular/core";
-import EntitySpec from "../shared/entity-spec";
+import EntitySpec from "../../files/shared/entity-spec";
 
 
 // App dependencies

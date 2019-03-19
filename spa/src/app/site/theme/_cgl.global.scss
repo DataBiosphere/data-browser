@@ -59,7 +59,7 @@ ul {
     font-weight: 400;
     letter-spacing: normal;
     line-height: 18px;
-    margin: 0 0 14px;
+    margin: 0 0 4px;
 }
 
 /* HCA paragraph font class "fontsize-xs" */
@@ -69,7 +69,7 @@ ul {
     font-weight: 400;
     letter-spacing: normal;
     line-height: 20px;
-    margin: 0 0 16px;
+    margin: 0 0 8px;
 
     /* Semi bold */
     &.bold {
@@ -84,6 +84,16 @@ ul {
     font-weight: 400;
     letter-spacing: normal;
     line-height: 24px;
+    margin: 0 0 12px;
+}
+
+/* HCA paragraph font class "fontsize-m" */
+p.fontsize-m {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 28px;
     margin: 0 0 18px;
 }
 
