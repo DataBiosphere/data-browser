@@ -1,2 +1,19 @@
-<ng-content></ng-content>
-<span class="term-count" *ngIf="isDomainCountVisible(columnName)">{{getDomainCountDisplayText(columnName)}}</span>
+<hca-table-sort [columnSort]="columnSort">
+    <hca-tooltip
+            [contentEllipsis]="false"
+            [tooltipDescription]="tooltipDescription"
+            [tooltipDisabled]="false"
+            [tooltipPosition]="'below'"
+            [tooltipClass]="'hca-tooltip narrow'"
+            class="fontsize-xxs bold">
+        <ng-content></ng-content>
+    </hca-tooltip>
+</hca-table-sort>
+<ng-container [ngSwitch]="columnName === 'fileFormats'">
+    <ng-container *ngSwitchDefault>
+        <!--<span class="term-count fontsize-s" *ngIf="isDomainCountVisible(columnName)">{{getDomainCountDisplayText(columnName)}}</span>-->
+    </ng-container>
+    <div *ngSwitchCase="true" class="data-label fontsize-xxs">
+        <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span>
+    </div>
+</ng-container>

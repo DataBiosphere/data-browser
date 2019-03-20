@@ -1,6 +1,6 @@
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Table component for displaying specimen related data.
  */
@@ -50,7 +50,6 @@ export class HCATableComponent implements OnInit, AfterViewInit {
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
-    tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
 
     // Locals
@@ -126,17 +125,6 @@ export class HCATableComponent implements OnInit, AfterViewInit {
         if ( ageUnit ) {
             return ageUnit.charAt(0);
         }
-    }
-
-    /**
-     * Returns false if the text is longer than its container.
-     * If false, an ellipsis has been applied to the text.
-     * @param el
-     * @returns {boolean}
-     */
-    public isDisabled(el) {
-
-        return !( el.scrollWidth > el.clientWidth );
     }
 
     /**

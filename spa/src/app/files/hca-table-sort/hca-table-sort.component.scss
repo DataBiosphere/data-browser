@@ -1,0 +1,25 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for hca specific table header cell sort.
+ * Overrides styles for Angular Material MatSort for mat-sort-header.
+ *
+ * ViewEncapsulation is disabled.
+ *
+ */
+@import "../../site/theme/cgl.vars";
+
+.hca-table-sort {
+
+    .mat-sort-header-container {
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+
+    /* Sort disabled */
+
+    .mat-sort-header-position-before .mat-sort-header-arrow {
+        margin: 0 4px 0 0;
+    }
+}

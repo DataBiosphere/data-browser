@@ -1,7 +1,10 @@
-<button (click)="onDownloadManifest()"
-        matTooltip="Request a file manifest for downloading the selected data and associated metadata with the HCA CLI"
-        matTooltipPosition="below"
-        matTooltipShowDelay="150"
-        matTooltipClass="hca-tooltip narrow">
-    <span class="spacer">Request File Manifest</span>
-</button>
+<hca-tooltip
+        [contentEllipsis]="false"
+        [tooltipDescription]="'Request a file manifest for downloading the selected data and associated metadata with the HCA CLI'"
+        [tooltipDisabled]="false"
+        [tooltipPosition]="'below'"
+        [tooltipClass]="'hca-tooltip narrow'">
+    <button (click)="onDownloadManifest()">
+        <span class="spacer">Request File Manifest</span>
+    </button>
+</hca-tooltip>

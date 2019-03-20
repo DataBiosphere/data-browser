@@ -3,60 +3,74 @@
         <div>
             <div>
                 <span>Projects</span>
-                <span matTooltip="{{summary.projectCount | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipDisabled="{{isDisabled(summary.projectCount)}}"
-                      matTooltipClass="hca-tooltip narrow">{{summary.projectCount | countSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.projectCount | localeString"
+                             [tooltipDisabled]="isDisabled(summary.projectCount)"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.projectCount | countSize}}
+                </hca-tooltip>
             </div>
             <div>
                 <span>Donors</span>
-                <span matTooltip="{{summary.donorCount | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipDisabled="{{isDisabled(summary.donorCount)}}"
-                      matTooltipClass="hca-tooltip narrow">{{summary.donorCount | countSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.donorCount | localeString"
+                             [tooltipDisabled]="isDisabled(summary.donorCount)"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.donorCount | countSize}}
+                </hca-tooltip>
             </div>
             <div>
                 <span>Specimens</span>
-                <span matTooltip="{{summary.specimenCount | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipDisabled="{{isDisabled(summary.specimenCount)}}"
-                      matTooltipClass="hca-tooltip narrow">{{summary.specimenCount | countSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.specimenCount | localeString"
+                             [tooltipDisabled]="isDisabled(summary.specimenCount)"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.specimenCount | countSize}}
+                </hca-tooltip>
             </div>
             <div>
                 <span>Estimated Cells</span>
-                <span matTooltip="{{summary.totalCellCount | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipDisabled="{{isDisabled(summary.totalCellCount)}}"
-                      matTooltipClass="hca-tooltip narrow">{{summary.totalCellCount | countSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.totalCellCount | localeString"
+                             [tooltipDisabled]="isDisabled(summary.totalCellCount)"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.totalCellCount | countSize}}
+                </hca-tooltip>
             </div>
             <div>
                 <span>Files</span>
-                <span matTooltip="{{summary.fileCount | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipDisabled="{{isDisabled(summary.fileCount)}}"
-                      matTooltipClass="hca-tooltip narrow">{{summary.fileCount | countSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.fileCount | localeString"
+                             [tooltipDisabled]="isDisabled(summary.fileCount)"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.fileCount | countSize}}
+                </hca-tooltip>
             </div>
             <div>
                 <span>File Size</span>
-                <span matTooltip="{{summary.totalFileSize | localeString}}"
-                      matTooltipPosition="above"
-                      matTooltipShowDelay="150"
-                      matTooltipClass="hca-tooltip narrow">{{summary.totalFileSize | fileSize}}</span>
+                <hca-tooltip [contentEllipsis]="false"
+                             [tooltipClass]="'hca-tooltip narrow'"
+                             [tooltipDescription]="summary.totalFileSize | localeString"
+                             [tooltipPosition]="'above'"
+                             class="summary-count">{{summary.totalFileSize | fileSize}}
+                </hca-tooltip>
             </div>
         </div>
         <div *ngIf="showDownload" class="download-buttons">
             <hca-download-manifest></hca-download-manifest>
-            <hca-request-matrix [matrixEnabled]="matrixEnabled"
-                                matTooltip="The expression matrix concatenation service currently supports Smart-seq2 projects only. To use this service please select one or more Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest."
-                                matTooltipPosition="below"
-                                matTooltipShowDelay="150"
-                                matTooltipClass="hca-tooltip request"
-                                [matTooltipDisabled]="matrixEnabled"></hca-request-matrix>
+            <hca-tooltip [contentEllipsis]="false"
+                         [tooltipClass]="'hca-tooltip request'"
+                         [tooltipDescription]="'The expression matrix concatenation service currently supports Smart-seq2 projects only. To use this service please select one or more Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest.'"
+                         [tooltipDisabled]="matrixEnabled"
+                         [tooltipPosition]="'below'"
+                         class="request-button">
+                <hca-request-matrix [matrixEnabled]="matrixEnabled"></hca-request-matrix>
+            </hca-tooltip>
         </div>
     </div>
 </div>

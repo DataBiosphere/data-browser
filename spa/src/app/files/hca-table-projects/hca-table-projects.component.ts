@@ -1,16 +1,18 @@
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Table component for displaying project-related data.
  */
 
 // Core dependencies
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit } from "@angular/core";
+import {
+    AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit
+} from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
-import { fromEvent, Observable , merge, Subject } from "rxjs";
+import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -53,7 +55,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
     tableElementDataSource: TableElementDataSource;
-    tooltipShowDelay = 150;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -101,17 +102,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         return {
             snapped: (rowIndex === 0) && this.snapped
         };
-    }
-
-    /**
-     * Returns false if the text is longer than its container.
-     * If false, an ellipsis has been applied to the text.
-     * @param el
-     * @returns {boolean}
-     */
-    public isDisabled(el) {
-
-        return !( el.scrollWidth > el.clientWidth );
     }
 
     /**
