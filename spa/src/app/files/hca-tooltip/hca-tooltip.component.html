@@ -1,0 +1,9 @@
+<div #cell
+     matTooltip="{{tooltipDescription}}"
+     matTooltipPosition="{{tooltipPosition}}"
+     matTooltipShowDelay="{{tooltipShowDelay}}"
+     matTooltipClass="{{tooltipClass}}"
+     matTooltipDisabled="{{isTooltipDisabled(cell)}}"
+     [ngClass]="{'ellipsis': isContentEllipsis()}">
+    <ng-content></ng-content>
+</div>

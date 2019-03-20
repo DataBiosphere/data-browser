@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for table header label.
  */
@@ -8,8 +8,32 @@
 @import "../../site/theme/cgl.vars";
 
 :host {
-    span {
+    display: flex; /* Required for height styles */
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    hca-tooltip {
+        color: $hca-black;
+        margin: 0;
+        text-align: left;
+    }
+
+    hca-table-sort {
+        flex: 1;
+    }
+
+    .term-count, .data-label {
+        //border-top: 1px solid $hca-gray-lightest;
+        display: block;
+        margin: 0 0 0 16px; /* Position accounts for mat-sort-header icon */
+        padding-top: 2px;
+        width: calc(100% - 16px);
+    }
+
+    .data-label span {
         display: inline-block;
-        margin-left: 4px;
+        line-height: 24px; /* Matches term-count line height */
+        width: 50px;
     }
 }

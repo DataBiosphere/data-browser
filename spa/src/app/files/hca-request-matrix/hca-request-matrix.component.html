@@ -1,7 +1,8 @@
-<button (click)="onRequestMatrix()"
-        matTooltip="Request a concatenated expression matrix for the selected Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest."
-        matTooltipPosition="below"
-        matTooltipShowDelay="150"
-        matTooltipClass="hca-tooltip request"
-        [disabled]="!matrixEnabled">{{getExpressionButtonText()}}</button>
+<hca-tooltip [contentEllipsis]="false"
+             [tooltipClass]="'hca-tooltip request'"
+             [tooltipDescription]="'Request a concatenated expression matrix for the selected Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest.'"
+             [tooltipDisabled]="!matrixEnabled"
+             [tooltipPosition]="'below'">
+    <button [disabled]="!matrixEnabled" (click)="onRequestMatrix()">{{getExpressionButtonText()}}</button>
+</hca-tooltip>
     

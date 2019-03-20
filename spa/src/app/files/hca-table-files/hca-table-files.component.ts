@@ -1,6 +1,6 @@
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Table component for displaying file-related data.
  */
@@ -49,7 +49,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
-    tooltipShowDelay = 150;
     pagination$: Observable<PaginationModel>;
 
     // Locals
@@ -103,6 +102,27 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Returns class download and class truncate (if table data is not spaced).
+     * @param {string} tableData
+     * @returns {{[p: string]: boolean}}
+     */
+    public getFileDownloadClass(tableData: string): { [className: string]: boolean } {
+
+        if ( tableData.indexOf(" ") == -1 ) {
+            return {
+                "fontsize-xxs": true,
+                "file-download": true,
+                truncate: true
+            };
+        }
+
+        return {
+            "fontsize-xxs": true,
+            "file-download": true
+        };
+    }
+
+    /**
      * Return the set of CSS class names that are currently applicable to the table header row.
      *
      * @returns {[className: string]: boolean}
@@ -125,43 +145,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         return {
             snapped: (rowIndex === 0) && this.snapped
         };
-    }
-
-    /**
-     * Returns class truncate if file name is not spaced.
-     * Always returns class hca-tooltip and narrow.
-     * @param name
-     * @returns {any}
-     */
-    public getTooltipClass(name) {
-
-        if ( name.indexOf(" ") == -1 ) {
-            return "hca-tooltip narrow truncate";
-        }
-        return "hca-tooltip narrow";
-    }
-
-    /**
-     * Returns class truncate if table data is not spaced.
-     * @param {string} tableData
-     * @returns {string}
-     */
-    public getTruncatedClass(tableData: string): string {
-
-        if ( tableData.indexOf(" ") == -1 ) {
-            return "truncate";
-        }
-    }
-
-    /**
-     * Returns false if the text is longer than its container.
-     * If false, an ellipsis has been applied to the text.
-     * @param el
-     * @returns {boolean}
-     */
-    public isDisabled(el) {
-
-        return !( el.scrollWidth > el.clientWidth );
     }
 
     /**
@@ -202,17 +185,17 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         merge(scrolls$, wheels$).pipe(
             takeUntil(this.ngDestroy$)
         )
-        .subscribe(() => {
+            .subscribe(() => {
 
-            if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
 
-                this.snapped = true;
-            }
-            else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+                    this.snapped = true;
+                }
+                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
 
-                this.snapped = false;
-            }
-        });
+                    this.snapped = false;
+                }
+            });
     }
 
     /**

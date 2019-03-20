@@ -6,14 +6,14 @@
     </div>
     <div class="term-summary">
         <div class="term-name" [ngClass]="getTruncatedClass(term.name)">
-                <span>{{term.name}}</span>
+            <span>{{term.name}}</span>
         </div>
-        <div matTooltip="{{term.count | localeString}}"
-             matTooltipPosition="above"
-             matTooltipShowDelay="150"
-             matTooltipClass="hca-tooltip count"
-             matTooltipDisabled="{{isDisabled(term.count)}}"
-             class="term-count md-caption secondary">{{term.count | countSize}}
-        </div>
+        <hca-tooltip
+                [tooltipClass]="'hca-tooltip count'"
+                [tooltipDescription]="term.count | localeString"
+                [tooltipDisabled]="isDisabled(term.count)"
+                [tooltipPosition]="'above'"
+                class="term-count md-caption secondary">{{term.count | countSize}}
+        </hca-tooltip>
     </div>
 </div>

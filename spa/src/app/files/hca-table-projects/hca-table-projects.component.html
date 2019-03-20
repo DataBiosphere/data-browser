@@ -4,175 +4,128 @@
                    matSortDirection="asc" matSortActive="projectTitle"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="projectTitle">
-                <mat-header-cell class="project" *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The project name of the data file."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'projectTitle'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Project Name</hca-table-column-header>
-                    </span>
+                <mat-header-cell *matHeaderCellDef class="project">
+                    <hca-table-column-header [columnName]="'projectTitle'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'The project name of the data file.'"
+                                             [columnSort]="true">Project Name
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
-                    <div>
+                    <hca-table-cell-with-selector [contentEllipsis]="false" class="selectable">
                         <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}"
                              (click)="onTermSelected('project', element.projectShortname)">
                             <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
                         </div>
-                        <div #title
-                             [routerLink]="['/projects', element.entryId]">{{element.projectTitle}}
+                        <div [routerLink]="['/projects', element.entryId]" class="fontsize-xxs semi-bold">
+                            {{element.projectTitle}}
                         </div>
-                    </div>
+                    </hca-table-cell-with-selector>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="organ">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The organ that the biomaterial came from. Blood and connective tissue are considered organs."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'organ'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Organ</hca-table-column-header>
-                    </span>
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'organ'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
+                                             [columnSort]="true">Organ
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #organ
-                         matTooltip="{{element.organ}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(organ)}}">{{element.organ}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.organ">{{element.organ}}</hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The general method for sequencing library construction."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'libraryConstructionApproach'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Library Construction Method</hca-table-column-header>
-                    </span>
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'libraryConstructionApproach'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'The general method for sequencing library construction.'"
+                                             [columnSort]="true">Library Construction Method
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #libraryMethod
-                         matTooltip="{{element.libraryConstructionApproach}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(libraryMethod)}}">{{element.libraryConstructionApproach}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.libraryConstructionApproach">
+                        {{element.libraryConstructionApproach}}
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="genusSpecies">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="The scientific binomial name for the species of the biomaterial."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'genusSpecies'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Species</hca-table-column-header>
-                    </span>
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'genusSpecies'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'The scientific binomial name for the species of the biomaterial.'">
+                        Species
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #genus
-                         matTooltip="{{element.genusSpecies}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(genus)}}">{{element.genusSpecies}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.genusSpecies">{{element.genusSpecies}}
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="disease">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span matTooltip="Free text describing any disease association to the cell type. Should be an EFO ontology."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'disease'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Known Diseases</hca-table-column-header>
-                    </span>
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'disease'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'">
+                        Known Diseases
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #disease
-                         matTooltip="{{element.disease}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(disease)}}">{{element.disease}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.disease">{{element.disease}}
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="fileType">
                 <mat-header-cell class="file-type" *matHeaderCellDef>
-                    <div matTooltip="The format of the data file."
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'fileFormat'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Data</hca-table-column-header>
-                        <div class="file-counts">
-                            <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span>
-                        </div>
-                    </div>
+                    <hca-table-column-header [columnName]="'fileFormats'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'The format of the data file.'"
+                                             [columnSort]="false">Data
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell class="file-type" *matCellDef="let element">
-                    <div class="file-counts">
+                    <hca-table-cell [contentEllipsis]="false" class="file-count">
                         <span>{{element.rawCount | localeString}}</span>
                         <span>{{element.processedCount | localeString}}</span>
                         <span>{{element.matrixCount | localeString}}</span>
                         <span>{{element.otherFileCount | localeString}}</span>
-                    </div>
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="donorCount">
                 <mat-header-cell *matHeaderCellDef>
-                    <span matTooltip="Donor count."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'donorCount'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Donor Count</hca-table-column-header>
-                    </span>
+                    <hca-table-column-header [columnName]="'donorCount'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'Donor count.'"
+                                             [columnSort]="false">Donor Count
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #donorCount
-                         matTooltip="{{element.donorCount}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(donorCount)}}">{{element.donorCount | localeString}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.donorCount">{{element.donorCount | localeString}}
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="estimatedCellCount">
                 <mat-header-cell *matHeaderCellDef>
-                    <span matTooltip="Total estimated number of cells in biomaterial. May be 1 for well-based assays."
-                          matTooltipPosition="below"
-                          matTooltipShowDelay="{{tooltipShowDelay}}"
-                          matTooltipClass="hca-tooltip narrow">
-                        <hca-table-column-header [columnName]="'estimatedCellCount'"
-                                                 [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                 [domainCountVisibleForColumns]="domainCountVisibleForColumns">Estimated Cell Count</hca-table-column-header>
-                    </span>
+                    <hca-table-column-header [columnName]="'estimatedCellCount'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipDescription]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
+                                             [columnSort]="false">
+                        Estimated Cell Count
+                    </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <div #cellCount
-                         matTooltip="{{element.estimatedCellCount}}"
-                         matTooltipPosition="below"
-                         matTooltipShowDelay="{{tooltipShowDelay}}"
-                         matTooltipClass="hca-tooltip"
-                         matTooltipDisabled="{{isDisabled(cellCount)}}">{{element.estimatedCellCount | localeString}}
-                    </div>
+                    <hca-table-cell [cellContent]="element.estimatedCellCount">{{element.estimatedCellCount |
+                        localeString}}
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass()"></mat-header-row>

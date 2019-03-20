@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for table - project related data.
  */
@@ -53,8 +53,9 @@
         mat-table {
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
 
-            mat-row, mat-header-row {
-                padding: 0 12px; /* Total left and right padding is 16px */
+            /* Row - header and cell */
+            mat-header-row, mat-row {
+                align-items: stretch;
             }
 
             mat-header-row {
@@ -66,141 +67,34 @@
                 border-bottom: 1px solid $hca-gray-lightest;
             }
 
-            mat-header-cell {
-                color: $hca-black;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 600; /* TODO typography */
-                letter-spacing: 0.36px; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-                overflow: visible; /* Provides visibility for sort arrow */
-                position: relative; /* Positions sort arrow */
+            /* Cell - header and cell */
+            mat-header-cell, mat-cell {
+                flex: 0 1 10%;
+                padding: 0;
 
-                /* Project Name */
+                /* Project */
                 &.project {
-                    margin-left: 30px; /* Checkbox width */
+                    flex: 1 1 10%;
                 }
 
-                /* Data - sub heading */
-                .file-counts > span {
-                    font-size: 10px;
-                    font-weight: 400;
+                &.file-type {
+                    flex: none;
                 }
+            }
+
+            mat-header-cell {
+                align-items: flex-start;
             }
 
             mat-cell {
-                color: $hca-gray-dark;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 400; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-                position: relative; /* Positions add remove controls */
-
-                /* Ellipsis on cell text - excludes project name and data (file types) */
-                &:not(.project):not(.file-type) > div {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                /* Hides ellipsis tooltip - Safari only */
-                > div:after {
-                    content: '';
-                    display: block;
-                }
-
-                /* Project Name */
-                &.project {
-                    color: $hca-primary;
-                    cursor: pointer;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-weight: 500; /* TODO typography */
-
-                    /* Project name padding - for wrap */
-                    > div {
-                        align-items: flex-start;
-                        display: flex;
-                        padding: 4px 0;
-
-                        /* Select box */
-                        .chart-legend-bar {
-                            border: 1px solid $hca-gray-light;
-                            border-radius: 3px;
-                            flex-shrink: 0;
-                            height: 12px;
-                            margin: 2px 16px 2px 0;
-                            position: relative; /* Positions check */
-                            width: 12px;
-
-                            &.selected {
-                                border-color: #1F6B9A;
-                                background-color: #1C7CC7;
-                            }
-
-                            /* Check */
-                            mat-icon {
-                                color: $hca-white;
-                                font-size: 10px;
-                                height: 10px;
-                                left: 50%;
-                                position: absolute;
-                                top: 50%;
-                                transform: translateX(-50%) translateY(-50%);
-                                width: 10px;
-                            }
-                        }
-
-                        /* Remove outline on focus - project name */
-                        div:focus {
-                            outline: none;
-                        }
-                    }
-                }
+                align-items: stretch;
             }
 
-            mat-cell, mat-header-cell {
-                flex: 0 1 9%;
-                padding-left: 4px;
-                padding-right: 4px;
-
-                /* Project Name */
-                &.project {
-                    flex: 1 1 11%;
-                    padding-right: 8px;
-                }
-
-                /* Data (file types) */
-                &.file-type {
-                    min-width: 224px;
-                }
-
-                /* Show fastq, bam, matrix and other */
-                .file-counts {
-                    display: flex;
-
-                    > span {
-                        display: inline-block;
-                        width: 50px;
-
-                        &:nth-of-type(n+2) {
-                            padding-left: 8px;
-                        }
-                    }
-                }
-
-                /* Table header text alignment */
-                /deep/ .mat-sort-header-button {
-                    flex: 1;
-                    line-height: 18px; /* TODO typography */
-                    text-align: left !important;
-                }
-
-                /* Sort icon - reposition to upper left of title */
-                /deep/ .mat-sort-header-arrow {
-                    left: -8px;
-                    margin: 0;
-                    position: absolute;
-                }
+            /* TODO review */
+            .file-count span {
+                display: inline-block;
+                line-height: 24px; /* Matches term-count line height */
+                width: 50px;
             }
         }
     }
