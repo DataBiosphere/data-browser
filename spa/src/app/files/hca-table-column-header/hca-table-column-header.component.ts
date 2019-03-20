@@ -1,6 +1,6 @@
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Component for table header labels.
  */
@@ -18,8 +18,10 @@ export class HCATableColumnHeaderComponent {
 
     // Inputs
     @Input() columnName: string;
+    @Input() columnSort: boolean;
     @Input() domainCountsByColumnName: Map<string, number>;
     @Input() domainCountVisibleForColumns: string[];
+    @Input() tooltipDescription: string;
 
     /**
      * Public API
@@ -44,7 +46,7 @@ export class HCATableColumnHeaderComponent {
      */
     public getDomainCountDisplayText(columnName: string): string {
 
-        return `(${this.getDomainCount(columnName)})`;
+        return `${this.getDomainCount(columnName)}`;
     }
 
     /**

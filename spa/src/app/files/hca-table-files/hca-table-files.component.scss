@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for table - file related data.
  */
@@ -53,8 +53,9 @@
         mat-table {
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
 
-            mat-row, mat-header-row {
-                padding: 0 12px; /* Total left and right padding is 16px */
+            /* Row - header and cell */
+            mat-header-row, mat-row {
+                align-items: stretch;
             }
 
             mat-header-row {
@@ -64,67 +65,17 @@
 
             mat-row {
                 border-bottom: 1px solid $hca-gray-lightest;
-                position: relative; /* Positions file download information */
+                position: relative; /* Positions file download information TODO check */
             }
 
-            mat-header-cell {
-                color: $hca-black;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 600; /* TODO typography */
-                letter-spacing: 0.36px; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-                overflow: visible; /* Provides visibility for sort arrow */
-                position: relative; /* Positions sort arrow */
-            }
-
-            mat-cell {
-                color: $hca-gray-dark;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 400; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-
-                /* Ellipsis on cell text - excludes file name, project and specimen id */
-                &:not(.file-name):not(.project):not(.specimen) > div {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                /* File name, project, specimen id - wrap data */
-                &.file-name > div, &.project > div, &.specimen > div {
-                    overflow: visible;
-                    padding: 8px 0;
-                    white-space: normal;
-
-                    /* Break word if no spaces in data */
-                    &.truncate {
-                        word-break: break-all;
-                    }
-                }
-
-                /* Hides ellipsis tooltip - Safari only */
-                > div:after {
-                    content: '';
-                    display: block;
-                }
-
-                /* File Name */
-                &.file-name {
-                    display: flex;
-                }
-            }
-
-            mat-cell, mat-header-cell {
+            /* Cell - header and cell */
+            mat-header-cell, mat-cell {
                 flex: 0 1 10%;
-                padding-left: 4px;
-                padding-right: 4px;
+                padding: 0;
 
                 /* File Name */
                 &.file-name {
                     flex: 1 1 20%;
-                    padding-right: 24px;
                 }
 
                 /* Specimen id */
@@ -141,20 +92,14 @@
                 &.project {
                     flex: 0 1 25%;
                 }
+            }
 
-                /* Table header text alignment */
-                /deep/ .mat-sort-header-button {
-                    flex: 1;
-                    line-height: 18px; /* TODO typography */
-                    text-align: left !important;
-                }
+            mat-header-cell {
+                align-items: flex-start;
+            }
 
-                /* Sort icon - reposition to upper left of title */
-                /deep/ .mat-sort-header-arrow {
-                    left: -8px;
-                    margin: 0;
-                    position: absolute;
-                }
+            mat-cell {
+                align-items: stretch;
             }
         }
     }

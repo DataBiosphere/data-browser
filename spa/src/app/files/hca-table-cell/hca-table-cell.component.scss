@@ -1,0 +1,22 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for table cell.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+    align-items: center;
+    color: $hca-gray-dark;
+    display: flex; /* Required for height styles */
+    margin-left: 16px;
+    padding: 4px 0;
+    width: calc(100% - 16px);
+
+    hca-tooltip {
+        margin: 0;
+        overflow: hidden;
+    }
+}

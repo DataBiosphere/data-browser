@@ -1,6 +1,6 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for table - specimen related data.
  */
@@ -53,8 +53,9 @@
         mat-table {
             min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
 
-            mat-row, mat-header-row {
-                padding: 0 12px; /* Total left and right padding is 16px */
+            /* Row - header and cell */
+            mat-header-row, mat-row {
+                align-items: stretch;
             }
 
             mat-header-row {
@@ -66,98 +67,38 @@
                 border-bottom: 1px solid $hca-gray-lightest;
             }
 
-            mat-header-cell {
-                color: $hca-black;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 600; /* TODO typography */
-                letter-spacing: 0.36px; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-                overflow: visible; /* Provides visibility for sort arrow */
-                position: relative; /* Positions sort arrow */
-
-                /* Data - sub heading */
-                .file-counts > span {
-                    font-size: 10px;
-                    font-weight: 400;
-                }
-            }
-
-            mat-cell {
-                color: $hca-gray-dark;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 12px; /* TODO typography */
-                font-weight: 400; /* TODO typography */
-                line-height: 18px; /* TODO typography */
-
-                /* Ellipsis on cell text - excludes file type */
-                &:not(.file-type) > div {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                /* Project */
-                &.project > div {
-                    overflow: visible;
-                    padding: 8px 0;
-                    white-space: normal;
-                }
-
-                /* Hides ellipsis tooltip - Safari only */
-                > div:after {
-                    content: '';
-                    display: block;
-                }
-            }
-
-            mat-cell, mat-header-cell {
+            /* Cell - header and cell */
+            mat-header-cell, mat-cell {
                 flex: 0 1 10%;
-                padding-left: 4px;
-                padding-right: 4px;
+                padding: 0;
 
                 /* Specimen Id */
                 &.specimen {
                     flex: 1 0 12%;
                 }
 
-                /* Project Name */
+                /* Project */
                 &.project {
                     flex: 0 1 20%;
                 }
 
-                /* Data (file types) */
                 &.file-type {
-                    min-width: 224px;
+                    flex: none;
                 }
+            }
 
-                /* Show fastq, bam, matrix and other */
-                .file-counts {
-                    display: flex;
+            mat-header-cell {
+                align-items: flex-start;
+            }
 
-                    > span {
-                        display: inline-block;
-                        width: 50px;
+            mat-cell {
+                align-items: stretch;
+            }
 
-                        &:nth-of-type(n+2) {
-                            padding-left: 8px;
-                        }
-                    }
-                }
-
-                /* Table header text alignment */
-                /deep/ .mat-sort-header-button {
-                    flex: 1;
-                    line-height: 18px; /* TODO typography */
-                    text-align: left !important;
-                }
-
-                /* Sort icon - reposition to upper left of title */
-                /deep/ .mat-sort-header-arrow {
-                    left: -8px;
-                    margin: 0;
-                    position: absolute;
-                }
+            .file-count span {
+                display: inline-block;
+                line-height: 24px; /* Matches term-count line height */
+                width: 50px;
             }
         }
     }
