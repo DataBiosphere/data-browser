@@ -88,6 +88,53 @@
 
             mat-cell {
                 align-items: stretch;
+
+                .fontsize-xxs {
+                    margin: 0; /* Required.  Overrides global .fontsize-xxs */
+                }
+
+                .selectable {
+                    align-items: center;
+                    color: $hca-primary;
+                    cursor: pointer;
+                    display: flex;
+                    margin: 0 8px 0 16px;
+                    padding: 4px 0;
+                    width: calc(100% - 16px);
+
+                    /* Remove outline on focus */
+                    .fontsize-xxs:focus {
+                        outline: none;
+                    }
+
+                    /* Select box */
+                    .chart-legend-bar {
+                        border: 1px solid $hca-gray-light;
+                        border-radius: 3px;
+                        flex-shrink: 0;
+                        height: 12px;
+                        margin: 2px 16px 2px 0;
+                        position: relative; /* Positions check */
+                        width: 12px;
+
+                        &.selected {
+                            border-color: #1F6B9A;
+                            background-color: #1C7CC7;
+                        }
+
+                        /* Check */
+                        mat-icon {
+                            color: $hca-white;
+                            font-size: 10px;
+                            height: 10px;
+                            left: 50%;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateX(-50%) translateY(-50%);
+                            width: 10px;
+                        }
+                    }
+                }
             }
 
             /* TODO review */

@@ -100,6 +100,24 @@
 
             mat-cell {
                 align-items: stretch;
+
+                .fontsize-xxs {
+                    margin: 0; /* Required.  Overrides global .fontsize-xxs */
+                }
+
+                .file-download {
+                    align-items: center;
+                    color: $hca-gray-dark;
+                    display: flex;
+                    margin: 0 8px 0 16px ;
+                    padding: 4px 0;
+                    width: calc(100% - 16px);
+
+                    /* Break word if no spaces in data */
+                    &.truncate {
+                        word-break: break-all;
+                    }
+                }
             }
         }
     }

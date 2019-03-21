@@ -5,35 +5,10 @@
  * Styles for hca specific tooltip.
  * Overrides styles for Angular Material Tooltip (mat-tooltip).
  *
- * ViewEncapsulation is disabled.
+ * ViewEncapsulation is disabled - required in order to style nested material components.
  *
  */
 @import "../../site/theme/cgl.vars";
-
-/* Apply ellipsis to content */
-/* TODO Mim review location */
-.ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    /* Hides ellipsis tooltip - Safari only */
-    &:after {
-        content: '';
-        display: block;
-    }
-}
-
-/* Download request buttons */
-.request-button div {
-    display: flex;
-}
-
-/* Project detail page */
-.project-detail-title div {
-    display: block;
-    width: max-content;
-}
 
 /* Tooltip styles */
 .hca-tooltip {

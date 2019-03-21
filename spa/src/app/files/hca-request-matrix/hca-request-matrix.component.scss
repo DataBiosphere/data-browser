@@ -6,6 +6,10 @@
  */
 @import "../../site/theme/cgl.vars";
 
+:host {
+    display: block;
+}
+
 /* Request matrix button */
 button {
     align-items: center;

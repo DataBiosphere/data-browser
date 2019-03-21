@@ -10,10 +10,10 @@
         </div>
         <hca-tooltip
                 [tooltipClass]="'hca-tooltip count'"
-                [tooltipDescription]="term.count | localeString"
+                [tooltipContent]="term.count | localeString"
                 [tooltipDisabled]="isDisabled(term.count)"
-                [tooltipPosition]="'above'"
-                class="term-count md-caption secondary">{{term.count | countSize}}
+                [tooltipPosition]="'above'">
+            <span class="term-count md-caption secondary">{{term.count | countSize}}</span>
         </hca-tooltip>
     </div>
 </div>
