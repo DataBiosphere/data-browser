@@ -110,14 +110,12 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
         if ( tableData.indexOf(" ") == -1 ) {
             return {
-                "fontsize-xxs": true,
                 "file-download": true,
                 truncate: true
             };
         }
 
         return {
-            "fontsize-xxs": true,
             "file-download": true
         };
     }
@@ -145,6 +143,17 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         return {
             snapped: (rowIndex === 0) && this.snapped
         };
+    }
+
+    /**
+     * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
+     * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
+     * @param el
+     * @returns {boolean}
+     */
+    public isTooltipDisabled(el) {
+
+        return !( el.parentElement.clientWidth < el.offsetWidth );
     }
 
     /**

@@ -128,6 +128,17 @@ export class HCATableComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
+     * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
+     * @param el
+     * @returns {boolean}
+     */
+    public isTooltipDisabled(el) {
+
+        return !( el.parentElement.clientWidth < el.offsetWidth );
+    }
+
+    /**
      * Sort the table given the sort param and the order.
      *
      * @param {PaginationModel} pm

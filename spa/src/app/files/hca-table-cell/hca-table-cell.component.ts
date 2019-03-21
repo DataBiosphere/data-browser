@@ -17,6 +17,6 @@ import { Component, Input } from "@angular/core";
 export class HCATableCellComponent {
 
     // Inputs
-    @Input() cellContent: string;
-    @Input() contentEllipsis: boolean;
+    @Input() tooltipContent: string;
+    @Input() tooltipDisabled: boolean;
 }

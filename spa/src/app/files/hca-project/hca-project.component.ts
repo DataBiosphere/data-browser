@@ -43,7 +43,6 @@ export class HCAProjectComponent implements OnInit {
 
     // Template variables
     public project$: Observable<Project>;
-    tooltipShowDelay = 150;
 
     /**
      * @param {ActivatedRoute} activatedRoute

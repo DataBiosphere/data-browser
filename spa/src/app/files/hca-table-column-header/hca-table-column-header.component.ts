@@ -21,7 +21,7 @@ export class HCATableColumnHeaderComponent {
     @Input() columnSort: boolean;
     @Input() domainCountsByColumnName: Map<string, number>;
     @Input() domainCountVisibleForColumns: string[];
-    @Input() tooltipDescription: string;
+    @Input() tooltipContent: string;
 
     /**
      * Public API
