@@ -123,14 +123,14 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
+     * Returns false (tooltip will not be disabled) if the width of the parent container is smaller than the element of interest.
      * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
      * @param el
      * @returns {boolean}
      */
     public isTooltipDisabled(el) {
 
-        return !( el.parentElement.clientWidth < el.offsetWidth );
+        return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
     }
 
     /**
