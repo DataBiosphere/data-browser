@@ -1,11 +1,9 @@
 <hca-table-sort [columnSort]="columnSort">
     <hca-tooltip
-            [contentEllipsis]="false"
-            [tooltipDescription]="tooltipDescription"
+            [tooltipContent]="tooltipContent"
             [tooltipDisabled]="false"
             [tooltipPosition]="'below'"
-            [tooltipClass]="'hca-tooltip narrow'"
-            class="fontsize-xxs bold">
+            [tooltipClass]="'hca-tooltip narrow'">
         <ng-content></ng-content>
     </hca-tooltip>
 </hca-table-sort>

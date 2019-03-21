@@ -16,7 +16,6 @@
     width: calc(100% - 16px);
 
     hca-tooltip {
-        margin: 0;
-        overflow: hidden;
+        overflow: hidden; /* Required, if ellipsis applied */
     }
 }

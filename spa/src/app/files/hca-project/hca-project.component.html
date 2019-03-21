@@ -1,17 +1,18 @@
 <div *ngIf="project$ | async as project">
-    <hca-section-title class="section-title-centered small"><ng-container title>{{project.projectTitle}}</ng-container></hca-section-title>
-    <hca-tab class="project-detail secondary" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
+    <hca-section-title class="section-title-centered small">
+        <ng-container title>{{project.projectTitle}}</ng-container>
+    </hca-section-title>
+    <hca-tab class="project-detail secondary" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()"
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <div>
         <div class="wrapper">
             <div class="project-highlights">
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'An official title for the project.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'An official title for the project.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Project
+                                     [tooltipPosition]="'above'">Project
                         </hca-tooltip>
                     </p>
                     <div class="rhs">
@@ -26,72 +27,62 @@
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'A short name for the project.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'A short name for the project.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Short Name
+                                     [tooltipPosition]="'above'">Short Name
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'The scientific binomial name for the species of the biomaterial.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'The scientific binomial name for the species of the biomaterial.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Species
+                                     [tooltipPosition]="'above'">Species
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.species, "-")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Organ
+                                     [tooltipPosition]="'above'">Organ
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "-")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'A term for a specific part of the organ that the biomaterial came from.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'A term for a specific part of the organ that the biomaterial came from.'"
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'"
-                                     class="project-detail-title">Organ Part
+                        >Organ Part
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "-")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'"
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'"
-                                     class="project-detail-title">Diseased
+                        >Diseased
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "-")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'The general method for sequencing library construction.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'The general method for sequencing library construction.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Library Construction Method
+                                     [tooltipPosition]="'above'">Library Construction Method
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs"
@@ -99,36 +90,30 @@
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'The format of the data file.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'The format of the data file.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">File Type
+                                     [tooltipPosition]="'above'">File Type
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "-")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Estimated Cell Count
+                                     [tooltipPosition]="'above'">Estimated Cell Count
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.cellCount | countSize}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [contentEllipsis]="false"
-                                     [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipDescription]="'Donor Count.'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'Donor Count.'"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                                     class="project-detail-title">Donor Count
+                                     [tooltipPosition]="'above'">Donor Count
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>

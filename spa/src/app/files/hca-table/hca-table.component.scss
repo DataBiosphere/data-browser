@@ -93,6 +93,10 @@
 
             mat-cell {
                 align-items: stretch;
+
+                .fontsize-xxs {
+                    margin: 0; /* Required.  Overrides global .fontsize-xxs */
+                }
             }
 
             .file-count span {

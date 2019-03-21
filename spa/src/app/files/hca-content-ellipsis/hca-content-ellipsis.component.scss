@@ -1,0 +1,20 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for hca content ellipsis component.
+ */
+
+/* Apply ellipsis to content */
+:host {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    /* Hides ellipsis tooltip - Safari only */
+    &:after {
+        content: '';
+        display: block;
+    }
+}

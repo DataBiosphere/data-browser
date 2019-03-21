@@ -49,6 +49,7 @@ import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
 import { FileSearchComponent } from "./file-search/file-search.component";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
+import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
@@ -68,9 +69,8 @@ import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.compon
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
-import { HCATableCellWithDownloadComponent } from "./hca-table-cell-with-download/hca-table-cell-with-download.component";
-import { HCATableCellWithSelectorComponent } from "./hca-table-cell-with-selector/hca-table-cell-with-selector.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
+import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { DownloadService } from "./shared/download.service";
@@ -131,6 +131,7 @@ import { SharedModule } from "../shared/shared.module";
         FileFacetMenuComponent,
         FileFacetSearchComponent,
         FileFacetSearchMenuComponent,
+        HCAContentEllipsisComponent,
         HCADesktopBannerComponent,
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
@@ -145,13 +146,12 @@ import { SharedModule } from "../shared/shared.module";
         HCARequestMatrixModalComponent,
         HCATableComponent,
         HCATableCellComponent,
-        HCATableCellWithDownloadComponent,
-        HCATableCellWithSelectorComponent,
+        HCATableColumnHeaderComponent,
+        HCATableColumnHeaderTitleComponent,
         HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,
         HCATablePaginationComponent,
         HCATableProjectsComponent,
-        HCATableColumnHeaderComponent,
         HCATableSortComponent,
         HCATooltipComponent,
 

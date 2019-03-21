@@ -8,12 +8,13 @@
                     <hca-table-column-header [columnName]="'projectTitle'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'The project name of the data file.'"
-                                             [columnSort]="true">Project Name
+                                             [tooltipContent]="'The project name of the data file.'"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>Project Name</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
-                    <hca-table-cell-with-selector [contentEllipsis]="false" class="selectable">
+                    <div class="selectable">
                         <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}"
                              (click)="onTermSelected('project', element.projectShortname)">
                             <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
@@ -21,7 +22,7 @@
                         <div [routerLink]="['/projects', element.entryId]" class="fontsize-xxs semi-bold">
                             {{element.projectTitle}}
                         </div>
-                    </hca-table-cell-with-selector>
+                    </div>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="organ">
@@ -29,12 +30,17 @@
                     <hca-table-column-header [columnName]="'organ'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
-                                             [columnSort]="true">Organ
+                                             [tooltipContent]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>Organ</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.organ">{{element.organ}}</hca-table-cell>
+                    <hca-table-cell [tooltipContent]="element.organ" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.organ}}</span>
+                        </hca-content-ellipsis>
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
@@ -42,13 +48,16 @@
                     <hca-table-column-header [columnName]="'libraryConstructionApproach'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'The general method for sequencing library construction.'"
-                                             [columnSort]="true">Library Construction Method
+                                             [tooltipContent]="'The general method for sequencing library construction.'"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>Library Construction Method</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.libraryConstructionApproach">
-                        {{element.libraryConstructionApproach}}
+                    <hca-table-cell [tooltipContent]="element.libraryConstructionApproach" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
+                        </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -57,12 +66,15 @@
                     <hca-table-column-header [columnName]="'genusSpecies'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'The scientific binomial name for the species of the biomaterial.'">
-                        Species
+                                             [tooltipContent]="'The scientific binomial name for the species of the biomaterial.'">
+                        <hca-table-column-header-title>Species</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.genusSpecies">{{element.genusSpecies}}
+                    <hca-table-cell [tooltipContent]="element.genusSpecies" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.genusSpecies}}</span>
+                        </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -71,12 +83,15 @@
                     <hca-table-column-header [columnName]="'disease'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'">
-                        Known Diseases
+                                             [tooltipContent]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'">
+                        <hca-table-column-header-title>Known Diseases</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.disease">{{element.disease}}
+                    <hca-table-cell [tooltipContent]="element.disease" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.disease}}</span>
+                        </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -85,16 +100,19 @@
                     <hca-table-column-header [columnName]="'fileFormats'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'The format of the data file.'"
-                                             [columnSort]="false">Data
+                                             [tooltipContent]="'The format of the data file.'"
+                                             [columnSort]="false">
+                        <hca-table-column-header-title>Data</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell class="file-type" *matCellDef="let element">
-                    <hca-table-cell [contentEllipsis]="false" class="file-count">
-                        <span>{{element.rawCount | localeString}}</span>
-                        <span>{{element.processedCount | localeString}}</span>
-                        <span>{{element.matrixCount | localeString}}</span>
-                        <span>{{element.otherFileCount | localeString}}</span>
+                    <hca-table-cell [tooltipDisabled]="true">
+                        <div class="file-count">
+                            <span class="fontsize-xxs">{{element.rawCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.processedCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.matrixCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.otherFileCount | localeString}}</span>
+                        </div>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -103,12 +121,16 @@
                     <hca-table-column-header [columnName]="'donorCount'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'Donor count.'"
-                                             [columnSort]="false">Donor Count
+                                             [tooltipContent]="'Donor count.'"
+                                             [columnSort]="false">
+                        <hca-table-column-header-title>Donor Count</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.donorCount">{{element.donorCount | localeString}}
+                    <hca-table-cell [tooltipContent]="element.donorCount | localeString" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.donorCount | localeString}}</span>
+                        </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -117,14 +139,16 @@
                     <hca-table-column-header [columnName]="'estimatedCellCount'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipDescription]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
+                                             [tooltipContent]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
                                              [columnSort]="false">
-                        Estimated Cell Count
+                        <hca-table-column-header-title>Estimated Cell Count</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [cellContent]="element.estimatedCellCount">{{element.estimatedCellCount |
-                        localeString}}
+                    <hca-table-cell [tooltipContent]="element.estimatedCellCount | localeString" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.estimatedCellCount | localeString}}</span>
+                        </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
