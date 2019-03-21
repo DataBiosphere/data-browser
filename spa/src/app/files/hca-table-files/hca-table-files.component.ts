@@ -153,7 +153,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      */
     public isTooltipDisabled(el) {
 
-        return !( el.parentElement.clientWidth < el.offsetWidth );
+        return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
     }
 
     /**
