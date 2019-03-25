@@ -44,8 +44,8 @@ export class FilesService {
     }
 
     /**
-     * Download File Manifest
-     * Removes all instances of fileFormat term "matrix".
+     * Download file manifest - removes all instances of fileFormat term "matrix" as this format is not downloadable.
+     *
      * @param {FileFacetListState} ffls
      * @returns {Observable<ManifestResponse>}
      */

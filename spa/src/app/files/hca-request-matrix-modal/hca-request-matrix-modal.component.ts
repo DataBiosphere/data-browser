@@ -14,13 +14,13 @@ import { map, take, takeUntil, takeWhile } from "rxjs/operators";
 
 // App dependencies
 import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
-import { MatrixService } from "../shared/matrix.service";
 import { AppState } from "../../_ngrx/app.state";
 import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/matrix.actions";
 import { selectFileSummary, selectMatrixFileFormats, selectSelectedFileFacets } from "../_ngrx/file.selectors";
 import { FileFacet } from "../shared/file-facet.model";
 import { MatrixFormat } from "../shared/matrix-format.model";
 import { MatrixResponse } from "../shared/matrix-response.model";
+import { MatrixService } from "../shared/matrix.service";
 
 @Component({
     templateUrl: "./hca-request-matrix-modal.component.html",

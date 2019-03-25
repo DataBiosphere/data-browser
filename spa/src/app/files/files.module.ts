@@ -54,6 +54,8 @@ import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-bann
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
+import { HCAExportToTerraComponent } from "./hca-export-to-terra/hca-export-to-terra.component";
+import { HCAExportToTerraModalComponent } from "./hca-export-to-terra-modal/hca-export-to-terra-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
 import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
@@ -82,6 +84,9 @@ import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
 import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
+import { TerraService } from "./shared/terra.service";
+import { TerraDAO } from "./shared/terra.dao";
+import { FileHttpService } from "./shared/file-http.service";
 
 @NgModule({
     imports: [
@@ -136,6 +141,8 @@ import { SharedModule } from "../shared/shared.module";
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
+        HCAExportToTerraComponent,
+        HCAExportToTerraModalComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,
         HCAFileFilterComponent,
@@ -168,16 +175,20 @@ import { SharedModule } from "../shared/shared.module";
         ConfigService,
         DownloadService,
         DownloadDAO,
+        FileHttpService,
         FilesService,
         FilesDAO,
-        ProjectService,
-        ProjectDAO,
         MatrixService,
         MatrixDAO,
+        ProjectService,
+        ProjectDAO,
+        TerraService,
+        TerraDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [
         HCADownloadManifestModalComponent,
+        HCAExportToTerraModalComponent,
         HCARequestMatrixModalComponent
     ]
 })

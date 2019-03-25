@@ -32,6 +32,10 @@
                 flex: none;
                 flex-wrap: wrap;
 
+                hca-export-to-terra {
+                    margin: 0 0 4px 8px;
+                }
+
                 hca-download-manifest {
                     margin: 0 0 4px 8px;
                 }
@@ -116,6 +120,10 @@
             &.download-buttons {
                 flex-wrap: nowrap;
                 margin-left: 0;
+
+                hca-export-to-terra {
+                    margin: 0 8px 0 0;
+                }
 
                 hca-download-manifest {
                     margin: 0;
