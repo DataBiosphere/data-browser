@@ -28,6 +28,11 @@
                     <mat-spinner diameter="28"></mat-spinner>
                 </div>
             </ng-container>
+            <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
+                <div class="hca-download-content">
+                    <p class="fontsize-s">An error has occurred.</p>
+                </div>
+            </ng-container>
         </ng-container>
         <div *ngSwitchDefault class="hca-spinner">
             <mat-spinner diameter="28"></mat-spinner>

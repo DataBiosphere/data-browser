@@ -8,7 +8,8 @@
 // Core dependencies
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { interval, Observable, of, Subject } from "rxjs/index";
+import { interval, Observable, of, Subject } from "rxjs";
+import { catchError, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -16,7 +17,6 @@ import { ExportToTerraResponse } from "./export-to-terra-response.model";
 import { ManifestResponse } from "./manifest-response.model";
 import { FileFacet } from "./file-facet.model";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
-import { catchError, retry, switchMap, take } from "rxjs/operators";
 import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
@@ -112,8 +112,9 @@ export class TerraDAO {
      * Request export to Terra status for the specified URL.
      *
      * @param {Observable<ExportToTerraHttpResponse>} getRequest
+     * @param {ExportToTerraResponse} terraResponse
      */
-    private requestExportToTerra(getRequest: Observable<ExportToTerraHttpResponse>,  manifestResponse$: Subject<ExportToTerraResponse>) {
+    private requestExportToTerra(getRequest: Observable<ExportToTerraHttpResponse>,  terraResponse: Subject<ExportToTerraResponse>) {
 
         getRequest
             .pipe(
@@ -122,7 +123,7 @@ export class TerraDAO {
                 switchMap(this.bindManifestResponse.bind(this))
             )
             .subscribe((response: ExportToTerraResponse) => {
-                manifestResponse$.next(response);
+                terraResponse.next(response);
             });
     }
 
