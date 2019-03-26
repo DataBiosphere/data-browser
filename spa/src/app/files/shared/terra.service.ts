@@ -49,6 +49,17 @@ export class TerraService {
     }
 
     /**
+     * Returns true if the specified export to Terra request has failed.
+     *
+     * @param {ExportToTerraStatus} status
+     * @returns {boolean}
+     */
+    public isExportToTerraRequestFailed(status: ExportToTerraStatus): boolean {
+
+        return status === ExportToTerraStatus.FAILED;
+    }
+
+    /**
      * Returns true if the specified export to Terra request has been initiated.
      *
      * @param {ExportToTerraStatus} status

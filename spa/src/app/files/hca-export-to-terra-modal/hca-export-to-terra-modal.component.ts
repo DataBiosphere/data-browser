@@ -97,6 +97,17 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if an error occurred during the export to Terra request.
+     *
+     * @param {ExportToTerraStatus} status
+     * @returns {boolean}
+     */
+    public isRequestFailed(status: ExportToTerraStatus): boolean {
+
+        return this.terraService.isExportToTerraRequestFailed(status);
+    }
+
+    /**
      * Returns true if export to Terra request is in progress.
      *
      * @param {ExportToTerraStatus} status
