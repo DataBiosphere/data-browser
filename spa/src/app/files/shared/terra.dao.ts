@@ -57,7 +57,7 @@ export class TerraDAO {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.fileHttpService.marshallSelectedFacets(selectedFacets), "tarball");
+        const query = new ICGCQuery(this.fileHttpService.marshallSelectedFacets(selectedFacets), "bdbag");
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);
