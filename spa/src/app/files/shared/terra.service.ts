@@ -34,7 +34,7 @@ export class TerraService {
     public buildExportToTerraWorkspaceUrl(exportUrl: string): string {
 
         const encdodedUrl = encodeURIComponent(exportUrl);
-        return `https://bvdp-saturn-prod.appspot.com/#import-data?url=${encdodedUrl}`;
+        return `https://app.terra.bio/#import-data?url=${encdodedUrl}`;
     }
 
     /**

@@ -11,8 +11,8 @@ import { Action } from "@ngrx/store";
 // App dependencies
 import { TerraState } from "./terra.state";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
-import { ExportToTerraSuccessAction } from "./export-to-terra-success.actions";
-import { ResetExportToTerraStatusAction } from "./reset-export-to-terra-status.actions";
+import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
+import { ResetExportToTerraStatusAction } from "./reset-export-to-terra-status.action";
 
 export function reducer(state: TerraState = TerraState.getDefaultState(), action: Action): TerraState {
 
@@ -26,7 +26,7 @@ export function reducer(state: TerraState = TerraState.getDefaultState(), action
         case ExportToTerraRequestAction.ACTION_TYPE:
             return state.exportToTerraRequest();
 
-        // Export to Terra response has been received from the server. This could be an in progress or completed response.
+        // Export to Terra response has been received from the server.
         case ExportToTerraSuccessAction.ACTION_TYPE:
             return state.exportToTerraSuccess(action as ExportToTerraSuccessAction);
 
