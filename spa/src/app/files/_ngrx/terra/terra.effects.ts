@@ -16,8 +16,9 @@ import { map, switchMap, take } from "rxjs/operators";
 import { AppState } from "../../../_ngrx/app.state";
 import { TerraService } from "../../shared/terra.service";
 import { selectFileFacets } from "../file.selectors";
+import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.action";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
-import { ExportToTerraSuccessAction } from "./export-to-terra-success.actions";
+import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 
 @Injectable()
 export class TerraEffects {
@@ -45,6 +46,8 @@ export class TerraEffects {
                 take(1)
             )),
             switchMap((query) => this.terraService.exportToTerra(query)),
-            map(response => new ExportToTerraSuccessAction(response))
+            map(response => this.terraService.isExportToTerraRequestInProgress(response.status) ?
+                new ExportToTerraInProgressAction(response) :
+                new ExportToTerraSuccessAction(response))
         );
 }

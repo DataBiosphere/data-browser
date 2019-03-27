@@ -19,18 +19,9 @@ import { TerraState } from "./terra.state";
 export const selectTerra = createFeatureSelector<TerraState>("terra");
 
 /**
- * Return the status of the current export to Terra request, if any.
+ * Return the status of the current export to Terra request, if any, and the corresponding export URL.
  *
- * @type {MemoizedSelector<object, ExportToTerraStatus>}
+ * @type {MemoizedSelector<object, TerraState>}
  */
-export const selectExportToTerraStatus =
-    createSelector(selectTerra, (state: TerraState) => state.exportToTerraStatus);
-
-/**
- * Return the export to Terra URL. Note, the store contains a record of the intermediate polling URL when requesting
- * an export to Terra. Confirm the status of the request is COMPLETE before using this URL as the final export URL.
- *
- * @type {MemoizedSelector<object, ExportToTerraStatus>}
- */
-export const selectExportToTerraUrl =
-    createSelector(selectTerra, (state: TerraState) => state.exportToTerraUrl);
+export const selectExportToTerra =
+    createSelector(selectTerra, (state: TerraState) => state);

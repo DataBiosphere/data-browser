@@ -14,11 +14,8 @@ import { catchError, retry, switchMap, take } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { ExportToTerraResponse } from "./export-to-terra-response.model";
-import { ManifestResponse } from "./manifest-response.model";
 import { FileFacet } from "./file-facet.model";
-import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model";
-import { ManifestStatus } from "./manifest-status.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { FileHttpService } from "./file-http.service";
 import { ICGCQuery } from "./icgc-query";
@@ -61,7 +58,7 @@ export class TerraDAO {
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);
-        const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
+        const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
         this.requestExportToTerra(getRequest, exportResponse$);
 
         return exportResponse$.asObservable();
@@ -73,7 +70,7 @@ export class TerraDAO {
      * @param {ExportToTerraHttpResponse} response
      * @returns {ExportToTerraResponse}
      */
-    private bindManifestResponse(response: ExportToTerraHttpResponse): Observable<ExportToTerraResponse> {
+    private bindExportToTerraResponse(response: ExportToTerraHttpResponse): Observable<ExportToTerraResponse> {
 
         return of({
             retryAfter: response["Retry-After"],
@@ -120,7 +117,7 @@ export class TerraDAO {
             .pipe(
                 retry(3),
                 catchError(this.handleExportToTerraError.bind(this)),
-                switchMap(this.bindManifestResponse.bind(this))
+                switchMap(this.bindExportToTerraResponse.bind(this))
             )
             .subscribe((response: ExportToTerraResponse) => {
                 terraResponse.next(response);
@@ -130,8 +127,8 @@ export class TerraDAO {
     /**
      * Send request to export to Terra and poll for completion.
      *
-     * @param {ManifestResponse} response
-     * @param {Subject<ManifestResponse>} exportResponse$
+     * @param {ExportToTerraResponse} response
+     * @param {Subject<ExportToTerraResponse>} exportResponse$
      */
     private updateExportToTerraStatus(response: ExportToTerraResponse, exportResponse$: Subject<ExportToTerraResponse>) {
 
@@ -149,7 +146,7 @@ export class TerraDAO {
      * Convert the value of the export to Terra status to FE-friendly value.
      *
      * @param {number} code
-     * @returns {ManifestStatus}
+     * @returns {ExportToTerraStatus}
      */
     private translateExportToTerraStatus(code: number): ExportToTerraStatus {
 

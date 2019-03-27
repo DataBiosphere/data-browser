@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { ExportToTerraSuccessAction } from "./export-to-terra-success.actions";
+import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { Terra } from "./terra.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 

@@ -10,7 +10,7 @@ import { AppState } from "../../_ngrx/app.state";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { combineLatest } from "rxjs";
-import { filter, map, take, takeUntil } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -31,9 +31,9 @@ import {
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
 import { ExportToTerraRequestAction } from "../_ngrx/terra/export-to-terra-request.action";
-import { ResetExportToTerraStatusAction } from "../_ngrx/terra/reset-export-to-terra-status.actions";
+import { ResetExportToTerraStatusAction } from "../_ngrx/terra/reset-export-to-terra-status.action";
 import { TerraService } from "../shared/terra.service";
-import { selectExportToTerraStatus, selectExportToTerraUrl } from "../_ngrx/terra/terra.selectors";
+import { selectExportToTerra } from "../_ngrx/terra/terra.selectors";
 import { ExportToTerraStatus } from "../shared/export-to-terra-status.model";
 import { Subject } from "rxjs/index";
 
@@ -158,8 +158,7 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         this.state$
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus)),
-                take(1)
+                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus))
             )
             .subscribe((state) => {
 
@@ -195,26 +194,21 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         // Grab file summary for populating file type counts on export to Terra modal
         const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectDownloadManifestFileSummary));
 
-        // Update the UI with any changes in the export to Terra request status
-        const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerraStatus));
-
-        // Grab the export URL
-        const selectExportToTerraUrl$ = this.store.pipe(select(selectExportToTerraUrl));
+        // Update the UI with any changes in the export to Terra request status and URL
+        const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerra));
 
         this.state$ = combineLatest(
             selectedFileFacets$,
             selectManifestDownloadFileSummary$,
-            selectExportToTerraStatus$,
-            selectExportToTerraUrl$
+            selectExportToTerraStatus$
         )
             .pipe(
-                map(([selectedFileFacets, manifestDownloadFileSummary, exportToTerraStatus, exportToTerraUrl]) => {
+                map(([selectedFileFacets, manifestDownloadFileSummary, exportToTerra]) => {
 
                     return {
                         selectedFileFacets,
                         manifestDownloadFileSummary,
-                        exportToTerraStatus,
-                        exportToTerraUrl
+                        ...exportToTerra
                     };
                 })
         );
