@@ -22,6 +22,7 @@ export class ConfigService {
     private dataURL: string; // Pulled from config store, saved as local state here on service
     private matrixURL: string;
     private portalURL: string;
+    private projectMetaURL: string;
     private store: Store<AppState>;
 
     /**
@@ -61,7 +62,7 @@ export class ConfigService {
     }
 
     /**
-     * Return the matrix URL for this Boardwalk instance.
+     * Returns the matrix URL.
      *
      * @returns {string}
      */
@@ -71,13 +72,23 @@ export class ConfigService {
     }
 
     /**
-     * Return the data URL for this Boardwalk instance.
+     * Returns the portal URL.
      *
      * @returns {string}
      */
     public getPortalURL(): string {
 
         return this.portalURL;
+    }
+
+    /**
+     * Returns the project meta URL.
+     *
+     * @returns {string}
+     */
+    public getProjectMetaURL(): string {
+
+        return this.projectMetaURL;
     }
 
     /**
@@ -100,6 +111,7 @@ export class ConfigService {
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
         this.portalURL = config.portalURL;
+        this.projectMetaURL = config.projectMetaURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }
 }

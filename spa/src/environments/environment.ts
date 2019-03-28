@@ -7,5 +7,6 @@ export const environment = {
     production: false,
     dataURL: "https://service.dev.explore.data.humancellatlas.org",
     matrixURL: "https://matrix.integration.data.humancellatlas.org/v0/matrix",
-    portalURL: "https://dev.data.humancellatlas.org"
+    portalURL: "https://dev.data.humancellatlas.org",
+    projectMetaURL: "http://url.data.humancellatlas.org"
 };
