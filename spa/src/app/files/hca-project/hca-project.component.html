@@ -118,6 +118,16 @@
                     </p>
                     <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
                 </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="'Download project metadata'"
+                                     [tooltipDisabled]="false"
+                                     [tooltipPosition]="'above'">Project Metadata
+                        </hca-tooltip>
+                    </p>
+                    <p class="fontsize-xs rhs link"><a [href]="getProjectMetaURL(project)">{{getProjectMetaURL(project)}}</a></p>
+                </div>
             </div>
             <div class="project-info">
                 <div>
