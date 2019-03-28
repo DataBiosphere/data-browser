@@ -139,6 +139,12 @@
                 p, a {
                     padding: 0 16px;
                 }
+
+                .link { /* No padding on links on rhs */
+                    a {
+                        padding: 0;
+                    }
+                }
             }
         }
 
