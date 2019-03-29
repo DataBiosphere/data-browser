@@ -16,8 +16,9 @@
                     {{formatETA(matrixResponse.eta)}}.</p>
             </ng-container>
             <ng-container *ngIf="isRequestCompleted(matrixResponse)">
-                <p class="fontsize-s">Your expression matrix is ready. Right-click the download link below and choose "Save Link As...".</p>
-                <p class="fontsize-xxs"><a href="{{getMatrixLink(matrixResponse)}}">{{getMatrixLink(matrixResponse)}}</a></p>
+                <p class="fontsize-s">Your expression matrix is ready.</p>
+                <p class="fontsize-s">Right-click the download link below and choose "Save Link As...".</p>
+                <p class="fontsize-xxs save-as"><a href="{{getMatrixLink(matrixResponse)}}">{{getMatrixLink(matrixResponse)}}</a></p>
             </ng-container>
             <ng-container *ngIf="isRequestFailed(matrixResponse)">
                 <p class="fontsize-s">An error has occurred.</p>

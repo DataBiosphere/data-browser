@@ -37,12 +37,18 @@
     .hca-download-content {
         padding: 0 24px;
         margin: 16px 0 32px;
-        min-height: 48px;
+        min-height: 82px;
 
         .fontsize-s, .fontsize-xxs {
             margin: 0;
         }
 
+        /* Save as */
+        .save-as {
+            padding: 8px 0;
+        }
+
+        /* Matrix error */
         .matrix-error {
             background-color: #fafafa;
             font-family: monospace;
