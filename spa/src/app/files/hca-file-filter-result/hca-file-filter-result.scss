@@ -17,7 +17,6 @@
         align-items: flex-start;
         display: flex;
         flex-wrap: wrap;
-        margin: -3px;
         min-height: 26px; /* Placeholder for empty list */
 
         /* List of selected terms - chips */
@@ -37,21 +36,29 @@
 
             /* Facet and term name */
             > div {
+                align-items: center;
+                display: flex;
                 padding: 0 3px;
 
-                /* Facet name */
-                span:first-of-type {
-                    font-family: "Montserrat", sans-serif; /* Todo typography */
-                    font-size: 11px; /* Todo typography */
-                    font-weight: 600; /* Todo typography */
-                    letter-spacing: 0.34px; /* Todo typography */
+                span {
+                    display: inline-block;
+                    line-height: normal;
                 }
 
-                /* Term name */
-                span:last-of-type {
-                    font-family: "Montserrat", sans-serif; /* Todo typography */
-                    font-size: 11px; /* Todo typography */
-                    letter-spacing: 0.34px; /* Todo typography */
+                /* Chip label: facet name */
+                .label {
+                    font-family: "Montserrat", sans-serif;
+                    font-size: 11px;
+                    font-weight: 600;
+                    letter-spacing: 0.34px;
+                    padding-right: 4px;
+                }
+
+                /* Chip input: term name */
+                .input {
+                    font-family: "Montserrat", sans-serif;
+                    font-size: 11px;
+                    letter-spacing: 0.34px;
                 }
             }
 
@@ -91,6 +98,10 @@
     .wrapper {
         padding: 0 24px;
 
+        .filter-result {
+            min-height: unset;
+        }
+
         /* Show no selected term if 0 terms selected */
         .filter-result .no-selected-term {
             display: flex;
@@ -110,7 +121,6 @@
 
     /* Wrapper */
     .wrapper {
-        //max-width: 1140px; /* Snap to 1200px, gutter 30px */
         padding: 0 30px;
     }
 }
