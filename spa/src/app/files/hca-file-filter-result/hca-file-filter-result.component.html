@@ -5,15 +5,15 @@
                 <ng-container *ngFor="let term of facet.terms">
                     <mat-chip *ngIf="term.selected" [removable]="removable" class="selected-term">
                         <div>
-                            <span>{{getFacetName(facet.name)}}: </span>
-                            <span>{{term.name}}</span>
+                            <span class="label">{{getFacetName(facet.name)}}:</span>
+                            <span class="input">{{term.name}}</span>
                         </div>
                         <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close
                         </mat-icon>
                     </mat-chip>
                 </ng-container>
             </ng-container>
-            <mat-chip *ngIf="selectedFacets.length === 0" [removable]="removable" class="no-selected-term">No selected terms</mat-chip>
+            <mat-chip *ngIf="selectedFacets.length === 0" [removable]="removable" class="no-selected-term"><div><span class="input">No selected terms</span></div></mat-chip>
             <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets()" class="clear-all">
                 Clear All
             </button>
