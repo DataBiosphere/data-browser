@@ -15,27 +15,21 @@
 }
 
 mat-toolbar {
-
     background-color: $hca-off-white;
     min-height: 60px !important; /* HCA specific */
-    position: relative;
+    position: relative; /* Positions overlay, cc-nav-toolbar */
 
     mat-toolbar-row {
         align-items: center;
         display: flex;
         height: 60px !important; /* HCA specific */
-        justify-content: space-between;
+        justify-content: space-between; /* RHS menu */
         margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
 
+        /* Wrapper around logo */
         > a {
-            height: 40px; /* Image height */
-            width: 200px; /* Allocate equal width to image and About to centre navigation */
-        }
-
-        /* Hide RHS about */
-        > .about {
-            display: none;
+            line-height: 0;
         }
     }
 
@@ -44,128 +38,92 @@ mat-toolbar {
         display: none;
     }
 
+    /* Logo */
     img {
-        height: 40px;
+        height: 30px;
     }
 
-    /* Override default cc-toolbar-nav left margin */
     cc-toolbar-nav {
-        margin-left: 0;
+        padding: 12px 0;
         z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
     }
 
-    /* Override default nav item color TODO will need to revisit this once theming per instance is setup */
-    cc-toolbar-nav-item {
-
-        &.active {
-            a {
-                color: $hca-black;
-                text-decoration: none;
-
-                &:hover {
-                    color: $hca-black;
-                }
-            }
-        }
-
-        a, &.about a {
-            align-items: flex-start;
-            color: $hca-black;
-            display: flex;
-            flex-direction: column;
-            font-family: "Montserrat", sans-serif;
-            font-size: 15px; /* TODO review with typography */
-            font-weight: 600; /* TODO review with typography */
-            margin: 0 24px;
-            text-transform: capitalize;
-
-            &:hover {
-                color: $hca-black;
-            }
-
-            span:nth-of-type(2) {
-                color: $hca-black;
-                font-size: 12px; /* TODO review with typography */
-                font-weight: 400; /* TODO review with typography */
-                letter-spacing: 1.2px;
-                line-height: 24px; /* TODO typography */
-                margin-top: -8px;
-                text-transform: none;
-            }
-        }
-
-        /* About */
-        &.about a {
-            color: $hca-gray-dark;
-            font-weight: 400;
-        }
-    }
-
-    // No overlay when menu closed
-    .hca-toolbar-nav-overlay {
-        display: none;
-    }
-
-    /* Menu drop down */
-    .menu-dropdown, .menu-dropdown-close {
-        align-items: center;
+    /* Active navigation - "Explore" */
+    cc-toolbar-nav-item.active a {
         color: $hca-black;
-        cursor: pointer;
-        font-family: "Montserrat", sans-serif; /* TODO typography */
-        font-size: 13px; /* TODO typography */
-        font-weight: 600; /* TODO typography */
+        text-decoration: none;
+    }
+
+    /* Nav link - wrapper */
+    cc-toolbar-nav-item a {
+        align-items: flex-start;
+        color: $hca-black;
         display: flex;
-    }
+        flex-direction: column;
+        margin: 0 24px;
+        text-transform: capitalize;
 
-    /* Drop down icon */
-    .menu-dropdown::before, .menu-dropdown-close::before {
-        color: $hca-gray-dark;
-        content: "\E313";
-        font-family: "Material Icons";
-        font-size: 18px; // HCA specific
-        font-weight: 400;
-        margin: 0 4px;
-    }
+        /* Nav link - hover state */
+        &:hover {
+            color: $hca-black;
+        }
 
-    /* Menu drop down - about and close */
-    .menu-dropdown-close {
-        display: none;
-    }
+        /* Title */
+        span:first-of-type {
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
 
-    /* Drop down icon */
-    .menu-dropdown-close::before {
-        display: none;
+        /* Sub title */
+        span:nth-of-type(2) {
+            letter-spacing: 1.2px;
+            margin: 0;
+            text-transform: none;
+        }
     }
 }
 
+// No overlay when menu closed
+.hca-toolbar-nav-overlay {
+    display: none;
+}
+
+/* Menu drop down */
+.menu-dropdown, .menu-dropdown-close {
+    align-items: center;
+    color: $hca-black;
+    cursor: pointer;
+    display: flex;
+    margin: 0; /* Overrides font class */
+}
+
+/* Drop down icon */
+.menu-dropdown::before, .menu-dropdown-close::before {
+    color: $hca-gray-dark;
+    content: "\E313";
+    font-family: "Material Icons";
+    font-size: 18px; // HCA specific
+    font-weight: 400;
+    margin: 0 4px;
+}
+
+/* Menu drop down - close */
+.menu-dropdown-close {
+    display: none;
+}
+
+/* Drop down icon */
+.menu-dropdown-close::before {
+    display: none;
+}
+
 /**
- * Large
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media (min-width: 1200px) {
+@media screen and (min-width: 840px) {
 
     mat-toolbar {
-
-        mat-toolbar-row {
-            //max-width: 1200px; /* Snap to 1200px, gutter 30px */
-            padding: 0 30px; /* Gutter 30px */
-
-            /* About */
-            > .about {
-                align-items: center;
-                color: $hca-gray-dark; /* TODO change when implement hca-gray-dark */
-                cursor: pointer;
-                display: flex;
-                font-family: "Montserrat", sans-serif; /* TODO typography */
-                font-size: 14px; /* TODO typography */
-                font-weight: 400; /* TODO typography */
-                justify-content: flex-end;
-
-                /* About hover */
-                &:hover {
-                    color: $hca-black;
-                }
-            }
-        }
 
         // Hide menu
         [menu-open] {
@@ -177,25 +135,6 @@ mat-toolbar {
             display: none !important;
         }
 
-        cc-toolbar-nav-item {
-            padding: 0 16px; /* HCA specific override */
-
-            /* Hide cc-toolbar-nav-item about */
-            &.about {
-                display: none;
-            }
-
-            a {
-                color: $hca-gray-dark;
-                margin: 0;
-                text-transform: capitalize;
-
-                span:nth-of-type(2) {
-                    display: none;
-                }
-            }
-        }
-
         /* Menu drop down */
         .menu-dropdown, .menu-dropdown-close {
             display: none;
@@ -204,6 +143,66 @@ mat-toolbar {
         /* Drop down icon */
         .menu-dropdown::before, .menu-dropdown-close::before {
             display: none;
+        }
+
+        cc-toolbar-nav {
+            padding: 0;
+        }
+
+        /* Link wrapper */
+        cc-toolbar-nav-item {
+            padding: 0 10px;
+
+            /* Link */
+            a {
+                color: $hca-gray-dark;
+                text-transform: capitalize;
+                margin: 0;
+
+                /* Title */
+                span:first-of-type {
+                    font-size: 14px;
+                    line-height: 60px;
+                    margin: 0;
+                    white-space: nowrap;
+                }
+
+                /* Sub title - hide */
+                span:nth-of-type(2) {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1024px) {
+
+    mat-toolbar {
+
+        img {
+            height: 40px;
+        }
+
+        cc-toolbar-nav-item {
+            padding: 0 12px;
+        }
+    }
+}
+
+/**
+ * Large
+ */
+@media (min-width: 1200px) {
+
+    mat-toolbar {
+
+        mat-toolbar-row {
+            padding: 0 30px; /* Gutter 30px */
         }
     }
 }

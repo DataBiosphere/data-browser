@@ -48,15 +48,14 @@
             .links {
                 align-items: center;
                 display: flex;
+                flex-direction: column;
+                margin: 0; /* Overrides font class */
 
                 /* Footer links */
                 a {
                     color: $hca-white;
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-size: 16px; /* TODO typography */
-                    font-weight: 600; /* TODO typography */
+                    font: inherit;
                     margin: 0 16px;
-                    padding: 4px 0;
                     text-decoration: none;
                     text-transform: capitalize;
                 }
@@ -108,9 +107,14 @@
 
                 /* Footer links container */
                 .links {
+                    flex-direction: row;
                     margin: 0 -16px; /* Right aligns links */
-                }
 
+                    /* Footer links */
+                    a {
+                        padding: 4px 0;
+                    }
+                }
             }
         }
     }

@@ -17,7 +17,7 @@
 /**
  * Extra small, small
  */
-@media (max-width: 1199px) {
+@media (max-width: 839px) {
 
     /**
      * Default state
@@ -48,13 +48,33 @@
 }
 
 /**
- * Large +
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media (min-width: 1200px) {
+@media screen and (min-width: 840px) {
 
-    // Always display nav on medium + devices
+    // Nav - show
     :host, cc-toolbar-nav {
         display: flex;
         flex-direction: row;
+        left: 182px;
+        position: absolute;
+    }
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1024px) {
+
+    /* Nav - centered */
+    :host, cc-toolbar-nav {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
     }
 }
