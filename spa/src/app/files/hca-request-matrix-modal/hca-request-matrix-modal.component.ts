@@ -29,6 +29,7 @@ import { MatrixResponse } from "../shared/matrix-response.model";
 export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
     // Template variables
+    public downloadAs = false;
     public fileFormat = MatrixFormat.loom;
     public matrixResponse$ = new Subject<MatrixResponse>();
     public state$: Observable<HCARequestMatrixModalState>;
@@ -160,6 +161,14 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     public isRequestNew(response: MatrixResponse): boolean {
 
         return !response;
+    }
+
+    /**
+     * Shows/hides "save as" instructions.
+     */
+    public onDownloadAs() {
+
+        this.downloadAs = !this.downloadAs;
     }
 
     /**

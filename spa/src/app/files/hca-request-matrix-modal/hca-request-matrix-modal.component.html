@@ -15,9 +15,13 @@
                 <p class="fontsize-s" *ngIf="isETASpecified(matrixResponse)">Wait times are currently about
                     {{formatETA(matrixResponse.eta)}}.</p>
             </ng-container>
-            <ng-container *ngIf="isRequestCompleted(matrixResponse)">
+            <ng-container *ngIf="isRequestCompleted(matrixResponse) && !this.downloadAs">
                 <p class="fontsize-s">Your expression matrix is ready.</p>
+            </ng-container>
+            <ng-container *ngIf="isRequestCompleted(matrixResponse) && this.downloadAs">
                 <p class="fontsize-s">Right-click the download link below and choose "Save Link As...".</p>
+            </ng-container>
+            <ng-container *ngIf="isRequestCompleted(matrixResponse)">
                 <p class="fontsize-xxs save-as"><a href="{{getMatrixLink(matrixResponse)}}">{{getMatrixLink(matrixResponse)}}</a></p>
             </ng-container>
             <ng-container *ngIf="isRequestFailed(matrixResponse)">
@@ -46,13 +50,17 @@
                          class="hca-spinner"
                          diameter="28">
             </mat-spinner>
-            <ng-container *ngIf="isRequestCompleted(matrixResponse)">
-                <button type="button" (click)="onDownloadMatrix(matrixResponse)">Download Matrix</button>
+            <ng-container *ngIf="isRequestCompleted(matrixResponse) && !this.downloadAs">
+                <button type="button" (click)="onDownloadMatrix(matrixResponse)">Download</button>
+                <button type="button" (click)="onDownloadAs()">Download As</button>
                 <button type="button"
                         ngxClipboard
                         [cbContent]="(getMatrixCurlCommand(matrixResponse))"
                         class="hca-outline-button">
                     <img src="assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
+            </ng-container>
+            <ng-container *ngIf="this.downloadAs">
+                <button type="button" (click)="onDownloadAs()" class="hca-outline-button">Cancel</button>
             </ng-container>
         </ng-container>
     </div>
