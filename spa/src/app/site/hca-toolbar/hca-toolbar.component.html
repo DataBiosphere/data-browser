@@ -1,42 +1,54 @@
 <mat-toolbar>
     <mat-toolbar-row>
         <a href={{portalURL}}>
-        <img src="assets/images/logos/hca/logo-hca.png"/>
+            <img src="assets/images/logos/hca/logo-hca.png"/>
         </a>
-        <div menu-open cc-hamburger class="menu-dropdown" (click)="isMenuOpen(true)">Menu</div>
-        <div menu-close cc-hamburger class="menu-dropdown-close" (click)="isMenuOpen(false)">Menu</div>
+        <div menu-open cc-hamburger class="menu-dropdown fontsize-s semi-bold" (click)="isMenuOpen(true)">Menu</div>
+        <div menu-close cc-hamburger class="menu-dropdown-close fontsize-s semi-bold" (click)="isMenuOpen(false)">Menu</div>
         <cc-toolbar-nav>
             <cc-toolbar-nav-item class="active">
                 <a href="#">
-                    <span>Explore</span>
-                    <span>Search for data in the HCA</span>
+                    <span class="fontsize-xs">Explore</span>
+                    <span class="fontsize-xxs">Search for data in the HCA</span>
                 </a>
             </cc-toolbar-nav-item>
             <cc-toolbar-nav-item>
-                <a href="{{portalURL}}/contribute">
-                    <span>Contribute</span>
-                    <span>Submit your data to the HCA</span>
+                <a href="{{portalURL}}/guides">
+                    <span class="fontsize-xs">Guides</span>
+                    <span class="fontsize-xxs">Find user guides and how-to’s here</span>
+                </a>
+            </cc-toolbar-nav-item>
+            <cc-toolbar-nav-item>
+                <a href="{{portalURL}}/metadata">
+                    <span class="fontsize-xs">Metadata</span>
+                    <span class="fontsize-xxs">Fields used to describe datasets in the Human Cell Atlas</span>
+                </a>
+            </cc-toolbar-nav-item>
+            <cc-toolbar-nav-item>
+                <a href="{{portalURL}}/pipelines">
+                    <span class="fontsize-xs">Pipelines</span>
+                    <span class="fontsize-xxs">Pipelines</span>
                 </a>
             </cc-toolbar-nav-item>
             <cc-toolbar-nav-item>
                 <a href="{{portalURL}}/analyze">
-                    <span>Analyze</span>
-                    <span>Find a list of Apps</span>
+                    <span class="fontsize-xs">Analysis Tools</span>
+                    <span class="fontsize-xxs">Find a list of Apps</span>
                 </a>
             </cc-toolbar-nav-item>
             <cc-toolbar-nav-item>
-                <a href="{{portalURL}}/learn">
-                    <span>Learn</span>
-                    <span>Find user guides and how-to’s here</span>
+                <a href="{{portalURL}}/contribute">
+                    <span class="fontsize-xs">Contribute</span>
+                    <span class="fontsize-xxs">Submit your data to the HCA</span>
                 </a>
             </cc-toolbar-nav-item>
-            <cc-toolbar-nav-item class="about">
-                <a href="{{portalURL}}/help">
-                    <span>Help</span>
+            <cc-toolbar-nav-item>
+                <a href="{{portalURL}}/apis">
+                    <span class="fontsize-xs">APIs</span>
+                    <span class="fontsize-xxs">APIs</span>
                 </a>
             </cc-toolbar-nav-item>
         </cc-toolbar-nav>
-        <a href="{{portalURL}}/help" class="about">Help</a>
         <div menu-open class="hca-toolbar-nav-overlay"></div>
     </mat-toolbar-row>
 </mat-toolbar>
