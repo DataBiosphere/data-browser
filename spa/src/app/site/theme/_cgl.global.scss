@@ -61,12 +61,14 @@ ul {
     line-height: 18px;
     margin: 0 0 4px;
 
-    &.semi-bold {
-        font-weight: 500;
-    }
-
+    /* Bold */
     &.bold {
         font-weight: 600;
+    }
+
+    /* Semi bold */
+    &.semi-bold {
+        font-weight: 500;
     }
 }
 
@@ -79,7 +81,7 @@ ul {
     line-height: 20px;
     margin: 0 0 8px;
 
-    /* Semi bold */
+    /* Bold */
     &.bold {
         font-weight: 600;
     }
@@ -93,6 +95,16 @@ ul {
     letter-spacing: normal;
     line-height: 24px;
     margin: 0 0 12px;
+
+    /* Bold */
+    &.bold {
+        font-weight: 600;
+    }
+
+    /* Semi bold */
+    &.semi-bold {
+        font-weight: 500;
+    }
 }
 
 /* HCA paragraph font class "fontsize-m" */
@@ -339,9 +351,10 @@ button {
 }
 
 /**
- * Large
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media (min-width: 1200px) {
+@media screen and (min-width: 840px) {
 
     // Display overlay
     .toolbar-menu-open .hca-toolbar-nav-overlay[menu-open] {
