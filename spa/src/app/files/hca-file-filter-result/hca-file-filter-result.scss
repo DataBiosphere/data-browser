@@ -26,9 +26,14 @@
             border-radius: 3px;
             box-sizing: border-box;
             display: flex;
+            height: 100%;
             min-height: 20px;
             margin: 3px;
             padding: 3px;
+
+            &::after {
+                background: transparent; /* Overrides mat-chip focus */
+            }
 
             &:focus {
                 box-shadow: none;
@@ -36,7 +41,7 @@
 
             /* Facet and term name */
             > div {
-                align-items: center;
+                align-items: flex-start;
                 display: flex;
                 padding: 0 3px;
 
