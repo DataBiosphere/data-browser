@@ -236,7 +236,7 @@ export class HCAProjectComponent implements OnInit {
         const posOfValue = values.indexOf(linkedValue);
 
         const portalURL =  this.configService.getPortalURL();
-        const hrefOfValue = `${portalURL}/learn/userguides/data-processing-pipelines/smart-seq2-workflow`;
+        const hrefOfValue = `${portalURL}/pipelines/hca-pipelines/data-processing-pipelines/smart-seq2-workflow`;
         const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
 
         return `${values.slice(0, posOfValue).concat(innerHTMLOfValue).concat(values.slice(posOfValue + 1, values.length)).join(", ")}`;
