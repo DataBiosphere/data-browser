@@ -7,26 +7,29 @@
 
 // Core dependencies
 import {
-    Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges,
+    Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges,
     ViewChild
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
-import { DeviceDetectorService } from "ngx-device-detector";
-import EntitySpec from "../shared/entity-spec";
 import { FacetGroup } from "./facet-group.model";
-import { FileFacet } from "../shared/file-facet.model";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import { FilterableFacet } from "./filterable-facet.model";
-import { SelectFileFacetAction, SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
+import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedEntity } from "../_ngrx/file.selectors";
+import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
+import { SearchTerm } from "../search/search-term.model";
+import EntitySpec from "../shared/entity-spec";
+import { FileFacet } from "../shared/file-facet.model";
+import { FileFacetName } from "../shared/file-facet-name.model";
+import { SelectProjectAction } from "../_ngrx/search/select-project.action";
 
 @Component({
     selector: "hca-file-filter",
@@ -73,39 +76,39 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         "libraryConstructionApproach": "Library Construction Method"
     };
 
-    // Inputs
-    @Input() fileFacets: FileFacet[];
-    @Input() selectedFacets: FileFacet[];
-
-    // Output
-    @Output() menuOpen = new EventEmitter<boolean>();
-
     // Template variables
     facetGroups: FacetGroup[];
     filterableFacets: FilterableFacet[] = [];
     filteredFacets$: Observable<FilterableFacet[]>;
     filterControl: FormControl = new FormControl();
     openIndex: number;
-    removable = true;
     searchReturnsEmpty = false;
+    public selectedEntity$: Observable<EntitySpec>;
     selectedFacet: number;
     selectIndex: number;
-    selectedTermSet: Set<string>;
 
     // Privates
     private camelToSpacePipe = new CamelToSpacePipe();
-    public selectedEntity$: Observable<EntitySpec>;
+
+    // Inputs
+    @Input() fileFacets: FileFacet[];
+    @Input() searchTerms: SearchTerm[];
+
+    // Output
+    @Output() menuOpen = new EventEmitter<boolean>();
 
     // View child/ren
     @ViewChild("filterInput") filterInput: ElementRef;
 
     /**
+     * @param {DeviceDetectorService} deviceService
      * @param {Store<AppState>} store
+     * @param {Window} window
      */
-    constructor(private deviceService: DeviceDetectorService, private store: Store<AppState>, @Inject("Window") private window: Window) {
-
-        this.store = store;
-    }
+    constructor(
+        private deviceService: DeviceDetectorService,
+        private store: Store<AppState>,
+        @Inject("Window") private window: Window) {}
 
     /**
      * Public API
@@ -172,11 +175,9 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
      */
     public getFacet(facetName: string): FileFacet {
 
-        const fileFacet = this.fileFacets.find(function (fileFacet) {
+        return this.fileFacets.find(function (fileFacet) {
             return fileFacet.name === facetName;
         });
-
-        return fileFacet;
     }
 
     /**
@@ -286,12 +287,11 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     * @param fileFacetSelectedEvent {FileFacetTermSelectedEvent}
      */
-    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetTermSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
+        this.store.dispatch(new SelectFileFacetTermAction(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true));
     }
 
     /**
@@ -337,11 +337,10 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
         const facetName = event.option.value.facet.facetName;
         const termName = event.option.value.term.termName;
-        const fileFacetSelectedEvent = new FileFacetSelectedEvent(facetName, termName, true);
-        const action = facetName === "project" ?
-            new SelectProjectAction(fileFacetSelectedEvent) :
-            new SelectFileFacetAction(fileFacetSelectedEvent);
 
+        const action = facetName === FileFacetName.PROJECT ?
+            new SelectProjectAction(termName) :
+            new SelectFileFacetTermAction(facetName, termName);
         this.store.dispatch(action);
 
         // Clear the filter input.
@@ -507,14 +506,10 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     private setupSearchTerms() {
 
         // Make a set that is easy to query to see if a term is selected.
-        this.selectedTermSet = this.selectedFacets.reduce((acc, facet) => {
+        const selectedTermSet = this.searchTerms.reduce((accum, searchTerm) => {
 
-            facet.selectedTerms.forEach((term) => {
-                acc.add(facet.name + ":" + term.name);
-            });
-
-            return acc;
-
+            accum.add(`${searchTerm.facetName}:${searchTerm.name}`);
+            return accum;
         }, new Set<string>());
 
         // map file facets to filterable facets.
@@ -532,7 +527,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
                     })
                     .filter((term) => {
                         // remove any selected terms from the term list
-                        return !this.selectedTermSet.has(fileFacet.name + ":" + term.termName);
+                        return !selectedTermSet.has(fileFacet.name + ":" + term.termName);
                     });
 
                 const facetName = fileFacet.name;

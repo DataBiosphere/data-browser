@@ -30,9 +30,9 @@ export class HealthState {
      * Health check response has been returned from the backend - update state.
      *
      * @param {HealthSuccessAction} action
-     * @returns {FileManifestSummaryState}
+     * @returns {HealthState}
      */
-    public receiveHealth(action: HealthSuccessAction) {
+    public receiveHealth(action: HealthSuccessAction): HealthState {
 
         return new HealthState(action.indexing);
     }

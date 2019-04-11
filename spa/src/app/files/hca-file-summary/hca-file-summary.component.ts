@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Component displaying summary counts as well as Matrix and download buttons.
  */

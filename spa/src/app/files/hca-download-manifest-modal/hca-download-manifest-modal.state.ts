@@ -7,10 +7,9 @@
 
 // App dependencies
 import { FileSummary } from "../file-summary/file-summary";
-import { FileFacet } from "../shared/file-facet.model";
 
 export interface HCADownloadManifestModalState {
 
-    selectedFileFacets: FileFacet[];
-    manifestDownloadFileSummary: FileSummary;
+    selectedSearchTermNames: string[]; // here
+    fileManifestFileSummary: FileSummary;
 }

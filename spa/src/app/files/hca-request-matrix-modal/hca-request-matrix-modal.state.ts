@@ -7,11 +7,11 @@
 
 // App dependencies
 import { FileSummary } from "../file-summary/file-summary";
-import { FileFacet } from "../shared/file-facet.model";
+import { SearchTerm } from "../search/search-term.model";
 
 export interface HCARequestMatrixModalState {
 
     fileSummary: FileSummary;
     matrixFileFormats: string[];
-    selectedFileFacets: FileFacet[];
+    searchTerms: SearchTerm[];
 }

@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Service for coordinating file-related functionality.
  */
@@ -11,14 +11,14 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
+import { Dictionary } from "../../dictionary";
 import { EntitySearchResults } from "./entity-search-results.model";
+import { FileFacetName } from "./file-facet-name.model";
 import { FilesDAO } from "./files.dao";
-import { FileFacet } from "./file-facet.model";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileSummary } from "../file-summary/file-summary";
-import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
 import { ManifestResponse } from "./manifest-response.model";
-import { Dictionary } from "../../dictionary";
+import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Injectable()
@@ -34,98 +34,73 @@ export class FilesService {
      * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
      * export.
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @param {string} format
      * @returns {string}
      */
-    public buildMatrixManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+    public buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
 
-        return this.fileDAO.buildMatrixManifestUrl(selectedFacets, format);
+        return this.fileDAO.buildMatrixManifestUrl(searchTerms, format);
     }
 
     /**
-     * Download File Manifest
-     * Removes all instances of fileFormat term "matrix".
-     * @param {FileFacetListState} ffls
+     * Download file manifest. Removes "matrix" search term, if selected.
+     *
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<ManifestResponse>}
      */
-    public downloadFileManifest(ffls: FileFacetListState): Observable<ManifestResponse> {
+    public downloadFileManifest(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
 
-        let selectedFacets = ffls.selectedFileFacets || [];
-        let allFacets = ffls.fileFacets || [];
+        const filteredSearchTerms = searchTerms.reduce((accum, searchTerm) => {
 
-        // If the facet "fileFacet" is missing i.e. no fileFacet terms have been selected, then add the facet to the selectedFacets
-        if ( !selectedFacets.some(facet => facet.name === "fileFormat") ) {
-
-            let fileFacet = allFacets.find(facet => facet.name === "fileFormat");
-
-            // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
-            const copyOfFacet = {...fileFacet};
-
-            // Filter out matrix
-            copyOfFacet.selectedTerms = copyOfFacet.terms.filter(term => term.name !== "matrix");
-            selectedFacets.push(copyOfFacet as FileFacet);
-        }
-
-        // Remove the term "matrix" from selectedTerms
-        selectedFacets = selectedFacets.map(selectedFacet => {
-
-            if ( selectedFacet.name === "fileFormat" ) {
-
-                // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
-                const copyOfFacet = {...selectedFacet};
-
-                // Filter out matrix
-                copyOfFacet.selectedTerms = copyOfFacet.selectedTerms.filter(term => term.name !== "matrix");
-                return copyOfFacet as FileFacet;
+            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== "matrix" ) {
+                accum.push(searchTerm);
             }
+            return accum;
+        }, []);
 
-            return selectedFacet;
-        });
-
-        return this.fileDAO.downloadFileManifest(selectedFacets);
+        return this.fileDAO.downloadFileManifest(filteredSearchTerms);
     }
 
     /**
      * Fetch data to populate rows in table, depending on the current selected tab (eg specimens, files), as
      * well as facet terms and their corresponding counts. See fetchProjectSearchResults for projects tab.
      *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
-    public fetchEntitySearchResults(selectedFacetsByName: Map<string, FileFacet>,
+    public fetchEntitySearchResults(searchTermsByFacetName: Map<string, Set<SearchTerm>>,
                                     tableParams: TableParamsModel,
                                     selectedEntity: string,
                                     filterableByProject = true): Observable<EntitySearchResults> {
 
         return this.fileDAO.fetchEntitySearchResults(
-            selectedFacetsByName, tableParams, selectedEntity, filterableByProject);
+            searchTermsByFacetName, tableParams, selectedEntity, filterableByProject);
     }
 
     /**
      * Fetch File Manifest Summary Observable
      *
-     * @param selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<Action>}
      */
-    public fetchFileManifestSummary(selectedFacets: FileFacet[]): Observable<Dictionary<FileManifestSummary>> {
+    public fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
 
-        return this.fileDAO
-            .fetchFileManifestSummary(selectedFacets);
+        return this.fileDAO.fetchFileManifestSummary(searchTerms);
     }
 
     /**
-     * Fetch file summary, passing in the current set of selected facets.
+     * Fetch file summary, passing in the current set of search terms.
      *
-     * @param {FileFacet[]} selectedFacets
+     * {SearchTerm[]} searchTerms
      * @returns {Observable<Action>}
      */
-    public fetchFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
+    public fetchFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
-        return this.fileDAO.fetchFileSummary(selectedFacets).pipe(
+        return this.fileDAO.fetchFileSummary(searchTerms).pipe(
             map(this.bindFileSummaryResponse)
         );
     }
@@ -134,26 +109,15 @@ export class FilesService {
      * Fetch file summary for displaying the manifest modal, passing in the current set of selected facets except any
      * selected file types.
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<Action>}
      */
-    public fetchManifestDownloadFileSummary(selectedFacets: FileFacet[]): Observable<FileSummary> {
+    public fetchFileManifestFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
-        const selectedFacetsExceptFileTypes = selectedFacets.filter((fileFacet) => {
-            return fileFacet.name !== "fileFormat";
+        const searchTermsExceptFileTypes = searchTerms.filter((fileFacet) => {
+            return fileFacet.facetName !== FileFacetName.FILE_FORMAT;
         });
-        return this.fetchFileSummary(selectedFacetsExceptFileTypes);
-    }
-
-    /**
-     * Fetch File Facets
-     *
-     * @param selectedFacetsByName
-     * @returns {Observable<FileFacet[]>}
-     */
-    public fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
-
-        return this.fileDAO.fetchOrderedFileFacets(selectedFacetsByName, tab);
+        return this.fetchFileSummary(searchTermsExceptFileTypes);
     }
 
     /**

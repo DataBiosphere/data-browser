@@ -6,25 +6,23 @@
  */
 
 // Core dependencies
-import {
-    Component,
-    ChangeDetectionStrategy, OnInit
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { selectSelectedFileFacets, selectSelectedProject } from "../_ngrx/file.selectors";
-import { SelectFileFacetAction, SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { selectProjectSearchTerms } from "../_ngrx/search/search.selectors";
+import { SelectProjectAction } from "../_ngrx/search/select-project.action";
 import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
-import { FileFacet } from "../shared/file-facet.model";
 import { Project } from "../shared/project.model";
-import { ConfigService } from "../../config/config.service";
+import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     selector: "hca-project",
@@ -36,7 +34,7 @@ import { ConfigService } from "../../config/config.service";
 export class HCAProjectComponent implements OnInit {
 
     // Public variables
-    public selectedFileFacets$: Observable<FileFacet[]>;
+    public selectedProjectIds$: Observable<string[]>;
 
     // Template variables
     public project$: Observable<Project>;
@@ -149,20 +147,15 @@ export class HCAProjectComponent implements OnInit {
      * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
      * project table.
      *
+     * @param {string} projectId
      * @param {string} projectShortName
+     * @param {boolean} select
      */
-    public onProjectSelected(projectShortName: string, select: boolean) {
+    public onProjectSelected(projectId: string, projectShortName: string, select: boolean) {
 
-        const event = new FileFacetSelectedEvent("project", projectShortName, select);
-        if ( select ) {
-            this.store.dispatch(new SelectProjectAction(event));
-        }
-        else {
-            this.store.dispatch(new SelectFileFacetAction(event));
-        }
+        this.store.dispatch(new SelectProjectAction(projectShortName, select));
         this.router.navigate(["/projects"]);
     }
-
 
     /**
      * Handle click on tab - update selected entity in state and return user back to project table.
@@ -187,26 +180,21 @@ export class HCAProjectComponent implements OnInit {
 
     /**
      * Returns true if project is a selected facet.
-     * @param {string} projectShortName
-     * @param {FileFacet[]} selectedFacets
+     *
+     * @param {string[]} selectedProjectIds
+     * @param {any} project
      * @returns {boolean}
      */
-    public isProjectSelected(projectShortName: string, selectedFacets: FileFacet[]): boolean {
+    public isProjectSelected(selectedProjectIds: string[], project: any): boolean {
 
-        let isProjectFacetSelected = selectedFacets.filter(fileFacet => fileFacet.name === "project");
-
-        if ( isProjectFacetSelected.length ) {
-            return isProjectFacetSelected[0].selectedTerms.some(term => term.name === projectShortName);
-        }
-
-        return false;
+        return selectedProjectIds.indexOf(project.projectShortname) >= 0;
     }
 
     /**
      * Return string-concat'ed version of the specified array.
      *
      * @param {any[]} values
-     * @param {string} emptyValue
+     * @param {string} valueIfNull
      * @returns {string}
      */
     public stringifyValues(values: any[], valueIfNull: string): string {
@@ -243,6 +231,19 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
+     * Transform selected project search term set into set of selected project IDs.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @returns {string[]}
+     */
+    private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
+
+        return searchTerms.map((searchTerm: SearchTerm) => {
+            return searchTerm.getSearchKey();
+        });
+    }
+
+    /**
      * Life cycle hooks
      */
 
@@ -258,7 +259,10 @@ export class HCAProjectComponent implements OnInit {
         // Grab reference to selected project
         this.project$ = this.store.pipe(select(selectSelectedProject));
 
-        // Get the set of selected facet terms
-        this.selectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
+        // Grab the ID's of the current set of selected projects, if any
+        this.selectedProjectIds$ = this.store.pipe(
+            select(selectProjectSearchTerms),
+            map(this.mapSearchTermsToProjectIds)
+        );
     }
 }

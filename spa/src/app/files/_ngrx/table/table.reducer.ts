@@ -9,19 +9,18 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import {
-    FetchFileFacetsSuccessAction,
-    SetViewStateAction
-} from "../file-facet-list/file-facet-list.actions";
+import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list.actions";
+import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
 import * as tableStateService from "./table.state";
 import { TableState } from "./table.state";
 import {
-    EntitySelectAction, FetchProjectRequestAction,
+    EntitySelectAction,
     FetchTableDataSuccessAction,
     TableNextPageSuccessAction,
     TablePreviousPageSuccessAction, FetchProjectSuccessAction
 } from "./table.actions";
 import { TableModel } from "../../table/table.model";
+
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 

@@ -2,7 +2,7 @@
     <hca-section-title id="hcaExplore"><ng-container title>Explore Data</ng-container></hca-section-title>
     <hca-file-filter-wrapper id="hcaFilterWrapper"
                              [fileFacets]="fileFacets$ | async"
-                             [selectedFacets]="selectedFileFacets$ | async"
+                             [searchTerms]="searchTerms$ | async"
                              (menuOpen)="onMenuOpen($event)">
     </hca-file-filter-wrapper>
     <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
@@ -14,6 +14,6 @@
     </hca-file-summary>
     <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedFacets]="selectedFileFacets$ | async"></hca-table-projects>
+    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>
     <hca-desktop-banner *ngIf="isDeviceHandheld()"></hca-desktop-banner>
 </div>

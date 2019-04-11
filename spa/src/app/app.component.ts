@@ -14,9 +14,9 @@ import { Observable, Subscription, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { SetViewStateAction } from "./files/_ngrx/file-facet-list/file-facet-list.actions";
-import { AppState } from "./_ngrx/app.state";
+import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
+import { AppState } from "./_ngrx/app.state";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
 import { selectIndexing } from "./system/_ngrx/system.selectors";
 
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Location} location
+     * @param {Router} router
      * @param {Renderer2} renderer
      * @param {Window} window
      */

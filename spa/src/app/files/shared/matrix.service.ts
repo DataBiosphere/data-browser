@@ -10,13 +10,15 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 // App dependencies
-import { FileFacet } from "./file-facet.model";
 import { FilesService } from "./files.service";
 import { MatrixDAO } from "./matrix.dao";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixStatus } from "./matrix-status.model";
-import { Term } from "./term.model";
+import { SearchTerm } from "../search/search-term.model";
+import { FileFacetName } from "./file-facet-name.model";
+import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class MatrixService {
@@ -52,14 +54,14 @@ export class MatrixService {
     /**
      * Request matrix export.
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
      * @returns {MatrixResponse}
      */
-    public requestMatrix(selectedFacets: FileFacet[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
+    public requestMatrix(searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
 
         // Build up the manifest URL - add file type "matrix" to selected facets if it isn't already selected
-        const manifestUrl = this.buildManifestUrl(selectedFacets);
+        const manifestUrl = this.buildManifestUrl(searchTerms);
 
         // Kick off matrix request
         return this.matrixDAO.requestMatrix(manifestUrl, matrixFormat);
@@ -104,55 +106,30 @@ export class MatrixService {
      */
 
     /**
-     * Build up term, representing the selected file type term "matrix".
+     * Build up manifest URL to pass as bundle req URL to matrix service. Add file type "matrix" to selected search terms
+     * if it isn't already selected.
      *
-     * @returns {Term}
-     */
-    private buildSelectedMatrixTerm(): Term {
-
-        return new Term("matrix", 0, true, "");
-    }
-
-    /**
-     * Build up manifest URL to pass as bundle req URL to matrix service. Add file type "matrix" to selected facets if
-     * it isn't already selected.
-     *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {string}
      */
-    private buildManifestUrl(selectedFacets: FileFacet[]): string {
+    private buildManifestUrl(searchTerms: SearchTerm[]): string {
 
-        // Create copy of selected facets as we may want to need to add the file type matrix term as selected, without
-        // affecting the current set of selected facets.
-        const selectedFacetsClone = [
-            ...selectedFacets
+        // Create copy of selected search terms as we may want to need to add the file type matrix term as selected,
+        // without affecting the current set of selected search terms.
+        const searchTermsClone = [
+            ...searchTerms
         ];
 
-        // Add matrix file type if it is not already selected
-        const fileFormatFacet = selectedFacetsClone.find((selectedFacet: FileFacet) => {
+        const matrixFileType = searchTermsClone.find((searchTerm: SearchTerm) => {
 
-            return selectedFacet.name === "fileFormat";
+            return searchTerm.facetName === FileFacetName.FILE_FORMAT &&
+                searchTerm.name === FileFormat.MATRIX;
         });
+        if ( !matrixFileType ) {
 
-        // There is at least one file type selected - check if its matrix and if not, add matrix
-        if ( !!fileFormatFacet ) {
-
-            const matrixSelected = fileFormatFacet.selectedTerms.some(term => {
-                return term.name === "matrix";
-            });
-            if ( !matrixSelected ) {
-
-                fileFormatFacet.selectedTerms.push(this.buildSelectedMatrixTerm());
-            }
-        }
-        // There is no file type selected - add matrix
-        else {
-
-            const fileFacet =
-                new FileFacet("fileFormat", 0, [this.buildSelectedMatrixTerm()], 0);
-            selectedFacetsClone.push(fileFacet);
+            searchTermsClone.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
         }
 
-        return this.filesService.buildMatrixManifestUrl(selectedFacetsClone, "tarball");
+        return this.filesService.buildMatrixManifestUrl(searchTermsClone, "tarball");
     }
 }
