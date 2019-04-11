@@ -2,8 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * File facet list reducer, handles actions related to selecting and deselecting facet terms, and corresponding knock-on
- * actions such as requesting updated list of facets.
+ * File facet list reducer, handles actions related to setting and updating file facets.
  */
 
 // Core dependencies
@@ -12,11 +11,14 @@ import { Action } from "@ngrx/store";
 // App dependencies
 import { FileFacetListState } from "./file-facet-list.state";
 import {
-    ClearSelectedFileFacetsAction, ClearSelectedTermsAction,
-    FetchFileFacetsSuccessAction, InitEntityStateAction,
-    SelectFileFacetAction, SelectProjectAction,
-    SetViewStateAction
+    ClearSelectedFileFacetsAction,
+    FetchFileFacetsSuccessAction,
+    InitEntityStateAction
 } from "./file-facet-list.actions";
+import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
+import { SelectProjectAction } from "../search/select-project.action";
+import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
+import { SetViewStateAction } from "./set-view-state.action";
 
 /**
  * @param state {FileFacetListState}
@@ -32,8 +34,8 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
 
         // Handle case where term has been selected - selected/deselected state of term must be updated, and possibly
         // the selected facet itself (if user has switched from the previously selected facet, to select a new term).
-        case SelectFileFacetAction.ACTION_TYPE:
-            return state.selectTerm(action as SelectFileFacetAction);
+        case SelectFileFacetTermAction.ACTION_TYPE:
+            return state.selectTerm(action as SelectFileFacetTermAction);
 
         // Handle case where project has been selected - selected/deselected state of term must be updated, and possibly
         // the selected facet itself (if user has switched from the previously selected facet, to select a new term).
@@ -55,7 +57,7 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
         // the initial set of selected facet terms.
         case SetViewStateAction.ACTION_TYPE:
 
-            return state.setSelectedTermsFromViewState(action as SetViewStateAction);
+            return state.setSelectedFacetTermsFromViewState(action as SetViewStateAction);
 
         default:
             return state;

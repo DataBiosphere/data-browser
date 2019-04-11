@@ -6,40 +6,31 @@
  */
 
 // Core dependencies
-import { AppState } from "../../_ngrx/app.state";
+import { MatDialogRef } from "@angular/material";
 import { Component, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { combineLatest } from "rxjs";
+import { combineLatest, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { DownloadFileManifestAction } from "../_ngrx/file-manifest-summary/file-manifest-summary.actions";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { MatDialogRef } from "@angular/material";
-import {
-    SelectFileFacetAction
-} from "../_ngrx/file-facet-list/file-facet-list.actions";
-import { Observable } from "rxjs";
-import {
-    selectFileFacetsFileFacets,
-    selectDownloadManifestFileSummary
-} from "../_ngrx/file.selectors";
-import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
-import {
-    FetchManifestDownloadFileSummaryRequestAction
-} from "../_ngrx/file-summary/file-summary.actions";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
+import { AppState } from "../../_ngrx/app.state";
+import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
+import { DownloadFileManifestAction } from "../_ngrx/file-manifest/download-file-manifest.action";
+import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
+import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
+import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
+import { selectSearchTerms } from "../_ngrx/search/search.selectors";
+import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
     styleUrls: ["./hca-download-manifest-modal.component.scss"]
 })
 export class HCADownloadManifestModalComponent implements OnInit {
-
-    // Privates
-    private store: Store<AppState>;
 
     // Template variables
     public hideDownload = false;
@@ -54,10 +45,9 @@ export class HCADownloadManifestModalComponent implements OnInit {
      */
     constructor(
         private configService: ConfigService,
-        store: Store<AppState>,
+        private store: Store<AppState>,
         public dialogRef: MatDialogRef<HCADownloadManifestModalComponent>) {
 
-        this.store = store;
         this.portalURL = this.configService.getPortalURL();
     }
 
@@ -114,12 +104,14 @@ export class HCADownloadManifestModalComponent implements OnInit {
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     * @param fileFacetSelectedEvent {FileFacetTermSelectedEvent}
      */
-    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetTermSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
+        const facetName = fileFacetSelectedEvent.facetName;
+        const termName = fileFacetSelectedEvent.termName;
+        const selected = fileFacetSelectedEvent.selected;
+        this.store.dispatch(new SelectFileFacetTermAction(facetName, termName, !selected));
     }
 
     /**
@@ -139,17 +131,20 @@ export class HCADownloadManifestModalComponent implements OnInit {
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of file facets
-        const selectedFileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
+        const selectedSearchTermNames$ = this.store.pipe(
+            select(selectSearchTerms),
+            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.name))
+        );
 
-        // Grab file summary for populating file type counts on manifest downlaod modal
-        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectDownloadManifestFileSummary));
+        // Grab file summary for populating file type counts on manifest download modal
+        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
-        this.state$ = combineLatest(selectedFileFacets$, selectManifestDownloadFileSummary$).pipe(
+        this.state$ = combineLatest(selectedSearchTermNames$, selectManifestDownloadFileSummary$).pipe(
             map((combined) => {
 
                 return {
-                    selectedFileFacets: combined[0],
-                    manifestDownloadFileSummary: combined[1]
+                    selectedSearchTermNames: combined[0],
+                    fileManifestFileSummary: combined[1]
                 };
             })
         );

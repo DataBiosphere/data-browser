@@ -1,10 +1,17 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Wrapper component for filtering of facet terms by name, wraps filter and result.
+ */
+
 // Core dependencies
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FileFacet } from "../shared/file-facet.model";
 
-/**
- * Component wrapper for filtering of term name.
- */
+// App dependencies
+import { FileFacet } from "../shared/file-facet.model";
+import { SearchTerm } from "../search/search-term.model";
+
 @Component({
     selector: "hca-file-filter-wrapper",
     templateUrl: "./hca-file-filter-wrapper.component.html",
@@ -15,7 +22,7 @@ export class HCAFileFilterWrapperComponent {
 
     // Inputs
     @Input() fileFacets: FileFacet[];
-    @Input() selectedFacets: FileFacet[];
+    @Input() searchTerms: SearchTerm[];
 
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();

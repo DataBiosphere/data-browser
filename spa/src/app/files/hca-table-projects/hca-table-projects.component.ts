@@ -17,18 +17,16 @@ import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
 import {
     selectPagination,
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
-import { SelectProjectAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
-import { FileFacet } from "../shared/file-facet.model";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
+import { SelectProjectAction } from "../_ngrx/search/select-project.action";
 
 @Component({
     selector: "hca-table-projects",
@@ -61,7 +59,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     private snapped: boolean;
 
     // Inputs
-    @Input() selectedFacets: FileFacet[];
+    @Input() selectedProjectIds: string[];
 
     /**
      * @param {Store<AppState>} store
@@ -105,21 +103,14 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Returns true if the term is a selected facet.
+     * Returns true if project is in the current set of selected search terms.
      *
-     * @param {string} facetName
-     * @param {string} termName
+     * @param {any} project
      * @returns {boolean}
      */
-    public isTermSelected(facetName: string, termName: string): boolean {
+    public isProjectSelected(project: any): boolean {
 
-        let isFacetSelected = this.selectedFacets.filter(fileFacet => fileFacet.name === facetName);
-
-        if ( isFacetSelected.length ) {
-            return isFacetSelected[0].selectedTerms.some(term => term.name === termName);
-        }
-
-        return false;
+        return this.selectedProjectIds.indexOf(project.projectShortname) >= 0;
     }
 
     /**
@@ -130,17 +121,19 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
     public isTooltipDisabled(el) {
 
-        return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
+        return !(el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width);
     }
 
     /**
-     * Handle click on term in list of terms - update store with selected project.
-     * @param {string} termName
+     * Handle click on project in table - update store with selected project.
+     *
+     * @param {string} projectId
+     * @param {string} projectName
+     * @param {boolean} selected
      */
-    public onTermSelected(facetName: string, termName: string) {
+    public onProjectSelected(projectId: string, projectName: string, selected: boolean) {
 
-        this.store.dispatch(new SelectProjectAction(
-            new FileFacetSelectedEvent(facetName, termName, true)));
+        this.store.dispatch(new SelectProjectAction(projectName, !selected));
     }
 
     /**

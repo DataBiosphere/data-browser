@@ -17,12 +17,12 @@
                     </p>
                     <div class="rhs">
                         <p class="fontsize-xs">{{project.projectTitle}}</p>
-                        <p *ngIf="!isProjectSelected(project.projectShortname, selectedFileFacets$ | async)"
+                        <p *ngIf="!isProjectSelected(selectedProjectIds$ | async, project)"
                            class="fontsize-xs select-project"
-                           (click)="onProjectSelected(project.projectShortname,true)">Select Project</p>
-                        <p *ngIf="isProjectSelected(project.projectShortname, selectedFileFacets$ | async)"
+                           (click)="onProjectSelected(project.entryId, project.projectShortname, true)">Select Project</p>
+                        <p *ngIf="isProjectSelected(selectedProjectIds$ | async, project)"
                            class="fontsize-xs select-project"
-                           (click)="onProjectSelected(project.projectShortname,false)">Unselect Project</p>
+                           (click)="onProjectSelected(project.entryId, project.projectShortname, false)">Unselect Project</p>
                     </div>
                 </div>
                 <div>

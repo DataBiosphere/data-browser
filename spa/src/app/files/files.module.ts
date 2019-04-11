@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Files module definition.
  */
@@ -34,19 +34,13 @@ import {
 
 // App dependencies
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
-import { CCStopPropagationModule } from "../cc-stop-propagation/cc-stop-propagation.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { ConfigService } from "../config/config.service";
-import { FacetFileListComponent } from "./facet-file-list/facet-file-list.component";
-import { FacetTermListComponent } from "./facet-term-list/facet-term-list.component";
+import { FacetFileFormatListComponent } from "./facet-file-format-list/facet-file-format-list.component";
 import { FilesComponent } from "./files.component";
-import { FileFacetMenuComponent } from "./file-facet-menu/file-facet-menu.component";
-import { FileFacetSearchComponent } from "./file-facet-search/file-facet-search.component";
-import { FileFacetSearchMenuComponent } from "./file-facet-search-menu/file-facet-search-menu.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
-import { FileNameShortenerPipe } from "./file-search/file-name-shortener";
-import { FileSearchComponent } from "./file-search/file-search.component";
+import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
@@ -57,7 +51,7 @@ import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
 import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
-import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result";
+import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result.component";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
@@ -108,7 +102,6 @@ import { SharedModule } from "../shared/shared.module";
         RouterModule.forChild(routes),
 
         CcPipeModule,
-        CCStopPropagationModule,
         CcTypeaheadModule,
 
         KeywordsModule,
@@ -119,18 +112,13 @@ import { SharedModule } from "../shared/shared.module";
     ],
     declarations: [
 
-        FacetFileListComponent,
-        FacetTermListComponent,
+        FacetFileFormatListComponent,
 
         FileSummaryComponent,
         FileManifestSummaryComponent,
-        FileSearchComponent,
 
         FilesComponent,
 
-        FileFacetMenuComponent,
-        FileFacetSearchComponent,
-        FileFacetSearchMenuComponent,
         HCAContentEllipsisComponent,
         HCADesktopBannerComponent,
         HCADownloadFileComponent,

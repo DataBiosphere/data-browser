@@ -18,13 +18,13 @@ import { select, Store } from "@ngrx/store";
 
 // App dependencies
 import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
-import { FileFacet } from "../shared/file-facet.model";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { Term } from "../shared/term.model";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { AppState } from "../../_ngrx/app.state";
-import EntitySpec from "../shared/entity-spec";
-import { SelectFileFacetAction } from "../_ngrx/file-facet-list/file-facet-list.actions";
+import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedEntity } from "../_ngrx/file.selectors";
+import EntitySpec from "../shared/entity-spec";
+import { FileFacet } from "../shared/file-facet.model";
+import { Term } from "../shared/term.model";
 
 @Component({
     selector: "hca-file-facet",
@@ -86,7 +86,7 @@ export class HCAFileFacetComponent implements OnInit {
     }
 
     /**
-     * Term has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
+     * Term or entity has been selected from edit mode, cancel click event (to prevent close of menu) and emit select
      * event to parent.
      *
      * @param event {Event}
@@ -99,17 +99,20 @@ export class HCAFileFacetComponent implements OnInit {
         event.stopPropagation();
         event.preventDefault();
 
-        this.store.dispatch(new SelectFileFacetAction(new FileFacetSelectedEvent(fileFacet.name, term.name)));
+        this.store.dispatch(new SelectFileFacetTermAction(fileFacet.name, term.name));
     }
 
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     * @param fileFacetSelectedEvent {FileFacetTermSelectedEvent}
      */
-    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetTermSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(fileFacetSelectedEvent));
+        const facetName = fileFacetSelectedEvent.facetName;
+        const termName = fileFacetSelectedEvent.termName;
+        const selected = fileFacetSelectedEvent.selected;
+        this.store.dispatch(new SelectFileFacetTermAction(facetName, termName, selected));
     }
 
     /**

@@ -17,10 +17,11 @@ import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
 import { MatrixService } from "../shared/matrix.service";
 import { AppState } from "../../_ngrx/app.state";
 import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/matrix.actions";
-import { selectFileSummary, selectMatrixFileFormats, selectSelectedFileFacets } from "../_ngrx/file.selectors";
-import { FileFacet } from "../shared/file-facet.model";
+import { selectFileSummary, selectMatrixFileFormats } from "../_ngrx/file.selectors";
+import { selectSearchTerms } from "../_ngrx/search/search.selectors";
 import { MatrixFormat } from "../shared/matrix-format.model";
 import { MatrixResponse } from "../shared/matrix-response.model";
+import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     templateUrl: "./hca-request-matrix-modal.component.html",
@@ -184,14 +185,14 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     /**
      * Request matrix.
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} fileFormat
      */
-    public onRequestMatrix(selectedFacets: FileFacet[], fileFormat: MatrixFormat) {
+    public onRequestMatrix(searchTerms: SearchTerm[], fileFormat: MatrixFormat) {
 
         // Request the matrix expression.
         this.matrixService
-            .requestMatrix(selectedFacets, fileFormat)
+            .requestMatrix(searchTerms, fileFormat)
             .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
                 this.matrixResponse$.next(response);
             });
@@ -264,7 +265,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
         const selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         // Grab the selected facets for displaying on the modal
-        const selectSelectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
+        const selectSearchTerms$ = this.store.pipe(select(selectSearchTerms));
 
         // Request possible set of file types
         this.store.dispatch(new FetchMatrixFileFormatsRequestAction());
@@ -275,13 +276,13 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
 
         // Grab file summary and selected facets for displaying on the modal
         this.state$ =
-            combineLatest(selectFileSummary$, selectSelectedFileFacets$, selectMatrixFileFormats$).pipe(
+            combineLatest(selectFileSummary$, selectSearchTerms$, selectMatrixFileFormats$).pipe(
                     map((combined) => {
 
                         return {
                             fileSummary: combined[0],
                             matrixFileFormats: combined[2],
-                            selectedFileFacets: combined[1]
+                            searchTerms: combined[1]
                         };
                     })
             );

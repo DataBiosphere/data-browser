@@ -1,13 +1,14 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Representation of file summary state.
  */
 
 // App dependencies
+import { FetchManifestDownloadFileSummarySuccessAction } from "../file-manifest/fetch-manifest-download-file-summary-success.action";
 import { FileSummary } from "../../file-summary/file-summary";
-import { FetchFileSummarySuccessAction, FetchManifestDownloadFileSummarySuccessAction } from "./file-summary.actions";
+import { FetchFileSummarySuccessAction } from "./file-summary.actions";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 
 // Default file summary

@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Core files component, displays results summary as well as facets.
  */
@@ -10,25 +10,25 @@ import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { Location } from "@angular/common";
 import * as _ from "lodash";
 import { select, Store } from "@ngrx/store";
-import { Observable ,  Subscription } from "rxjs";
-import { distinctUntilChanged } from "rxjs/operators";
+import { Observable, Subscription } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 // App dependencies
 import { DeviceDetectorService } from "ngx-device-detector";
 import { FileFacet } from "./shared/file-facet.model";
 import { FileSummary } from "./file-summary/file-summary";
-import { FetchFileManifestSummaryRequestAction } from "./_ngrx/file-manifest-summary/file-manifest-summary.actions";
 import {
     selectFileFacetsFileFacets,
     selectFileSummary,
-    selectSelectedFileFacets,
     selectEntities,
     selectSelectedEntity,
     selectSelectedViewState,
     selectFileTypeMatrix
 } from "./_ngrx/file.selectors";
+import { selectProjectSearchTerms, selectSearchTerms } from "./_ngrx/search/search.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
+import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
 
 @Component({
@@ -39,12 +39,13 @@ import EntitySpec from "./shared/entity-spec";
 export class FilesComponent implements OnInit, OnDestroy {
 
     // Public variables
-    public fileFacets$: Observable<FileFacet[]>;
-    public selectFileSummary$: Observable<FileSummary>;
-    public selectedFileFacets$: Observable<FileFacet[]>;
     public entities$: Observable<EntitySpec[]>;
-    public selectedEntity$: Observable<EntitySpec>;
+    public fileFacets$: Observable<FileFacet[]>;
     public fileTypeMatrix$: Observable<boolean>;
+    public selectedEntity$: Observable<EntitySpec>;
+    public selectFileSummary$: Observable<FileSummary>;
+    public selectedProjectIds: Observable<string[]>;
+    public searchTerms$: Observable<SearchTerm[]>;
 
     // Locals
     private deviceInfo = null;
@@ -110,11 +111,20 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Dispatch action to request updated manifest summary (ie summary counts, file sizes etc)
+     * PRIVATE
      */
-    public requestManifestSummary() {
 
-        this.store.dispatch(new FetchFileManifestSummaryRequestAction());
+    /**
+     * Transform selected project search term set into set of selected project IDs.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @returns {string[]}
+     */
+    private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
+
+        return searchTerms.map((searchTerm: SearchTerm) => {
+            return searchTerm.getSearchKey();
+        });
     }
 
     /**
@@ -142,9 +152,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         // Get the list of facets to display
         this.fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
 
-        // Get the set of selected facet terms
-        this.selectedFileFacets$ = this.store.pipe(select(selectSelectedFileFacets));
-
         // Grab the set of tabs to be displayed
         this.entities$ = this.store.pipe(select(selectEntities));
 
@@ -154,6 +161,14 @@ export class FilesComponent implements OnInit, OnDestroy {
         // Determine if Matrix files are included in the current files result set.
         this.fileTypeMatrix$ = this.store.pipe(select(selectFileTypeMatrix));
 
+        this.searchTerms$ = this.store.pipe(select(selectSearchTerms));
+
+        // Grab the current set of selected projects, if any
+        this.selectedProjectIds = this.store.pipe(
+            select(selectProjectSearchTerms),
+            map(this.mapSearchTermsToProjectIds)
+        );
+
         // Set up the URL state management - write the browser address bar when the selected facets change.
         this.store.pipe(
             select(selectSelectedViewState),
@@ -161,21 +176,23 @@ export class FilesComponent implements OnInit, OnDestroy {
                 return _.isEqual(previous, current);
             })
         )
-        .subscribe((viewState) => {
+        .subscribe(({searchTermsByFacetName, selectedEntity}) => {
 
-            // Convert facets to query string state
-            const queryStringFacets = viewState.selectSelectedFileFacets.reduce((accum, selectedFacet) => {
+            // Convert search terms to query string state
+            const queryStringSearchTerms = Array.from(searchTermsByFacetName.keys()).reduce((accum, facetName) => {
+
+                const searchTerms = searchTermsByFacetName.get(facetName);
                 accum.add({
-                    facetName: selectedFacet.name,
-                    terms: selectedFacet.selectedTerms.map(term => term.name)
+                    facetName: facetName,
+                    terms: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchKey())
                 });
                 return accum;
             }, new Set<any>());
 
-            const path = viewState.selectSelectedEntity.key;
+            const path = selectedEntity.key;
             const params = new URLSearchParams();
-            if ( queryStringFacets.size > 0 ) {
-                params.set("filter", JSON.stringify(Array.from(queryStringFacets)));
+            if ( queryStringSearchTerms.size > 0 ) {
+                params.set("filter", JSON.stringify(Array.from(queryStringSearchTerms)));
             }
 
             this.location.replaceState(path, params.toString());

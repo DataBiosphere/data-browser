@@ -1,20 +1,20 @@
 <div class="wrapper">
     <div class="filter-result">
         <mat-chip-list>
-            <ng-container *ngFor="let facet of selectedFacets">
-                <ng-container *ngFor="let term of facet.terms">
-                    <mat-chip *ngIf="term.selected" [removable]="removable" class="selected-term">
-                        <div>
-                            <span class="label">{{getFacetName(facet.name)}}:</span>
-                            <span class="input">{{term.name}}</span>
-                        </div>
-                        <mat-icon matChipRemove *ngIf="removable" (click)="removeFacet(facet.name, term.name)">close
-                        </mat-icon>
-                    </mat-chip>
-                </ng-container>
+            <ng-container *ngFor="let searchTerm of searchTerms">
+                <mat-chip [removable]="removable" class="selected-term">
+                    <div>
+                        <span class="label">{{getFacetName(facet.name)}}:</span>
+                        <span class="input">{{term.name}}</span>
+                    </div>
+                    <mat-icon matChipRemove *ngIf="removable" (click)="removeSearchTerm(searchTerm)">close
+                    </mat-icon>
+                </mat-chip>
             </ng-container>
-            <mat-chip *ngIf="selectedFacets.length === 0" [removable]="removable" class="no-selected-term"><div><span class="input">No selected terms</span></div></mat-chip>
-            <button mat-button *ngIf="selectedFacets.length > 0" (click)="removeAllFacets()" class="clear-all">
+            <mat-chip *ngIf="isSearchTermsEmpty()" [removable]="removable" class="no-selected-term">
+                <div><span class="input">No selected terms</span></div>
+            </mat-chip>
+            <button mat-button *ngIf="!isSearchTermsEmpty()" (click)="removeAllSearchTerms()" class="clear-all">
                 Clear All
             </button>
         </mat-chip-list>
