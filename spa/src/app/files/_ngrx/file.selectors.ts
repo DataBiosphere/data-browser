@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Selectors for querying file-related state from the file store.
  */
@@ -11,15 +11,13 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 // App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
-import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
+import { selectSearchTermsByFacetName } from "./search/search.selectors";
 import { PaginationModel } from "../table/pagination.model";
 
 // Return facet list-related slices.
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
-export const selectSelectedFileFacets = createSelector(selectFileFacets, (state) => state.selectedFileFacets);
-export const selectSelectedFileFacetsByName = createSelector(selectFileFacets, (state) => state.selectedFileFacetsByName);
 
 /**
  * Return the list of file facets from the store.
@@ -29,8 +27,6 @@ export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (stat
 });
 
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
-export const selectFileFacetMetadataSummary = createFeatureSelector<FileFacetMetadataSummaryState>("fileFacetMetadataSummary");
-export const selectDownloadManifestFileSummary = createFeatureSelector<FileSummaryState>("manifestDownloadFileSummary");
 
 /**
  * Table selectors
@@ -102,9 +98,9 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
  *
  * @returns {Map<string, FileFacet> & PaginationModel & TableState}
  */
-export const selectTableQueryParams = createSelector(selectSelectedFileFacetsByName, selectPagination, selectTableState,
-    (selectedFileFacetsByName, pagination, tableState) => {
-    return { selectedFileFacetsByName, pagination, tableState
+export const selectTableQueryParams = createSelector(selectSearchTermsByFacetName, selectPagination, selectTableState,
+    (searchTermsByFacetName, pagination, tableState) => {
+    return { searchTermsByFacetName, pagination, tableState
     };
 });
 
@@ -136,11 +132,11 @@ export const selectMatrix = createFeatureSelector<MatrixState>("matrix");
 export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => state.fileFormats);
 
 /**
- * Return the selected view state - both the selected entity and the selected facets
+ * Return the selected view state - both the selected entity and the current set of search terms
  */
-export const selectSelectedViewState = createSelector(selectSelectedFileFacets, selectSelectedEntity, (selectSelectedFileFacets, selectSelectedEntity) => {
+export const selectSelectedViewState = createSelector(selectSearchTermsByFacetName, selectSelectedEntity, (searchTermsByFacetName, selectedEntity) => {
     return {
-        selectSelectedFileFacets,
-        selectSelectedEntity
+        searchTermsByFacetName,
+        selectedEntity
     };
 });

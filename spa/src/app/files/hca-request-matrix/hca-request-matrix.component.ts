@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Top-level component handling Matrix request-related functionality.
  */
@@ -53,6 +53,7 @@ export class HCARequestMatrixComponent {
     onRequestMatrix(): void {
 
         const dialogRef = this.dialog.open(HCARequestMatrixModalComponent, {
+            autoFocus: false,
             backdropClass: "hca-form-backdrop",
             disableClose: false,
             panelClass: "hca-form-dialog"

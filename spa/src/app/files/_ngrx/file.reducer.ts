@@ -1,25 +1,23 @@
 /*
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Set of file-related reducers.
  */
 
 // App dependencies
 import * as fileFacetListReducer from "./file-facet-list/file-facet-list.reducer";
-import * as fileFacetMetadataSummaryReducer from "./file-facet-metadata-summary/file-facet-metadata-summary.reducer";
-import * as fileManifestSummaryReducer from "./file-manifest-summary/file-manifest-summary.reducer";
 import * as fileSummaryReducer from "./file-summary/file-summary.reducer";
-import * as manifestFileSummaryReducer from "./file-summary/manifest-download-file-summary.reducer";
+import * as fileManifestFileSummaryReducer from "./file-manifest/file-manifest-file-summary.reducer";
 import * as matrixReducer from "./matrix/matrix.reducer";
 import * as tableReducer from "./table/table.reducer";
+import * as searchReducer from "./search/search.reducer";
 
 export const reducer = {
     fileFacetList: fileFacetListReducer.reducer,
-    fileFacetMetadataSummary: fileFacetMetadataSummaryReducer.reducer,
-    fileManifestSummary: fileManifestSummaryReducer.reducer,
+    fileManifestFileSummary: fileManifestFileSummaryReducer.reducer,
     fileSummary: fileSummaryReducer.reducer,
-    manifestDownloadFileSummary: manifestFileSummaryReducer.reducer,
     matrix: matrixReducer.reducer,
+    search: searchReducer.reducer,
     tableState: tableReducer.reducer
 };

@@ -17,10 +17,10 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
 import { CountSizePipe } from "../../cc-pipe/count-size/count-size.pipe";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { FileNameShortenerPipe } from "../file-search/file-name-shortener";
-import { FileFacet } from "../shared/file-facet.model";
 import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
+import { FileNameShortenerPipe } from "../shared/file-name-shortener";
+import { FileFacet } from "../shared/file-facet.model";
 import { Term } from "../shared/term.model";
 
 @Component({
@@ -38,7 +38,7 @@ export class HCAFacetTermListComponent {
     @Input() useShortList: boolean;
 
     // Outputs
-    @Output() facetTermSelected = new EventEmitter<FileFacetSelectedEvent>();
+    @Output() facetTermSelected = new EventEmitter<FileFacetTermSelectedEvent>();
 
     /**
      * Create file name shortener pipe for formatting selected file names (for search file facets only).
@@ -110,19 +110,19 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Handle click on individual term - emit event to parent.
+     * Handle click on individual facet term or entity - emit event to parent.
      *
-     * @param fileFacet {FileFacet}
-     * @param term {Term}
+     * @param {FileFacet} fileFacet
+     * @param {Term} term
      */
     public onClickFacetTerm(fileFacet: FileFacet, term: Term): void {
 
         // Update facet state
-        this.facetTermSelected.emit(new FileFacetSelectedEvent(fileFacet.name, term.name));
+        this.facetTermSelected.emit(new FileFacetTermSelectedEvent(fileFacet.name, term.name, !term.selected));
     }
 
     /**
-     * Track by function used when displaying the list of terms.
+     * Track by function used when displaying the list of terms or entities.
      *
      * @param {number} index
      * @param {Term} term

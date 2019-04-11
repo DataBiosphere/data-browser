@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
  */
@@ -13,41 +13,35 @@ import { Observable, of } from "rxjs";
 import { map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { FetchMatrixFileFormatsRequestAction, FetchMatrixFileFormatsSuccessAction } from "./matrix/matrix.actions";
+import { SetViewStateAction } from "./file-facet-list/set-view-state.action";
 import { FileSummary } from "../file-summary/file-summary";
-import { FilesService } from "../shared/files.service";
 import {
-    ClearSelectedTermsAction,
     FetchFileFacetsRequestAction,
     FetchFileFacetsSuccessAction, InitEntityStateAction,
-    NoOpAction,
-    SelectFileFacetAction, SelectProjectAction,
-    SetViewStateAction
+    NoOpAction
 } from "./file-facet-list/file-facet-list.actions";
+import { SelectProjectAction } from "./search/select-project.action";
 import {
     FetchFileSummaryRequestAction,
-    FetchFileSummarySuccessAction,
-    FetchManifestDownloadFileSummaryRequestAction,
-    FetchManifestDownloadFileSummarySuccessAction
+    FetchFileSummarySuccessAction
 } from "./file-summary/file-summary.actions";
 import {
-    DownloadFileManifestAction, DownloadFileManifestRequestedAction,
-    FetchFileManifestSummaryRequestAction,
-    FetchFileManifestSummarySuccessAction
-} from "./file-manifest-summary/file-manifest-summary.actions";
-import {
-    selectFileFacets,
-    selectSelectedFileFacets,
     selectTableQueryParams
 } from "app/files/_ngrx/file.selectors";
+import { FetchMatrixFileFormatsRequestAction, FetchMatrixFileFormatsSuccessAction } from "./matrix/matrix.actions";
 import { AppState } from "../../_ngrx/app.state";
+import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
+import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
+import { SearchTerm } from "../search/search-term.model";
+import { selectSearchTerms } from "./search/search.selectors";
+import { SelectProjectIdAction } from "./search/select-project-id.action";
 import { EntitySearchResults } from "../shared/entity-search-results.model";
 import { FileFacet } from "../shared/file-facet.model";
+import { FileFacetName } from "../shared/file-facet-name.model";
+import { FilesService } from "../shared/files.service";
 import { MatrixService } from "../shared/matrix.service";
 import { Project } from "../shared/project.model";
 import { ProjectService } from "../shared/project.service";
-import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
-import { getSelectedTable } from "./table/table.state";
 import {
     EntitySelectAction,
     FetchInitialTableDataRequestAction,
@@ -58,6 +52,8 @@ import {
     TablePreviousPageAction,
     TablePreviousPageSuccessAction
 } from "./table/table.actions";
+import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
+import { getSelectedTable } from "./table/table.state";
 
 @Injectable()
 export class FileEffects {
@@ -75,21 +71,6 @@ export class FileEffects {
                 private matrixService: MatrixService,
                 private projectService: ProjectService) {
     }
-
-    /**
-     * Trigger download of manifest.
-     */
-    @Effect()
-    downloadFileManifest$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(DownloadFileManifestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectFileFacets),
-                take(1)
-            )),
-            switchMap((query) => this.fileService.downloadFileManifest(query)),
-            map(response => new DownloadFileManifestRequestedAction(response))
-        );
 
     /**
      * Fetch data to populate facet menus, facet summary and potentially table data. If we are currently on the projects
@@ -110,9 +91,9 @@ export class FileEffects {
             ),
             switchMap(({action, tableQueryParams}) => {
 
-                const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                return this.fileService.fetchEntitySearchResults(selectedFacetsByName, DEFAULT_TABLE_PARAMS, selectedEntity)
+                return this.fileService.fetchEntitySearchResults(searchTermsByFacetName, DEFAULT_TABLE_PARAMS, selectedEntity)
                     .pipe(
                         map((entitySearchResults) => {
                             return {action, entitySearchResults, tableQueryParams};
@@ -141,9 +122,9 @@ export class FileEffects {
                 // the projects tab and there is a project selected, we need to re-query for data to populate the table
                 // as the table is not restricted by any selected projects, in this case.
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                const facetsByName = tableQueryParams.selectedFileFacetsByName;
+                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
                 let tableDataAction;
-                if ( selectedEntity === "projects" && this.isAnyProjectSelected(facetsByName) ) {
+                if ( selectedEntity === "projects" && this.isAnyProjectSelected(searchTermsByFacetName) ) {
                     tableDataAction = new FetchInitialTableDataRequestAction();
                 }
                 else {
@@ -157,37 +138,6 @@ export class FileEffects {
                     tableDataAction
                 );
             })
-        );
-
-    /**
-     * Trigger fetch and display of manifest summary once manifest is requested.
-     */
-    @Effect()
-    fetchManifestSummary$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchFileManifestSummaryRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedFileFacets),
-                take(1)
-            )),
-            switchMap((selectedFacets: FileFacet[]) => this.fileService.fetchFileManifestSummary(selectedFacets)),
-            map((fileManifestSummary) => new FetchFileManifestSummarySuccessAction(fileManifestSummary))
-        );
-
-    /**
-     * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
-     * selected file types, in request.
-     */
-    @Effect()
-    fetchManifestDownloadFileSummary: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedFileFacets),
-                take(1)
-            )),
-            switchMap((selectedFileFacets) => this.fileService.fetchManifestDownloadFileSummary(selectedFileFacets)),
-            map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
         );
 
     /**
@@ -260,10 +210,10 @@ export class FileEffects {
         .pipe(
             ofType(FetchFileSummaryRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
-                select(selectSelectedFileFacets),
+                select(selectSearchTerms),
                 take(1)
             )),
-            switchMap((selectedFacets: FileFacet[]) => this.fileService.fetchFileSummary(selectedFacets)),
+            switchMap((searchTerms: SearchTerm[]) => this.fileService.fetchFileSummary(searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
         );
 
@@ -289,10 +239,10 @@ export class FileEffects {
                         order: tableQueryParams.pagination.order
                     });
 
-                const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 return this.fileService.fetchEntitySearchResults(
-                    selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
+                    searchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== "projects"));
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableDataSuccessAction(entitySearchResults.tableModel))
@@ -308,7 +258,7 @@ export class FileEffects {
         .pipe(
             ofType(
                 SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
-                SelectFileFacetAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
+                SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
                 ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
                 InitEntityStateAction.ACTION_TYPE
             ),
@@ -332,7 +282,8 @@ export class FileEffects {
     selectProject$: Observable<Action> = this.actions$
         .pipe(
             ofType(
-                SelectProjectAction.ACTION_TYPE
+                SelectProjectAction.ACTION_TYPE,
+                SelectProjectIdAction.ACTION_TYPE
             ),
             mergeMap(() => {
 
@@ -382,26 +333,21 @@ export class FileEffects {
      */
     private fetchPagedOrSortedTableData([action , tableQueryParams]): Observable<EntitySearchResults> {
 
-        const selectedFacetsByName = tableQueryParams.selectedFileFacetsByName;
+        const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
         const tableParams = action.tableParams;
         const selectedEntity = tableQueryParams.tableState.selectedEntity;
         return this.fileService.fetchEntitySearchResults(
-            selectedFacetsByName, tableParams, selectedEntity, (selectedEntity !== "projects"));
+            searchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== "projects"));
     }
 
     /**
-     * Returns true if there is currently any projects in the selected set of facet terms.
+     * Returns true if there is currently any projects in the current search terms.
      *
-     * @param {Map<string, FileFacet>} facetsByName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @returns {boolean}
      */
-    private isAnyProjectSelected(facetsByName: Map<string, FileFacet>): boolean {
+    private isAnyProjectSelected(searchTermsByFacetName: Map<string, Set<SearchTerm>>): boolean {
 
-        const projectFacet = facetsByName.get("project");
-        if ( !projectFacet ) {
-            return false;
-        }
-
-        return projectFacet.selectedTerms.length > 0;
+        return searchTermsByFacetName.has(FileFacetName.PROJECT) || searchTermsByFacetName.has(FileFacetName.PROJECT_ID);
     }
 }

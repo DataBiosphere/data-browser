@@ -1,32 +1,34 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Data access object, connecting to file-related end points.
  */
 
 // Core dependencies
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import * as _ from "lodash";
 import { interval, Observable, of, Subject } from "rxjs";
 import { catchError, map, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
+import { Dictionary } from "../../dictionary";
 import { EntitySearchResults } from "./entity-search-results.model";
 import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FilesAPIResponse } from "./files-api-response.model";
-import { Dictionary } from "../../dictionary";
-import { ICGCQuery } from "./icgc-query";
-import { Term } from "./term.model";
 import { FileFacet } from "./file-facet.model";
-import { ConfigService } from "../../config/config.service";
-import { TableParamsModel } from "../table/table-params.model";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { ICGCQuery } from "./icgc-query";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
+import { SearchTerm } from "../search/search-term.model";
+import { TableParamsModel } from "../table/table-params.model";
+import { Term } from "./term.model";
+import { FileFacetName } from "./file-facet-name.model";
 
 @Injectable()
 export class FilesDAO {
@@ -38,68 +40,26 @@ export class FilesDAO {
     constructor(private configService: ConfigService, private httpClient: HttpClient) {}
 
     /**
-     * Fet FileSummary
+     * Fetch file summary.
      *
      * http://docs.icgc.org/portal/api-endpoints/#!/repository/getSummary
      *
-     * @param [selectedFacets]
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<FileSummary>}
      */
-    fetchFileSummary(selectedFacets: FileFacet[]): Observable<any> {
-
-        // todo convert back from any to FileSummary.
+    fetchFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
         // Build up API URL
         const url = this.buildApiUrl(`/repository/summary`);
 
         // Build up the query params
-        const filters = this.facetsToQueryString(selectedFacets);
+        const filters = this.searchTermsToQueryString(searchTerms);
 
-        return this.httpClient.get<any>(url, {
+        return this.httpClient.get<FileSummary>(url, {
             params: {
                 filters
             }
         });
-    }
-
-
-    /**
-     * Fetch the set of facets matching the current set of selected facets, for the current selected tab. Offset and
-     * limit are set to 1 and 1 to minimize response size. Currently only used when displaying the counts on manifest
-     * download modal (where we are ignoring any file formats in the set of selected facets and need to do an explicit
-     * query to grab the correct counts for that state).
-     *
-     * http://docs.icgc.org/portal/api-endpoints/#!/repository/findAll
-     *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
-     * @param {string} tab
-     * @param {Ordering} ordering
-     * @returns {Observable<FileFacet[]>}
-     */
-    fetchFileFacets(
-        selectedFacetsByName: Map<string, FileFacet>,
-        tab: string,
-        ordering?: Ordering): Observable<FileFacet[]> {
-
-        // Build the API URL
-        const url = this.buildApiUrl(`/repository/` + tab);
-
-        // Build up the query params
-        const selectedFacets = Array.from(selectedFacetsByName.values());
-        const filters = this.facetsToQueryString(selectedFacets);
-
-        return this.httpClient
-            .get<FilesAPIResponse>(url, {
-                params: {
-                    from: "1",
-                    size: "1",
-                    filters
-                }
-            })
-            .pipe(
-                map((repositoryFiles: FilesAPIResponse) =>
-                    this.createFileFacets(selectedFacetsByName, repositoryFiles, ordering))
-            );
     }
 
     /**
@@ -108,14 +68,14 @@ export class FilesDAO {
      * selected projects facets as we do not want to restrict the table result set to just the selected projects. That is,
      * projects tab is not filterable by project.
      *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
     fetchEntitySearchResults(
-        selectedFacetsByName: Map<string, FileFacet>,
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>,
         tableParams: TableParamsModel,
         selectedEntity: string,
         filterableByProject: boolean): Observable<EntitySearchResults> {
@@ -126,11 +86,11 @@ export class FilesDAO {
         // Build up param map
         let paramMap;
         if ( filterableByProject ) {
-            paramMap = this.buildFetchSearchResultsQueryParams(selectedFacetsByName, tableParams);
+            paramMap = this.buildFetchSearchResultsQueryParams(searchTermsByFacetName, tableParams);
         }
         else {
-            const filteredSelectedFacetsByName = this.removeProjectFacet(selectedFacetsByName, selectedEntity);
-            paramMap = this.buildFetchSearchResultsQueryParams(filteredSelectedFacetsByName, tableParams);
+            const filteredSearchTerms = this.removeProjectFSearchTerms(searchTermsByFacetName, selectedEntity);
+            paramMap = this.buildFetchSearchResultsQueryParams(filteredSearchTerms, tableParams);
         }
 
         return this.httpClient
@@ -138,7 +98,7 @@ export class FilesDAO {
             .pipe(
                 map((repositoryFiles: FilesAPIResponse) => {
 
-                    const fileFacets = this.createFileFacets(selectedFacetsByName, repositoryFiles);
+                    const fileFacets = this.createFileFacets(searchTermsByFacetName, repositoryFiles);
                     const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
 
                     const tableModel = {
@@ -157,62 +117,14 @@ export class FilesDAO {
     }
 
     /**
-     * Fetch Facet Ordering
+     * Fetch manifest summary
      *
-     * @returns {Observable<Ordering>}
-     */
-    fetchFacetOrdering(): Observable<Ordering> {
-
-        const url = this.buildApiUrl(`/repository/files/order`);
-        return this.httpClient.get<Ordering>(url);
-    }
-
-    /**
-     * Fetch Ordered File Facets
-     *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
-     * @returns {Observable<FileFacet[]>}
-     */
-    fetchOrderedFileFacets(selectedFacetsByName: Map<string, FileFacet>, tab: string): Observable<FileFacet[]> {
-
-        return this.fetchFacetOrdering()
-            .pipe(
-                switchMap((ordering: Ordering) => {
-
-                    // Temporary manually order the facets.
-                    const bypassOrdering = [
-                        "project",
-                        "genusSpecies",
-                        "biologicalSex",
-                        "organ",
-                        "organPart",
-                        "organismAge",
-                        "organismAgeUnit",
-                        "disease",
-                        "laboratory",
-                        "preservationMethod",
-                        "instrumentManufacturerModel",
-                        "libraryConstructionApproach",
-                        "protocol",
-                        "fileFormat",
-                        "totalCells"
-                    ];
-
-                    ordering.order = bypassOrdering;
-                    return this.fetchFileFacets(selectedFacetsByName, tab, ordering);
-                })
-            );
-    }
-
-    /**
-     * Fetch Manifest Summary
-     *
-     * @param selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<FileManifestSummary>}
      */
-    fetchFileManifestSummary(selectedFacets: FileFacet[]): Observable<Dictionary<FileManifestSummary>> {
+    fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
 
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets));
+        const query = new ICGCQuery(this.searchTermsToQueryString(searchTerms));
 
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
@@ -237,10 +149,10 @@ export class FilesDAO {
     /**
      * Download manifest - poll for manifest completion then initiate download.
      *
-     * @param selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {any}
      */
-    public downloadFileManifest(selectedFacets: FileFacet[]): Observable<ManifestResponse> {
+    public downloadFileManifest(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
 
         // Set up polling for file download completion - if file download request is still in progress, continue to
         // poll. Otherwise kill polling subscription and download file.
@@ -258,7 +170,7 @@ export class FilesDAO {
             }
         });
 
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), "tarball");
+        const query = new ICGCQuery(this.searchTermsToQueryString(searchTerms), "tarball");
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);
@@ -271,13 +183,13 @@ export class FilesDAO {
     /**
      * Build the manifest download URL - required for requesting a Matrix export.
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @param {string} format
      * @returns {string}
      */
-    public buildMatrixManifestUrl(selectedFacets: FileFacet[], format?: string): string {
+    public buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
 
-        const query = new ICGCQuery(this.facetsToQueryString(selectedFacets), format);
+        const query = new ICGCQuery(this.searchTermsToQueryString(searchTerms), format);
 
         let params = new URLSearchParams();
         Object.keys(query).forEach((paramName) => {
@@ -321,15 +233,18 @@ export class FilesDAO {
     /**
      * Build up set of query params for fetching search results.
      *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {TableParamsModel} tableParams
      */
     private buildFetchSearchResultsQueryParams(
-        selectedFacetsByName: Map<string, FileFacet>, tableParams: TableParamsModel) {
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>, tableParams: TableParamsModel) {
 
         // Build query params
-        const selectedFacets = Array.from(selectedFacetsByName.values());
-        const filters = this.facetsToQueryString(selectedFacets);
+        const searchTermSets = searchTermsByFacetName.values();
+        const searchTerms = Array.from(searchTermSets).reduce((accum, searchTermSet) => {
+            return accum.concat(Array.from(searchTermSet));
+        }, []);
+        const filters = this.searchTermsToQueryString(searchTerms);
 
         const paramMap = {
             filters,
@@ -360,24 +275,16 @@ export class FilesDAO {
     /**
      * Map files API response into FileFacet objects, maintaining selected state of terms.
      *
-     * @param {Map<string, FileFacet>} selectedFacetsByName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {FilesAPIResponse} filesAPIResponse
-     * @param {Ordering} ordering
      * @returns {FileFacet[]}
      */
     private createFileFacets(
-        selectedFacetsByName: Map<string, FileFacet>,
-        filesAPIResponse: FilesAPIResponse,
-        ordering?: Ordering): FileFacet[] {
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>,
+        filesAPIResponse: FilesAPIResponse): FileFacet[] {
 
         // Determine the set of facets that are to be displayed
-        let visibleFacets;
-        if ( !!ordering ) {
-            visibleFacets = _.pick(filesAPIResponse.termFacets, ordering.order) as Dictionary<FacetTermsResponse>;
-        }
-        else {
-            visibleFacets = Object.assign({}, filesAPIResponse.termFacets);
-        }
+        const visibleFacets = Object.assign({}, filesAPIResponse.termFacets);
 
         // Calculate the number of terms to display on each facet card
         const shortListLength = this.calculateShortListLength(visibleFacets);
@@ -386,7 +293,10 @@ export class FilesDAO {
         const newFileFacets = facetNames.map((facetName) => {
 
             const responseFileFacet = visibleFacets[facetName];
-            const oldFacet: FileFacet = selectedFacetsByName.get(facetName);
+            const searchTermSet: Set<SearchTerm> = searchTermsByFacetName.get(facetName);
+            let searchTerms = searchTermSet ?
+                Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.name) :
+                [];
 
             let responseTerms: Term[] = [];
 
@@ -401,16 +311,7 @@ export class FilesDAO {
                         responseTerm.term = "Unspecified";
                     }
 
-                    let oldTerm: Term;
-                    if ( oldFacet ) {
-                        oldTerm = oldFacet.termsByName.get(responseTerm.term);
-                    }
-
-                    let selected = false;
-                    if ( oldTerm ) {
-                        selected = oldTerm.selected;
-                    }
-
+                    let selected = searchTerms.indexOf(responseTerm.term) >= 0;
                     return new Term(responseTerm.term, responseTerm.count, selected, "000000");
                 });
             }
@@ -422,36 +323,6 @@ export class FilesDAO {
             // Create file facet from newly built terms and newly calculated total
             return new FileFacet(facetName, responseFileFacet.total, responseTerms, shortListLength);
         });
-
-        let fileIdTerms = [];
-        if ( selectedFacetsByName.get("fileId") ) {
-            fileIdTerms = selectedFacetsByName.get("fileId").terms;
-        }
-
-        let donorIdTerms = [];
-        if ( selectedFacetsByName.get("donorId") ) {
-            donorIdTerms = selectedFacetsByName.get("donorId").terms;
-        }
-
-        // Add donor ID search facet
-        let donorIdFileFacet = new FileFacet("donorId", 9999999, donorIdTerms, shortListLength, "SEARCH");
-        newFileFacets.unshift(donorIdFileFacet);
-
-        // Add file ID search facet
-        let fileIdFileFacet = new FileFacet("fileId", 88888888, fileIdTerms, shortListLength, "SEARCH");
-        newFileFacets.unshift(fileIdFileFacet);
-
-        // Check if we have a sort order and if so, order facets accordingly
-        if ( ordering && ordering.order.length ) {
-
-            const facetMap = newFileFacets.reduce((acc: Map<string, FileFacet>, facet: FileFacet) => {
-                return acc.set(facet.name, facet);
-            }, new Map<string, FileFacet>());
-
-            return ordering.order.map((name: string) => {
-                return facetMap.get(name);
-            });
-        }
 
         return newFileFacets;
     }
@@ -505,43 +376,28 @@ export class FilesDAO {
     }
 
     /**
-     * Map current set of selected facets to query string format.
+     * Map current set of selected search terms to query string format.
      *
      * return JSON string of: { file: { primarySite: { is: ["Brain"] } } }
      * if there aren't any file filters, it's just { }, not { file: { } }
      *
-     * TODO is this the ICGC workaround?
-     *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {string}
      */
-    private facetsToQueryString(selectedFacets: FileFacet[]): string {
+    private searchTermsToQueryString(searchTerms: SearchTerm[]): string {
 
+        // Build up filter from selected search terms
+        const filters = searchTerms.reduce((accum, searchTerm) => {
 
-        let filters = selectedFacets.reduce((facetAcc, facet) => {
-
-            // paranoid check for no facets.
-            if ( !facet.terms || !facet.terms.length ) {
-                return facetAcc;
+            let facetName = searchTerm.facetName;
+            if ( !accum[facetName] ) {
+                accum[facetName] = {
+                    is: []
+                };
             }
+            accum[facetName]["is"].push(searchTerm.getSearchKey());
 
-            // get an array of term names if any
-            const termNames = facet.selectedTerms.map((term) => {
-
-                // Returns "none" if term name is "Unspecified".
-                if ( term.name === "Unspecified" ) {
-                    return "null";
-                }
-
-                return term.name;
-            });
-
-            if ( termNames.length ) {
-                // only add the facet if there is a selected term.
-                facetAcc[facet.name] = {is: termNames};
-            }
-
-            return facetAcc;
+            return accum;
         }, {});
 
         // empty object if it doesn't have any filters;
@@ -579,20 +435,20 @@ export class FilesDAO {
     }
 
     /**
-     * Remove project facet from list of selected facets if the currently selected entity is projects. We do not want
-     * to restrict the table result set to just the selected project.
+     * Remove project facet and/or project IDs from list of search terms as we do not want to restrict the table result
+     * set to just the selected project.
      *
-     * @param {Map<string, FileFacet>} selectedFacets
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {string} selectedEntity
-     * @returns {Map<string, FileFacet>}
+     * @returns {Map<string, Set<SearchTerm>>}
      */
-    private removeProjectFacet(selectedFacets: Map<string, FileFacet>, selectedEntity: string): Map<string, FileFacet> {
+    private removeProjectFSearchTerms(
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedEntity: string): Map<string, Set<SearchTerm>> {
 
-        const filteredSelectedFacets = new Map(selectedFacets);
-        if ( filteredSelectedFacets.has("project") ) {
-            filteredSelectedFacets.delete("project");
-        }
-        return filteredSelectedFacets;
+        const filteredSearchTerms = new Map(searchTermsByFacetName);
+        filteredSearchTerms.delete(FileFacetName.PROJECT);
+        filteredSearchTerms.delete(FileFacetName.PROJECT_ID);
+        return filteredSearchTerms;
     }
 
     /**

@@ -1,24 +1,22 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of file-related state.
  */
 
 // App dependencies
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
-import { FileFacetMetadataSummaryState } from "./file-facet-metadata-summary/file-facet-metadata-summary.state";
-import { FileManifestSummaryState } from "./file-manifest-summary/file-manifest-summary.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
+import { SearchState } from "./search/search.state";
 
 export interface FileState {
     fileSummary: FileSummaryState;
     fileFacetList: FileFacetListState;
-    fileManifestSummary: FileManifestSummaryState;
-    fileFacetMetadataSummary: FileFacetMetadataSummaryState;
-    manifestDownloadFileSummary: FileSummaryState;
+    fileManifestFileSummary: FileSummaryState;
     matrix: MatrixState;
+    searchState: SearchState;
     tableState: TableState;
 }

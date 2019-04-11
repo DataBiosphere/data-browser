@@ -15,9 +15,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
                     <div class="selectable">
-                        <div [ngClass]="{'chart-legend-bar': true, 'selected': isTermSelected('project', element.projectShortname)}"
-                             (click)="onTermSelected('project', element.projectShortname)">
-                            <mat-icon *ngIf="isTermSelected('project', element.projectShortname)">check</mat-icon>
+                        <div [ngClass]="{'chart-legend-bar': true, 'selected': isProjectSelected(element)}"
+                             (click)="onProjectSelected(element.entryId, element.projectShortname, isProjectSelected(element))">
+                            <mat-icon *ngIf="isProjectSelected(element)">check</mat-icon>
                         </div>
                         <div [routerLink]="['/projects', element.entryId]" class="fontsize-xxs semi-bold">
                             {{element.projectTitle}}
