@@ -10,6 +10,6 @@ import { FileSummary } from "../file-summary/file-summary";
 
 export interface HCADownloadManifestModalState {
 
-    selectedSearchTermNames: string[]; // here
+    selectedSearchTermNames: string[];
     fileManifestFileSummary: FileSummary;
 }

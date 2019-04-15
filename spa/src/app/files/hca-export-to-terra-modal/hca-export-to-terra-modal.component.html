@@ -11,9 +11,9 @@
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
                 <div class="hca-download-content">
                     <div class="facet-term-list">
-                        <facet-file-list [selectedFileFacets]="state.selectedFileFacets"
+                        <facet-file-format-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                          [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
-                                         (facetTermSelected)="onFacetTermSelected($event)"></facet-file-list>
+                                         (facetTermSelected)="onFacetTermSelected($event)"></facet-file-format-list>
                     </div>
                     <div class="hca-download-action">
                         <button type="button" (click)="onExportToTerra()">Export to Terra</button>

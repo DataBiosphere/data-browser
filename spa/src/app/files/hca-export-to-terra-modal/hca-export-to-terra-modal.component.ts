@@ -6,28 +6,17 @@
  */
 
 // Core dependencies
-import { AppState } from "../../_ngrx/app.state";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material";
 import { select, Store } from "@ngrx/store";
-import { combineLatest } from "rxjs";
+import { combineLatest, Observable } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { ConfigService } from "../../config/config.service";
-import { FileFacetSelectedEvent } from "../file-facets/file-facet.events";
-import { MatDialogRef } from "@angular/material";
-import {
-    SelectFileFacetAction
-} from "../_ngrx/file-facet-list/file-facet-list.actions";
-import { Observable } from "rxjs";
-import {
-    selectFileFacetsFileFacets,
-    selectDownloadManifestFileSummary
-} from "../_ngrx/file.selectors";
+import { selectFileFacetsFileFacets } from "../_ngrx/file.selectors";
 import { HCAExportToTerraModalState } from "./hca-export-to-terra-modal.state";
-import {
-    FetchManifestDownloadFileSummaryRequestAction
-} from "../_ngrx/file-summary/file-summary.actions";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
 import { ExportToTerraRequestAction } from "../_ngrx/terra/export-to-terra-request.action";
@@ -36,6 +25,12 @@ import { TerraService } from "../shared/terra.service";
 import { selectExportToTerra } from "../_ngrx/terra/terra.selectors";
 import { ExportToTerraStatus } from "../shared/export-to-terra-status.model";
 import { Subject } from "rxjs/index";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
+import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
+import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
+import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
+import { selectSearchTerms } from "../_ngrx/search/search.selectors";
+import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     templateUrl: "./hca-export-to-terra-modal.component.html",
@@ -142,12 +137,14 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param fileFacetSelectedEvent {FileFacetSelectedEvent}
+     *  @param fileFacetSelectedEvent {FileFacetTermSelectedEvent}
      */
-    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetSelectedEvent) {
+    public onFacetTermSelected(fileFacetSelectedEvent: FileFacetTermSelectedEvent) {
 
-        this.store.dispatch(new SelectFileFacetAction(
-            new FileFacetSelectedEvent(fileFacetSelectedEvent.facetName, fileFacetSelectedEvent.termName, true)));
+        const facetName = fileFacetSelectedEvent.facetName;
+        const termName = fileFacetSelectedEvent.termName;
+        const selected = fileFacetSelectedEvent.selected;
+        this.store.dispatch(new SelectFileFacetTermAction(facetName, termName, !selected));
     }
 
     /**
@@ -189,24 +186,27 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of file facets
-        const selectedFileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
+        const selectedSearchTermNames$ = this.store.pipe(
+            select(selectSearchTerms),
+            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.name))
+        );
 
         // Grab file summary for populating file type counts on export to Terra modal
-        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectDownloadManifestFileSummary));
+        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
         // Update the UI with any changes in the export to Terra request status and URL
         const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerra));
 
         this.state$ = combineLatest(
-            selectedFileFacets$,
+            selectedSearchTermNames$,
             selectManifestDownloadFileSummary$,
             selectExportToTerraStatus$
         )
             .pipe(
-                map(([selectedFileFacets, manifestDownloadFileSummary, exportToTerra]) => {
+                map(([selectedSearchTermNames, manifestDownloadFileSummary, exportToTerra]) => {
 
                     return {
-                        selectedFileFacets,
+                        selectedSearchTermNames,
                         manifestDownloadFileSummary,
                         ...exportToTerra
                     };

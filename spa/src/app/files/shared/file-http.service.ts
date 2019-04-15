@@ -10,52 +10,38 @@ import { Injectable } from "@angular/core";
 
 // App dependencies
 import { FileFacet } from "./file-facet.model";
+import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
 export class FileHttpService {
 
     /**
-     * Map current set of selected facets to query string format.
+     * Map current set of selected search terms to query string format.
      *
      * return JSON string of: { file: { primarySite: { is: ["Brain"] } } }
      * if there aren't any file filters, it's just { }, not { file: { } }
      *
-     * @param {FileFacet[]} selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {string}
      */
-    public marshallSelectedFacets(selectedFacets: FileFacet[]): string {
+    public marshallSelectedFacets(searchTerms: SearchTerm[]): string {
 
-        const filters = selectedFacets.reduce((facetAcc, facet) => {
+        // Build up filter from selected search terms
+        const filters = searchTerms.reduce((accum, searchTerm) => {
 
-            // Paranoid check for no facets.
-            if ( !facet.terms || !facet.terms.length ) {
-                return facetAcc;
+            let facetName = searchTerm.facetName;
+            if ( !accum[facetName] ) {
+                accum[facetName] = {
+                    is: []
+                };
             }
+            accum[facetName]["is"].push(searchTerm.getSearchKey());
 
-            // Get set of selected term names for this facet, if any.
-            const termNames = facet.selectedTerms.map((term) => {
-
-                // Returns "none" if term name is "Unspecified".
-                // TODO revisit - is this check still required?
-                if ( term.name === "Unspecified" ) {
-                    return "null";
-                }
-
-                return term.name;
-            });
-
-            // Only add the facet if there is a selected term.
-            if ( termNames.length ) {
-                facetAcc[facet.name] = {is: termNames};
-            }
-
-            return facetAcc;
+            return accum;
         }, {});
 
-        // Use empty object if there are no selected facets at this point in time.
+        // empty object if it doesn't have any filters;
         const result = Object.keys(filters).length ? {file: filters} : {};
-
-        // Convert to query string.
         return JSON.stringify(result);
     }
 

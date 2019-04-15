@@ -19,6 +19,7 @@ import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { FileHttpService } from "./file-http.service";
 import { ICGCQuery } from "./icgc-query";
+import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
 export class TerraDAO {
@@ -37,10 +38,10 @@ export class TerraDAO {
     /**
      * Export to Terra - poll for export completion then initiate export.
      *
-     * @param selectedFacets
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<ExportToTerraResponse>}
      */
-    public exportToTerra(selectedFacets: FileFacet[]): Observable<ExportToTerraResponse> {
+    public exportToTerra(searchTerms: SearchTerm[]): Observable<ExportToTerraResponse> {
 
         // Set up polling for export completion - if export request is still in progress, continue to poll. Otherwise
         // kill polling subscription and return export URL.
@@ -54,7 +55,7 @@ export class TerraDAO {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.fileHttpService.marshallSelectedFacets(selectedFacets), "bdbag");
+        const query = new ICGCQuery(this.fileHttpService.marshallSelectedFacets(searchTerms), "bdbag");
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);

@@ -20,6 +20,7 @@ import { FileSummary } from "../file-summary/file-summary";
 import { ManifestResponse } from "./manifest-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
+import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class FilesService {
@@ -53,7 +54,7 @@ export class FilesService {
 
         const filteredSearchTerms = searchTerms.reduce((accum, searchTerm) => {
 
-            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== "matrix" ) {
+            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== FileFormat.MATRIX ) {
                 accum.push(searchTerm);
             }
             return accum;

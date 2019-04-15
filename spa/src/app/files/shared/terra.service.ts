@@ -15,6 +15,9 @@ import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { FileFacet } from "./file-facet.model";
 import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
 import { TerraDAO } from "./terra.dao";
+import { SearchTerm } from "../search/search-term.model";
+import { FileFacetName } from "./file-facet-name.model";
+import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class TerraService {
@@ -95,43 +98,19 @@ export class TerraService {
     /**
      * Export current state of selected facets to Terra.
      *
-     * @param {FileFacetListState} ffls
+     * @param {SearchTerm[]} searchTerms
      * @returns {Observable<ExportToTerraResponse>}
      */
-    public exportToTerra(ffls: FileFacetListState): Observable<ExportToTerraResponse> {
+    public exportToTerra(searchTerms: SearchTerm[]): Observable<ExportToTerraResponse> {
 
-        let selectedFacets = ffls.selectedFileFacets || [];
-        let allFacets = ffls.fileFacets || [];
+        const filteredSearchTerms = searchTerms.reduce((accum, searchTerm) => {
 
-        // If the facet "fileFacet" is missing i.e. no fileFacet terms have been selected, then add the facet to the selectedFacets
-        if ( !selectedFacets.some(facet => facet.name === "fileFormat") ) {
-
-            let fileFacet = allFacets.find(facet => facet.name === "fileFormat");
-
-            // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
-            const copyOfFacet = {...fileFacet};
-
-            // Filter out matrix
-            copyOfFacet.selectedTerms = copyOfFacet.terms.filter(term => term.name !== "matrix");
-            selectedFacets.push(copyOfFacet as FileFacet);
-        }
-
-        // Remove the term "matrix" from selectedTerms
-        selectedFacets = selectedFacets.map(selectedFacet => {
-
-            if ( selectedFacet.name === "fileFormat" ) {
-
-                // Make a shallow copy of selectedFacets to modify fileFormat's selectedTerms
-                const copyOfFacet = {...selectedFacet};
-
-                // Filter out matrix
-                copyOfFacet.selectedTerms = copyOfFacet.selectedTerms.filter(term => term.name !== "matrix");
-                return copyOfFacet as FileFacet;
+            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== FileFormat.MATRIX ) {
+                accum.push(searchTerm);
             }
+            return accum;
+        }, []);
 
-            return selectedFacet;
-        });
-
-        return this.terraDAO.exportToTerra(selectedFacets);
+        return this.terraDAO.exportToTerra(filteredSearchTerms);
     }
 }
