@@ -11,6 +11,8 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { FilesService } from "./files.service";
+import { FileFormat } from "./file-format.model";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { MatrixDAO } from "./matrix.dao";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
@@ -18,7 +20,6 @@ import { MatrixStatus } from "./matrix-status.model";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class MatrixService {
@@ -130,6 +131,6 @@ export class MatrixService {
             searchTermsClone.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
         }
 
-        return this.filesService.buildMatrixManifestUrl(searchTermsClone, "tarball");
+        return this.filesService.buildMatrixManifestUrl(searchTermsClone, ManifestDownloadFormat.TSV);
     }
 }
