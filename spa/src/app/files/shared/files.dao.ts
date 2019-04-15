@@ -21,14 +21,15 @@ import { FileSummary } from "../file-summary/file-summary";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FilesAPIResponse } from "./files-api-response.model";
 import { FileFacet } from "./file-facet.model";
+import { FileFacetName } from "./file-facet-name.model";
 import { ICGCQuery } from "./icgc-query";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
-import { FileFacetName } from "./file-facet-name.model";
 
 @Injectable()
 export class FilesDAO {
@@ -89,7 +90,7 @@ export class FilesDAO {
             paramMap = this.buildFetchSearchResultsQueryParams(searchTermsByFacetName, tableParams);
         }
         else {
-            const filteredSearchTerms = this.removeProjectFSearchTerms(searchTermsByFacetName, selectedEntity);
+            const filteredSearchTerms = this.removeProjectSearchTerms(searchTermsByFacetName, selectedEntity);
             paramMap = this.buildFetchSearchResultsQueryParams(filteredSearchTerms, tableParams);
         }
 
@@ -170,7 +171,7 @@ export class FilesDAO {
             }
         });
 
-        const query = new ICGCQuery(this.searchTermsToQueryString(searchTerms), "tarball");
+        const query = new ICGCQuery(this.searchTermsToQueryString(searchTerms), ManifestDownloadFormat.TSV);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);
@@ -422,7 +423,7 @@ export class FilesDAO {
     /**
      * Create map of terms counts for each file facet, keyed by the file facet name.
      *
-     * @param {Map<string, FileFacet>} fileFacetsByName
+     * @param {FileFacet[]} fileFacets
      */
     private mapTermCountsByFacetName(fileFacets: FileFacet[]): Map<string, number> {
 
@@ -442,7 +443,7 @@ export class FilesDAO {
      * @param {string} selectedEntity
      * @returns {Map<string, Set<SearchTerm>>}
      */
-    private removeProjectFSearchTerms(
+    private removeProjectSearchTerms(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedEntity: string): Map<string, Set<SearchTerm>> {
 
         const filteredSearchTerms = new Map(searchTermsByFacetName);
