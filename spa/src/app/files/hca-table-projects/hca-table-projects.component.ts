@@ -39,7 +39,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "organ", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
+        "projectTitle", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
         "donorCount", "estimatedCellCount"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -235,6 +235,7 @@ export interface Element {
     organ: string;
     projectShortname: string;
     projectTitle: string;
+    selectedCellType: string;
 }
 
 /**
@@ -294,7 +295,8 @@ class TableElementDataSource extends DataSource<any> {
                         processedCount: this.getFileCount("bam", fileTypeSummaries),
                         projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                        rawCount: rawCount
+                        rawCount: rawCount,
+                        selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType)
                     };
                 });
             })
@@ -324,7 +326,7 @@ class TableElementDataSource extends DataSource<any> {
 
                     // flatten arrays
                     if ( value instanceof Array ) {
-                        value = value.join(",");
+                        value = value.join(", ");
                     }
 
 
@@ -344,7 +346,7 @@ class TableElementDataSource extends DataSource<any> {
                         let cellValues;
 
                         try {
-                            cellValues = acc[key] ? acc[key].split(",") : [];
+                            cellValues = acc[key] ? acc[key].split(", ") : [];
                         }
                         catch (error) {
                             console.log(key);
@@ -396,7 +398,7 @@ class TableElementDataSource extends DataSource<any> {
     }
 
     public getSelfOrFirst(value) {
-        const vals = value.split(",");
+        const vals = value.split(", ");
         return vals[0];
     }
 

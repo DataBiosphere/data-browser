@@ -36,7 +36,7 @@ export class HCATableComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "specimenId", "projectTitle", "organ", "organPart", "libraryConstructionApproach", "genusSpecies",
+        "specimenId", "projectTitle", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -239,6 +239,7 @@ export interface Element {
     organismAge: string;
     organPart: string;
     projectTitle: string;
+    selectedCellType: string;
     totalCells: number;
 }
 
@@ -295,6 +296,7 @@ class TableElementDataSource extends DataSource<any> {
                         otherFileCount: fileCounts.otherFileCount,
                         processedCount: this.getFileCount("bam", fileTypeSummaries),
                         projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: this.getSelfOrFirst(specimens.id),
                         totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                         rawCount: rawCount

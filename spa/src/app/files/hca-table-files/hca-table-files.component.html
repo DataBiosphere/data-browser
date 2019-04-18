@@ -123,6 +123,24 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="selectedCellType">
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'selectedCellType'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [tooltipContent]="'The cell type(s) selected to be present in the suspension.'"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>Selected Cell Type</hca-table-column-header-title>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <hca-table-cell [tooltipContent]="element.selectedCellType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.selectedCellType}}</span>
+                        </hca-content-ellipsis>
+                    </hca-table-cell>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'libraryConstructionApproach'"
