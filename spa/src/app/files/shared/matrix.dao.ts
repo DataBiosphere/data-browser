@@ -18,10 +18,13 @@ import { catchError, map, retry } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { ICGCQuery } from "./icgc-query";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { MatrixStatus } from "./matrix-status.model";
+import { SearchTermHttpService } from "./search-term-http.service";
+import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
 export class MatrixDAO {
@@ -31,9 +34,13 @@ export class MatrixDAO {
 
     /**
      * @param {ConfigService} configService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService, private httpClient: HttpClient) {
+    constructor(
+        private configService: ConfigService,
+        private searchTermHttpService: SearchTermHttpService,
+        private httpClient: HttpClient) {
     }
 
     /**
@@ -75,12 +82,14 @@ export class MatrixDAO {
      *
      * Docs at: https://github.com/HumanCellAtlas/matrix-service/blob/develop/config/matrix-api.yml
      *
-     * @param {string} manifestUrl
+     * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
      * @returns {Observable<MatrixResponse>}
      */
-    public requestMatrix(manifestUrl: string, matrixFormat: MatrixFormat): Observable<MatrixResponse> {
+    public requestMatrix(searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
 
+        const manifestUrl = this.buildMatrixManifestUrl(searchTerms);
+        
         // Build up the POST body
         const body = {
             bundle_fqids_url: manifestUrl,
@@ -98,6 +107,25 @@ export class MatrixDAO {
     }
 
     /**
+     * Build the manifest download URL - required for requesting a Matrix export.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @param {string} format
+     * @returns {string}
+     */
+    public buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
+
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), format);
+
+        let params = new URLSearchParams();
+        Object.keys(query).forEach((paramName) => {
+            params.append(paramName, query[paramName]);
+        });
+
+        return this.buildApiUrl(`/manifest/files?${params.toString()}`);
+    }
+
+    /**
      * Normalize matrix response to FE-friendly format.
      *
      * @param {MatrixHttpResponse} response
@@ -110,6 +138,18 @@ export class MatrixDAO {
             requestId: response.request_id,
             status: this.translateMatrixStatus(response.status)
         });
+    }
+
+    /**
+     * Build full API URL
+     *
+     * @param url
+     * @returns {string}
+     */
+    private buildApiUrl(url: string) {
+
+        const domain = this.configService.getAPIURL();
+        return `${domain}${url}`;
     }
 
     /**

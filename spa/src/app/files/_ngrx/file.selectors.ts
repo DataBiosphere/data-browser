@@ -14,9 +14,12 @@ import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
 import { selectSearchTermsByFacetName } from "./search/search.selectors";
+import { FileFacetName } from "../shared/file-facet-name.model";
 import { PaginationModel } from "../table/pagination.model";
 
-// Return facet list-related slices.
+/**
+ * Return facet list-related slices. 
+ */
 export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
 
 /**
@@ -26,6 +29,16 @@ export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (stat
     return state.fileFacets;
 });
 
+/**
+ * Return the file format facet from the store.
+ */
+export const selectFileFormatsFileFacet = createSelector(selectFileFacets, (state) => {
+    return state.fileFacets.find((facet) => facet.name === FileFacetName.FILE_FORMAT);
+});
+
+/**
+ * Return the file summary from the store.
+ */
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
 
 /**

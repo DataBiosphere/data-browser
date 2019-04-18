@@ -17,10 +17,11 @@ import { DownloadFileManifestRequestedAction } from "./download-file-manifest-re
 import { DownloadFileManifestAction } from "./download-file-manifest.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
+import { selectFileFormatsFileFacet } from "../file.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSearchTerms } from "../search/search.selectors";
-import { FilesService } from "../../shared/files.service";
+import { FileManifestService } from "../../shared/file-manifest.service";
 
 @Injectable()
 export class FileManifestEffects {
@@ -28,11 +29,11 @@ export class FileManifestEffects {
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
-     * @param {FilesService} fileService
+     * @param {FileManifestService} fileManifestService
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                private fileService: FilesService) {
+                private fileManifestService: FileManifestService) {
     }
 
     /**
@@ -46,7 +47,16 @@ export class FileManifestEffects {
                 select(selectSearchTerms),
                 take(1)
             )),
-            switchMap((searchTerms) => this.fileService.downloadFileManifest(searchTerms)),
+            switchMap((searchTerms) =>
+                this.store.pipe(
+                    select(selectFileFormatsFileFacet),
+                    take(1),
+                    map((fileFormatsFileFacet) => {
+                        return {searchTerms, fileFormatsFileFacet};
+                    })
+                )
+            ),
+            switchMap(({searchTerms, fileFormatsFileFacet}) => this.fileManifestService.downloadFileManifest(searchTerms, fileFormatsFileFacet)),
             map(response => new DownloadFileManifestRequestedAction(response))
         );
 
@@ -62,7 +72,7 @@ export class FileManifestEffects {
                 select(selectSearchTerms),
                 take(1)
             )),
-            switchMap((searchTerms) => this.fileService.fetchFileManifestFileSummary(searchTerms)),
+            switchMap((searchTerms) => this.fileManifestService.fetchFileManifestFileSummary(searchTerms)),
             map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
         );
 }

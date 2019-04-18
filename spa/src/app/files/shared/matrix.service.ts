@@ -11,14 +11,13 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { FilesService } from "./files.service";
-import { FileFormat } from "./file-format.model";
-import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { MatrixDAO } from "./matrix.dao";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixStatus } from "./matrix-status.model";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "./file-facet-name.model";
+import { FileFormat } from "./file-format.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 
 @Injectable()
@@ -61,11 +60,13 @@ export class MatrixService {
      */
     public requestMatrix(searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
 
-        // Build up the manifest URL - add file type "matrix" to selected facets if it isn't already selected
-        const manifestUrl = this.buildManifestUrl(searchTerms);
+        // Add matrix file format, if not yet specified
+        const matrixSearchTerms = this.isMatrixFileFormatSelected(searchTerms) ?
+            searchTerms :
+            this.addMatrixFileFormatToSearchTerms(searchTerms);
 
         // Kick off matrix request
-        return this.matrixDAO.requestMatrix(manifestUrl, matrixFormat);
+        return this.matrixDAO.requestMatrix(matrixSearchTerms, matrixFormat);
     }
 
     /**
@@ -103,34 +104,28 @@ export class MatrixService {
     }
 
     /**
-     * Privates
-     */
-
-    /**
-     * Build up manifest URL to pass as bundle req URL to matrix service. Add file type "matrix" to selected search terms
-     * if it isn't already selected.
+     * Add matrix file format to the set of search terms.
      *
      * @param {SearchTerm[]} searchTerms
-     * @returns {string}
+     * @returns {SearchTerm[]}
      */
-    private buildManifestUrl(searchTerms: SearchTerm[]): string {
+    private addMatrixFileFormatToSearchTerms(searchTerms: SearchTerm[]): SearchTerm[] {
 
-        // Create copy of selected search terms as we may want to need to add the file type matrix term as selected,
-        // without affecting the current set of selected search terms.
-        const searchTermsClone = [
-            ...searchTerms
+        return [
+            ...searchTerms,
+            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
         ];
+    }
 
-        const matrixFileType = searchTermsClone.find((searchTerm: SearchTerm) => {
+    /**
+     * Returns true if there matrix file format is in the current set of selected search terms.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @returns {boolean}
+     */
+    private isMatrixFileFormatSelected(searchTerms: SearchTerm[]): boolean {
 
-            return searchTerm.facetName === FileFacetName.FILE_FORMAT &&
-                searchTerm.name === FileFormat.MATRIX;
-        });
-        if ( !matrixFileType ) {
-
-            searchTermsClone.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
-        }
-
-        return this.filesService.buildMatrixManifestUrl(searchTermsClone, ManifestDownloadFormat.TSV);
+        return searchTerms.some((searchTerm) =>
+            searchTerm.facetName === FileFacetName.FILE_FORMAT && searchTerm.name === FileFormat.MATRIX);
     }
 }

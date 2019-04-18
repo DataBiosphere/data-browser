@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { MatDialogRef } from "@angular/material";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -17,8 +17,9 @@ import { ConfigService } from "../../config/config.service";
 import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
-import { AppState } from "../../_ngrx/app.state";
 import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
+import { AppState } from "../../_ngrx/app.state";
+import { ClearManifestDownloadFileSummaryAction } from "../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest/download-file-manifest.action";
 import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
@@ -30,7 +31,7 @@ import { SearchTerm } from "../search/search-term.model";
     templateUrl: "./hca-download-manifest-modal.component.html",
     styleUrls: ["./hca-download-manifest-modal.component.scss"]
 })
-export class HCADownloadManifestModalComponent implements OnInit {
+export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
 
     // Template variables
     public hideDownload = false;
@@ -120,6 +121,14 @@ export class HCADownloadManifestModalComponent implements OnInit {
     public onNoClick(): void {
 
         this.dialogRef.close();
+    }
+
+    /**
+     * Clear summary on close of modal. 
+     */
+    public ngOnDestroy() {
+
+        this.store.dispatch(new ClearManifestDownloadFileSummaryAction());
     }
 
     /**

@@ -40,7 +40,6 @@ import { FacetFileFormatListComponent } from "./facet-file-format-list/facet-fil
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
-import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
@@ -48,6 +47,8 @@ import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-bann
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
+import { HCAExportToTerraComponent } from "./hca-export-to-terra/hca-export-to-terra.component";
+import { HCAExportToTerraModalComponent } from "./hca-export-to-terra-modal/hca-export-to-terra-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
 import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
@@ -67,8 +68,12 @@ import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-tab
 import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
+import { SearchTermHttpService } from "./shared/search-term-http.service";
 import { DownloadService } from "./shared/download.service";
 import { DownloadDAO } from "./shared/download.dao";
+import { FileManifestDAO } from "./shared/file-manifest.dao";
+import { FileManifestService } from "./shared/file-manifest.service";
+import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
@@ -76,6 +81,8 @@ import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
 import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
+import { TerraService } from "./shared/terra.service";
+import { TerraDAO } from "./shared/terra.dao";
 
 @NgModule({
     imports: [
@@ -124,6 +131,8 @@ import { SharedModule } from "../shared/shared.module";
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
+        HCAExportToTerraComponent,
+        HCAExportToTerraModalComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,
         HCAFileFilterComponent,
@@ -156,16 +165,22 @@ import { SharedModule } from "../shared/shared.module";
         ConfigService,
         DownloadService,
         DownloadDAO,
+        SearchTermHttpService,
+        FileManifestService,
+        FileManifestDAO,
         FilesService,
         FilesDAO,
-        ProjectService,
-        ProjectDAO,
         MatrixService,
         MatrixDAO,
+        ProjectService,
+        ProjectDAO,
+        TerraService,
+        TerraDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [
         HCADownloadManifestModalComponent,
+        HCAExportToTerraModalComponent,
         HCARequestMatrixModalComponent
     ]
 })
