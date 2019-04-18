@@ -9,11 +9,10 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
-import { FileFacet } from "./file-facet.model";
 import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
-export class FileHttpService {
+export class SearchTermHttpService {
 
     /**
      * Map current set of selected search terms to query string format.
@@ -24,7 +23,7 @@ export class FileHttpService {
      * @param {SearchTerm[]} searchTerms
      * @returns {string}
      */
-    public marshallSelectedFacets(searchTerms: SearchTerm[]): string {
+    public marshallSearchTerms(searchTerms: SearchTerm[]): string {
 
         // Build up filter from selected search terms
         const filters = searchTerms.reduce((accum, searchTerm) => {

@@ -17,6 +17,7 @@ import { AppState } from "../../../_ngrx/app.state";
 import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.action";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
+import { selectFileFormatsFileFacet } from "../file.selectors";
 import { selectSearchTerms } from "../search/search.selectors";
 import { TerraService } from "../../shared/terra.service";
 
@@ -33,7 +34,6 @@ export class TerraEffects {
                 private terraService: TerraService) {
     }
 
-
     /**
      * Trigger export to Terra.
      */
@@ -45,7 +45,16 @@ export class TerraEffects {
                 select(selectSearchTerms),
                 take(1)
             )),
-            switchMap((searchTerms) => this.terraService.exportToTerra(searchTerms)),
+            switchMap((searchTerms) =>
+                this.store.pipe(
+                    select(selectFileFormatsFileFacet),
+                    take(1),
+                    map((fileFormatsFileFacet) => {
+                        return {searchTerms, fileFormatsFileFacet};
+                    })
+                )
+            ),
+            switchMap(({searchTerms, fileFormatsFileFacet}) => this.terraService.exportToTerra(searchTerms, fileFormatsFileFacet)),
             map(response => this.terraService.isExportToTerraRequestInProgress(response.status) ?
                 new ExportToTerraInProgressAction(response) :
                 new ExportToTerraSuccessAction(response))

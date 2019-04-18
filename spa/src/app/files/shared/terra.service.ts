@@ -12,20 +12,19 @@ import { Observable } from "rxjs";
 // App dependencies
 import { ExportToTerraResponse } from "./export-to-terra-response.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
-import { FileFacet } from "./file-facet.model";
-import { FileFacetListState } from "../_ngrx/file-facet-list/file-facet-list.state";
+import { FileManifestService } from "./file-manifest.service";
 import { TerraDAO } from "./terra.dao";
 import { SearchTerm } from "../search/search-term.model";
-import { FileFacetName } from "./file-facet-name.model";
-import { FileFormat } from "./file-format.model";
+import { FileFacet } from "./file-facet.model";
 
 @Injectable()
 export class TerraService {
 
     /**
+     * @param {FileManifestService} fileManifestService
      * @param {TerraDAO} terraDAO
      */
-    constructor(private terraDAO: TerraDAO) {
+    constructor(private fileManifestService: FileManifestService, private terraDAO: TerraDAO) {
     }
 
     /**
@@ -99,18 +98,12 @@ export class TerraService {
      * Export current state of selected facets to Terra.
      *
      * @param {SearchTerm[]} searchTerms
+     * @param {FileFacet} fileFormats
      * @returns {Observable<ExportToTerraResponse>}
      */
-    public exportToTerra(searchTerms: SearchTerm[]): Observable<ExportToTerraResponse> {
+    public exportToTerra(searchTerms: SearchTerm[], fileFormats: FileFacet): Observable<ExportToTerraResponse> {
 
-        const filteredSearchTerms = searchTerms.reduce((accum, searchTerm) => {
-
-            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== FileFormat.MATRIX ) {
-                accum.push(searchTerm);
-            }
-            return accum;
-        }, []);
-
-        return this.terraDAO.exportToTerra(filteredSearchTerms);
+        const manifestSearchTerms = this.fileManifestService.buildManifestSearchTerms(searchTerms, fileFormats);
+        return this.terraDAO.exportToTerra(manifestSearchTerms);
     }
 }

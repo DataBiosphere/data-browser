@@ -40,7 +40,6 @@ import { FacetFileFormatListComponent } from "./facet-file-format-list/facet-fil
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
-import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { KeywordsModule } from "../keywords/keywords.module";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
@@ -69,8 +68,12 @@ import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-tab
 import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
+import { SearchTermHttpService } from "./shared/search-term-http.service";
 import { DownloadService } from "./shared/download.service";
 import { DownloadDAO } from "./shared/download.dao";
+import { FileManifestDAO } from "./shared/file-manifest.dao";
+import { FileManifestService } from "./shared/file-manifest.service";
+import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
@@ -80,7 +83,6 @@ import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TerraDAO } from "./shared/terra.dao";
-import { FileHttpService } from "./shared/file-http.service";
 
 @NgModule({
     imports: [
@@ -163,7 +165,9 @@ import { FileHttpService } from "./shared/file-http.service";
         ConfigService,
         DownloadService,
         DownloadDAO,
-        FileHttpService,
+        SearchTermHttpService,
+        FileManifestService,
+        FileManifestDAO,
         FilesService,
         FilesDAO,
         MatrixService,

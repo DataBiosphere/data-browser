@@ -14,11 +14,11 @@ import { catchError, retry, switchMap, take } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { ExportToTerraResponse } from "./export-to-terra-response.model";
-import { FileFacet } from "./file-facet.model";
 import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
-import { FileHttpService } from "./file-http.service";
 import { ICGCQuery } from "./icgc-query";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
+import { SearchTermHttpService } from "./search-term-http.service";
 import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
@@ -26,12 +26,12 @@ export class TerraDAO {
 
     /**
      * @param {ConfigService} configService
-     * @param {FileHttpService} fileHttpService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
-        private fileHttpService: FileHttpService,
+        private searchTermHttpService: SearchTermHttpService,
         private httpClient: HttpClient) {
     }
 
@@ -55,7 +55,7 @@ export class TerraDAO {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.fileHttpService.marshallSelectedFacets(searchTerms), "bdbag");
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.BDBAG);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);

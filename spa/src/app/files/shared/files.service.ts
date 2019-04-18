@@ -11,16 +11,11 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
-import { Dictionary } from "../../dictionary";
 import { EntitySearchResults } from "./entity-search-results.model";
-import { FileFacetName } from "./file-facet-name.model";
 import { FilesDAO } from "./files.dao";
-import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileSummary } from "../file-summary/file-summary";
-import { ManifestResponse } from "./manifest-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
-import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class FilesService {
@@ -29,38 +24,6 @@ export class FilesService {
      * @param {FilesDAO} fileDAO
      */
     constructor(private fileDAO: FilesDAO) {
-    }
-
-    /**
-     * Build the manifest download URL - required for both downloading the manifest, as well as requesting a Matrix
-     * export.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @param {string} format
-     * @returns {string}
-     */
-    public buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
-
-        return this.fileDAO.buildMatrixManifestUrl(searchTerms, format);
-    }
-
-    /**
-     * Download file manifest. Removes "matrix" search term, if selected.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {Observable<ManifestResponse>}
-     */
-    public downloadFileManifest(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
-
-        const filteredSearchTerms = searchTerms.reduce((accum, searchTerm) => {
-
-            if ( searchTerm.facetName !== FileFacetName.FILE_FORMAT && searchTerm.name !== FileFormat.MATRIX ) {
-                accum.push(searchTerm);
-            }
-            return accum;
-        }, []);
-
-        return this.fileDAO.downloadFileManifest(filteredSearchTerms);
     }
 
     /**
@@ -83,17 +46,6 @@ export class FilesService {
     }
 
     /**
-     * Fetch File Manifest Summary Observable
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {Observable<Action>}
-     */
-    public fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
-
-        return this.fileDAO.fetchFileManifestSummary(searchTerms);
-    }
-
-    /**
      * Fetch file summary, passing in the current set of search terms.
      *
      * {SearchTerm[]} searchTerms
@@ -104,21 +56,6 @@ export class FilesService {
         return this.fileDAO.fetchFileSummary(searchTerms).pipe(
             map(this.bindFileSummaryResponse)
         );
-    }
-
-    /**
-     * Fetch file summary for displaying the manifest modal, passing in the current set of selected facets except any
-     * selected file types.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {Observable<Action>}
-     */
-    public fetchFileManifestFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
-
-        const searchTermsExceptFileTypes = searchTerms.filter((fileFacet) => {
-            return fileFacet.facetName !== FileFacetName.FILE_FORMAT;
-        });
-        return this.fetchFileSummary(searchTermsExceptFileTypes);
     }
 
     /**
