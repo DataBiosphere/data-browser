@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles for HCA download manifest dialog.
+ * Styles for export to Terra dialog.
  */
 @import "../../site/theme/cgl.vars";
 
@@ -13,10 +13,6 @@
     box-sizing: border-box;
     width: 450px;
 
-    &.hide {
-        display: none;
-    }
-    
     .hca-spinner {
         margin: 0 24px 24px;
     }
@@ -54,6 +50,10 @@
         /* Facet term list - container */
         .facet-term-list {
             -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+            padding: 0 24px;
+        }
+        
+        .fontsize-s {
             padding: 0 24px;
         }
     }

@@ -6,5 +6,6 @@
  */
 
 export enum ManifestDownloadFormat {
-    "TSV" = "tsv"
+    "TSV" = "tsv",
+    "BDBAG" = "bdbag"
 }

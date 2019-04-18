@@ -9,6 +9,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { ClearManifestDownloadFileSummaryAction } from "./clear-manifest-download-file-summary.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { FileSummaryState } from "../file-summary/file-summary.state";
@@ -22,6 +23,9 @@ export function reducer(state: FileSummaryState = FileSummaryState.getDefaultSta
 
         case FetchManifestDownloadFileSummarySuccessAction.ACTION_TYPE:
             return state.fetchSummarySuccess(action as FetchManifestDownloadFileSummarySuccessAction);
+            
+        case ClearManifestDownloadFileSummaryAction.ACTION_TYPE:
+            return FileSummaryState.getDefaultState();
 
         default:
             return state;

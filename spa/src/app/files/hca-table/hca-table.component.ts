@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
@@ -31,7 +31,7 @@ import { TableParamsModel } from "../table/table-params.model";
     templateUrl: "./hca-table.component.html",
     styleUrls: ["./hca-table.component.scss"]
 })
-export class HCATableComponent implements OnInit, AfterViewInit {
+export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
 
     // Template variables
     data$: Observable<any[]>;

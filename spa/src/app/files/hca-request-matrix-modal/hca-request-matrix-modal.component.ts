@@ -14,7 +14,6 @@ import { map, take, takeUntil, takeWhile } from "rxjs/operators";
 
 // App dependencies
 import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
-import { MatrixService } from "../shared/matrix.service";
 import { AppState } from "../../_ngrx/app.state";
 import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/matrix.actions";
 import { selectFileSummary, selectMatrixFileFormats } from "../_ngrx/file.selectors";
@@ -22,6 +21,7 @@ import { selectSearchTerms } from "../_ngrx/search/search.selectors";
 import { MatrixFormat } from "../shared/matrix-format.model";
 import { MatrixResponse } from "../shared/matrix-response.model";
 import { SearchTerm } from "../search/search-term.model";
+import { MatrixService } from "../shared/matrix.service";
 
 @Component({
     templateUrl: "./hca-request-matrix-modal.component.html",
