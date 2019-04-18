@@ -93,7 +93,14 @@ export class FileEffects {
 
                 const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                return this.fileService.fetchEntitySearchResults(searchTermsByFacetName, DEFAULT_TABLE_PARAMS, selectedEntity)
+                let tableParams = Object.assign(
+                    DEFAULT_TABLE_PARAMS,
+                    {
+                        sort: tableQueryParams.pagination.sort,
+                        order: tableQueryParams.pagination.order
+                    });
+                
+                return this.fileService.fetchEntitySearchResults(searchTermsByFacetName, tableParams, selectedEntity)
                     .pipe(
                         map((entitySearchResults) => {
                             return {action, entitySearchResults, tableQueryParams};
