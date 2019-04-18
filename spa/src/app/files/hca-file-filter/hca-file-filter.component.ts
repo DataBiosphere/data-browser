@@ -42,7 +42,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     private FACET_GROUPS = [
         {
             facetGroupName: "Organ",
-            facetNames: ["organ", "organPart"]
+            facetNames: ["organ", "organPart", "selectedCellType"]
         },
         {
             facetGroupName: "Method",

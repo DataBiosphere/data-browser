@@ -4,7 +4,7 @@
                 <ng-container *ngFor="let searchTerm of searchTerms">
                 <mat-chip [removable]="removable" class="selected-term">
                     <div>
-                        <span class="label">{{getFacetName(searchTerm.name)}}:</span>
+                        <span class="label">{{getFacetName(searchTerm.facetName)}}:</span>
                         <span class="input">{{searchTerm.name}}</span>
                     </div>
                     <mat-icon matChipRemove *ngIf="removable" (click)="removeSearchTerm(searchTerm)">close
