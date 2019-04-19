@@ -40,21 +40,22 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
     // Constants
     private FACET_GROUPS = [
-        {
-            facetGroupName: "Organ",
-            facetNames: ["organ", "organPart", "selectedCellType"]
-        },
-        {
-            facetGroupName: "Method",
-            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
-        },
+
         {
             facetGroupName: "Donor",
             facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
         },
         {
+            facetGroupName: "Organ",
+            facetNames: ["organ", "organPart", "selectedCellType"]
+        },
+        {
             facetGroupName: "Specimen",
             facetNames: ["disease"]
+        },
+        {
+            facetGroupName: "Method",
+            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
         },
         {
             facetGroupName: "File",
