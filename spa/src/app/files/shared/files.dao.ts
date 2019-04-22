@@ -22,6 +22,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { SearchTermHttpService } from "./search-term-http.service";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
+import { TermResponse } from "./term-response.model";
 
 @Injectable()
 export class FilesDAO {
@@ -182,46 +183,63 @@ export class FilesDAO {
         searchTermsByFacetName: Map<string, Set<SearchTerm>>,
         filesAPIResponse: FilesAPIResponse): FileFacet[] {
 
-        // Determine the set of facets that are to be displayed
-        const visibleFacets = Object.assign({}, filesAPIResponse.termFacets);
+        const termFacets = filesAPIResponse.termFacets;
+        const newFileFacets = Object.keys(termFacets).map((facetName) => {
 
-        const facetNames = Object.keys(visibleFacets);
-        const newFileFacets = facetNames.map((facetName) => {
+            const responseFileFacet = termFacets[facetName];
+            
+            // Determine the set of currently selected search terms for this facet
+            const searchTermKeys = this.listFacetSearchTermKeys(facetName, searchTermsByFacetName);
 
-            const projectFacet = facetName === FileFacetName.PROJECT;
-            const responseFileFacet = visibleFacets[facetName];
-            const searchTermSet: Set<SearchTerm> = searchTermsByFacetName.get(facetName);
-            let searchTerms = searchTermSet ?
-                Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.name) :
-                [];
-
-            let responseTerms: Term[] = [];
-
-            // the response from ICGC is missing the terms field instead of being an empty array
-            // we need to check it's existence before iterating over it.
-            if ( responseFileFacet.terms ) {
-
-                // Create term from response, maintaining the currently selected term.
-                responseTerms = responseFileFacet.terms.map((responseTerm) => {
-
-                    if ( responseTerm.term == null ) {
-                        responseTerm.term = "Unspecified";
-                    }
-
-                    let selected = searchTerms.indexOf(responseTerm.term) >= 0;
-                    return new Term(responseTerm.term, responseTerm.count, selected);
-                });
-            }
-
-            if ( !responseFileFacet.total ) {
-                responseFileFacet.total = 0; // their default is undefined instead of zero
-            }
+            // Build up the list of terms from the facet response
+            const responseTerms = this.createFileFacetTerms(facetName, responseFileFacet.terms, searchTermKeys);
 
             // Create file facet from newly built terms and newly calculated total
-            return new FileFacet(facetName, responseFileFacet.total, responseTerms);
+            return new FileFacet(facetName, (responseFileFacet.total || 0), responseTerms);
         });
 
         return newFileFacets;
+    }
+
+    /**
+     * Parse the set of terms from the file facet response into term objects. Maintain selected state of terms from
+     * current set of search terms.
+     * 
+     * @param {string} facetName
+     * @param {TermResponse[]} termResponses
+     * @returns {Term[]}
+     */
+    private createFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermKeys: string[]): Term[] {
+
+        return termResponses.reduce((accum, termResponse: TermResponse) => {
+            
+            // Default term name to "Unspecified" if no value returned
+            const termName = (termResponse.term || "Unspecified");
+
+            // Determine if term is currently selected as a search term
+            let selected = searchTermKeys.indexOf(termName) >= 0;
+
+            // Create new term - default name to "Unspecified" if no value is returned
+            const term = new Term(termName, termResponse.count, selected);
+            accum.push(term);
+            
+            return accum;
+        }, []);
+    }
+
+    /**
+     * Find the set of search terms for the specified facet, if any.
+     * 
+     * @param {string} facetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @returns {string[]}
+     */
+    listFacetSearchTermKeys(facetName: string, searchTermsByFacetName: Map<string, Set<SearchTerm>>): string[] {
+
+        const searchTermSet: Set<SearchTerm> = searchTermsByFacetName.get(facetName);
+        return searchTermSet ?
+            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.name) :
+            [];
     }
 
     /**
