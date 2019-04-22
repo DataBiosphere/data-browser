@@ -8,15 +8,12 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import * as _ from "lodash";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { Dictionary } from "../../dictionary";
 import { EntitySearchResults } from "./entity-search-results.model";
-import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FilesAPIResponse } from "./files-api-response.model";
 import { FileFacet } from "./file-facet.model";
@@ -188,12 +185,10 @@ export class FilesDAO {
         // Determine the set of facets that are to be displayed
         const visibleFacets = Object.assign({}, filesAPIResponse.termFacets);
 
-        // Calculate the number of terms to display on each facet card
-        const shortListLength = this.calculateShortListLength(visibleFacets);
-
         const facetNames = Object.keys(visibleFacets);
         const newFileFacets = facetNames.map((facetName) => {
 
+            const projectFacet = facetName === FileFacetName.PROJECT;
             const responseFileFacet = visibleFacets[facetName];
             const searchTermSet: Set<SearchTerm> = searchTermsByFacetName.get(facetName);
             let searchTerms = searchTermSet ?
@@ -214,7 +209,7 @@ export class FilesDAO {
                     }
 
                     let selected = searchTerms.indexOf(responseTerm.term) >= 0;
-                    return new Term(responseTerm.term, responseTerm.count, selected, "000000");
+                    return new Term(responseTerm.term, responseTerm.count, selected);
                 });
             }
 
@@ -223,58 +218,10 @@ export class FilesDAO {
             }
 
             // Create file facet from newly built terms and newly calculated total
-            return new FileFacet(facetName, responseFileFacet.total, responseTerms, shortListLength);
+            return new FileFacet(facetName, responseFileFacet.total, responseTerms);
         });
 
         return newFileFacets;
-    }
-
-    /**
-     * Calculate the maximum number of terms to display inside a facet card. Determine term count mode across all
-     * facets. If mode + 1 is less than 5, maximum number of terms if 5. Is mode + 1 is more than 10, maximum number of
-     * terms is 10. Otherwise, use the mode + 1 as the maximum number of terms.
-     *
-     * @param facetTermsResponse {Dictionary<FacetTermsResponse>}
-     * @returns {number}
-     */
-    private calculateShortListLength(facetTermsResponse: Dictionary<FacetTermsResponse>): number {
-
-        let fileFacetCountByTermCount = _.chain(facetTermsResponse)
-            .groupBy((termFacet) => {
-                return termFacet.terms.length;
-            })
-            .mapValues((terms: FacetTermsResponse[]) => {
-                return terms.length;
-            })
-            .value();
-
-        // Find the length of the largest array of file facets - we'll use this to determine which term count is
-        // most common
-        let largestFileFacetCount = _.chain(fileFacetCountByTermCount)
-            .sortBy()
-            .reverse()
-            .value()[0];
-
-        // Find the term count(s) with the largest number of file facets, then take the smallest term count if there
-        // is more than one term count with the largest number of file facets
-        let termCount = _.chain(fileFacetCountByTermCount)
-            .pickBy((count: number) => {
-                return count === largestFileFacetCount;
-            })
-            .keys()
-            .sortBy()
-            .value()[0];
-
-        // Generalize term count for display
-        let maxTermCount = parseInt(termCount, 10);
-        if ( maxTermCount <= 3 ) {
-            maxTermCount = 3;
-        }
-        else if ( maxTermCount > 10 ) {
-            maxTermCount = 10;
-        }
-
-        return maxTermCount;
     }
 
     /**

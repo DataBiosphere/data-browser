@@ -59,10 +59,6 @@ export class HCAFacetTermListComponent {
      */
     public getDisplayList(): Term[] {
 
-        if ( this.useShortList ) {
-            return this.fileFacet.shortList;
-        }
-
         return this.fileFacet.terms;
     }
 

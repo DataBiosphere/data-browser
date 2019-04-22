@@ -191,16 +191,16 @@ export class FileFacetListState {
         // Create file facet and term objects, and add to map
         const fileFacetsMap = selectedFacetStates.reduce((accum, selectedFacetState: QueryStringFacet) => {
 
-            // Create the terms for this file facet - default term count to 0 and color to black. Term has been specified
-            // in the URL as selected so set the selected flag accordingly.
+            // Create the terms for this file facet. Term has been specified in the URL as selected so set the selected
+            // flag accordingly.
             const terms = selectedFacetState.selectedTermNames.map((termName: string) => {
-                return new Term(termName, 0, true, "#000000");
+                return new Term(termName, 0, true);
             });
 
             // Create the file facet, set total and short list length to 0; these values will be updated on the initial
             // request of file facet data from the server.
             const facetName = selectedFacetState.facetName;
-            const fileFacet = new FileFacet(facetName, 0, terms, 0);
+            const fileFacet = new FileFacet(facetName, 0, terms);
 
             accum.set(facetName, fileFacet);
             return accum;
