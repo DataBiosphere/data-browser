@@ -233,6 +233,7 @@ export interface Element {
     genusSpecies: string;
     libraryConstructionApproach: string;
     organ: string;
+    pairedEnd: string;
     projectShortname: string;
     projectTitle: string;
     selectedCellType: string;
@@ -261,6 +262,7 @@ class TableElementDataSource extends DataSource<any> {
                     let fileTypeSummaries = row.fileTypeSummaries;
                     let projectSummary = row.projectSummary;
                     let projectTitle = this.rollUpMetadata(row.projects);
+                    let protocols = this.rollUpMetadata(row.protocols);
 
                     // only roll up organType
                     let organs = this.rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
@@ -278,7 +280,6 @@ class TableElementDataSource extends DataSource<any> {
 
                     }, {otherFileCount: 0});
 
-
                     /* Fastq and Fastq.gz combined for raw count */
                     let rawCount = (this.getFileCount("fastq.gz", fileTypeSummaries) + this.getFileCount("fastq", fileTypeSummaries));
 
@@ -292,6 +293,7 @@ class TableElementDataSource extends DataSource<any> {
                         matrixCount: this.getFileCount("matrix", fileTypeSummaries),
                         organ: this.getUnspecifiedIfNullValue(organs.organType),
                         otherFileCount: fileCounts.otherFileCount,
+                        pairedEnd: this.getPairedEnd(protocols.pairedEnd),
                         processedCount: this.getFileCount("bam", fileTypeSummaries),
                         projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: this.getUnspecifiedIfNullValue(projectTitle.projectShortname),
@@ -395,6 +397,24 @@ class TableElementDataSource extends DataSource<any> {
         }
 
         return 0;
+    }
+
+    /**
+     * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
+     * @param {string} pairedEnd
+     * @returns {string}
+     */
+    public getPairedEnd(pairedEnd: string): string {
+
+        if ( !pairedEnd ) {
+            return "Unspecified";
+        }
+        if ( pairedEnd === "true" ) {
+            return "Paired End";
+        }
+        else if ( pairedEnd === "false" ) {
+            return "Single End";
+        }
     }
 
     public getSelfOrFirst(value) {

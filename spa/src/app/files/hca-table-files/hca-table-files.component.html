@@ -134,7 +134,8 @@
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.selectedCellType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.selectedCellType"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.selectedCellType}}</span>
                         </hca-content-ellipsis>
@@ -154,9 +155,8 @@
                 <mat-cell *matCellDef="let element">
                     <hca-table-cell [tooltipContent]="element.libraryConstructionApproach"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
-                        </hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}<ng-container
+                                    *ngIf="element.libraryConstructionApproach.length">, {{element.pairedEnd}}</ng-container></span>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>

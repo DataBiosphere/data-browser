@@ -257,6 +257,7 @@ export interface Element {
     ageUnit: string;
     biologicalSex: string;
     disease: string; // TODO check not array
+    pairedEnd: string;
     projectTitle: string;
     selectedCellType: string;
     totalCells: number;
@@ -300,6 +301,7 @@ class TableElementDataSource extends DataSource<any> {
                         organ: this.getUnspecifiedIfNullValue(specimens.organ),
                         organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                         organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                        pairedEnd: this.getPairedEnd(protocols.pairedEnd),
                         projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: this.getSelfOrFirst(specimens.id),
@@ -384,6 +386,24 @@ class TableElementDataSource extends DataSource<any> {
 
         return rollup;
 
+    }
+
+    /**
+     * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
+     * @param {string} pairedEnd
+     * @returns {string}
+     */
+    public getPairedEnd(pairedEnd: string): string {
+
+        if ( !pairedEnd ) {
+            return "Unspecified";
+        }
+        if ( pairedEnd === "true" ) {
+            return "Paired End";
+        }
+        else if ( pairedEnd === "false" ) {
+            return "Single End";
+        }
     }
 
     public getSelfOrFirst(value) {

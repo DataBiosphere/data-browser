@@ -44,7 +44,7 @@
                                 <div [ngClass]="getIsOpenClass(f, t)"
                                      *ngFor="let facetName of facetGroup.facetNames; let t = index">
                                     <div class="facet" (click)="onHCAFacetSelect(f, t)">
-                                        <span>{{facetName}}</span>
+                                        <span>{{getFileFacetDisplayName(facetName)}}</span>
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <div class="facet-term-list">
