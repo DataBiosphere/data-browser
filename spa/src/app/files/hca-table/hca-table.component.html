@@ -125,7 +125,7 @@
                     <hca-table-cell [tooltipContent]="element.libraryConstructionApproach"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}<ng-container
-                                *ngIf="element.libraryConstructionApproach.length">, {{element.pairedEnd}}</ng-container></span>
+                                *ngIf="element.libraryConstructionApproach.length || element.libraryConstructionApproach === 'Unspecified'">, {{element.pairedEnd}}</ng-container></span>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
