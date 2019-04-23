@@ -312,7 +312,7 @@ export class FileEffects {
         );
 
     /**
-     * Handle action where tab is selected (eg Specimens or Files).
+     * Handle action where tab is selected (eg Samples or Files).
      */
     @Effect()
     switchTabs: Observable<Action> = this.actions$

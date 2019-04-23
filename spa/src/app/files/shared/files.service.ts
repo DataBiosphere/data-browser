@@ -27,7 +27,7 @@ export class FilesService {
     }
 
     /**
-     * Fetch data to populate rows in table, depending on the current selected tab (eg specimens, files), as
+     * Fetch data to populate rows in table, depending on the current selected tab (eg samples, files), as
      * well as facet terms and their corresponding counts. See fetchProjectSearchResults for projects tab.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey

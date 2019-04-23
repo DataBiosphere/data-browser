@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Table component for displaying specimen related data.
+ * Table component for displaying sample related data.
  */
 
 // Core dependencies

@@ -100,8 +100,8 @@ export class AppComponent implements OnInit, OnDestroy {
             return EntityName.FILES;
         }
 
-        if ( path === "/specimens" ) {
-            return EntityName.SPECIMENS;
+        if ( path === "/samples" ) {
+            return EntityName.SAMPLES;
         }
 
         return EntityName.PROJECTS;
@@ -162,7 +162,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // are therefore unable to determine when app state setup is complete and can safely unsubscribe.
         this.routerEventsSubscription = this.router.events.subscribe((evt) => {
 
-            if (evt instanceof NavigationEnd) {
+            if ( evt instanceof NavigationEnd ) {
 
                 const params = this.activatedRoute.snapshot.queryParams;
                 const filter = this.parseQueryStringFacets(params);

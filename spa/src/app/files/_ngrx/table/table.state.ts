@@ -15,7 +15,7 @@ import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 
 export interface TableState {
     selectedProject: Project; // Current selected project in table
-    selectedEntity: string; // Current selected tab (eg Projects, Specimens)
+    selectedEntity: string; // Current selected tab (eg Projects, Samples, Files)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];
 }
@@ -28,7 +28,7 @@ export function clearUnSelectedTableModels(tableState: TableState): TableModel[]
 
     return tableState.tableModels.map((tm) => {
 
-        if (tm.tableName !== tableState.selectedEntity) {
+        if ( tm.tableName !== tableState.selectedEntity ) {
             return createEmptyTableModel(tm.tableName);
         }
         else {
@@ -38,7 +38,7 @@ export function clearUnSelectedTableModels(tableState: TableState): TableModel[]
 }
 
 /**
- * Return a default table state for the specified entity (eg projects, specimens, files).
+ * Return a default table state for the specified entity (eg projects, samples, files).
  *
  * @param {string} entityName
  * @returns {TableModel}
@@ -63,13 +63,13 @@ export function getDefaultTableState(): TableState {
         selectedEntity: EntityName.PROJECTS,
         tableModels: [
             createEmptyTableModel(EntityName.PROJECTS),
-            createEmptyTableModel(EntityName.SPECIMENS),
+            createEmptyTableModel(EntityName.SAMPLES),
             createEmptyTableModel(EntityName.FILES)
         ],
         entitySpecs: [
-            { key: EntityName.PROJECTS, displayName: "Projects" },
-            { key: EntityName.SPECIMENS, displayName: "Specimens" },
-            { key: EntityName.FILES, displayName: "Files" }
+            {key: EntityName.PROJECTS, displayName: "Projects"},
+            {key: EntityName.SAMPLES, displayName: "Samples"},
+            {key: EntityName.FILES, displayName: "Files"}
         ]
     };
 }
@@ -104,7 +104,7 @@ export function updateSelectedTableModel(tableState: TableState, tableModel: Tab
 
     return tableState.tableModels.map((tm) => {
 
-        if (tm.tableName === tableState.selectedEntity) {
+        if ( tm.tableName === tableState.selectedEntity ) {
             return tableModel;
         }
         else {
