@@ -46,7 +46,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
         "donorCount", "estimatedCellCount"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -243,6 +243,7 @@ export interface Element {
     pairedEnd: string;
     projectShortname: string;
     projectTitle: string;
+    sampleEntityType: string;
     selectedCellType: string;
 }
 
@@ -270,6 +271,7 @@ class TableElementDataSource extends DataSource<any> {
                     let projectSummary = row.projectSummary;
                     let projectTitle = rollUpMetadata(row.projects);
                     let protocols = rollUpMetadata(row.protocols);
+                    let samples = rollUpMetadata(row.samples);
 
                     // only roll up organType
                     let organs = rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
@@ -305,6 +307,7 @@ class TableElementDataSource extends DataSource<any> {
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
                         rawCount: getCountDisplay(rawCount),
+                        sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType)
                     };
                 });

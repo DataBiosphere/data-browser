@@ -40,7 +40,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "organ", "organPart", "selectedCellType",
+        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "sampleEntityType", "organ", "organPart", "selectedCellType",
         "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -264,6 +264,7 @@ export interface Element {
     organPart: string;
     pairedEnd: string;
     projectTitle: string;
+    sampleEntityType: string;
     selectedCellType: string;
     specimenId: string;
     totalCells: number;
@@ -292,6 +293,7 @@ class TableElementDataSource extends DataSource<any> {
                     let file = row.files[0] || {};
                     let cellSuspensions = rollUpMetadata(row.cellSuspensions);
                     let protocols = rollUpMetadata(row.protocols);
+                    let samples = rollUpMetadata(row.samples);
                     let specimens = rollUpMetadata(row.specimens);
                     let projectTitle = rollUpMetadata(row.projects);
 
@@ -309,6 +311,7 @@ class TableElementDataSource extends DataSource<any> {
                         organPart: getUnspecifiedIfNullValue(specimens.organPart),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: getSelfOrFirst(specimens.id),
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),

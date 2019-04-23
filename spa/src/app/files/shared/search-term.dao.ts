@@ -26,7 +26,8 @@ export class SearchTermDAO {
         "contactName",
         "laboratory",
         "organismAge",
-        "organismAgeUnit"
+        "organismAgeUnit",
+        "pairedEnd"
     ];
 
     /**

@@ -23,6 +23,9 @@ export class HCATableColumnHeaderComponent {
     @Input() domainCountVisibleForColumns: string[];
     @Input() tooltipContent: string;
 
+    // Template variables
+    tooltipDisabled = this.tooltipContent === null;
+
     /**
      * Public API
      */

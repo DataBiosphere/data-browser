@@ -52,14 +52,12 @@ export class HCAFileFacetComponent implements OnInit {
     }
 
     /**
-     * Returns facet name in correct format.
-     * disease is renamed "Known Diseases".
-     * libraryConstructionApproach is renamed to "Library Construction Method".
+     * Returns facet name in format appropriate for display.
      * @param {string} facetName
      * @returns {string}
      */
     public getFacetName(facetName: string): string {
-        
+
         return this.fileFacetDisplayService.getFileFacetDisplayName(facetName);
     }
 
@@ -75,7 +73,7 @@ export class HCAFileFacetComponent implements OnInit {
 
     /**
      * Sort and return the list of terms for this facet.
-     * 
+     *
      * @param {string} facetName
      * @param {Term[]} terms
      * @returns {Term[]}
