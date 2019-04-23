@@ -46,7 +46,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
             facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
         },
         {
-            facetGroupName: "Organ",
+            facetGroupName: "Tissue Type",
             facetNames: ["organ", "organPart", "selectedCellType"]
         },
         {
