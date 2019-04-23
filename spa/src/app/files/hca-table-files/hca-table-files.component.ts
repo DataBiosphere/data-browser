@@ -395,15 +395,13 @@ class TableElementDataSource extends DataSource<any> {
      */
     public getPairedEnd(pairedEnd: string): string {
 
-        if ( !pairedEnd ) {
-            return "Unspecified";
-        }
         if ( pairedEnd === "true" ) {
             return "Paired End";
         }
         else if ( pairedEnd === "false" ) {
             return "Single End";
         }
+        return "Unspecified";
     }
 
     public getSelfOrFirst(value) {
