@@ -238,6 +238,7 @@ export interface Element {
     organ: string;
     organismAge: string;
     organPart: string;
+    pairedEnd: string;
     projectTitle: string;
     selectedCellType: string;
     totalCells: number;
@@ -294,6 +295,7 @@ class TableElementDataSource extends DataSource<any> {
                         organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
                         organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
                         otherFileCount: fileCounts.otherFileCount,
+                        pairedEnd: this.getPairedEnd(protocols.pairedEnd),
                         processedCount: this.getFileCount("bam", fileTypeSummaries),
                         projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
@@ -398,6 +400,24 @@ class TableElementDataSource extends DataSource<any> {
         }
 
         return 0;
+    }
+
+    /**
+     * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
+     * @param {string} pairedEnd
+     * @returns {string}
+     */
+    public getPairedEnd(pairedEnd: string): string {
+
+        if ( !pairedEnd ) {
+            return "Unspecified";
+        }
+        if ( pairedEnd === "true" ) {
+            return "Paired End";
+        }
+        else if ( pairedEnd === "false" ) {
+            return "Single End";
+        }
     }
 
     public getSelfOrFirst(value) {
