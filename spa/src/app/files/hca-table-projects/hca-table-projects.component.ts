@@ -406,11 +406,19 @@ class TableElementDataSource extends DataSource<any> {
      */
     public getPairedEnd(pairedEnd: string): string {
 
-        if ( pairedEnd === "true" ) {
-            return "Paired End";
-        }
-        else if ( pairedEnd === "false" ) {
-            return "Single End";
+        if (pairedEnd) {
+
+            return (pairedEnd.split(",").map(p => {
+
+                if ( p === "true" ) {
+                    return "Paired End";
+                }
+                else if ( p === "false" ) {
+                    return "Single End";
+                }
+                return "Unspecified";
+
+            }).join(", "));
         }
         return "Unspecified";
     }
