@@ -2,7 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Set of selected file facet terms and entities (projects) that comprise the current search state.
+ * Set of selected file facet terms and entities (projects) that comprise the current search state, as well as the
+ * complete set of search terms that are selectable.
  */
 
 // App dependencies
@@ -13,20 +14,24 @@ import { SelectSearchTermAction } from "./select-search-term.action";
 import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
 import { QueryStringFacet } from "../../shared/query-string-facet.model";
 import { SearchEntity } from "../../search/search-entity.model";
+import { SearchTermsUpdatedAction } from "./search-terms-updated-action.action";
 import { FileFacetName } from "../../shared/file-facet-name.model";
 
 export class SearchState {
 
-    public readonly searchTermsByFacetName: Map<string, Set<SearchTerm>>;
-    public readonly searchTerms: SearchTerm[];
+    public readonly searchTerms: SearchTerm[] = []; // Set of possible search terms that are selectable
+    public readonly selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>; // Current set of search terms, keyed by facet/entity name
+    public readonly selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
 
     /**
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @param {SearchTerm[]} searchTerms
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    constructor(searchTermsByFacetName: Map<string, Set<SearchTerm>>) {
+    constructor(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
 
-        this.searchTermsByFacetName = searchTermsByFacetName;
-        this.searchTerms = Array.from(this.searchTermsByFacetName.values()).reduce((accum, searchTermSet) => {
+        this.searchTerms = searchTerms;
+        this.selectedSearchTermsBySearchKey = selectedSearchTermsBySearchKey;
+        this.selectedSearchTerms = Array.from(this.selectedSearchTermsBySearchKey.values()).reduce((accum, searchTermSet) => {
 
             accum = [
                 ...accum,
@@ -48,13 +53,13 @@ export class SearchState {
         const searchTerm = action.asSearchTerm();
         if ( action.selected ) {
             const updatedSearchTermsByFacetName =
-                this.addSearchTermToSelectedSet(this.searchTermsByFacetName, searchTerm);
-            return new SearchState(updatedSearchTermsByFacetName);
+                this.addSearchTermToSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
+            return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
         }
 
         const updatedSearchTermsByFacetName =
-            this.removeSearchTermFromSelectedSet(this.searchTermsByFacetName, searchTerm);
-        return new SearchState(updatedSearchTermsByFacetName);
+            this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
     }
 
     /**
@@ -75,7 +80,26 @@ export class SearchState {
             return accum;
         }, new Map<string, Set<SearchTerm>>());
 
-        return new SearchState(searchTermsByFacetName);
+        return new SearchState(this.searchTerms, searchTermsByFacetName);
+    }
+
+    /**
+     * Set of possible search terms that use can select, have been updated - update store. We also need to check the set
+     * of selected search terms here and add any missing data. For example, if the app is loaded with a selected project
+     * ID in the URL, we won't have the corresponding project name until the full set of project ID-to-project name
+     * mappings are returned from the server. If there are any selected project IDs with no corresponding project name
+     * in the server response, remove the "partially constructed" project ID from the set of selected search terms. (See
+     * this.translateQueryStringToSearchTerms() to see the partially constructed SearchEntity search term).
+     * 
+     * @param {SearchTermsUpdatedAction} action
+     */
+    public setSearchTerms(action: SearchTermsUpdatedAction) {
+
+        let searchTermsBySearchKey = this.searchTerms.length === 0 ?
+            this.patchSearchTerms(action.searchTerms, this.selectedSearchTermsBySearchKey) :
+            this.selectedSearchTermsBySearchKey;
+            
+        return new SearchState(action.searchTerms, searchTermsBySearchKey);
     }
 
     /**
@@ -85,53 +109,53 @@ export class SearchState {
      */
     public static getDefaultState() {
 
-        return new SearchState(new Map());
+        return new SearchState([], new Map());
     }
 
     /**
      * Add specified search term to set of selected search terms.
      *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
-     * @param {SearchFileFacetTerm} selectedTerm
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {SearchTerm} selectedTerm
      * @returns {Map<string, Set<SearchTerm>>}
      */
     private addSearchTermToSelectedSet(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedTerm: SearchFileFacetTerm): Map<string, Set<SearchTerm>> {
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>, selectedTerm: SearchTerm): Map<string, Set<SearchTerm>> {
 
-        const facetName = selectedTerm.facetName;
+        const searchKey = selectedTerm.getSearchKey();
 
         // Add the newly selected search term to the set
-        const updatedSearchTerms = new Set(searchTermsByFacetName.get(facetName));
+        const updatedSearchTerms = new Set(searchTermsBySearchKey.get(searchKey));
         updatedSearchTerms.add(selectedTerm);
 
         // Clone selected map for immutability and add updated set of selected terms for the specified facet
-        const clonedTermsByFacetName = new Map(searchTermsByFacetName);
-        clonedTermsByFacetName.set(facetName, updatedSearchTerms);
-        return clonedTermsByFacetName;
+        const clonedTermsBySearchKey = new Map(searchTermsBySearchKey);
+        clonedTermsBySearchKey.set(searchKey, updatedSearchTerms);
+        return clonedTermsBySearchKey;
     }
 
     /**
      * Remove the specified search term from the set of selected search terms.
      *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
-     * @param {SearchFileFacetTerm} selectedTerm
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {SearchTerm} selectedTerm
      * @returns {Map<string, Set<SearchTerm>>}
      */
     private removeSearchTermFromSelectedSet(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedTerm: SearchFileFacetTerm): Map<string, Set<SearchTerm>> {
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>, selectedTerm: SearchTerm): Map<string, Set<SearchTerm>> {
 
-        const facetName = selectedTerm.facetName;
-        const currentSearchTerms = searchTermsByFacetName.get(facetName);
+        const searchKey = selectedTerm.getSearchKey();
+        const currentSearchTerms = searchTermsBySearchKey.get(searchKey);
 
         // Error state - return current state if facet is not present in the set of selected facets.
         if ( !currentSearchTerms ) {
-            return searchTermsByFacetName;
+            return searchTermsBySearchKey;
         }
 
         // Remove the selected term for the current set of selected term
         let updatedSearchTerms = Array.from(currentSearchTerms).reduce((accum, currentSearchTerm) => {
 
-            if ( currentSearchTerm.getSearchKey() !== selectedTerm.getSearchKey() ) {
+            if ( currentSearchTerm.getSearchValue() !== selectedTerm.getSearchValue() ) {
                 accum.add(currentSearchTerm);
             }
 
@@ -139,15 +163,15 @@ export class SearchState {
         }, new Set());
 
         // Clone selected map for immutability
-        const clonedTermsByFacetName = new Map(searchTermsByFacetName);
+        const clonedTermsByFacetName = new Map(searchTermsBySearchKey);
 
         // Remove facet from selected set if it has no corresponding selected terms.
         if ( updatedSearchTerms.size === 0 ) {
-            clonedTermsByFacetName.delete(facetName);
+            clonedTermsByFacetName.delete(searchKey);
         }
         // Otherwise, facet has other selected terms, set updated set!
         else {
-            clonedTermsByFacetName.set(facetName, updatedSearchTerms);
+            clonedTermsByFacetName.set(searchKey, updatedSearchTerms);
         }
 
         return clonedTermsByFacetName;
@@ -161,17 +185,61 @@ export class SearchState {
      */
     private translateQueryStringToSearchTerms(queryStringFacet: QueryStringFacet): Set<SearchTerm> {
 
-        const facetName = queryStringFacet.facetName;
-        return queryStringFacet.selectedTermNames.reduce((accum, searchTermName) => {
+        const searchKey = queryStringFacet.facetName;
+        return queryStringFacet.selectedTermNames.reduce((accum, searchValue) => {
 
-            if ( facetName === FileFacetName.PROJECT_ID ) {
-                accum.add(new SearchEntity(facetName, "", searchTermName));
+            if ( searchKey === FileFacetName.PROJECT_ID ) {
+                accum.add(new SearchEntity(searchKey, searchValue, ""));
             }
             else {
-                accum.add(new SearchFileFacetTerm(facetName, searchTermName));
+                accum.add(new SearchFileFacetTerm(searchKey, searchValue));
             }
 
             return accum;
         }, new Set<SearchTerm>());
+    }
+
+    /**
+     * Update values of selected search terms from the full set of possible search terms. This is required to cover
+     * the case where app state is set up from URL state that contains a selected project ID. We need to grab the
+     * corresponding project short names from the full set of possible search terms returned from the server (as the
+     * short name is not in the URL).
+     * 
+     * @param {SearchTerm[]} searchTerms
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
+     */
+    private patchSearchTerms(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+        
+        // If there's no selected project IDs, return the selected search terms as is
+        if ( !selectedSearchTermsBySearchKey.has(FileFacetName.PROJECT_ID) ) {
+            return selectedSearchTermsBySearchKey;
+        }
+
+        // Group project ID search terms by search key - we'll use map as a quick reference to the selected search terms
+        const allSearchTermsById = searchTerms
+            .filter(searchTerm => searchTerm.getSearchKey() === FileFacetName.PROJECT_ID) 
+            .reduce((accum, searchTerm) => {
+                accum.set(searchTerm.getId(), searchTerm);
+                return accum;
+            }, new Map<string, SearchTerm>());
+
+        // Update the current set of selected project search terms with values from the correpsonding search terms returned
+        // from the server
+        const patchedProjectSearchTerms = Array.from(selectedSearchTermsBySearchKey.get(FileFacetName.PROJECT_ID))
+            .reduce((accum, selectedSearchTerm) => {
+
+                const completeSearchTerm = allSearchTermsById.get(selectedSearchTerm.getId());
+                if ( !!completeSearchTerm ) {
+                    accum.add(new SearchEntity(
+                        completeSearchTerm.getSearchKey(),
+                        completeSearchTerm.getSearchValue(),
+                        completeSearchTerm.getDisplayValue()));
+                }
+                return accum;
+            }, new Set<SearchTerm>());
+
+        const updatedSearchTermsBySearchKey = new Map(selectedSearchTermsBySearchKey);
+        updatedSearchTermsBySearchKey.set(FileFacetName.PROJECT_ID, patchedProjectSearchTerms);
+        return updatedSearchTermsBySearchKey;
     }
 }

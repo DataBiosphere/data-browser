@@ -9,10 +9,12 @@
  */
 
 // App dependencies
-import { TableModel } from "../table/table.model";
+import { SearchTerm } from "../search/search-term.model";
 import { FileFacet } from "./file-facet.model";
+import { TableModel } from "../table/table.model";
 
 export interface EntitySearchResults {
     fileFacets: FileFacet[];
+    searchTerms: SearchTerm[];
     tableModel: TableModel;
 }

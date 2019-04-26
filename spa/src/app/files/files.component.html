@@ -3,6 +3,8 @@
     <hca-file-filter-wrapper id="hcaFilterWrapper"
                              [fileFacets]="fileFacets$ | async"
                              [searchTerms]="searchTerms$ | async"
+                             [selectedEntity]="selectedEntity$ | async"
+                             [selectedSearchTerms]="selectedSearchTerms$ | async"
                              (menuOpen)="onMenuOpen($event)">
     </hca-file-filter-wrapper>
     <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"

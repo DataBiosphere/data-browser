@@ -13,13 +13,15 @@ import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { Dictionary } from "../../dictionary";
 import { EntitySearchResults } from "./entity-search-results.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { FilesAPIResponse } from "./files-api-response.model";
 import { FileFacet } from "./file-facet.model";
 import { FileFacetName } from "./file-facet-name.model";
+import { FacetTermsResponse } from "./facet-terms-response.model";
+import { SearchTermDAO } from "./search-term.dao";
 import { SearchTerm } from "../search/search-term.model";
-import { SearchTermHttpService } from "./search-term-http.service";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
 import { TermResponse } from "./term-response.model";
@@ -29,12 +31,12 @@ export class FilesDAO {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermHttpService} searchTermHttpService
+     * @param {SearchTermDAO} searchTermDAO
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
-        private searchTermHttpService: SearchTermHttpService,
+        private searchTermDAO: SearchTermDAO,
         private httpClient: HttpClient) {}
 
     /**
@@ -51,7 +53,7 @@ export class FilesDAO {
         const url = this.buildApiUrl(`/repository/summary`);
 
         // Build up the query params
-        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermDAO.marshallSearchTerms(searchTerms);
 
         return this.httpClient.get<FileSummary>(url, {
             params: {
@@ -66,14 +68,14 @@ export class FilesDAO {
      * selected projects facets as we do not want to restrict the table result set to just the selected projects. That is,
      * projects tab is not filterable by project.
      *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
     fetchEntitySearchResults(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
         tableParams: TableParamsModel,
         selectedEntity: string,
         filterableByProject: boolean): Observable<EntitySearchResults> {
@@ -84,30 +86,32 @@ export class FilesDAO {
         // Build up param map
         let paramMap;
         if ( filterableByProject ) {
-            paramMap = this.buildFetchSearchResultsQueryParams(searchTermsByFacetName, tableParams);
+            paramMap = this.buildFetchSearchResultsQueryParams(searchTermsBySearchKey, tableParams);
         }
         else {
-            const filteredSearchTerms = this.removeProjectSearchTerms(searchTermsByFacetName, selectedEntity);
+            const filteredSearchTerms = this.removeProjectSearchTerms(searchTermsBySearchKey, selectedEntity);
             paramMap = this.buildFetchSearchResultsQueryParams(filteredSearchTerms, tableParams);
         }
 
         return this.httpClient
             .get<FilesAPIResponse>(url, {params: paramMap})
             .pipe(
-                map((repositoryFiles: FilesAPIResponse) => {
+                map((apiResponse: FilesAPIResponse) => {
 
-                    const fileFacets = this.createFileFacets(searchTermsByFacetName, repositoryFiles);
+                    const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
                     const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
+                    const searchTerms = this.searchTermDAO.bindSearchTerms(apiResponse.termFacets);
 
                     const tableModel = {
-                        data: repositoryFiles.hits,
-                        pagination: repositoryFiles.pagination,
+                        data: apiResponse.hits,
+                        pagination: apiResponse.pagination,
                         tableName: selectedEntity,
                         termCountsByFacetName
                     };
 
                     return {
                         fileFacets,
+                        searchTerms,
                         tableModel
                     };
                 })
@@ -133,18 +137,18 @@ export class FilesDAO {
     /**
      * Build up set of query params for fetching search results.
      *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
      */
     private buildFetchSearchResultsQueryParams(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>, tableParams: TableParamsModel) {
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>, tableParams: TableParamsModel) {
 
         // Build query params
-        const searchTermSets = searchTermsByFacetName.values();
+        const searchTermSets = searchTermsBySearchKey.values();
         const searchTerms = Array.from(searchTermSets).reduce((accum, searchTermSet) => {
             return accum.concat(Array.from(searchTermSet));
         }, []);
-        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermDAO.marshallSearchTerms(searchTerms);
 
         const paramMap = {
             filters,
@@ -176,40 +180,37 @@ export class FilesDAO {
      * Map files API response into FileFacet objects, maintaining selected state of terms.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
-     * @param {FilesAPIResponse} filesAPIResponse
+     * @param {Dictionary<FacetTermsResponse>} termFacets
      * @returns {FileFacet[]}
      */
-    private createFileFacets(
+    private bindFileFacets(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>,
-        filesAPIResponse: FilesAPIResponse): FileFacet[] {
+        termFacets: Dictionary<FacetTermsResponse>): FileFacet[] {
 
-        const termFacets = filesAPIResponse.termFacets;
-        const newFileFacets = Object.keys(termFacets).map((facetName) => {
+        return Object.keys(termFacets).map((facetName) => {
 
             const responseFileFacet = termFacets[facetName];
             
             // Determine the set of currently selected search terms for this facet
-            const searchTermKeys = this.listFacetSearchTermKeys(facetName, searchTermsByFacetName);
+            const searchTermKeys = this.listFacetSearchTermValues(facetName, searchTermsByFacetName);
 
             // Build up the list of terms from the facet response
-            const responseTerms = this.createFileFacetTerms(facetName, responseFileFacet.terms, searchTermKeys);
+            const responseTerms = this.bindFileFacetTerms(facetName, responseFileFacet.terms, searchTermKeys);
 
             // Create file facet from newly built terms and newly calculated total
             return new FileFacet(facetName, (responseFileFacet.total || 0), responseTerms);
         });
-
-        return newFileFacets;
     }
 
     /**
-     * Parse the set of terms from the file facet response into term objects. Maintain selected state of terms from
-     * current set of search terms.
+     * Create a set of terms from the terms returned in the response. Maintain selected state of terms from current set
+     * of search terms.
      * 
      * @param {string} facetName
      * @param {TermResponse[]} termResponses
      * @returns {Term[]}
      */
-    private createFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermKeys: string[]): Term[] {
+    private bindFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermKeys: string[]): Term[] {
 
         return termResponses.reduce((accum, termResponse: TermResponse) => {
             
@@ -228,17 +229,17 @@ export class FilesDAO {
     }
 
     /**
-     * Find the set of search terms for the specified facet, if any.
+     * Return the set of search terms for the specified facet, if any.
      * 
      * @param {string} facetName
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @returns {string[]}
      */
-    listFacetSearchTermKeys(facetName: string, searchTermsByFacetName: Map<string, Set<SearchTerm>>): string[] {
+    private listFacetSearchTermValues(facetName: string, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): string[] {
 
-        const searchTermSet: Set<SearchTerm> = searchTermsByFacetName.get(facetName);
+        const searchTermSet: Set<SearchTerm> = searchTermsBySearchKey.get(facetName);
         return searchTermSet ?
-            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.name) :
+            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getSearchValue()) :
             [];
     }
 

@@ -20,7 +20,7 @@ import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-
 import { selectFileFormatsFileFacet } from "../file.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectSearchTerms } from "../search/search.selectors";
+import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { FileManifestService } from "../../shared/file-manifest.service";
 
 @Injectable()
@@ -44,7 +44,7 @@ export class FileManifestEffects {
         .pipe(
             ofType(DownloadFileManifestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
-                select(selectSearchTerms),
+                select(selectSelectedSearchTerms),
                 take(1)
             )),
             switchMap((searchTerms) =>
@@ -69,7 +69,7 @@ export class FileManifestEffects {
         .pipe(
             ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
-                select(selectSearchTerms),
+                select(selectSelectedSearchTerms),
                 take(1)
             )),
             switchMap((searchTerms) => this.fileManifestService.fetchFileManifestFileSummary(searchTerms)),

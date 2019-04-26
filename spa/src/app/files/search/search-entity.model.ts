@@ -11,24 +11,65 @@ import { SearchTerm } from "./search-term.model";
 export class SearchEntity implements SearchTerm {
 
     /**
-     * @param {string} facetName
-     * @param {string} id
-     * @param {string} name
+     * @param {string} searchKey
+     * @param {string} entityId
+     * @param {string} entityName
+     * @param {number} count - only required when setting up search terms for select from search box (and not when actually selecting an entity)
      */
-    constructor(public readonly facetName: string, public readonly id: string, public readonly name: string) {}
+    constructor(
+        private readonly searchKey: string, // "projectId"
+        private readonly entityId: string, // "123abc...456def"
+        private readonly entityName: string, // "1M Neuron"
+        private readonly count?: number) {}
 
     /**
-     * The key of an entity is its ID.
+     * Return the count.
      *
-     * It is currently possible to have no ID for an entity (for example, when selecting a project from the search box).
-     * In this case, return the entity name. Once entities are removed from the search box, the only valid search key
-     * for an entity is its ID.
+     * @returns {number}
+     */
+    public getCount(): number {
+
+        return this.count;
+    }
+
+    /**
+     * The display value of an entity search term is the entity name.
+     *
+     * @returns {string}
+     */
+    public getDisplayValue(): string {
+
+        return this.entityName;
+    }
+
+    /**
+     * Return a unique value to identify this search term by.
+     *
+     * @returns {string}
+     */
+    getId(): string {
+
+       return `${this.getSearchKey()}:${this.getSearchValue()}`;
+    }
+
+    /**
+     * The search key of an entity is its entity type name.
      *
      * @returns {string}
      */
     public getSearchKey(): string {
 
-        return this.id || this.name;
+        return this.searchKey;
+    }
+
+    /**
+     * The search value of an entity is its ID.
+     *
+     * @returns {string}
+     */
+    public getSearchValue(): string {
+
+        return this.entityId;
     }
 }
 

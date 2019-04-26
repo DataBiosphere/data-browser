@@ -23,8 +23,8 @@ import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { MatrixStatus } from "./matrix-status.model";
-import { SearchTermHttpService } from "./search-term-http.service";
 import { SearchTerm } from "../search/search-term.model";
+import { SearchTermDAO } from "./search-term.dao";
 
 @Injectable()
 export class MatrixDAO {
@@ -34,12 +34,12 @@ export class MatrixDAO {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermHttpService} searchTermHttpService
+     * @param {SearchTermDAO} searchTermDAO
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
-        private searchTermHttpService: SearchTermHttpService,
+        private searchTermDAO: SearchTermDAO,
         private httpClient: HttpClient) {
     }
 
@@ -115,7 +115,7 @@ export class MatrixDAO {
      */
     public buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), format);
+        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), format);
 
         let params = new URLSearchParams();
         Object.keys(query).forEach((paramName) => {

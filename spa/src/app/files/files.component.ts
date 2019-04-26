@@ -25,7 +25,11 @@ import {
     selectSelectedViewState,
     selectFileTypeMatrix
 } from "./_ngrx/file.selectors";
-import { selectProjectSearchTerms, selectSearchTerms } from "./_ngrx/search/search.selectors";
+import {
+    selectSearchTerms,
+    selectSelectedProjectSearchTerms,
+    selectSelectedSearchTerms
+} from "./_ngrx/search/search.selectors";
 import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import { SearchTerm } from "./search/search-term.model";
@@ -38,7 +42,7 @@ import EntitySpec from "./shared/entity-spec";
 })
 export class FilesComponent implements OnInit, OnDestroy {
 
-    // Public variables
+    // Public/template variables
     public entities$: Observable<EntitySpec[]>;
     public fileFacets$: Observable<FileFacet[]>;
     public fileTypeMatrix$: Observable<boolean>;
@@ -46,6 +50,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     public selectFileSummary$: Observable<FileSummary>;
     public selectedProjectIds: Observable<string[]>;
     public searchTerms$: Observable<SearchTerm[]>;
+    public selectedSearchTerms$: Observable<SearchTerm[]>;
 
     // Locals
     private deviceInfo = null;
@@ -68,7 +73,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     /**
      * Public API
      */
-
 
     /**
      * Returns true if device is either mobile or tablet.
@@ -123,7 +127,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
 
         return searchTerms.map((searchTerm: SearchTerm) => {
-            return searchTerm.getSearchKey();
+            return searchTerm.getSearchValue();
         });
     }
 
@@ -161,11 +165,15 @@ export class FilesComponent implements OnInit, OnDestroy {
         // Determine if Matrix files are included in the current files result set.
         this.fileTypeMatrix$ = this.store.pipe(select(selectFileTypeMatrix));
 
+        // Grab the set of current selected search terms
+        this.selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+        
+        // Grab the set of possible search terms, we'll use this to populate the search autosuggest.
         this.searchTerms$ = this.store.pipe(select(selectSearchTerms));
 
         // Grab the current set of selected projects, if any
         this.selectedProjectIds = this.store.pipe(
-            select(selectProjectSearchTerms),
+            select(selectSelectedProjectSearchTerms),
             map(this.mapSearchTermsToProjectIds)
         );
 
@@ -176,15 +184,15 @@ export class FilesComponent implements OnInit, OnDestroy {
                 return _.isEqual(previous, current);
             })
         )
-        .subscribe(({searchTermsByFacetName, selectedEntity}) => {
+        .subscribe(({selectedSearchTermsBySearchKey, selectedEntity}) => {
 
             // Convert search terms to query string state
-            const queryStringSearchTerms = Array.from(searchTermsByFacetName.keys()).reduce((accum, facetName) => {
+            const queryStringSearchTerms = Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {
 
-                const searchTerms = searchTermsByFacetName.get(facetName);
+                const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
                 accum.add({
                     facetName: facetName,
-                    terms: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchKey())
+                    terms: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchValue())
                 });
                 return accum;
             }, new Set<any>());

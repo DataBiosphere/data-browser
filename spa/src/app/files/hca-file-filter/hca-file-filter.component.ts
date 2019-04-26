@@ -2,175 +2,58 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component responsible for searching across facet and term names for filtering.
+ * Component responsible for displaying search component, and facet menu component.
  */
 
 // Core dependencies
-import {
-    Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges,
-    ViewChild
-} from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { Store } from "@ngrx/store";
 
 // App dependencies
-import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
-import { FacetGroup } from "./facet-group.model";
-import { FilterableFacet } from "./filterable-facet.model";
+import { FileFacetGroup } from "../shared/file-facet-group.model";
 import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { AppState } from "../../_ngrx/app.state";
-import { selectSelectedEntity } from "../_ngrx/file.selectors";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { SearchTerm } from "../search/search-term.model";
 import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
-import { FileFacetName } from "../shared/file-facet-name.model";
-import { SelectProjectAction } from "../_ngrx/search/select-project.action";
+import { FileFacetDisplayService } from "../shared/file-facet-display.service";
+import { ResponsiveService } from "../../shared/responsive/responsive.service";
 
 @Component({
     selector: "hca-file-filter",
     templateUrl: "./hca-file-filter.component.html",
     styleUrls: ["./hca-file-filter.component.scss"],
 })
-export class HCAFileFilterComponent implements OnInit, OnChanges {
-
-    // Constants
-    private FACET_GROUPS = [
-
-        {
-            facetGroupName: "Donor",
-            facetNames: ["genusSpecies", "organismAge", "organismAgeUnit", "biologicalSex"]
-        },
-        {
-            facetGroupName: "Tissue Type",
-            facetNames: ["organ", "organPart", "selectedCellType"]
-        },
-        {
-            facetGroupName: "Specimen",
-            facetNames: ["disease"]
-        },
-        {
-            facetGroupName: "Method",
-            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
-        },
-        {
-            facetGroupName: "File",
-            facetNames: ["fileFormat"]
-        }
-    ];
-
-    // Facet blacklist - exclude from autosuggest
-    private FACET_BLACKLIST = [
-        "contactName",
-        "laboratory",
-        "organismAge",
-        "organismAgeUnit",
-        "pairedEnd"
-    ];
-
-    // Facet display names
-    private FACET_DISPLAY_NAMES = {
-        "disease": "Known Diseases",
-        "libraryConstructionApproach": "Library Construction Method"
-    };
+export class HCAFileFilterComponent implements OnChanges {
 
     // Template variables
-    facetGroups: FacetGroup[];
-    filterableFacets: FilterableFacet[] = [];
-    filteredFacets$: Observable<FilterableFacet[]>;
-    filterControl: FormControl = new FormControl();
+    fileFacetGroups: FileFacetGroup[];
     openIndex: number;
-    searchReturnsEmpty = false;
-    public selectedEntity$: Observable<EntitySpec>;
     selectedFacet: number;
     selectIndex: number;
-
-    // Privates
-    private camelToSpacePipe = new CamelToSpacePipe();
 
     // Inputs
     @Input() fileFacets: FileFacet[];
     @Input() searchTerms: SearchTerm[];
+    @Input() selectedSearchTerms: SearchTerm[];
+    @Input() selectedEntity: EntitySpec;
 
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();
 
-    // View child/ren
-    @ViewChild("filterInput") filterInput: ElementRef;
-
     /**
      * @param {DeviceDetectorService} deviceService
+     * @param {FileFacetDisplayService} fileFacetDisplayService
+     * @param {ResponsiveService} responsiveService
      * @param {Store<AppState>} store
-     * @param {Window} window
      */
     constructor(
         private deviceService: DeviceDetectorService,
-        private store: Store<AppState>,
-        @Inject("Window") private window: Window) {}
-
-    /**
-     * Public API
-     */
-
-    /**
-     *
-     */
-    public displayFn(ff ?: any): string | undefined {
-
-        return ff ? ff.facetName + "-" + ff.termName : undefined;
-    }
-
-    /**
-     * FilterFacets
-     * - filter out terms that do not match.
-     * - filter out facets that have no matching terms.
-     * - do not filter on the facet name (for no any how)
-     * @param {string} searchString
-     * @returns {FilterableFacet[]}
-     */
-    public filterFacets(searchString: string): FilterableFacet[] {
-
-        if ( searchString == "" ) {
-            return this.filterableFacets;
-        }
-
-        // once you select its the term in here how to avoid?
-        if ( typeof searchString !== "string" ) {
-            return this.filterableFacets;
-        }
-
-
-        const newFacets = this.filterableFacets.map((fileFacet) => {
-
-            // see if we have any matching terms
-            const terms = fileFacet.terms.filter((term) => {
-                return term.termName.toLowerCase().includes(searchString.toLowerCase());
-            });
-
-            const facetName = fileFacet.facetName;
-            const displayName = this.getFileFacetDisplayName(facetName);
-            return {
-                displayName: displayName,
-                facetName: facetName,
-                terms: terms
-            };
-
-        });
-
-        /* Return new list of searchable facets, unless the list is empty */
-        if ( newFacets.filter(facet => facet.terms.length).length ) {
-            this.searchReturnsEmpty = false;
-            return newFacets.filter(facet => facet.terms.length > 0);
-        }
-        else {
-            this.searchReturnsEmpty = true;
-            return this.filterableFacets;
-        }
-    }
+        private fileFacetDisplayService: FileFacetDisplayService,
+        private responsiveService: ResponsiveService,
+        private store: Store<AppState>) {}
 
     /**
      * Returns the facet given a facet name
@@ -248,42 +131,32 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Returns class truncate if termName is not spaced
-     * @param termName
-     * @returns {string}
-     */
-    public getTruncatedClass(termName) {
-
-        if ( termName.indexOf(" ") == -1 ) {
-            return "truncate";
-        }
-    }
-
-    /**
      * Returns true if device is mobile.
      * @returns {boolean}
      */
     public isDeviceMobile(): boolean {
 
-        return (this.deviceService.isMobile());
+        return this.deviceService.isMobile();
     }
 
     /**
-     * Returns true if window width is less than 1200px
+     * Returns true if window width is less than 1200px.
+     *
      * @returns {boolean}
      */
     public isWindowWidthMedium() {
 
-        return document.body.offsetWidth < 1200;
+        return this.responsiveService.isWindowWidthMedium();
     }
 
     /**
-     * Returns true if window width is less than 675px
+     * Returns true if window width is less than 675px.
+     *
      * @returns {boolean}
      */
     public isWindowWidthSmall() {
 
-        return document.body.offsetWidth < 675;
+        return this.responsiveService.isWindowWidthSmall();
     }
 
     /**
@@ -328,25 +201,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         this.menuOpen.emit(false);
         this.selectIndex = null;
         this.openIndex = null;
-    }
-
-    /**
-     * Term selected.
-     *
-     * @param {MatAutocompleteSelectedEvent} event
-     */
-    public onTermSelected(event: MatAutocompleteSelectedEvent) {
-
-        const facetName = event.option.value.facet.facetName;
-        const termName = event.option.value.term.termName;
-
-        const action = facetName === FileFacetName.PROJECT ?
-            new SelectProjectAction(termName) :
-            new SelectFileFacetTermAction(facetName, termName);
-        this.store.dispatch(action);
-
-        // Clear the filter input.
-        this.filterInput.nativeElement.blur();
     }
 
     /**
@@ -453,13 +307,13 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Track by function used when drawing list of facet groups.
+     * Track by function used when drawing list of file facet groups.
      *
      * @param {number} index
-     * @param {any} facetGroup
+     * @param {FileFacetGroup} facetGroup
      * @returns {string}
      */
-    public trackFacetGroupByFn(index: number, facetGroup: any): string {
+    public trackFileFacetGroupsByFn(index: number, facetGroup: FileFacetGroup): string {
 
         return facetGroup.facetGroupName;
     }
@@ -467,18 +321,6 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     /**
      * Privates
      */
-
-    /**
-     * Determine display name for specified file facet name.
-     *
-     * @param {string} fileFacetName
-     * @returns {name}
-     */
-    private getFileFacetDisplayName(fileFacetName: string): string {
-
-        const displayName = this.FACET_DISPLAY_NAMES[fileFacetName];
-        return displayName ? displayName : this.camelToSpacePipe.transform(fileFacetName);
-    }
 
     /**
      * Group the specified facets into groups, for display in facet drop downs.
@@ -490,7 +332,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
 
         // Iterate over the facet groups definition and filter out any facets that are not in the set of
         // available facets.
-        this.facetGroups = this.FACET_GROUPS.map((group) => {
+        this.fileFacetGroups = this.fileFacetDisplayService.FILE_FACET_GROUPS.map((group) => {
 
             const groupFacetNames = group.facetNames.filter((facetName: string) => {
                 return specifiedFacetNames.indexOf(facetName) >= 0;
@@ -503,84 +345,16 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
     }
 
     /**
-     * Set up the set of facets that can be searched over.
-     */
-    private setupSearchTerms() {
-
-        // Make a set that is easy to query to see if a term is selected.
-        const selectedTermSet = this.searchTerms.reduce((accum, searchTerm) => {
-
-            accum.add(`${searchTerm.facetName}:${searchTerm.name}`);
-            return accum;
-        }, new Set<string>());
-
-        // map file facets to filterable facets.
-        const filterableFacets = this.fileFacets
-            .filter(fileFacet => {
-
-                return this.FACET_BLACKLIST.indexOf(fileFacet.name) === -1;
-            })
-            .map(fileFacet => {
-
-                const terms = fileFacet.terms
-                    .map(term => {
-                        // map to the filterable / display structure
-                        return {termName: term.name, count: term.count};
-                    })
-                    .filter((term) => {
-                        // remove any selected terms from the term list
-                        return !selectedTermSet.has(fileFacet.name + ":" + term.termName);
-                    });
-
-                const facetName = fileFacet.name;
-                const displayName = this.getFileFacetDisplayName(facetName);
-                return {
-                    displayName: displayName,
-                    facetName: facetName,
-                    terms: terms
-                };
-            })
-            .filter((facet) => {
-                // now filter out any empty facets.
-                return facet.terms.length > 0;
-            });
-
-        // Sort by facet name
-        filterableFacets.sort((facet0, facet1) => {
-            return facet0.displayName > facet1.displayName ? 1 : -1;
-        });
-
-        this.filterableFacets = filterableFacets;
-    }
-
-    /**
      * Lifecycle hooks
      */
 
     /**
-     * Set up search terms and facet groups, and reset filter input value, on change of component inputs.
+     * Set up facet groups on change of search terms.
      *
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
 
         this.initFacetGroups();
-        this.setupSearchTerms();
-        this.filterControl.setValue("");
-    }
-
-    /**
-     * Set up filter function on change of value on search input.
-     */
-    ngOnInit() {
-
-        this.filteredFacets$ = this.filterControl.valueChanges
-            .pipe(
-                startWith(""),
-                map(searchString => this.filterFacets(searchString)));
-
-        // Determine the current selected tab
-        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
-
     }
 }

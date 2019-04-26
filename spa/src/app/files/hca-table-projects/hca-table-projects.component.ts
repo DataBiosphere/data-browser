@@ -23,6 +23,7 @@ import {
     selectTableLoading,
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
 import {
@@ -32,7 +33,6 @@ import {
     rollUpMetadata
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
-import { SelectProjectAction } from "../_ngrx/search/select-project.action";
 
 @Component({
     selector: "hca-table-projects",
@@ -116,7 +116,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
     public isProjectSelected(project: any): boolean {
 
-        return this.selectedProjectIds.indexOf(project.projectShortname) >= 0;
+        return this.selectedProjectIds.indexOf(project.entryId) >= 0;
     }
 
     /**
@@ -139,7 +139,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
     public onProjectSelected(projectId: string, projectName: string, selected: boolean) {
 
-        this.store.dispatch(new SelectProjectAction(projectName, !selected));
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectName, !selected));
     }
 
     /**

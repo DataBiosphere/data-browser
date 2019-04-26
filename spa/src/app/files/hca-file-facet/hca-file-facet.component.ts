@@ -17,13 +17,13 @@ import { Observable } from "rxjs";
 import { select, Store } from "@ngrx/store";
 
 // App dependencies
-import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { AppState } from "../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedEntity } from "../_ngrx/file.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
+import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { Term } from "../shared/term.model";
 
 @Component({
@@ -42,9 +42,10 @@ export class HCAFileFacetComponent implements OnInit {
     @Input() fileFacet: FileFacet;
 
     /**
+     * @param {FileFacetDisplayService} fileFacetDisplayService
      * @param store {Store<AppState>}
      */
-    constructor(store: Store<AppState>) {
+    constructor(private fileFacetDisplayService: FileFacetDisplayService, store: Store<AppState>) {
 
         this.store = store;
     }
@@ -61,18 +62,8 @@ export class HCAFileFacetComponent implements OnInit {
      * @returns {string}
      */
     public getFacetName(facetName: string): string {
-
-        if ( facetName === "disease" ) {
-
-            return "Known Diseases";
-        }
-        if ( facetName === "libraryConstructionApproach" ) {
-
-            return "Library Construction Method";
-        }
-        else {
-            return (new CamelToSpacePipe().transform(facetName));
-        }
+        
+        return this.fileFacetDisplayService.getFileFacetDisplayName(facetName);
     }
 
     /**

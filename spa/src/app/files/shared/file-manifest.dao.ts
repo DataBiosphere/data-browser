@@ -21,19 +21,19 @@ import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
-import { SearchTermHttpService } from "./search-term-http.service";
+import { SearchTermDAO } from "./search-term.dao";
 
 @Injectable()
 export class FileManifestDAO {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermHttpService} searchTermHttpService
+     * @param {SearchTermDAO} searchTermDAO
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
-        private searchTermHttpService: SearchTermHttpService,
+        private searchTermDAO: SearchTermDAO,
         private httpClient: HttpClient) {}
 
     /**
@@ -44,7 +44,7 @@ export class FileManifestDAO {
      */
     fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms));
+        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms));
 
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
@@ -90,7 +90,7 @@ export class FileManifestDAO {
             }
         });
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
+        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);

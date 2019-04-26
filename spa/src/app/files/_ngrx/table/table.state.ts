@@ -1,11 +1,12 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of state of table that displays file-facet related data.
  */
 
 // App dependencies
+import { EntityName } from "../../shared/entity-name.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
 import { PaginationModel } from "../../table/pagination.model";
@@ -59,16 +60,16 @@ function createEmptyTableModel(entityName: string): TableModel {
 export function getDefaultTableState(): TableState {
     return {
         selectedProject: null,
-        selectedEntity: "projects",
+        selectedEntity: EntityName.PROJECTS,
         tableModels: [
-            createEmptyTableModel("projects"),
-            createEmptyTableModel("specimens"),
-            createEmptyTableModel("files")
+            createEmptyTableModel(EntityName.PROJECTS),
+            createEmptyTableModel(EntityName.SPECIMENS),
+            createEmptyTableModel(EntityName.FILES)
         ],
         entitySpecs: [
-            { key: "projects", displayName: "Projects" },
-            { key: "specimens", displayName: "Specimens" },
-            { key: "files", displayName: "Files" }
+            { key: EntityName.PROJECTS, displayName: "Projects" },
+            { key: EntityName.SPECIMENS, displayName: "Specimens" },
+            { key: EntityName.FILES, displayName: "Files" }
         ]
     };
 }

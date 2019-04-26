@@ -9,6 +9,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
+import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
 import { SearchTerm } from "../search/search-term.model";
 
@@ -22,7 +23,9 @@ export class HCAFileFilterWrapperComponent {
 
     // Inputs
     @Input() fileFacets: FileFacet[];
-    @Input() searchTerms: SearchTerm[];
+    @Input() searchTerms: SearchTerm[]; // Set of search terms to select from 
+    @Input() selectedEntity: EntitySpec;
+    @Input() selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
 
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();

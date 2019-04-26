@@ -18,9 +18,10 @@ import { SelectSearchTermAction } from "./select-search-term.action";
 
 export class SelectProjectIdAction implements Action, SelectSearchTermAction {
 
-    public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SELECT_PROJECT_ID";
+    public static ACTION_TYPE = "FILE.SEARCH.SELECT_PROJECT_ID";
     public readonly type = SelectProjectIdAction.ACTION_TYPE;
-    public readonly facetName = FileFacetName.PROJECT_ID;
+
+    private readonly facetName = FileFacetName.PROJECT_ID;
 
     /**
      * @param {string} projectId
@@ -39,7 +40,7 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction {
      */
     public asSearchTerm(): SearchTerm {
 
-        return new SearchEntity(this.facetName, this.projectId, this.projectShortName);
+        return new SearchEntity(this.facetName,  this.projectId, this.projectShortName);
     }
 
     /**

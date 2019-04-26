@@ -10,8 +10,7 @@
 import {
     FetchFileFacetsSuccessAction
 } from "./file-facet-list.actions";
-import { SelectProjectAction } from "../search/select-project.action";
-import { SelectSearchTermAction } from "../search/select-search-term.action";
+import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { SetViewStateAction } from "./set-view-state.action";
 import { FileFacet } from "../../shared/file-facet.model";
 import { QueryStringFacet } from "../../shared/query-string-facet.model";
@@ -124,10 +123,10 @@ export class FileFacetListState {
     /**
      * Handle select/deselect of facet term - create new file facet list state based on selected facet (term) action.
      *
-     * @param {SelectSearchTermAction | SelectProjectAction} action
+     * @param {SelectFileFacetTermAction} action
      * @returns {FileFacetListState}
      */
-    public selectTerm(action: SelectSearchTermAction | SelectProjectAction): FileFacetListState {
+    public selectTerm(action: SelectFileFacetTermAction): FileFacetListState {
 
         const facetName = action.facetName;
         const termName = action.getTermKey();
