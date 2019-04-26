@@ -91,7 +91,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
         const searchKey = selectedSearchTermOption.optionGroup.searchKey;
         const displayValue = selectedSearchTermOption.option.displayValue;
         const searchValue = selectedSearchTermOption.option.searchValue;
-        hca-file-filter.component.ts
+
         const action = (searchKey === FileFacetName.PROJECT_ID) ?
             new SelectProjectIdAction(searchValue, displayValue) :
             new SelectFileFacetTermAction(searchKey, searchValue);
