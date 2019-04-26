@@ -41,7 +41,6 @@ import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
-import { KeywordsModule } from "../keywords/keywords.module";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
@@ -58,9 +57,10 @@ import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.com
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
-import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
+import { HCASearchComponent } from "./hca-search/hca-search.component";
+import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
@@ -68,9 +68,10 @@ import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pa
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
-import { SearchTermHttpService } from "./shared/search-term-http.service";
+import { SearchTermDAO } from "./shared/search-term.dao";
 import { DownloadService } from "./shared/download.service";
 import { DownloadDAO } from "./shared/download.dao";
+import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestDAO } from "./shared/file-manifest.dao";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
@@ -111,8 +112,6 @@ import { TerraDAO } from "./shared/terra.dao";
         CcPipeModule,
         CcTypeaheadModule,
 
-        KeywordsModule,
-
         HttpClientModule,
 
         SharedModule
@@ -141,6 +140,8 @@ import { TerraDAO } from "./shared/terra.dao";
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
+        HCASearchComponent,
+        HCATableComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
         HCATableColumnHeaderTitleComponent,
@@ -165,7 +166,8 @@ import { TerraDAO } from "./shared/terra.dao";
         ConfigService,
         DownloadService,
         DownloadDAO,
-        SearchTermHttpService,
+        SearchTermDAO,
+        FileFacetDisplayService,
         FileManifestService,
         FileManifestDAO,
         FilesService,

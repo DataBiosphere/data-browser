@@ -126,6 +126,7 @@ export class MatrixService {
     private isMatrixFileFormatSelected(searchTerms: SearchTerm[]): boolean {
 
         return searchTerms.some((searchTerm) =>
-            searchTerm.facetName === FileFacetName.FILE_FORMAT && searchTerm.name === FileFormat.MATRIX);
+            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
+            searchTerm.getSearchValue() === FileFormat.MATRIX);
     }
 }

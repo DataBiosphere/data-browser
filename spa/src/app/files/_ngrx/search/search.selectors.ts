@@ -16,16 +16,21 @@ import { FileFacetName } from "../../shared/file-facet-name.model";
 // Search slice
 export const selectSearch = createFeatureSelector<SearchState>("search");
 
-// Search terms - current set of selected file facet terms and entities
+// Complete set of possible search terms to select from
 export const selectSearchTerms = createSelector(selectSearch, (state) => state.searchTerms);
 
-// Search terms by facet name - current set of selected file facet terms and entities keyed by facet name
-export const selectSearchTermsByFacetName = createSelector(selectSearch, (state) => state.searchTermsByFacetName);
+// Selected search terms - current set of selected file facet terms and entities
+export const selectSelectedSearchTerms = createSelector(selectSearch, (state) => state.selectedSearchTerms);
 
-// Project search terms - returns the current set of selected projects
-export const selectProjectSearchTerms = createSelector(selectSearch, (state) => {
-    return state.searchTerms.filter((searchTerm: SearchTerm) => {
-        return searchTerm.facetName === FileFacetName.PROJECT ||
-            searchTerm.facetName === FileFacetName.PROJECT_ID;
+// Selected search terms by search key - current set of selected file facet terms and entities keyed by file facet name
+// or entity, respectively.
+export const selectSelectedSearchTermsBySearchKey = createSelector(selectSearch, (state) => 
+    state.selectedSearchTermsBySearchKey);
+
+// Selected project search terms - returns the current set of selected projects
+export const selectSelectedProjectSearchTerms = createSelector(selectSearch, (state) => {
+    return state.selectedSearchTerms.filter((searchTerm: SearchTerm) => {
+        return searchTerm.getSearchKey() === FileFacetName.PROJECT ||
+            searchTerm.getSearchKey() === FileFacetName.PROJECT_ID;
     });
 });

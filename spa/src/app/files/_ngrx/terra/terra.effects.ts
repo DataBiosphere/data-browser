@@ -18,7 +18,7 @@ import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.act
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { selectFileFormatsFileFacet } from "../file.selectors";
-import { selectSearchTerms } from "../search/search.selectors";
+import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { TerraService } from "../../shared/terra.service";
 
 @Injectable()
@@ -42,7 +42,7 @@ export class TerraEffects {
         .pipe(
             ofType(ExportToTerraRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
-                select(selectSearchTerms),
+                select(selectSelectedSearchTerms),
                 take(1)
             )),
             switchMap((searchTerms) =>

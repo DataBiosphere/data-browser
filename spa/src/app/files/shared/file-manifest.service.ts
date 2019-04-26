@@ -84,8 +84,8 @@ export class FileManifestService {
      */
     public fetchFileManifestFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
-        const searchTermsExceptFileTypes = searchTerms.filter((fileFacet) => {
-            return fileFacet.facetName !== FileFacetName.FILE_FORMAT;
+        const searchTermsExceptFileTypes = searchTerms.filter((searchTerm) => {
+            return searchTerm.getSearchKey() !== FileFacetName.FILE_FORMAT;
         });
         return this.filesService.fetchFileSummary(searchTermsExceptFileTypes);
     }
@@ -116,7 +116,8 @@ export class FileManifestService {
     private isAnyFileFormatSelected(searchTerms: SearchTerm[]): boolean {
 
         return searchTerms.some((searchTerm) =>
-            searchTerm.facetName === FileFacetName.FILE_FORMAT && searchTerm.name !== FileFormat.MATRIX);
+            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
+            searchTerm.getSearchValue() !== FileFormat.MATRIX);
     }
 
     /**
@@ -129,7 +130,8 @@ export class FileManifestService {
 
         return searchTerms.reduce((accum, searchTerm) => {
 
-            if ( !(searchTerm.facetName === FileFacetName.FILE_FORMAT && searchTerm.name === FileFormat.MATRIX) ) {
+            if ( !(searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
+                searchTerm.getSearchValue() === FileFormat.MATRIX) ) {
                 accum.push(searchTerm);
             }
             return accum;

@@ -16,7 +16,7 @@ import { SelectSearchTermAction } from "./select-search-term.action";
 
 export class SelectFileFacetTermAction implements Action, SelectSearchTermAction {
 
-    public static ACTION_TYPE = "FILE.FILE_FACET_LIST.SELECT_FACET";
+    public static ACTION_TYPE = "FILE.SEARCH.SELECT_FACET";
     public readonly type = SelectFileFacetTermAction.ACTION_TYPE;
 
     /**
