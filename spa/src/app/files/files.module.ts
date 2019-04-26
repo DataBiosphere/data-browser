@@ -58,14 +58,14 @@ import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.com
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
+import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
+import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
+import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
-import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
-import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
-import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { SearchTermHttpService } from "./shared/search-term-http.service";
@@ -141,10 +141,10 @@ import { TerraDAO } from "./shared/terra.dao";
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
-        HCATableComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
         HCATableColumnHeaderTitleComponent,
+        HCATableComponent,
         HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,
         HCATablePaginationComponent,

@@ -55,7 +55,7 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         },
         {
             facetGroupName: "Method",
-            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach", "pairedEnd"]
+            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach"]
         },
         {
             facetGroupName: "File",
@@ -68,7 +68,8 @@ export class HCAFileFilterComponent implements OnInit, OnChanges {
         "contactName",
         "laboratory",
         "organismAge",
-        "organismAgeUnit"
+        "organismAgeUnit",
+        "pairedEnd"
     ];
 
     // Facet display names

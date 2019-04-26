@@ -24,6 +24,13 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import {
+    getFileCount,
+    getPairedEnd,
+    getSelfOrFirst,
+    getUnspecifiedIfNullValue,
+    rollUpMetadata
+} from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
@@ -241,6 +248,7 @@ export interface Element {
     pairedEnd: string;
     projectTitle: string;
     selectedCellType: string;
+    specimenId: string;
     totalCells: number;
 }
 
@@ -263,11 +271,11 @@ class TableElementDataSource extends DataSource<any> {
 
                 return rows.map((row: any) => {
 
-                    let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
+                    let cellSuspensions = rollUpMetadata(row.cellSuspensions);
                     let fileTypeSummaries = row.fileTypeSummaries;
-                    let protocols = this.rollUpMetadata(row.protocols);
-                    let specimens = this.rollUpMetadata(row.specimens);
-                    let projectTitle = this.rollUpMetadata(row.projects);
+                    let protocols = rollUpMetadata(row.protocols);
+                    let specimens = rollUpMetadata(row.specimens);
+                    let projectTitle = rollUpMetadata(row.projects);
 
                     /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
                     let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
@@ -281,169 +289,31 @@ class TableElementDataSource extends DataSource<any> {
                     }, {otherFileCount: 0});
 
                     /* Fastq and Fastq.gz combined for raw count */
-                    let rawCount = (this.getFileCount("fastq.gz", fileTypeSummaries) + this.getFileCount("fastq", fileTypeSummaries));
+                    let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
 
                     return {
                         ageUnit: specimens.organismAgeUnit,
-                        biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
-                        disease: this.getUnspecifiedIfNullValue(specimens.disease),
-                        fileCount: this.getUnspecifiedIfNullValue(fileCounts.totalCount),
-                        genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
-                        libraryConstructionApproach: this.getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                        matrixCount: this.getFileCount("matrix", fileTypeSummaries),
-                        organ: this.getUnspecifiedIfNullValue(specimens.organ),
-                        organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
-                        organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
+                        biologicalSex: getUnspecifiedIfNullValue(specimens.biologicalSex),
+                        disease: getUnspecifiedIfNullValue(specimens.disease),
+                        fileCount: getUnspecifiedIfNullValue(fileCounts.totalCount),
+                        genusSpecies: getUnspecifiedIfNullValue(specimens.genusSpecies),
+                        libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
+                        matrixCount: getFileCount("matrix", fileTypeSummaries),
+                        organ: getUnspecifiedIfNullValue(specimens.organ),
+                        organismAge: getUnspecifiedIfNullValue(specimens.organismAge),
+                        organPart: getUnspecifiedIfNullValue(specimens.organPart),
                         otherFileCount: fileCounts.otherFileCount,
-                        pairedEnd: this.getPairedEnd(protocols.pairedEnd),
-                        processedCount: this.getFileCount("bam", fileTypeSummaries),
-                        projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                        selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: this.getSelfOrFirst(specimens.id),
-                        totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        pairedEnd: getPairedEnd(protocols.pairedEnd),
+                        processedCount: getFileCount("bam", fileTypeSummaries),
+                        projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
+                        specimenId: getSelfOrFirst(specimens.id),
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                         rawCount: rawCount
                     };
                 });
             })
         );
-    }
-
-    // Each bundle contains multiple biomaterials which are in a hierarchy
-    // leading back to the root biomaterial. Biomarerials are in an array.
-    // This rolls up the metadata values to a single object.
-
-    rollUpMetadata(array): any {
-
-        // if the array is empty we have no values.
-        if ( !array ) {
-            return {};
-        }
-
-        // for each element in the array
-        const rollup = array.reduce((acc, element) => {
-
-            // get its own keys and their values.
-            Object.keys(element).forEach((key) => {
-                let value = element[key];
-
-                // skip null values
-                if ( value ) {
-
-                    // flatten arrays
-                    if ( value instanceof Array ) {
-                        value = value.join(",");
-                    }
-
-
-                    if ( key === "totalCells" ) {
-
-                        if ( acc[key] ) {
-                            acc[key] = acc[key] + value;
-                        }
-                        else {
-                            acc[key] = value;
-                        }
-
-                    }
-                    else {
-
-                        // if the value is different from an existing key...
-                        let cellValues;
-
-                        try {
-                            cellValues = acc[key] ? acc[key].split(",") : [];
-                        }
-                        catch (error) {
-                            console.log(key);
-                            console.log(value);
-                            console.log(acc[key]);
-                            return;
-                        }
-
-
-                        if ( cellValues.length ) {
-                            if ( !cellValues.some(cellValue => cellValue === value) ) {
-                                // apend the value to the existing key
-                                acc[key] = acc[key] + ", " + value;
-                            }
-                        }
-                        else {
-                            // if no existing key or the vaues are the same just set the value.
-                            acc[key] = value;
-                        }
-                    }
-                }
-            });
-
-            return acc;
-
-        }, {});
-
-        return rollup;
-
-    }
-
-    /**
-     * Returns the count for file type.
-     * @param {string} fileTypeName
-     * @param {any[]} fileTypeSummaries
-     * @returns {number}
-     */
-    public getFileCount(fileTypeName: string, fileTypeSummaries: any[]): number {
-
-        let fileTypeSummary = fileTypeSummaries.find(fileSummary => fileSummary.fileType === fileTypeName);
-
-        // Returns a count if fileType exists, otherwise returns 0.
-        if ( fileTypeSummary ) {
-
-            return fileTypeSummary.count;
-        }
-
-        return 0;
-    }
-
-    /**
-     * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
-     * @param {string} pairedEnd
-     * @returns {string}
-     */
-    public getPairedEnd(pairedEnd: string): string {
-
-        if (pairedEnd) {
-
-            return (pairedEnd.split(",").map(p => {
-
-                if ( p === "true" ) {
-                    return "Paired End";
-                }
-                else if ( p === "false" ) {
-                    return "Single End";
-                }
-                return "Unspecified";
-
-            }).join(", "));
-        }
-        return "Unspecified";
-    }
-
-    public getSelfOrFirst(value) {
-        const vals = value.split(",");
-        return vals[0];
-    }
-
-    /**
-     * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
-     * @param {any} value
-     * @returns {any}
-     */
-    public getUnspecifiedIfNullValue(value: any): any {
-
-        if ( value ) {
-
-            return value;
-        }
-
-        return "Unspecified";
     }
 
     connect(): Observable<Element[]> {
