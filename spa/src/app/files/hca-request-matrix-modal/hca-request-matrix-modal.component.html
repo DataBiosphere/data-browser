@@ -4,8 +4,8 @@
             [showDownload]="false"
             [summary]="state.fileSummary"></hca-file-summary>
     <div class="separator"></div>
-    <hca-file-filter-result *ngIf="state.searchTerms"
-                            [searchTerms]="state.searchTerms"
+    <hca-file-filter-result *ngIf="state.selectedSearchTerms"
+                            [selectedSearchTerms]="state.selectedSearchTerms"
                             [removable]="false"></hca-file-filter-result>
     <div class="separator"></div>
     <div class="hca-download-content">
@@ -43,7 +43,7 @@
     </div>
     <div class="hca-download-action">
         <button *ngIf="isRequestNew(matrixResponse$ | async)" type="button"
-                (click)="onRequestMatrix(state.searchTerms, fileFormat)">Request Expression Matrix
+                (click)="onRequestMatrix(state.selectedSearchTerms, fileFormat)">Request Expression Matrix
         </button>
         <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
             <mat-spinner *ngIf="isRequestInProgress(matrixResponse)"

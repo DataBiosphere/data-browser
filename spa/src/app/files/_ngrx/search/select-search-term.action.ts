@@ -10,7 +10,6 @@ import { SearchTerm } from "../../search/search-term.model";
 
 export interface SelectSearchTermAction {
 
-    facetName: string;
     selected: boolean;
 
     /**

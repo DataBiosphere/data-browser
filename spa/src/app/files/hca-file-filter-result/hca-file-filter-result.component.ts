@@ -11,13 +11,12 @@ import { Component, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { ClearSelectedTermsAction } from "../_ngrx/search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "../shared/file-facet-name.model";
-import { SelectProjectAction } from "../_ngrx/search/select-project.action";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
+import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 
 @Component({
     selector: "hca-file-filter-result",
@@ -28,36 +27,25 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 export class HCAFileFilterResultComponent {
 
     // Inputs
-    @Input() searchTerms: SearchTerm[];
+    @Input() selectedSearchTerms: SearchTerm[];
     @Input() removable: boolean;
 
-    // locals
-    store: Store<AppState>;
-
-    constructor(store: Store<AppState>) {
-        this.store = store;
+    /**
+     * @param {FileFacetDisplayService} fileFacetDisplayService
+     * @param {Store<AppState>} store
+     */
+    constructor(private fileFacetDisplayService: FileFacetDisplayService, private store: Store<AppState>) {
     }
 
     /**
-     * Returns facet name in correct format.
-     * disease is renamed "Known Diseases".
-     * libraryConstructionApproach is renamed to "Library Construction Method".
+     * Returns facet name in format appropriate for display.
      *
      * @param facetName
-     * @returns {any}
+     * @returns {string}
      */
     public getFacetName(facetName: string): string {
-
-        if ( facetName === "disease" ) {
-
-            return "Known Diseases";
-        }
-        if ( facetName === "libraryConstructionApproach" ) {
-
-            return "Library Construction Method";
-        }
-
-        return (new CamelToSpacePipe().transform(facetName));
+        
+        return this.fileFacetDisplayService.getFileFacetDisplayName(facetName);
     }
 
     /**
@@ -65,9 +53,9 @@ export class HCAFileFilterResultComponent {
      *
      * @returns {boolean}
      */
-    public isSearchTermsEmpty(): boolean {
+    public isSelectedSearchTermsEmpty(): boolean {
 
-        return this.searchTerms.length === 0;
+        return this.selectedSearchTerms.length === 0;
     }
 
     /**
@@ -78,14 +66,11 @@ export class HCAFileFilterResultComponent {
     public removeSearchTerm(searchTerm: SearchTerm) {
 
         let action;
-        if ( searchTerm.facetName === FileFacetName.PROJECT ) {
-            action = new SelectProjectAction(searchTerm.name, false);
-        }
-        else if (searchTerm.facetName === FileFacetName.PROJECT_ID ) {
-            action = new SelectProjectIdAction(searchTerm.getSearchKey(), searchTerm.name, false);
+        if (searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
+            action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
         }
         else {
-            action = new SelectFileFacetTermAction(searchTerm.facetName, searchTerm.name, false);
+            action = new SelectFileFacetTermAction(searchTerm.getSearchKey(), searchTerm.getSearchValue(), false);
         }
 
         this.store.dispatch(action);

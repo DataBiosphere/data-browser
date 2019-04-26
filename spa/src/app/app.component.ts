@@ -19,6 +19,7 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { AppState } from "./_ngrx/app.state";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
 import { selectIndexing } from "./system/_ngrx/system.selectors";
+import { EntityName } from "./files/shared/entity-name.model";
 
 @Component({
     selector: "app-root",
@@ -96,14 +97,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
         const path = this.location.path().split("?")[0];
         if ( path === "/files" ) {
-            return "files";
+            return EntityName.FILES;
         }
 
         if ( path === "/specimens" ) {
-            return "specimens";
+            return EntityName.SPECIMENS;
         }
 
-        return "projects";
+        return EntityName.PROJECTS;
     }
 
     /**

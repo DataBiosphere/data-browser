@@ -1,11 +1,13 @@
 <ng-container id="hcaFilterWrapper">
 <hca-file-filter
-        [searchTerms]="searchTerms"
         [fileFacets]="fileFacets"
+        [searchTerms]="searchTerms"
+        [selectedEntity]="selectedEntity"
+        [selectedSearchTerms]="selectedSearchTerms"
         (menuOpen)="isMenuOpen($event)">
 </hca-file-filter>
 <hca-file-filter-result
         [removable]="true"
-        [searchTerms]="searchTerms">
+        [selectedSearchTerms]="selectedSearchTerms">
 </hca-file-filter-result>
 </ng-container>

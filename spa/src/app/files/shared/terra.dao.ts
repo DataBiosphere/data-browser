@@ -18,20 +18,20 @@ import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { ICGCQuery } from "./icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
-import { SearchTermHttpService } from "./search-term-http.service";
 import { SearchTerm } from "../search/search-term.model";
+import { SearchTermDAO } from "./search-term.dao";
 
 @Injectable()
 export class TerraDAO {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermHttpService} searchTermHttpService
+     * @param {SearchTermDAO} searchTermDAO
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
-        private searchTermHttpService: SearchTermHttpService,
+        private searchTermDAO: SearchTermDAO,
         private httpClient: HttpClient) {
     }
 
@@ -55,7 +55,7 @@ export class TerraDAO {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.BDBAG);
+        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), ManifestDownloadFormat.BDBAG);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.buildApiUrl(`/fetch/manifest/files`);

@@ -13,7 +13,7 @@ import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
-import { selectSearchTermsByFacetName } from "./search/search.selectors";
+import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
 import { FileFacetName } from "../shared/file-facet-name.model";
 import { PaginationModel } from "../table/pagination.model";
 
@@ -111,9 +111,9 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
  *
  * @returns {Map<string, FileFacet> & PaginationModel & TableState}
  */
-export const selectTableQueryParams = createSelector(selectSearchTermsByFacetName, selectPagination, selectTableState,
-    (searchTermsByFacetName, pagination, tableState) => {
-    return { searchTermsByFacetName, pagination, tableState
+export const selectTableQueryParams = createSelector(selectSelectedSearchTermsBySearchKey, selectPagination, selectTableState,
+    (selectedSearchTermsBySearchKey, pagination, tableState) => {
+    return { selectedSearchTermsBySearchKey, pagination, tableState
     };
 });
 
@@ -147,9 +147,9 @@ export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => s
 /**
  * Return the selected view state - both the selected entity and the current set of search terms
  */
-export const selectSelectedViewState = createSelector(selectSearchTermsByFacetName, selectSelectedEntity, (searchTermsByFacetName, selectedEntity) => {
+export const selectSelectedViewState = createSelector(selectSelectedSearchTermsBySearchKey, selectSelectedEntity, (selectedSearchTermsBySearchKey, selectedEntity) => {
     return {
-        searchTermsByFacetName,
+        selectedSearchTermsBySearchKey,
         selectedEntity
     };
 });

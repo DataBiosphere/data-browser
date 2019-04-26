@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Component displaying HCA project table details.
  */
@@ -17,12 +17,13 @@ import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { selectProjectSearchTerms } from "../_ngrx/search/search.selectors";
-import { SelectProjectAction } from "../_ngrx/search/select-project.action";
+import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
 import { Project } from "../shared/project.model";
 import { SearchTerm } from "../search/search-term.model";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
+import { EntityName } from "../shared/entity-name.model";
 
 @Component({
     selector: "hca-project",
@@ -80,7 +81,7 @@ export class HCAProjectComponent implements OnInit {
      */
     public getProjectDetailTabs(): EntitySpec[] {
 
-        return [{key: "projects", displayName: "Projects"}];
+        return [{key: EntityName.PROJECTS, displayName: "Projects"}];
     }
 
     /**
@@ -153,7 +154,7 @@ export class HCAProjectComponent implements OnInit {
      */
     public onProjectSelected(projectId: string, projectShortName: string, select: boolean) {
 
-        this.store.dispatch(new SelectProjectAction(projectShortName, select));
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, select));
         this.router.navigate(["/projects"]);
     }
 
@@ -187,7 +188,7 @@ export class HCAProjectComponent implements OnInit {
      */
     public isProjectSelected(selectedProjectIds: string[], project: any): boolean {
 
-        return selectedProjectIds.indexOf(project.projectShortname) >= 0;
+        return selectedProjectIds.indexOf(project.entryId) >= 0;
     }
 
     /**
@@ -239,7 +240,7 @@ export class HCAProjectComponent implements OnInit {
     private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
 
         return searchTerms.map((searchTerm: SearchTerm) => {
-            return searchTerm.getSearchKey();
+            return searchTerm.getSearchValue();
         });
     }
 
@@ -261,7 +262,7 @@ export class HCAProjectComponent implements OnInit {
 
         // Grab the ID's of the current set of selected projects, if any
         this.selectedProjectIds$ = this.store.pipe(
-            select(selectProjectSearchTerms),
+            select(selectSelectedProjectSearchTerms),
             map(this.mapSearchTermsToProjectIds)
         );
     }

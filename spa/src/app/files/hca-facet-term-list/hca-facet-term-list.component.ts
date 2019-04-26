@@ -59,10 +59,6 @@ export class HCAFacetTermListComponent {
      */
     public getDisplayList(): Term[] {
 
-        if ( this.useShortList ) {
-            return this.fileFacet.shortList;
-        }
-
         return this.fileFacet.terms;
     }
 
@@ -87,7 +83,7 @@ export class HCAFacetTermListComponent {
     }
 
     /**
-     * Returns class truncate if termName is not spaced
+     * Returns class truncate if displayValue is not spaced
      * @param termName
      * @returns {string}
      */
