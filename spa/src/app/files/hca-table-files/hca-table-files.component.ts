@@ -23,6 +23,11 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import {
+    getPairedEnd, getSelfOrFirst,
+    getUnspecifiedIfNullValue,
+    rollUpMetadata
+} from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
@@ -246,20 +251,21 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
  * Elements in Material Design table that displays HCA-specific file related data.
  */
 export interface Element {
-    fileFormat: string;
-    fileName: string;
-    fileSize: number;
-    organ: string;
-    organPart: string;
-    libraryConstructionApproach: string;
-    genusSpecies: string;
-    organismAge: string;
     ageUnit: string;
     biologicalSex: string;
     disease: string; // TODO check not array
+    fileFormat: string;
+    fileName: string;
+    fileSize: number;
+    genusSpecies: string;
+    libraryConstructionApproach: string;
+    organ: string;
+    organismAge: string;
+    organPart: string;
     pairedEnd: string;
     projectTitle: string;
     selectedCellType: string;
+    specimenId: string;
     totalCells: number;
     url: string;
 }
@@ -284,157 +290,33 @@ class TableElementDataSource extends DataSource<any> {
                 return rows.map((row: any) => {
 
                     let file = row.files[0] || {};
-                    let cellSuspensions = this.rollUpMetadata(row.cellSuspensions);
-                    let protocols = this.rollUpMetadata(row.protocols);
-                    let specimens = this.rollUpMetadata(row.specimens);
-                    let projectTitle = this.rollUpMetadata(row.projects);
+                    let cellSuspensions = rollUpMetadata(row.cellSuspensions);
+                    let protocols = rollUpMetadata(row.protocols);
+                    let specimens = rollUpMetadata(row.specimens);
+                    let projectTitle = rollUpMetadata(row.projects);
 
                     return {
                         ageUnit: specimens.organismAgeUnit,
-                        biologicalSex: this.getUnspecifiedIfNullValue(specimens.biologicalSex),
-                        disease: this.getUnspecifiedIfNullValue(specimens.disease),
+                        biologicalSex: getUnspecifiedIfNullValue(specimens.biologicalSex),
+                        disease: getUnspecifiedIfNullValue(specimens.disease),
                         fileFormat: file.format,
                         fileName: file.name,
-                        fileSize: this.getUnspecifiedIfNullValue(file.size),
-                        genusSpecies: this.getUnspecifiedIfNullValue(specimens.genusSpecies),
-                        libraryConstructionApproach: this.getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                        organ: this.getUnspecifiedIfNullValue(specimens.organ),
-                        organismAge: this.getUnspecifiedIfNullValue(specimens.organismAge),
-                        organPart: this.getUnspecifiedIfNullValue(specimens.organPart),
-                        pairedEnd: this.getPairedEnd(protocols.pairedEnd),
-                        projectTitle: this.getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                        selectedCellType: this.getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: this.getSelfOrFirst(specimens.id),
-                        totalCells: this.getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        fileSize: getUnspecifiedIfNullValue(file.size),
+                        genusSpecies: getUnspecifiedIfNullValue(specimens.genusSpecies),
+                        libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
+                        organ: getUnspecifiedIfNullValue(specimens.organ),
+                        organismAge: getUnspecifiedIfNullValue(specimens.organismAge),
+                        organPart: getUnspecifiedIfNullValue(specimens.organPart),
+                        pairedEnd: getPairedEnd(protocols.pairedEnd),
+                        projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
+                        specimenId: getSelfOrFirst(specimens.id),
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                         url: file.url
                     };
                 });
             })
         );
-    }
-
-    // Each bundle contains multiple biomaterials which are in a hierarchy
-    // leading back to the root biomaterial. Biomarerials are in an array.
-    // This rolls up the metadata values to a single object.
-
-    rollUpMetadata(array): any {
-
-        // if the array is empty we have no values.
-        if ( !array ) {
-            return {};
-        }
-
-        // for each element in the array
-        const rollup = array.reduce((acc, element) => {
-
-            // get its own keys and their values.
-            Object.keys(element).forEach((key) => {
-                let value = element[key];
-
-                // skip null values
-                if ( value ) {
-
-                    // flatten arrays
-                    if ( value instanceof Array ) {
-                        value = value.join(",");
-                    }
-
-
-                    if ( key === "totalCells" ) {
-
-                        if ( acc[key] ) {
-                            acc[key] = acc[key] + value;
-                        }
-                        else {
-                            acc[key] = value;
-                        }
-
-                    }
-                    else {
-
-                        // if the value is different from an existing key...
-                        let cellValues;
-
-                        try {
-                            cellValues = acc[key] ? acc[key].split(",") : [];
-                        }
-                        catch (error) {
-                            console.log(key);
-                            console.log(value);
-                            console.log(acc[key]);
-                            return;
-                        }
-
-
-                        if ( cellValues.length ) {
-                            if ( !cellValues.some(cellValue => cellValue === value) ) {
-                                // apend the value to the existing key
-                                acc[key] = acc[key] + ", " + value;
-                            }
-                        }
-                        else {
-                            // if no existing key or the vaues are the same just set the value.
-                            acc[key] = value;
-                        }
-                    }
-                }
-            });
-
-            return acc;
-
-        }, {});
-
-        return rollup;
-
-    }
-
-    /**
-     * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
-     * @param {string} pairedEnd
-     * @returns {string}
-     */
-    public getPairedEnd(pairedEnd: string): string {
-
-        if (pairedEnd) {
-
-            return (pairedEnd.split(",").map(p => {
-
-                if ( p === "true" ) {
-                    return "Paired End";
-                }
-                else if ( p === "false" ) {
-                    return "Single End";
-                }
-                return "Unspecified";
-
-            }).join(", "));
-        }
-        return "Unspecified";
-    }
-
-    public getSelfOrFirst(value) {
-
-        if ( !value ) {
-
-            return "";
-        }
-        const vals = value.split(",");
-        return vals[0];
-    }
-
-    /**
-     * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
-     * @param {any} value
-     * @returns {any}
-     */
-    public getUnspecifiedIfNullValue(value: any): any {
-
-        if ( value ) {
-
-            return value;
-        }
-
-        return "Unspecified";
     }
 
     connect(): Observable<Element[]> {
