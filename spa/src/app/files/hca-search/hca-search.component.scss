@@ -1,0 +1,127 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * HCA search styles.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Search and select container */
+.hca-input {
+    align-items: center;
+    border: 1px solid $hca-gray-light;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex: none;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 13px; /* TODO typography */
+    height: 38px;
+    letter-spacing: 0.4px; /* TODO typography */
+    margin: 0 4px;
+    padding: 0 16px;
+    width: 258px;
+    z-index: 14; /* Positions above overlay - to allow for direct change of menu selection */
+
+    /* Field is on focus */
+    &:focus, &.active {
+        border: 1px solid $hca-primary;
+        outline: none;
+    }
+
+    &::placeholder {
+        color: $hca-black; /* TODO review input field colour */
+    }
+}
+
+/* mat-option panel */
+// TODO deep deprecated
+/deep/ .mat-autocomplete-panel {
+    border: 1px solid $hca-gray-light;
+    box-shadow: 0 2px 4px 0 $hca-gray-light !important;
+    margin: 6px 0; /* Panel to take up full width + opens below search box */
+    padding: 8px 16px 12px; /* Override MD spec */
+}
+
+/* mat-optgroup-label */
+// TODO deep deprecated
+/deep/ .hca-optgroup .mat-optgroup-label {
+    color: $hca-gray-medium;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 10px; /* TODO typography */
+    font-weight: 600; /* TODO typography */
+    height: unset; /* Override MD spec */
+    letter-spacing: 0.83px; /* TODO typography */
+    line-height: 20px; /* Override MD spec */
+    padding: 4px 0; /* Override MD spec */
+}
+
+/* mat-option list */
+// TODO deep deprecated
+/deep/ .mat-option.hca-option {
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 14px; /* TODO typography */
+    height: unset; /* Override MD spec */
+    letter-spacing: 0.43px; /* TODO typography */
+    line-height: 18px; /* Override MD spec */
+    min-height: 26px;
+    padding: 4px 0 !important; /* Override MD spec */
+
+    &.error {
+        background-color: $hca-gray-lightest;
+        cursor: default;
+        letter-spacing: unset;
+        margin: -8px -16px 0;
+        max-width: calc(100% + 32px);
+        padding: 8px 16px !important;
+        white-space: pre-wrap;
+    }
+
+    /* mat-option flex between term and count */
+    > span {
+        align-items: flex-start;
+        display: flex;
+        justify-content: space-between;
+
+        /* Wrap of term name if required */
+        > span:first-of-type {
+            flex: 1;
+            padding-right: 4px;
+            white-space: pre-wrap;
+        }
+
+        /** Truncate long term names - where term names are not spaced */
+        .truncate {
+            word-break: break-all;
+        }
+
+        /* Count */
+        > span:nth-of-type(2) {
+            flex-basis: 36px; /* approx. 4 digit number */
+            flex-shrink: 0;
+            text-align: right;
+        }
+    }
+}
+
+/**
+ * XSmall - iphone 5/SE
+ */
+@media screen and (max-width: 374px) {
+
+    .hca-input {
+        width: 200px;
+    }
+}
+
+/**
+ * Large +
+ */
+@media screen and (min-width: 1200px) {
+
+    .hca-input {
+        width: 350px;
+    }
+}
+

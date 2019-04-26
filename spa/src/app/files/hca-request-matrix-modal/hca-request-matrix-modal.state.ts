@@ -13,5 +13,5 @@ export interface HCARequestMatrixModalState {
 
     fileSummary: FileSummary;
     matrixFileFormats: string[];
-    searchTerms: SearchTerm[];
+    selectedSearchTerms: SearchTerm[];
 }

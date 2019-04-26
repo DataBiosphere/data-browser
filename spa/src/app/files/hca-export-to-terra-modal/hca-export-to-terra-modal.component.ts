@@ -29,7 +29,7 @@ import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.e
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
-import { selectSearchTerms } from "../_ngrx/search/search.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { SearchTerm } from "../search/search-term.model";
 
 @Component({
@@ -185,10 +185,10 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         // Kick off request for file summaries, ignoring any currently selected file types
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
-        // Grab the current set of file facets
+        // Grab the current set of selected search terms
         const selectedSearchTermNames$ = this.store.pipe(
-            select(selectSearchTerms),
-            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.name))
+            select(selectSelectedSearchTerms),
+            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.getDisplayValue()))
         );
 
         // Grab file summary for populating file type counts on export to Terra modal

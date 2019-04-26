@@ -20,7 +20,6 @@ import {
     FetchFileFacetsSuccessAction, InitEntityStateAction,
     NoOpAction
 } from "./file-facet-list/file-facet-list.actions";
-import { SelectProjectAction } from "./search/select-project.action";
 import {
     FetchFileSummaryRequestAction,
     FetchFileSummarySuccessAction
@@ -33,8 +32,9 @@ import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
 import { SearchTerm } from "../search/search-term.model";
-import { selectSearchTerms } from "./search/search.selectors";
+import { selectSelectedSearchTerms } from "./search/search.selectors";
 import { SelectProjectIdAction } from "./search/select-project-id.action";
+import { EntityName } from "../shared/entity-name.model";
 import { EntitySearchResults } from "../shared/entity-search-results.model";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetName } from "../shared/file-facet-name.model";
@@ -54,6 +54,7 @@ import {
 } from "./table/table.actions";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import { getSelectedTable } from "./table/table.state";
+import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
 
 @Injectable()
 export class FileEffects {
@@ -80,7 +81,7 @@ export class FileEffects {
     fetchFacets$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFileFacetsRequestAction.ACTION_TYPE),
-            switchMap((action) => // TODO revisit - can we use withLatestFrom here?
+            switchMap((action) =>
                 this.store.pipe(
                     select(selectTableQueryParams),
                     take(1),
@@ -91,7 +92,7 @@ export class FileEffects {
             ),
             switchMap(({action, tableQueryParams}) => {
 
-                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
+                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 let tableParams = Object.assign(
                     DEFAULT_TABLE_PARAMS,
@@ -100,7 +101,7 @@ export class FileEffects {
                         order: tableQueryParams.pagination.order
                     });
                 
-                return this.fileService.fetchEntitySearchResults(searchTermsByFacetName, tableParams, selectedEntity)
+                return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, tableParams, selectedEntity)
                     .pipe(
                         map((entitySearchResults) => {
                             return {action, entitySearchResults, tableQueryParams};
@@ -116,11 +117,17 @@ export class FileEffects {
                 // Set up fetch success action
                 const fileFacets = entitySearchResults.fileFacets;
                 const fetchSuccessAction = new FetchFileFacetsSuccessAction(fileFacets);
+                
+                // Set up search term action
+                const searchTermUpdatedAction = new SearchTermsUpdatedAction(entitySearchResults.searchTerms);
 
                 // If we don't need to update the table data (eg if this fetch facets is triggered from a select project
-                // action), then just emit the fetch facet success action.
+                // action), then just emit actions to update facets and search.
                 if ( !(action as FetchFileFacetsRequestAction).updateTableData ) {
-                    return of(fetchSuccessAction);
+                    return of(
+                        fetchSuccessAction,
+                        searchTermUpdatedAction
+                    );
                 }
 
                 // Otherwise, we need to update the table data:
@@ -129,9 +136,9 @@ export class FileEffects {
                 // the projects tab and there is a project selected, we need to re-query for data to populate the table
                 // as the table is not restricted by any selected projects, in this case.
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
+                const searchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 let tableDataAction;
-                if ( selectedEntity === "projects" && this.isAnyProjectSelected(searchTermsByFacetName) ) {
+                if ( selectedEntity === EntityName.PROJECTS && this.isAnyProjectSelected(searchTermsBySearchKey) ) {
                     tableDataAction = new FetchInitialTableDataRequestAction();
                 }
                 else {
@@ -142,6 +149,7 @@ export class FileEffects {
                 // Update both facets and table data
                 return of(
                     fetchSuccessAction,
+                    searchTermUpdatedAction,
                     tableDataAction
                 );
             })
@@ -217,7 +225,7 @@ export class FileEffects {
         .pipe(
             ofType(FetchFileSummaryRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
-                select(selectSearchTerms),
+                select(selectSelectedSearchTerms),
                 take(1)
             )),
             switchMap((searchTerms: SearchTerm[]) => this.fileService.fetchFileSummary(searchTerms)),
@@ -246,10 +254,10 @@ export class FileEffects {
                         order: tableQueryParams.pagination.order
                     });
 
-                const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
+                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 return this.fileService.fetchEntitySearchResults(
-                    searchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== "projects"));
+                    selectedSearchTermsBySearchKey, tableParams, selectedEntity, (selectedEntity !== EntityName.PROJECTS));
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableDataSuccessAction(entitySearchResults.tableModel))
@@ -289,7 +297,6 @@ export class FileEffects {
     selectProject$: Observable<Action> = this.actions$
         .pipe(
             ofType(
-                SelectProjectAction.ACTION_TYPE,
                 SelectProjectIdAction.ACTION_TYPE
             ),
             mergeMap(() => {
@@ -340,11 +347,11 @@ export class FileEffects {
      */
     private fetchPagedOrSortedTableData([action , tableQueryParams]): Observable<EntitySearchResults> {
 
-        const searchTermsByFacetName = tableQueryParams.searchTermsByFacetName;
+        const selectedSearchTermsByFacetName = tableQueryParams.selectedSearchTermsBySearchKey;
         const tableParams = action.tableParams;
         const selectedEntity = tableQueryParams.tableState.selectedEntity;
         return this.fileService.fetchEntitySearchResults(
-            searchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== "projects"));
+            selectedSearchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== EntityName.PROJECTS));
     }
 
     /**

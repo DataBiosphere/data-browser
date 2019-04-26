@@ -16,6 +16,7 @@ import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
+import { ResponsiveService } from "./responsive/responsive.service";
 
 
 @NgModule({
@@ -23,12 +24,14 @@ import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
         CommonModule,
     ],
     declarations: [
-
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         HCASectionTitleComponent,
         HCATabComponent,
         PopLayoutComponent
+    ],
+    providers: [
+        ResponsiveService
     ],
     exports: [
         CommonModule,
