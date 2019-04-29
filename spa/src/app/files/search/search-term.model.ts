@@ -5,7 +5,10 @@
  * Model of value selected to filter the file facets and/or entity search results.
  */
 
-export interface SearchTerm {
+// App dependencies
+import { TermSortable } from "../sort/term-sortable.model";
+
+export interface SearchTerm extends TermSortable {
 
     /**
      * Return the count.

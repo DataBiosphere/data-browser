@@ -13,12 +13,10 @@ import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pi
 import { FileFacetGroup } from "./file-facet-group.model";
 import { FileFacetNameDisplay } from "./file-facet-name-display.model";
 
-// App dependencies
-
 @Injectable()
 export class FileFacetDisplayService {
 
-    // Constants
+    // File facet groupings
     public readonly FILE_FACET_GROUPS: FileFacetGroup[] = [
 
         {
@@ -43,7 +41,6 @@ export class FileFacetDisplayService {
         }
     ];
 
-    // Privates
     private camelToSpacePipe = new CamelToSpacePipe();
 
     /**
@@ -58,3 +55,4 @@ export class FileFacetDisplayService {
         return displayName ? displayName : this.camelToSpacePipe.transform(fileFacetName);
     }
 }
+

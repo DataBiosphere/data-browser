@@ -70,6 +70,16 @@ export class SearchFileFacetTerm implements SearchTerm {
 
         return this.termName;
     }
+
+    /**
+     * The sort value of a search file facet term is its term name;
+     *
+     * @returns {string}
+     */
+    public getSortValue(): string {
+
+        return this.termName;
+    }
 }
 
 

@@ -71,6 +71,16 @@ export class SearchEntity implements SearchTerm {
 
         return this.entityId;
     }
+
+    /**
+     * The sort value of a search entity is its display value;
+     *
+     * @returns {string}
+     */
+    public getSortValue(): string {
+
+        return this.getDisplayValue();
+    }
 }
 
 
