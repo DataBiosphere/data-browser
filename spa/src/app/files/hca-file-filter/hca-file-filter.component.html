@@ -34,7 +34,8 @@
                                     </div>
                                     <div class="facet-term-list">
                                         <span class="fontsize-xxs">{{getLabelName(selectedEntity)}}</span>
-                                        <hca-facet-term-list [fileFacet]="getFacet(facetName)"
+                                        <hca-facet-term-list [fileFacetName]="facetName"
+                                                             [terms]="getSortedFacetTerms(facetName)"
                                                              (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
                                     </div>
                                 </div>

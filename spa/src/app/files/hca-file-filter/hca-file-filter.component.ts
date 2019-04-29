@@ -20,6 +20,8 @@ import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { Term } from "../shared/term.model";
+import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
     selector: "hca-file-filter",
@@ -47,12 +49,14 @@ export class HCAFileFilterComponent implements OnChanges {
      * @param {DeviceDetectorService} deviceService
      * @param {FileFacetDisplayService} fileFacetDisplayService
      * @param {ResponsiveService} responsiveService
+     * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
     constructor(
         private deviceService: DeviceDetectorService,
         private fileFacetDisplayService: FileFacetDisplayService,
         private responsiveService: ResponsiveService,
+        private termSortService: TermSortService,
         private store: Store<AppState>) {}
 
     /**
@@ -63,6 +67,17 @@ export class HCAFileFilterComponent implements OnChanges {
         return this.fileFacets.find(function (fileFacet) {
             return fileFacet.name === facetName;
         });
+    }
+
+    /**
+     * Determine display name for specified file facet name. Search terms are grouped by file facet name.
+     *
+     * @param {string} fileFacetName
+     * @returns {name}
+     */
+    private getFileFacetDisplayName(fileFacetName: string): string {
+
+        return this.fileFacetDisplayService.getFileFacetDisplayName(fileFacetName);
     }
 
     /**
@@ -101,6 +116,20 @@ export class HCAFileFilterComponent implements OnChanges {
         else {
             return "hca-select";
         }
+    }
+
+    /**
+     * Return the set of sorted terms for the specified facet.
+     * 
+     * @param {string} facetName
+     * @returns {Term[]}
+     */
+    public getSortedFacetTerms(facetName: string): Term[] {
+
+        const facet = this.getFacet(facetName);
+        const sortedTerms = [...facet.terms];
+        this.termSortService.sortTerms(facetName, sortedTerms);
+        return sortedTerms;
     }
 
     /**

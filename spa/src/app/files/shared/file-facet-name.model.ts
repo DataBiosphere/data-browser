@@ -7,6 +7,8 @@
 
 export enum FileFacetName {
     "FILE_FORMAT" = "fileFormat",
+    "ORGANISM_AGE" = "organismAge",
+    "ORGANISM_AGE_UNIT" = "organismAgeUnit",
     "PROJECT" = "project",
     "PROJECT_ID" = "projectId"
 }

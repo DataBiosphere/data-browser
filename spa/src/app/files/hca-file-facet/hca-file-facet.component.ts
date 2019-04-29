@@ -25,6 +25,7 @@ import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
 import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { Term } from "../shared/term.model";
+import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
     selector: "hca-file-facet",
@@ -35,7 +36,6 @@ import { Term } from "../shared/term.model";
 export class HCAFileFacetComponent implements OnInit {
 
     // Privates
-    private store: Store<AppState>;
     public selectedEntity$: Observable<EntitySpec>;
 
     // Inputs
@@ -43,16 +43,13 @@ export class HCAFileFacetComponent implements OnInit {
 
     /**
      * @param {FileFacetDisplayService} fileFacetDisplayService
-     * @param store {Store<AppState>}
+     * @param {TermSortService} termSortService
+     * @param {Store<AppState>} store
      */
-    constructor(private fileFacetDisplayService: FileFacetDisplayService, store: Store<AppState>) {
-
-        this.store = store;
+    constructor(private fileFacetDisplayService: FileFacetDisplayService,
+                private termSortService: TermSortService,
+                private store: Store<AppState>) {
     }
-
-    /**
-     * Public API
-     */
 
     /**
      * Returns facet name in correct format.
@@ -74,6 +71,20 @@ export class HCAFileFacetComponent implements OnInit {
     public getLabelName(activeTab: EntitySpec): string {
 
         return activeTab.displayName;
+    }
+
+    /**
+     * Sort and return the list of terms for this facet.
+     * 
+     * @param {string} facetName
+     * @param {Term[]} terms
+     * @returns {Term[]}
+     */
+    public getSortedTerms(facetName: string, terms: Term[]): Term[] {
+
+        const sortedTerms = [...terms];
+        this.termSortService.sortTerms(facetName, sortedTerms);
+        return sortedTerms;
     }
 
     /**
