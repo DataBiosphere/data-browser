@@ -36,11 +36,11 @@ import {
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { ConfigService } from "../config/config.service";
-import { FacetFileFormatListComponent } from "./facet-file-format-list/facet-file-format-list.component";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
+import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
@@ -84,6 +84,7 @@ import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TerraDAO } from "./shared/terra.dao";
+import { TermSortService } from "./sort/term-sort.service";
 
 @NgModule({
     imports: [
@@ -118,7 +119,7 @@ import { TerraDAO } from "./shared/terra.dao";
     ],
     declarations: [
 
-        FacetFileFormatListComponent,
+        FileTypeSummaryListComponent,
 
         FileSummaryComponent,
         FileManifestSummaryComponent,
@@ -176,6 +177,7 @@ import { TerraDAO } from "./shared/terra.dao";
         MatrixDAO,
         ProjectService,
         ProjectDAO,
+        TermSortService,
         TerraService,
         TerraDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality

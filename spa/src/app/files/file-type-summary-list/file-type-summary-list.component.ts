@@ -2,41 +2,41 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Displays list file type summaries, and checkbox indicating if file type is currently in set of selected file facets.
+ * Displays list file type summaries, and checkbox indicating if the corresponding file format facet term is currently
+ * in set of selected search terms.
  */
 
 // Core dependencies
-import { AppState } from "../../_ngrx/app.state";
 import { Component, Input, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { FileNameShortenerPipe } from "../shared/file-name-shortener";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
-import { FacetFileTypeSummary } from "./facet-file-type-summary.model";
+import { FileTypeSummaryView } from "./file-type-summary-view.model";
+import { AppState } from "../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { FileFacetName } from "../shared/file-facet-name.model";
+import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
-    selector: "facet-file-format-list",
-    templateUrl: "facet-file-format-list.component.html",
-    styleUrls: ["facet-file-format-list.component.scss"]
+    selector: "file-type-summary-list",
+    templateUrl: "file-type-summary-list.component.html",
+    styleUrls: ["file-type-summary-list.component.scss"]
 })
-export class FacetFileFormatListComponent implements OnInit {
+export class FileTypeSummaryListComponent implements OnInit {
 
     // Inputs
     @Input() selectedSearchTermNames: string[];
     @Input() fileTypeSummaries: FileTypeSummary[];
 
     // Locals
-    private fileNameShortenerPipe: FileNameShortenerPipe;
     private selectToggle = false;
 
     /**
-     * Create file name shortener pipe for formatting selected file names (for search file facets only).
+     * @param {TermSortService} termSortService
+     * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {
-        this.fileNameShortenerPipe = new FileNameShortenerPipe();
+    constructor(private termSortService: TermSortService, private store: Store<AppState>) {
     }
 
     /**
@@ -44,24 +44,28 @@ export class FacetFileFormatListComponent implements OnInit {
      */
 
     /**
-     * Return the list of file types to display.
+     * Return the list of file types to display, including a "selected" indicator if the corresponding file format
+     * facet term is selected.
      *
-     * @returns {FacetFileTypeSummary[]}
+     * @returns {FileTypeSummaryView[]}
      */
-    public getDisplayList(): FacetFileTypeSummary[] {
+    public getDisplayList(): FileTypeSummaryView[] {
 
         // Return fileTypeSummary, excluding matrix file type
-        return this.fileTypeSummaries
+        const fileTypeSummaryViews = this.fileTypeSummaries
             .filter(fileTypeSummary => fileTypeSummary.fileType !== "matrix")
             .map(fileTypeSummary => {
 
-                return {
-                    count: fileTypeSummary.count,
-                    selected: this.selectedSearchTermNames.indexOf(fileTypeSummary.fileType) >= 0,
-                    size: fileTypeSummary.totalSize,
-                    termName: fileTypeSummary.fileType
-                };
+                return new FileTypeSummaryView(
+                    fileTypeSummary.fileType,
+                    fileTypeSummary.totalSize,
+                    fileTypeSummary.count,
+                    this.selectedSearchTermNames.indexOf(fileTypeSummary.fileType) >= 0);
         });
+        
+        this.termSortService.sortTerms(FileFacetName.FILE_FORMAT, fileTypeSummaryViews);
+        
+        return fileTypeSummaryViews;
     }
 
     /**
@@ -101,7 +105,7 @@ export class FacetFileFormatListComponent implements OnInit {
      *
      * @param facetFileTypeSummary {FacetFileTypeSummary}
      */
-    public onClickFacetTerm(facetFileTypeSummary: FacetFileTypeSummary): void {
+    public onClickFacetTerm(facetFileTypeSummary: FileTypeSummaryView): void {
 
         const termName = facetFileTypeSummary.termName;
         const selected = facetFileTypeSummary.selected;

@@ -11,9 +11,9 @@
             <ng-container *ngIf="getFileTypeSummaries(state.fileManifestFileSummary).length > 0">
                 <div class="hca-download-content">
                     <div class="facet-term-list">
-                        <facet-file-format-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                        <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                          [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
-                                         (facetTermSelected)="onFacetTermSelected($event)"></facet-file-format-list>
+                                         (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                     </div>
                 </div>
             </ng-container>

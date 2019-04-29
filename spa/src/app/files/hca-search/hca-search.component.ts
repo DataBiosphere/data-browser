@@ -23,6 +23,7 @@ import { SearchTermOptionGroup } from "./search-term-option-group.model";
 import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { SearchTermOption } from "./search-term-option.model";
 import { SelectedSearchTermOption } from "./selected-search-term-option.model";
+import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
     selector: "hca-search",
@@ -48,7 +49,9 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @param {FileFacetDisplayService} fileFacetDisplayService
      * @param {Store<AppState>} store
      */
-    constructor(private fileFacetDisplayService: FileFacetDisplayService, private store: Store<AppState>) {}
+    constructor(private fileFacetDisplayService: FileFacetDisplayService,
+                private termSortService: TermSortService,
+                private store: Store<AppState>) {}
 
     /**
      * Display function on select of search term. Note, search box is cleared immediately after select so this value
@@ -181,11 +184,12 @@ export class HCASearchComponent implements OnInit, OnChanges {
 
             // Add search term to search term group if it's not one of the already selected search terms
             if ( selectedSearchTermIds.indexOf(searchTerm.getId()) === -1 ) {
-                searchTermGroup.options.push({
-                    displayValue: searchTerm.getDisplayValue(),
-                    count: searchTerm.getCount(),
-                    searchValue: searchTerm.getSearchValue()
-                } as SearchTermOption);
+                searchTermGroup.options.push(new SearchTermOption(
+                    searchTerm.getDisplayValue(),
+                    searchTerm.getCount(),
+                    searchTerm.getSearchValue(),
+                    searchTerm.getSortValue())
+                );
             }
 
             return accum;
@@ -197,9 +201,14 @@ export class HCASearchComponent implements OnInit, OnChanges {
                 return searchTermGroupOption.options.length > 0;
             });
 
-        // Sort by facet name
+        // Sort option groups by facet name
         searchableOptionGroups.sort((optionGroup0, optionGroup1) => {
             return optionGroup0.displayValue > optionGroup1.displayValue ? 1 : -1;
+        });
+        
+        // Sort options by term name
+        searchableOptionGroups.forEach((optionGroup) => {
+            this.termSortService.sortTerms(optionGroup.searchKey, optionGroup.options);
         });
 
         this.searchTermOptionGroups = searchableOptionGroups;

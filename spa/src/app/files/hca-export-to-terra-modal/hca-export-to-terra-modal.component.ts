@@ -15,7 +15,6 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { ConfigService } from "../../config/config.service";
-import { selectFileFacetsFileFacets } from "../_ngrx/file.selectors";
 import { HCAExportToTerraModalState } from "./hca-export-to-terra-modal.state";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
@@ -40,7 +39,6 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
 
     // Privates
     private ngDestroy$ = new Subject();
-    private store: Store<AppState>;
 
     // Template variables
     public hideDownload = false;
@@ -53,11 +51,12 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
      * @param {TerraService} terraService
      * @param {Store<AppState>} store
      * @param {MatDialogRef<HCAExportToTerraModalComponent>} dialogRef
+     * @param {Window} window
      */
     constructor(
         private configService: ConfigService,
         private terraService: TerraService,
-        store: Store<AppState>,
+        private store: Store<AppState>,
         public dialogRef: MatDialogRef<HCAExportToTerraModalComponent>,
         @Inject("Window") window: Window) {
 
