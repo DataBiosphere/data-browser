@@ -185,10 +185,7 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of selected search terms
-        const selectedSearchTermNames$ = this.store.pipe(
-            select(selectSelectedSearchTerms),
-            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.getDisplayValue()))
-        );
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
         // Grab file summary for populating file type counts on export to Terra modal
         const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
@@ -197,14 +194,18 @@ export class HCAExportToTerraModalComponent implements OnDestroy, OnInit {
         const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerra));
 
         this.state$ = combineLatest(
-            selectedSearchTermNames$,
+            selectedSearchTerms$,
             selectManifestDownloadFileSummary$,
             selectExportToTerraStatus$
         )
             .pipe(
-                map(([selectedSearchTermNames, manifestDownloadFileSummary, exportToTerra]) => {
+                map(([selectedSearchTerms, manifestDownloadFileSummary, exportToTerra]) => {
 
+                    const selectedSearchTermNames = selectedSearchTerms
+                        .map(searchTerm => searchTerm.getDisplayValue());
+                    
                     return {
+                        selectedSearchTerms,
                         selectedSearchTermNames,
                         manifestDownloadFileSummary,
                         ...exportToTerra

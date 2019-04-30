@@ -140,20 +140,21 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
         this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
 
         // Grab the current set of selected search terms
-        const selectedSearchTermNames$ = this.store.pipe(
-            select(selectSelectedSearchTerms),
-            map((searchTerms: SearchTerm[]) => searchTerms.map(searchTerm => searchTerm.getDisplayValue()))
-        );
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
         // Grab file summary for populating file type counts on manifest download modal
         const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
-        this.state$ = combineLatest(selectedSearchTermNames$, selectManifestDownloadFileSummary$).pipe(
-            map((combined) => {
+        this.state$ = combineLatest(selectedSearchTerms$, selectManifestDownloadFileSummary$).pipe(
+            map(([selectedSearchTerms, fileManifestFileSummary]) => {
+
+                const selectedSearchTermNames = selectedSearchTerms
+                    .map(searchTerm => searchTerm.getDisplayValue());
 
                 return {
-                    selectedSearchTermNames: combined[0],
-                    fileManifestFileSummary: combined[1]
+                    selectedSearchTermNames: selectedSearchTermNames,
+                    selectedSearchTerms,
+                    fileManifestFileSummary
                 };
             })
         );

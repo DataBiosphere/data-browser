@@ -93,6 +93,18 @@
             }
         }
     }
+
+    /* Chips */
+    hca-file-filter-result {
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    /* Line separator */
+    .separator {
+        border-bottom: 1px solid $hca-gray-lightest;
+        margin: 0 24px 16px;
+    }
 }
 
 /* Download subtitle */

@@ -8,15 +8,17 @@
             <hca-file-summary
                     [showDownload]="false"
                     [summary]="state.fileManifestFileSummary"></hca-file-summary>
-            <ng-container *ngIf="getFileTypeSummaries(state.fileManifestFileSummary).length > 0">
-                <div class="hca-download-content">
-                    <div class="facet-term-list">
-                        <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                         [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
-                                         (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
-                    </div>
+            <div class="separator"></div>
+            <hca-file-filter-result [selectedSearchTerms]="state.selectedSearchTerms"
+                                    [removable]="false"></hca-file-filter-result>
+            <div class="separator"></div>
+            <div class="hca-download-content">
+                <div class="facet-term-list">
+                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                     [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
+                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                 </div>
-            </ng-container>
+            </div>
             <div class="hca-download-action">
                 <button type="button" (click)="onDownloadManifest()">Download File Manifest</button>
             </div>

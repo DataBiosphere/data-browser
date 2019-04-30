@@ -7,9 +7,11 @@
 
 // App dependencies
 import { FileSummary } from "../file-summary/file-summary";
+import { SearchTerm } from "../search/search-term.model";
 
 export interface HCADownloadManifestModalState {
 
     selectedSearchTermNames: string[];
+    selectedSearchTerms: SearchTerm[];
     fileManifestFileSummary: FileSummary;
 }
