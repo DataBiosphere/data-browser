@@ -267,11 +267,13 @@ class TableElementDataSource extends DataSource<any> {
                 return rows.map((row: any) => {
 
                     let cellSuspensions = rollUpMetadata(row.cellSuspensions);
+                    let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let fileTypeSummaries = row.fileTypeSummaries;
                     let projectSummary = row.projectSummary;
                     let projectTitle = rollUpMetadata(row.projects);
                     let protocols = rollUpMetadata(row.protocols);
                     let samples = rollUpMetadata(row.samples);
+                    let specimens = rollUpMetadata(row.specimens);
 
                     // only roll up organType
                     let organs = rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
@@ -293,11 +295,11 @@ class TableElementDataSource extends DataSource<any> {
                     let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
 
                     return {
-                        disease: getUnspecifiedIfNullValue(projectSummary.disease),
+                        disease: getUnspecifiedIfNullValue(specimens.disease),
                         donorCount: getUnspecifiedIfNullValue(projectSummary.donorCount),
                         estimatedCellCount: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                         entryId: row.entryId,
-                        genusSpecies: getUnspecifiedIfNullValue(projectSummary.genusSpecies),
+                        genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
                         matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
                         organ: getUnspecifiedIfNullValue(organs.organType),
