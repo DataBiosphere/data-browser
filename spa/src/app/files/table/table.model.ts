@@ -2,7 +2,7 @@
  * UCSC Genomics Institute - CGL
  * https://cgl.genomics.ucsc.edu/
  *
- * Model of table that displays file facet data, specific to an entity (eg projects, specimens, files).
+ * Model of table that displays file facet data, specific to an entity (eg projects, samples, files).
  */
 
 // App dependencies

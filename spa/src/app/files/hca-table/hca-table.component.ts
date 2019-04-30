@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Table component for displaying specimen related data.
+ * Table component for displaying sample related data.
  */
 
 // Core dependencies
@@ -44,7 +44,7 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "specimenId", "projectTitle", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
+        "specimenId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -248,6 +248,7 @@ export interface Element {
     organPart: string;
     pairedEnd: string;
     projectTitle: string;
+    sampleEntityType: string;
     selectedCellType: string;
     specimenId: string;
     totalCells: number;
@@ -275,6 +276,7 @@ class TableElementDataSource extends DataSource<any> {
                     let cellSuspensions = rollUpMetadata(row.cellSuspensions);
                     let fileTypeSummaries = row.fileTypeSummaries;
                     let protocols = rollUpMetadata(row.protocols);
+                    let samples = rollUpMetadata(row.samples);
                     let specimens = rollUpMetadata(row.specimens);
                     let projectTitle = rollUpMetadata(row.projects);
 
@@ -307,6 +309,7 @@ class TableElementDataSource extends DataSource<any> {
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: getSelfOrFirst(specimens.id),
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),

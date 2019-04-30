@@ -8,5 +8,5 @@
 export enum EntityName {
     "FILES" = "files",
     "PROJECTS" = "projects",
-    "SPECIMENS" = "specimens"
+    "SAMPLES" = "samples"
 }

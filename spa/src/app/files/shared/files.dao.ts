@@ -63,7 +63,7 @@ export class FilesDAO {
     }
 
     /**
-     * Fetch data to populate rows in table, depending on the current selected tab (eg projects, specimens, files), as
+     * Fetch data to populate rows in table, depending on the current selected tab (eg projects, samples, files), as
      * well as facet terms and their corresponding counts. When viewing the project tables, we want to remove any
      * selected projects facets as we do not want to restrict the table result set to just the selected projects. That is,
      * projects tab is not filterable by project.

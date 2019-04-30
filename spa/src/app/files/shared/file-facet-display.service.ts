@@ -25,7 +25,7 @@ export class FileFacetDisplayService {
         },
         {
             facetGroupName: "Tissue Type",
-            facetNames: ["organ", "organPart", "selectedCellType"]
+            facetNames: ["sampleEntityType", "organ", "organPart", "selectedCellType"]
         },
         {
             facetGroupName: "Specimen",

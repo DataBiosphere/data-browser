@@ -28,6 +28,7 @@ import { TermSortService } from "../sort/term-sort.service";
     templateUrl: "./hca-file-filter.component.html",
     styleUrls: ["./hca-file-filter.component.scss"],
 })
+
 export class HCAFileFilterComponent implements OnChanges {
 
     // Template variables
@@ -52,12 +53,12 @@ export class HCAFileFilterComponent implements OnChanges {
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
-    constructor(
-        private deviceService: DeviceDetectorService,
-        private fileFacetDisplayService: FileFacetDisplayService,
-        private responsiveService: ResponsiveService,
-        private termSortService: TermSortService,
-        private store: Store<AppState>) {}
+    constructor(private deviceService: DeviceDetectorService,
+                private fileFacetDisplayService: FileFacetDisplayService,
+                private responsiveService: ResponsiveService,
+                private termSortService: TermSortService,
+                private store: Store<AppState>) {
+    }
 
     /**
      * Returns the facet given a facet name
@@ -120,7 +121,7 @@ export class HCAFileFilterComponent implements OnChanges {
 
     /**
      * Return the set of sorted terms for the specified facet.
-     * 
+     *
      * @param {string} facetName
      * @returns {Term[]}
      */

@@ -14,7 +14,7 @@
                       [matrixEnabled]="fileTypeMatrix$ | async"
                       [summary]="selectFileSummary$ | async">
     </hca-file-summary>
-    <hca-table *ngIf="(selectedEntity$ | async).key == 'specimens'"></hca-table>
+    <hca-table *ngIf="(selectedEntity$ | async).key == 'samples'"></hca-table>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
     <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>
     <hca-desktop-banner *ngIf="isDeviceHandheld()"></hca-desktop-banner>
