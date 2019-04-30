@@ -16,6 +16,10 @@
     .mat-sort-header-container {
         align-items: flex-start;
         justify-content: flex-end;
+
+        button {
+            overflow: hidden; /* Required for <hca-content-ellipsis/> */
+        }
     }
 
     /* Arrow position, before content */

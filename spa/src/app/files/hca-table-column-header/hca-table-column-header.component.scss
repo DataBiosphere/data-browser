@@ -16,6 +16,7 @@
     hca-tooltip {
         color: $hca-black;
         margin: 0;
+        overflow: hidden; /* Required for <hca-content-ellipsis/> */
         text-align: left;
     }
 

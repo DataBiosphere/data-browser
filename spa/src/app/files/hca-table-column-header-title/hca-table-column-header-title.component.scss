@@ -4,3 +4,7 @@
  *
  * Component for table header title.
  */
+
+:host {
+    display: block; /* Required for <hca-content-ellipsis/> */
+}
