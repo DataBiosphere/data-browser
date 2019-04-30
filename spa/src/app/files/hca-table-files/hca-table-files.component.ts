@@ -50,7 +50,9 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         "fileFormat",
         "genusSpecies",
         "libraryConstructionApproach",
-        "organ"
+        "organ",
+        "sampleEntityType",
+        "selectedCellType"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;

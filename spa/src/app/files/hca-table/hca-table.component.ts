@@ -54,7 +54,9 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
         "fileFormat",
         "genusSpecies",
         "libraryConstructionApproach",
-        "organ"
+        "organ",
+        "sampleEntityType",
+        "selectedCellType"
     ];
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
