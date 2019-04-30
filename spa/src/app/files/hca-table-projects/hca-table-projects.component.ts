@@ -26,6 +26,7 @@ import {
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
 import {
+    getCountDisplay,
     getFileCount,
     getPairedEnd,
     getUnspecifiedIfNullValue,
@@ -296,14 +297,14 @@ class TableElementDataSource extends DataSource<any> {
                         entryId: row.entryId,
                         genusSpecies: getUnspecifiedIfNullValue(projectSummary.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
-                        matrixCount: getFileCount("matrix", fileTypeSummaries),
+                        matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
                         organ: getUnspecifiedIfNullValue(organs.organType),
-                        otherFileCount: fileCounts.otherFileCount,
+                        otherFileCount: getCountDisplay(fileCounts.otherFileCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
-                        processedCount: getFileCount("bam", fileTypeSummaries),
+                        processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                        rawCount: rawCount,
+                        rawCount: getCountDisplay(rawCount),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType)
                     };
                 });

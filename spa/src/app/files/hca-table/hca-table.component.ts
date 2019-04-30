@@ -25,6 +25,7 @@ import {
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
 import {
+    getCountDisplay,
     getFileCount,
     getPairedEnd,
     getSelfOrFirst,
@@ -298,18 +299,18 @@ class TableElementDataSource extends DataSource<any> {
                         fileCount: getUnspecifiedIfNullValue(fileCounts.totalCount),
                         genusSpecies: getUnspecifiedIfNullValue(specimens.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                        matrixCount: getFileCount("matrix", fileTypeSummaries),
+                        matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
                         organ: getUnspecifiedIfNullValue(specimens.organ),
                         organismAge: getUnspecifiedIfNullValue(specimens.organismAge),
                         organPart: getUnspecifiedIfNullValue(specimens.organPart),
-                        otherFileCount: fileCounts.otherFileCount,
+                        otherFileCount: getCountDisplay(fileCounts.otherFileCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
-                        processedCount: getFileCount("bam", fileTypeSummaries),
+                        processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: getSelfOrFirst(specimens.id),
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                        rawCount: rawCount
+                        rawCount: getCountDisplay(rawCount)
                     };
                 });
             })
