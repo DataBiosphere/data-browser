@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Interceptor handling HTTP error responses.
  */
@@ -45,14 +45,36 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((error) => {
 
-                if ( error instanceof HttpErrorResponse && this.ERROR_CODE_URLS.has(error.status) ) {
-                    this.store.dispatch(new ErrorResponseAction(req.url, error.status, error.error));
-                    this.router.navigateByUrl(this.ERROR_CODE_URLS.get(error.status), {replaceUrl: true});
+                if ( error instanceof HttpErrorResponse ) {
+
+                    // Save error to store
+                    const errorMessage = this.parseErrorMessage(error);
+                    this.store.dispatch(new ErrorResponseAction(req.url, error.status, errorMessage));
+
+                    // If there isn't a specific error page for the error status, show the generic "500" error page
+                    const redirectUrl = this.ERROR_CODE_URLS.get(error.status) || this.ERROR_CODE_URLS.get(500);
+                    this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
+
                     return EMPTY;
                 }
 
                 return throwError(error);
             })
         );
+    }
+
+    /**
+     * Grab the error message from the response error - we'll add this to the store.
+     * 
+     * @param {HttpErrorResponse} error
+     * @returns {string}
+     */
+    private parseErrorMessage(error: HttpErrorResponse): string {
+
+        if ( error.error && error.error.Message ) {
+            return error.error.Message;
+        }
+        
+        return error.toString();
     }
 }
