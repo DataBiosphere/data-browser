@@ -44,7 +44,7 @@ export class HCAFileFilterResultComponent {
      * @returns {string}
      */
     public getFacetName(facetName: string): string {
-        
+
         return this.fileFacetDisplayService.getFileFacetDisplayName(facetName);
     }
 
@@ -66,7 +66,7 @@ export class HCAFileFilterResultComponent {
     public removeSearchTerm(searchTerm: SearchTerm) {
 
         let action;
-        if (searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
+        if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
             action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
         }
         else {

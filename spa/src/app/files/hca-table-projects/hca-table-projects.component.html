@@ -25,6 +25,23 @@
                     </div>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="sampleEntityType">
+                <mat-header-cell *matHeaderCellDef>
+                    <hca-table-column-header [columnName]="'sampleEntityType'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>Sample Type</hca-table-column-header-title>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <hca-table-cell [tooltipContent]="element.sampleEntityType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs" #cellContent>{{element.sampleEntityType}}</span>
+                        </hca-content-ellipsis>
+                    </hca-table-cell>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="organ">
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'organ'"

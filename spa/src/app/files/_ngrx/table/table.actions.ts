@@ -72,7 +72,7 @@ export class FetchTableDataSuccessAction implements Action {
 }
 
 /**
- * Action dispatched when tab is selected (eg Files or Specimens).
+ * Action dispatched when tab is selected (eg Files or Samples).
  */
 export class EntitySelectAction implements Action {
     public static ACTION_TYPE = "ENTITY.SELECT";
