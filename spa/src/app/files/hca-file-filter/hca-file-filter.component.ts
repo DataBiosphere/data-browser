@@ -244,8 +244,10 @@ export class HCAFileFilterComponent implements OnChanges {
     public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): { [key: string]: string } {
 
         let widthOfEachFacet = this.getFacetWidth(); // Width of facet - either 216px or 256px
+        let widthOfInputBox = document.getElementsByClassName("hca-input")[0].getBoundingClientRect().width;
         let widthOfSelectBox = document.getElementsByClassName("hca-select")[0].getBoundingClientRect().width + 8; // Width inclusive of margin 8px on the select box - 158px or 128px
         let widthOfAllSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8; // With of select boxes (excludes first and last margin - 8px) - 782px or 632px
+        let widthOfInputAndSelectBoxes = widthOfInputBox + widthOfAllSelectBoxes + 8; // Includes margin between input box and select boxes
         let widthRequired = numberOfFacets * widthOfEachFacet + 14; // 14px for left and right padding and border, 216px or 256px for each facet inside drop down
         let allowableWidth = (widthOfAllSelectBoxes - (widthOfSelectBox * i)); // width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box
         let right = (widthOfSelectBox * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
@@ -264,25 +266,32 @@ export class HCAFileFilterComponent implements OnChanges {
         /* In this instance, the drop down will be left aligned with the screen */
         if ( widthRequired > allowableWidth ) {
 
-            // Calculate a new allowable width - full width of filter area
-            let rightSideAllowableWidth = document.getElementById("filter").offsetWidth;
+            // Calculate a new allowable width - full width of filter element (screen width) OR the width of input and select boxes combined
+            let newAllowableWidth = document.getElementById("filter").offsetWidth;
+
+            /* Check if input and select box width is less than the filter element */
+            /* If it is then the select boxes have wrapped - and the newAllowableWidth remains unchanged */
+            /* The newAllowableWidth will be set to the input and select boxes width if the select boxes have not wrapped */
+            if ( widthOfInputAndSelectBoxes < newAllowableWidth ) {
+                newAllowableWidth = widthOfInputAndSelectBoxes;
+            }
 
             /* Check if width required is greater than the full width of filter area */
             /* If true, return a max width of hca-file-filter as a constraint */
             /* Facets will wrap within */
-            if ( widthRequired > rightSideAllowableWidth ) {
+            if ( widthRequired > newAllowableWidth ) {
 
                 // Calculate number of facets that fits neatly in the first row of the allowable width
                 // Then calculate new width required
-                let numberOfFacetsPerRow = Math.trunc((rightSideAllowableWidth - 14) / widthOfEachFacet);
+                let numberOfFacetsPerRow = Math.trunc((newAllowableWidth - 14) / widthOfEachFacet);
                 widthRequired = (numberOfFacetsPerRow * widthOfEachFacet) + 14;
             }
 
             /* Check if the new width required is still greater than the allowable width - to either left align with screen, or right align with last select box */
             if ( widthRequired > allowableWidth ) {
 
-                /* Left aligned with screen - if screen size is less than 960px and is not the last select box */
-                if ( document.body.offsetWidth < 960 && i !== facetGroupCount - 1 ) {
+                /* Left aligned with screen - if screen size is less than 960px, is not the last select box, and can't be right aligned with last select box */
+                if ( document.body.offsetWidth < 960 && i !== facetGroupCount - 1 && (widthRequired < right) ) {
 
                     return {
                         "left": (-left + "px"),
@@ -304,7 +313,7 @@ export class HCAFileFilterComponent implements OnChanges {
             }
         }
 
-        // Can be left aligned with its select box
+        /* Can be left aligned with own select box */
         return {
             "left": "0",
             "maxHeight": maxHeight,
