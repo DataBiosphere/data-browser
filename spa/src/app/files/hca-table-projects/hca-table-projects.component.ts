@@ -55,7 +55,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         "fileFormat",
         "genusSpecies",
         "libraryConstructionApproach",
-        "organ"
+        "organ",
+        "sampleEntityType",
+        "selectedCellType"
     ];
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
