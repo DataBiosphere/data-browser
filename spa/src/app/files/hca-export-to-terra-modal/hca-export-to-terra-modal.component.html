@@ -8,6 +8,10 @@
             <hca-file-summary
                     [showDownload]="false"
                     [summary]="state.manifestDownloadFileSummary"></hca-file-summary>
+            <div class="separator"></div>
+            <hca-file-filter-result [selectedSearchTerms]="state.selectedSearchTerms"
+                                    [removable]="false"></hca-file-filter-result>
+            <div class="separator"></div>
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
                 <div class="hca-download-content">
                     <div class="facet-term-list">
