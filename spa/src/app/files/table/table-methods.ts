@@ -5,79 +5,14 @@
  * Table methods.
  */
 
-// Each bundle contains multiple biomaterials which are in a hierarchy
-// leading back to the root biomaterial. Biomaterials are in an array.
-// This rolls up the metadata values to a single object.
+/**
+ * Returns "--" if count is zero, otherwise returns count.
+ * @param {number} count
+ * @returns {any}
+ */
+export function getCountDisplay(count: number): any {
 
-export function rollUpMetadata(array): any {
-
-    // if the array is empty we have no values.
-    if ( !array ) {
-        return {};
-    }
-
-    // for each element in the array
-    const rollup = array.reduce((acc, element) => {
-
-        // get its own keys and their values.
-        Object.keys(element).forEach((key) => {
-            let value = element[key];
-
-            // skip null values
-            if ( value ) {
-
-                // flatten arrays
-                if ( value instanceof Array ) {
-                    value = value.join(", ");
-                }
-
-
-                if ( key === "totalCells" ) {
-
-                    if ( acc[key] ) {
-                        acc[key] = acc[key] + value;
-                    }
-                    else {
-                        acc[key] = value;
-                    }
-
-                }
-                else {
-
-                    // if the value is different from an existing key...
-                    let cellValues;
-
-                    try {
-                        cellValues = acc[key] ? acc[key].split(", ") : [];
-                    }
-                    catch (error) {
-                        console.log(key);
-                        console.log(value);
-                        console.log(acc[key]);
-                        return;
-                    }
-
-
-                    if ( cellValues.length ) {
-                        if ( !cellValues.some(cellValue => cellValue === value) ) {
-                            // append the value to the existing key
-                            acc[key] = acc[key] + ", " + value;
-                        }
-                    }
-                    else {
-                        // if no existing key or the values are the same just set the value.
-                        acc[key] = value;
-                    }
-                }
-            }
-        });
-
-        return acc;
-
-    }, {});
-
-    return rollup;
-
+    return count === 0 ? "--" : count;
 }
 
 /**
@@ -155,4 +90,82 @@ export function getUnspecifiedIfNullValue(value: any): any {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Each bundle contains multiple biomaterials which are in a hierarchy
+ * leading back to the root biomaterial. Biomaterials are in an array.
+ * This rolls up the metadata values to a single object.
+ * @param array
+ * @returns {any}
+ */
+export function rollUpMetadata(array): any {
+
+    // if the array is empty we have no values.
+    if ( !array ) {
+        return {};
+    }
+
+    // for each element in the array
+    const rollup = array.reduce((acc, element) => {
+
+        // get its own keys and their values.
+        Object.keys(element).forEach((key) => {
+            let value = element[key];
+
+            // skip null values
+            if ( value ) {
+
+                // flatten arrays
+                if ( value instanceof Array ) {
+                    value = value.join(", ");
+                }
+
+
+                if ( key === "totalCells" ) {
+
+                    if ( acc[key] ) {
+                        acc[key] = acc[key] + value;
+                    }
+                    else {
+                        acc[key] = value;
+                    }
+
+                }
+                else {
+
+                    // if the value is different from an existing key...
+                    let cellValues;
+
+                    try {
+                        cellValues = acc[key] ? acc[key].split(", ") : [];
+                    }
+                    catch (error) {
+                        console.log(key);
+                        console.log(value);
+                        console.log(acc[key]);
+                        return;
+                    }
+
+
+                    if ( cellValues.length ) {
+                        if ( !cellValues.some(cellValue => cellValue === value) ) {
+                            // append the value to the existing key
+                            acc[key] = acc[key] + ", " + value;
+                        }
+                    }
+                    else {
+                        // if no existing key or the values are the same just set the value.
+                        acc[key] = value;
+                    }
+                }
+            }
+        });
+
+        return acc;
+
+    }, {});
+
+    return rollup;
+
 }
