@@ -29,8 +29,18 @@ export class ResponsiveService {
     }
 
     /**
+     * Returns true if window width is less than 960px
+     *
+     * @returns {boolean}
+     */
+    public isWindowWidthSmallTablet(): boolean {
+
+        return window.document.body.offsetWidth < 960;
+    }
+
+    /**
      * Returns true if window width is less than 675px
-     * 
+     *
      * @returns {boolean}
      */
     public isWindowWidthSmall(): boolean {

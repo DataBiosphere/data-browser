@@ -8,9 +8,10 @@
                     <hca-table-column-header [columnName]="'specimenId'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'A unique ID for this specimen.'"
+                                             [tooltipContent]="getColumnDescription('specimenId')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Specimen Id</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('specimenId')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="specimen">
@@ -24,9 +25,10 @@
                     <hca-table-column-header [columnName]="'projectTitle'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The project name of the data file.'"
+                                             [tooltipContent]="getColumnDescription('projectTitle')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Project Name</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('projectTitle')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell class="project" *matCellDef="let element">
@@ -40,9 +42,10 @@
                     <hca-table-column-header [columnName]="'fileCount'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The count of files for this specimen.'"
+                                             [tooltipContent]="getColumnDescription('fileCount')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>File Count</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('fileCount')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -60,12 +63,15 @@
                     <hca-table-column-header [columnName]="'sampleEntityType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>Sample Type</hca-table-column-header-title>
+                                             [columnSort]="true"
+                                             [tooltipContent]="getColumnDescription('sampleEntityType')">
+                        <hca-table-column-header-title>{{getColumnDisplayName('sampleEntityType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.sampleEntityType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.sampleEntityType"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.sampleEntityType}}</span>
                         </hca-content-ellipsis>
@@ -77,9 +83,9 @@
                     <hca-table-column-header [columnName]="'organ'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
+                                             [tooltipContent]="getColumnDescription('organ')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Organ</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('organ')}}</hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -95,9 +101,10 @@
                     <hca-table-column-header [columnName]="'organPart'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'A term for a specific part of the organ that the biomaterial came from.'"
+                                             [tooltipContent]="getColumnDescription('organPart')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Organ Part</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('organPart')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -114,9 +121,10 @@
                     <hca-table-column-header [columnName]="'selectedCellType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The cell type(s) selected to be present in the suspension.'"
+                                             [tooltipContent]="getColumnDescription('selectedCellType')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Selected Cell Type</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('selectedCellType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -133,9 +141,10 @@
                     <hca-table-column-header [columnName]="'libraryConstructionApproach'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The general method for sequencing library construction.'"
+                                             [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Library Construction Method</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('libraryConstructionApproach')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -150,9 +159,10 @@
                     <hca-table-column-header [columnName]="'genusSpecies'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The scientific binomial name for the species of the biomaterial.'"
+                                             [tooltipContent]="getColumnDescription('genusSpecies')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Species</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('genusSpecies')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -169,9 +179,10 @@
                     <hca-table-column-header [columnName]="'organismAge'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year.'"
+                                             [tooltipContent]="getColumnDescription('organismAge')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Age</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('organismAge')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -189,9 +200,10 @@
                     <hca-table-column-header [columnName]="'biologicalSex'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The biological sex of the organism. Should be one of male, female, mixed, or unknown.'"
+                                             [tooltipContent]="getColumnDescription('biologicalSex')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Sex</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('biologicalSex')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -208,9 +220,10 @@
                     <hca-table-column-header [columnName]="'disease'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'"
+                                             [tooltipContent]="getColumnDescription('disease')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>Known Diseases</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('disease')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
@@ -227,9 +240,10 @@
                     <hca-table-column-header [columnName]="'fileFormats'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'The format of the data file.'"
+                                             [tooltipContent]="getColumnDescription('fileType')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>Data</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('fileType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell class="file-type" *matCellDef="let element">
@@ -245,12 +259,13 @@
             </ng-container>
             <ng-container matColumnDef="totalCells">
                 <mat-header-cell *matHeaderCellDef>
-                    <hca-table-column-header [columnName]="'estimatedCellCount'"
+                    <hca-table-column-header [columnName]="'totalCells'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
+                                             [tooltipContent]="getColumnDescription('totalCells')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>Estimated Cell Count</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('totalCells')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
