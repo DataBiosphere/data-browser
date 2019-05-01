@@ -1,4 +1,5 @@
 <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
+     #facetTerm
      *ngFor="let term of terms;trackBy: trackByFn"
      (click)="onClickFacetTerm(fileFacetName, term)">
     <div class="chart-legend-bar" [ngStyle]="getLegendStyle(term)">
