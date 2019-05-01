@@ -315,6 +315,7 @@ class TableElementDataSource extends DataSource<any> {
                     let protocols = rollUpMetadata(row.protocols);
                     let samples = rollUpMetadata(row.samples);
                     let specimens = rollUpMetadata(row.specimens);
+                    let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let projectTitle = rollUpMetadata(row.projects);
 
                     /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
@@ -332,15 +333,15 @@ class TableElementDataSource extends DataSource<any> {
                     let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
 
                     return {
-                        ageUnit: specimens.organismAgeUnit,
-                        biologicalSex: getUnspecifiedIfNullValue(specimens.biologicalSex),
+                        ageUnit: donorOrganisms.organismAgeUnit,
+                        biologicalSex: getUnspecifiedIfNullValue(donorOrganisms.biologicalSex),
                         disease: getUnspecifiedIfNullValue(specimens.disease),
                         fileCount: getUnspecifiedIfNullValue(fileCounts.totalCount),
-                        genusSpecies: getUnspecifiedIfNullValue(specimens.genusSpecies),
+                        genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
                         matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
                         organ: getUnspecifiedIfNullValue(specimens.organ),
-                        organismAge: getUnspecifiedIfNullValue(specimens.organismAge),
+                        organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
                         organPart: getUnspecifiedIfNullValue(specimens.organPart),
                         otherFileCount: getCountDisplay(fileCounts.otherFileCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
@@ -349,7 +350,7 @@ class TableElementDataSource extends DataSource<any> {
                         rawCount: getCountDisplay(rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: getSelfOrFirst(specimens.id),
+                        specimenId: getSelfOrFirst(samples.id), //TODO @fran finish the rename
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                     };
                 });
