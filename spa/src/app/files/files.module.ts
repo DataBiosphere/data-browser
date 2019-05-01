@@ -82,6 +82,7 @@ import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
 import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
+import { TableColumnService } from "./table/table-column.service";
 import { TerraService } from "./shared/terra.service";
 import { TerraDAO } from "./shared/terra.dao";
 import { TermSortService } from "./sort/term-sort.service";
@@ -177,6 +178,7 @@ import { TermSortService } from "./sort/term-sort.service";
         MatrixDAO,
         ProjectService,
         ProjectDAO,
+        TableColumnService,
         TermSortService,
         TerraService,
         TerraDAO,
