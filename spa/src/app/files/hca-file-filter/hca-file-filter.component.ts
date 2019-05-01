@@ -180,6 +180,16 @@ export class HCAFileFilterComponent implements OnChanges {
     }
 
     /**
+     * Returns true if window width is less than 960px.
+     *
+     * @returns {boolean}
+     */
+    public isWindowWidthSmallTablet() {
+
+        return this.responsiveService.isWindowWidthSmallTablet();
+    }
+
+    /**
      * Returns true if window width is less than 675px.
      *
      * @returns {boolean}
@@ -243,83 +253,56 @@ export class HCAFileFilterComponent implements OnChanges {
      */
     public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number): { [key: string]: string } {
 
-        let widthOfEachFacet = this.getFacetWidth(); // Width of facet - either 216px or 256px
+        /* Width of facet - either 216px or 256px */
+        let widthOfFacet = this.getFacetWidth();
         let widthOfInputBox = document.getElementsByClassName("hca-input")[0].getBoundingClientRect().width;
-        let widthOfSelectBox = document.getElementsByClassName("hca-select")[0].getBoundingClientRect().width + 8; // Width inclusive of margin 8px on the select box - 158px or 128px
-        let widthOfAllSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8; // With of select boxes (excludes first and last margin - 8px) - 782px or 632px
-        let widthOfInputAndSelectBoxes = widthOfInputBox + widthOfAllSelectBoxes + 8; // Includes margin between input box and select boxes
-        let widthRequired = numberOfFacets * widthOfEachFacet + 14; // 14px for left and right padding and border, 216px or 256px for each facet inside drop down
-        let allowableWidth = (widthOfAllSelectBoxes - (widthOfSelectBox * i)); // width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box
-        let right = (widthOfSelectBox * (facetGroupCount - 1 - i)); // Calculates position right if there is a need to be right aligned
-        let left = (widthOfSelectBox * (i)); // Calculates position left if there is a need to be left aligned
+        /* Width of select box - inclusive of margin 8px on the select box - 158px or 128px */
+        let widthOfSelectBox = document.getElementsByClassName("hca-select")[0].getBoundingClientRect().width + 8;
+        /* Width of select boxes - (excludes first and last margin - 8px) - 782px or 632px */
+        let widthOfSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8;
+        /* Width required for facets - 14px for left and right padding and border, 216px or 256px for each facet inside drop down */
+        let widthRequired = numberOfFacets * widthOfFacet + 14;
+        /* AllowableWidth determines whether the facets are able to be left aligned with its select box.
+         * Calculated using width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box */
+        let allowableWidthIfLeftAligned = (widthOfSelectBoxes - (widthOfSelectBox * i));
+        /* Position right - if right aligned */
+        let right = (widthOfSelectBox * (facetGroupCount - 1 - i));
+        /* Position left - if left aligned */
+        let left = this.isWindowWidthSmallTablet() ? (widthOfSelectBox * i) : (widthOfInputBox + (widthOfSelectBox * i) + 8);
+        /* Left position of select box - assists with check if facets can be left aligned with screen */
+        let leftPosOfSelectBox = this.isWindowWidthSmallTablet() ? ((widthOfSelectBox * (i + 1)) - 8) : ((widthOfSelectBox * (i + 1)) + widthOfInputBox);
+        /* Maximum allowable width for facet display */
+        let maxAllowableWidth = document.getElementById("filter").offsetWidth;
         let maxHeight;
 
-        // Calculate max allowable height of hca-options - scrolls if extends beyond page bounds
+        /* Calculate max allowable height of hca-options - scrolls if extends beyond page bounds */
         if ( this.selectIndex === i ) {
-
             maxHeight = (document.body.getBoundingClientRect().height - document.getElementById("options").getBoundingClientRect().top) + "px";
         }
 
-        /* Check if the drop down can be left aligned with its select box */
-        /* Will be right aligned if width required is greater than allowable width */
-        /* Exception to this case is when the select boxes have wrapped under the search bar (< 960px) and the width required is greater than the select boxes width */
-        /* In this instance, the drop down will be left aligned with the screen */
-        if ( widthRequired > allowableWidth ) {
-
-            // Calculate a new allowable width - full width of filter element (screen width) OR the width of input and select boxes combined
-            let newAllowableWidth = document.getElementById("filter").offsetWidth;
-
-            /* Check if input and select box width is less than the filter element */
-            /* If it is then the select boxes have wrapped - and the newAllowableWidth remains unchanged */
-            /* The newAllowableWidth will be set to the input and select boxes width if the select boxes have not wrapped */
-            if ( widthOfInputAndSelectBoxes < newAllowableWidth ) {
-                newAllowableWidth = widthOfInputAndSelectBoxes;
-            }
-
-            /* Check if width required is greater than the full width of filter area */
-            /* If true, return a max width of hca-file-filter as a constraint */
-            /* Facets will wrap within */
-            if ( widthRequired > newAllowableWidth ) {
-
-                // Calculate number of facets that fits neatly in the first row of the allowable width
-                // Then calculate new width required
-                let numberOfFacetsPerRow = Math.trunc((newAllowableWidth - 14) / widthOfEachFacet);
-                widthRequired = (numberOfFacetsPerRow * widthOfEachFacet) + 14;
-            }
-
-            /* Check if the new width required is still greater than the allowable width - to either left align with screen, or right align with last select box */
-            if ( widthRequired > allowableWidth ) {
-
-                /* Left aligned with screen - if screen size is less than 960px, is not the last select box, and can't be right aligned with last select box */
-                if ( document.body.offsetWidth < 960 && i !== facetGroupCount - 1 && (widthRequired < right) ) {
-
-                    return {
-                        "left": (-left + "px"),
-                        "maxHeight": maxHeight,
-                        "maxWidth": (widthOfAllSelectBoxes + "px"),
-                        "minWidth": (widthRequired + "px"),
-                        "right": "unset"
-                    };
-                }
-
-                /* Right aligned */
-                return {
-                    "left": "unset",
-                    "maxHeight": maxHeight,
-                    "maxWidth": (widthOfAllSelectBoxes + "px"),
-                    "minWidth": (widthRequired + "px"),
-                    "right": (-right + "px")
-                };
-            }
+        /* Wrap facets if the widthRequired is greater than the maximum allowable width.
+         * Calculate number of facets that fits neatly in the first row of the max allowable width.
+         * Then calculate new width. */
+        if ( widthRequired > maxAllowableWidth ) {
+            let numberOfFacetsPerRow = Math.trunc((maxAllowableWidth - 14) / widthOfFacet);
+            widthRequired = (numberOfFacetsPerRow * widthOfFacet) + 14;
         }
 
-        /* Can be left aligned with own select box */
+        /* Rules of alignment:
+         * Facets will be left aligned with own select box if it can be contained between itself and last select box.
+         * Facets will be left aligned with screen if the widthRequired is greater than the position of the facet's select box.
+         * Facets will be right aligned with last select box. */
+        let leftPos = widthRequired < allowableWidthIfLeftAligned ? "0" : widthRequired < leftPosOfSelectBox ? "unset" : (-left + "px");
+        let rightPos = widthRequired < allowableWidthIfLeftAligned ? "unset" : widthRequired < leftPosOfSelectBox ? (-right + "px") : "unset";
+        let minWidth = (widthRequired + "px");
+        let maxWidth = widthRequired < allowableWidthIfLeftAligned ? (allowableWidthIfLeftAligned + "px") : (widthOfSelectBoxes + "px");
+
         return {
-            "left": "0",
+            "left": leftPos,
             "maxHeight": maxHeight,
-            "maxWidth": (allowableWidth + "px"),
-            "minWidth": (widthRequired + "px"),
-            "right": "unset"
+            "maxWidth": maxWidth,
+            "minWidth": minWidth,
+            "right": rightPos
         };
     }
 
