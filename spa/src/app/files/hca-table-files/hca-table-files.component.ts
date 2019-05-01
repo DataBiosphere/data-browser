@@ -332,19 +332,20 @@ class TableElementDataSource extends DataSource<any> {
                     let protocols = rollUpMetadata(row.protocols);
                     let samples = rollUpMetadata(row.samples);
                     let specimens = rollUpMetadata(row.specimens);
+                    let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let projectTitle = rollUpMetadata(row.projects);
 
                     return {
-                        ageUnit: specimens.organismAgeUnit,
-                        biologicalSex: getUnspecifiedIfNullValue(specimens.biologicalSex),
+                        ageUnit: donorOrganisms.organismAgeUnit,
+                        biologicalSex: getUnspecifiedIfNullValue(donorOrganisms.biologicalSex),
                         disease: getUnspecifiedIfNullValue(specimens.disease),
                         fileFormat: file.format,
                         fileName: file.name,
                         fileSize: getUnspecifiedIfNullValue(file.size),
-                        genusSpecies: getUnspecifiedIfNullValue(specimens.genusSpecies),
+                        genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
                         organ: getUnspecifiedIfNullValue(specimens.organ),
-                        organismAge: getUnspecifiedIfNullValue(specimens.organismAge),
+                        organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
                         organPart: getUnspecifiedIfNullValue(specimens.organPart),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
