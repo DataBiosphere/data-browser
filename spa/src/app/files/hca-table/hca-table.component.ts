@@ -24,13 +24,15 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import { TableColumn } from "../table/table-column.model";
+import { TableColumnService } from "../table/table-column.service";
 import {
-    getCountDisplay,
-    getFileCount,
-    getPairedEnd,
-    getSelfOrFirst,
-    getUnspecifiedIfNullValue,
-    rollUpMetadata
+getCountDisplay,
+getFileCount,
+getPairedEnd,
+getSelfOrFirst,
+getUnspecifiedIfNullValue,
+rollUpMetadata
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 
@@ -70,11 +72,13 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
+     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
+                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
     }
 
@@ -98,6 +102,37 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
         }
 
         return "Unspecified";
+    }
+
+    /**
+     * Returns column.
+     * @param {string} columnName
+     * @returns {TableColumn}
+     */
+    public getColumn(columnName: string): TableColumn {
+        return this.tableColumnService.getColumn(columnName)[0];
+    }
+
+    /**
+     * Returns the column description.
+     * Used by table header tooltip.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDescription(columnName: string): string {
+
+        let column = this.getColumn(columnName);
+        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
+    }
+
+    /**
+     * Returns the column name to display as table header.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDisplayName(columnName: string): string {
+
+        return this.getColumn(columnName).columnDisplayName;
     }
 
     /**
@@ -311,11 +346,11 @@ class TableElementDataSource extends DataSource<any> {
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
+                        rawCount: getCountDisplay(rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         specimenId: getSelfOrFirst(specimens.id),
-                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                        rawCount: getCountDisplay(rawCount)
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                     };
                 });
             })

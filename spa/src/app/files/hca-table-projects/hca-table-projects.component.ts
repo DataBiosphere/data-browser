@@ -26,6 +26,8 @@ import {
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import { TableColumn } from "../table/table-column.model";
+import { TableColumnService } from "../table/table-column.service";
 import {
     getCountDisplay,
     getFileCount,
@@ -47,7 +49,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     data$: Observable<any[]>;
     displayedColumns = [
         "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
-        "donorCount", "estimatedCellCount"
+        "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     domainCountVisibleForColumns = [
@@ -74,17 +76,50 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
+     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
+                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
     }
 
     /**
      * Public API
      */
+
+    /**
+     * Returns column.
+     * @param {string} columnName
+     * @returns {TableColumn}
+     */
+    public getColumn(columnName: string): TableColumn {
+        return this.tableColumnService.getColumn(columnName)[0];
+    }
+
+    /**
+     * Returns the column description.
+     * Used by table header tooltip.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDescription(columnName: string): string {
+
+        let column = this.getColumn(columnName);
+        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
+    }
+
+    /**
+     * Returns the column name to display as table header.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDisplayName(columnName: string): string {
+
+        return this.getColumn(columnName).columnDisplayName;
+    }
 
     /**
      * Return the set of CSS class names that are currently applicable to the table header row.
@@ -238,7 +273,6 @@ export interface Element {
     disease: string;
     donorCount: number;
     entryId: string;
-    estimatedCellCount: number;
     genusSpecies: string;
     libraryConstructionApproach: string;
     organ: string;
@@ -247,6 +281,7 @@ export interface Element {
     projectTitle: string;
     sampleEntityType: string;
     selectedCellType: string;
+    totalCells: number;
 }
 
 /**
@@ -299,7 +334,6 @@ class TableElementDataSource extends DataSource<any> {
                     return {
                         disease: getUnspecifiedIfNullValue(specimens.disease),
                         donorCount: getUnspecifiedIfNullValue(projectSummary.donorCount),
-                        estimatedCellCount: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
                         entryId: row.entryId,
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
@@ -312,7 +346,8 @@ class TableElementDataSource extends DataSource<any> {
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
                         rawCount: getCountDisplay(rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
-                        selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType)
+                        selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                     };
                 });
             })

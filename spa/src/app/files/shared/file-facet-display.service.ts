@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Service for organizing and formatting file facet-related values. 
+ * Service for organizing and formatting file facet-related values.
  */
 
 // Core dependencies

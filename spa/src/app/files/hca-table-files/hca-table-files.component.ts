@@ -23,6 +23,8 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
+import { TableColumn } from "../table/table-column.model";
+import { TableColumnService } from "../table/table-column.service";
 import {
     getPairedEnd, getSelfOrFirst,
     getUnspecifiedIfNullValue,
@@ -66,11 +68,13 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
+     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
+                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
     }
 
@@ -106,6 +110,37 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         if ( ageUnit ) {
             return ageUnit.charAt(0);
         }
+    }
+
+    /**
+     * Returns column.
+     * @param {string} columnName
+     * @returns {TableColumn}
+     */
+    public getColumn(columnName: string): TableColumn {
+        return this.tableColumnService.getColumn(columnName)[0];
+    }
+
+    /**
+     * Returns the column description.
+     * Used by table header tooltip.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDescription(columnName: string): string {
+
+        let column = this.getColumn(columnName);
+        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
+    }
+
+    /**
+     * Returns the column name to display as table header.
+     * @param {string} columnName
+     * @returns {string}
+     */
+    public getColumnDisplayName(columnName: string): string {
+
+        return this.getColumn(columnName).columnDisplayName;
     }
 
     /**

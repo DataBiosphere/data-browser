@@ -9,7 +9,7 @@
                         <mat-icon>keyboard_arrow_down</mat-icon>
                         <ng-container *ngIf="fileFacets.length && selectIndex === i">
                             <div id="options" [ngClass]="getOptionsClass(i)" [ngStyle]="getFacetStyles(i, fileFacetGroup.facetNames.length, fileFacetGroups.length)" (mouseleave)="onHCASelectClose()">
-                                <hca-file-facet [fileFacet]="getFacet(facetName)" 
+                                <hca-file-facet id="facet" [fileFacet]="getFacet(facetName)"
                                                 *ngFor="let facetName of fileFacetGroup.facetNames;trackBy: trackFileFacetByFn"></hca-file-facet>
                             </div>
                         </ng-container>
