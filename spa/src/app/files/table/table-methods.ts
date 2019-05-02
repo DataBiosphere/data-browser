@@ -6,6 +6,157 @@
  */
 
 /**
+ * Public API
+ */
+
+// App dependencies
+import { TableColumn } from "./table-column.model";
+
+let tableColumns: TableColumn[] = [
+
+    {
+        key: "biologicalSex",
+        userFriendly: "Sex",
+        description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown."
+    },
+    {
+        key: "disease",
+        userFriendly: "Known Diseases",
+        description: "Free text describing any disease association to the cell type. Should be an EFO ontology."
+    },
+    {
+        key: "donorCount",
+        userFriendly: "Donor Count",
+    },
+    {
+        key: "fileCount",
+        userFriendly: "File Count",
+        description: "The count of files for this specimen."
+    },
+    {
+        key: "fileFormat",
+        userFriendly: "File Format",
+        description: "The format of the file."
+    },
+    {
+        key: "fileName",
+        userFriendly: "File Name",
+        description: "The filename of the data file."
+    },
+    {
+        key: "fileSize",
+        userFriendly: "File Size",
+        description: "The file size of the data file."
+    },
+    {
+        key: "fileType",
+        userFriendly: "Data",
+        description: "The format of the data file."
+    },
+    {
+        key: "genusSpecies",
+        userFriendly: "Species",
+        description: "The scientific binomial name for the species of the biomaterial."
+    },
+    {
+        key: "libraryConstructionApproach",
+        userFriendly: "Library Construction Approach",
+        description: "The general method for sequencing library construction."
+    },
+    {
+        key: "organ",
+        userFriendly: "Organ",
+        description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs."
+    },
+    {
+        key: "organPart",
+        userFriendly: "Organ Part",
+        description: "A term for a specific part of the organ that the biomaterial came from."
+    },
+    {
+        key: "organismAge",
+        userFriendly: "Age",
+        description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
+    },
+    {
+        key: "projectTitle",
+        userFriendly: "Project Name",
+        description: "The project name of the data file."
+    },
+    {
+        key: "sampleEntityType",
+        userFriendly: "Sample Type",
+        description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen."
+    },
+    {
+        key: "sampleId",
+        userFriendly: "Sample Id"
+    },
+    {
+        key: "selectedCellType",
+        userFriendly: "Selected Cell Type",
+        description: "The cell type(s) selected to be present in the suspension."
+    },
+    {
+        key: "specimenId",
+        userFriendly: "Specimen Id",
+        description: "A unique ID for this specimen."
+    },
+    {
+        key: "totalCells",
+        userFriendly: "Estimated Cell Count",
+        description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays."
+    }
+];
+
+let columnDescription = new Map();
+let columnDisplayName = new Map();
+
+tableColumns.forEach((column) => {
+        columnDescription.set(column.key, column.description);
+        columnDisplayName.set(column.key, column.userFriendly);
+});
+
+/**
+ * Returns age and ageUnit, truncated at first character.
+ * @param age
+ * @param ageUnit
+ * @returns {string}
+ */
+export function getAge(age: string, ageUnit: string): string {
+
+    let ageUnitTruncated = ageUnit ? ageUnit.charAt(0) : null;
+
+    if ( age && age !== "Unspecified" ) {
+
+        return age + " " + ageUnitTruncated;
+    }
+
+    return "Unspecified";
+}
+
+/**
+ * Returns the column description.
+ * Used by table header tooltip.
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnDescription(column: string): string {
+
+    return columnDescription.get(column) ? `${columnDisplayName.get(column)}: ${columnDescription.get(column)}` : `${columnDisplayName.get(column)}.`;
+}
+
+/**
+ * Returns the column name to display as table header.
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnDisplayName(column: string): string {
+
+    return columnDisplayName.get(column);
+}
+
+/**
  * Returns "--" if count is zero, otherwise returns count.
  * @param {number} count
  * @returns {any}
@@ -32,6 +183,31 @@ export function getFileCount(fileTypeName: string, fileTypeSummaries: any[]): nu
     }
 
     return 0;
+}
+
+/**
+ * Return the set of CSS class names that are currently applicable to the table header row.
+ * @param snapped
+ * @returns {[className: string]: boolean}
+ */
+export function getHeaderClass(snapped): { [className: string]: boolean } {
+
+    return {
+        snapped: snapped
+    };
+}
+
+/**
+ * Return the set of CSS class names that are currently applicable to the first row in the table.
+ * @param {number} rowIndex
+ * @param snapped
+ * @returns {[className: string]: boolean}
+ */
+export function getRowClass(rowIndex: number, snapped): { [className: string]: boolean } {
+
+    return {
+        snapped: (rowIndex === 0) && snapped
+    };
 }
 
 /**
@@ -90,6 +266,17 @@ export function getUnspecifiedIfNullValue(value: any): any {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
+ * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
+ * @param el
+ * @returns {boolean}
+ */
+export function isTooltipDisabled(el) {
+
+    return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
 }
 
 /**

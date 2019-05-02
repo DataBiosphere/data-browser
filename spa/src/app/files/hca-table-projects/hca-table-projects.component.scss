@@ -22,13 +22,13 @@
 
     /* Fade on horizontal scroll RHS */
     &::after {
-        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
+        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%);
         right: 0;
     }
 
     /* Fade on horizontal scroll LHS */
     &::before {
-        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%); /* TODO confirm */
+        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%);
         left: 0;
     }
 }
