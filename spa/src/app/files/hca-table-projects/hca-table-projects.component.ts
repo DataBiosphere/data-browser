@@ -263,15 +263,18 @@ class TableElementDataSource extends DataSource<any> {
 
                             acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
                         }
+                        acc.totalCount = acc.totalCount + fileTypeSummary.count;
+
                         return acc;
 
-                    }, {otherFileCount: 0});
+                    }, {totalCount: 0 ,otherFileCount: 0});
+
 
                     /* Fastq and Fastq.gz combined for raw count */
                     let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
 
                     return {
-                        disease: getUnspecifiedIfNullValue(specimens.disease),
+                        disease: getUnspecifiedIfNullValue(samples.disease),
                         donorCount: getUnspecifiedIfNullValue(projectSummary.donorCount),
                         entryId: row.entryId,
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
