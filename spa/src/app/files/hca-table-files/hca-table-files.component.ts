@@ -23,11 +23,13 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
-import { TableColumn } from "../table/table-column.model";
-import { TableColumnService } from "../table/table-column.service";
 import {
+    getAge,
+    getColumnDescription,
+    getColumnDisplayName,
     getPairedEnd, getSelfOrFirst,
     getUnspecifiedIfNullValue,
+    isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -56,6 +58,10 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         "sampleEntityType",
         "selectedCellType"
     ];
+    getAge = getAge;
+    getColumnDescription = getColumnDescription;
+    getColumnDisplayName = getColumnDisplayName;
+    isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
@@ -68,79 +74,12 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
-                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
-    }
-
-    /**
-     * Public API
-     */
-
-    /**
-     * Returns age and ageUnit.
-     * @param age
-     * @param ageUnit
-     * @returns {string}
-     */
-    public getAge(age: string, ageUnit: string): string {
-
-        let ageUnitTruncated = this.getAgeUnit(ageUnit);
-
-        if ( age && age !== "Unspecified" ) {
-
-            return age + " " + ageUnitTruncated;
-        }
-
-        return "Unspecified";
-    }
-
-    /**
-     * Returns ageUnit, truncated at first character
-     * @param ageUnit
-     * @returns {string}
-     */
-    public getAgeUnit(ageUnit: string): string {
-
-        if ( ageUnit ) {
-            return ageUnit.charAt(0);
-        }
-    }
-
-    /**
-     * Returns column.
-     * @param {string} columnName
-     * @returns {TableColumn}
-     */
-    public getColumn(columnName: string): TableColumn {
-        return this.tableColumnService.getColumn(columnName)[0];
-    }
-
-    /**
-     * Returns the column description.
-     * Used by table header tooltip.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDescription(columnName: string): string {
-
-        let column = this.getColumn(columnName);
-        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
-    }
-
-    /**
-     * Returns the column name to display as table header.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDisplayName(columnName: string): string {
-
-        return this.getColumn(columnName).columnDisplayName;
     }
 
     /**
@@ -185,17 +124,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         return {
             snapped: (rowIndex === 0) && this.snapped
         };
-    }
-
-    /**
-     * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
-     * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
-     * @param el
-     * @returns {boolean}
-     */
-    public isTooltipDisabled(el) {
-
-        return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
     }
 
     /**
