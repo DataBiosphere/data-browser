@@ -12,107 +12,116 @@
 // App dependencies
 import { TableColumn } from "./table-column.model";
 
-let TABLE_COLUMNS: TableColumn[] = [
+let tableColumns: TableColumn[] = [
 
     {
-        columnName: "biologicalSex",
-        columnDisplayName: "Sex",
-        columnDescription: "The biological sex of the organism. Should be one of male, female, mixed, or unknown."
+        key: "biologicalSex",
+        userFriendly: "Sex",
+        description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown."
     },
     {
-        columnName: "disease",
-        columnDisplayName: "Known Diseases",
-        columnDescription: "Free text describing any disease association to the cell type. Should be an EFO ontology."
+        key: "disease",
+        userFriendly: "Known Diseases",
+        description: "Free text describing any disease association to the cell type. Should be an EFO ontology."
     },
     {
-        columnName: "donorCount",
-        columnDisplayName: "Donor Count",
+        key: "donorCount",
+        userFriendly: "Donor Count",
     },
     {
-        columnName: "fileCount",
-        columnDisplayName: "File Count",
-        columnDescription: "The count of files for this specimen."
+        key: "fileCount",
+        userFriendly: "File Count",
+        description: "The count of files for this specimen."
     },
     {
-        columnName: "fileFormat",
-        columnDisplayName: "File Format",
-        columnDescription: "The format of the file."
+        key: "fileFormat",
+        userFriendly: "File Format",
+        description: "The format of the file."
     },
     {
-        columnName: "fileName",
-        columnDisplayName: "File Name",
-        columnDescription: "The filename of the data file."
+        key: "fileName",
+        userFriendly: "File Name",
+        description: "The filename of the data file."
     },
     {
-        columnName: "fileSize",
-        columnDisplayName: "File Size",
-        columnDescription: "The file size of the data file."
+        key: "fileSize",
+        userFriendly: "File Size",
+        description: "The file size of the data file."
     },
     {
-        columnName: "fileType",
-        columnDisplayName: "Data",
-        columnDescription: "The format of the data file."
+        key: "fileType",
+        userFriendly: "Data",
+        description: "The format of the data file."
     },
     {
-        columnName: "genusSpecies",
-        columnDisplayName: "Species",
-        columnDescription: "The scientific binomial name for the species of the biomaterial."
+        key: "genusSpecies",
+        userFriendly: "Species",
+        description: "The scientific binomial name for the species of the biomaterial."
     },
     {
-        columnName: "libraryConstructionApproach",
-        columnDisplayName: "Library Construction Approach",
-        columnDescription: "The general method for sequencing library construction."
+        key: "libraryConstructionApproach",
+        userFriendly: "Library Construction Approach",
+        description: "The general method for sequencing library construction."
     },
     {
-        columnName: "organ",
-        columnDisplayName: "Organ",
-        columnDescription: "The organ that the biomaterial came from. Blood and connective tissue are considered organs."
+        key: "organ",
+        userFriendly: "Organ",
+        description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs."
     },
     {
-        columnName: "organPart",
-        columnDisplayName: "Organ Part",
-        columnDescription: "A term for a specific part of the organ that the biomaterial came from."
+        key: "organPart",
+        userFriendly: "Organ Part",
+        description: "A term for a specific part of the organ that the biomaterial came from."
     },
     {
-        columnName: "organismAge",
-        columnDisplayName: "Age",
-        columnDescription: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
+        key: "organismAge",
+        userFriendly: "Age",
+        description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
     },
     {
-        columnName: "projectTitle",
-        columnDisplayName: "Project Name",
-        columnDescription: "The project name of the data file."
+        key: "projectTitle",
+        userFriendly: "Project Name",
+        description: "The project name of the data file."
     },
     {
-        columnName: "sampleEntityType",
-        columnDisplayName: "Sample Type",
+        key: "sampleEntityType",
+        userFriendly: "Sample Type",
+        description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen."
     },
     {
-        columnName: "selectedCellType",
-        columnDisplayName: "Selected Cell Type",
-        columnDescription: "The cell type(s) selected to be present in the suspension."
+        key: "selectedCellType",
+        userFriendly: "Selected Cell Type",
+        description: "The cell type(s) selected to be present in the suspension."
     },
     {
-        columnName: "specimenId",
-        columnDisplayName: "Specimen Id",
-        columnDescription: "A unique ID for this specimen."
+        key: "specimenId",
+        userFriendly: "Specimen Id",
+        description: "A unique ID for this specimen."
     },
     {
-        columnName: "totalCells",
-        columnDisplayName: "Estimated Cell Count",
-        columnDescription: "Total estimated number of cells in biomaterial. May be 1 for well-based assays."
+        key: "totalCells",
+        userFriendly: "Estimated Cell Count",
+        description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays."
     }
 ];
 
+let columnDescription = new Map();
+let columnDisplayName = new Map();
+
+tableColumns.forEach((column) => {
+        columnDescription.set(column.key, column.description);
+        columnDisplayName.set(column.key, column.userFriendly);
+});
+
 /**
- * Returns age and ageUnit.
+ * Returns age and ageUnit, truncated at first character.
  * @param age
  * @param ageUnit
  * @returns {string}
  */
 export function getAge(age: string, ageUnit: string): string {
 
-    let ageUnitTruncated = getAgeUnit(ageUnit);
+    let ageUnitTruncated = ageUnit ? ageUnit.charAt(0) : null;
 
     if ( age && age !== "Unspecified" ) {
 
@@ -123,47 +132,24 @@ export function getAge(age: string, ageUnit: string): string {
 }
 
 /**
- * Returns ageUnit, truncated at first character
- * @param ageUnit
- * @returns {string}
- */
-export function getAgeUnit(ageUnit: string): string {
-
-    if ( ageUnit ) {
-        return ageUnit.charAt(0);
-    }
-}
-
-/**
- * Determines the table column.
- * @param {string} columnName
- * @returns {TableColumn}
- */
-export function getColumn(columnName: string): TableColumn {
-
-    return TABLE_COLUMNS.filter(column => column.columnName === columnName)[0];
-}
-
-/**
  * Returns the column description.
  * Used by table header tooltip.
- * @param {string} columnName
+ * @param {string} column
  * @returns {string}
  */
-export function getColumnDescription(columnName: string): string {
+export function getColumnDescription(column: string): string {
 
-    let column = getColumn(columnName);
-    return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
+    return columnDescription.get(column) ? `${columnDisplayName.get(column)}: ${columnDescription.get(column)}` : `${columnDisplayName.get(column)}.`;
 }
 
 /**
  * Returns the column name to display as table header.
- * @param {string} columnName
+ * @param {string} column
  * @returns {string}
  */
-export function getColumnDisplayName(columnName: string): string {
+export function getColumnDisplayName(column: string): string {
 
-    return getColumn(columnName).columnDisplayName;
+    return columnDisplayName.get(column);
 }
 
 /**
@@ -193,6 +179,31 @@ export function getFileCount(fileTypeName: string, fileTypeSummaries: any[]): nu
     }
 
     return 0;
+}
+
+/**
+ * Return the set of CSS class names that are currently applicable to the table header row.
+ * @param snapped
+ * @returns {[className: string]: boolean}
+ */
+export function getHeaderClass(snapped): { [className: string]: boolean } {
+
+    return {
+        snapped: snapped
+    };
+}
+
+/**
+ * Return the set of CSS class names that are currently applicable to the first row in the table.
+ * @param {number} rowIndex
+ * @param snapped
+ * @returns {[className: string]: boolean}
+ */
+export function getRowClass(rowIndex: number, snapped): { [className: string]: boolean } {
+
+    return {
+        snapped: (rowIndex === 0) && snapped
+    };
 }
 
 /**

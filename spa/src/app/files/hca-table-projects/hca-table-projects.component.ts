@@ -31,7 +31,9 @@ import {
     getColumnDisplayName,
     getCountDisplay,
     getFileCount,
+    getHeaderClass,
     getPairedEnd,
+    getRowClass,
     getUnspecifiedIfNullValue,
     isTooltipDisabled,
     rollUpMetadata
@@ -64,6 +66,8 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     ];
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    getHeaderClass = getHeaderClass;
+    getRowClass = getRowClass;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
@@ -91,31 +95,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     /**
      * Public API
      */
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the table header row.
-     *
-     * @returns {[className: string]: boolean}
-     */
-    public getHeaderClass(): { [className: string]: boolean } {
-
-        return {
-            snapped: this.snapped
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the first row in the table.
-     *
-     * @param {number} rowIndex
-     * @returns {[className: string]: boolean}
-     */
-    public getRowClass(rowIndex: number): { [className: string]: boolean } {
-
-        return {
-            snapped: (rowIndex === 0) && this.snapped
-        };
-    }
 
     /**
      * Returns true if project is in the current set of selected search terms.

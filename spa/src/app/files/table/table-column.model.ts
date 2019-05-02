@@ -6,7 +6,7 @@
  */
 
 export interface TableColumn {
-    columnName: string;
-    columnDisplayName: string;
-    columnDescription?: string;
+    key: string;
+    userFriendly: string;
+    description?: string;
 }

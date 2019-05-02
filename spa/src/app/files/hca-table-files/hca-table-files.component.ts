@@ -27,7 +27,10 @@ import {
     getAge,
     getColumnDescription,
     getColumnDisplayName,
-    getPairedEnd, getSelfOrFirst,
+    getHeaderClass,
+    getPairedEnd,
+    getRowClass,
+    getSelfOrFirst,
     getUnspecifiedIfNullValue,
     isTooltipDisabled,
     rollUpMetadata
@@ -61,6 +64,8 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getAge = getAge;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    getHeaderClass = getHeaderClass;
+    getRowClass = getRowClass;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
@@ -98,31 +103,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
         return {
             "file-download": true
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the table header row.
-     *
-     * @returns {[className: string]: boolean}
-     */
-    public getHeaderClass(): { [className: string]: boolean } {
-
-        return {
-            snapped: this.snapped
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the first row in the table.
-     *
-     * @param {number} rowIndex
-     * @returns {[className: string]: boolean}
-     */
-    public getRowClass(rowIndex: number): { [className: string]: boolean } {
-
-        return {
-            snapped: (rowIndex === 0) && this.snapped
         };
     }
 

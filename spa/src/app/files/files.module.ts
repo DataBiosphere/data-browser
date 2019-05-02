@@ -61,11 +61,11 @@ import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-tab
 import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCASearchComponent } from "./hca-search/hca-search.component";
 import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
-import { HCATableComponent } from "./hca-table/hca-table.component";
 import { HCATableDataStatusPlaceholderComponent } from "./hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.component";
 import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
+import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { SearchTermDAO } from "./shared/search-term.dao";
@@ -142,15 +142,14 @@ import { TermSortService } from "./sort/term-sort.service";
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
         HCASearchComponent,
-        HCATableComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
         HCATableColumnHeaderTitleComponent,
-        HCATableComponent,
         HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,
         HCATablePaginationComponent,
         HCATableProjectsComponent,
+        HCATableSamplesComponent,
         HCATableSortComponent,
         HCATooltipComponent,
 

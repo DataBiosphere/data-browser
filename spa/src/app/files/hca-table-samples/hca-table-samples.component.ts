@@ -30,7 +30,9 @@ import {
     getColumnDisplayName,
     getCountDisplay,
     getFileCount,
+    getHeaderClass,
     getPairedEnd,
+    getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
     isTooltipDisabled,
@@ -39,11 +41,11 @@ import {
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
-    selector: "hca-table",
-    templateUrl: "./hca-table.component.html",
-    styleUrls: ["./hca-table.component.scss"]
+    selector: "hca-table-samples",
+    templateUrl: "./hca-table-samples.component.html",
+    styleUrls: ["./hca-table-samples.component.scss"]
 })
-export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
+export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewInit {
 
     // Template variables
     data$: Observable<any[]>;
@@ -65,6 +67,8 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
     getAge = getAge;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    getHeaderClass = getHeaderClass;
+    getRowClass = getRowClass;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
@@ -89,31 +93,6 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
     /**
      * Public API
      */
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the table header row.
-     *
-     * @returns {[className: string]: boolean}
-     */
-    public getHeaderClass(): { [className: string]: boolean } {
-
-        return {
-            snapped: this.snapped
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the first row in the table.
-     *
-     * @param {number} rowIndex
-     * @returns {[className: string]: boolean}
-     */
-    public getRowClass(rowIndex: number): { [className: string]: boolean } {
-
-        return {
-            snapped: (rowIndex === 0) && this.snapped
-        };
-    }
 
     /**
      * Sort the table given the sort param and the order.
