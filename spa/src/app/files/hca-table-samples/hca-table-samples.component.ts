@@ -50,7 +50,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "specimenId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
+        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -197,8 +197,8 @@ export interface Element {
     pairedEnd: string;
     projectTitle: string;
     sampleEntityType: string;
+    sampleId: string;
     selectedCellType: string;
-    specimenId: string;
     totalCells: number;
 }
 
@@ -260,8 +260,8 @@ class TableElementDataSource extends DataSource<any> {
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         rawCount: getCountDisplay(rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
+                        sampleId: getSelfOrFirst(samples.id),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: getSelfOrFirst(samples.id), //TODO @fran finish the rename
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                     };
                 });

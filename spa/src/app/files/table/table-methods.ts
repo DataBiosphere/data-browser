@@ -89,6 +89,10 @@ let tableColumns: TableColumn[] = [
         description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen."
     },
     {
+        key: "sampleId",
+        userFriendly: "Sample Id"
+    },
+    {
         key: "selectedCellType",
         userFriendly: "Selected Cell Type",
         description: "The cell type(s) selected to be present in the suspension."

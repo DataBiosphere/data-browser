@@ -3,20 +3,20 @@
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
                    matSortDirection="asc" matSortActive="specimenId"
                    (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="specimenId">
-                <mat-header-cell *matHeaderCellDef class="specimen">
-                    <hca-table-column-header [columnName]="'specimenId'"
+            <ng-container matColumnDef="sampleId">
+                <mat-header-cell *matHeaderCellDef class="sample">
+                    <hca-table-column-header [columnName]="'sampleId'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [tooltipContent]="getColumnDescription('specimenId')"
+                                             [tooltipContent]="getColumnDescription('sampleId')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('specimenId')}}
+                        <hca-table-column-header-title>{{getColumnDisplayName('sampleId')}}
                         </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="specimen">
-                    <hca-table-cell [tooltipContent]="element.specimenId">
-                        <span class="fontsize-xxs">{{element.specimenId}}</span>
+                <mat-cell *matCellDef="let element" class="sample">
+                    <hca-table-cell [tooltipContent]="element.sampleId">
+                        <span class="fontsize-xxs">{{element.sampleId}}</span>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
