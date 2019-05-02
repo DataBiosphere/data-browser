@@ -246,7 +246,7 @@ class TableElementDataSource extends DataSource<any> {
                     return {
                         ageUnit: donorOrganisms.organismAgeUnit,
                         biologicalSex: getUnspecifiedIfNullValue(donorOrganisms.biologicalSex),
-                        disease: getUnspecifiedIfNullValue(specimens.disease),
+                        disease: getUnspecifiedIfNullValue(samples.disease),
                         fileFormat: file.format,
                         fileName: file.name,
                         fileSize: getUnspecifiedIfNullValue(file.size),
