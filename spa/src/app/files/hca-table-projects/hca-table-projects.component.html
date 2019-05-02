@@ -10,7 +10,8 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('projectTitle')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('projectTitle')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('projectTitle')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project">
@@ -30,12 +31,15 @@
                     <hca-table-column-header [columnName]="'sampleEntityType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('sampleEntityType')}}</hca-table-column-header-title>
+                                             [columnSort]="true"
+                                             [tooltipContent]="getColumnDescription('sampleEntityType')">
+                        <hca-table-column-header-title>{{getColumnDisplayName('sampleEntityType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.sampleEntityType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.sampleEntityType"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.sampleEntityType}}</span>
                         </hca-content-ellipsis>
@@ -67,11 +71,13 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('selectedCellType')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('selectedCellType')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('selectedCellType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.selectedCellType" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.selectedCellType"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.selectedCellType}}</span>
                         </hca-content-ellipsis>
@@ -85,12 +91,13 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
                                              [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('libraryConstructionApproach')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('libraryConstructionApproach')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <hca-table-cell [tooltipContent]="element.libraryConstructionApproach" [tooltipDisabled]="true">
-                            <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
+                        <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -100,11 +107,13 @@
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('genusSpecies')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('genusSpecies')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('genusSpecies')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.genusSpecies" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.genusSpecies"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.genusSpecies}}</span>
                         </hca-content-ellipsis>
@@ -117,11 +126,13 @@
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('disease')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('disease')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('disease')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.disease" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.disease"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.disease}}</span>
                         </hca-content-ellipsis>
@@ -135,7 +146,8 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('fileType')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('fileType')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('fileType')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell class="file-type" *matCellDef="let element">
@@ -156,11 +168,13 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('donorCount')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('donorCount')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('donorCount')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.donorCount | localeString" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.donorCount | localeString"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.donorCount | localeString}}</span>
                         </hca-content-ellipsis>
@@ -174,20 +188,22 @@
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('totalCells')"
                                              [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('totalCells')}}</hca-table-column-header-title>
+                        <hca-table-column-header-title>{{getColumnDisplayName('totalCells')}}
+                        </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <hca-table-cell [tooltipContent]="element.totalCells | localeString" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                    <hca-table-cell [tooltipContent]="element.totalCells | localeString"
+                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.totalCells | localeString}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass()"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i)"></mat-row>
+                     [ngClass]="getRowClass(i, snapped)"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [isData]="data$ | async"></hca-table-data-status-placeholder>

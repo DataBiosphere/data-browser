@@ -24,29 +24,33 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
-import { TableColumn } from "../table/table-column.model";
-import { TableColumnService } from "../table/table-column.service";
 import {
-getCountDisplay,
-getFileCount,
-getPairedEnd,
-getSelfOrFirst,
-getUnspecifiedIfNullValue,
-rollUpMetadata
+    getAge,
+    getColumnDescription,
+    getColumnDisplayName,
+    getCountDisplay,
+    getFileCount,
+    getHeaderClass,
+    getPairedEnd,
+    getRowClass,
+    getSelfOrFirst,
+    getUnspecifiedIfNullValue,
+    isTooltipDisabled,
+    rollUpMetadata
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 
 @Component({
-    selector: "hca-table",
-    templateUrl: "./hca-table.component.html",
-    styleUrls: ["./hca-table.component.scss"]
+    selector: "hca-table-samples",
+    templateUrl: "./hca-table-samples.component.html",
+    styleUrls: ["./hca-table-samples.component.scss"]
 })
-export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
+export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewInit {
 
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "specimenId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
+        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -60,6 +64,12 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
         "sampleEntityType",
         "selectedCellType"
     ];
+    getAge = getAge;
+    getColumnDescription = getColumnDescription;
+    getColumnDisplayName = getColumnDisplayName;
+    getHeaderClass = getHeaderClass;
+    getRowClass = getRowClass;
+    isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
@@ -72,116 +82,17 @@ export class HCATableComponent implements OnDestroy, OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
-                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
     }
 
     /**
      * Public API
      */
-
-    /**
-     * Returns age and ageUnit.
-     * @param age
-     * @param ageUnit
-     * @returns {string}
-     */
-    public getAge(age: string, ageUnit: string): string {
-
-        let ageUnitTruncated = this.getAgeUnit(ageUnit);
-
-        if ( age && age !== "Unspecified" ) {
-
-            return age + " " + ageUnitTruncated;
-        }
-
-        return "Unspecified";
-    }
-
-    /**
-     * Returns column.
-     * @param {string} columnName
-     * @returns {TableColumn}
-     */
-    public getColumn(columnName: string): TableColumn {
-        return this.tableColumnService.getColumn(columnName)[0];
-    }
-
-    /**
-     * Returns the column description.
-     * Used by table header tooltip.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDescription(columnName: string): string {
-
-        let column = this.getColumn(columnName);
-        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
-    }
-
-    /**
-     * Returns the column name to display as table header.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDisplayName(columnName: string): string {
-
-        return this.getColumn(columnName).columnDisplayName;
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the table header row.
-     *
-     * @returns {[className: string]: boolean}
-     */
-    public getHeaderClass(): { [className: string]: boolean } {
-
-        return {
-            snapped: this.snapped
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the first row in the table.
-     *
-     * @param {number} rowIndex
-     * @returns {[className: string]: boolean}
-     */
-    public getRowClass(rowIndex: number): { [className: string]: boolean } {
-
-        return {
-            snapped: (rowIndex === 0) && this.snapped
-        };
-    }
-
-    /**
-     * Returns first character of age unit.
-     * @param ageUnit
-     * @returns {string}
-     */
-    public getAgeUnit(ageUnit: string): string {
-
-        if ( ageUnit ) {
-            return ageUnit.charAt(0);
-        }
-    }
-
-    /**
-     * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
-     * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
-     * @param el
-     * @returns {boolean}
-     */
-    public isTooltipDisabled(el) {
-
-        return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
-    }
 
     /**
      * Sort the table given the sort param and the order.
@@ -286,8 +197,8 @@ export interface Element {
     pairedEnd: string;
     projectTitle: string;
     sampleEntityType: string;
+    sampleId: string;
     selectedCellType: string;
-    specimenId: string;
     totalCells: number;
 }
 
@@ -349,8 +260,8 @@ class TableElementDataSource extends DataSource<any> {
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         rawCount: getCountDisplay(rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
+                        sampleId: getSelfOrFirst(samples.id),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: getSelfOrFirst(samples.id), //TODO @fran finish the rename
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
                     };
                 });

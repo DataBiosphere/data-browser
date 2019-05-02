@@ -26,13 +26,16 @@ import {
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { PaginationModel } from "../table/pagination.model";
-import { TableColumn } from "../table/table-column.model";
-import { TableColumnService } from "../table/table-column.service";
 import {
+    getColumnDescription,
+    getColumnDisplayName,
     getCountDisplay,
     getFileCount,
+    getHeaderClass,
     getPairedEnd,
+    getRowClass,
     getUnspecifiedIfNullValue,
+    isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -61,6 +64,11 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         "sampleEntityType",
         "selectedCellType"
     ];
+    getColumnDescription = getColumnDescription;
+    getColumnDisplayName = getColumnDisplayName;
+    getHeaderClass = getHeaderClass;
+    getRowClass = getRowClass;
+    isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
     tableElementDataSource: TableElementDataSource;
@@ -76,75 +84,17 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {TableColumnService} tableColumnService
      * @param {Window} window
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
-                private tableColumnService: TableColumnService,
                 @Inject("Window") private window: Window) {
     }
 
     /**
      * Public API
      */
-
-    /**
-     * Returns column.
-     * @param {string} columnName
-     * @returns {TableColumn}
-     */
-    public getColumn(columnName: string): TableColumn {
-        return this.tableColumnService.getColumn(columnName)[0];
-    }
-
-    /**
-     * Returns the column description.
-     * Used by table header tooltip.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDescription(columnName: string): string {
-
-        let column = this.getColumn(columnName);
-        return column.columnDescription ? `${column.columnDisplayName}: ${column.columnDescription}` : `${column.columnDisplayName}.`;
-    }
-
-    /**
-     * Returns the column name to display as table header.
-     * @param {string} columnName
-     * @returns {string}
-     */
-    public getColumnDisplayName(columnName: string): string {
-
-        return this.getColumn(columnName).columnDisplayName;
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the table header row.
-     *
-     * @returns {[className: string]: boolean}
-     */
-    public getHeaderClass(): { [className: string]: boolean } {
-
-        return {
-            snapped: this.snapped
-        };
-    }
-
-    /**
-     * Return the set of CSS class names that are currently applicable to the first row in the table.
-     *
-     * @param {number} rowIndex
-     * @returns {[className: string]: boolean}
-     */
-    public getRowClass(rowIndex: number): { [className: string]: boolean } {
-
-        return {
-            snapped: (rowIndex === 0) && this.snapped
-        };
-    }
 
     /**
      * Returns true if project is in the current set of selected search terms.
@@ -155,17 +105,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isProjectSelected(project: any): boolean {
 
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
-    }
-
-    /**
-     * Returns false (tooltip will not be disabled) if the width of the parent container is smaller than the element of interest.
-     * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
-     * @param el
-     * @returns {boolean}
-     */
-    public isTooltipDisabled(el) {
-
-        return !(el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width);
     }
 
     /**
