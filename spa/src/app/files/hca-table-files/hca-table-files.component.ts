@@ -58,6 +58,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         "genusSpecies",
         "libraryConstructionApproach",
         "organ",
+        "organPart",
         "sampleEntityType",
         "selectedCellType"
     ];

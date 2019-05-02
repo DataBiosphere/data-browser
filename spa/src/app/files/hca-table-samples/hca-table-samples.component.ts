@@ -61,6 +61,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
         "genusSpecies",
         "libraryConstructionApproach",
         "organ",
+        "organPart",
         "sampleEntityType",
         "selectedCellType"
     ];
