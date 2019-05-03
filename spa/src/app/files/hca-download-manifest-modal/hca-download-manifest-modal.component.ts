@@ -21,11 +21,12 @@ import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.sta
 import { AppState } from "../../_ngrx/app.state";
 import { ClearManifestDownloadFileSummaryAction } from "../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest/download-file-manifest.action";
-import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
+import {
+    selectFileManifestFileSummary, selectFileManifestManifestResponse
+} from "../_ngrx/file-manifest/file-manifest.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
-import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
@@ -145,8 +146,15 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
         // Grab file summary for populating file type counts on manifest download modal
         const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
-        this.state$ = combineLatest(selectedSearchTerms$, selectManifestDownloadFileSummary$).pipe(
-            map(([selectedSearchTerms, fileManifestFileSummary]) => {
+        // Update the UI with any changes in the download request request status and URL
+        const selectFileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
+
+        this.state$ = combineLatest(
+            selectedSearchTerms$,
+            selectManifestDownloadFileSummary$,
+            selectFileManifestManifestResponse$
+        ).pipe(
+            map(([selectedSearchTerms, fileManifestFileSummary, manifestResponse]) => {
 
                 const selectedSearchTermNames = selectedSearchTerms
                     .map(searchTerm => searchTerm.getDisplayValue());
@@ -154,7 +162,8 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
                 return {
                     selectedSearchTermNames: selectedSearchTermNames,
                     selectedSearchTerms,
-                    fileManifestFileSummary
+                    fileManifestFileSummary,
+                    manifestResponse
                 };
             })
         );

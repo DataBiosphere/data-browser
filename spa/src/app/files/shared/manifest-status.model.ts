@@ -1,11 +1,12 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Possible values of matrix request status.
  */
 
 export enum ManifestStatus {
+    "NOT_STARTED" = "NOT_STARTED",
     "INITIATED" = "INITIATED",
     "IN_PROGRESS" = "IN_PROGRESS",
     "COMPLETE" = "COMPLETE",

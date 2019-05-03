@@ -29,7 +29,6 @@ import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-ter
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
-import { SearchTerm } from "../search/search-term.model";
 
 @Component({
     templateUrl: "./hca-export-to-terra-modal.component.html",

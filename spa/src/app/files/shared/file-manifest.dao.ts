@@ -75,7 +75,7 @@ export class FileManifestDAO {
     public downloadFileManifest(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
 
         // Set up polling for file download completion - if file download request is still in progress, continue to
-        // poll. Otherwise kill polling subscription and download file.
+        // poll. Otherwise kill polling subscription
         const manifestResponse$ = new Subject<ManifestResponse>();
         manifestResponse$.subscribe((response: ManifestResponse) => {
 
@@ -84,10 +84,6 @@ export class FileManifestDAO {
             }
 
             manifestResponse$.unsubscribe();
-
-            if ( response.status === ManifestStatus.COMPLETE ) {
-                window.location.href = response.fileUrl;
-            }
         });
 
         const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);

@@ -10,22 +10,30 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ClearManifestDownloadFileSummaryAction } from "./clear-manifest-download-file-summary.action";
+import { DownloadFileManifestRequestedAction } from "./download-file-manifest-requested.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
-import { FileSummaryState } from "../file-summary/file-summary.state";
+import { FileManifestState } from "./file-manifest.state";
 
-export function reducer(state: FileSummaryState = FileSummaryState.getDefaultState(), action: Action): FileSummaryState {
+export function reducer(state: FileManifestState = FileManifestState.getDefaultState(), action: Action): FileManifestState {
 
     switch (action.type) {
 
+        // Summary has been requested
         case FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE:
             return state.fetchSummaryRequest();
 
+        // Summary request was successful 
         case FetchManifestDownloadFileSummarySuccessAction.ACTION_TYPE:
             return state.fetchSummarySuccess(action as FetchManifestDownloadFileSummarySuccessAction);
             
+        // Download status has been updated
+        case DownloadFileManifestRequestedAction.ACTION_TYPE:
+            return state.downloadRequested(action as DownloadFileManifestRequestedAction);
+            
+        // Clear summary and download states
         case ClearManifestDownloadFileSummaryAction.ACTION_TYPE:
-            return FileSummaryState.getDefaultState();
+            return FileManifestState.getDefaultState();
 
         default:
             return state;

@@ -6,7 +6,6 @@
  */
 
 // App dependencies
-import { FetchManifestDownloadFileSummarySuccessAction } from "../file-manifest/fetch-manifest-download-file-summary-success.action";
 import { FileSummary } from "../../file-summary/file-summary";
 import { FetchFileSummarySuccessAction } from "./file-summary.actions";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
@@ -47,10 +46,13 @@ export class FileSummaryState implements FileSummary {
     }
 
     /**
+     * File summary has been successfully requested from the server - return updated state.
+     *
      * @param {FetchFileSummarySuccessAction} action
      * @returns {FileSummaryState}
      */
-    public fetchSummarySuccess(action: FetchFileSummarySuccessAction | FetchManifestDownloadFileSummarySuccessAction) {
+    public fetchSummarySuccess(action: FetchFileSummarySuccessAction) {
+
         return new FileSummaryState(action.fileSummary);
     }
 
@@ -58,6 +60,7 @@ export class FileSummaryState implements FileSummary {
      * @returns {FileSummaryState}
      */
     public static getDefaultState() {
+
         return new FileSummaryState();
     }
 }
