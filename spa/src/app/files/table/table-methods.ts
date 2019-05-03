@@ -25,8 +25,8 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "disease",
-        userFriendly: "Known Diseases",
-        description: "Free text describing any disease association to the cell type. Should be an EFO ontology.",
+        userFriendly: "Known Diseases (Specimen)",
+        description: "Short description of known disease(s) of the specimen.",
         countType: CountType.DOMAIN_COUNT
 
     },
