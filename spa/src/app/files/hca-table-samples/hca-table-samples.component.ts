@@ -29,7 +29,7 @@ import {
     getColumnDescription,
     getColumnDisplayName,
     getCountDisplay,
-    getFileCount,
+    getFileTypeCounts,
     getHeaderClass,
     getPairedEnd,
     getRowClass,
@@ -51,7 +51,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     data$: Observable<any[]>;
     displayedColumns = [
         "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
-        "organismAge", "biologicalSex", "disease", "fileType", "fileCount", "totalCells"
+        "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     domainCountVisibleForColumns = [
@@ -189,7 +189,6 @@ export interface Element {
     ageUnit: string;
     biologicalSex: string;
     disease: string; // TODO check not array
-    fileCount: number;
     genusSpecies: string;
     libraryConstructionApproach: string;
     organ: string;
@@ -229,44 +228,29 @@ class TableElementDataSource extends DataSource<any> {
                     let specimens = rollUpMetadata(row.specimens);
                     let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let projectTitle = rollUpMetadata(row.projects);
-
-                    /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
-                    let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
-
-                        if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") && (fileTypeSummary.fileType !== "fastq") ) {
-
-                            acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
-                        }
-
-                        acc.totalCount = acc.totalCount + fileTypeSummary.count;
-
-                        return acc;
-
-                    }, {totalCount: 0 ,otherFileCount: 0});
-
-                    /* Fastq and Fastq.gz combined for raw count */
-                    let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
+                    // File counts for a set list of file types
+                    let fileTypeCounts = getFileTypeCounts(fileTypeSummaries);
 
                     return {
                         ageUnit: donorOrganisms.organismAgeUnit,
+                        bamCount: getCountDisplay(fileTypeCounts.bamCount),
                         biologicalSex: getUnspecifiedIfNullValue(donorOrganisms.biologicalSex),
                         disease: getUnspecifiedIfNullValue(samples.disease),
-                        fileCount: getUnspecifiedIfNullValue(fileCounts.totalCount),
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                        matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
+                        matrixCount: getCountDisplay(fileTypeCounts.matrixCount),
                         organ: getUnspecifiedIfNullValue(specimens.organ),
                         organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
                         organPart: getUnspecifiedIfNullValue(specimens.organPart),
-                        otherFileCount: getCountDisplay(fileCounts.otherFileCount),
+                        otherCount: getCountDisplay(fileTypeCounts.otherCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
-                        processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                        rawCount: getCountDisplay(rawCount),
+                        rawCount: getCountDisplay(fileTypeCounts.rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         sampleId: getSelfOrFirst(samples.id),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        totalCount: getCountDisplay(fileTypeCounts.totalCount)
                     };
                 });
             })
