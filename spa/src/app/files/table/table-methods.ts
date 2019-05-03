@@ -12,6 +12,9 @@
 // App dependencies
 import { TableColumn } from "./table-column.model";
 
+/* TableColumn array.
+ * Provides user friendly name and description for each table column matColumnDef.
+ * Description is used by column header tooltip */
 let tableColumns: TableColumn[] = [
 
     {
@@ -109,12 +112,10 @@ let tableColumns: TableColumn[] = [
     }
 ];
 
-let columnDescription = new Map();
-let columnDisplayName = new Map();
+let tableColumn = new Map<string, TableColumn>();
 
 tableColumns.forEach((column) => {
-        columnDescription.set(column.key, column.description);
-        columnDisplayName.set(column.key, column.userFriendly);
+    tableColumn.set(column.key, column);
 });
 
 /**
@@ -143,7 +144,8 @@ export function getAge(age: string, ageUnit: string): string {
  */
 export function getColumnDescription(column: string): string {
 
-    return columnDescription.get(column) ? `${columnDisplayName.get(column)}: ${columnDescription.get(column)}` : `${columnDisplayName.get(column)}.`;
+    return tableColumn.get(column).description ?
+        `${tableColumn.get(column).userFriendly}: ${tableColumn.get(column).description}` : `${tableColumn.get(column).userFriendly}.`;
 }
 
 /**
@@ -153,11 +155,11 @@ export function getColumnDescription(column: string): string {
  */
 export function getColumnDisplayName(column: string): string {
 
-    return columnDisplayName.get(column);
+    return tableColumn.get(column).userFriendly;
 }
 
 /**
- * Returns "--" if count is zero, otherwise returns count.
+ * Returns "--" if file count is zero, otherwise returns count.
  * @param {number} count
  * @returns {any}
  */
@@ -167,22 +169,38 @@ export function getCountDisplay(count: number): any {
 }
 
 /**
- * Returns the count for file type.
- * @param {string} fileTypeName
+ * Returns file counts for a set of file types as well as total count.
  * @param {any[]} fileTypeSummaries
- * @returns {number}
+ * @returns {any}
  */
-export function getFileCount(fileTypeName: string, fileTypeSummaries: any[]): number {
+export function getFileTypeCounts(fileTypeSummaries: any[]) {
 
-    let fileTypeSummary = fileTypeSummaries.find(fileSummary => fileSummary.fileType === fileTypeName);
+    /* File counts for file formats.
+     * File types of interest include "fastq.gz" and "fastq", "bam", "matrix".
+     * Total file count and all remaining other files are calculated. */
+    return fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
-    // Returns a count if fileType exists, otherwise returns 0.
-    if ( fileTypeSummary ) {
+        /* bam */
+        if (fileTypeSummary.fileType === "bam") {
+            acc.bamCount = acc.bamCount + fileTypeSummary.count;
+        }
+        /* matrix */
+        if (fileTypeSummary.fileType === "matrix") {
+            acc.matrixCount = acc.matrixCount + fileTypeSummary.count;
+        }
+        /* fastq and fastq.qz */
+        if (fileTypeSummary.fileType === "fastq.gz" || fileTypeSummary.fileType === "fastq") {
+            acc.rawCount = acc.rawCount + fileTypeSummary.count;
+        }
+        /* total count */
+        acc.totalCount = acc.totalCount + fileTypeSummary.count;
+        /* other count */
+        acc.otherCount = acc.totalCount - acc.bamCount - acc.matrixCount - acc.rawCount;
 
-        return fileTypeSummary.count;
-    }
+        return acc;
 
-    return 0;
+    }, {bamCount: 0, matrixCount: 0, otherCount: 0, rawCount: 0, totalCount: 0});
+
 }
 
 /**

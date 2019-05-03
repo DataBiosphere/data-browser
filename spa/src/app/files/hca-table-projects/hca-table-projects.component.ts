@@ -30,7 +30,7 @@ import {
     getColumnDescription,
     getColumnDisplayName,
     getCountDisplay,
-    getFileCount,
+    getFileTypeCounts,
     getHeaderClass,
     getPairedEnd,
     getRowClass,
@@ -245,51 +245,35 @@ class TableElementDataSource extends DataSource<any> {
                     let cellSuspensions = rollUpMetadata(row.cellSuspensions);
                     let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let fileTypeSummaries = row.fileTypeSummaries;
-                    let projectSummary = row.projectSummary;
-                    let projectTitle = rollUpMetadata(row.projects);
-                    let protocols = rollUpMetadata(row.protocols);
-                    let samples = rollUpMetadata(row.samples);
-                    let specimens = rollUpMetadata(row.specimens);
-
                     // only roll up organType
                     let organs = rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
                         return {organType: s.organType};
                     }));
-
-                    /* File counts for file formats - excludes fastq.gz, fastq, bam, matrix */
-                    let fileCounts = fileTypeSummaries.reduce((acc, fileTypeSummary) => {
-
-                        if ( (fileTypeSummary.fileType !== "bam") && (fileTypeSummary.fileType !== "matrix") && (fileTypeSummary.fileType !== "fastq.gz") && (fileTypeSummary.fileType !== "fastq") ) {
-
-                            acc.otherFileCount = acc.otherFileCount + fileTypeSummary.count;
-                        }
-                        acc.totalCount = acc.totalCount + fileTypeSummary.count;
-
-                        return acc;
-
-                    }, {totalCount: 0 ,otherFileCount: 0});
-
-
-                    /* Fastq and Fastq.gz combined for raw count */
-                    let rawCount = (getFileCount("fastq.gz", fileTypeSummaries) + getFileCount("fastq", fileTypeSummaries));
+                    let projectSummary = row.projectSummary;
+                    let projectTitle = rollUpMetadata(row.projects);
+                    let protocols = rollUpMetadata(row.protocols);
+                    let samples = rollUpMetadata(row.samples);
+                    // File counts for a set list of file types
+                    let fileTypeCounts = getFileTypeCounts(fileTypeSummaries);
 
                     return {
+                        bamCount: getCountDisplay(fileTypeCounts.bamCount),
                         disease: getUnspecifiedIfNullValue(samples.disease),
                         donorCount: getUnspecifiedIfNullValue(projectSummary.donorCount),
                         entryId: row.entryId,
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
-                        matrixCount: getCountDisplay(getFileCount("matrix", fileTypeSummaries)),
+                        matrixCount: getCountDisplay(fileTypeCounts.matrixCount),
                         organ: getUnspecifiedIfNullValue(organs.organType),
-                        otherFileCount: getCountDisplay(fileCounts.otherFileCount),
+                        otherCount: getCountDisplay(fileTypeCounts.otherCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
-                        processedCount: getCountDisplay(getFileCount("bam", fileTypeSummaries)),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                        rawCount: getCountDisplay(rawCount),
+                        rawCount: getCountDisplay(fileTypeCounts.rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells)
+                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
+                        totalCount: getCountDisplay(fileTypeCounts.totalCount)
                     };
                 });
             })
