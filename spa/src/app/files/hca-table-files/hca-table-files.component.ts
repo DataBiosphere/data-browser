@@ -16,12 +16,14 @@ import { map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import {
+    selectFileSummary,
     selectPagination,
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
+import { FileSummary } from "../file-summary/file-summary";
 import { PaginationModel } from "../table/pagination.model";
 import {
     getAge,
@@ -51,17 +53,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
-    domainCountVisibleForColumns = [
-        "biologicalSex",
-        "disease",
-        "fileFormat",
-        "genusSpecies",
-        "libraryConstructionApproach",
-        "organ",
-        "organPart",
-        "sampleEntityType",
-        "selectedCellType"
-    ];
     getAge = getAge;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
@@ -69,6 +60,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getRowClass = getRowClass;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
+    selectFileSummary$: Observable<FileSummary>;
     tableElementDataSource: TableElementDataSource;
     pagination$: Observable<PaginationModel>;
 
@@ -187,6 +179,9 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
         this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
+
+        // Get the summary counts - used by columns with SUMMARY_COUNT countType
+        this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
     }
 }
 

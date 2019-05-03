@@ -8,6 +8,9 @@
 // Core dependencies
 import { Component, Input } from "@angular/core";
 
+// App dependencies
+import { getColumnCountType } from "../table/table-methods";
+
 @Component({
     selector: "hca-table-column-header",
     templateUrl: "./hca-table-column-header.component.html",
@@ -20,7 +23,7 @@ export class HCATableColumnHeaderComponent {
     @Input() columnName: string;
     @Input() columnSort: boolean;
     @Input() domainCountsByColumnName: Map<string, number>;
-    @Input() domainCountVisibleForColumns: string[];
+    @Input() summaryCount: string;
     @Input() tooltipContent: string;
 
     // Template variables
@@ -61,6 +64,17 @@ export class HCATableColumnHeaderComponent {
      */
     public isDomainCountVisible(columnName: string): boolean {
 
-        return this.domainCountVisibleForColumns.indexOf(columnName) >= 0 && this.getDomainCount(columnName) > 0;
+        return getColumnCountType(columnName) === "DOMAIN_COUNT" && this.getDomainCount(columnName) > 0;
+    }
+
+    /**
+     * Returns true if the summary count is to be displayed for specified column.
+     *
+     * @param {string} columnName
+     * @returns {boolean}
+     */
+    public isSummaryCountVisible(columnName: string): boolean {
+
+        return getColumnCountType(columnName) === "SUMMARY_COUNT" && this.summaryCount !== "0";
     }
 }

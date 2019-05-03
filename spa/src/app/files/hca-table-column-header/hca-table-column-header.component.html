@@ -10,6 +10,7 @@
 <ng-container [ngSwitch]="columnName === 'fileType'">
     <ng-container *ngSwitchDefault>
         <span class="term-count fontsize-s" *ngIf="isDomainCountVisible(columnName)">({{getDomainCountDisplayText(columnName)}})</span>
+        <span class="term-count fontsize-s" *ngIf="isSummaryCountVisible(columnName)">{{summaryCount}}</span>
     </ng-container>
     <div *ngSwitchCase="true" class="data-label fontsize-xxs">
         <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span><span>Total</span>
