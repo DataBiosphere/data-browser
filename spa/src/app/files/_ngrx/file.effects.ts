@@ -296,17 +296,21 @@ export class FileEffects {
     @Effect()
     selectProject$: Observable<Action> = this.actions$
         .pipe(
-            ofType(
-                SelectProjectIdAction.ACTION_TYPE
+            ofType(SelectProjectIdAction.ACTION_TYPE),
+            switchMap(() =>
+                this.store.pipe(
+                    select(selectTableQueryParams),
+                    take(1)
+                )
             ),
-            mergeMap(() => {
+            switchMap((tableQueryParams) => {
 
                 // Return an array of actions that need to be dispatched - request for file summary and file facets.
                 return of(
                     // Request summary
                     new FetchFileSummaryRequestAction(),
                     // Request facets
-                    new FetchFileFacetsRequestAction(false)
+                    new FetchFileFacetsRequestAction(tableQueryParams.tableState.selectedEntity !== EntityName.PROJECTS)
                 );
             })
         );
