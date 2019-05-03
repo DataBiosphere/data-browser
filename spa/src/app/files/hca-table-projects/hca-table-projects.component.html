@@ -141,7 +141,7 @@
             </ng-container>
             <ng-container matColumnDef="fileType">
                 <mat-header-cell class="file-type" *matHeaderCellDef>
-                    <hca-table-column-header [columnName]="'fileFormats'"
+                    <hca-table-column-header [columnName]="'fileType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('fileType')"
@@ -154,9 +154,10 @@
                     <hca-table-cell [tooltipDisabled]="true">
                         <div class="file-count">
                             <span class="fontsize-xxs">{{element.rawCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.processedCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.bamCount | localeString}}</span>
                             <span class="fontsize-xxs">{{element.matrixCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.otherFileCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.otherCount | localeString}}</span>
+                            <span class="fontsize-xxs">{{element.totalCount | localeString}}</span>
                         </div>
                     </hca-table-cell>
                 </mat-cell>
