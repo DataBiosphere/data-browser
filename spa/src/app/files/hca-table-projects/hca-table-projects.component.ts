@@ -18,6 +18,7 @@ import { map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import {
+    selectFileSummary,
     selectPagination,
     selectTableData,
     selectTableLoading,
@@ -25,12 +26,13 @@ import {
 } from "../_ngrx/file.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
+import { FileSummary } from "../file-summary/file-summary";
 import { PaginationModel } from "../table/pagination.model";
 import {
     getColumnDescription,
     getColumnDisplayName,
-    getCountDisplay,
     getFileTypeCounts,
+    getFileCountDisplay,
     getHeaderClass,
     getPairedEnd,
     getRowClass,
@@ -55,15 +57,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
-    domainCountVisibleForColumns = [
-        "disease",
-        "fileFormat",
-        "genusSpecies",
-        "libraryConstructionApproach",
-        "organ",
-        "sampleEntityType",
-        "selectedCellType"
-    ];
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     getHeaderClass = getHeaderClass;
@@ -71,6 +64,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
+    selectFileSummary$: Observable<FileSummary>;
     tableElementDataSource: TableElementDataSource;
 
     // Locals
@@ -199,6 +193,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
         this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
+
+        // Get the summary counts - used by columns with SUMMARY_COUNT countType
+        this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
     }
 }
 
@@ -257,23 +254,23 @@ class TableElementDataSource extends DataSource<any> {
                     let fileTypeCounts = getFileTypeCounts(fileTypeSummaries);
 
                     return {
-                        bamCount: getCountDisplay(fileTypeCounts.bamCount),
+                        bamCount: getFileCountDisplay(fileTypeCounts.bamCount),
                         disease: getUnspecifiedIfNullValue(samples.disease),
                         donorCount: getUnspecifiedIfNullValue(projectSummary.donorCount),
                         entryId: row.entryId,
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
-                        matrixCount: getCountDisplay(fileTypeCounts.matrixCount),
+                        matrixCount: getFileCountDisplay(fileTypeCounts.matrixCount),
                         organ: getUnspecifiedIfNullValue(organs.organType),
-                        otherCount: getCountDisplay(fileTypeCounts.otherCount),
+                        otherCount: getFileCountDisplay(fileTypeCounts.otherCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
-                        rawCount: getCountDisplay(fileTypeCounts.rawCount),
+                        rawCount: getFileCountDisplay(fileTypeCounts.rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
                         totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                        totalCount: getCountDisplay(fileTypeCounts.totalCount)
+                        totalCount: getFileCountDisplay(fileTypeCounts.totalCount)
                     };
                 });
             })

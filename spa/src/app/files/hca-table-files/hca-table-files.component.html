@@ -7,7 +7,7 @@
                 <mat-header-cell *matHeaderCellDef class="file-name">
                     <hca-table-column-header [columnName]="'fileName'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [summaryCount]="(selectFileSummary$ | async).fileCount | countSize"
                                              [tooltipContent]="getColumnDescription('fileName')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('fileName')}}</hca-table-column-header-title>
@@ -24,7 +24,7 @@
                 <mat-header-cell *matHeaderCellDef class="file-size">
                     <hca-table-column-header [columnName]="'fileSize'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [summaryCount]="(selectFileSummary$ | async).totalFileSize | fileSize"
                                              [tooltipContent]="getColumnDescription('fileSize')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('fileSize')}}</hca-table-column-header-title>
@@ -40,7 +40,6 @@
                 <mat-header-cell *matHeaderCellDef class="file-format">
                     <hca-table-column-header [columnName]="'fileFormat'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('fileFormat')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('fileFormat')}}</hca-table-column-header-title>
@@ -56,7 +55,7 @@
                 <mat-header-cell *matHeaderCellDef class="project">
                     <hca-table-column-header [columnName]="'projectTitle'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"
                                              [tooltipContent]="getColumnDescription('projectTitle')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('projectTitle')}}</hca-table-column-header-title>
@@ -72,7 +71,7 @@
                 <mat-header-cell *matHeaderCellDef class="specimen">
                     <hca-table-column-header [columnName]="'specimenId'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [summaryCount]="(selectFileSummary$ | async).specimenCount | countSize"
                                              [tooltipContent]="getColumnDescription('specimenId')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('specimenId')}}</hca-table-column-header-title>
@@ -89,7 +88,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'sampleEntityType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [columnSort]="true"
                                              [tooltipContent]="getColumnDescription('sampleEntityType')">
                         <hca-table-column-header-title>{{getColumnDisplayName('sampleEntityType')}}</hca-table-column-header-title>
@@ -107,7 +105,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'organ'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('organ')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('organ')}}</hca-table-column-header-title>
@@ -126,7 +123,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'organPart'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('organPart')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('organPart')}}</hca-table-column-header-title>
@@ -145,7 +141,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'selectedCellType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('selectedCellType')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('selectedCellType')}}</hca-table-column-header-title>
@@ -164,7 +159,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'libraryConstructionApproach'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('libraryConstructionApproach')}}</hca-table-column-header-title>
@@ -181,7 +175,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'genusSpecies'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('genusSpecies')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('genusSpecies')}}</hca-table-column-header-title>
@@ -200,7 +193,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'organismAge'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('organismAge')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('organismAge')}}</hca-table-column-header-title>
@@ -220,7 +212,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'biologicalSex'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('biologicalSex')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('biologicalSex')}}</hca-table-column-header-title>
@@ -239,7 +230,6 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'disease'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
                                              [tooltipContent]="getColumnDescription('disease')"
                                              [columnSort]="true">
                         <hca-table-column-header-title>{{getColumnDisplayName('disease')}}</hca-table-column-header-title>
@@ -258,7 +248,7 @@
                 <mat-header-cell *matHeaderCellDef>
                     <hca-table-column-header [columnName]="'totalCells'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [domainCountVisibleForColumns]="domainCountVisibleForColumns"
+                                             [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"
                                              [tooltipContent]="getColumnDescription('totalCells')"
                                              [columnSort]="false">
                         <hca-table-column-header-title>{{getColumnDisplayName('totalCells')}}</hca-table-column-header-title>

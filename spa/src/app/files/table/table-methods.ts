@@ -10,7 +10,7 @@
  */
 
 // App dependencies
-import { TableColumn } from "./table-column.model";
+import { CountType, TableColumn } from "./table-column.model";
 
 /* TableColumn array.
  * Provides user friendly name and description for each table column matColumnDef.
@@ -20,95 +20,118 @@ let tableColumns: TableColumn[] = [
     {
         key: "biologicalSex",
         userFriendly: "Sex",
-        description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown."
+        description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "disease",
         userFriendly: "Known Diseases",
-        description: "Free text describing any disease association to the cell type. Should be an EFO ontology."
+        description: "Free text describing any disease association to the cell type. Should be an EFO ontology.",
+        countType: CountType.DOMAIN_COUNT
+
     },
     {
         key: "donorCount",
         userFriendly: "Donor Count",
+        countType: CountType.SUMMARY_COUNT
+
     },
     {
         key: "fileCount",
         userFriendly: "File Count",
-        description: "The count of files for this specimen."
+        description: "The count of files for this specimen.",
+        countType: CountType.NONE
+
     },
     {
         key: "fileFormat",
         userFriendly: "File Format",
-        description: "The format of the file."
+        description: "The format of the file.",
+        countType: CountType.DOMAIN_COUNT
+
     },
     {
         key: "fileName",
         userFriendly: "File Name",
-        description: "The filename of the data file."
+        description: "The filename of the data file.",
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "fileSize",
         userFriendly: "File Size",
-        description: "The file size of the data file."
+        description: "The file size of the data file.",
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "fileType",
         userFriendly: "Data",
-        description: "The format of the data file."
+        description: "The format of the data file.",
+        countType: CountType.NONE
     },
     {
         key: "genusSpecies",
         userFriendly: "Species",
-        description: "The scientific binomial name for the species of the biomaterial."
+        description: "The scientific binomial name for the species of the biomaterial.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "libraryConstructionApproach",
         userFriendly: "Library Construction Approach",
-        description: "The general method for sequencing library construction."
+        description: "The general method for sequencing library construction.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organ",
         userFriendly: "Organ",
-        description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs."
+        description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organPart",
         userFriendly: "Organ Part",
-        description: "A term for a specific part of the organ that the biomaterial came from."
+        description: "A term for a specific part of the organ that the biomaterial came from.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organismAge",
         userFriendly: "Age",
-        description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year."
+        description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year.",
+        countType: CountType.NONE
     },
     {
         key: "projectTitle",
         userFriendly: "Project Name",
-        description: "The project name of the data file."
+        description: "The project name of the data file.",
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "sampleEntityType",
         userFriendly: "Sample Type",
-        description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen."
+        description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "sampleId",
-        userFriendly: "Sample Id"
+        userFriendly: "Sample Id",
+        countType: CountType.NONE
     },
     {
         key: "selectedCellType",
         userFriendly: "Selected Cell Type",
-        description: "The cell type(s) selected to be present in the suspension."
+        description: "The cell type(s) selected to be present in the suspension.",
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "specimenId",
         userFriendly: "Specimen Id",
-        description: "A unique ID for this specimen."
+        description: "A unique ID for this specimen.",
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "totalCells",
-        userFriendly: "Estimated Cell Count",
-        description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays."
+        userFriendly: "Cell Count Estimate",
+        description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
+        countType: CountType.SUMMARY_COUNT
     }
 ];
 
@@ -134,6 +157,16 @@ export function getAge(age: string, ageUnit: string): string {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Returns count type for specified column.
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnCountType(column: string): string {
+
+    return CountType[tableColumn.get(column).countType];
 }
 
 /**
@@ -163,7 +196,7 @@ export function getColumnDisplayName(column: string): string {
  * @param {number} count
  * @returns {any}
  */
-export function getCountDisplay(count: number): any {
+export function getFileCountDisplay(count: number): any {
 
     return count === 0 ? "--" : count;
 }
