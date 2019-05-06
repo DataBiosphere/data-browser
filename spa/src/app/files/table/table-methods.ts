@@ -102,7 +102,7 @@ let tableColumns: TableColumn[] = [
         key: "projectTitle",
         userFriendly: "Project Name",
         description: "The project name of the data file.",
-        countType: CountType.SUMMARY_COUNT
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "sampleEntityType",
