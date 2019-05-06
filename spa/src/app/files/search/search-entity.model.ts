@@ -53,6 +53,16 @@ export class SearchEntity implements SearchTerm {
     }
 
     /**
+     * Return the entity name.
+     *
+     * @returns {string}
+     */
+    public getName(): string {
+
+        return this.entityName;
+    }
+
+    /**
      * The search key of an entity is its entity type name.
      *
      * @returns {string}

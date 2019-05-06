@@ -85,6 +85,7 @@ import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TerraDAO } from "./shared/terra.dao";
 import { TermSortService } from "./sort/term-sort.service";
+import { TermResponseService } from "./shared/term-response.service";
 
 @NgModule({
     imports: [
@@ -176,6 +177,7 @@ import { TermSortService } from "./sort/term-sort.service";
         MatrixDAO,
         ProjectService,
         ProjectDAO,
+        TermResponseService,
         TermSortService,
         TerraService,
         TerraDAO,
