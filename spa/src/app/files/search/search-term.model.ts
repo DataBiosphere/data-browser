@@ -33,6 +33,11 @@ export interface SearchTerm extends TermSortable {
     getId(): string;
 
     /**
+     * Return the raw, un-formatted value for this term.
+     */
+    getName(): string;
+
+    /**
      * Return value to be used as the key when searching for this term.
      *
      * @returns {string}

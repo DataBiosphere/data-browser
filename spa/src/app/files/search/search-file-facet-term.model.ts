@@ -48,6 +48,16 @@ export class SearchFileFacetTerm implements SearchTerm {
     }
 
     /**
+     * Return the term name.
+     *
+     * @returns {string}
+     */
+    public getName(): string {
+
+        return this.termName;
+    }
+
+    /**
      * The search key of a file facet term is its facet name.
      *
      * @returns {string}
