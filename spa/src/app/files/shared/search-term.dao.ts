@@ -16,7 +16,7 @@ import { FacetTermsResponse } from "./facet-terms-response.model";
 import { TermResponse } from "./term-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { SearchEntity } from "../search/search-entity.model";
-import { EntityName } from "./entity-name.model";
+import { TermResponseService } from "./term-response.service";
 
 @Injectable()
 export class SearchTermDAO {
@@ -29,6 +29,11 @@ export class SearchTermDAO {
         "organismAgeUnit",
         "pairedEnd"
     ];
+
+    /**
+     * @param {TermResponseService} termResponseService
+     */
+    constructor(private termResponseService: TermResponseService) {}
 
     /**
      * Create search terms for each term facet, for each facet, in the specified response.
@@ -107,7 +112,7 @@ export class SearchTermDAO {
      */
     private createFileFacetTerm(facetName: string, termResponse: TermResponse): SearchTerm {
 
-        return new SearchFileFacetTerm(facetName, this.bindSearchValue(termResponse.term), termResponse.count);
+        return new SearchFileFacetTerm(facetName, this.bindSearchValue(termResponse), termResponse.count);
     }
 
     /**
@@ -120,7 +125,7 @@ export class SearchTermDAO {
      */
     private createSearchEntity(facetName: string, termResponse: TermResponse): SearchTerm[] {
 
-        const termName = this.bindSearchValue(termResponse.term);
+        const termName = this.bindSearchValue(termResponse);
         const searchKey = facetName === FileFacetName.PROJECT ? FileFacetName.PROJECT_ID : facetName; // Project IDs are nested under "project" term facet
         return (termResponse.projectId || []).reduce((accum, projectId) => {
             accum.push(new SearchEntity(searchKey, projectId, termName, 1));
@@ -129,13 +134,13 @@ export class SearchTermDAO {
     }
 
     /**
-     * Default value to "Undefined" if not specified
+     * Default value to "Unspecified" if not specified
      * 
-     * @param {string} name
+     * @param {TermResponse} termResponse
      * @returns {string}
      */
-    private bindSearchValue(name: string): string {
+    private bindSearchValue(termResponse: TermResponse): string {
 
-        return (name || "Undefined");
+        return this.termResponseService.bindTermName(termResponse);
     }
 }

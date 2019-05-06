@@ -25,6 +25,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
 import { TermResponse } from "./term-response.model";
+import { TermResponseService } from "./term-response.service";
 
 @Injectable()
 export class FilesDAO {
@@ -32,11 +33,13 @@ export class FilesDAO {
     /**
      * @param {ConfigService} configService
      * @param {SearchTermDAO} searchTermDAO
+     * @param {TermResponseService} termResponseService
      * @param {HttpClient} httpClient
      */
     constructor(
         private configService: ConfigService,
         private searchTermDAO: SearchTermDAO,
+        private termResponseService: TermResponseService,
         private httpClient: HttpClient) {}
 
     /**
@@ -191,11 +194,11 @@ export class FilesDAO {
 
             const responseFileFacet = termFacets[facetName];
             
-            // Determine the set of currently selected search terms for this facet
-            const searchTermKeys = this.listFacetSearchTermValues(facetName, searchTermsByFacetName);
+            // Determine the set of currently selected search term names for this facet
+            const searchTermNames = this.listFacetSearchTermNames(facetName, searchTermsByFacetName);
 
             // Build up the list of terms from the facet response
-            const responseTerms = this.bindFileFacetTerms(facetName, responseFileFacet.terms, searchTermKeys);
+            const responseTerms = this.bindFileFacetTerms(facetName, responseFileFacet.terms, searchTermNames);
 
             // Create file facet from newly built terms and newly calculated total
             return new FileFacet(facetName, (responseFileFacet.total || 0), responseTerms);
@@ -208,17 +211,18 @@ export class FilesDAO {
      * 
      * @param {string} facetName
      * @param {TermResponse[]} termResponses
+     * @param {string[]} searchTermNames
      * @returns {Term[]}
      */
-    private bindFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermKeys: string[]): Term[] {
+    private bindFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermNames: string[]): Term[] {
 
         return termResponses.reduce((accum, termResponse: TermResponse) => {
             
-            // Default term name to "Unspecified" if no value returned
-            const termName = (termResponse.term || "Unspecified");
+            // Default term name to "Unspecified" if term name is null
+            const termName = this.termResponseService.bindTermName(termResponse);
 
             // Determine if term is currently selected as a search term
-            let selected = searchTermKeys.indexOf(termName) >= 0;
+            let selected = searchTermNames.indexOf(termName) >= 0;
 
             // Create new term - default name to "Unspecified" if no value is returned
             const term = new Term(termName, termResponse.count, selected);
@@ -235,11 +239,11 @@ export class FilesDAO {
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @returns {string[]}
      */
-    private listFacetSearchTermValues(facetName: string, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): string[] {
+    private listFacetSearchTermNames(facetName: string, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): string[] {
 
         const searchTermSet: Set<SearchTerm> = searchTermsBySearchKey.get(facetName);
         return searchTermSet ?
-            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getSearchValue()) :
+            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getName()) :
             [];
     }
 

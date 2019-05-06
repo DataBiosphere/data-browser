@@ -4,15 +4,10 @@
  *
  * Component responsible for displaying an individual facet and its terms, as well as functionality around selecting
  * terms and displaying edit facet (term) menu.
- * HCA specific
  */
 
 // Core dependencies
-import {
-    Component,
-    Input,
-    ChangeDetectionStrategy, OnInit
-} from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { select, Store } from "@ngrx/store";
 
