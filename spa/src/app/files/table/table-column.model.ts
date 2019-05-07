@@ -8,6 +8,7 @@
 export interface TableColumn {
     key: string;
     alignment: ColumnAlignment;
+    columnMaxWidth?: number;
     countType: CountType;
     description?: string;
     userFriendly: string;

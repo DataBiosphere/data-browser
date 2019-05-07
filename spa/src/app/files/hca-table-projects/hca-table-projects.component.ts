@@ -31,6 +31,7 @@ import { PaginationModel } from "../table/pagination.model";
 import {
     getColumnDescription,
     getColumnDisplayName,
+    getColumnMaxWidthStyle,
     getFileTypeCounts,
     getFileCountDisplay,
     getHeaderClass,
@@ -54,12 +55,13 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
+        "projectTitle", "metadataDownload", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
         "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    getColumnMaxWidthStyle = getColumnMaxWidthStyle;
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
     isColumnRightAligned = isColumnRightAligned;

@@ -4,7 +4,8 @@
                    matSortDirection="asc" matSortActive="projectTitle"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="projectTitle">
-                <mat-header-cell *matHeaderCellDef [ngClass]="{'project': true, 'right': isColumnRightAligned('projectTitle')}">
+                <mat-header-cell *matHeaderCellDef
+                                 [ngClass]="{'project': true, 'right': isColumnRightAligned('projectTitle')}">
                     <hca-table-column-header [columnName]="'projectTitle'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"
@@ -14,7 +15,8 @@
                         </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="{'project': true, 'right': isColumnRightAligned('projectTitle')}">
+                <mat-cell *matCellDef="let element"
+                          [ngClass]="{'project': true, 'right': isColumnRightAligned('projectTitle')}">
                     <div class="selectable">
                         <div [ngClass]="{'chart-legend-bar': true, 'selected': isProjectSelected(element)}"
                              (click)="onProjectSelected(element.entryId, element.projectShortname, isProjectSelected(element))">
@@ -24,6 +26,24 @@
                             {{element.projectTitle}}
                         </div>
                     </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="metadataDownload">
+                <mat-header-cell *matHeaderCellDef [ngStyle]="getColumnMaxWidthStyle('metadataDownload')"
+                                 [ngClass]="{'right': isColumnRightAligned('metadataDownload')}">
+                    <hca-table-column-header [columnName]="'metadataDownload'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [columnSort]="false"
+                                             [tooltipContent]="getColumnDescription('metadataDownload')">
+                        <hca-table-column-header-title>{{getColumnDisplayName('metadataDownload')}}
+                        </hca-table-column-header-title>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngStyle]="getColumnMaxWidthStyle('metadataDownload')"
+                          [ngClass]="{'right': isColumnRightAligned('metadataDownload')}">
+                    <hca-table-cell>
+                        <hca-download-metadata [projectId]="element.entryId"></hca-download-metadata>
+                    </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="sampleEntityType">
@@ -82,7 +102,8 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
-                <mat-header-cell *matHeaderCellDef [ngClass]="{'right': isColumnRightAligned('libraryConstructionApproach')}">
+                <mat-header-cell *matHeaderCellDef
+                                 [ngClass]="{'right': isColumnRightAligned('libraryConstructionApproach')}">
                     <hca-table-column-header [columnName]="'libraryConstructionApproach'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
@@ -91,7 +112,8 @@
                         </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="{'right': isColumnRightAligned('libraryConstructionApproach')}">
+                <mat-cell *matCellDef="let element"
+                          [ngClass]="{'right': isColumnRightAligned('libraryConstructionApproach')}">
                     <hca-table-cell [tooltipContent]="element.libraryConstructionApproach" [tooltipDisabled]="true">
                         <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
                     </hca-table-cell>
@@ -134,7 +156,8 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="fileType">
-                <mat-header-cell *matHeaderCellDef [ngClass]="{'file-type': true, 'right': isColumnRightAligned('fileType')}">
+                <mat-header-cell *matHeaderCellDef
+                                 [ngClass]="{'file-type': true, 'right': isColumnRightAligned('fileType')}">
                     <hca-table-column-header [columnName]="'fileType'"
                                              [domainCountsByColumnName]="domainCountsByColumnName$ | async"
                                              [tooltipContent]="getColumnDescription('fileType')"
@@ -143,7 +166,8 @@
                         </hca-table-column-header-title>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell [ngClass]="{'file-type': true, 'right': isColumnRightAligned('fileType')}" *matCellDef="let element">
+                <mat-cell [ngClass]="{'file-type': true, 'right': isColumnRightAligned('fileType')}"
+                          *matCellDef="let element">
                     <hca-table-cell [tooltipDisabled]="true">
                         <div class="file-count">
                             <span class="fontsize-xxs">{{element.rawCount | localeString}}</span>

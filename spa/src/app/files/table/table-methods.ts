@@ -91,6 +91,14 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
+        key: "metadataDownload",
+        userFriendly: "Metadata Download",
+        description: "Full project metadata download in .tsv format.",
+        alignment: ColumnAlignment.LEFT,
+        columnMaxWidth: 56,
+        countType: CountType.NONE
+    },
+    {
         key: "organ",
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
@@ -218,6 +226,34 @@ export function getColumnDescription(column: string): string {
 export function getColumnDisplayName(column: string): string {
 
     return tableColumn.get(column).userFriendly;
+}
+
+/**
+ * Returns the column max width.
+ * @param {string} column
+ * @returns {number}
+ */
+export function getColumnMaxWidth(column: string): number {
+
+    return tableColumn.get(column).columnMaxWidth;
+}
+
+/**
+ * Return the inline style configuration for the column max width.
+ * @param {number} columnWidth
+ * @returns {any}
+ */
+export function getColumnMaxWidthStyle(column: string): any {
+
+    let columnWidth = getColumnMaxWidth(column);
+
+    if ( columnWidth ) {
+
+        return {
+            "max-width": columnWidth + "px"
+        };
+    }
+    return {};
 }
 
 /**
