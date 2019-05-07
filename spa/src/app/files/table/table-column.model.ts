@@ -7,9 +7,15 @@
 
 export interface TableColumn {
     key: string;
+    alignment: ColumnAlignment;
     countType: CountType;
     description?: string;
     userFriendly: string;
+}
+
+export enum ColumnAlignment {
+    "LEFT",
+    "RIGHT"
 }
 
 export enum CountType {

@@ -137,10 +137,10 @@
                 }
             }
 
-            /* TODO review */
             .file-count span {
                 display: inline-block;
                 line-height: 24px; /* Matches term-count line height */
+                text-align: right;
                 width: 50px;
             }
         }

@@ -10,7 +10,7 @@
  */
 
 // App dependencies
-import { CountType, TableColumn } from "./table-column.model";
+import { ColumnAlignment, CountType, TableColumn } from "./table-column.model";
 
 /* TableColumn array.
  * Provides user friendly name and description for each table column matColumnDef.
@@ -21,25 +21,29 @@ let tableColumns: TableColumn[] = [
         key: "biologicalSex",
         userFriendly: "Sex",
         description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "disease",
         userFriendly: "Known Diseases (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
 
     },
     {
         key: "donorCount",
         userFriendly: "Donor Count",
-        countType: CountType.SUMMARY_COUNT
+        alignment: ColumnAlignment.RIGHT,
+        countType: CountType.NONE
 
     },
     {
         key: "fileCount",
         userFriendly: "File Count",
         description: "The count of files for this specimen.",
+        alignment: ColumnAlignment.RIGHT,
         countType: CountType.NONE
 
     },
@@ -47,6 +51,7 @@ let tableColumns: TableColumn[] = [
         key: "fileFormat",
         userFriendly: "File Format",
         description: "The format of the file.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -54,84 +59,98 @@ let tableColumns: TableColumn[] = [
         key: "fileName",
         userFriendly: "File Name",
         description: "The filename of the data file.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.SUMMARY_COUNT
     },
     {
         key: "fileSize",
         userFriendly: "File Size",
         description: "The file size of the data file.",
+        alignment: ColumnAlignment.RIGHT,
         countType: CountType.SUMMARY_COUNT
     },
     {
         key: "fileType",
         userFriendly: "Data",
         description: "The format of the data file.",
+        alignment: ColumnAlignment.RIGHT,
         countType: CountType.NONE
     },
     {
         key: "genusSpecies",
         userFriendly: "Species",
         description: "The scientific binomial name for the species of the biomaterial.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "libraryConstructionApproach",
         userFriendly: "Library Construction Approach",
         description: "The general method for sequencing library construction.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organ",
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organPart",
         userFriendly: "Organ Part",
         description: "A term for a specific part of the organ that the biomaterial came from.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "organismAge",
         userFriendly: "Age",
         description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year.",
+        alignment: ColumnAlignment.RIGHT,
         countType: CountType.NONE
     },
     {
         key: "projectTitle",
         userFriendly: "Project Name",
         description: "The project name of the data file.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "sampleEntityType",
         userFriendly: "Sample Type",
         description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "sampleId",
         userFriendly: "Sample Id",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.NONE
     },
     {
         key: "selectedCellType",
         userFriendly: "Selected Cell Type",
         description: "The cell type(s) selected to be present in the suspension.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "specimenId",
         userFriendly: "Specimen Id",
         description: "A unique ID for this specimen.",
+        alignment: ColumnAlignment.LEFT,
         countType: CountType.SUMMARY_COUNT
     },
     {
         key: "totalCells",
         userFriendly: "Cell Count Estimate",
         description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
-        countType: CountType.SUMMARY_COUNT
+        alignment: ColumnAlignment.RIGHT,
+        countType: CountType.NONE
     }
 ];
 
@@ -157,6 +176,16 @@ export function getAge(age: string, ageUnit: string): string {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Returns column alignment for specified column.
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnAlignment(column: string): string {
+
+    return ColumnAlignment[tableColumn.get(column).alignment];
 }
 
 /**
@@ -214,15 +243,15 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
     return fileTypeSummaries.reduce((acc, fileTypeSummary) => {
 
         /* bam */
-        if (fileTypeSummary.fileType === "bam") {
+        if ( fileTypeSummary.fileType === "bam" ) {
             acc.bamCount = acc.bamCount + fileTypeSummary.count;
         }
         /* matrix */
-        if (fileTypeSummary.fileType === "matrix") {
+        if ( fileTypeSummary.fileType === "matrix" ) {
             acc.matrixCount = acc.matrixCount + fileTypeSummary.count;
         }
         /* fastq and fastq.qz */
-        if (fileTypeSummary.fileType === "fastq.gz" || fileTypeSummary.fileType === "fastq") {
+        if ( fileTypeSummary.fileType === "fastq.gz" || fileTypeSummary.fileType === "fastq" ) {
             acc.rawCount = acc.rawCount + fileTypeSummary.count;
         }
         /* total count */
@@ -317,6 +346,16 @@ export function getUnspecifiedIfNullValue(value: any): any {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Returns true if the column alignment equals "RIGHT".
+ * @param {string} columnName
+ * @returns {boolean}
+ */
+export function isColumnRightAligned(columnName: string): boolean {
+
+    return getColumnAlignment(columnName) === "RIGHT";
 }
 
 /**

@@ -34,6 +34,7 @@ import {
     getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
+    isColumnRightAligned,
     isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
@@ -58,6 +59,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getColumnDisplayName = getColumnDisplayName;
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
+    isColumnRightAligned = isColumnRightAligned;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;

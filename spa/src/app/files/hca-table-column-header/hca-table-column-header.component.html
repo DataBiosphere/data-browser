@@ -2,16 +2,21 @@
     <hca-tooltip
             [tooltipContent]="tooltipContent"
             [tooltipDisabled]="tooltipDisabled"
-            [tooltipPosition]="'below'"
+            [tooltipPosition]="'above'"
             [tooltipClass]="'hca-tooltip narrow'">
         <ng-content></ng-content>
     </hca-tooltip>
 </hca-table-sort>
 <ng-container [ngSwitch]="columnName === 'fileType'">
-    <ng-container *ngSwitchDefault>
-        <span class="term-count fontsize-s" *ngIf="isDomainCountVisible(columnName)">({{getDomainCountDisplayText(columnName)}})</span>
-        <span class="term-count fontsize-s" *ngIf="isSummaryCountVisible(columnName)">{{summaryCount}}</span>
-    </ng-container>
+    <div *ngSwitchDefault class="count">
+        <hca-tooltip [tooltipContent]="tooltipContentForCount"
+                     [tooltipDisabled]="false"
+                     [tooltipPosition]="'above'"
+                     [tooltipClass]="'hca-tooltip narrow'">
+            <span class="fontsize-s" *ngIf="isDomainCountVisible(columnName)">({{getDomainCountDisplayText(columnName)}})</span>
+        </hca-tooltip>
+        <span class="fontsize-s" *ngIf="isSummaryCountVisible(columnName)">{{summaryCount}}</span>
+    </div>
     <div *ngSwitchCase="true" class="data-label fontsize-xxs">
         <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span><span>Total</span>
     </div>
