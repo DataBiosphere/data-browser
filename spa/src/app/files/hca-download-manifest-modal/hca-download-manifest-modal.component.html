@@ -1,43 +1,64 @@
-<div class="hca-download" [ngClass]="getDownloadClass(1)" *ngIf="state$ | async as state">
-    <div>
-        <span>Select Manifest File Types</span>
-        <span class="fontsize-s">Once you have your manifest, use it to download your data and the associated metadata with the HCA CLI.</span>
-    </div>
-    <ng-container [ngSwitch]="getFileTypeSummaries(state.fileManifestFileSummary).length > 0">
-        <ng-container *ngSwitchCase="true">
-            <hca-file-summary
-                    [showDownload]="false"
-                    [summary]="state.fileManifestFileSummary"></hca-file-summary>
-            <div class="separator"></div>
-            <hca-file-filter-result [selectedSearchTerms]="state.selectedSearchTerms"
-                                    [removable]="false"></hca-file-filter-result>
-            <div class="separator"></div>
-            <div class="hca-download-content">
-                <div class="facet-term-list">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                     [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
-                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+<div class="hca-download" *ngIf="state$ | async as state">
+    <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
+        <div>
+            <span>Select Manifest File Types</span>
+            <span class="fontsize-s">Once you have your manifest, use it to download your data and the associated metadata with the HCA CLI.</span>
+        </div>
+        <ng-container [ngSwitch]="isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+            <div *ngSwitchCase="true" class="hca-spinner">
+                <mat-spinner diameter="28"></mat-spinner>
+            </div>
+            <ng-container *ngSwitchDefault>
+                <hca-file-summary
+                        [showDownload]="false"
+                        [summary]="state.fileManifestFileSummary"></hca-file-summary>
+                <div class="separator"></div>
+                <hca-file-filter-result [selectedSearchTerms]="state.selectedSearchTerms"
+                                        [removable]="false"></hca-file-filter-result>
+                <div class="separator"></div>
+                <div class="hca-download-content">
+                    <div class="facet-term-list">
+                        <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                                [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
+                                                (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                    </div>
                 </div>
-            </div>
-            <div class="hca-download-action">
-                <button type="button" (click)="onDownloadManifest()">Download File Manifest</button>
-            </div>
+                <div class="hca-download-action">
+                    <button type="button" (click)="onRequestManifest()">Download File Manifest</button>
+                </div>
+            </ng-container>
         </ng-container>
-        <div *ngSwitchDefault class="hca-spinner">
+    </ng-container>
+    <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
+        <div>
+            <span>Manifest Download in Progress</span>
+        </div>
+        <div class="hca-download-content">
+            <p class="fontsize-s">When your download completes, use the manifest to retrieve the selected data files and associated metadata.</p>
+        </div>
+        <div class="hca-download-action">
             <mat-spinner diameter="28"></mat-spinner>
         </div>
     </ng-container>
-</div>
-<div class="hca-download instructions" [ngClass]="getDownloadClass(2)">
-    <div>
-        <span>Your Manifest is Downloading</span>
-        <span class="fontsize-s">When your download completes, use the manifest to retrieve the selected data files and associated metadata.</span>
-    </div>
-    <div class="hca-download-action">
-        <a class="hca-button"
-           target="_blank"
-           href="{{portalURL}}/guides#downloading-a-data-manifest"
-           (click)="closeDialog()">Get
-            HCA CLI Instructions</a>
-    </div>
+    <ng-container *ngIf="isDownloadComplete(state.manifestResponse)">
+        <div>
+            <span>Manifest Download Complete</span>
+        </div>
+        <div class="hca-download-content">
+            <p class="fontsize-s">When your download completes, use the manifest to retrieve the selected data files and associated metadata.</p>
+            <p class="fontsize-s">
+                <a target="_blank" 
+                   href="{{portalURL}}/guides#downloading-a-data-manifest" 
+                   (click)="closeDialog()">Get HCA CLI Instructions</a>
+            </p>
+        </div>
+        <div class="hca-download-action">
+            <button type="button" (click)="onDownloadManifest(state.manifestResponse)">Download</button>
+            <button type="button"
+                    ngxClipboard
+                    [cbContent]="(getManifestCurlCommand(state.manifestResponse))"
+                    class="hca-outline-button">
+                <img src="assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
+        </div>
+    </ng-container>
 </div>

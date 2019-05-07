@@ -7,7 +7,6 @@
 
 export enum ManifestStatus {
     "NOT_STARTED" = "NOT_STARTED",
-    "INITIATED" = "INITIATED",
     "IN_PROGRESS" = "IN_PROGRESS",
     "COMPLETE" = "COMPLETE",
     "FAILED" = "FAILED"
