@@ -37,6 +37,7 @@ import {
     getPairedEnd,
     getRowClass,
     getUnspecifiedIfNullValue,
+    isColumnRightAligned,
     isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
@@ -61,6 +62,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     getColumnDisplayName = getColumnDisplayName;
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
+    isColumnRightAligned = isColumnRightAligned;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;

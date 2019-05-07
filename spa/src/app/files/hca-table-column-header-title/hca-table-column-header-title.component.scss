@@ -4,7 +4,9 @@
  *
  * Component for table header title.
  */
+@import "../../site/theme/cgl.vars";
 
 :host {
+    color: $hca-black;
     display: block; /* Required for <hca-content-ellipsis/> */
 }

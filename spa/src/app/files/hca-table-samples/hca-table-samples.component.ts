@@ -37,6 +37,7 @@ import {
     getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
+    isColumnRightAligned,
     isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
@@ -62,6 +63,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
     isTooltipDisabled = isTooltipDisabled;
+    isColumnRightAligned = isColumnRightAligned;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
     tableElementDataSource: TableElementDataSource;
