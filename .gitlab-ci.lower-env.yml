@@ -22,6 +22,16 @@ stages:
         - maintenance
 
 
+# Test with Trufflehog
+test_trufflehog:
+  stage: build
+  image: python:3.5
+  before_script:
+    - pip install trufflehog
+  script:
+    - trufflehog --regex --rules trufflehog-rules.json --branch develop --max_depth 30 --entropy=False https://github.com/HumanCellAtlas/data-browser.git
+
+
 # Develop Build
 build_develop:
   <<: *build_template
