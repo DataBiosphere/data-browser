@@ -28,6 +28,7 @@ export class HCATableColumnHeaderComponent {
 
     // Template variables
     tooltipDisabled = this.tooltipContent === null;
+    tooltipContentForCount = "Count of distinct values for this facet in the current search result set.";
 
     /**
      * Public API

@@ -4,7 +4,6 @@
  *
  * Styles for table cell.
  */
-
 @import "../../site/theme/cgl.vars";
 
 :host {
@@ -18,4 +17,9 @@
     hca-tooltip {
         overflow: hidden; /* Required, if ellipsis applied */
     }
+}
+
+/* Right align column contents */
+:host-context(.right) {
+    justify-content: flex-end;
 }
