@@ -46,6 +46,7 @@ import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-bann
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
+import { HCADownloadMetadataComponent } from "./hca-download-metadata/hca-download-metadata.component";
 import { HCAExportToTerraComponent } from "./hca-export-to-terra/hca-export-to-terra.component";
 import { HCAExportToTerraModalComponent } from "./hca-export-to-terra-modal/hca-export-to-terra-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
@@ -132,6 +133,7 @@ import { TermResponseService } from "./shared/term-response.service";
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
+        HCADownloadMetadataComponent,
         HCAExportToTerraComponent,
         HCAExportToTerraModalComponent,
         HCAFacetTermListComponent,
