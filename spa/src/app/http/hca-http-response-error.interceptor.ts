@@ -64,17 +64,23 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     }
 
     /**
-     * Grab the error message from the response error - we'll add this to the store.
+     * Grab the error message from the response error - we'll add this to the store. Must handle different formats of
+     * error responses.
      * 
      * @param {HttpErrorResponse} error
      * @returns {string}
      */
     private parseErrorMessage(error: HttpErrorResponse): string {
 
-        if ( error.error && error.error.Message ) {
+        if ( !error.error ) {
+            return error.toString();
+        }
+
+        if ( error.error.Message ) {
             return error.error.Message;
         }
-        
-        return error.toString();
+
+        return error.error;
+
     }
 }
