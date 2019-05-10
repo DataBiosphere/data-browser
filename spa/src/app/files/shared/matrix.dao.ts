@@ -29,9 +29,6 @@ import { SearchTermDAO } from "./search-term.dao";
 @Injectable()
 export class MatrixDAO {
 
-    // Constants
-    private MATRIX_API_KEY = "Z9rUPlwAt26XpKkHYqp3S3nVb6798au97ttzQ5VT"; // TODO convert to env var or open API
-
     /**
      * @param {ConfigService} configService
      * @param {SearchTermDAO} searchTermDAO
@@ -65,11 +62,8 @@ export class MatrixDAO {
      */
     public getMatrixStatus(requestId: string): Observable<MatrixResponse> {
 
-        // Set up headers
-        const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
-
         return this.httpClient
-            .get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`, {headers})
+            .get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`)
             .pipe(
                 retry(3),
                 catchError(this.handleMatrixStatusError.bind(this, requestId)),
@@ -96,11 +90,8 @@ export class MatrixDAO {
             format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
         };
 
-        // Set up headers
-        const headers = new HttpHeaders().set("X-API-KEY", this.MATRIX_API_KEY);
-
         return this.httpClient
-            .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body, {headers})
+            .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body)
             .pipe(
                 map(this.bindMatrixResponse.bind(this))
             );
