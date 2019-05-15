@@ -134,6 +134,7 @@ export function updateSelectedTableModelData(
             return {
                 ...tm,
                 data,
+                loading: false,
                 pagination,
                 termCountsByFacetName
             };
