@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Action dispatched when health check request is successfully returned.
  */
@@ -11,5 +11,5 @@ import { Action } from "@ngrx/store";
 export class HealthSuccessAction implements Action {
     public static ACTION_TYPE = "SYSTEM.HEALTH.FETCH_SUCCESS";
     public readonly type = HealthSuccessAction.ACTION_TYPE;
-    constructor(public readonly indexing: boolean) {}
+    constructor(public readonly ok: boolean, public readonly indexing: boolean) {}
 }

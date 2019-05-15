@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Top-level application component.
  */
@@ -15,11 +15,12 @@ import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
+import { EntityName } from "./files/shared/entity-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { AppState } from "./_ngrx/app.state";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
-import { selectIndexing } from "./system/_ngrx/system.selectors";
-import { EntityName } from "./files/shared/entity-name.model";
+import { HealthState } from "./system/_ngrx/health/health.state";
+import { selectHealth } from "./system/_ngrx/system.selectors";
 
 @Component({
     selector: "app-root",
@@ -30,7 +31,7 @@ import { EntityName } from "./files/shared/entity-name.model";
 export class AppComponent implements OnInit, OnDestroy {
 
     // Template/public variables
-    public indexing$: Observable<boolean>;
+    public health$: Observable<HealthState>;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -146,8 +147,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private healthCheck() {
 
         this.store.dispatch(new HealthRequestAction());
-        this.indexing$ = this.store.pipe(
-            select(selectIndexing),
+        this.health$ = this.store.pipe(
+            select(selectHealth),
             takeUntil(this.ngDestroy$)
         );
     }

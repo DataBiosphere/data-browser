@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of health response.
  */
@@ -10,6 +10,7 @@ import { HealthRequestStatus } from "./health-request-status.model";
 
 export interface HealthResponse {
 
+    ok: boolean;
     indexing: boolean;
     status: HealthRequestStatus;
 }
