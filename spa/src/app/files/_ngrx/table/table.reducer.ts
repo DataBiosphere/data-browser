@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Table reducer, handles actions related to table data and pagination.
  */
@@ -13,25 +13,77 @@ import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list
 import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
 import * as tableStateService from "./table.state";
 import { TableState } from "./table.state";
+import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
+import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import {
     EntitySelectAction,
-    FetchTableDataSuccessAction,
-    TableNextPageSuccessAction,
-    TablePreviousPageSuccessAction, FetchProjectSuccessAction
+    FetchProjectSuccessAction
 } from "./table.actions";
 import { TableModel } from "../../table/table.model";
+import { TermCountsUpdatedAction } from "./term-counts-updated.action";
+import { TableNextPageSuccessAction } from "./table-next-page-success.action";
+import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
     let tableModel: TableModel;
     let nextState: TableState;
+    let termCountsByFacetName;
 
     switch (action.type) {
 
+        // User is switching tab, update selected entity.
+        case EntitySelectAction.ACTION_TYPE:
+
+            nextState = {
+                ...state, selectedEntity: (action as EntitySelectAction).key
+            };
+
+            return nextState;
+
+        // On fetch success of file facets, reset the table models of all entities except the current selected entity
+        case FetchFileFacetsSuccessAction.ACTION_TYPE:
+
+            nextState = {
+                ...state,
+                selectedEntity: state.selectedEntity,
+                entitySpecs: state.entitySpecs,
+                tableModels: tableStateService.clearUnselectedTableModels(state)
+            };
+
+            return nextState;
+
+        // Project has been selected from the table and corresponding details have been successfully requested from
+        // the server
+        case FetchProjectSuccessAction.ACTION_TYPE:
+
+            return {
+                ...state,
+                selectedProject: (action as FetchProjectSuccessAction).project
+            };
+
+        // Table data has been retrieved from server - update data and pagination (but leave term counts unchanged).
         case FetchTableDataSuccessAction.ACTION_TYPE:
 
-            tableModel = (action as FetchTableDataSuccessAction).tableModel;
+            const data = (action as FetchTableDataSuccessAction).data;
+            const pagination = (action as FetchTableDataSuccessAction).pagination;
+            pagination.current_page = 1;
+            termCountsByFacetName = (action as FetchTableDataSuccessAction).termCountsByFacetName;
+
+            nextState = {
+                ...state,
+                selectedEntity: state.selectedEntity,
+                entitySpecs: state.entitySpecs,
+                tableModels: tableStateService.updateSelectedTableModelData(state, data, pagination, termCountsByFacetName)
+            };
+
+            return nextState;
+
+        // Table model has been retrieved from server - update data, pagination and term counts.
+        case FetchTableModelSuccessAction.ACTION_TYPE:
+
+            tableModel = (action as FetchTableModelSuccessAction).tableModel;
             tableModel.pagination.current_page = 1;
 
             nextState = {
@@ -43,46 +95,41 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
 
             return nextState;
 
-
+        // Paginate to next page using the specified table model, update table data and pagination but not term counts.
         case TableNextPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TableNextPageSuccessAction).tableModel;
             tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page + 1;
 
+            termCountsByFacetName = tableStateService.getSelectedTable(state).termCountsByFacetName;
+
             nextState = {
                 ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, tableModel.pagination, termCountsByFacetName)
             };
 
             return nextState;
 
-
+        // Paginate to previous page using the specified table model, update table data and pagination but not term counts.
         case TablePreviousPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TablePreviousPageSuccessAction).tableModel;
             tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page - 1;
 
+            termCountsByFacetName = tableStateService.getSelectedTable(state).termCountsByFacetName;
+
             nextState = {
                 ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, tableModel.pagination, termCountsByFacetName)
             };
 
             return nextState;
 
-        case EntitySelectAction.ACTION_TYPE:
-
-            nextState = {
-                ...state, selectedEntity: (action as EntitySelectAction).key
-            };
-
-            return nextState;
-
-        // Handle the case where the view state has been parsed from URL param on app init - must do this to set the
-        // current selected tab.
+        // View state has been parsed from URL param on app init - must do this to set the current selected tab.
         case SetViewStateAction.ACTION_TYPE:
 
             return {
@@ -90,24 +137,14 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
                 selectedEntity: (action as SetViewStateAction).selectedEntity
             };
 
-        case FetchFileFacetsSuccessAction.ACTION_TYPE:
+        // Handle case where only the term counts need to be updated (and not the table data, pagination etc). This
+        // can occur when selecting a project on the projects tab.
+        case TermCountsUpdatedAction.ACTION_TYPE:
 
-            nextState = {
-                ...state,
-                selectedEntity: state.selectedEntity,
-                entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.clearUnSelectedTableModels(state)
-            };
-
-            return nextState;
-
-        // Handle case where project has been selected from the table and corresponding details have been
-        // successfully requested from the server
-        case FetchProjectSuccessAction.ACTION_TYPE:
-
+            termCountsByFacetName = (action as TermCountsUpdatedAction).termCountsByFacetName;
             return {
                 ...state,
-                selectedProject: (action as FetchProjectSuccessAction).project
+                tableModels: tableStateService.updateSelectedTableTermCounts(state, termCountsByFacetName)
             };
 
         default:

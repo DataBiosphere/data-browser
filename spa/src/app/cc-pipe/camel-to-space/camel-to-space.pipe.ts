@@ -1,3 +1,11 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Pipe for converting camel case strings to lower case sentence case.
+ */
+
+// Core dependencies
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({

@@ -1,6 +1,13 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Test suite for camel to space pipe.
+ */
+
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from "@angular/core/testing";
+// App dependencies
 import { CamelToSpacePipe } from "./camel-to-space.pipe";
 
 describe("Pipe: CamelToSpace", () => {

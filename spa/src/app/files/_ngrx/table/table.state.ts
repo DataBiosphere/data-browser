@@ -24,7 +24,7 @@ export interface TableState {
  * @param {TableState} tableState
  * @returns {TableModel[]}
  */
-export function clearUnSelectedTableModels(tableState: TableState): TableModel[] {
+export function clearUnselectedTableModels(tableState: TableState): TableModel[] {
 
     return tableState.tableModels.map((tm) => {
 
@@ -96,6 +96,7 @@ export function getSelectedEntity(tableState: TableState): EntitySpec {
 
 /**
  * Replace the table model corresponding to the selected entity, with the given table model.
+ *
  * @param {TableState} tableState
  * @param {TableModel} tableModel
  * @returns {TableModel[]}
@@ -107,9 +108,62 @@ export function updateSelectedTableModel(tableState: TableState, tableModel: Tab
         if ( tm.tableName === tableState.selectedEntity ) {
             return tableModel;
         }
-        else {
-            return tm;
+        
+        return tm;
+    });
+}
+
+/**
+ * Replace the table model data corresponding to the selected entity, with the given table model.
+ *
+ * @param {TableState} tableState
+ * @param {any[]} data
+ * @param {PaginationModel} pagination
+ * @param {Map<string, number>} termCountsByFacetName
+ * @returns {TableModel[]}
+ */
+export function updateSelectedTableModelData(
+    tableState: TableState, data: any[],
+    pagination: PaginationModel,
+    termCountsByFacetName: Map<string, number>): TableModel[] {
+
+    return tableState.tableModels.map((tm) => {
+
+        if ( tm.tableName === tableState.selectedEntity ) {
+
+            return {
+                ...tm,
+                data,
+                loading: false,
+                pagination,
+                termCountsByFacetName
+            };
         }
+
+        return tm;
+    });
+}
+
+/**
+ * Replace the term counts for the current table model with the specified counts.
+ *
+ * @param {TableState} tableState
+ * @param {TableModel} termCountsByFacetName
+ * @returns {Map<string, number>}
+ */
+export function updateSelectedTableTermCounts(tableState: TableState, termCountsByFacetName: Map<string, number>): TableModel[] {
+
+    return tableState.tableModels.map((tm) => {
+
+        if ( tm.tableName === tableState.selectedEntity ) {
+
+            return {
+                ...tm,
+                termCountsByFacetName: termCountsByFacetName
+            };
+        }
+
+        return tm;
     });
 }
 
