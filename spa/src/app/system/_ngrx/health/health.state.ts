@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of indexing status-related state.
  */
@@ -11,10 +11,10 @@ import { HealthSuccessAction } from "./health-success.action";
 export class HealthState {
 
     /**
+     * @param {boolean} ok
      * @param {boolean} indexing
      */
-    constructor(public indexing: boolean) {
-    }
+    constructor(public readonly ok: boolean, public readonly indexing: boolean) {}
 
     /**
      * Return the current health status on request of health check.
@@ -34,16 +34,16 @@ export class HealthState {
      */
     public receiveHealth(action: HealthSuccessAction): HealthState {
 
-        return new HealthState(action.indexing);
+        return new HealthState(action.ok, action.indexing);
     }
 
     /**
-     * Default status of indexing is false.
+     * Default status is overall status is OK and indexing is false.
      *
      * @returns {HealthState}
      */
     public static getDefaultState() {
 
-        return new HealthState(false);
+        return new HealthState(true,false);
     }
 }

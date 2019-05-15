@@ -1,6 +1,11 @@
-<div *ngIf="indexing$ | async as indexing" class="status">
-    Data indexing in progress. Search results may be incomplete.
-</div>
+<ng-container *ngIf="health$ | async as health">
+    <div *ngIf="!health.ok" class="status">
+        One or more of the systems composing the HCA DCP is currently unavailable. Please try again later, or monitor the full system status <a href="/system-status">here</a>
+    </div>
+    <div *ngIf="health.ok && health.indexing" class="status">
+        Data indexing in progress. Search results may be incomplete.
+    </div>
+</ng-container>
 <header>
     <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
 </header>

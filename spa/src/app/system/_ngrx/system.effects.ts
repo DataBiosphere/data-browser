@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Side effects related to system-related actions.
  */
@@ -47,7 +47,7 @@ export class SystemEffects {
             map((response: HealthResponse) => {
 
                 if ( response.status === HealthRequestStatus.COMPLETE ) {
-                    return new HealthSuccessAction(response.indexing);
+                    return new HealthSuccessAction(response.ok, response.indexing);
                 }
 
                 return new HealthFailureAction();
