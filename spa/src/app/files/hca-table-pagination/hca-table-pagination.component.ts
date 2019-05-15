@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Table pagination component.
  */
@@ -16,9 +16,10 @@ import { Observable } from "rxjs";
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination } from "../_ngrx/file.selectors";
 import {
-    FetchPagedOrSortedTableDataRequestAction, TableNextPageAction,
-    TablePreviousPageAction
+    FetchPagedOrSortedTableDataRequestAction
 } from "../_ngrx/table/table.actions";
+import { TableNextPageAction } from "../_ngrx/table/table-next-page.action";
+import { TablePreviousPageAction } from "../_ngrx/table/table-previous-page.action";
 import { PaginationModel } from "../table/pagination.model";
 import { TableParamsModel } from "../table/table-params.model";
 

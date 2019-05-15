@@ -113,8 +113,7 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
  */
 export const selectTableQueryParams = createSelector(selectSelectedSearchTermsBySearchKey, selectPagination, selectTableState,
     (selectedSearchTermsBySearchKey, pagination, tableState) => {
-    return { selectedSearchTermsBySearchKey, pagination, tableState
-    };
+    return { selectedSearchTermsBySearchKey, pagination, tableState };
 });
 
 /**

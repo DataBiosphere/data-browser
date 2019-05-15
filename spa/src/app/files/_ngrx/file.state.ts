@@ -14,11 +14,11 @@ import { MatrixState } from "./matrix/matrix.state";
 import { SearchState } from "./search/search.state";
 
 export interface FileState {
-    terraState: TerraState;
+    terra: TerraState;
     fileSummary: FileSummaryState;
     fileFacetList: FileFacetListState;
     fileManifestFileSummary: FileSummaryState;
     matrix: MatrixState;
-    searchState: SearchState;
+    search: SearchState;
     tableState: TableState;
 }
