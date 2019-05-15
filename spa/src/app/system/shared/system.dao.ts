@@ -1,12 +1,12 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Data access object, connecting to system-related end points.
  */
 
 // Core dependencies
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, retry, switchMap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -39,7 +39,7 @@ export class SystemDAO {
         return this.httpClient
             .get<HealthHttpResponse>(url)
                 .pipe(
-                    retry(3),
+                    retry(2),
                     catchError(this.handleHealthError.bind(this)),
                     switchMap(this.bindHealthResponse.bind(this))
                 );
@@ -54,6 +54,7 @@ export class SystemDAO {
     private bindHealthResponse(response: HealthHttpResponse): Observable<HealthResponse> {
 
         return of({
+            ok: response.up,
             indexing: this.isIndexing(response),
             status: HealthRequestStatus.COMPLETE
         });
@@ -72,15 +73,18 @@ export class SystemDAO {
     }
 
     /**
-     * An error occurred during a health check - return error state.
+     * An error occurred during a health check - return generalized error response (with no bundles or documents
+     * currently being indexed).
      *
+     * @param {HttpErrorResponse} error
      * @returns {FileDownloadResponse}
      */
-    private handleHealthError(): Observable<HealthResponse> {
+    private handleHealthError(error: HttpErrorResponse): Observable<HealthHttpResponse> {
 
         return of({
-            indexing: false,
-            status: HealthRequestStatus.FAILED
+            up: false,
+            unindexed_bundles: 0,
+            unindexed_documents: 0
         });
     }
 

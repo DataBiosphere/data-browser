@@ -15,7 +15,7 @@ import {
 } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { EMPTY, Observable, throwError } from "rxjs";
+import { EMPTY, Observable, of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // App dependencies
@@ -42,10 +42,16 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @returns {Observable<HttpEvent<any>>}
      */
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
         return next.handle(req).pipe(
             catchError((error) => {
 
                 if ( error instanceof HttpErrorResponse ) {
+
+                    // Allow system service to handle health check errors
+                    if ( this.isHealthCheckError(error) ) {
+                        return throwError(error);
+                    }
 
                     // Save error to store
                     const errorMessage = this.parseErrorMessage(error);
@@ -61,6 +67,18 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
                 return throwError(error);
             })
         );
+    }
+
+    /**
+     * Returns true if the request URL is the health check URL, and the response code is 503. The health check end point
+     * returns a 503 if there health status is not OK.
+     *
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isHealthCheckError(error: HttpErrorResponse): boolean {
+
+        return error.status === 503 && new URL(error.url).pathname === "/health";
     }
 
     /**
@@ -81,6 +99,5 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         }
 
         return error.error;
-
     }
 }

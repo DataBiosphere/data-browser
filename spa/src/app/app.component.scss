@@ -1,6 +1,6 @@
 /*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * App root styles.
  */
@@ -21,6 +21,10 @@
         justify-content: center;
         min-height: 66px;
         padding: 0 16px;
+        a {
+            display: inline-block;
+            margin-left: 6px;
+        }
     }
 
     /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */

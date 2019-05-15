@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Selectors for querying system status-related state from the store.
  */
@@ -13,6 +13,3 @@ import { HealthState } from "./health/health.state";
 
 // Index status slice
 export const selectHealth = createFeatureSelector<HealthState>("health");
-
-// Index status - true if system is currently indexing.
-export const selectIndexing = createSelector(selectHealth, (state) => state.indexing);
