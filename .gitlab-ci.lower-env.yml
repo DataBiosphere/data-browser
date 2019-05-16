@@ -1,5 +1,6 @@
 
 stages:
+  - test
   - build
   - deploy
 
@@ -24,13 +25,18 @@ stages:
 
 # Test with Trufflehog
 test_trufflehog:
-  stage: build
+  stage: test
   image: python:3.5
   before_script:
     - pip install trufflehog
   script:
     - trufflehog --regex --rules trufflehog-rules.json --branch develop --max_depth 30 --entropy=False https://github.com/HumanCellAtlas/data-browser.git
 
+test_karma
+  image: trion/ng-cli-karma
+  stage: test
+  script:
+    - spa/npm test
 
 # Develop Build
 build_develop:
