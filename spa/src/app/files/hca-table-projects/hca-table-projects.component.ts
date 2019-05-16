@@ -29,16 +29,16 @@ import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.a
 import { FileSummary } from "../file-summary/file-summary";
 import { PaginationModel } from "../table/pagination.model";
 import {
+    getColumnClass,
     getColumnDescription,
     getColumnDisplayName,
-    getColumnMaxWidthStyle,
+    getColumnStyle,
     getFileTypeCounts,
     getFileCountDisplay,
     getHeaderClass,
     getPairedEnd,
     getRowClass,
     getUnspecifiedIfNullValue,
-    isColumnRightAligned,
     isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
@@ -55,16 +55,16 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     // Template variables
     data$: Observable<any[]>;
     displayedColumns = [
-        "projectTitle", "metadataDownload", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "fileType",
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "metadataDownload", "fileType",
         "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
+    getColumnClass = getColumnClass;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
-    getColumnMaxWidthStyle = getColumnMaxWidthStyle;
+    getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
-    isColumnRightAligned = isColumnRightAligned;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;

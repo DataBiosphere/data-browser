@@ -72,26 +72,6 @@
             mat-header-cell, mat-cell {
                 flex: 0 1 10%;
                 padding: 0;
-
-                /* File Name */
-                &.file-name {
-                    flex: 1 1 20%;
-                }
-
-                /* Specimen id */
-                &.specimen {
-                    flex: 0 1 12%;
-                }
-
-                /* File size and format */
-                &.file-size, &.file-format {
-                    max-width: 80px;
-                }
-
-                /* Project Name */
-                &.project {
-                    flex: 0 1 25%;
-                }
             }
 
             mat-header-cell {
@@ -109,7 +89,7 @@
                     align-items: center;
                     color: $hca-gray-dark;
                     display: flex;
-                    margin: 0 8px 0 16px ;
+                    margin: 0 8px 0 16px;
                     padding: 4px 0;
                     width: calc(100% - 16px);
 
