@@ -8,13 +8,16 @@
 export interface TableColumn {
     key: string;
     alignment: ColumnAlignment;
+    columnFlexValue?: string;
     columnMaxWidth?: number;
+    columnMinWidth?: number;
     countType: CountType;
     description?: string;
     userFriendly: string;
 }
 
 export enum ColumnAlignment {
+    "CENTER",
     "LEFT",
     "RIGHT"
 }

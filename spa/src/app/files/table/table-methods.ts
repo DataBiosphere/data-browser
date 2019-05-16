@@ -52,6 +52,8 @@ let tableColumns: TableColumn[] = [
         userFriendly: "File Format",
         description: "The format of the file.",
         alignment: ColumnAlignment.LEFT,
+        columnMaxWidth: 88,
+        columnMinWidth: 80,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -60,6 +62,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "File Name",
         description: "The filename of the data file.",
         alignment: ColumnAlignment.LEFT,
+        columnFlexValue: "1 1 20%",
         countType: CountType.SUMMARY_COUNT
     },
     {
@@ -67,6 +70,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "File Size",
         description: "The file size of the data file.",
         alignment: ColumnAlignment.RIGHT,
+        columnMaxWidth: 112,
         countType: CountType.SUMMARY_COUNT
     },
     {
@@ -74,6 +78,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Data",
         description: "The format of the data file.",
         alignment: ColumnAlignment.RIGHT,
+        columnFlexValue: "none",
         countType: CountType.NONE
     },
     {
@@ -94,8 +99,9 @@ let tableColumns: TableColumn[] = [
         key: "metadataDownload",
         userFriendly: "Metadata Download",
         description: "Full project metadata download in .tsv format.",
-        alignment: ColumnAlignment.LEFT,
-        columnMaxWidth: 56,
+        alignment: ColumnAlignment.CENTER,
+        columnMaxWidth: 84,
+        columnMinWidth: 84,
         countType: CountType.NONE
     },
     {
@@ -117,6 +123,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Age",
         description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year.",
         alignment: ColumnAlignment.RIGHT,
+        columnMaxWidth: 100,
         countType: CountType.NONE
     },
     {
@@ -124,6 +131,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Project Name",
         description: "The project name of the data file.",
         alignment: ColumnAlignment.LEFT,
+        columnFlexValue: "0 1 20%",
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -151,6 +159,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Specimen Id",
         description: "A unique ID for this specimen.",
         alignment: ColumnAlignment.LEFT,
+        columnFlexValue: "0 1 12%",
         countType: CountType.SUMMARY_COUNT
     },
     {
@@ -197,6 +206,20 @@ export function getColumnAlignment(column: string): string {
 }
 
 /**
+ * Return the set of CSS class names that are applicable to the table columns.
+ * @param {string} column
+ * @returns {[className: string]: boolean}
+ */
+export function getColumnClass(column: string): { [className: string]: boolean } {
+
+    return {
+        "file-type": column === "fileType",
+        center: getColumnAlignment(column) === "CENTER",
+        right: getColumnAlignment(column) === "RIGHT"
+    };
+}
+
+/**
  * Returns count type for specified column.
  * @param {string} column
  * @returns {string}
@@ -229,31 +252,21 @@ export function getColumnDisplayName(column: string): string {
 }
 
 /**
- * Returns the column max width.
+ * Return the inline style configuration for the column.
  * @param {string} column
- * @returns {number}
- */
-export function getColumnMaxWidth(column: string): number {
-
-    return tableColumn.get(column).columnMaxWidth;
-}
-
-/**
- * Return the inline style configuration for the column max width.
- * @param {number} columnWidth
  * @returns {any}
  */
-export function getColumnMaxWidthStyle(column: string): any {
+export function getColumnStyle(column: string): any {
 
-    let columnWidth = getColumnMaxWidth(column);
+    let columnFlexValue = tableColumn.get(column).columnFlexValue;
+    let columnMaxWidth = tableColumn.get(column).columnMaxWidth;
+    let columnMinWidth = tableColumn.get(column).columnMinWidth;
 
-    if ( columnWidth ) {
-
-        return {
-            "max-width": columnWidth + "px"
-        };
-    }
-    return {};
+    return {
+        "flex": columnFlexValue ? columnFlexValue : {},
+        "max-width": columnMaxWidth ? columnMaxWidth + "px" : {},
+        "min-width": columnMinWidth ? columnMinWidth + "px" : {}
+    };
 }
 
 /**
@@ -385,16 +398,6 @@ export function getUnspecifiedIfNullValue(value: any): any {
 }
 
 /**
- * Returns true if the column alignment equals "RIGHT".
- * @param {string} columnName
- * @returns {boolean}
- */
-export function isColumnRightAligned(columnName: string): boolean {
-
-    return getColumnAlignment(columnName) === "RIGHT";
-}
-
-/**
  * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
  * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
  * @param el
@@ -480,5 +483,4 @@ export function rollUpMetadata(array): any {
     }, {});
 
     return rollup;
-
 }

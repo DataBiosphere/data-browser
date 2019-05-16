@@ -71,20 +71,6 @@
             mat-header-cell, mat-cell {
                 flex: 0 1 10%;
                 padding: 0;
-
-                /* Sample Id */
-                &.sample {
-                    flex: 1 0 12%;
-                }
-
-                /* Project */
-                &.project {
-                    flex: 0 1 20%;
-                }
-
-                &.file-type {
-                    flex: none;
-                }
             }
 
             mat-header-cell {

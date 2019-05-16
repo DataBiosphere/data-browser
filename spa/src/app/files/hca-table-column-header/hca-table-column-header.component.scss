@@ -50,3 +50,11 @@
         text-align: right;
     }
 }
+
+/* Center count and data label if column is centered */
+:host-context(.center) {
+
+    .count, .data-label span {
+        text-align: center;
+    }
+}

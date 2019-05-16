@@ -38,6 +38,14 @@
         }
 }
 
+/* Column centered - header content to be centered */
+.hca-table mat-header-cell.center {
+
+    .hca-table-sort .mat-sort-header-container {
+        justify-content: center;
+    }
+}
+
 /* File type - center "Data" heading */
 .hca-table mat-header-cell.file-type.right {
 

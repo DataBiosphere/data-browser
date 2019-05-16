@@ -23,3 +23,8 @@
 :host-context(.right) {
     justify-content: flex-end;
 }
+
+/* Centers column contents */
+:host-context(.center) {
+    justify-content: center;
+}

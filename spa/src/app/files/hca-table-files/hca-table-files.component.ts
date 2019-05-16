@@ -27,14 +27,15 @@ import { FileSummary } from "../file-summary/file-summary";
 import { PaginationModel } from "../table/pagination.model";
 import {
     getAge,
+    getColumnClass,
     getColumnDescription,
     getColumnDisplayName,
+    getColumnStyle,
     getHeaderClass,
     getPairedEnd,
     getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
-    isColumnRightAligned,
     isTooltipDisabled,
     rollUpMetadata
 } from "../table/table-methods";
@@ -55,11 +56,12 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getAge = getAge;
+    getColumnClass = getColumnClass;
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
     getRowClass = getRowClass;
-    isColumnRightAligned = isColumnRightAligned;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
