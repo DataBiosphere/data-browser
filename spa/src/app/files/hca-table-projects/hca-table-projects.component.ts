@@ -7,10 +7,10 @@
 
 // Core dependencies
 import {
-    AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit
+    AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild
 } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
-import { Sort } from "@angular/material";
+import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
@@ -54,6 +54,10 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Template variables
     data$: Observable<any[]>;
+    defaultSortOrder = {
+        sort: "projectTitle",
+        order: "asc"
+    };
     displayedColumns = [
         "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "metadataDownload", "fileType",
         "donorCount", "totalCells"
@@ -77,6 +81,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Inputs
     @Input() selectedProjectIds: string[];
+
+    // View child/ren
+    @ViewChild(MatSort) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store
@@ -124,6 +131,17 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      * @param {Sort} sort
      */
     public sortTable(pm: PaginationModel, sort: Sort) {
+
+        // Force table to be sorted by project title if sort is cleared. Sort is cleared when user clicks on column header
+        // to sort asc, then clicks again on the same columm header to sort desc, then once more. The third click on the
+        // same header clears the sort. We want to force the sort to go back to the default sort - project title. We must
+        // use this workaround here (_handleClick) due to a defect in programmatically setting the sort order in
+        // Material (https://github.com/angular/components/issues/10242).
+        if ( !sort.direction ) {
+            const defaultSortHeader = this.matSort.sortables.get(this.defaultSortOrder.sort) as MatSortHeader;
+            defaultSortHeader._handleClick();
+            return;
+        }
 
         let tableParamsModel: TableParamsModel = {
             size: pm.size,
@@ -193,7 +211,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.pipe(select(selectPagination));
-
+        
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
         this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));

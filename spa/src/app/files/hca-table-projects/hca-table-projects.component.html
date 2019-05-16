@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="hca-table projects">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
-                   matSortDirection="asc" matSortActive="projectTitle"
+                   matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="projectTitle">
                 <mat-header-cell *matHeaderCellDef

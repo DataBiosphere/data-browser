@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="hca-table files">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
-                   matSortDirection="asc" matSortActive="fileName"
+                   matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="fileName">
                 <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('fileName')" [ngStyle]="getColumnStyle('fileName')">
