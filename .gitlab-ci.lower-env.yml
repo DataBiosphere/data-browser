@@ -31,6 +31,8 @@ test_trufflehog:
     - pip install trufflehog
   script:
     - trufflehog --regex --rules trufflehog-rules.json --branch develop --max_depth 30 --entropy=False https://github.com/HumanCellAtlas/data-browser.git
+  except:
+    - master
 
 # Test with karma
 test_karma:
@@ -40,6 +42,8 @@ test_karma:
     - cd spa
     - npm install
     - ng test --watch=false
+  except:
+    - master
 
 # Develop Build
 build_develop:
