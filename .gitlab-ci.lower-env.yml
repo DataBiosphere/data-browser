@@ -32,7 +32,7 @@ test_trufflehog:
   script:
     - trufflehog --regex --rules trufflehog-rules.json --branch develop --max_depth 30 --entropy=False https://github.com/HumanCellAtlas/data-browser.git
 
-test_karma
+test_karma:
   image: trion/ng-cli-karma
   stage: test
   script:
