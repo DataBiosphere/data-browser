@@ -39,6 +39,7 @@ test_karma:
     - pwd
     - ls
     - cd spa
+    - npm install
     - npm test
 
 # Develop Build
