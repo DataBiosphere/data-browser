@@ -97,7 +97,7 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "metadataDownload",
-        userFriendly: "Metadata Download",
+        userFriendly: "Metadata",
         description: "Full project metadata download in .tsv format.",
         alignment: ColumnAlignment.CENTER,
         columnMaxWidth: 84,
