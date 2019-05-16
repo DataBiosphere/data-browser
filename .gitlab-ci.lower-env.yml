@@ -38,7 +38,8 @@ test_karma:
   script:
     - pwd
     - ls
-    - spa/npm test
+    - cd spa
+    - npm test
 
 # Develop Build
 build_develop:
