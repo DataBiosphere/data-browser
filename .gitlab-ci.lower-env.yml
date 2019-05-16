@@ -36,6 +36,8 @@ test_karma:
   image: trion/ng-cli-karma
   stage: test
   script:
+    - pwd
+    - ls
     - spa/npm test
 
 # Develop Build
