@@ -7,8 +7,8 @@
 
 // Core dependencies
 import { DataSource } from "@angular/cdk/collections";
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { Sort } from "@angular/material";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
@@ -50,6 +50,10 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
     // Template variables
     data$: Observable<any[]>;
+    defaultSortOrder = {
+        sort: "fileName",
+        order: "asc"
+    };
     displayedColumns = [
         "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "sampleEntityType", "organ", "organPart", "selectedCellType",
         "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
@@ -71,6 +75,9 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     // Locals
     private ngDestroy$ = new Subject();
     private snapped: boolean;
+
+    // View child/ren
+    @ViewChild(MatSort) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store
@@ -110,6 +117,17 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      * @param {Sort} sort
      */
     public sortTable(pm: PaginationModel, sort: Sort) {
+
+        // Force table to be sorted by project title if sort is cleared. Sort is cleared when user clicks on column header
+        // to sort asc, then clicks again on the same columm header to sort desc, then once more. The third click on the
+        // same header clears the sort. We want to force the sort to go back to the default sort - project title. We must
+        // use this workaround here (_handleClick) due to a defect in programmatically setting the sort order in
+        // Material (https://github.com/angular/components/issues/10242).
+        if ( !sort.direction ) {
+            const defaultSortHeader = this.matSort.sortables.get(this.defaultSortOrder.sort) as MatSortHeader;
+            defaultSortHeader._handleClick();
+            return;
+        }
 
         let tableParamsModel: TableParamsModel = {
             size: pm.size,
