@@ -265,13 +265,11 @@ class TableElementDataSource extends DataSource<any> {
                     let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let fileTypeSummaries = row.fileTypeSummaries;
                     // only roll up organType
-                    let organs = rollUpMetadata(row.projectSummary.organSummaries.map((s) => {
-                        return {organType: s.organType};
-                    }));
                     let projectSummary = row.projectSummary;
                     let projectTitle = rollUpMetadata(row.projects);
                     let protocols = rollUpMetadata(row.protocols);
                     let samples = rollUpMetadata(row.samples);
+                    let organs = samples.organ;
                     // File counts for a set list of file types
                     let fileTypeCounts = getFileTypeCounts(fileTypeSummaries);
 
@@ -283,7 +281,7 @@ class TableElementDataSource extends DataSource<any> {
                         genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
                         libraryConstructionApproach: getUnspecifiedIfNullValue(projectSummary.libraryConstructionApproach),
                         matrixCount: getFileCountDisplay(fileTypeCounts.matrixCount),
-                        organ: getUnspecifiedIfNullValue(organs.organType),
+                        organ: getUnspecifiedIfNullValue(organs),
                         otherCount: getFileCountDisplay(fileTypeCounts.otherCount),
                         pairedEnd: getPairedEnd(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
