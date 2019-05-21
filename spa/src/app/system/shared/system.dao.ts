@@ -8,7 +8,7 @@
 // Core dependencies
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, retry, switchMap } from "rxjs/operators";
+import { catchError, switchMap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 
 // App dependencies
@@ -39,7 +39,6 @@ export class SystemDAO {
         return this.httpClient
             .get<HealthHttpResponse>(url)
                 .pipe(
-                    retry(2),
                     catchError(this.handleHealthError.bind(this)),
                     switchMap(this.bindHealthResponse.bind(this))
                 );
