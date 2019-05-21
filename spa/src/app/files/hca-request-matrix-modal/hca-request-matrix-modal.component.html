@@ -55,7 +55,7 @@
                 <button type="button" (click)="onDownloadAs()">Download As</button>
                 <button type="button"
                         ngxClipboard
-                        [cbContent]="(getMatrixCurlCommand(matrixResponse))"
+                        [cbContent]="(getCopyToClipboardValue(matrixResponse))"
                         class="hca-outline-button">
                     <img src="assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
             </ng-container>
