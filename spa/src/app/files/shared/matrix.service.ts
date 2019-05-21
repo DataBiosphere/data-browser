@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Service for coordinating Matrix-related functionality.
  */
@@ -10,7 +10,6 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 // App dependencies
-import { FilesService } from "./files.service";
 import { MatrixDAO } from "./matrix.dao";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
@@ -24,10 +23,9 @@ import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 export class MatrixService {
 
     /**
-     * @param {FilesService} filesService
      * @param {MatrixDAO} matrixDAO
      */
-    constructor(private filesService: FilesService, private matrixDAO: MatrixDAO) {
+    constructor(private matrixDAO: MatrixDAO) {
     }
 
     /**

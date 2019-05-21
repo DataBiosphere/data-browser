@@ -86,15 +86,13 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return the curl command to download the matrix.
+     * Return the matrix URL when generating the value to back the copy to clipboard functionality.
      *
      * @returns {string}
      */
-    public getMatrixCurlCommand(response: MatrixResponse): string {
+    public getCopyToClipboardValue(response: MatrixResponse): string {
 
-        const link = this.getMatrixLink(response);
-        const fileName = link.split("/").pop();
-        return `curl ${link} --output ${fileName}`;
+        return this.getMatrixLink(response);
     }
 
     /**

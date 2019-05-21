@@ -20,6 +20,7 @@ boardwalk.zip/
 # compiled output
 spa/dist
 spa/tmp
+spa/out-tsc
 
 # misc
 spa/connect.lock
