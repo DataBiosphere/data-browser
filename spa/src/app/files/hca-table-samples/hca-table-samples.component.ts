@@ -251,7 +251,6 @@ class TableElementDataSource extends DataSource<any> {
                     let fileTypeSummaries = row.fileTypeSummaries;
                     let protocols = rollUpMetadata(row.protocols);
                     let samples = rollUpMetadata(row.samples);
-                    let specimens = rollUpMetadata(row.specimens);
                     let donorOrganisms = rollUpMetadata(row.donorOrganisms);
                     let projectTitle = rollUpMetadata(row.projects);
                     // File counts for a set list of file types
