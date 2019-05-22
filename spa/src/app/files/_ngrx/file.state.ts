@@ -8,6 +8,7 @@
 // App dependencies
 import { TerraState } from "./terra/terra.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
+import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
@@ -17,7 +18,7 @@ export interface FileState {
     terra: TerraState;
     fileSummary: FileSummaryState;
     fileFacetList: FileFacetListState;
-    fileManifestFileSummary: FileSummaryState;
+    fileManifest: FileManifestState;
     matrix: MatrixState;
     search: SearchState;
     tableState: TableState;

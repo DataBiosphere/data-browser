@@ -16,9 +16,9 @@ const DEFAULT_TERRA_STATE = {
 
 export class TerraState implements Terra {
 
-    exportToTerraStatus: ExportToTerraStatus;
-    exportToTerraUrl: string;
-
+    public readonly exportToTerraStatus: ExportToTerraStatus
+    public readonly exportToTerraUrl: string;
+    
     /**
      * @param {TerraState} state
      */
