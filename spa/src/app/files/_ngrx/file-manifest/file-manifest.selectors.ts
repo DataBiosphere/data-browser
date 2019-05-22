@@ -6,9 +6,24 @@
  */
 
 // Core dependencies
-import { createFeatureSelector } from "@ngrx/store";
+import { createSelector, createFeatureSelector } from "@ngrx/store";
 
 // App dependencies
-import { FileSummaryState } from "../file-summary/file-summary.state";
+import { FileManifestState } from "./file-manifest.state";
 
-export const selectFileManifestFileSummary = createFeatureSelector<FileSummaryState>("fileManifestFileSummary");
+/**
+ * Get the file manifest state from the app state.
+ */
+export const selectFileManifest = createFeatureSelector<FileManifestState>("fileManifest");
+
+/**
+ * Return the file summary counts for the file manifest download.
+ */
+export const selectFileManifestFileSummary =
+    createSelector(selectFileManifest, (state: FileManifestState) => state.fileSummary);
+
+/**
+ * Return the file summary counts for the file manifest download.
+ */
+export const selectFileManifestManifestResponse =
+    createSelector(selectFileManifest, (state: FileManifestState) => state.manifestResponse);

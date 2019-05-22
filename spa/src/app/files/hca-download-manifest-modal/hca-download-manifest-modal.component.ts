@@ -21,11 +21,14 @@ import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.sta
 import { AppState } from "../../_ngrx/app.state";
 import { ClearManifestDownloadFileSummaryAction } from "../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
 import { DownloadFileManifestAction } from "../_ngrx/file-manifest/download-file-manifest.action";
-import { selectFileManifestFileSummary } from "../_ngrx/file-manifest/file-manifest.selectors";
+import {
+    selectFileManifestFileSummary, selectFileManifestManifestResponse
+} from "../_ngrx/file-manifest/file-manifest.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
-import { SearchTerm } from "../search/search-term.model";
+import { ManifestResponse } from "../shared/manifest-response.model";
+import { ManifestStatus } from "../shared/manifest-status.model";
 
 @Component({
     templateUrl: "./hca-download-manifest-modal.component.html",
@@ -34,7 +37,6 @@ import { SearchTerm } from "../search/search-term.model";
 export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public hideDownload = false;
     public portalURL: string;
     public state$: Observable<HCADownloadManifestModalState>;
 
@@ -61,25 +63,7 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     *
-     */
-    public getDownloadClass(step) {
-
-        if ( step === 1 && this.hideDownload ) {
-            return {
-                hide: true
-            };
-        }
-
-        if ( step === 2 && !(this.hideDownload) ) {
-            return {
-                hide: true
-            };
-        }
-    }
-
-    /**
-     * Return the file type summary of the specifiled file summaries.
+     * Return the file type summary of the specified file summary.
      *
      * @param {FileSummary} fileSummary
      * @returns {FileTypeSummary[]}
@@ -94,11 +78,74 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Dispatch action to download manifest summary.
+     * Return the curl command to download the manifest.
+     *
+     * @param {ManifestResponse} manifestResponse
+     * @returns {string}
      */
-    public onDownloadManifest() {
+    public getManifestCurlCommand(response: ManifestResponse): string {
 
-        this.hideDownload = true;
+        const link = response.fileUrl;
+        const fileName = link.split("/").pop();
+        return `curl ${link} --output ${fileName}`;
+    }
+
+    /**
+     * Returns true if there no file type summaries.
+     */
+    public isFileTypeSummariesEmpty(fileSummary: FileSummary): boolean {
+
+        return this.getFileTypeSummaries(fileSummary).length === 0;
+    }
+
+    /**
+     * Returns true if download has completed.
+     *
+     * @param {ManifestResponse} manifestResponse
+     * @returns {boolean}
+     */
+    public isDownloadComplete(manifestResponse: ManifestResponse): boolean {
+
+        return manifestResponse.status === ManifestStatus.COMPLETE;
+    }
+
+    /**
+     * Returns true if download has been initiated but is not yet complete.
+     *
+     * @param {ManifestResponse} manifestResponse
+     * @returns {boolean}
+     */
+    public isDownloadInProgress(manifestResponse: ManifestResponse): boolean {
+
+        return manifestResponse.status === ManifestStatus.IN_PROGRESS;
+    }
+
+    /**
+     * Returns true if download has not yet been initiated.
+     *
+     * @param {ManifestResponse} manifestResponse
+     * @returns {boolean}
+     */
+    public isDownloadNotStarted(manifestResponse: ManifestResponse): boolean {
+
+        return manifestResponse.status === ManifestStatus.NOT_STARTED;
+    }
+
+    /**
+     * Open manifest in new tab.
+     *
+     * @param {ManifestResponse} manifestResponse
+     */
+    public onDownloadManifest(manifestResponse: ManifestResponse) {
+
+        window.location.href = manifestResponse.fileUrl;
+    }
+
+    /**
+     * Dispatch action to generate manifest summary URL.
+     */
+    public onRequestManifest() {
+
         this.store.dispatch(new DownloadFileManifestAction());
     }
 
@@ -124,7 +171,7 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Clear summary on close of modal. 
+     * Clear summary on close of modal.
      */
     public ngOnDestroy() {
 
@@ -145,8 +192,15 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
         // Grab file summary for populating file type counts on manifest download modal
         const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
-        this.state$ = combineLatest(selectedSearchTerms$, selectManifestDownloadFileSummary$).pipe(
-            map(([selectedSearchTerms, fileManifestFileSummary]) => {
+        // Update the UI with any changes in the download request request status and URL
+        const selectFileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
+
+        this.state$ = combineLatest(
+            selectedSearchTerms$,
+            selectManifestDownloadFileSummary$,
+            selectFileManifestManifestResponse$
+        ).pipe(
+            map(([selectedSearchTerms, fileManifestFileSummary, manifestResponse]) => {
 
                 const selectedSearchTermNames = selectedSearchTerms
                     .map(searchTerm => searchTerm.getDisplayValue());
@@ -154,7 +208,8 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
                 return {
                     selectedSearchTermNames: selectedSearchTermNames,
                     selectedSearchTerms,
-                    fileManifestFileSummary
+                    fileManifestFileSummary,
+                    manifestResponse
                 };
             })
         );

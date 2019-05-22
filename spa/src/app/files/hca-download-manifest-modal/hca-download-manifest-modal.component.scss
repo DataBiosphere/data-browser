@@ -7,16 +7,12 @@
 @import "../../site/theme/cgl.vars";
 
 /* Download container */
-.hca-download, .hca-download.instructions {
+.hca-download {
     border: 1px solid rgba($hca-gray-medium, 0.5);
     box-shadow: 0 2px 4px 0 $hca-gray-light;
     box-sizing: border-box;
     width: 450px;
 
-    &.hide {
-        display: none;
-    }
-    
     .hca-spinner {
         margin: 0 24px 24px;
     }
@@ -49,12 +45,12 @@
     /* Content - list of terms */
     .hca-download-content {
         margin-top: -24px;
-        padding: 24px 0 40px;
+        padding: 24px 24px 40px;
 
         /* Facet term list - container */
         .facet-term-list {
             -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
-            padding: 0 24px;
+            padding: 0;
         }
     }
 
@@ -62,8 +58,6 @@
     .hca-download-action {
         align-items: center;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         margin-top: -24px;
         padding: 24px;
 
@@ -80,9 +74,22 @@
             font-size: 14px; /* TODO typography */
             font-weight: 600; /* TODO typography */
             height: 38px; /* HCA specific style */
+            justify-content: center;
             letter-spacing: 0.21px; /* TODO typography */
             min-width: 84px;
             padding: 0 12px;
+
+            /* Icon, copy to clipboard */
+            img {
+                margin-left: -6px;
+                max-height: 20px;
+                padding: 0 6px;
+            }
+
+            /* Every second button has a margin */
+            &:nth-of-type(2n) {
+                margin: 0 8px;
+            }
 
             &:hover {
                 background-color: $hca-secondary-hover;

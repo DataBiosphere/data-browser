@@ -10,6 +10,7 @@ import { getDefaultTableState } from "./table/table.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileState } from "./file.state";
+import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { MatrixState } from "./matrix/matrix.state";
 import { SearchState } from "./search/search.state";
 import { TerraState } from "./terra/terra.state";
@@ -22,7 +23,7 @@ import * as searchStateMock from "./search/search.state.mock";
 export const DEFAULT_PROJECTS_STATE = {
     fileSummary: FileSummaryState.getDefaultState(),
     fileFacetList: FileFacetListState.getDefaultState(),
-    fileManifestFileSummary: FileSummaryState.getDefaultState(),
+    fileManifest: FileManifestState.getDefaultState(),
     matrix: MatrixState.getDefaultState(),
     search: SearchState.getDefaultState(),
     tableState: getDefaultTableState(),
