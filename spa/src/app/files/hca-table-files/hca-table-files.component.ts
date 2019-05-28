@@ -32,7 +32,6 @@ import {
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
-    getPairedEnd,
     getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
@@ -56,7 +55,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     };
     displayedColumns = [
         "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "sampleEntityType", "organ", "organPart", "selectedCellType",
-        "libraryConstructionApproach", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+        "libraryConstructionApproach", "pairedEnd", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getAge = getAge;
@@ -273,7 +272,7 @@ class TableElementDataSource extends DataSource<any> {
                         organ: getUnspecifiedIfNullValue(samples.organ),
                         organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
                         organPart: getUnspecifiedIfNullValue(samples.organPart),
-                        pairedEnd: getPairedEnd(protocols.pairedEnd),
+                        pairedEnd: getUnspecifiedIfNullValue(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
                         selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),

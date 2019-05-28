@@ -36,7 +36,6 @@ import {
     getFileTypeCounts,
     getFileCountDisplay,
     getHeaderClass,
-    getPairedEnd,
     getRowClass,
     getUnspecifiedIfNullValue,
     isTooltipDisabled,
@@ -59,7 +58,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         order: "asc"
     };
     displayedColumns = [
-        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "genusSpecies", "disease", "metadataDownload", "fileType",
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "metadataDownload", "fileType",
         "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -283,7 +282,7 @@ class TableElementDataSource extends DataSource<any> {
                         matrixCount: getFileCountDisplay(fileTypeCounts.matrixCount),
                         organ: getUnspecifiedIfNullValue(organs),
                         otherCount: getFileCountDisplay(fileTypeCounts.otherCount),
-                        pairedEnd: getPairedEnd(protocols.pairedEnd),
+                        pairedEnd: getUnspecifiedIfNullValue(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         projectShortname: getUnspecifiedIfNullValue(projectTitle.projectShortname),
                         rawCount: getFileCountDisplay(fileTypeCounts.rawCount),

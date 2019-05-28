@@ -101,6 +101,24 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="pairedEnd">
+                <mat-header-cell *matHeaderCellDef
+                                 [ngClass]="getColumnClass('pairedEnd')">
+                    <hca-table-column-header [columnName]="'pairedEnd'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [tooltipContent]="getColumnDescription('pairedEnd')"
+                                             [columnSort]="true">
+                        <hca-table-column-header-title>{{getColumnDisplayName('pairedEnd')}}
+                        </hca-table-column-header-title>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element"
+                          [ngClass]="getColumnClass('pairedEnd')">
+                    <hca-table-cell [tooltipContent]="element.pairedEnd" [tooltipDisabled]="isTooltipDisabled(cellContent)">
+                        <span class="fontsize-xxs" #cellContent>{{element.pairedEnd}}</span>
+                    </hca-table-cell>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="genusSpecies">
                 <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')">
                     <hca-table-column-header [columnName]="'genusSpecies'"
