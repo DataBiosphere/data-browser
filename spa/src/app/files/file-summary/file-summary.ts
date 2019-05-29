@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of counts, file sizes and other summary values of the current selection of facets.
  */
@@ -10,7 +10,7 @@ export interface FileSummary {
     donorCount: number;
     fileCount: number;
     fileTypeSummaries: FileTypeSummary[];
-    organCount: number;
+    organTypes: string[];
     projectCount: number;
     specimenCount: number;
     totalCellCount: number;

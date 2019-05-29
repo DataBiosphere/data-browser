@@ -15,7 +15,7 @@ const DEFAULT_FILE_SUMMARY = {
     donorCount: 0,
     fileCount: 0,
     fileTypeSummaries: [],
-    organCount: 0,
+    organTypes: [],
     projectCount: 0,
     specimenCount: 0,
     totalCellCount: 0,
@@ -27,7 +27,7 @@ export class FileSummaryState implements FileSummary {
     donorCount: number;
     fileCount: number;
     fileTypeSummaries: FileTypeSummary[];
-    organCount: number;
+    organTypes: string[];
     projectCount: number;
     specimenCount: number;
     totalCellCount: number;

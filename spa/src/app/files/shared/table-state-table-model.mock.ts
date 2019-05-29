@@ -2122,9 +2122,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 2,
             "totalCellCount": 1330000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 1330000
                 }
@@ -2279,9 +2279,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 1,
             "totalCellCount": 5000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 5000
                 }
@@ -2436,9 +2436,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 1,
             "totalCellCount": 5000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 5000
                 }
@@ -2613,9 +2613,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 1,
             "totalCellCount": 5000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 5000
                 }
@@ -2770,9 +2770,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 1,
             "totalCellCount": 5000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 5000
                 }
@@ -3007,9 +3007,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 4,
             "totalCellCount": 19916,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 19916
                 }
@@ -3209,9 +3209,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 4,
             "totalCellCount": 19916,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "brain",
+                    "organType": ["brain"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 19916
                 }
@@ -3416,9 +3416,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 12,
             "totalCellCount": 9500,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "hematopoietic system",
+                    "organType": ["hematopoietic system"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 9500
                 }
@@ -3596,9 +3596,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 8,
             "totalCellCount": 20000,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "blood",
+                    "organType": ["blood"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 20000
                 }
@@ -4026,14 +4026,14 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 16,
             "totalCellCount": 528092,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "immune system",
+                    "organType": ["immune system"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 274182
                 },
                 {
-                    "organType": "blood",
+                    "organType": ["blood"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 253910
                 }
@@ -4200,9 +4200,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 2,
             "totalCellCount": 0,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "blood",
+                    "organType": ["blood"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 0
                 }
@@ -4404,14 +4404,14 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 5,
             "totalCellCount": 20150,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "esophagus",
+                    "organType": ["esophagus"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 10001
                 },
                 {
-                    "organType": "spleen",
+                    "organType": ["spleen"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 10149
                 }
@@ -4648,14 +4648,14 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 6,
             "totalCellCount": 22110,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "spleen",
+                    "organType": ["spleen"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 12109
                 },
                 {
-                    "organType": "esophagus",
+                    "organType": ["esophagus"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 10001
                 }
@@ -5001,19 +5001,19 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 32,
             "totalCellCount": 6639,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "tumor",
+                    "organType": ["tumor"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 3185
                 },
                 {
-                    "organType": "lymph node",
+                    "organType": ["lymph node"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 3274
                 },
                 {
-                    "organType": "skin of body",
+                    "organType": ["skin of body"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 180
                 }
@@ -5240,9 +5240,9 @@ const PROJECT_DATA = [
         "projectSummary": {
             "donorCount": 16,
             "totalCellCount": 2244,
-            "organSummaries": [
+            "cellCountSummaries": [
                 {
-                    "organType": "blood",
+                    "organType": ["blood"],
                     "countOfDocsWithOrganType": 1,
                     "totalCellCountByOrgan": 2244
                 }

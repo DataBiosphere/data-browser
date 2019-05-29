@@ -78,48 +78,48 @@ export const DEFAULT_FILE_SUMMARY = {
         "totalSize": 1229704
     }],
     "fileCount": 326147,
-    "organCount": 28,
+    "organTypes": ["blood", "bone", "brain", "heart", "pancreas", "fat", "lymph node", "tumor", "kidney", "Brain"],
     "donorCount": 151,
     "labCount": 22,
     "totalCellCount": 9578115,
-    "organSummaries": [{
-        "organType": "blood",
+    "cellCountSummaries": [{
+        "organType": ["blood"],
         "countOfDocsWithOrganType": 100,
         "totalCellCountByOrgan": 276154
     }, {
-        "organType": "bone",
+        "organType": ["bone"],
         "countOfDocsWithOrganType": 83,
         "totalCellCountByOrgan": 279535
     }, {
-        "organType": "brain",
+        "organType": ["brain"],
         "countOfDocsWithOrganType": 59,
         "totalCellCountByOrgan": 75561
     }, {
-        "organType": "heart",
+        "organType": ["heart"],
         "countOfDocsWithOrganType": 36,
         "totalCellCountByOrgan": 7115
     }, {
-        "organType": "fat",
+        "organType": ["fat"],
         "countOfDocsWithOrganType": 28,
         "totalCellCountByOrgan": 5862
     }, {
-        "organType": "lymph node",
+        "organType": ["lymph node"],
         "countOfDocsWithOrganType": 28,
         "totalCellCountByOrgan": 3274
     }, {
-        "organType": "pancreas",
+        "organType": ["pancreas"],
         "countOfDocsWithOrganType": 26,
         "totalCellCountByOrgan": 8018
     }, {
-        "organType": "tumor",
+        "organType": ["tumor"],
         "countOfDocsWithOrganType": 25,
         "totalCellCountByOrgan": 3185
     }, {
-        "organType": "large intestine",
+        "organType": ["large intestine"],
         "countOfDocsWithOrganType": 13,
         "totalCellCountByOrgan": 4149
     }, {
-        "organType": "hemopoietic organ",
+        "organType": ["hemopoietic organ"],
         "countOfDocsWithOrganType": 12,
         "totalCellCountByOrgan": 9500
     }],
