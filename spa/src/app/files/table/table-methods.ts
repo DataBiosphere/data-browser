@@ -90,7 +90,7 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "libraryConstructionApproach",
-        userFriendly: "Library Construction Approach",
+        userFriendly: "Library Construction Method",
         description: "The general method for sequencing library construction.",
         alignment: ColumnAlignment.LEFT,
         countType: CountType.DOMAIN_COUNT
@@ -134,9 +134,16 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
+        key: "projectShortname",
+        userFriendly: "Project Label",
+        description: "A short name for the project.",
+        alignment: ColumnAlignment.LEFT,
+        countType: CountType.NONE
+    },
+    {
         key: "projectTitle",
-        userFriendly: "Project Name",
-        description: "The project name of the data file.",
+        userFriendly: "Project Title",
+        description: "An official title for the project.",
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "0 1 20%",
         countType: CountType.DOMAIN_COUNT

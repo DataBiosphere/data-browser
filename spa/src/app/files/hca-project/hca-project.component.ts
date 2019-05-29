@@ -24,6 +24,11 @@ import { Project } from "../shared/project.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { EntityName } from "../shared/entity-name.model";
+import {
+    getColumnDescription,
+    getColumnDisplayName
+} from "../table/table-methods";
+
 
 @Component({
     selector: "hca-project",
@@ -38,6 +43,8 @@ export class HCAProjectComponent implements OnInit {
     public selectedProjectIds$: Observable<string[]>;
 
     // Template variables
+    getColumnDescription = getColumnDescription;
+    getColumnDisplayName = getColumnDisplayName;
     public project$: Observable<Project>;
 
     /**

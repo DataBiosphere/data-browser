@@ -22,6 +22,7 @@ export interface Project {
     libraryConstructionApproach: string[];
     organ: string[];
     organPart: string[];
+    pairedEnd: string[];
     projectDescription: string;
     projectShortname: string;
     projectTitle: string;

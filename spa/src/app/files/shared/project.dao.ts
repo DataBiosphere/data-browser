@@ -81,6 +81,7 @@ export class ProjectDAO {
             libraryConstructionApproach: responseProjectSummary.libraryConstructionApproach,
             organ: response.samples[0].organ,
             organPart: response.samples[0].organPart,
+            pairedEnd: response.protocols[0].pairedEnd,
             projectDescription: responseProject.projectDescription,
             projectShortname: responseProject.projectShortname,
             projectTitle: responseProject.projectTitle,

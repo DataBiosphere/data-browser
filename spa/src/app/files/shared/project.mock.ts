@@ -77,6 +77,9 @@ export const DEFAULT_PROJECT = {
     "libraryConstructionApproach": [
         "10x_v2"
     ],
+    "pairedEnd": [
+        "true"
+    ],
     "organ": [
         "Brain"
     ],
