@@ -10,9 +10,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'An official title for the project.'"
+                                     [tooltipContent]="getColumnDescription('projectTitle')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Project
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('projectTitle')}}
                         </hca-tooltip>
                     </p>
                     <div class="rhs">
@@ -28,9 +28,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'A short name for the project.'"
+                                     [tooltipContent]="getColumnDescription('projectShortname')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Short Name
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('projectShortname')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
@@ -38,9 +38,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'The scientific binomial name for the species of the biomaterial.'"
+                                     [tooltipContent]="getColumnDescription('genusSpecies')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Species
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.species, "-")}}</p>
@@ -48,9 +48,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'The organ that the biomaterial came from. Blood and connective tissue are considered organs.'"
+                                     [tooltipContent]="getColumnDescription('organ')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Organ
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "-")}}</p>
@@ -58,10 +58,10 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'A term for a specific part of the organ that the biomaterial came from.'"
+                                     [tooltipContent]="getColumnDescription('organPart')"
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'"
-                        >Organ Part
+                        >{{getColumnDisplayName('organPart')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "-")}}</p>
@@ -69,10 +69,10 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'Free text describing any disease association to the cell type. Should be an EFO ontology.'"
+                                     [tooltipContent]="getColumnDescription('disease')"
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'"
-                        >Diseased
+                        >{{getColumnDisplayName('disease')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "-")}}</p>
@@ -80,9 +80,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'The general method for sequencing library construction.'"
+                                     [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Library Construction Method
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('libraryConstructionApproach')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs"
@@ -91,9 +91,20 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'The format of the data file.'"
+                                     [tooltipContent]="getColumnDescription('pairedEnd')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">File Type
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('pairedEnd')}}
+                        </hca-tooltip>
+                    </p>
+                    <p class="fontsize-xs rhs"
+                       [innerHTML]="stringifyValues(project.pairedEnd, '-')"></p>
+                </div>
+                <div>
+                    <p class="fontsize-xs bold lhs">
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="getColumnDescription('fileFormat')"
+                                     [tooltipDisabled]="false"
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "-")}}</p>
@@ -101,9 +112,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'Total estimated number of cells in biomaterial. May be 1 for well-based assays.'"
+                                     [tooltipContent]="getColumnDescription('totalCells')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Estimated Cell Count
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('totalCells')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.cellCount | countSize}}</p>
@@ -111,9 +122,9 @@
                 <div>
                     <p class="fontsize-xs bold lhs">
                         <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'Donor Count.'"
+                                     [tooltipContent]="getColumnDescription('donorCount')"
                                      [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Donor Count
+                                     [tooltipPosition]="'above'">{{getColumnDisplayName('donorCount')}}
                         </hca-tooltip>
                     </p>
                     <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
