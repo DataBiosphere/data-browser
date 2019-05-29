@@ -127,6 +127,13 @@ let tableColumns: TableColumn[] = [
         countType: CountType.NONE
     },
     {
+        key: "pairedEnd",
+        userFriendly: "Paired End",
+        description: "Whether the sequenced molecule was sequenced from both ends.",
+        alignment: ColumnAlignment.LEFT,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
         key: "projectTitle",
         userFriendly: "Project Name",
         description: "The project name of the data file.",

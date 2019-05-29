@@ -44,7 +44,6 @@ import {
     getFileTypeCounts,
     getFileCountDisplay,
     getHeaderClass,
-    getPairedEnd,
     getRowClass,
     getSelfOrFirst,
     getUnspecifiedIfNullValue,
@@ -67,7 +66,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
         order: "asc"
     };
     displayedColumns = [
-        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "genusSpecies",
+        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -268,7 +267,7 @@ class TableElementDataSource extends DataSource<any> {
                         organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
                         organPart: getUnspecifiedIfNullValue(samples.organPart),
                         otherCount: getFileCountDisplay(fileTypeCounts.otherCount),
-                        pairedEnd: getPairedEnd(protocols.pairedEnd),
+                        pairedEnd: getUnspecifiedIfNullValue(protocols.pairedEnd),
                         projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
                         rawCount: getFileCountDisplay(fileTypeCounts.rawCount),
                         sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
