@@ -12,10 +12,10 @@ import { BehaviorSubject, interval, Observable, Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { Element } from "../hca-table-files/hca-table-files.component";
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadResponse } from "../shared/download-response.model";
 import { FileDownloadStatus } from "../shared/file-download-status.model";
+import { FileRow } from "../hca-table-files/file-row.model";
 
 @Component({
     selector: "hca-download-file",
@@ -35,7 +35,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     });
 
     // Inputs
-    @Input() file: Element;
+    @Input() file: FileRow;
     @Output() fileUrlGenerated = new EventEmitter<string>();
 
     // View child/ren

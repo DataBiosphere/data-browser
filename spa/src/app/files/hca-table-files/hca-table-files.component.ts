@@ -6,12 +6,11 @@
  */
 
 // Core dependencies
-import { DataSource } from "@angular/cdk/collections";
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -33,12 +32,11 @@ import {
     getColumnStyle,
     getHeaderClass,
     getRowClass,
-    getSelfOrFirst,
-    getUnspecifiedIfNullValue,
-    isTooltipDisabled,
-    rollUpMetadata
+    isTooltipDisabled
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
+import { EntitiesDataSource } from "../table/entities.data-source";
+import { FileRowMapper } from "./file-row-mapper";
 
 @Component({
     selector: "hca-table-files",
@@ -68,7 +66,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
-    tableElementDataSource: TableElementDataSource;
+    dataSource: EntitiesDataSource<FileRowMapper>;
     pagination$: Observable<PaginationModel>;
 
     // Locals
@@ -186,7 +184,8 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
-        this.tableElementDataSource = new TableElementDataSource(this.store.pipe(select(selectTableData)));
+        this.dataSource =
+            new EntitiesDataSource<FileRowMapper>(this.store.pipe(select(selectTableData)), FileRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));
@@ -203,92 +202,5 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
-    }
-}
-
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
- *
- * Elements in Material Design table that displays HCA-specific file related data.
- */
-export interface Element {
-    ageUnit: string;
-    biologicalSex: string;
-    disease: string; // TODO check not array
-    fileFormat: string;
-    fileName: string;
-    fileSize: number;
-    genusSpecies: string;
-    libraryConstructionApproach: string;
-    organ: string;
-    organismAge: string;
-    organPart: string;
-    pairedEnd: string;
-    projectTitle: string;
-    sampleEntityType: string;
-    selectedCellType: string;
-    specimenId: string;
-    totalCells: number;
-    url: string;
-}
-
-/**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
- *
- * Data source backing Material Design table that displays file related data.
- */
-class TableElementDataSource extends DataSource<any> {
-
-    element$: Observable<Element[]>;
-
-    constructor(tableData$: Observable<any[]>) {
-
-        super();
-
-        this.element$ = tableData$.pipe(
-            map((rows: any[]) => {
-
-                return rows.map((row: any) => {
-
-                    let file = row.files[0] || {};
-                    let cellSuspensions = rollUpMetadata(row.cellSuspensions);
-                    let protocols = rollUpMetadata(row.protocols);
-                    let samples = rollUpMetadata(row.samples);
-                    let specimens = rollUpMetadata(row.specimens);
-                    let donorOrganisms = rollUpMetadata(row.donorOrganisms);
-                    let projectTitle = rollUpMetadata(row.projects);
-
-                    return {
-                        ageUnit: donorOrganisms.organismAgeUnit,
-                        biologicalSex: getUnspecifiedIfNullValue(donorOrganisms.biologicalSex),
-                        disease: getUnspecifiedIfNullValue(samples.disease),
-                        fileFormat: file.format,
-                        fileName: file.name,
-                        fileSize: getUnspecifiedIfNullValue(file.size),
-                        genusSpecies: getUnspecifiedIfNullValue(donorOrganisms.genusSpecies),
-                        libraryConstructionApproach: getUnspecifiedIfNullValue(protocols.libraryConstructionApproach),
-                        organ: getUnspecifiedIfNullValue(samples.organ),
-                        organismAge: getUnspecifiedIfNullValue(donorOrganisms.organismAge),
-                        organPart: getUnspecifiedIfNullValue(samples.organPart),
-                        pairedEnd: getUnspecifiedIfNullValue(protocols.pairedEnd),
-                        projectTitle: getUnspecifiedIfNullValue(projectTitle.projectTitle),
-                        sampleEntityType: getUnspecifiedIfNullValue(samples.sampleEntityType),
-                        selectedCellType: getUnspecifiedIfNullValue(cellSuspensions.selectedCellType),
-                        specimenId: getSelfOrFirst(specimens.id),
-                        totalCells: getUnspecifiedIfNullValue(cellSuspensions.totalCells),
-                        url: file.url
-                    };
-                });
-            })
-        );
-    }
-
-    connect(): Observable<Element[]> {
-        return this.element$;
-    }
-
-    disconnect() {
     }
 }
