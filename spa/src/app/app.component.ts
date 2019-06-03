@@ -14,6 +14,8 @@ import { Observable, Subscription, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Config } from "./config/config.model";
+import { selectConfigConfig } from "./config/_ngrx/config.selectors";
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
 import { EntityName } from "./files/shared/entity-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Template/public variables
     public health$: Observable<HealthState>;
+    public config$: Observable<Config>;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -192,12 +195,18 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Set up app state from URL, if specified. Kick off health check.
+     * Set up app state from URL, if specified. Kick off health check. Grab config - we need to know which environment
+     * we're in for displaying the ingest info banner.
      */
     public ngOnInit() {
 
         this.setAppStateFromURL();
         this.healthCheck();
+        
+        this.config$ = this.store.pipe(
+            select(selectConfigConfig),
+            takeUntil(this.ngDestroy$)
+        );
     }
 }
 

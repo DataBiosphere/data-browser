@@ -21,6 +21,9 @@
         justify-content: center;
         min-height: 66px;
         padding: 0 16px;
+        &.persistent {
+            background-color: $hca-orange;
+        }
         a {
             display: inline-block;
             margin-left: 6px;
