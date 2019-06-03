@@ -1,9 +1,10 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * State containing information (config) required for setting up this instance of Boardwalk.
  */
+
 // App dependencies
 import { Config } from "../config.model";
 import { FetchConfigRequestSuccessAction } from "./config.actions";
@@ -28,7 +29,7 @@ export class ConfigState {
      */
     public static getDefaultState() {
 
-        return new ConfigState(new Config("", "", "", ""));
+        return new ConfigState(new Config("", "", "", "", ""));
     }
 
     /**

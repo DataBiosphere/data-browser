@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Client-side configuration file.
  */
@@ -22,6 +22,7 @@ export class ConfigService {
     private dataURL: string; // Pulled from config store, saved as local state here on service
     private matrixURL: string;
     private portalURL: string;
+    private deployment: string;
     private projectMetaURL: string;
     private store: Store<AppState>;
 
@@ -110,6 +111,7 @@ export class ConfigService {
 
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
+        this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
