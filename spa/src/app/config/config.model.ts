@@ -1,8 +1,8 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Model of config required for setting up this instance of Boardwalk.
+ * Model of config required for setting up this instance of the browser.
  */
 
 export class Config {
@@ -10,6 +10,7 @@ export class Config {
     public readonly dataURL: string;
     public readonly matrixURL: string;
     public readonly portalURL: string;
+    public readonly deployment: string;
     public readonly projectMetaURL: string;
 
     /**
@@ -18,10 +19,11 @@ export class Config {
      * @param {string} portalURL
      * @param {string} projectMetaURL
      */
-    constructor(dataURL: string, matrixURL: string, portalURL: string, projectMetaURL: string) {
+    constructor(dataURL: string, matrixURL: string, portalURL: string, projectMetaURL: string, deployment: string) {
 
         this.dataURL = dataURL;
         this.matrixURL = matrixURL;
+        this.deployment = deployment;
         this.portalURL = portalURL;
         this.projectMetaURL = projectMetaURL;
     }
