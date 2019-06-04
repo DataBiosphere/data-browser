@@ -35,7 +35,6 @@ import { MatrixService } from "../shared/matrix.service";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { MatrixStatus } from "../shared/matrix-status.model";
-import { MatrixDAO } from "../shared/matrix.dao";
 
 describe("HCARequestMatrixModalComponent", () => {
 
@@ -72,11 +71,6 @@ describe("HCARequestMatrixModalComponent", () => {
             providers: [
                 MatrixService,
             {
-                provide: MatrixDAO,
-                useValue: jasmine.createSpyObj("MatrixDAO", [
-                    "fetchFileFormats"
-                ])
-            }, {
                 provide: FileFacetDisplayService,
                 useValue: jasmine.createSpyObj("FileFacetDisplayService", [
                     "getFileFacetDisplayName"
