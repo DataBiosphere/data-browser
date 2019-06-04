@@ -28,7 +28,7 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { SAMPLE_TABLE_MODEL } from "../shared/table-state-table-model.mock";
+import { SAMPLES_TABLE_MODEL } from "../shared/table-state-table-model.mock";
 import { HCATableSamplesComponent } from "./hca-table-samples.component";
 
 describe("HCATableSamplesComponent", () => {
@@ -95,11 +95,11 @@ describe("HCATableSamplesComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.loading),
-            of(SAMPLE_TABLE_MODEL.pagination),
-            of(SAMPLE_TABLE_MODEL.termCountsByFacetName),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 
@@ -116,11 +116,11 @@ describe("HCATableSamplesComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.loading),
-            of(SAMPLE_TABLE_MODEL.pagination),
-            of(SAMPLE_TABLE_MODEL.termCountsByFacetName),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 
@@ -151,11 +151,11 @@ describe("HCATableSamplesComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.data),
-            of(SAMPLE_TABLE_MODEL.loading),
-            of(SAMPLE_TABLE_MODEL.pagination),
-            of(SAMPLE_TABLE_MODEL.termCountsByFacetName),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 

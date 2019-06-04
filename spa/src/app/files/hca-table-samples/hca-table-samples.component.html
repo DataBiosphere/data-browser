@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="hca-table">
-        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="tableElementDataSource" matSort
+        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="sampleId">

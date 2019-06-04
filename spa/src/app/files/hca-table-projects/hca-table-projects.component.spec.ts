@@ -29,7 +29,7 @@ import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { PROJECT_TABLE_MODEL } from "../shared/table-state-table-model.mock";
+import { PROJECTS_TABLE_MODEL } from "../shared/table-state-table-model.mock";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -95,11 +95,11 @@ describe("HCATableProjectsComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.loading),
-            of(PROJECT_TABLE_MODEL.pagination),
-            of(PROJECT_TABLE_MODEL.termCountsByFacetName),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 
@@ -117,11 +117,11 @@ describe("HCATableProjectsComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.loading),
-            of(PROJECT_TABLE_MODEL.pagination),
-            of(PROJECT_TABLE_MODEL.termCountsByFacetName),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 
@@ -153,11 +153,11 @@ describe("HCATableProjectsComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.data),
-            of(PROJECT_TABLE_MODEL.loading),
-            of(PROJECT_TABLE_MODEL.pagination),
-            of(PROJECT_TABLE_MODEL.termCountsByFacetName),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY)
         );
 
