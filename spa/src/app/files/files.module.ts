@@ -69,22 +69,16 @@ import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projec
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
-import { SearchTermDAO } from "./shared/search-term.dao";
+import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
-import { DownloadDAO } from "./shared/download.dao";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
-import { FileManifestDAO } from "./shared/file-manifest.dao";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
-import { FilesDAO } from "./shared/files.dao";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
-import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
-import { MatrixDAO } from "./shared/matrix.dao";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
-import { TerraDAO } from "./shared/terra.dao";
 import { TermSortService } from "./sort/term-sort.service";
 import { TermResponseService } from "./shared/term-response.service";
 
@@ -168,21 +162,15 @@ import { TermResponseService } from "./shared/term-response.service";
     providers: [
         ConfigService,
         DownloadService,
-        DownloadDAO,
-        SearchTermDAO,
+        SearchTermService,
         FileFacetDisplayService,
         FileManifestService,
-        FileManifestDAO,
         FilesService,
-        FilesDAO,
         MatrixService,
-        MatrixDAO,
         ProjectService,
-        ProjectDAO,
         TermResponseService,
         TermSortService,
         TerraService,
-        TerraDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [

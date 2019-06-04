@@ -6,26 +6,35 @@
  */
 
 // Core dependencies
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { catchError, map, retry } from "rxjs/operators";
 
 // App dependencies
-import { MatrixDAO } from "./matrix.dao";
+import { ConfigService } from "../../config/config.service";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixStatus } from "./matrix-status.model";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { FileFormat } from "./file-format.model";
+import { ICGCQuery } from "./icgc-query";
+import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { SearchTermService } from "./search-term.service";
 
 @Injectable()
 export class MatrixService {
 
     /**
-     * @param {MatrixDAO} matrixDAO
+     * @param {ConfigService} configService
+     * @param {SearchTermService} searchTermService
+     * @param {HttpClient} httpClient
      */
-    constructor(private matrixDAO: MatrixDAO) {
+    constructor(private configService: ConfigService,
+                private searchTermService: SearchTermService,
+                private httpClient: HttpClient) {
     }
 
     /**
@@ -35,7 +44,7 @@ export class MatrixService {
      */
     public fetchFileFormats(): Observable<string[]> {
 
-        return this.matrixDAO.fetchFileFormats();
+        return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
     }
 
     /**
@@ -46,7 +55,13 @@ export class MatrixService {
      */
     public getMatrixStatus(requestId: string): Observable<MatrixResponse> {
 
-        return this.matrixDAO.getMatrixStatus(requestId);
+        return this.httpClient
+            .get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`)
+            .pipe(
+                retry(3),
+                catchError(this.handleMatrixStatusError.bind(this, requestId)),
+                map(this.bindMatrixResponse.bind(this))
+            );
     }
 
     /**
@@ -64,7 +79,19 @@ export class MatrixService {
             this.addMatrixFileFormatToSearchTerms(searchTerms);
 
         // Kick off matrix request
-        return this.matrixDAO.requestMatrix(matrixSearchTerms, matrixFormat);
+        const manifestUrl = this.buildMatrixManifestUrl(searchTerms);
+
+        // Build up the POST body
+        const body = {
+            bundle_fqids_url: manifestUrl,
+            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
+        };
+
+        return this.httpClient
+            .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body)
+            .pipe(
+                map(this.bindMatrixResponse.bind(this))
+            );
     }
 
     /**
@@ -116,6 +143,43 @@ export class MatrixService {
     }
 
     /**
+     * Build the manifest download URL - required for requesting a Matrix export.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @param {string} format
+     * @returns {string}
+     */
+    private buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
+
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), format);
+
+        let params = new URLSearchParams();
+        Object.keys(query).forEach((paramName) => {
+            params.append(paramName, query[paramName]);
+        });
+
+        return this.configService.buildApiUrl(`/manifest/files?${params.toString()}`);
+    }
+
+    /**
+     * A client-side error occurred during request that we couldn't recover from - build up dummy FAILED matrix
+     * response.
+     *
+     * @param {string} requestId
+     * @returns {MatrixResponse}
+     */
+    private handleMatrixStatusError(requestId: string): Observable<MatrixResponse> {
+
+        return of({
+            eta: "",
+            matrixUrl: "",
+            message: "",
+            requestId: requestId,
+            status: MatrixStatus.FAILED
+        });
+    }
+
+    /**
      * Returns true if there matrix file format is in the current set of selected search terms.
      *
      * @param {SearchTerm[]} searchTerms
@@ -126,5 +190,32 @@ export class MatrixService {
         return searchTerms.some((searchTerm) =>
             searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
             searchTerm.getSearchValue() === FileFormat.MATRIX);
+    }
+
+    /**
+     * Normalize matrix response to FE-friendly format.
+     *
+     * @param {MatrixHttpResponse} response
+     * @returns {MatrixResponse}
+     */
+    private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
+
+        return Object.assign({}, response, {
+            matrixUrl: response.matrix_location,
+            requestId: response.request_id,
+            status: this.translateMatrixStatus(response.status)
+        });
+    }
+
+    /**
+     * Convert the value of the matrix status to FE-friendly value.
+     *
+     * @param {string} status
+     * @returns {MatrixStatus}
+     */
+    private translateMatrixStatus(status: string): MatrixStatus {
+
+        const statusKey = status.toUpperCase().replace(" ", "_");
+        return MatrixStatus[statusKey];
     }
 }
