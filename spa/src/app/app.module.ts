@@ -36,7 +36,6 @@ import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { ErrorComponent } from "./system/error/error.component";
 import { SystemService } from "./system/shared/system.service";
-import { SystemDAO } from "./system/shared/system.dao";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -78,7 +77,6 @@ import { SystemDAO } from "./system/shared/system.dao";
     ],
     providers: [
         SystemService,
-        SystemDAO,
         UserService,
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.

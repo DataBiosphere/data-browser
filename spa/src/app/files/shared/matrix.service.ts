@@ -6,34 +6,34 @@
  */
 
 // Core dependencies
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { catchError, map, retry } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { MatrixFormat } from "./matrix-format.model";
 import { MatrixResponse } from "./matrix-response.model";
 import { MatrixStatus } from "./matrix-status.model";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { FileFormat } from "./file-format.model";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { SearchTermDAO } from "./search-term.dao";
-import { ConfigService } from "../../config/config.service";
-import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { ICGCQuery } from "./icgc-query";
+import { MatrixHttpResponse } from "./matrix-http-response.model";
+import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { SearchTermService } from "./search-term.service";
 
 @Injectable()
 export class MatrixService {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermDAO} searchTermDAO
+     * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
-                private searchTermDAO: SearchTermDAO,
+                private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -143,18 +143,6 @@ export class MatrixService {
     }
 
     /**
-     * Build full API URL
-     *
-     * @param url
-     * @returns {string}
-     */
-    private buildApiUrl(url: string) {
-
-        const domain = this.configService.getAPIURL();
-        return `${domain}${url}`;
-    }
-
-    /**
      * Build the manifest download URL - required for requesting a Matrix export.
      *
      * @param {SearchTerm[]} searchTerms
@@ -163,14 +151,14 @@ export class MatrixService {
      */
     private buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
 
-        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), format);
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), format);
 
         let params = new URLSearchParams();
         Object.keys(query).forEach((paramName) => {
             params.append(paramName, query[paramName]);
         });
 
-        return this.buildApiUrl(`/manifest/files?${params.toString()}`);
+        return this.configService.buildApiUrl(`/manifest/files?${params.toString()}`);
     }
 
     /**

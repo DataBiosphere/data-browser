@@ -35,6 +35,18 @@ export class ConfigService {
     }
 
     /**
+     * Build full end point URL, from API URL and specified path.
+     *
+     * @param path
+     * @returns {string}
+     */
+    public buildApiUrl(path: string) {
+
+        const domain = this.getAPIURL();
+        return `${domain}${path}`;
+    }
+
+    /**
      * Hit API end point to retrieve configuration information for this Boardwalk instance. Must return promise here
      * as this method is called during Angular's app initialization and we need to resolve the config details (eg
      * data URL) before any components are instantiated. The config details returned from the server are saved on

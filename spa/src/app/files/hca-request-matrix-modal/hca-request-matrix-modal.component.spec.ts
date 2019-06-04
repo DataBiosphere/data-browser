@@ -7,7 +7,8 @@
 
 // Core dependencies
 import { FormsModule } from "@angular/forms";
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { HttpClient } from "@angular/common/http";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import {
     MatChipsModule,
     MatDialogModule,
@@ -25,6 +26,7 @@ import { of } from "rxjs";
 
 // App components
 import { CcPipeModule } from "../../cc-pipe";
+import { ConfigService } from "../../config/config.service";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal.component";
 import { HCAFileSummaryComponent } from "../hca-file-summary/hca-file-summary.component";
 import { HCAFileFilterResultComponent } from "../hca-file-filter-result/hca-file-filter-result.component";
@@ -35,6 +37,8 @@ import { MatrixService } from "../shared/matrix.service";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { MatrixStatus } from "../shared/matrix-status.model";
+import { SearchTermService } from "../shared/search-term.service";
+import { TermResponseService } from "../shared/term-response.service";
 
 describe("HCARequestMatrixModalComponent", () => {
 
@@ -70,18 +74,28 @@ describe("HCARequestMatrixModalComponent", () => {
             ],
             providers: [
                 MatrixService,
-            {
+                ConfigService,
+                SearchTermService,
+                TermResponseService,
+                {
+                    provide: HttpClient,
+                    useValue: jasmine.createSpyObj("HttpClient", [
+                        "get"
+                    ])
+                },
+                {
                 provide: FileFacetDisplayService,
-                useValue: jasmine.createSpyObj("FileFacetDisplayService", [
-                    "getFileFacetDisplayName"
-                ])
-            }, {
-                provide: Store,
-                useValue: testStore
-            }, {
-                provide: MatDialogRef,
-                useValue: {}
-            }]
+                    useValue: jasmine.createSpyObj("FileFacetDisplayService", [
+                        "getFileFacetDisplayName"
+                    ])
+                }, {
+                    provide: Store,
+                    useValue: testStore
+                }, {
+                    provide: MatDialogRef,
+                    useValue: {}
+                }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCARequestMatrixModalComponent);

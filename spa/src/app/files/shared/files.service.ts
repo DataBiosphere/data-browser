@@ -20,7 +20,7 @@ import { FilesAPIResponse } from "./files-api-response.model";
 import { FileFacet } from "./file-facet.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
-import { SearchTermDAO } from "./search-term.dao";
+import { SearchTermService } from "./search-term.service";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
@@ -32,12 +32,12 @@ export class FilesService {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermDAO} searchTermDAO
+     * @param {SearchTermService} searchTermService
      * @param {TermResponseService} termResponseService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
-                private searchTermDAO: SearchTermDAO,
+                private searchTermService: SearchTermService,
                 private termResponseService: TermResponseService,
                 private httpClient: HttpClient) {
     }
@@ -58,7 +58,7 @@ export class FilesService {
                                     filterableByProject = true): Observable<EntitySearchResults> {
 
         // Build API URL
-        const url = this.buildApiUrl(`/repository/` + selectedEntity);
+        const url = this.configService.buildApiUrl(`/repository/` + selectedEntity);
 
         // Build up param map
         let paramMap;
@@ -77,7 +77,7 @@ export class FilesService {
 
                     const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
                     const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
-                    const searchTerms = this.searchTermDAO.bindSearchTerms(apiResponse.termFacets);
+                    const searchTerms = this.searchTermService.bindSearchTerms(apiResponse.termFacets);
 
                     const tableModel = {
                         data: apiResponse.hits,
@@ -104,10 +104,10 @@ export class FilesService {
     public fetchFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
         // Build up API URL
-        const url = this.buildApiUrl(`/repository/summary`);
+        const url = this.configService.buildApiUrl(`/repository/summary`);
 
         // Build up the query params
-        const filters = this.searchTermDAO.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermService.marshallSearchTerms(searchTerms);
 
         return this.httpClient.get<FileSummary>(url, {
             params: {
@@ -185,18 +185,6 @@ export class FilesService {
     }
 
     /**
-     * Build full API URL
-     *
-     * @param url
-     * @returns {string}
-     */
-    private buildApiUrl(url: string) {
-
-        const domain = this.configService.getAPIURL();
-        return `${domain}${url}`;
-    }
-
-    /**
      * Build up set of query params for fetching search results.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
@@ -210,7 +198,7 @@ export class FilesService {
         const searchTerms = Array.from(searchTermSets).reduce((accum, searchTermSet) => {
             return accum.concat(Array.from(searchTermSet));
         }, []);
-        const filters = this.searchTermDAO.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermService.marshallSearchTerms(searchTerms);
 
         const paramMap = {
             filters,

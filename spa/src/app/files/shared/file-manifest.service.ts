@@ -12,6 +12,7 @@ import { interval, Observable, of, Subject } from "rxjs";
 import { catchError, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { Dictionary } from "../../dictionary";
 import { FileFacet } from "./file-facet.model";
 import { FileFacetName } from "./file-facet-name.model";
@@ -19,15 +20,14 @@ import { FileFormat } from "./file-format.model";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileSummary } from "../file-summary/file-summary";
 import { FilesService } from "./files.service";
-import { ManifestResponse } from "./manifest-response.model";
-import { SearchTerm } from "../search/search-term.model";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { ManifestHttpResponse } from "./manifest-http-response.model";
-import { ManifestStatus } from "./manifest-status.model";
-import { ConfigService } from "../../config/config.service";
-import { SearchTermDAO } from "./search-term.dao";
 import { ICGCQuery } from "./icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
+import { ManifestResponse } from "./manifest-response.model";
+import { ManifestStatus } from "./manifest-status.model";
+import { ManifestHttpResponse } from "./manifest-http-response.model";
+import { SearchTerm } from "../search/search-term.model";
+import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { SearchTermService } from "./search-term.service";
 
 @Injectable()
 export class FileManifestService {
@@ -35,13 +35,13 @@ export class FileManifestService {
     /**
      * @param {ConfigService} configService
      * @param {FilesService} filesService
-     * @param {SearchTermDAO} searchTermDAO
+     * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      * 
      */
     constructor(private configService: ConfigService,
                 private filesService: FilesService,
-                private searchTermDAO: SearchTermDAO,
+                private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -87,10 +87,10 @@ export class FileManifestService {
             manifestResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
         let params = new HttpParams({fromObject: query} as any);
 
-        const url = this.buildApiUrl(`/fetch/manifest/files`);
+        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
         const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
         this.requestManifest(getRequest, manifestResponse$);
 
@@ -105,7 +105,7 @@ export class FileManifestService {
      */
     public fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
 
-        const query = new ICGCQuery(this.searchTermDAO.marshallSearchTerms(searchTerms));
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms));
 
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
@@ -122,7 +122,7 @@ export class FileManifestService {
             repoNames: repoNames
         });
 
-        const url = this.buildApiUrl("/repository/files/summary/manifest");
+        const url = this.configService.buildApiUrl("/repository/files/summary/manifest");
 
         return this.httpClient.post<Dictionary<FileManifestSummary>>(url, form);
     }
@@ -171,18 +171,6 @@ export class FileManifestService {
             retryAfter: response["Retry-After"],
             status: this.translateFileDownloadStatus(response.Status)
         });
-    }
-
-    /**
-     * Build full API URL
-     *
-     * @param url
-     * @returns {string}
-     */
-    private buildApiUrl(url: string) {
-
-        const domain = this.configService.getAPIURL();
-        return `${domain}${url}`;
     }
 
     /**

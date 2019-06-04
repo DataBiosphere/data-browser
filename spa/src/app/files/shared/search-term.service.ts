@@ -19,7 +19,7 @@ import { SearchEntity } from "../search/search-entity.model";
 import { TermResponseService } from "./term-response.service";
 
 @Injectable()
-export class SearchTermDAO {
+export class SearchTermService {
 
     // Search blacklist - exclude from set of search terms
     private SEARCH_TERM_BLACKLIST = [

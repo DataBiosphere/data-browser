@@ -69,18 +69,16 @@ import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projec
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
-import { SearchTermDAO } from "./shared/search-term.dao";
+import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
 import { ProjectService } from "./shared/project.service";
-import { ProjectDAO } from "./shared/project.dao";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
-import { TerraDAO } from "./shared/terra.dao";
 import { TermSortService } from "./sort/term-sort.service";
 import { TermResponseService } from "./shared/term-response.service";
 
@@ -164,17 +162,15 @@ import { TermResponseService } from "./shared/term-response.service";
     providers: [
         ConfigService,
         DownloadService,
-        SearchTermDAO,
+        SearchTermService,
         FileFacetDisplayService,
         FileManifestService,
         FilesService,
         MatrixService,
         ProjectService,
-        ProjectDAO,
         TermResponseService,
         TermSortService,
         TerraService,
-        TerraDAO,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     entryComponents: [
