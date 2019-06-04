@@ -8,5 +8,21 @@
 
 :host {
     color: $hca-black;
-    display: block; /* Required for <hca-content-ellipsis/> */
+    display: -webkit-box;
+    overflow: hidden;
+    text-align: left; /* Default alignment */
+    text-overflow: ellipsis;
+    /* autoprefixer: ignore next */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+/* Title - right aligned if column is right aligned */
+:host-context(.right) {
+    text-align: right;
+}
+
+/* Title - centered if column is centered */
+:host-context(.center), :host-context(.file-type) {
+    text-align: center;
 }
