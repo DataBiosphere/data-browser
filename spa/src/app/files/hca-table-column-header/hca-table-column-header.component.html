@@ -1,4 +1,4 @@
-<hca-table-sort [columnSort]="columnSort">
+<hca-table-sort [columnSort]="columnSort" [ngClass]="{'no-sort': columnSort === false}">
     <hca-tooltip
             [tooltipContent]="tooltipContent"
             [tooltipDisabled]="tooltipDisabled"
@@ -8,16 +8,17 @@
     </hca-tooltip>
 </hca-table-sort>
 <ng-container [ngSwitch]="columnName === 'fileType'">
-    <div *ngSwitchDefault class="count">
+    <div *ngSwitchDefault class="sub-header fontsize-xs">
         <hca-tooltip [tooltipContent]="tooltipContentForCount"
                      [tooltipDisabled]="false"
                      [tooltipPosition]="'above'"
-                     [tooltipClass]="'hca-tooltip narrow'">
-            <span class="fontsize-s" *ngIf="isDomainCountVisible(columnName)">({{getDomainCountDisplayText(columnName)}})</span>
+                     [tooltipClass]="'hca-tooltip narrow'"
+                     *ngIf="isDomainCountVisible(columnName)">
+            <span>({{getDomainCountDisplayText(columnName)}})</span>
         </hca-tooltip>
-        <span class="fontsize-s" *ngIf="isSummaryCountVisible(columnName)"><hca-content-ellipsis>{{summaryCount}}</hca-content-ellipsis></span>
+        <span *ngIf="isSummaryCountVisible(columnName)"><hca-content-ellipsis>{{summaryCount}}</hca-content-ellipsis></span>
     </div>
-    <div *ngSwitchCase="true" class="data-label fontsize-xxs">
+    <div *ngSwitchCase="true" class="sub-header download fontsize-xxs">
         <span>Fastqs</span><span>BAMs</span><span>Matrix</span><span>Other</span><span>Total</span>
     </div>
 </ng-container>

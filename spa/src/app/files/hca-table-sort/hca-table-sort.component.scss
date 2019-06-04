@@ -16,40 +16,10 @@
     .mat-sort-header-container {
         align-items: flex-start;
         justify-content: flex-end;
-
-        button {
-            overflow: hidden; /* Required for <hca-content-ellipsis/> */
-        }
     }
 
     /* Arrow position, before content */
     .mat-sort-header-position-before .mat-sort-header-arrow {
         margin: 0 4px 0 0;
-    }
-}
-
-/* ViewEncapsulation is disabled thereby removing the use of :host-context */
-/* css specificity required to avoid style conflicts */
-/* Column right aligned - header content to be right aligned */
-.hca-table mat-header-cell.right {
-
-        .hca-table-sort .mat-sort-header-container {
-            justify-content: flex-start;
-        }
-}
-
-/* Column centered - header content to be centered */
-.hca-table mat-header-cell.center {
-
-    .hca-table-sort .mat-sort-header-container {
-        justify-content: center;
-    }
-}
-
-/* File type - center "Data" heading */
-.hca-table mat-header-cell.file-type.right {
-
-    .hca-table-sort .mat-sort-header-container {
-        justify-content: center;
     }
 }
