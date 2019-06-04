@@ -18,7 +18,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "7.2.8",
-    "@angular/cdk": "^7.3.3",
+    "@angular/cdk": "^7.3.7",
     "@angular/common": "7.2.8",
     "@angular/compiler": "7.2.8",
     "@angular/core": "7.2.8",
@@ -40,14 +40,14 @@
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.0",
-    "@angular/cli": "^7.3.6",
+    "@angular-devkit/build-angular": "^0.13.9",
+    "@angular/cli": "^7.3.9",
     "@angular/compiler-cli": "7.2.8",
     "@angular/language-service": "7.2.8",
-    "@ngrx/store-devtools": "^7.3.0",
+    "@ngrx/store-devtools": "^7.4.0",
     "@types/jasmine": "2.8.8",
     "@types/jasminewd2": "2.0.3",
-    "@types/lodash": "^4.14.74",
+    "@types/lodash": "^4.14.133",
     "codelyzer": "4.5.0",
     "jasmine-core": "2.99.1",
     "jasmine-marbles": "0.5.0",
