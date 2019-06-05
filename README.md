@@ -1,6 +1,6 @@
 # HCA Data Portal
 
-The HCA Data Portal is an [Angular 5 app](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
+The HCA Data Portal is an [AngularJs](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
 
 
 ## Prerequisites
@@ -8,6 +8,9 @@ The HCA Data Portal is an [Angular 5 app](http://angular.io), built with the [An
 1. node 10.16.0
 1. npm 6.9.0
 1. [git-secrets] must be installed
+
+[git-secrets]: https://github.com/awslabs/git-secrets
+
  
 ## Development Environment Setup
 
