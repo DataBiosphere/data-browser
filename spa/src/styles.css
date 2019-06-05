@@ -130,6 +130,10 @@ html {
     font-size: 62.5%;
 }
 
+body {
+    overscroll-behavior-x: none; /* Prevents bounce - excludes safari */
+}
+
 /*
  * Layout utils based on Angular 1.1.1
  *

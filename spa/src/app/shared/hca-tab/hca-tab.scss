@@ -26,6 +26,7 @@
             justify-content: flex-start;
             margin: 24px -16px 0;
             overflow-x: auto; /* Horizontal scroll */
+            overscroll-behavior-x: none; /* Prevents bounce  - excludes safari */
             overflow-y: hidden;
 
             &::-webkit-scrollbar {
@@ -112,7 +113,7 @@
 }
 
 /**
- * Large +
+ * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
 
