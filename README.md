@@ -5,7 +5,9 @@ The HCA Data Portal is an [Angular 5 app](http://angular.io), built with the [An
 
 ## Prerequisites
 
-The only prerequisites are a recent version of nodejs and npm such as node 10.0.0.
+1. node 10.16.0
+1. npm 6.9.0
+1. [git-secrets] must be installed
  
 ## Development Environment Setup
 
@@ -17,7 +19,6 @@ The only prerequisites are a recent version of nodejs and npm such as node 10.0.
 
 ### 2. Install Client-Side Dependencies
 
-Install Angular CLI if you don't have it already installed. Both of the following steps must be done with NPM
 
 		npm install -g angular-cli
 
@@ -32,4 +33,19 @@ To start the Angular development server, run the following from the `spa` direct
 		npm start
 
 You can hit the server at `http://localhost:4200`.
+
+
+### 4. Install git-secrets
+
+If you have push access to the remote, you'll need to install [git-secrets],
+   enable the commit hooks for it and configure patterns for AWS and Google:
+
+   ```
+   git secrets --install
+   git secrets --register-aws
+   git secrets --add '[-]----BEGIN.PRIVATE.KEY-----'
+   ```
+
+
+
  
