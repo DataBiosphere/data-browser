@@ -29,6 +29,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Known Diseases (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 88,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -86,6 +87,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Species",
         description: "The scientific binomial name for the species of the biomaterial.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 64,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -93,6 +95,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Library Construction Method",
         description: "The general method for sequencing library construction.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 96,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -100,8 +103,8 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Metadata",
         description: "Full project metadata download in .tsv format.",
         alignment: ColumnAlignment.CENTER,
-        columnMaxWidth: 84,
-        columnMinWidth: 84,
+        columnMaxWidth: 76,
+        columnMinWidth: 76,
         countType: CountType.NONE
     },
     {
@@ -153,6 +156,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Sample Type",
         description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 64,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -166,6 +170,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Selected Cell Type",
         description: "The cell type(s) selected to be present in the suspension.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 70,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -174,6 +179,7 @@ let tableColumns: TableColumn[] = [
         description: "A unique ID for this specimen.",
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "0 1 12%",
+        columnMinWidth: 80,
         countType: CountType.SUMMARY_COUNT
     },
     {

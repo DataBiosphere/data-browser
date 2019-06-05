@@ -41,17 +41,15 @@
     flex-direction: column;
     overflow-x: auto; /* Horizontal scroll */
     -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+    overscroll-behavior-x: none; /* Prevents bounce - excludes safari */
     margin-top: 4px;
-    padding: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
 
     /* HCA table */
     .hca-table {
-        margin: 0 -16px;
-        padding: 0 16px;
-        width: 100%; /* To take up full width of screen */
 
         mat-table {
-            min-width: 1140px; /* Fixed table width for horizontal scroll - snap at 1200px */
+            margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
+            min-width: 1220px; /* Fixed table width for horizontal scroll - snap at 1280px */
 
             /* Row - header and cell */
             mat-header-row, mat-row {
@@ -60,7 +58,7 @@
 
             mat-header-row {
                 background-color: $hca-white;
-                border-bottom: 2px solid $hca-gray-light;
+                border-bottom: 2px solid $hca-gray-lightest;
             }
 
             mat-row {
@@ -139,9 +137,36 @@
 }
 
 /**
- * Large +
+ * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
+
+    :host {
+
+        /* Fade on horizontal scroll */
+        &::after, &::before {
+            width: 30px;
+        }
+    }
+
+    /* Wrapper */
+    .wrapper {
+
+        /* HCA table */
+        .hca-table {
+
+            mat-table {
+                margin: 0 30px; /* Gutter 30px - margin to maintain RHS gutter in mobile view */
+            }
+        }
+    }
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1280px) {
 
     :host {
 
@@ -156,20 +181,26 @@
         margin: 0 auto;
         padding: 0 30px; /* Gutter 30px */
 
-        .hca-table mat-table {
+        .hca-table {
+            width: 100%; /* To take up full width of screen */
 
-            /* Snapped header row */
-            mat-header-row.snapped {
-                left: 30px;
-                position: fixed;
-                right: 30px;
-                top: 0;
-                z-index: 20;
-            }
+            mat-table {
+                margin: 0;
 
-            /* Snapped first row */
-            mat-row.snapped {
-                padding-top: 58px;
+                /* Snapped header row */
+                mat-header-row.snapped {
+                    left: 0;
+                    padding: 0 30px;
+                    position: fixed;
+                    right: 0;
+                    top: 0;
+                    z-index: 20;
+                }
+
+                /* Snapped first row */
+                mat-row.snapped {
+                    padding-top: 58px;
+                }
             }
         }
     }
