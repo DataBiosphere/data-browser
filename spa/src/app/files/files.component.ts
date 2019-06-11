@@ -9,13 +9,15 @@
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { Location } from "@angular/common";
 import * as _ from "lodash";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subscription } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { Observable, Subject, Subscription } from "rxjs";
+import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { DeviceDetectorService } from "ngx-device-detector";
-import { FileFacet } from "./shared/file-facet.model";
+import { Config } from "../config/config.model";
+import { Deployment } from "../config/deployment.model";
+import { selectConfigConfig } from "../config/_ngrx/config.selectors";
 import { FileSummary } from "./file-summary/file-summary";
 import {
     selectFileFacetsFileFacets,
@@ -34,6 +36,7 @@ import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
+import { FileFacet } from "./shared/file-facet.model";
 
 @Component({
     selector: "bw-files",
@@ -43,6 +46,7 @@ import EntitySpec from "./shared/entity-spec";
 export class FilesComponent implements OnInit, OnDestroy {
 
     // Public/template variables
+    public config$: Observable<Config>;
     public entities$: Observable<EntitySpec[]>;
     public fileFacets$: Observable<FileFacet[]>;
     public fileTypeMatrix$: Observable<boolean>;
@@ -54,6 +58,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     // Locals
     private deviceInfo = null;
+    private ngDestroy$ = new Subject();
     private urlUpdater: Subscription;
 
     /**
@@ -85,6 +90,20 @@ export class FilesComponent implements OnInit, OnDestroy {
         const isTablet = this.deviceService.isTablet();
 
         return (isMobile || isTablet);
+    }
+
+    /**
+     * Returns true if export to Terra functionality is enabled. Currently true for dev and ux-dev.
+     * 
+     * @param {Config} config
+     * @returns {boolean}
+     */
+    public isTerraEnabled(config: Config): boolean {
+
+        const deployment = config.deployment;
+        return deployment === Deployment.LOCAL ||
+            deployment === Deployment.DEVELOP ||
+            deployment === Deployment.UX_DEV;
     }
 
     /**
@@ -143,6 +162,9 @@ export class FilesComponent implements OnInit, OnDestroy {
         if ( this.urlUpdater ) {
             this.urlUpdater.unsubscribe();
         }
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
 
     /**
@@ -205,5 +227,10 @@ export class FilesComponent implements OnInit, OnDestroy {
 
             this.location.replaceState(path, params.toString());
         });
+
+        this.config$ = this.store.pipe(
+            select(selectConfigConfig),
+            takeUntil(this.ngDestroy$)
+        );
     }
 }
