@@ -12,7 +12,8 @@
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="!isDeviceHandheld()"
                       [matrixEnabled]="fileTypeMatrix$ | async"
-                      [summary]="selectFileSummary$ | async">
+                      [summary]="selectFileSummary$ | async" 
+                      [terraEnabled]="isTerraEnabled(config$ | async)">
     </hca-file-summary>
     <hca-table-samples *ngIf="(selectedEntity$ | async).key == 'samples'"></hca-table-samples>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
