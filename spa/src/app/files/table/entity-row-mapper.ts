@@ -39,11 +39,20 @@ export class EntityRowMapper {
 
     /**
      * Return the version of the row, optimized for display in the data table.
+     *
+     * Mappings are as follows (applicable to both data tables and project detail pages):
+     *
+     * 1. Falsy values or empty arrays are displayed as "Undefined"
+     * 2. Single values (eg ["brain"] or "brain") are displayed as a single string value (ie "brain"), with the
+     *    exception of total cell count which remains as a number
+     * 3. Multiple values (eg ["brain", "blood"] or {..["brain"], ...["blood"]} are rolled up to single, comma-delimited
+     *    string value (ie "brain, blood"). The exception here is contributors and publications on the project detail 
+     *    page as we need to pull out the contributor names etc individually for display.
      */
     public mapRow(): EntityRow {
 
         return {
-            ageUnit: this.donorOrganisms.organismAgeUnit,
+            ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
             disease: getUnspecifiedIfNullValue(this.samples.disease),
             genusSpecies: getUnspecifiedIfNullValue(this.donorOrganisms.genusSpecies),

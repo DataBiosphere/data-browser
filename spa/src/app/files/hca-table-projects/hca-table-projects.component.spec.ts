@@ -29,7 +29,7 @@ import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { PROJECTS_TABLE_MODEL } from "../shared/table-state-table-model.mock";
+import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 
 describe("HCATableProjectsComponent", () => {
 

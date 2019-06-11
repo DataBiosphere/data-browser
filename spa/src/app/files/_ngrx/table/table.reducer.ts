@@ -9,12 +9,13 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { ClearSelectedProjectAction } from "./clear-selected-project.action";
 import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list.actions";
 import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
-import * as tableStateService from "./table.state";
-import { TableState } from "./table.state";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
+import * as tableStateService from "./table.state";
+import { TableState } from "./table.state";
 import {
     EntitySelectAction,
     FetchProjectSuccessAction
@@ -61,6 +62,14 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             return {
                 ...state,
                 selectedProject: (action as FetchProjectSuccessAction).project
+            };
+
+        // Clear the current selected project 
+        case ClearSelectedProjectAction.ACTION_TYPE:
+
+            return {
+                ...state,
+                selectedProject: null
             };
 
         // Table data has been retrieved from server - update data and pagination (but leave term counts unchanged).

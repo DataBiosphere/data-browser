@@ -7,25 +7,14 @@
 
 // App dependencies
 import { Contributor } from "./contributor.model";
+import { ProjectRow } from "../hca-table-projects/project-row.model";
 
-export interface Project {
+export interface Project extends ProjectRow {
     arrayExpressAccessions: string[];
     contributors: Contributor[];
-    entryId: string;
-    cellCount: number;
-    disease: string[];
-    donorCount: number;
-    fileType: string[];
     geoSeriesAccessions: string[];
     insdcProjectAccessions: string[];
     insdcStudyAccessions: string[];
-    libraryConstructionApproach: string[];
-    organ: string[];
-    organPart: string[];
-    pairedEnd: string[];
     projectDescription: string;
-    projectShortname: string;
-    projectTitle: string;
     publications: string[];
-    species: string[];
 }

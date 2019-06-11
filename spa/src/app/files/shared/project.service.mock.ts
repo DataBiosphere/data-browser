@@ -10,8 +10,8 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 
 // App dependencies
+import { PROJECT_SINGLE_VALUES } from "../hca-table-projects/project-mapper.mock";
 import { Project } from "./project.model";
-import { DEFAULT_PROJECT } from "./project.mock";
 
 @Injectable()
 export class ProjectMockService {
@@ -24,6 +24,6 @@ export class ProjectMockService {
      */
     public fetchProjectById(projectId: string): Observable<Project> {
 
-        return of(DEFAULT_PROJECT);
+        return of(PROJECT_SINGLE_VALUES as any);
     }
 }
