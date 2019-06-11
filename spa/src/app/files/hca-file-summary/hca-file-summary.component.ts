@@ -35,6 +35,7 @@ export class HCAFileSummaryComponent {
     @Input() showDownload: boolean;
     @Input() matrixEnabled: boolean;
     @Input() summary: FileSummary;
+    @Input() terraEnabled: boolean;
 
     /**
      * @param store {Store<AppState>}
