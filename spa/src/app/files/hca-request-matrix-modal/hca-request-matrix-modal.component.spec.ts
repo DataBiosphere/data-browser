@@ -27,11 +27,14 @@ import { of } from "rxjs";
 // App components
 import { CcPipeModule } from "../../cc-pipe";
 import { ConfigService } from "../../config/config.service";
+import { FileTypeSummaryListComponent } from "../file-type-summary-list/file-type-summary-list.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal.component";
 import { HCAFileSummaryComponent } from "../hca-file-summary/hca-file-summary.component";
 import { HCAFileFilterResultComponent } from "../hca-file-filter-result/hca-file-filter-result.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { HCADownloadManifestComponent } from "../hca-download-manifest/hca-download-manifest.component";
+import { HCAExportToTerraModalComponent } from "../hca-export-to-terra-modal/hca-export-to-terra-modal.component";
+import { HCAExportToTerraComponent } from "../hca-export-to-terra/hca-export-to-terra.component";
 import { HCARequestMatrixComponent } from "../hca-request-matrix/hca-request-matrix.component";
 import { MatrixService } from "../shared/matrix.service";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
@@ -53,8 +56,11 @@ describe("HCARequestMatrixModalComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCARequestMatrixModalComponent,
+                HCAExportToTerraComponent,
+                HCAExportToTerraModalComponent,
                 HCAFileFilterResultComponent,
                 HCAFileSummaryComponent,
+                FileTypeSummaryListComponent,
                 HCADownloadManifestComponent,
                 HCARequestMatrixComponent,
                 HCARequestMatrixModalComponent,
