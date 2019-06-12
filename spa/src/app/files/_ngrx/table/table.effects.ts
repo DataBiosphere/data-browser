@@ -142,6 +142,7 @@ export class TableEffects {
 
                 // Reset the pagination but keep the set page size if it was changed.
                 let tableParams = Object.assign(
+                    {},
                     DEFAULT_TABLE_PARAMS,
                     {
                         size: tableQueryParams.pagination.size,
@@ -182,6 +183,7 @@ export class TableEffects {
 
                 // Reset the pagination but keep the set page size if it was changed.
                 let tableParams = Object.assign(
+                    {},
                     DEFAULT_TABLE_PARAMS,
                     {
                         size: tableQueryParams.pagination.size,

@@ -107,6 +107,7 @@ export class FileEffects {
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 let tableParams = Object.assign(
+                    {},
                     DEFAULT_TABLE_PARAMS,
                     {
                         sort: tableQueryParams.pagination.sort,
