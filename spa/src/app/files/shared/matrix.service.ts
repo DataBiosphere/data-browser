@@ -79,7 +79,7 @@ export class MatrixService {
             this.addMatrixFileFormatToSearchTerms(searchTerms);
 
         // Kick off matrix request
-        const manifestUrl = this.buildMatrixManifestUrl(searchTerms);
+        const manifestUrl = this.buildMatrixManifestUrl(matrixSearchTerms);
 
         // Build up the POST body
         const body = {
