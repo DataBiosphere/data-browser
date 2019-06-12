@@ -306,25 +306,28 @@ export function getFileCountDisplay(count: number): any {
  */
 export function getFileTypeCounts(fileTypeSummaries: any[]) {
 
-    /* File counts for file formats.
-     * File types of interest include "fastq.gz" and "fastq", "bam", "matrix".
-     * Total file count and all remaining other files are calculated. */
-    return fileTypeSummaries.reduce((acc, fileTypeSummary) => {
+    // File counts for file formats.
+    // File types of interest include "fastq.gz" and "fastq", "bam", "matrix".
+    // Total file count and all remaining other files are calculated.
+    // Force to empty array if no file type summary is specified. This would only occur in an error / bad data case.
+    return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
+        
+        const count = fileTypeSummary.count || 0;
 
         /* bam */
         if ( fileTypeSummary.fileType === "bam" ) {
-            acc.bamCount = acc.bamCount + fileTypeSummary.count;
+            acc.bamCount = acc.bamCount + count;
         }
         /* matrix */
         if ( fileTypeSummary.fileType === "matrix" ) {
-            acc.matrixCount = acc.matrixCount + fileTypeSummary.count;
+            acc.matrixCount = acc.matrixCount + count;
         }
         /* fastq and fastq.qz */
         if ( fileTypeSummary.fileType === "fastq.gz" || fileTypeSummary.fileType === "fastq" ) {
-            acc.rawCount = acc.rawCount + fileTypeSummary.count;
+            acc.rawCount = acc.rawCount + count;
         }
         /* total count */
-        acc.totalCount = acc.totalCount + fileTypeSummary.count;
+        acc.totalCount = acc.totalCount + count;
         /* other count */
         acc.otherCount = acc.totalCount - acc.bamCount - acc.matrixCount - acc.rawCount;
 
@@ -418,6 +421,21 @@ export function getUnspecifiedIfNullValue(value: any): any {
 }
 
 /**
+ * Returns the value if it is specified, otherwise returns "Unspecified" if array is empty.
+ *
+ * @param {any} value
+ * @returns {any}
+ */
+export function getUnspecifiedIfEmpty(value: any[]): any {
+
+    if ( value.length ) {
+        return value;
+    }
+
+    return "Unspecified";
+}
+
+/**
  * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
  * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
  * @param el
@@ -429,15 +447,26 @@ export function isTooltipDisabled(el) {
 }
 
 /**
- * Each bundle contains multiple biomaterials which are in a hierarchy
- * leading back to the root biomaterial. Biomaterials are in an array.
- * This rolls up the metadata values to a single object.
- * @param array
+ * Returns a single object that is a concatenation of all elements in the specified array. For example, given
+ * 
+ * [{one: "1", two: "2"}, {one: "11", two: "22", three: 3}]
+ * 
+ * the following object is returned:
+ * 
+ * {
+ *   one: "1, 11",
+ *   two: "2, 22",
+ *   three: "3"
+ * }
+ * 
+ * Note, all flattened values - with the exception of totalCells - are cast to string values.
+ *
+ * @param {any[]} array
  * @returns {any}
  */
-export function rollUpMetadata(array): any {
+export function rollUpMetadata(array: any[]): any {
 
-    // if the array is empty we have no values.
+    // Return empty object if no array is specified
     if ( !array ) {
         return {};
     }

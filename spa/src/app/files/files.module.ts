@@ -75,7 +75,7 @@ import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
-import { ProjectService } from "./shared/project.service";
+import { ProjectService } from "./project/project.service";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";

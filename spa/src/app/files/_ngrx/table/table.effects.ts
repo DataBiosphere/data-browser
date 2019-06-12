@@ -15,7 +15,7 @@ import { map, switchMap, take, withLatestFrom } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { Project } from "../../shared/project.model";
-import { ProjectService } from "../../shared/project.service";
+import { ProjectService } from "../../project/project.service";
 import {
     FetchPagedOrSortedTableDataRequestAction,
     FetchProjectRequestAction,

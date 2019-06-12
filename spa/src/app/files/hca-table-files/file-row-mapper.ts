@@ -19,8 +19,12 @@ export class FileRowMapper extends EntityRowMapper {
      * @param {any} row - data modelling row in current selected table.
      */
     constructor(row: any) {
+
         super(row);
-        this.file = row.files[0] || {};
+
+        // Always take the first value in the files array. This is a summary value and there should only ever be 
+        // single value here. Also protect against null and empty array values.
+        this.file = (row.files || [])[0] || {};
     }
 
     /**

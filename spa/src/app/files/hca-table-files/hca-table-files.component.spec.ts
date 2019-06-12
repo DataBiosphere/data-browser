@@ -37,7 +37,7 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { FILES_TABLE_MODEL } from "../shared/table-state-table-model.mock";
+import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { DownloadService } from "../shared/download.service";
 
 describe("HCATableFilesComponent", () => {

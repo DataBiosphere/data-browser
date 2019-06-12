@@ -43,7 +43,7 @@
                                      [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.species, "-")}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.genusSpecies, "Unspecified")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -53,7 +53,7 @@
                                      [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "-")}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "Unspecified")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -64,7 +64,7 @@
                         >{{getColumnDisplayName('organPart')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "-")}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "Unspecified")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -75,7 +75,7 @@
                         >{{getColumnDisplayName('disease')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "-")}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "Unspecified")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -107,7 +107,7 @@
                                      [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "-")}}</p>
+                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "Unspecified")}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -117,7 +117,7 @@
                                      [tooltipPosition]="'above'">{{getColumnDisplayName('totalCells')}}
                         </hca-tooltip>
                     </p>
-                    <p class="fontsize-xs rhs">{{project.cellCount | countSize}}</p>
+                    <p class="fontsize-xs rhs">{{project.totalCells | countSize}}</p>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">
@@ -155,19 +155,19 @@
                                 <p class="fontsize-xxs">{{contributor.email}}</p>
                             </div>
                         </ng-container>
-                        <p class="fontsize-xxs" *ngSwitchDefault>None</p>
+                        <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
                     </ng-container>
                     <h4 class="fontsize-m">Publications</h4>
                     <ng-container [ngSwitch]="project.publications.length > 0">
                         <ng-container *ngSwitchCase="true">
                             <div *ngFor="let publication of project.publications" class="details">
                                 <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
-                                <p class="fontsize-xxs"><a href="{{publication.publicationUrl}}" target="_blank"
+                                <p class="fontsize-xxs" *ngIf="!!publication.publicationUrl"><a href="{{publication.publicationUrl}}" target="_blank"
                                                            class="link">View
                                     here</a></p>
                             </div>
                         </ng-container>
-                        <p *ngSwitchDefault class="fontsize-xxs">None</p>
+                        <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
                     </ng-container>
                 </div>
                 <div class="rhs">
@@ -184,25 +184,25 @@
                 <div>
                     <p class="fontsize-xs bold lhs">Array Express Accessions</p>
                     <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions, "None")}}</p>
+                        <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions, "Unspecified")}}</p>
                     </div>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">GEO Series Accessions</p>
                     <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "None")}}</p>
+                        <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "Unspecified")}}</p>
                     </div>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">INSDC Project Accessions</p>
                     <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions, "None")}}</p>
+                        <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions, "Unspecified")}}</p>
                     </div>
                 </div>
                 <div>
                     <p class="fontsize-xs bold lhs">INSDC Study Accessions</p>
                     <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "None")}}</p>
+                        <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "Unspecified")}}</p>
                     </div>
                 </div>
             </div>

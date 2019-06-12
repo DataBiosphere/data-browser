@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -18,16 +18,18 @@ import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
+import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
 import { Project } from "../shared/project.model";
 import { SearchTerm } from "../search/search-term.model";
-import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { EntityName } from "../shared/entity-name.model";
 import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
+
 
 
 @Component({
@@ -37,7 +39,7 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HCAProjectComponent implements OnInit {
+export class HCAProjectComponent implements OnDestroy, OnInit {
 
     // Public variables
     public selectedProjectIds$: Observable<string[]>;
@@ -208,6 +210,14 @@ export class HCAProjectComponent implements OnInit {
     public stringifyValues(values: any[], valueIfNull: string): string {
 
         const linkedValue = "Smart-seq2";
+        
+        if ( !values ) {
+            return valueIfNull;
+        }
+        
+        if ( !Array.isArray(values) ) {
+            return values;
+        }
 
         if ( values.length === 0 ) {
             return valueIfNull;
@@ -252,8 +262,12 @@ export class HCAProjectComponent implements OnInit {
     }
 
     /**
-     * Life cycle hooks
+     * Clear out the selected project when the user navigates away from project detail page.
      */
+    ngOnDestroy() {
+
+        this.store.dispatch(new ClearSelectedProjectAction());
+    }
 
     /**
      * Update state with selected project.

@@ -21,7 +21,10 @@ export class FileTypeSummariesRowMapper extends EntityRowMapper {
     constructor(row: any) {
         
         super(row);
-        this.fileTypeCounts = getFileTypeCounts(row.fileTypeSummaries);
+        
+        // Protect against a null file type summaries value here by defaulting to empty array. This would only occur
+        // in an error / bad data case.
+        this.fileTypeCounts = getFileTypeCounts(row.fileTypeSummaries || []);
     }
 
     /**

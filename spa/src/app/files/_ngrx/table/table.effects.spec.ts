@@ -23,7 +23,7 @@ import { PROJECT_1M_NEURONS } from "../search/search.state.mock";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../../shared/entity-search-results.mock";
 import { FilesService } from "../../shared/files.service";
 import { FilesMockService } from "../../shared/files.service.mock";
-import { ProjectService } from "../../shared/project.service";
+import { ProjectService } from "../../project/project.service";
 import { ProjectMockService } from "../../shared/project.service.mock";
 import { TableEffects } from "./table.effects";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
