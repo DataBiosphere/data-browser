@@ -78,7 +78,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      */
     private isHealthCheckError(error: HttpErrorResponse): boolean {
 
-        return error.status === 503 && new URL(error.url).pathname === "/health";
+        return error.status === 503 && new URL(error.url).pathname === "/health/progress";
     }
 
     /**

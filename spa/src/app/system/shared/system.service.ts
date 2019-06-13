@@ -34,7 +34,7 @@ export class SystemService {
      */
     public healthCheck(): Observable<HealthResponse> {
 
-        const url = this.configService.buildApiUrl("/health");
+        const url = this.configService.buildApiUrl("/health/progress");
         return this.httpClient
             .get<HealthHttpResponse>(url)
             .pipe(
