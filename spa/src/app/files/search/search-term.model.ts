@@ -12,9 +12,9 @@ export interface SearchTerm extends TermSortable {
 
     /**
      * Return the count.
-     * 
+     *
      * @returns {number}
-      */    
+     */
     getCount(): number;
 
     /**

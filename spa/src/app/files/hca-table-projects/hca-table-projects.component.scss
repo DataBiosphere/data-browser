@@ -46,6 +46,7 @@
 
     /* HCA table */
     .hca-table {
+        margin-top: 24px;
 
         mat-table {
             margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
@@ -184,6 +185,10 @@
         .hca-table {
             width: 100%; /* To take up full width of screen */
 
+            &.snapped {
+                margin-top: 0;
+            }
+
             mat-table {
                 margin: 0;
 
@@ -194,12 +199,7 @@
                     position: fixed;
                     right: 0;
                     top: 0;
-                    z-index: 20;
-                }
-
-                /* Snapped first row */
-                mat-row.snapped {
-                    padding-top: 58px;
+                    z-index: 122; /* Positioned above project matrix download */
                 }
             }
         }

@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div class="hca-table projects">
+    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped}">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
@@ -242,7 +242,7 @@
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped)"></mat-row>
+                     [ngClass]="getRowClass(i, snapped)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [isData]="data$ | async"></hca-table-data-status-placeholder>

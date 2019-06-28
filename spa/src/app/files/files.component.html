@@ -7,14 +7,14 @@
                              [selectedSearchTerms]="selectedSearchTerms$ | async"
                              (menuOpen)="onMenuOpen($event)">
     </hca-file-filter-wrapper>
-    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
-             (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="!isDeviceHandheld()"
                       [matrixEnabled]="fileTypeMatrix$ | async"
-                      [summary]="selectFileSummary$ | async" 
+                      [summary]="selectFileSummary$ | async"
                       [terraEnabled]="isTerraEnabled(config$ | async)">
     </hca-file-summary>
+    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-table-samples *ngIf="(selectedEntity$ | async).key == 'samples'"></hca-table-samples>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
     <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>

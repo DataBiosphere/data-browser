@@ -1,22 +1,31 @@
 <div class="wrapper">
-    <div class="filter-result">
-        <mat-chip-list>
-                <ng-container *ngFor="let selectedSearchTerm of selectedSearchTerms">
-                <mat-chip [removable]="removable" class="selected-term">
-                    <div>
-                        <span class="label">{{getFacetName(selectedSearchTerm.getSearchKey())}}:</span>
-                        <span class="input">{{selectedSearchTerm.getDisplayValue()}}</span>
+    <div [ngClass]="{'filter-result':true, 'inactive': !removable}">
+        <ng-container *ngFor="let selectedSearchFacet of getSelectedSearchFacets(); last as isLastFacet">
+            <span class="selected-facets">
+                <div class="selected-facet">
+                    <span class="facet-name fontsize-xxs"
+                          (click)="removeAllSearchTermsForSearchFacet(selectedSearchFacet)">{{getFacetName(selectedSearchFacet)}}</span>
+                    <mat-icon>close</mat-icon>
+                </div>
+                <div class="selected-terms">
+                    <ng-container
+                            *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as isLastTerm; first as isFirstTerm">
+                    <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerm)">
+                        <span class="parenthesis open" *ngIf="isFirstTerm">(</span>
+                        <div>
+                            <span class="fontsize-xxs">{{selectedSearchTerm.getDisplayValue()}}</span>
+                            <mat-icon>close</mat-icon>
+                        </div>
+                        <span class="parenthesis close" *ngIf="isLastTerm">)</span>
                     </div>
-                    <mat-icon matChipRemove *ngIf="removable" (click)="removeSearchTerm(selectedSearchTerm)">close
-                    </mat-icon>
-                </mat-chip>
-            </ng-container>
-            <mat-chip *ngIf="isSelectedSearchTermsEmpty()" [removable]="removable" class="no-selected-term">
-                <div><span class="input">No selected terms</span></div>
-            </mat-chip>
-            <button mat-button *ngIf="!isSelectedSearchTermsEmpty()" (click)="removeAllSearchTerms()" class="clear-all">
-                Clear All
-            </button>
-        </mat-chip-list>
+                    <span class="operator" *ngIf="!isLastTerm">OR</span>
+                </ng-container>
+                    <span class="operator" *ngIf="!isLastFacet">AND</span>
+                </div>
+            </span>
+        </ng-container>
+        <button mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()" (click)="removeAllSearchTerms()" class="clear-all">
+            Clear All
+        </button>
     </div>
 </div>

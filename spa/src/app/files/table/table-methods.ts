@@ -311,7 +311,7 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
     // Total file count and all remaining other files are calculated.
     // Force to empty array if no file type summary is specified. This would only occur in an error / bad data case.
     return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
-        
+
         const count = fileTypeSummary.count || 0;
 
         /* bam */
@@ -350,6 +350,15 @@ export function getHeaderClass(snapped): { [className: string]: boolean } {
 }
 
 /**
+ * Returns height of mat-header-row.
+ * Used to calculate first mat-row padding when table snapped.
+ * @returns {number}
+ */
+export function getHeaderRowHeight(): number {
+    return document.getElementsByTagName("mat-header-row")[0].getBoundingClientRect().height;
+}
+
+/**
  * Return the set of CSS class names that are currently applicable to the first row in the table.
  * @param {number} rowIndex
  * @param snapped
@@ -359,6 +368,20 @@ export function getRowClass(rowIndex: number, snapped): { [className: string]: b
 
     return {
         snapped: (rowIndex === 0) && snapped
+    };
+}
+
+/**
+ * Returns ngStyle applicable to the first row in table when table has snapped.
+ * @param {number} rowIndex
+ * @param snapped
+ * @param {number} headerRowHeight
+ * @returns {any}
+ */
+export function getRowStyle(rowIndex: number, snapped, headerRowHeight: number): any {
+
+    return {
+        "padding-top": (rowIndex === 0) && snapped ? headerRowHeight + "px" : (rowIndex === 0) && !snapped ? 0 : {},
     };
 }
 
@@ -448,17 +471,17 @@ export function isTooltipDisabled(el) {
 
 /**
  * Returns a single object that is a concatenation of all elements in the specified array. For example, given
- * 
+ *
  * [{one: "1", two: "2"}, {one: "11", two: "22", three: 3}]
- * 
+ *
  * the following object is returned:
- * 
+ *
  * {
  *   one: "1, 11",
  *   two: "2, 22",
  *   three: "3"
  * }
- * 
+ *
  * Note, all flattened values - with the exception of totalCells - are cast to string values.
  *
  * @param {any[]} array
