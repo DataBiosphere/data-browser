@@ -1,6 +1,6 @@
 /*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * HCA File summary styles.
  */
@@ -14,18 +14,17 @@
     padding: 0 16px; /* Gutter is 16px */
 
     .file-summary {
-        align-items: flex-start;
+        align-items: center;
         display: flex;
+        flex-wrap: wrap;
         flex: 1;
-        flex-direction: column;
         justify-content: space-between;
-        margin: 16px 0 16px -8px; /* Negative left margin to allow for first tab's padding */
 
-        /* Summaries and counts - container */
+        /* Summary - container */
         > div {
             display: flex;
             flex-wrap: wrap; /* Wraps on smaller devices */
-            padding-bottom: 12px;
+            margin: 12px 0 12px -10px; /* Negative left margin to allow for first tab's padding */
 
             /* Buttons - download and request matrix */
             &.download-buttons {
@@ -45,58 +44,22 @@
                 }
             }
 
-            /* Summary and count */
-            > div {
+            /* Summary */
+            .summary {
+                align-items: baseline;
                 display: flex;
                 margin: 4px 0;
-                padding: 0 4px;
-
-                /* Font style for summary and count */
-                > span, .summary-count {
-                    font-family: "Montserrat", sans-serif; /* TODO typography */
-                    font-size: 12px; /* TODO typography */
-                    font-weight: 600; /* TODO typography */
-                    padding: 0 4px;
-                    text-transform: uppercase;
-                }
+                padding: 0 6px;
 
                 /* Count */
-                .summary-count {
-                    color: $hca-gray-medium;
-                    text-transform: none;
+                .count {
+                    padding: 0 4px;
                 }
-            }
-        }
-    }
-}
 
-/* Download manifest summary & request expression matrix */
-:host-context(.hca-download) {
-
-    .wrapper {
-        margin-top: -24px;
-        padding: 0 24px;
-
-        .file-summary {
-            margin-left: -12px;
-
-            /* Summaries and counts - container */
-            > div {
-
-                /* Summary and count */
-                > div {
-                    min-width: 25%; /* Lines up 2nd and last summary */
-                    padding: 0 8px;
-
-                    /* Hide file size */
-                    &:last-of-type {
-                        display: none;
-                    }
-
-                    /* Font style for summary and count */
-                    > span, .summary-count {
-                        font-size: 11px;
-                    }
+                /* Label, count */
+                .label, .count {
+                    color: $hca-gray-dark;
+                    margin: 0;
                 }
             }
         }
@@ -107,14 +70,12 @@
  * Medium +
  */
 @media screen and (min-width: 768px) {
+
     /* Wrapper */
     .wrapper .file-summary {
-        align-items: center;
-        flex-direction: row;
 
         /* Summaries and counts - container */
         > div {
-            padding-bottom: 0;
 
             /* Buttons - download and request matrix */
             &.download-buttons {

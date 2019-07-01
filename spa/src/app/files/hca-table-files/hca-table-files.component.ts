@@ -31,7 +31,9 @@ import {
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
+    getHeaderRowHeight,
     getRowClass,
+    getRowStyle,
     isTooltipDisabled
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -62,7 +64,9 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
+    getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
+    getRowStyle = getRowStyle;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
@@ -158,13 +162,13 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         )
             .subscribe(() => {
 
-                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
 
                     this.snapped = false;
+                }
+                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+
+                    this.snapped = true;
                 }
             });
     }

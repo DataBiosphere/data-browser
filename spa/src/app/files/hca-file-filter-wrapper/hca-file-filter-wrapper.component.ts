@@ -23,7 +23,7 @@ export class HCAFileFilterWrapperComponent {
 
     // Inputs
     @Input() fileFacets: FileFacet[];
-    @Input() searchTerms: SearchTerm[]; // Set of search terms to select from 
+    @Input() searchTerms: SearchTerm[]; // Set of search terms to select from
     @Input() selectedEntity: EntitySpec;
     @Input() selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
 

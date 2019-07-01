@@ -35,7 +35,9 @@ import {
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
+    getHeaderRowHeight,
     getRowClass,
+    getRowStyle,
     isTooltipDisabled,
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -64,7 +66,9 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
+    getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
+    getRowStyle = getRowStyle;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
@@ -171,13 +175,13 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         )
             .subscribe(() => {
 
-                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
 
                     this.snapped = false;
+                }
+                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+
+                    this.snapped = true;
                 }
             });
     }
@@ -208,7 +212,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get an observable of the pagination model
         this.pagination$ = this.store.pipe(select(selectPagination));
-        
+
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
         this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));

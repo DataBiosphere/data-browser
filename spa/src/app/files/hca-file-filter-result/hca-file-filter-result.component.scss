@@ -14,106 +14,112 @@
     margin: 0 auto;
     padding: 0 16px; /* Gutter 16px */
 
-    .filter-result {
-        align-items: flex-start;
+    /* Selected facet and selected terms grouped by flex */
+    /* Wraps by key groups of results */
+    .filter-result, .filter-result .selected-facets, .filter-result .selected-terms {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    .filter-result {
         min-height: 26px; /* Placeholder for empty list */
 
-        /* List of selected terms - chips */
-        .selected-term, .no-selected-term {
-            align-items: center;
-            background-color: $hca-off-white;
-            border-radius: 3px;
-            box-sizing: border-box;
-            display: flex;
-            height: 100%;
-            min-height: 20px;
-            margin: 3px;
-            padding: 3px;
-
-            &::after {
-                background: transparent; /* Overrides mat-chip focus */
-            }
-
-            &:focus {
-                box-shadow: none;
-            }
-
-            /* Facet and term name */
-            > div {
-                align-items: flex-start;
-                display: flex;
-                padding: 0 3px;
-
-                span {
-                    display: inline-block;
-                    line-height: normal;
-                }
-
-                /* Chip label: facet name */
-                .label {
-                    font-family: "Montserrat", sans-serif;
-                    font-size: 11px;
-                    font-weight: 600;
-                    letter-spacing: 0.34px;
-                    padding-right: 4px;
-                }
-
-                /* Chip input: term name */
-                .input {
-                    font-family: "Montserrat", sans-serif;
-                    font-size: 11px;
-                    letter-spacing: 0.34px;
-                }
-            }
-
-            /* Remove button */
-            mat-icon {
-                color: $hca-gray-medium;
-                cursor: pointer;
-                font-size: 12px;
-                height: 12px;
-                margin: 0;
-                padding: 0 3px;
-                width: 12px;
-            }
+        span {
+            display: inline-flex;
+            line-height: 26px;
+            margin: 0;
         }
 
-        .no-selected-term {
-            display: none;
+        /* Facet name */
+        .facet-name {
+            color: $hca-gray-dark;
+            margin-right: 6px;
+        }
+
+        /* Parenthesis */
+        .parenthesis {
+            color: $hca-gray-light;
+            font-family: "Courier New", sans-serif;
+            font-size: 24px; // TODO review
+        }
+
+        /* Parenthesis open */
+        .parenthesis.open {
+            margin-left: -6px;
+        }
+
+        /* Parenthesis close */
+        .parenthesis.close {
+            margin-right: -6px;
+        }
+
+        /* Operator - OR, AND */
+        .operator {
+            color: $hca-gray-darkest;
+            font-family: "Courier New", sans-serif;
+            font-size: 14px;
+            font-style: italic;
+            padding: 0 6px;
+            text-transform: uppercase;
+        }
+
+        /* Selected term */
+        .selected-term {
+            display: flex;
+            flex: none;
+        }
+
+        .selected-term > div, .selected-facet {
+            cursor: pointer;
+            position: relative; /* Positions remove button */
+        }
+
+        /* Selected term/facet - hover state */
+        .selected-term:hover mat-icon, .selected-facet:hover mat-icon {
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        /* Remove button 'x' */
+        .selected-term mat-icon, .selected-facet mat-icon {
+            color: $hca-secondary;
+            cursor: pointer;
+            font-size: 12px;
+            height: 12px;
+            margin: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: -4px;
+            width: 12px;
         }
 
         /* Clear all button */
         .clear-all {
             color: $hca-primary;
-            font-family: "Montserrat", sans-serif; /* TODO typography */
-            font-size: 11px; /* TODO typography */
-            letter-spacing: 0.34px; /* TODO typography */
+            font-family: "Montserrat", sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.34px;
             line-height: 20px; /* Overrides MD button spec */
             margin: 3px;
             min-width: 0;
             padding: 0 4px; /* Overrides MD button spec - button text positioned 10px right of last selected chip */
         }
     }
-}
 
-/* Request matrix expression */
-:host-context(.hca-download) {
+    /* Inactive result - elements are inactive and cannot be removed */
+    .inactive {
 
-    .wrapper {
-        padding: 0 24px;
-
-        .filter-result {
-            min-height: unset;
+        .selected-term > div, .selected-facet {
+            cursor: auto;
         }
 
-        /* Show no selected term if 0 terms selected */
-        .filter-result .no-selected-term {
-            display: flex;
+        /* Hide 'x' */
+        mat-icon {
+            display: none;
         }
 
-        /* Hide "clear all" */
+        /* Hide 'clear all' button */
         .clear-all {
             display: none;
         }

@@ -49,6 +49,25 @@ export class HCAFileFilterResultComponent {
     }
 
     /**
+     * Returns a distinct array of facet names from the selected search terms.
+     * @returns {string[]}
+     */
+    public getSelectedSearchFacets(): string[] {
+
+        return this.selectedSearchTerms.map(selectedSearchTerm => selectedSearchTerm.getSearchKey()).filter((facetName, i, facetNames) => facetNames.indexOf(facetName) === i);
+    }
+
+    /**
+     * Returns search terms for each selected search facet.
+     * @param selectedSearchFacet
+     * @returns {SearchTerm[]}
+     */
+    public getSelectedSearchTerms(selectedSearchFacet): SearchTerm[] {
+
+        return this.selectedSearchTerms.filter(selectedSearchTerm => selectedSearchTerm.getSearchKey() === selectedSearchFacet);
+    }
+
+    /**
      * Returns true if there are no currently selected search terms.
      *
      * @returns {boolean}
@@ -59,21 +78,37 @@ export class HCAFileFilterResultComponent {
     }
 
     /**
+     * Removes all selected search terms for a given selected search facet.
+     * @param selectedSearchFacet
+     */
+    public removeAllSearchTermsForSearchFacet(selectedSearchFacet) {
+
+        if ( this.removable ) {
+            this.getSelectedSearchTerms(selectedSearchFacet).forEach(selectedSearchTerm => this.removeSearchTerm(selectedSearchTerm));
+        }
+        else return;
+    }
+
+    /**
      * Dispatch event to remove a single selected search term.
      *
      * @param {SearchTerm} searchTerm
      */
     public removeSearchTerm(searchTerm: SearchTerm) {
 
-        let action;
-        if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
-            action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
-        }
-        else {
-            action = new SelectFileFacetTermAction(searchTerm.getSearchKey(), searchTerm.getSearchValue(), false);
-        }
+        if ( this.removable ) {
 
-        this.store.dispatch(action);
+            let action;
+            if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
+                action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
+            }
+            else {
+                action = new SelectFileFacetTermAction(searchTerm.getSearchKey(), searchTerm.getSearchValue(), false);
+            }
+
+            this.store.dispatch(action);
+        }
+        else return;
     }
 
     /**

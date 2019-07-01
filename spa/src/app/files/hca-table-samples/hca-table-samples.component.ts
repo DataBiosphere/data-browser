@@ -41,7 +41,9 @@ import {
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
+    getHeaderRowHeight,
     getRowClass,
+    getRowStyle,
     isTooltipDisabled,
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -71,7 +73,9 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
+    getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
+    getRowStyle = getRowStyle;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
@@ -153,13 +157,13 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
             )
             .subscribe(() => {
 
-                if ( this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-                else if ( this.window.pageYOffset < nativeElement.offsetTop && this.snapped ) {
+                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
 
                     this.snapped = false;
+                }
+                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
+
+                    this.snapped = true;
                 }
             });
     }
@@ -181,7 +185,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
         // Initialize the new data source with an observable of the table data.
         this.dataSource =
             new EntitiesDataSource<SampleRowMapper>(this.store.pipe(select(selectTableData)), SampleRowMapper);
-        
+
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));
 
