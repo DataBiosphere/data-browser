@@ -1,7 +1,7 @@
 <div class="wrapper">
     <ng-container *ngIf="tabs">
-        <div class="hca-tab-list">
-            <div [ngClass]="getTabClass(activeTab.key, tab.key)" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
+        <div class="hca-tabs">
+            <div [ngClass]="getTabClass(activeTab.key, tab.key, tab.displayName)" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
                 {{tab.displayName}}
             </div>
         </div>

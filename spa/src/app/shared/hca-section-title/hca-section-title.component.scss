@@ -27,37 +27,6 @@
     }
 }
 
-/* Section title, centered */
-/* Used by <hca-project>, <error> etc */
-:host-context(.section-title-centered) {
-
-    .wrapper {
-        justify-content: center;
-    }
-}
-
-/* Section title, reduced font size */
-/* Used by <hca-project> */
-:host-context(.small) .section-title {
-    box-sizing: border-box;
-    font-size: 18px;
-    line-height: 24px;
-    margin: 0 auto;
-    padding: 16px 0 8px;
-}
-
-/**
- * Tablet +
- */
-@media screen and (min-width: 768px) {
-
-    /* Centered section title */
-    /* Used by <hca-project>, <error> etc */
-    :host-context(.section-title-centered) .section-title {
-        max-width: 656px; /* 688px total width and 16px padding, in keeping with hca-project component */
-    }
-}
-
 /**
  * HCA specific breakpoint
  */

@@ -311,7 +311,7 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
     // Total file count and all remaining other files are calculated.
     // Force to empty array if no file type summary is specified. This would only occur in an error / bad data case.
     return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
-        
+
         const count = fileTypeSummary.count || 0;
 
         /* bam */

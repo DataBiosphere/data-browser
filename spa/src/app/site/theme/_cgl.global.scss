@@ -81,6 +81,11 @@ ul {
     line-height: 20px;
     margin: 0 0 8px;
 
+    /* Semi bold */
+    &.semi-bold {
+        font-weight: 500;
+    }
+
     /* Bold */
     &.bold {
         font-weight: 600;
@@ -134,6 +139,10 @@ h4.fontsize-m {
     font-weight: 500;
     line-height: 22px;
     margin: 14px 0 16px;
+
+    &.semi-bold {
+        font-weight: 600;
+    }
 }
 
 /* HCA h3 font class "fontsize-l" */
@@ -143,6 +152,15 @@ h3.fontsize-l {
     font-weight: 500;
     line-height: 24px;
     margin: 16px 0 18px;
+}
+
+/* HCA h2 font class "fontsize-xl" */
+h2.fontsize-xl {
+    font-family: "din-2014", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    margin: 24px 0 8px;
 }
 
 /**

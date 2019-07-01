@@ -12,16 +12,16 @@ import { getFileCountDisplay, getFileTypeCounts } from "./table-methods";
 import { EntityRow } from "./entity-row.model";
 
 export class FileTypeSummariesRowMapper extends EntityRowMapper {
-    
+
     private fileTypeCounts;
 
     /**
      * @param {any} row - data modelling row in current selected table.
      */
     constructor(row: any) {
-        
+
         super(row);
-        
+
         // Protect against a null file type summaries value here by defaulting to empty array. This would only occur
         // in an error / bad data case.
         this.fileTypeCounts = getFileTypeCounts(row.fileTypeSummaries || []);

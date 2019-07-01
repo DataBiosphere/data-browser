@@ -1,21 +1,162 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * HCA project table detail styles.
+ * HCA project detail styles.
  */
 @import "../../site/theme/cgl.vars";
 
 :host {
+    flex: 1;
+}
 
-    /* Wrapper */
-    .wrapper {
+/* <hca-tab> nested underneath <hca-section-title> */
+hca-section-title + hca-tab {
+    margin-top: -24px;
+}
+
+/* Wrapper */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px; /* Gutter 16px */
+
+    /* Project overview */
+    .project-overview {
+        display: flex;
+        flex: 1;
+        flex-direction: column-reverse;
+        margin-bottom: 36px;
+    }
+
+    /* Project title */
+    h2 {
+        margin: 0;
+        max-width: 500px;
+        padding: 30px 0 8px;
+    }
+
+    /* Project group heading */
+    h4 {
+        margin: 32px 0 12px;
+        width: 100%;
+    }
+
+    /* All <p> tag */
+    p {
         align-items: center;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 0 auto;
-        padding: 0 16px; /* Gutter 16px */
+        margin: 0;
+        width: 100%;
+
+        /* Link */
+        .link {
+            color: $hca-primary;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        /* Download */
+        img {
+            cursor: pointer;
+            height: 20px;
+            opacity: 0.38;
+        }
+
+        /* Download text */
+        a + span, img + span {
+            padding: 0 24px 0 8px;
+        }
+    }
+
+    /* Project Title */
+    .project-title {
+        padding-bottom: 16px;
+        position: relative; /* Positions separator */
+        width: 100%;
+
+        /* Select project */
+        .select-project {
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+
+            /* Select box */
+            .chart-legend-bar {
+                border: 1px solid $hca-gray-light;
+                border-radius: 3px;
+                flex-shrink: 0;
+                height: 13px;
+                margin-right: 8px;
+                position: relative; /* Positions check */
+                width: 13px;
+
+                /* Check */
+                mat-icon {
+                    color: $hca-white;
+                    font-size: 10px;
+                    height: 10px;
+                    left: 50%;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateX(-50%) translateY(-50%);
+                    width: 10px;
+                }
+            }
+
+            /* Select text */
+            span {
+                color: $hca-secondary;
+                margin: 0;
+            }
+        }
+
+        /* Separator */
+        &:after {
+            background-color: $hca-gray-lightest;
+            border-radius: 4px;
+            bottom: 0;
+            content: "";
+            display: block;
+            height: 4px;
+            position: absolute;
+            width: 84px;
+        }
+    }
+
+    /* Project details */
+    .project-details {
+        display: flex;
+        flex-wrap: wrap;
+
+        > div {
+
+            /* Contacts, publications */
+            .details {
+                padding-top: 8px;
+            }
+
+            /* Contacts, publications - first list */
+            h4 + .details {
+                padding-top: 0;
+            }
+        }
+    }
+
+    /* Project downloads, snapshot, accessions etc. */
+    .project-snapshot, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+
+        /* Row - excludes last row in each group */
+        > div:not(:last-child) {
+            margin-bottom: 8px;
+        }
+
+        /* Row */
+        > div {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+        }
     }
 
     /* LHS container */
@@ -29,136 +170,70 @@
         box-sizing: border-box;
         width: 100%;
     }
-
-    /* Project highlights, accessions */
-    .project-highlights, .project-accessions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 36px 0;
-        width: 100%;
-
-        /* Row */
-        > div {
-            align-items: flex-start;
-            display: flex;
-            flex-direction: column;
-            padding: 4px 0;
-            width: 100%;
-
-            /* Heading and content */
-            p, a {
-                margin: 0;
-            }
-
-            /* Add project to selected facets */
-            .select-project {
-                color: $hca-gray-medium;
-                cursor: pointer;
-
-                &:hover {
-                    color: $hca-black;
-                }
-            }
-        }
-    }
 }
 
-/* Description, author and collaborators list, publications, contact */
-.project-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    width: 100%;
+/**
+ * Small Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
 
-    > div {
+    .wrapper {
 
-        /* Heading */
-        h4.fontsize-m {
-            margin-top: 36px;
+        /* LHS container */
+        .lhs {
+            max-width: 220px;
         }
 
-        /* Content */
-        p {
-            margin: 0;
+        /* RHS container */
+        .rhs {
+            flex: 1;
+            max-width: 400px;
+            padding-left: 16px;
+        }
 
-            /* Link */
-            .link {
-                color: $hca-primary;
-                cursor: pointer;
-                font: inherit;
+        /* Project downloads, snapshot, accessions etc. */
+        .project-snapshot, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+
+            /* Row */
+            > div {
+                flex-direction: row;
             }
-        }
-
-        /* Contacts, publications */
-        .details {
-            padding-top: 8px;
-        }
-
-        /* Contacts, publications - first list */
-        h4 + .details {
-            padding-top: 0;
-        }
-
-        /* RHS heading and content */
-        &.rhs p, &.rhs a, &.rhs h4.fontsize-m {
-            max-width: 272px;
         }
     }
 }
 
 /**
- * Tablet +
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
 
-    :host {
+    .wrapper {
 
-        .wrapper {
-            max-width: 688px;
+        /* Project overview */
+        .project-overview {
+            flex-direction: row;
         }
 
-        /* LHS container */
-        .lhs {
-            max-width: 240px;
+        /* First column */
+        .project-overview > div:first-of-type {
+            flex: 1;
+            max-width: 450px;
         }
 
-        /* RHS container */
-        .rhs {
-            max-width: calc(100% - 240px);
-        }
+        /* Second column */
+        .project-overview > div:last-of-type {
+            flex: 1;
 
-        /* Project highlights, accessions */
-        .project-highlights, .project-accessions {
-
-            /* Row */
             > div {
-                flex-direction: row;
-
-                /* Heading and content */
-                p, a {
-                    padding: 0 16px;
-                }
-
-                .link { /* No padding on links on rhs */
-                    a {
-                        padding: 0;
-                    }
-                }
+                margin-left: 44px;
             }
         }
 
-        .project-accessions > div:first-of-type {
-            padding: 0 16px;
-        }
-
-        /* Description, author and collaborators list, publications, contact */
-        .project-info {
-
-            > div {
-                padding: 0 16px;
-                width: 100%;
-            }
+        /* Project group heading */
+        h4 {
+            margin: 24px 0 16px;
         }
     }
 }
@@ -168,11 +243,40 @@
  */
 @media screen and (min-width: 1200px) {
 
-    :host {
+    .wrapper {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 30px; /* Gutter 30px */
 
-        /* Wrapper */
-        .wrapper {
-            padding: 0 30px;
+        /* First column */
+        .project-overview > div:first-of-type {
+            flex: unset;
+            max-width: 550px;
+        }
+    }
+}
+
+/**
+ * xLarge +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1920px) {
+
+    .wrapper {
+
+        /* First column */
+        .project-overview > div:first-of-type, .project-overview > div:last-of-type > div {
+            max-width: 650px;
+        }
+
+        /* Second column */
+        .project-overview > div:last-of-type {
+            display: flex;
+
+            > div {
+                flex: 1;
+                margin-left: 60px;
+            }
         }
     }
 }

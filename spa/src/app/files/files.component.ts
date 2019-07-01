@@ -189,7 +189,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
         // Grab the set of current selected search terms
         this.selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-        
+
         // Grab the set of possible search terms, we'll use this to populate the search autosuggest.
         this.searchTerms$ = this.store.pipe(select(selectSearchTerms));
 

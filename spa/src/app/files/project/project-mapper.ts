@@ -56,7 +56,7 @@ export class ProjectMapper extends ProjectRowMapper {
                     ...project[key]
                 ];
             }
-            
+
             return accum;
         }, []);
     }

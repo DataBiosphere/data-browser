@@ -12,7 +12,6 @@ import {
 } from "@angular/core";
 import EntitySpec from "../../files/shared/entity-spec";
 
-
 // App dependencies
 
 @Component({
@@ -36,22 +35,19 @@ export class HCATabComponent {
      */
 
     /**
-     * Sets Tab Class - active
-     *
+     * Return the set of CSS class names that are applicable to the tab.
      * @param {string} selectedTab
-     * @param {string} tab
-     * @returns {any}
+     * @param {string} tabKey
+     * @param {string} tabDisplayName
+     * @returns {{[p: string]: boolean}}
      */
-    public getTabClass(selectedTab: string, tab: string) {
+    public getTabClass(selectedTab: string, tabKey: string, tabDisplayName: string): { [className: string]: boolean } {
 
-        if ( selectedTab === tab ) {
-
-            return "hca-tab active";
-        }
-        else {
-
-            return "hca-tab";
-        }
+        return {
+            "hca-tab": true,
+            "active": selectedTab === tabKey,
+            "arrow": tabDisplayName === "Back"
+        };
     }
 
     /**
