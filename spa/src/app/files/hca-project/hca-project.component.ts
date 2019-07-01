@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component displaying HCA project table details.
+ * Component displaying HCA project details.
  */
 
 // Core dependencies
@@ -29,8 +29,7 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-
-
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
     selector: "hca-project",
@@ -47,14 +46,22 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     // Template variables
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
+    isSelected: boolean;
+    isAvailable: false; // TODO remove
     public project$: Observable<Project>;
+
+    // Locals
+    private deviceInfo = null;
 
     /**
      * @param {ActivatedRoute} activatedRoute
+     * @param {DeviceDetectorService} deviceService
      * @param {Router} router
      * @param {Store<AppState>} store
+     * @param {ConfigService} configService
      */
     public constructor(private activatedRoute: ActivatedRoute,
+                       private deviceService: DeviceDetectorService,
                        private router: Router,
                        private store: Store<AppState>,
                        private configService: ConfigService) {}
@@ -84,13 +91,32 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Return the inline style configuration for the chart legend, for the specified project.
+     * @param {boolean} selected
+     * @returns {any}
+     */
+    public getLegendStyle(selected: boolean): any {
+
+        // If term is selected, set the background color as well
+        if ( selected ) {
+
+            let style = {
+                "border-color": "#1F6B9A",
+                "background-color": "#1C7CC7"
+            };
+
+            return style;
+        }
+    }
+
+    /**
      * Tab provides opportunity to return back to Project table.
      *
      * @returns {EntitySpec[]}
      */
     public getProjectDetailTabs(): EntitySpec[] {
 
-        return [{key: EntityName.PROJECTS, displayName: "Projects"}];
+        return [{key: EntityName.PROJECTS, displayName: "Back"}];
     }
 
     /**
@@ -154,28 +180,16 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
-     * project table.
-     *
-     * @param {string} projectId
-     * @param {string} projectShortName
-     * @param {boolean} select
+     * Returns true if device is either mobile or tablet.
+     * @returns {boolean}
      */
-    public onProjectSelected(projectId: string, projectShortName: string, select: boolean) {
+    public isDeviceHandheld(): boolean {
 
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, select));
-        this.router.navigate(["/projects"]);
-    }
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        const isTablet = this.deviceService.isTablet();
 
-    /**
-     * Handle click on tab - update selected entity in state and return user back to project table.
-     *
-     * @param {EntitySpec} tab
-     */
-    public onTabSelected(tab: EntitySpec) {
-
-        this.store.dispatch(new EntitySelectAction(tab.key));
-        this.router.navigate(["/projects"]);
+        return (isMobile || isTablet);
     }
 
     /**
@@ -197,7 +211,32 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public isProjectSelected(selectedProjectIds: string[], project: any): boolean {
 
-        return selectedProjectIds.indexOf(project.entryId) >= 0;
+        this.isSelected = selectedProjectIds.indexOf(project.entryId) >= 0;
+        return this.isSelected;
+    }
+
+    /**
+     * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
+     * project table.
+     * @param {string} projectId
+     * @param {string} projectShortName
+     * @param {boolean} selected
+     */
+    public onProjectSelected(projectId: string, projectShortName: string, selected: boolean) {
+
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, selected));
+        this.router.navigate(["/projects"]);
+    }
+
+    /**
+     * Handle click on tab - update selected entity in state and return user back to project table.
+     *
+     * @param {EntitySpec} tab
+     */
+    public onTabSelected(tab: EntitySpec) {
+
+        this.store.dispatch(new EntitySelectAction(tab.key));
+        this.router.navigate(["/projects"]);
     }
 
     /**
@@ -210,11 +249,11 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     public stringifyValues(values: any[], valueIfNull: string): string {
 
         const linkedValue = "Smart-seq2";
-        
+
         if ( !values ) {
             return valueIfNull;
         }
-        
+
         if ( !Array.isArray(values) ) {
             return values;
         }
@@ -241,7 +280,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
         const posOfValue = values.indexOf(linkedValue);
 
-        const portalURL =  this.configService.getPortalURL();
+        const portalURL = this.configService.getPortalURL();
         const hrefOfValue = `${portalURL}/pipelines/hca-pipelines/data-processing-pipelines/smart-seq2-workflow`;
         const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
 

@@ -1,208 +1,253 @@
+<hca-section-title>
+    <ng-container title>Explore Project</ng-container>
+</hca-section-title>
+<hca-tab [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
 <div *ngIf="project$ | async as project">
-    <hca-section-title class="section-title-centered small">
-        <ng-container title>{{project.projectTitle}}</ng-container>
-    </hca-section-title>
-    <hca-tab class="project-detail secondary" [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()"
-             (tabSelected)="onTabSelected($event)"></hca-tab>
-    <div>
-        <div class="wrapper">
-            <div class="project-highlights">
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('projectTitle')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('projectTitle')}}
-                        </hca-tooltip>
-                    </p>
-                    <div class="rhs">
-                        <p class="fontsize-xs">{{project.projectTitle}}</p>
-                        <p *ngIf="!isProjectSelected(selectedProjectIds$ | async, project)"
-                           class="fontsize-xs select-project"
-                           (click)="onProjectSelected(project.entryId, project.projectShortname, true)">Select Project</p>
-                        <p *ngIf="isProjectSelected(selectedProjectIds$ | async, project)"
-                           class="fontsize-xs select-project"
-                           (click)="onProjectSelected(project.entryId, project.projectShortname, false)">Unselect Project</p>
-                    </div>
+    <div class="wrapper">
+        <div class="project-title">
+            <h2 class="fontsize-xl">{{project.projectTitle}}</h2>
+            <div class="select-project"
+                 (click)="onProjectSelected(project.entryId, project.projectShortname, !isSelected)">
+                <div class="chart-legend-bar"
+                     [ngStyle]="getLegendStyle(isProjectSelected(selectedProjectIds$ | async, project))">
+                    <mat-icon *ngIf="isProjectSelected(selectedProjectIds$ | async, project)">check</mat-icon>
                 </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('projectShortname')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('projectShortname')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('genusSpecies')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.genusSpecies, "Unspecified")}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('organ')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "Unspecified")}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('organPart')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                        >{{getColumnDisplayName('organPart')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "Unspecified")}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('disease')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'"
-                        >{{getColumnDisplayName('disease')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "Unspecified")}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('libraryConstructionApproach')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs"
-                       [innerHTML]="stringifyValues(project.libraryConstructionApproach, '-')"></p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('pairedEnd')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('pairedEnd')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs"
-                       [innerHTML]="stringifyValues(project.pairedEnd, '-')"></p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('fileFormat')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "Unspecified")}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('totalCells')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('totalCells')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{project.totalCells | countSize}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="getColumnDescription('donorCount')"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">{{getColumnDisplayName('donorCount')}}
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                     [tooltipContent]="'Download project metadata'"
-                                     [tooltipDisabled]="false"
-                                     [tooltipPosition]="'above'">Project Metadata
-                        </hca-tooltip>
-                    </p>
-                    <p class="fontsize-xs rhs link"><a [href]="getProjectMetaURL(project)">{{getProjectMetaURL(project)}}</a></p>
-                </div>
+                <span class="fontsize-xs">Select Project</span>
             </div>
-            <div class="project-info">
-                <div>
-                    <h4 class="fontsize-m">Description</h4>
+        </div>
+        <div class="project-overview">
+            <div>
+                <div class="project-details">
+                    <h4 class="fontsize-m semi-bold">Description</h4>
                     <p class="fontsize-s">{{project.projectDescription}}</p>
-                </div>
-                <div class="lhs">
-                    <h4 class="fontsize-m">Contact</h4>
-                    <ng-container [ngSwitch]="listContributors(project.contributors).length > 0">
-                        <ng-container *ngSwitchCase="true">
-                            <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
-                                <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
-                                <p class="fontsize-xxs">{{contributor.institution}}</p>
-                                <p class="fontsize-xxs">{{contributor.email}}</p>
-                            </div>
+                    <div class="lhs">
+                        <h4 class="fontsize-m semi-bold">Contact</h4>
+                        <ng-container [ngSwitch]="listContributors(project.contributors).length > 0">
+                            <ng-container *ngSwitchCase="true">
+                                <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
+                                    <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
+                                    <p class="fontsize-xxs">{{contributor.institution}}</p>
+                                    <p class="fontsize-xxs">{{contributor.email}}</p>
+                                </div>
+                            </ng-container>
+                            <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
                         </ng-container>
-                        <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
-                    </ng-container>
-                    <h4 class="fontsize-m">Publications</h4>
-                    <ng-container [ngSwitch]="project.publications.length > 0">
-                        <ng-container *ngSwitchCase="true">
-                            <div *ngFor="let publication of project.publications" class="details">
-                                <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
-                                <p class="fontsize-xxs" *ngIf="!!publication.publicationUrl"><a href="{{publication.publicationUrl}}" target="_blank"
-                                                           class="link">View
-                                    here</a></p>
-                            </div>
+                        <h4 class="fontsize-m semi-bold">Publications</h4>
+                        <ng-container [ngSwitch]="project.publications.length > 0">
+                            <ng-container *ngSwitchCase="true">
+                                <div *ngFor="let publication of project.publications" class="details">
+                                    <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
+                                    <p class="fontsize-xxs" *ngIf="!!publication.publicationUrl"><a
+                                            href="{{publication.publicationUrl}}" target="_blank"
+                                            class="link">View
+                                        here</a></p>
+                                </div>
+                            </ng-container>
+                            <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
                         </ng-container>
-                        <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
-                    </ng-container>
+                    </div>
+                    <div class="rhs">
+                        <h4 class="fontsize-m semi-bold">Contributors</h4>
+                        <p class="fontsize-xxs">{{listAuthors(project.contributors)}}</p>
+                        <h4 class="fontsize-m semi-bold">Collaborating Organizations</h4>
+                        <p class="fontsize-xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
+                    </div>
                 </div>
-                <div class="rhs">
-                    <h4 class="fontsize-m">Contributors</h4>
-                    <p class="fontsize-xxs">{{listAuthors(project.contributors)}}</p>
-                    <h4 class="fontsize-m">Collaborating Organizations</h4>
-                    <p class="fontsize-xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
+                <div class="project-accessions">
+                    <h4 class="fontsize-m semi-bold">Accessions</h4>
+                    <div>
+                        <p class="fontsize-xs semi-bold lhs">Array Express Accessions</p>
+                        <div class="rhs">
+                            <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions,
+                                "Unspecified")}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="fontsize-xs semi-bold lhs">GEO Series Accessions</p>
+                        <div class="rhs">
+                            <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "Unspecified")}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="fontsize-xs semi-bold lhs">INSDC Project Accessions</p>
+                        <div class="rhs">
+                            <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions,
+                                "Unspecified")}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="fontsize-xs semi-bold lhs">INSDC Study Accessions</p>
+                        <div class="rhs">
+                            <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "Unspecified")}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="project-accessions">
+            <div>
                 <div>
-                    <h4 class="fontsize-m">Accessions</h4>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">Array Express Accessions</p>
-                    <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions, "Unspecified")}}</p>
+                    <div class="project-downloads" *ngIf="!isDeviceHandheld()">
+                        <h4 class="fontsize-m semi-bold">Project Downloads</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="'Download project metadata'"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">Project Metadata
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
+                        </div>
+                    </div>
+                    <div class="project-snapshot">
+                        <h4 class="fontsize-m semi-bold">Project Snapshot</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('projectShortname')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('projectShortname')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('genusSpecies')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(project.genusSpecies, "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('organ')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('organPart')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'"
+                                >{{getColumnDisplayName('organPart')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('disease')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('disease')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">
+                                    {{getColumnDisplayName('libraryConstructionApproach')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs"
+                               [innerHTML]="stringifyValues(project.libraryConstructionApproach, '-')"></p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('pairedEnd')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('pairedEnd')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs"
+                               [innerHTML]="stringifyValues(project.pairedEnd, '-')"></p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('fileFormat')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('totalCells')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('totalCells')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{project.totalCells | countSize}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('donorCount')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('donorCount')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <p class="fontsize-xs bold lhs">GEO Series Accessions</p>
-                    <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "Unspecified")}}</p>
+                    <div class="project-counts">
+                        <h4 class="fontsize-m semi-bold">File Counts</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Fastq</p>
+                            <p class="fontsize-xs rhs">{{project.rawCount | localeString}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Bam</p>
+                            <p class="fontsize-xs rhs">{{project.bamCount | localeString}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Matrix</p>
+                            <p class="fontsize-xs rhs">{{project.matrixCount | localeString}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Other</p>
+                            <p class="fontsize-xs rhs">{{project.otherCount | localeString}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Total</p>
+                            <p class="fontsize-xs rhs">{{project.totalCount | localeString}}</p>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">INSDC Project Accessions</p>
-                    <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions, "Unspecified")}}</p>
+                    <div class="project-views" *ngIf="isAvailable">
+                        <h4 class="fontsize-m semi-bold">View in Analysis Tool</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
+                                                                    rel="noopener noreferrer">Single
+                                Cell Portal (SCP)</a></p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
+                                                                    rel="noopener noreferrer">Xena</a></p>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <p class="fontsize-xs bold lhs">INSDC Study Accessions</p>
-                    <div class="rhs">
-                        <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "Unspecified")}}</p>
+                    <div class="project-workflows" *ngIf="isAvailable">
+                        <h4 class="fontsize-m semi-bold">Launch Workflow</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank" rel="noopener noreferrer">Send
+                                to Terra</a></p>
+                        </div>
                     </div>
                 </div>
             </div>

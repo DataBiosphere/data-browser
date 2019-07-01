@@ -18,8 +18,8 @@
         margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
 
-        /* Tab list */
-        .hca-tab-list {
+        /* Tabs */
+        .hca-tabs {
             align-items: flex-end;
             display: flex;
             flex-wrap: nowrap;
@@ -59,6 +59,23 @@
                     color: $hca-gray-lightest;
                 }
 
+                /* Back arrow */
+                &.arrow {
+                    display: flex;
+                }
+
+                /* Arrow icon */
+                &.arrow:before {
+                    content: "\e314";
+                    display: inline-flex;
+                    font-family: "Material Icons";
+                    margin-left: -5px;
+                }
+
+                &.arrow:hover {
+                    color: $hca-black;
+                }
+
                 /* Last tab - on horizontal scroll - mimics gutter for RHS */
                 &:last-of-type:after {
                     bottom: -3px;
@@ -72,46 +89,6 @@
     }
 }
 
-/* Tab secondary to heading */
-:host-context(.secondary) {
-    margin-top: -24px;
-}
-
-/* hca-project component */
-:host-context(.project-detail) {
-
-    /* Back to projects */
-    .wrapper .hca-tab-list .hca-tab:first-of-type {
-        display: flex;
-
-        &:before {
-            content: "\e314";
-            display: inline-flex;
-            font-family: "Material Icons";
-            margin-left: -5px;
-        }
-
-        &:hover {
-            color: $hca-black;
-        }
-    }
-
-}
-
-/**
- * Tablet +
- */
-@media screen and (min-width: 768px) {
-
-    /* hca-project component */
-    :host-context(.project-detail) {
-
-        .wrapper {
-            max-width: 656px; /* 688px total width and 16px padding, in keeping with hca-project component */
-        }
-    }
-}
-
 /**
  * HCA specific breakpoint
  */
@@ -121,7 +98,6 @@
 
         /* Wrapper */
         .wrapper {
-            //max-width: 1140px; /* Snap to 1200px, gutter 30px */
             padding: 0 30px;
         }
     }
