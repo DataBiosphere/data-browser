@@ -24,6 +24,10 @@
     .filter-result {
         min-height: 26px; /* Placeholder for empty list */
 
+        .selected-facets {
+            margin-right: 8px;
+        }
+
         span {
             display: inline-flex;
             line-height: 26px;
@@ -40,7 +44,7 @@
         .parenthesis {
             color: $hca-gray-light;
             font-family: "Courier New", sans-serif;
-            font-size: 24px; // TODO review
+            font-size: 24px;
         }
 
         /* Parenthesis open */
@@ -70,6 +74,7 @@
         }
 
         .selected-term > div, .selected-facet {
+            display: flex;
             cursor: pointer;
             position: relative; /* Positions remove button */
         }
@@ -89,9 +94,19 @@
             margin: 0;
             opacity: 0;
             position: absolute;
-            top: 0;
-            right: -4px;
             width: 12px;
+        }
+
+        /* Selected facet - hover state */
+        .selected-facet mat-icon {
+            right: 4px;
+            top: -4px;
+        }
+
+        /* Selected term - hover state */
+        .selected-term mat-icon {
+            right: -4px;
+            top: -4px;
         }
 
         /* Clear all button */
@@ -100,8 +115,7 @@
             font-family: "Montserrat", sans-serif;
             font-size: 11px;
             letter-spacing: 0.34px;
-            line-height: 20px; /* Overrides MD button spec */
-            margin: 3px;
+            line-height: 26px; /* Overrides MD button spec */
             min-width: 0;
             padding: 0 4px; /* Overrides MD button spec - button text positioned 10px right of last selected chip */
         }

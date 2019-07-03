@@ -124,8 +124,8 @@ hca-section-title + hca-tab {
         }
     }
 
-    /* Project details */
-    .project-details {
+    /* Project description */
+    .project-description {
         display: flex;
         flex-wrap: wrap;
 
@@ -143,8 +143,8 @@ hca-section-title + hca-tab {
         }
     }
 
-    /* Project downloads, snapshot, accessions etc. */
-    .project-snapshot, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+    /* Project downloads, details, accessions etc. */
+    .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
 
         /* Row - excludes last row in each group */
         > div:not(:last-child) {
@@ -192,8 +192,8 @@ hca-section-title + hca-tab {
             padding-left: 16px;
         }
 
-        /* Project downloads, snapshot, accessions etc. */
-        .project-snapshot, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+        /* Project downloads, details, accessions etc. */
+        .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
 
             /* Row */
             > div {
@@ -257,6 +257,36 @@ hca-section-title + hca-tab {
 }
 
 /**
+ * Large +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1600px) {
+
+    .wrapper {
+
+        /* LHS container */
+        .lhs {
+            max-width: 240px;
+        }
+
+        /* First column */
+        .project-overview > div:first-of-type, .project-overview > div:last-of-type > div {
+            max-width: 600px;
+        }
+
+        /* Second column */
+        .project-overview > div:last-of-type {
+            display: flex;
+
+            > div {
+                flex: 1;
+                margin-left: 64px;
+            }
+        }
+    }
+}
+
+/**
  * xLarge +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
@@ -267,16 +297,6 @@ hca-section-title + hca-tab {
         /* First column */
         .project-overview > div:first-of-type, .project-overview > div:last-of-type > div {
             max-width: 650px;
-        }
-
-        /* Second column */
-        .project-overview > div:last-of-type {
-            display: flex;
-
-            > div {
-                flex: 1;
-                margin-left: 60px;
-            }
         }
     }
 }
