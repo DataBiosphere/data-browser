@@ -65,38 +65,30 @@ export class FileManifestService {
     }
 
     /**
-     * Download file manifest. Removes "matrix" search term, if selected.
+     * Request file manifest. Removes "matrix" search term, if selected.
      *
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
      * @returns {Observable<ManifestResponse>}
      */
-    public downloadFileManifest(searchTerms: SearchTerm[], fileFormats: FileFacet): Observable<ManifestResponse> {
+    public requestFileManifestUrl(searchTerms: SearchTerm[], fileFormats: FileFacet): Observable<ManifestResponse> {
 
         const manifestSearchTerms = this.buildManifestSearchTerms(searchTerms, fileFormats);
-
-        // Set up polling for file download completion - if file download request is still in progress, continue to
-        // poll. Otherwise kill polling subscription.
-        const manifestResponse$ = new Subject<ManifestResponse>();
-        manifestResponse$.subscribe((response: ManifestResponse) => {
-
-            if ( response.status === ManifestStatus.IN_PROGRESS ) {
-                return this.updateManifestStatus(response, manifestResponse$);
-            }
-
-            manifestResponse$.unsubscribe();
-        });
-
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
-        let params = new HttpParams({fromObject: query} as any);
-
-        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
-        const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
-        this.requestManifest(getRequest, manifestResponse$);
-
-        return manifestResponse$.asObservable();
+        return this.sendFileManifestUrlRequest(manifestSearchTerms);
     }
 
+    /**
+     * Get the file manifest URL for generating a matrix request.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @returns {Observable<ManifestResponse>}
+     * 
+     */
+    public requestMatrixFileManifestUrl(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
+
+        return this.sendFileManifestUrlRequest(searchTerms);
+    }
+    
     /**
      * Fetch File Manifest Summary Observable
      *
@@ -188,6 +180,33 @@ export class FileManifestService {
     }
 
     /**
+     * Send HTTP request for file manifest URL, and set up polling to monitor status.
+     */
+    private sendFileManifestUrlRequest(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
+
+        // Set up polling for file download completion - if file download request is still in progress, continue to
+        // poll. Otherwise kill polling subscription.
+        const manifestResponse$ = new Subject<ManifestResponse>();
+        manifestResponse$.subscribe((response: ManifestResponse) => {
+
+            if ( response.status === ManifestStatus.IN_PROGRESS ) {
+                return this.updateManifestStatus(response, manifestResponse$);
+            }
+
+            manifestResponse$.unsubscribe();
+        });
+
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
+        let params = new HttpParams({fromObject: query} as any);
+
+        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
+        const getRequest = this.httpClient.get<ManifestHttpResponse>(url, {params});
+        this.requestManifest(getRequest, manifestResponse$);
+
+        return manifestResponse$.asObservable();
+    }
+
+    /**
      * Returns true if there if any file format is in the current set of selected search terms, excluding "matrix", as
      * this is not a valid file format when requesting a manifest.
      * 
@@ -222,11 +241,11 @@ export class FileManifestService {
     /**
      * Request manifest download status for the specified URL.
      *
-     * @param {Observable<ManifestHttpResponse>} getRequest
+     * @param {Observable<ManifestHttpResponse>} getRequest$
      */
-    private requestManifest(getRequest: Observable<ManifestHttpResponse>,  manifestResponse$: Subject<ManifestResponse>) {
+    private requestManifest(getRequest$: Observable<ManifestHttpResponse>,  manifestResponse$: Subject<ManifestResponse>) {
 
-        getRequest
+        getRequest$
             .pipe(
                 retry(3),
                 catchError(this.handleManifestError.bind(this)),
@@ -255,7 +274,7 @@ export class FileManifestService {
     }
 
     /**
-     * Send request to download manifest and poll for completion.
+     * Send request to fetch manifest URL and poll for completion.
      *
      * @param {ManifestResponse} response
      * @param {Subject<ManifestResponse>} manifestResponse$

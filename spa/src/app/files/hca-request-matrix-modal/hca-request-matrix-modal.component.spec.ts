@@ -42,6 +42,7 @@ import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { MatrixStatus } from "../shared/matrix-status.model";
 import { SearchTermService } from "../shared/search-term.service";
 import { TermResponseService } from "../shared/term-response.service";
+import { FileManifestService } from "../shared/file-manifest.service";
 
 describe("HCARequestMatrixModalComponent", () => {
 
@@ -88,11 +89,15 @@ describe("HCARequestMatrixModalComponent", () => {
                     useValue: jasmine.createSpyObj("HttpClient", [
                         "get"
                     ])
-                },
-                {
+                }, {
                 provide: FileFacetDisplayService,
                     useValue: jasmine.createSpyObj("FileFacetDisplayService", [
                         "getFileFacetDisplayName"
+                    ])
+                }, {
+                    provide: FileManifestService,
+                    useValue: jasmine.createSpyObj("FileManifestService", [
+                        "requestFileManifestUrl"
                     ])
                 }, {
                     provide: Store,
@@ -126,7 +131,6 @@ describe("HCARequestMatrixModalComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
-            of([]),
             of(["csv", "loom", "mtx"])
         );
 
@@ -144,7 +148,6 @@ describe("HCARequestMatrixModalComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
-            of([]),
             of(["csv", "loom", "mtx"])
         );
 
@@ -161,7 +164,7 @@ describe("HCARequestMatrixModalComponent", () => {
         component.matrixResponse$.next(matrixResponse);
 
         // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
+        const spy = spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
         
         fixture.detectChanges();
 
@@ -181,7 +184,6 @@ describe("HCARequestMatrixModalComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
-            of([]),
             of(["csv", "loom", "mtx"])
         );
 
@@ -198,7 +200,7 @@ describe("HCARequestMatrixModalComponent", () => {
         component.matrixResponse$.next(matrixResponse);
 
         // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
+        const spy = spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
 
         fixture.detectChanges();
 
@@ -217,7 +219,6 @@ describe("HCARequestMatrixModalComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
-            of([]),
             of(["csv", "loom", "mtx"])
         );
 
@@ -234,7 +235,7 @@ describe("HCARequestMatrixModalComponent", () => {
         component.matrixResponse$.next(matrixResponse);
 
         // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
+        const spy = spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
 
         fixture.detectChanges();
 

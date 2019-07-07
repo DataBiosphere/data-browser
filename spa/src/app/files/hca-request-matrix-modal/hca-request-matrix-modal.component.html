@@ -9,7 +9,7 @@
                             [removable]="false"></hca-file-filter-result>
     <div class="separator"></div>
     <div class="hca-download-content">
-        <ng-container *ngIf="matrixResponse$ | async as matrixResponse; else selectFileType">
+        <ng-container *ngIf="!isRequestNew(state.matrixResponse); else selectFileType">
             <ng-container *ngIf="isRequestInProgress(matrixResponse)">
                 <p class="fontsize-s">Your expression matrix is being prepared.</p>
                 <p class="fontsize-s" *ngIf="isETASpecified(matrixResponse)">Wait times are currently about
@@ -42,20 +42,20 @@
         </ng-template>
     </div>
     <div class="hca-download-action">
-        <button *ngIf="isRequestNew(matrixResponse$ | async)" type="button"
-                (click)="onRequestMatrix(state.selectedSearchTerms, fileFormat)">Request Expression Matrix
+        <button *ngIf="isRequestNew(state.matrixResponse)" type="button"
+                (click)="onRequestMatrix(fileFormat)">Request Expression Matrix
         </button>
-        <ng-container *ngIf="matrixResponse$ | async as matrixResponse">
-            <mat-spinner *ngIf="isRequestInProgress(matrixResponse)"
+        <ng-container *ngIf="!isRequestNew(state.matrixResponse)">
+            <mat-spinner *ngIf="isRequestInProgress(state.matrixResponse)"
                          class="hca-spinner"
                          diameter="28">
             </mat-spinner>
-            <ng-container *ngIf="isRequestCompleted(matrixResponse) && !this.downloadAs">
-                <button type="button" (click)="onDownloadMatrix(matrixResponse)">Download</button>
+            <ng-container *ngIf="isRequestCompleted(state.matrixResponse) && !this.downloadAs">
+                <button type="button" (click)="onDownloadMatrix(state.matrixResponse)">Download</button>
                 <button type="button" (click)="onDownloadAs()">Download As</button>
                 <button type="button"
                         ngxClipboard
-                        [cbContent]="(getCopyToClipboardValue(matrixResponse))"
+                        [cbContent]="(getCopyToClipboardValue(state.matrixResponse))"
                         class="hca-outline-button">
                     <img src="assets/images/icon/hca-copy.png"/><span>Copy Link to Clipboard</span></button>
             </ng-container>

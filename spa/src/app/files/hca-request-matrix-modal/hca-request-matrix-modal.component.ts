@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Component handling matrix request modal-related functionality.
  */
@@ -9,18 +9,19 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, interval, Observable, Subject } from "rxjs";
-import { map, take, takeUntil, takeWhile } from "rxjs/operators";
+import { combineLatest, Observable, Subject } from "rxjs";
+import { map } from "rxjs/operators";
 
 // App dependencies
 import { HCARequestMatrixModalState } from "./hca-request-matrix-modal.state";
 import { AppState } from "../../_ngrx/app.state";
-import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/matrix.actions";
-import { selectFileSummary, selectMatrixFileFormats } from "../_ngrx/file.selectors";
+import { FetchMatrixFileFormatsRequestAction } from "../_ngrx/matrix/fetch-matrix-file-formats-request.action";
+import { selectFileSummary } from "../_ngrx/file.selectors";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { MatrixFormat } from "../shared/matrix-format.model";
+import { selectMatrixFileFormats, selectMatrixResponse } from "../_ngrx/matrix/matrix.selectors";
+import { FetchMatrixUrlRequestAction } from "../_ngrx/matrix/fetch-matrix-url-request.action";
 import { MatrixResponse } from "../shared/matrix-response.model";
-import { SearchTerm } from "../search/search-term.model";
 import { MatrixService } from "../shared/matrix.service";
 
 @Component({
@@ -32,7 +33,6 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     // Template variables
     public downloadAs = false;
     public fileFormat = MatrixFormat.loom;
-    public matrixResponse$ = new Subject<MatrixResponse>();
     public state$: Observable<HCARequestMatrixModalState>;
 
     // Locals
@@ -124,7 +124,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public isRequestCompleted(response: MatrixResponse): boolean {
 
-        return !!response && this.matrixService.isMatrixRequestCompleted(response);
+        return !!response && this.matrixService.isMatrixUrlRequestCompleted(response);
     }
 
     /**
@@ -135,7 +135,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public isRequestFailed(response: MatrixResponse): boolean {
 
-        return !!response && this.matrixService.isMatrixRequestFailed(response);
+        return !!response && this.matrixService.isMatrixUrlRequestFailed(response);
     }
 
     /**
@@ -147,8 +147,8 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     public isRequestInProgress(response: MatrixResponse): boolean {
 
         return !!response &&
-            this.matrixService.isMatrixRequestInProgress(response) &&
-            !this.matrixService.isMatrixRequestCompleted(response);
+            (this.matrixService.isMatrixUrlRequestInitiated(response) ||
+            this.matrixService.isMatrixUrlRequestInProgress(response));
     }
 
     /**
@@ -159,7 +159,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public isRequestNew(response: MatrixResponse): boolean {
 
-        return !response;
+        return !response || this.matrixService.isMatrixUrlRequestNotStarted(response);
     }
 
     /**
@@ -183,67 +183,12 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
     /**
      * Request matrix.
      *
-     * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} fileFormat
      */
-    public onRequestMatrix(searchTerms: SearchTerm[], fileFormat: MatrixFormat) {
+    public onRequestMatrix(fileFormat: MatrixFormat) {
 
-        // Request the matrix expression.
-        this.matrixService
-            .requestMatrix(searchTerms, fileFormat)
-            .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
-                this.matrixResponse$.next(response);
-            });
+        this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat));
     }
-
-    /**
-     * Privates
-     */
-
-    /**
-     * Set up listener to poll for matrix request completion.
-     */
-    private initMatrixDownloadPoller() {
-
-        this.matrixResponse$.pipe(
-            // Kill subscription on destroy of component
-            takeUntil(this.ngDestroy$),
-            // Keep polling until request is completed or failed
-            takeWhile((response: MatrixResponse) => {
-
-                return this.matrixService.isMatrixRequestInProgress(response);
-            })
-        )
-        // Request is still in progress - check status again
-        .subscribe((response: MatrixResponse) => {
-
-            return this.updateMatrixStatus(response.requestId);
-        });
-    }
-
-    /**
-     * Core polling functionality; request update of matrix request status, after a delay of five seconds.
-     *
-     * @param {string} matrixRequestKey
-     */
-    private updateMatrixStatus(matrixRequestKey: string) {
-
-        interval(5000).pipe(
-            take(1)
-        )
-        .subscribe(() => {
-
-            this.matrixService.getMatrixStatus(matrixRequestKey)
-                .subscribe(response => { // Auto unsubscribes as there is only a single response from underlying HTTP call.
-
-                    this.matrixResponse$.next(response);
-                });
-        });
-    }
-
-    /**
-     * Life cycle hooks
-     */
 
     /**
      * Kill subscriptions on destroy of component.
@@ -263,24 +208,26 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
         const selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         // Grab the selected facets for displaying on the modal
-        const selectSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+        const selectSelectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
         // Request possible set of file types
         this.store.dispatch(new FetchMatrixFileFormatsRequestAction());
         const selectMatrixFileFormats$ = this.store.pipe(select(selectMatrixFileFormats));
 
-        // Set up listener to poll for matrix request completion
-        this.initMatrixDownloadPoller();
+        // Update the UI with any changes in the matrix URL request status
+        const selectMatrixResponse$ = this.store.pipe(select(selectMatrixResponse));
 
         // Grab file summary and selected facets for displaying on the modal
         this.state$ =
-            combineLatest(selectFileSummary$, selectSearchTerms$, selectMatrixFileFormats$).pipe(
-                    map((combined) => {
+            combineLatest(selectFileSummary$, selectSelectedSearchTerms$, selectMatrixFileFormats$, selectMatrixResponse$)
+                .pipe(
+                    map(([fileSummary, selectedSearchTerms, matrixFileFormats, matrixResponse]) => {
 
                         return {
-                            fileSummary: combined[0],
-                            matrixFileFormats: combined[2],
-                            selectedSearchTerms: combined[1]
+                            fileSummary,
+                            matrixFileFormats,
+                            matrixResponse,
+                            selectedSearchTerms
                         };
                     })
             );

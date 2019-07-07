@@ -14,19 +14,19 @@ import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
+import { FetchFileManifestUrlRequestAction } from "../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
 import { HCADownloadManifestModalState } from "./hca-download-manifest-modal.state";
 import { AppState } from "../../_ngrx/app.state";
 import { ClearManifestDownloadFileSummaryAction } from "../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
-import { DownloadFileManifestAction } from "../_ngrx/file-manifest/download-file-manifest.action";
 import {
     selectFileManifestFileSummary, selectFileManifestManifestResponse
 } from "../_ngrx/file-manifest/file-manifest.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
+import { FileFacetTermSelectedEvent } from "../shared/file-facet-term-selected.event";
 import { ManifestResponse } from "../shared/manifest-response.model";
 import { ManifestStatus } from "../shared/manifest-status.model";
 
@@ -146,7 +146,7 @@ export class HCADownloadManifestModalComponent implements OnDestroy, OnInit {
      */
     public onRequestManifest() {
 
-        this.store.dispatch(new DownloadFileManifestAction());
+        this.store.dispatch(new FetchFileManifestUrlRequestAction());
     }
 
     /**

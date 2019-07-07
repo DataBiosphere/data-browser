@@ -13,10 +13,10 @@ import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 
 // App dependencies
-import { DownloadFileManifestRequestedAction } from "./download-file-manifest-requested.action";
-import { DownloadFileManifestAction } from "./download-file-manifest.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
+import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-request.action";
+import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { selectFileFormatsFileFacet } from "../file.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
@@ -37,12 +37,12 @@ export class FileManifestEffects {
     }
 
     /**
-     * Trigger download of manifest.
+     * Request manifest URL.
      */
     @Effect()
-    downloadFileManifest$: Observable<Action> = this.actions$
+    requestFileManifestUrl$: Observable<Action> = this.actions$
         .pipe(
-            ofType(DownloadFileManifestAction.ACTION_TYPE),
+            ofType(FetchFileManifestUrlRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(
                 select(selectSelectedSearchTerms),
                 take(1)
@@ -56,8 +56,9 @@ export class FileManifestEffects {
                     })
                 )
             ),
-            switchMap(({searchTerms, fileFormatsFileFacet}) => this.fileManifestService.downloadFileManifest(searchTerms, fileFormatsFileFacet)),
-            map(response => new DownloadFileManifestRequestedAction(response))
+            switchMap(({searchTerms, fileFormatsFileFacet}) =>
+                this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet)),
+            map(response => new FetchFileManifestUrlSuccessAction(response))
         );
 
     /**
@@ -65,7 +66,7 @@ export class FileManifestEffects {
      * selected file types, in request.
      */
     @Effect()
-    fetchManifestDownloadFileSummary: Observable<Action> = this.actions$
+    fetchManifestDownloadFileSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
             switchMap(() => this.store.pipe(

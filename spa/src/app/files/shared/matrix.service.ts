@@ -8,8 +8,8 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { catchError, map, retry } from "rxjs/operators";
+import { interval, Observable, of, Subject } from "rxjs";
+import { catchError, filter, map, retry, take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -19,20 +19,28 @@ import { MatrixStatus } from "./matrix-status.model";
 import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { FileFormat } from "./file-format.model";
-import { ICGCQuery } from "./icgc-query";
+import { FileManifestService } from "./file-manifest.service";
+import { ManifestResponse } from "./manifest-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { SearchTermService } from "./search-term.service";
+import { FileFacet } from "./file-facet.model";
+import { ManifestStatus } from "./manifest-status.model";
+import { ICGCQuery } from "./icgc-query";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
+import { ManifestHttpResponse } from "./manifest-http-response.model";
 
 @Injectable()
 export class MatrixService {
 
     /**
      * @param {ConfigService} configService
+     * @param {FileManifestService} manifestService
      * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
+                private manifestService: FileManifestService,
                 private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
@@ -46,52 +54,46 @@ export class MatrixService {
 
         return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
     }
-
+    
     /**
-     * Query matrix request status.
-     *
-     * @param {string} requestId
-     * @returns {MatrixResponse}
-     */
-    public getMatrixStatus(requestId: string): Observable<MatrixResponse> {
-
-        return this.httpClient
-            .get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`)
-            .pipe(
-                retry(3),
-                catchError(this.handleMatrixStatusError.bind(this, requestId)),
-                map(this.bindMatrixResponse.bind(this))
-            );
-    }
-
-    /**
-     * Request matrix export.
+     * Request manifest URL then kick off matrix URL request.
      *
      * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
-     * @returns {MatrixResponse}
+     * @returns {Observable<MatrixResponse>}
      */
-    public requestMatrix(searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
+    public requestMatrixUrl(
+        searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
 
-        // Add matrix file format, if not yet specified
-        const matrixSearchTerms = this.isMatrixFileFormatSelected(searchTerms) ?
-            searchTerms :
-            this.addMatrixFileFormatToSearchTerms(searchTerms);
+        // Set up polling for matrix URL completion
+        const matrixResponse$ = this.initMatrixUrlRequestPoller();
+        
+        const manifestRequest$ =
+            this.requestFileManifestUrl(searchTerms)
+                .subscribe((manifestResponse: ManifestResponse) => {
 
-        // Kick off matrix request
-        const manifestUrl = this.buildMatrixManifestUrl(matrixSearchTerms);
+                    // Manifest URL request is complete - kick off matrix URL request
+                    if ( manifestResponse.status === ManifestStatus.COMPLETE ) {
+                        manifestRequest$.unsubscribe();
+                        return this.initMatrixUrlRequest(manifestResponse, matrixResponse$, matrixFormat);
+                    }
+                    
+                    // Manifest URL request failed - update matrix response to indicate failure
+                    if ( manifestResponse.status === ManifestStatus.FAILED ) {
+                        manifestRequest$.unsubscribe();
+                        matrixResponse$.next({
+                            status: MatrixStatus.FAILED
+                        } as MatrixResponse);
+                        return;
+                    }
+    
+                    // Manifest URL request is in progress - update matrix status 
+                    matrixResponse$.next({
+                        status: MatrixStatus.MANIFEST_IN_PROGRESS
+                    } as MatrixResponse);
+                });
 
-        // Build up the POST body
-        const body = {
-            bundle_fqids_url: manifestUrl,
-            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
-        };
-
-        return this.httpClient
-            .post<MatrixHttpResponse>(this.configService.getMatrixURL(), body)
-            .pipe(
-                map(this.bindMatrixResponse.bind(this))
-            );
+        return matrixResponse$.asObservable();
     }
 
     /**
@@ -100,11 +102,10 @@ export class MatrixService {
      * @param {MatrixResponse} response
      * @returns {boolean}
      */
-    public isMatrixRequestCompleted(response: MatrixResponse): boolean {
+    public isMatrixUrlRequestCompleted(response: MatrixResponse): boolean {
 
         return response.status === MatrixStatus.COMPLETE;
     }
-
 
     /**
      * Returns true if matrix request has failed.
@@ -112,9 +113,20 @@ export class MatrixService {
      * @param {MatrixResponse} response
      * @returns {boolean}
      */
-    public isMatrixRequestFailed(response: MatrixResponse): boolean {
+    public isMatrixUrlRequestFailed(response: MatrixResponse): boolean {
 
         return response.status === MatrixStatus.FAILED;
+    }
+
+    /**
+     * Returns true if matrix request has been initiated.
+     *
+     * @param {MatrixResponse} response
+     * @returns {boolean}
+     */
+    public isMatrixUrlRequestInitiated(response: MatrixResponse): boolean {
+
+        return response.status === MatrixStatus.MANIFEST_IN_PROGRESS;
     }
 
     /**
@@ -123,9 +135,20 @@ export class MatrixService {
      * @param {MatrixResponse} response
      * @returns {boolean}
      */
-    public isMatrixRequestInProgress(response: MatrixResponse): boolean {
+    public isMatrixUrlRequestInProgress(response: MatrixResponse): boolean {
 
         return response.status === MatrixStatus.IN_PROGRESS;
+    }
+
+    /**
+     * Returns true if matrix request has not yet started.
+     *
+     * @param {MatrixResponse} response
+     * @returns {boolean}
+     */
+    public isMatrixUrlRequestNotStarted(response: MatrixResponse): boolean {
+
+        return response.status === MatrixStatus.NOT_STARTED;
     }
 
     /**
@@ -143,22 +166,63 @@ export class MatrixService {
     }
 
     /**
-     * Build the manifest download URL - required for requesting a Matrix export.
+     * Normalize matrix response to FE-friendly format.
      *
-     * @param {SearchTerm[]} searchTerms
-     * @param {string} format
-     * @returns {string}
+     * @param {MatrixHttpResponse} response
+     * @returns {MatrixResponse}
      */
-    private buildMatrixManifestUrl(searchTerms: SearchTerm[], format?: string): string {
+    private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), format);
-
-        let params = new URLSearchParams();
-        Object.keys(query).forEach((paramName) => {
-            params.append(paramName, query[paramName]);
+        return Object.assign({}, response, {
+            matrixUrl: response.matrix_location,
+            requestId: response.request_id,
+            status: this.translateMatrixStatus(response.status)
         });
+    }
 
-        return this.configService.buildApiUrl(`/manifest/files?${params.toString()}`);
+    /**
+     * Set up polling to check for matrix URL completion - if request is still in progress, continue to poll. Otherwise
+     * kill polling subscription.
+     */
+    private initMatrixUrlRequestPoller() {
+
+        const matrixResponse$ = new Subject<MatrixResponse>();
+        matrixResponse$
+            .pipe(
+                // Do nothing while we're waiting for manifest request to complete
+                filter(response => response.status !== MatrixStatus.MANIFEST_IN_PROGRESS)
+            )
+            .subscribe((response: MatrixResponse) => {
+
+                if ( response.status === MatrixStatus.IN_PROGRESS ) {
+                    return this.pollMatrixUrlRequestStatus(response, matrixResponse$);
+                }
+
+                matrixResponse$.unsubscribe();
+            });
+        
+        return matrixResponse$;
+    }
+
+    /**
+     * Request matrix URL - either the initial request or a status update request.
+     *
+     * @param {string} requestId
+     * @param {Observable<MatrixHttpResponse>} httpRequest$
+     * @param {Subject<MatrixResponse>} matrixResponse$
+     */
+    private sendMatrixUrlRequest(
+        requestId: string, httpRequest$: Observable<MatrixHttpResponse>, matrixResponse$: Subject<MatrixResponse>) {
+
+        httpRequest$
+            .pipe(
+                retry(2),
+                catchError(this.handleMatrixStatusError.bind(this, requestId)),
+                map(this.bindMatrixResponse.bind(this))
+            )
+            .subscribe((response: MatrixResponse) => {
+                matrixResponse$.next(response);
+            });
     }
 
     /**
@@ -169,7 +233,7 @@ export class MatrixService {
      * @returns {MatrixResponse}
      */
     private handleMatrixStatusError(requestId: string): Observable<MatrixResponse> {
-
+console.log("error")
         return of({
             eta: "",
             matrixUrl: "",
@@ -191,20 +255,41 @@ export class MatrixService {
             searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
             searchTerm.getSearchValue() === FileFormat.MATRIX);
     }
+    
+    /**
+     * Get the manifest URL for the matrix request.
+     * 
+     * @param {SearchTerm[]} searchTerms
+     * @returns {ManifestResponse}
+     */
+    private requestFileManifestUrl(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
+
+        // Add matrix file format, if not yet specified
+        const matrixSearchTerms = this.isMatrixFileFormatSelected(searchTerms) ?
+            searchTerms :
+            this.addMatrixFileFormatToSearchTerms(searchTerms);
+        
+        return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms);
+    }
 
     /**
-     * Normalize matrix response to FE-friendly format.
+     * Send HTTP request for matrix URL.
      *
-     * @param {MatrixHttpResponse} response
-     * @returns {MatrixResponse}
+     * @param {ManifestResponse} manifestResponse
+     * @param {Subject<MatrixResponse>} matrixResponse$
+     * @param {MatrixFormat} matrixFormat
      */
-    private bindMatrixResponse(response: MatrixHttpResponse): MatrixResponse {
+    private initMatrixUrlRequest(
+        manifestResponse: ManifestResponse, matrixResponse$: Subject<MatrixResponse>, matrixFormat: MatrixFormat) {
 
-        return Object.assign({}, response, {
-            matrixUrl: response.matrix_location,
-            requestId: response.request_id,
-            status: this.translateMatrixStatus(response.status)
-        });
+        // Build up the matrix POST body
+        const body = {
+            bundle_fqids_url: manifestResponse.fileUrl,
+            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
+        };
+
+        const httpRequest$ = this.httpClient.post<MatrixHttpResponse>(this.configService.getMatrixURL(), body);
+        this.sendMatrixUrlRequest(null, httpRequest$, matrixResponse$);
     }
 
     /**
@@ -217,5 +302,25 @@ export class MatrixService {
 
         const statusKey = status.toUpperCase().replace(" ", "_");
         return MatrixStatus[statusKey];
+    }
+
+    /**
+     * Send request to fetch matrix URL request status.
+     *
+     * @param {MatrixResponse} response
+     * @param {Subject<MatrixResponse>} matrixResponse$
+     */
+    private pollMatrixUrlRequestStatus(response: MatrixResponse, matrixResponse$: Subject<MatrixResponse>) {
+
+        interval(5000)
+            .pipe(
+                take(1)
+            )
+            .subscribe(() => {
+                const requestId = response.requestId;
+                const getRequest =
+                    this.httpClient.get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`);
+                this.sendMatrixUrlRequest(requestId, getRequest, matrixResponse$);
+            });
     }
 }

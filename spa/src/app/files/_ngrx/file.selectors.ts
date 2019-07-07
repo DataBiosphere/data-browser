@@ -134,16 +134,6 @@ export const selectFileTypeMatrix = createSelector(selectFileSummary, (fileSumma
 });
 
 /**
- * Returns the matrix-related slice of state.
- */
-export const selectMatrix = createFeatureSelector<MatrixState>("matrix");
-
-/**
- * Returns the set of possible file formats for the Matrix download
- */
-export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => state.fileFormats);
-
-/**
  * Return the selected view state - both the selected entity and the current set of search terms
  */
 export const selectSelectedViewState = createSelector(selectSelectedSearchTermsBySearchKey, selectSelectedEntity, (selectedSearchTermsBySearchKey, selectedEntity) => {

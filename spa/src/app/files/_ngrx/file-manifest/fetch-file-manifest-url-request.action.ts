@@ -8,8 +8,8 @@
 // Core dependencies
 import { Action } from "@ngrx/store";
 
-export class RequestFileManifestUrlAction implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.REQUEST_FILE_MANIFEST_URL";
-    public readonly type = RequestFileManifestUrlAction.ACTION_TYPE;
+export class FetchFileManifestUrlRequestAction implements Action {
+    public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_REQUEST";
+    public readonly type = FetchFileManifestUrlRequestAction.ACTION_TYPE;
     constructor() {}
 }
