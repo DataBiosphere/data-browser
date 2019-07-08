@@ -23,6 +23,7 @@ import { selectMatrixFileFormats, selectMatrixResponse } from "../_ngrx/matrix/m
 import { FetchMatrixUrlRequestAction } from "../_ngrx/matrix/fetch-matrix-url-request.action";
 import { MatrixResponse } from "../shared/matrix-response.model";
 import { MatrixService } from "../shared/matrix.service";
+import { CancelFetchMatrixUrlRequestAction } from "../_ngrx/matrix/cancel-fetch-matrix-url-request.action";
 
 @Component({
     templateUrl: "./hca-request-matrix-modal.component.html",
@@ -195,6 +196,7 @@ export class HCARequestMatrixModalComponent implements OnDestroy, OnInit {
      */
     public ngOnDestroy() {
 
+        this.store.dispatch(new CancelFetchMatrixUrlRequestAction());
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }

@@ -37,6 +37,22 @@ export class FileManifestEffects {
     }
 
     /**
+     * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
+     * selected file types, in request.
+     */
+    @Effect()
+    fetchManifestDownloadFileSummary$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(
+                select(selectSelectedSearchTerms),
+                take(1)
+            )),
+            switchMap((searchTerms) => this.fileManifestService.fetchFileManifestFileSummary(searchTerms)),
+            map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
+        );
+
+    /**
      * Request manifest URL.
      */
     @Effect()
@@ -59,21 +75,5 @@ export class FileManifestEffects {
             switchMap(({searchTerms, fileFormatsFileFacet}) =>
                 this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet)),
             map(response => new FetchFileManifestUrlSuccessAction(response))
-        );
-
-    /**
-     * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
-     * selected file types, in request.
-     */
-    @Effect()
-    fetchManifestDownloadFileSummary$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedSearchTerms),
-                take(1)
-            )),
-            switchMap((searchTerms) => this.fileManifestService.fetchFileManifestFileSummary(searchTerms)),
-            map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
         );
 }

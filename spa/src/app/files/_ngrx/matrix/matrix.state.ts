@@ -34,9 +34,24 @@ export class MatrixState implements Matrix {
     }
 
     /**
+     * Cancel the existing matrix URL request.
+     *
      * @returns {MatrixState}
      */
-    public fetchMatrixFileFormatsRequest() {
+    public cancelMatrixUrlRequest(): MatrixState {
+
+        return new MatrixState({
+            fileFormats: this.fileFormats,
+            matrixResponse: {
+                status: MatrixStatus.NOT_STARTED
+            } as MatrixResponse
+        });
+    }
+
+    /**
+     * @returns {MatrixState}
+     */
+    public fetchMatrixFileFormatsRequest(): MatrixState {
         return this;
     }
 

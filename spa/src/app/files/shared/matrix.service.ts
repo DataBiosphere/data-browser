@@ -233,7 +233,7 @@ export class MatrixService {
      * @returns {MatrixResponse}
      */
     private handleMatrixStatusError(requestId: string): Observable<MatrixResponse> {
-console.log("error")
+
         return of({
             eta: "",
             matrixUrl: "",

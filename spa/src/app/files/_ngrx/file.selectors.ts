@@ -12,7 +12,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
-import { MatrixState } from "./matrix/matrix.state";
 import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
 import { FileFacetName } from "../shared/file-facet-name.model";
 import { PaginationModel } from "../table/pagination.model";
