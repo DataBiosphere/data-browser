@@ -11,12 +11,12 @@
                     <ng-container
                             *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as isLastTerm; first as isFirstTerm">
                     <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerm)">
-                        <span class="parenthesis open" *ngIf="isFirstTerm">(</span>
+                        <span class="parenthesis open" *ngIf="isFirstTerm && isFirstTerm !== isLastTerm">(</span>
                         <div>
                             <span class="fontsize-xxs">{{selectedSearchTerm.getDisplayValue()}}</span>
                             <mat-icon>close</mat-icon>
                         </div>
-                        <span class="parenthesis close" *ngIf="isLastTerm">)</span>
+                        <span class="parenthesis close" *ngIf="isLastTerm && isFirstTerm !== isLastTerm">)</span>
                     </div>
                     <span class="operator" *ngIf="!isLastTerm">OR</span>
                 </ng-container>
@@ -24,8 +24,6 @@
                 </div>
             </span>
         </ng-container>
-        <button mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()" (click)="removeAllSearchTerms()" class="clear-all">
-            Clear All
-        </button>
+        <button class="clear-all" mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()" (click)="removeAllSearchTerms()">Clear All</button>
     </div>
 </div>
