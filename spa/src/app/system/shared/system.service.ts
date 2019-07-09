@@ -69,8 +69,10 @@ export class SystemService {
 
         return of({
             up: false,
-            unindexed_bundles: 0,
-            unindexed_documents: 0
+            progress: {
+                unindexed_bundles: 0,
+                unindexed_documents: 0
+            }
         });
     }
 
@@ -82,6 +84,6 @@ export class SystemService {
      */
     private isIndexing(response: HealthHttpResponse): boolean {
 
-        return response.unindexed_bundles > 0 || response.unindexed_documents > 0;
+        return response.progress.unindexed_bundles > 0 || response.progress.unindexed_documents > 0;
     }
 }
