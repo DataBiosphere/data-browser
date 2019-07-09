@@ -8,6 +8,8 @@
 export interface HealthHttpResponse {
 
     up: boolean;
-    unindexed_bundles: number;
-    unindexed_documents: number;
+    progress: {
+        unindexed_bundles: number;
+        unindexed_documents: number;
+    }
 }
