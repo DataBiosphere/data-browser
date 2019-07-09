@@ -83,6 +83,16 @@ export class SearchEntity implements SearchTerm {
     }
 
     /**
+     * Use the entity ID as the filter parameter value when building up search URLs.
+     *
+     * @returns {any}
+     */
+    public getSearchParameterValue(): any {
+
+        return this.entityId;
+    }
+
+    /**
      * The sort value of a search entity is its display value;
      *
      * @returns {string}

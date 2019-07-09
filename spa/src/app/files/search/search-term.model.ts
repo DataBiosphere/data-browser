@@ -45,11 +45,18 @@ export interface SearchTerm extends TermSortable {
     getSearchKey(): string;
 
     /**
-     * Return value to be used when searching for this term.
+     * Return the core value of this search term.
      *
      * @returns {string}
      */
     getSearchValue(): string;
+
+    /**
+     * Return the value to be used when building up a search URL.
+     *
+     * @returns {any}
+     */
+    getSearchParameterValue(): any;
 }
 
 
