@@ -42,6 +42,8 @@ import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { MatrixStatus } from "../shared/matrix-status.model";
 import { SearchTermService } from "../shared/search-term.service";
 import { TermResponseService } from "../shared/term-response.service";
+import { FileManifestService } from "../shared/file-manifest.service";
+import { MatrixResponse } from "../shared/matrix-response.model";
 
 describe("HCARequestMatrixModalComponent", () => {
 
@@ -88,11 +90,15 @@ describe("HCARequestMatrixModalComponent", () => {
                     useValue: jasmine.createSpyObj("HttpClient", [
                         "get"
                     ])
-                },
-                {
+                }, {
                 provide: FileFacetDisplayService,
                     useValue: jasmine.createSpyObj("FileFacetDisplayService", [
                         "getFileFacetDisplayName"
+                    ])
+                }, {
+                    provide: FileManifestService,
+                    useValue: jasmine.createSpyObj("FileManifestService", [
+                        "requestFileManifestUrl"
                     ])
                 }, {
                     provide: Store,
@@ -127,7 +133,14 @@ describe("HCARequestMatrixModalComponent", () => {
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
             of([]),
-            of(["csv", "loom", "mtx"])
+            of(["csv", "loom", "mtx"]),
+            of({
+                eta: "",
+                matrixUrl: "",
+                message: "",
+                requestId: "",
+                status: MatrixStatus.NOT_STARTED
+            } as MatrixResponse)
         );
 
         fixture.detectChanges();
@@ -145,24 +158,21 @@ describe("HCARequestMatrixModalComponent", () => {
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
             of([]),
-            of(["csv", "loom", "mtx"])
+            of(["csv", "loom", "mtx"]),
+            of({
+                eta: "",
+                matrixUrl: "http://matrix-url.com",
+                message: "matrix message",
+                requestId: "123abc",
+                status: MatrixStatus.COMPLETE
+            } as MatrixResponse)
         );
 
         fixture.detectChanges();
 
-        // Update state of matrix request to complete
-        const matrixResponse = {
-            eta: "",
-            matrixUrl: "http://matrix-url.com",
-            message: "matrix message",
-            requestId: "123abc",
-            status: MatrixStatus.COMPLETE
-        };
-        component.matrixResponse$.next(matrixResponse);
+        // Update matrix service to indicate response is complete
+        spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
 
-        // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
-        
         fixture.detectChanges();
 
         // Confirm there are three action buttons - Download, Download As, Copy
@@ -182,23 +192,20 @@ describe("HCARequestMatrixModalComponent", () => {
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
             of([]),
-            of(["csv", "loom", "mtx"])
+            of(["csv", "loom", "mtx"]),
+            of({
+                eta: "",
+                matrixUrl: "http://matrix-url.com",
+                message: "matrix message",
+                requestId: "123abc",
+                status: MatrixStatus.COMPLETE
+            } as MatrixResponse)
         );
 
         fixture.detectChanges();
 
-        // Update state of matrix request to complete
-        const matrixResponse = {
-            eta: "",
-            matrixUrl: "http://matrix-url.com",
-            message: "matrix message",
-            requestId: "123abc",
-            status: MatrixStatus.COMPLETE
-        };
-        component.matrixResponse$.next(matrixResponse);
-
-        // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
+        // Update matrix service to indicate response is complete
+        spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
 
         fixture.detectChanges();
 
@@ -214,34 +221,32 @@ describe("HCARequestMatrixModalComponent", () => {
     it("should contain matrix URL in copy button", () => {
 
         // Set up initial component state
+        const matrixUrl = "http://matrix-url.com";
         testStore.pipe
             .and.returnValues(
             of(DEFAULT_FILE_SUMMARY),
             of([]),
-            of(["csv", "loom", "mtx"])
+            of(["csv", "loom", "mtx"]),
+            of({
+                eta: "",
+                matrixUrl: matrixUrl,
+                message: "matrix message",
+                requestId: "123abc",
+                status: MatrixStatus.COMPLETE
+            } as MatrixResponse)
         );
 
         fixture.detectChanges();
 
-        // Update state of matrix request to complete
-        const matrixResponse = {
-            eta: "",
-            matrixUrl: "http://matrix-url.com",
-            message: "matrix message",
-            requestId: "123abc",
-            status: MatrixStatus.COMPLETE
-        };
-        component.matrixResponse$.next(matrixResponse);
-
-        // Update matrix service to indicate response is complete 
-        const spy = spyOn(matrixService, "isMatrixRequestCompleted").and.returnValue(true);
+        // Update matrix service to indicate response is complete
+        spyOn(matrixService, "isMatrixUrlRequestCompleted").and.returnValue(true);
 
         fixture.detectChanges();
 
         const copyButtonDE = fixture.debugElement.query(
             By.css("[ngxclipboard]")
         );
-        expect(copyButtonDE.nativeElement.getAttribute("ng-reflect-cb-content")).toEqual(matrixResponse.matrixUrl);
+        expect(copyButtonDE.nativeElement.getAttribute("ng-reflect-cb-content")).toEqual(matrixUrl);
     });
 
     /**

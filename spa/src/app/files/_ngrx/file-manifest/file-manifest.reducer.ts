@@ -10,10 +10,10 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ClearManifestDownloadFileSummaryAction } from "./clear-manifest-download-file-summary.action";
-import { DownloadFileManifestRequestedAction } from "./download-file-manifest-requested.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { FileManifestState } from "./file-manifest.state"
+import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 
 export function reducer(state: FileManifestState = FileManifestState.getDefaultState(), action: Action): FileManifestState {
 
@@ -25,9 +25,9 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         case FetchManifestDownloadFileSummarySuccessAction.ACTION_TYPE:
             return state.fetchSummarySuccess(action as FetchManifestDownloadFileSummarySuccessAction);
 
-        // Download status has been updated
-        case DownloadFileManifestRequestedAction.ACTION_TYPE:
-            return state.downloadRequested(action as DownloadFileManifestRequestedAction);
+        // Manifest URL request status has been updated
+        case FetchFileManifestUrlSuccessAction.ACTION_TYPE:
+            return state.fetchFileManifestUrlSuccess(action as FetchFileManifestUrlSuccessAction);
             
         case ClearManifestDownloadFileSummaryAction.ACTION_TYPE:
             return FileManifestState.getDefaultState();

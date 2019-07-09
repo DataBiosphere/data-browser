@@ -12,7 +12,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
-import { MatrixState } from "./matrix/matrix.state";
 import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
 import { FileFacetName } from "../shared/file-facet-name.model";
 import { PaginationModel } from "../table/pagination.model";
@@ -132,16 +131,6 @@ export const selectFileTypeMatrix = createSelector(selectFileSummary, (fileSumma
         return fileTypeSummary.fileType === "matrix" && fileTypeSummary.count > 0;
     });
 });
-
-/**
- * Returns the matrix-related slice of state.
- */
-export const selectMatrix = createFeatureSelector<MatrixState>("matrix");
-
-/**
- * Returns the set of possible file formats for the Matrix download
- */
-export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => state.fileFormats);
 
 /**
  * Return the selected view state - both the selected entity and the current set of search terms

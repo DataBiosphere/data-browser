@@ -9,9 +9,9 @@
 import { FileManifest } from "./file-manifest.model";
 import { FileSummaryState } from "../file-summary/file-summary.state";
 import { ManifestStatus } from "../../shared/manifest-status.model";
-import { DownloadFileManifestRequestedAction } from "./download-file-manifest-requested.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { ManifestResponse } from "../../shared/manifest-response.model";
+import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 
 const DEFAULT_FILE_MANIFEST_STATE = {
     fileSummary: FileSummaryState.getDefaultState(),
@@ -33,13 +33,14 @@ export class FileManifestState {
     }
 
     /**
-     * Download response has been received from server. This does not necessarily mean the download has completed;
-     * the status of the response could be "in progress" with the corresponding retry URL (and not the final export URL).
+     * Manifest URL request response has been received from server. This does not necessarily mean the request has
+     * completed; the status of the response could be "in progress" with the corresponding retry URL (and not the final
+     * export URL).
      *
-     * @param {DownloadFileManifestRequestedAction} action
+     * @param {FetchFileManifestUrlSuccessAction} action
      * @returns {FileManifestState}
      */
-    public  downloadRequested(action: DownloadFileManifestRequestedAction) {
+    public fetchFileManifestUrlSuccess(action: FetchFileManifestUrlSuccessAction) {
         return new FileManifestState({
             manifestResponse: action.response,
             fileSummary: this.fileSummary

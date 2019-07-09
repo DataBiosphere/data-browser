@@ -23,7 +23,7 @@ export const selectFileManifestFileSummary =
     createSelector(selectFileManifest, (state: FileManifestState) => state.fileSummary);
 
 /**
- * Return the file summary counts for the file manifest download.
+ * Return the status of the current manifest URL request.
  */
 export const selectFileManifestManifestResponse =
     createSelector(selectFileManifest, (state: FileManifestState) => state.manifestResponse);
