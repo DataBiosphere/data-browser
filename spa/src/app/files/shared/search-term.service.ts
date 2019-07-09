@@ -74,7 +74,7 @@ export class SearchTermService {
      *
      * Return JSON string of: { file: { primarySite: { is: ["Brain"] } } }
      *
-     * If there aren't any file filters, it's just { }, not { file: { } }
+     * If there aren't any file filters, it's just { }.
      *
      * @param {SearchTerm[]} searchTerms
      * @returns {string}
@@ -91,13 +91,13 @@ export class SearchTermService {
                     is: []
                 };
             }
-            accum[searchKey]["is"].push(searchTerm.getSearchValue());
+            accum[searchKey]["is"].push(searchTerm.getSearchParameterValue());
 
             return accum;
         }, {});
 
         // empty object if it doesn't have any filters;
-        const result = Object.keys(filters).length ? {file: filters} : {};
+        const result = Object.keys(filters).length ? filters : {};
         return JSON.stringify(result);
     }
 

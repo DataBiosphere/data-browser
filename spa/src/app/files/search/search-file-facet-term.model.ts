@@ -48,7 +48,7 @@ export class SearchFileFacetTerm implements SearchTerm {
     }
 
     /**
-     * Return the term name.
+     * Return the term value.
      *
      * @returns {string}
      */
@@ -68,14 +68,32 @@ export class SearchFileFacetTerm implements SearchTerm {
     }
 
     /**
-     * The search value of a file facet term is its name. Returns "null" if term name is "Unspecified".
+     * The search value of a file facet term is its name.
      *
      * @returns {string}
      */
     public getSearchValue(): string {
 
+        return this.termName;
+    }
+
+    /**
+     * Convert the term name to its search URL-appropriate value.
+     *
+     * @returns {any}
+     */
+    public getSearchParameterValue(): any {
+
         if ( this.termName === "Unspecified" ) {
-            return "null";
+            return null;
+        }
+
+        if ( this.termName === "true" ) {
+            return true;
+        }
+
+        if ( this.termName === "false" ) {
+            return false;
         }
 
         return this.termName;
