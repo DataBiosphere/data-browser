@@ -7,8 +7,10 @@
 
 // App dependencies
 import { MatrixResponse } from "../../shared/matrix-response.model";
+import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
 
 export interface Matrix {
     fileFormats: string[];
     matrixResponse: MatrixResponse;
+    matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>
 }

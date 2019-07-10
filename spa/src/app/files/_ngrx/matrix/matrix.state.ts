@@ -13,18 +13,21 @@ import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { Matrix } from "./matrix.model";
 import { MatrixResponse } from "../../shared/matrix-response.model";
 import { MatrixStatus } from "../../shared/matrix-status.model";
+import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
 
 const DEFAULT_MATRIX = {
     fileFormats: [],
     matrixResponse: {
         status: MatrixStatus.NOT_STARTED
-    } as MatrixResponse
+    } as MatrixResponse,
+    matrixUrlsByProjectId: new Map<string, ProjectMatrixUrls>()
 };
 
 export class MatrixState implements Matrix {
 
     fileFormats: string[];
     matrixResponse: MatrixResponse;
+    matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>;
 
     /**
      * @param {MatrixState} state
@@ -44,7 +47,8 @@ export class MatrixState implements Matrix {
             fileFormats: this.fileFormats,
             matrixResponse: {
                 status: MatrixStatus.NOT_STARTED
-            } as MatrixResponse
+            } as MatrixResponse,
+            matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });
     }
 
@@ -63,7 +67,8 @@ export class MatrixState implements Matrix {
         const fileFormats = action.fileFormats;
         return new MatrixState({
             fileFormats,
-            matrixResponse: this.matrixResponse
+            matrixResponse: this.matrixResponse,
+            matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });
     }
 
@@ -78,7 +83,8 @@ export class MatrixState implements Matrix {
     public fetchMatrixUrlSuccess(action: FetchMatrixUrlSuccessAction) {
         return new MatrixState({
             fileFormats: this.fileFormats,
-            matrixResponse: action.response
+            matrixResponse: action.response,
+            matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });
     }
 
