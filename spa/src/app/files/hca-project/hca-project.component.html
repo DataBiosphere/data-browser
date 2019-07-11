@@ -2,15 +2,15 @@
     <ng-container title>Explore Project</ng-container>
 </hca-section-title>
 <hca-tab [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
-<div *ngIf="project$ | async as project">
+<div *ngIf="state$ | async as state">
     <div class="wrapper">
         <div class="project-title">
-            <h2 class="fontsize-xl">{{project.projectTitle}}</h2>
+            <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
             <div class="select-project"
-                 (click)="onProjectSelected(project.entryId, project.projectShortname, !isSelected)">
+                 (click)="onProjectSelected(state.selectedProjectIds, state.project.entryId, state.project.projectShortname)">
                 <div class="chart-legend-bar"
-                     [ngStyle]="getLegendStyle(isProjectSelected(selectedProjectIds$ | async, project))">
-                    <mat-icon *ngIf="isProjectSelected(selectedProjectIds$ | async, project)">check</mat-icon>
+                     [ngStyle]="getLegendStyle(isProjectSelected(state.selectedProjectIds, state.project))">
+                    <mat-icon *ngIf="isProjectSelected(state.selectedProjectIds, state.project)">check</mat-icon>
                 </div>
                 <span class="fontsize-xs">Select Project</span>
             </div>
@@ -19,12 +19,12 @@
             <div>
                 <div class="project-description">
                     <h4 class="fontsize-m semi-bold">Description</h4>
-                    <p class="fontsize-s">{{project.projectDescription}}</p>
+                    <p class="fontsize-s">{{state.project.projectDescription}}</p>
                     <div class="lhs">
                         <h4 class="fontsize-m semi-bold">Contact</h4>
-                        <ng-container [ngSwitch]="listContributors(project.contributors).length > 0">
+                        <ng-container [ngSwitch]="listContributors(state.project.contributors).length > 0">
                             <ng-container *ngSwitchCase="true">
-                                <div *ngFor="let contributor of listContributors(project.contributors)" class="details">
+                                <div *ngFor="let contributor of listContributors(state.project.contributors)" class="details">
                                     <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
                                     <p class="fontsize-xxs">{{contributor.institution}}</p>
                                     <p class="fontsize-xxs">{{contributor.email}}</p>
@@ -33,9 +33,9 @@
                             <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
                         </ng-container>
                         <h4 class="fontsize-m semi-bold">Publications</h4>
-                        <ng-container [ngSwitch]="project.publications.length > 0">
+                        <ng-container [ngSwitch]="state.project.publications.length > 0">
                             <ng-container *ngSwitchCase="true">
-                                <div *ngFor="let publication of project.publications" class="details">
+                                <div *ngFor="let publication of state.project.publications" class="details">
                                     <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
                                     <p class="fontsize-xxs" *ngIf="!!publication.publicationUrl"><a
                                             href="{{publication.publicationUrl}}" target="_blank"
@@ -48,9 +48,9 @@
                     </div>
                     <div class="rhs">
                         <h4 class="fontsize-m semi-bold">Contributors</h4>
-                        <p class="fontsize-xxs">{{listAuthors(project.contributors)}}</p>
+                        <p class="fontsize-xxs">{{listAuthors(state.project.contributors)}}</p>
                         <h4 class="fontsize-m semi-bold">Collaborating Organizations</h4>
-                        <p class="fontsize-xxs">{{listCollaboratingOrganizations(project.contributors)}}</p>
+                        <p class="fontsize-xxs">{{listCollaboratingOrganizations(state.project.contributors)}}</p>
                     </div>
                 </div>
                 <div class="project-accessions">
@@ -58,27 +58,27 @@
                     <div>
                         <p class="fontsize-xs semi-bold lhs">Array Express Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(project.arrayExpressAccessions,
+                            <p class="fontsize-xs">{{stringifyValues(state.project.arrayExpressAccessions,
                                 "Unspecified")}}</p>
                         </div>
                     </div>
                     <div>
                         <p class="fontsize-xs semi-bold lhs">GEO Series Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(project.geoSeriesAccessions, "Unspecified")}}</p>
+                            <p class="fontsize-xs">{{stringifyValues(state.project.geoSeriesAccessions, "Unspecified")}}</p>
                         </div>
                     </div>
                     <div>
                         <p class="fontsize-xs semi-bold lhs">INSDC Project Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(project.insdcProjectAccessions,
+                            <p class="fontsize-xs">{{stringifyValues(state.project.insdcProjectAccessions,
                                 "Unspecified")}}</p>
                         </div>
                     </div>
                     <div>
                         <p class="fontsize-xs semi-bold lhs">INSDC Study Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(project.insdcStudyAccessions, "Unspecified")}}</p>
+                            <p class="fontsize-xs">{{stringifyValues(state.project.insdcStudyAccessions, "Unspecified")}}</p>
                         </div>
                     </div>
                 </div>
@@ -90,12 +90,29 @@
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
                                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="'Download expression matrix'"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">Expression Matrix
+                                </hca-tooltip>
+                            </p>
+                            <ng-container [ngSwitch]="isAnyProjectMatrixURLAvailable()">
+                                <ng-container *ngSwitchCase="true">
+                                    here mim
+                                </ng-container>
+                                <p class="fontsize-xs" *ngSwitchDefault>No matrix available</p>
+                            </ng-container>
+                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(state.project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
+
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                                              [tooltipContent]="'Download project metadata'"
                                              [tooltipDisabled]="false"
                                              [tooltipPosition]="'above'">Project Metadata
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
+                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(state.project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
                         </div>
                     </div>
                     <div class="project-details">
@@ -108,7 +125,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('projectShortname')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{project.projectShortname}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.projectShortname}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -118,7 +135,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(project.genusSpecies, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.genusSpecies, "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -128,7 +145,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(project.organ, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.organ, "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -139,7 +156,7 @@
                                 >{{getColumnDisplayName('organPart')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(project.organPart, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.organPart, "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -149,7 +166,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('disease')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(project.disease, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.disease, "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -161,7 +178,7 @@
                                 </hca-tooltip>
                             </p>
                             <p class="fontsize-xs rhs"
-                               [innerHTML]="stringifyValues(project.libraryConstructionApproach, '-')"></p>
+                               [innerHTML]="stringifyValues(state.project.libraryConstructionApproach, '-')"></p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -172,7 +189,7 @@
                                 </hca-tooltip>
                             </p>
                             <p class="fontsize-xs rhs"
-                               [innerHTML]="stringifyValues(project.pairedEnd, '-')"></p>
+                               [innerHTML]="stringifyValues(state.project.pairedEnd, '-')"></p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -182,7 +199,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(project.fileType, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.fileType, "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -192,7 +209,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('totalCells')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{project.totalCells | countSize}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.totalCells | countSize}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -202,7 +219,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('donorCount')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{project.donorCount | countSize}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.donorCount | countSize}}</p>
                         </div>
                     </div>
                 </div>
@@ -211,23 +228,23 @@
                         <h4 class="fontsize-m semi-bold">File Counts</h4>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Fastq</p>
-                            <p class="fontsize-xs rhs">{{project.rawCount | localeString}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.rawCount | localeString}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Bam</p>
-                            <p class="fontsize-xs rhs">{{project.bamCount | localeString}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.bamCount | localeString}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Matrix</p>
-                            <p class="fontsize-xs rhs">{{project.matrixCount | localeString}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.matrixCount | localeString}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Other</p>
-                            <p class="fontsize-xs rhs">{{project.otherCount | localeString}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.otherCount | localeString}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Total</p>
-                            <p class="fontsize-xs rhs">{{project.totalCount | localeString}}</p>
+                            <p class="fontsize-xs rhs">{{state.project.totalCount | localeString}}</p>
                         </div>
                     </div>
                     <div class="project-views" *ngIf="isAvailable">

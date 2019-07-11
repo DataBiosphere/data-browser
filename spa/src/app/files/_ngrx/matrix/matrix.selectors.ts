@@ -25,3 +25,8 @@ export const selectMatrixFileFormats = createSelector(selectMatrix, (state) => s
  * Returns the status of the current matrix URL request.
  */
 export const selectMatrixResponse = createSelector(selectMatrix, (state) => state.matrixResponse);
+
+/**
+ * Returns the current set of cached per-project matrix URLs
+ */
+export const selectProjectMatrixUrls = createSelector(selectMatrix, (state) => state.matrixUrlsByProjectId);

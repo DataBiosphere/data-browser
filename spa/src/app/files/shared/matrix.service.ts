@@ -24,11 +24,8 @@ import { ManifestResponse } from "./manifest-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { SearchTermService } from "./search-term.service";
-import { FileFacet } from "./file-facet.model";
 import { ManifestStatus } from "./manifest-status.model";
-import { ICGCQuery } from "./icgc-query";
-import { ManifestDownloadFormat } from "./manifest-download-format.model";
-import { ManifestHttpResponse } from "./manifest-http-response.model";
+import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 
 @Injectable()
 export class MatrixService {
@@ -36,12 +33,10 @@ export class MatrixService {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} manifestService
-     * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private manifestService: FileManifestService,
-                private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -54,7 +49,32 @@ export class MatrixService {
 
         return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
     }
-    
+
+    /**
+     * Fetch the set of matrix URLs, if any, that are available for the specified project.
+     *
+     * @param {Map<string, ProjectMatrixUrls>} projectMatrixUrls
+     * @param {string} entityId
+     */
+    public fetchProjectMatrixURLs(projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityId: string): Observable<ProjectMatrixUrls> {
+
+        // If we already have the matrix URLs for this project, return the cached version
+        if ( projectMatrixUrls.has(entityId) ) {
+            return of(projectMatrixUrls.get(entityId));
+        }
+
+        // Otherwise we don't have the matrix URLs for this project cached, request them from the server
+        // const test = this.httpClient.head<any>(`http://url.data.humancellatlas.org/project-matrices/cddab57b-6868-4be4-806f-395ed9dd635a/63910278-7763-4aeb-8b3a-15c0e199abd2.csv.zip`);
+        // test.subscribe(console.log);
+        // return test;
+        return of({
+            csvUrl: "http://google.com/csv",
+            entityId: entityId,
+            loomUrl: "http://google.com/loom",
+            mtxUrl: "http://google.com/mtx"
+        });
+    }
+
     /**
      * Request manifest URL then kick off matrix URL request.
      *

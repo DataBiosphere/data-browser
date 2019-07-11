@@ -14,6 +14,7 @@ import { Matrix } from "./matrix.model";
 import { MatrixResponse } from "../../shared/matrix-response.model";
 import { MatrixStatus } from "../../shared/matrix-status.model";
 import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
+import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 
 const DEFAULT_MATRIX = {
     fileFormats: [],
@@ -69,6 +70,25 @@ export class MatrixState implements Matrix {
             fileFormats,
             matrixResponse: this.matrixResponse,
             matrixUrlsByProjectId: this.matrixUrlsByProjectId
+        });
+    }
+
+    /**
+     * Update state with the set of available matrix URLs for the specified project.
+     *
+     * @param {FetchFileSummarySuccessAction} action
+     * @returns {MatrixState}
+     */
+    public fetchProjectMatrixURLsSuccess(action: FetchProjectMatrixUrlsSuccessAction) {
+
+        const projectMatrixUrls = action.projectMatrixUrls;
+        const updatedMatrixUrlsByProjectId = new Map(this.matrixUrlsByProjectId);
+        updatedMatrixUrlsByProjectId.set(projectMatrixUrls.entityId, projectMatrixUrls);
+
+        return new MatrixState({
+            fileFormats: this.fileFormats,
+            matrixResponse: this.matrixResponse,
+            matrixUrlsByProjectId: updatedMatrixUrlsByProjectId
         });
     }
 

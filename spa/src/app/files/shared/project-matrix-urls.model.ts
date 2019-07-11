@@ -8,6 +8,7 @@
 export interface ProjectMatrixUrls {
 
     csvUrl: string;
+    entityId: string;
     loomUrl: string;
     mtxUrl: string;
 }

@@ -14,6 +14,7 @@ import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { MatrixState } from "./matrix.state";
 import { CancelFetchMatrixUrlRequestAction } from "./cancel-fetch-matrix-url-request.action";
+import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 
 export function reducer(state: MatrixState = MatrixState.getDefaultState(), action: Action): MatrixState {
 
@@ -32,6 +33,10 @@ export function reducer(state: MatrixState = MatrixState.getDefaultState(), acti
         // Matrix URL request has been canceled
         case CancelFetchMatrixUrlRequestAction.ACTION_TYPE:
             return state.cancelMatrixUrlRequest();
+
+        // Set of available matrix URLs has been retrieved from server
+        case FetchProjectMatrixUrlsSuccessAction.ACTION_TYPE:
+            return state.fetchProjectMatrixURLsSuccess(action as FetchProjectMatrixUrlsSuccessAction);
 
         default:
             return state;
