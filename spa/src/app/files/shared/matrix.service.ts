@@ -8,8 +8,8 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { interval, Observable, of, Subject } from "rxjs";
-import { catchError, filter, map, retry, take } from "rxjs/operators";
+import { forkJoin, interval, Observable, of, Subject } from "rxjs";
+import { catchError, filter, map, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -23,12 +23,8 @@ import { FileManifestService } from "./file-manifest.service";
 import { ManifestResponse } from "./manifest-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { SearchTermService } from "./search-term.service";
-import { FileFacet } from "./file-facet.model";
 import { ManifestStatus } from "./manifest-status.model";
-import { ICGCQuery } from "./icgc-query";
-import { ManifestDownloadFormat } from "./manifest-download-format.model";
-import { ManifestHttpResponse } from "./manifest-http-response.model";
+import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 
 @Injectable()
 export class MatrixService {
@@ -36,12 +32,10 @@ export class MatrixService {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} manifestService
-     * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private manifestService: FileManifestService,
-                private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -54,7 +48,37 @@ export class MatrixService {
 
         return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
     }
-    
+
+    /**
+     * Fetch the set of matrix URLs, if any, that are available for the specified project.
+     *
+     * @param {Map<string, ProjectMatrixUrls>} projectMatrixUrls
+     * @param {string} entityId
+     */
+    public fetchProjectMatrixURLs(projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityId: string): Observable<ProjectMatrixUrls> {
+
+        // If we already have the matrix URLs for this project, return the cached version
+        if ( projectMatrixUrls.has(entityId) ) {
+            return of(projectMatrixUrls.get(entityId));
+        }
+
+        // Otherwise we don't have the matrix URLs for this project cached, request them from the server
+        return forkJoin(
+            this.getProjectMatrixUrl(entityId, "csv.zip"),
+            this.getProjectMatrixUrl(entityId, "loom"),
+            this.getProjectMatrixUrl(entityId, "mtx.zip")
+        ).pipe(
+            map(([csvUrl, loomUrl, mtxUrl]) => {
+                return {
+                    csvUrl,
+                    loomUrl,
+                    mtxUrl,
+                    entityId
+                };
+            })
+        );
+    }
+
     /**
      * Request manifest URL then kick off matrix URL request.
      *
@@ -255,7 +279,23 @@ export class MatrixService {
             searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
             searchTerm.getSearchValue() === FileFormat.MATRIX);
     }
-    
+
+    /**
+     * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
+     * 
+     * @param {string} entityId
+     * @param {string} matrixFormat
+     * @returns {Observable<string>}
+     */
+    private getProjectMatrixUrl(entityId: string, matrixFormat: string): Observable<string> {
+
+        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${entityId}.${matrixFormat}`;
+        return this.httpClient.head<any>(url).pipe(
+            catchError(() => of("")), // Convert error response to ""
+            switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
+        );
+    }
+
     /**
      * Get the manifest URL for the matrix request.
      * 

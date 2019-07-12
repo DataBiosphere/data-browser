@@ -17,9 +17,12 @@ import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats
 import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats-success.action";
 import { FetchMatrixUrlRequestAction } from "./fetch-matrix-url-request.action";
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
+import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
+import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
+import { MatrixService } from "../../shared/matrix.service";
+import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
-import { MatrixService } from "../../shared/matrix.service";
 
 @Injectable()
 export class MatrixEffects {
@@ -64,5 +67,27 @@ export class MatrixEffects {
             switchMap(({searchTerms, action}) =>
                 this.matrixService.requestMatrixUrl(searchTerms, (action as FetchMatrixUrlRequestAction).fileFormat)),
             map(response => new FetchMatrixUrlSuccessAction(response))
+        );
+
+    /**
+     * Request matrix URLs, if any, for the specified project.
+     */
+    @Effect()
+    fetchProjectMatrixURLs$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectMatrixUrlsRequestAction.ACTION_TYPE),
+            switchMap((action) =>
+                this.store.pipe(
+                    select(selectProjectMatrixUrlsByProjectId),
+                    take(1),
+                    map((projectMatrixUrls) => {
+                        return {projectMatrixUrls, action};
+                    })
+                )
+            ),
+            switchMap(({projectMatrixUrls, action}) =>
+                this.matrixService.fetchProjectMatrixURLs(
+                    projectMatrixUrls, (action as FetchProjectMatrixUrlsRequestAction).entityId)),
+            map(response => new FetchProjectMatrixUrlsSuccessAction(response))
         );
 }

@@ -8,14 +8,18 @@
 // Core dependencies
 import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { combineLatest, Observable } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { HCAProjectState } from "./hca-project.state";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
@@ -29,7 +33,7 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-import { DeviceDetectorService } from "ngx-device-detector";
+import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
     selector: "hca-project",
@@ -40,15 +44,12 @@ import { DeviceDetectorService } from "ngx-device-detector";
 
 export class HCAProjectComponent implements OnDestroy, OnInit {
 
-    // Public variables
-    public selectedProjectIds$: Observable<string[]>;
-
     // Template variables
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     isSelected: boolean;
     isAvailable: false; // TODO remove
-    public project$: Observable<Project>;
+    state$: Observable<HCAProjectState>;
 
     // Locals
     private deviceInfo = null;
@@ -180,6 +181,19 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if a project matrix, in any format, is available for download
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isAnyProjectMatrixURLAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return this.isProjectMatrixCSVAvailable(projectMatrixURLs) ||
+            this.isProjectMatrixLoomAvailable(projectMatrixURLs) ||
+            this.isProjectMatrixMtxAvailable(projectMatrixURLs);
+    }
+
+    /**
      * Returns true if device is either mobile or tablet.
      * @returns {boolean}
      */
@@ -203,28 +217,62 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if matrix with CSV format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixCSVAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.csvUrl;
+    }
+
+    /**
+     * Returns true if matrix with loom format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixLoomAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.loomUrl;
+    }
+
+    /**
+     * Returns true if matrix with loom format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixMtxAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.mtxUrl;
+    }
+    
+    /**
      * Returns true if project is a selected facet.
      *
      * @param {string[]} selectedProjectIds
-     * @param {any} project
+     * @param {string} projectId
      * @returns {boolean}
      */
-    public isProjectSelected(selectedProjectIds: string[], project: any): boolean {
+    public isProjectSelected(selectedProjectIds: string[], projectId: string): boolean {
 
-        this.isSelected = selectedProjectIds.indexOf(project.entryId) >= 0;
-        return this.isSelected;
+        return selectedProjectIds.indexOf(projectId) >= 0;
     }
 
     /**
      * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
      * project table.
+     *
+     * @param {string[]} selectedProjectIds
      * @param {string} projectId
      * @param {string} projectShortName
-     * @param {boolean} selected
      */
-    public onProjectSelected(projectId: string, projectShortName: string, selected: boolean) {
+    public onProjectSelected(selectedProjectIds: string[], projectId: string, projectShortName: string) {
 
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, selected));
+        const selected = this.isProjectSelected(selectedProjectIds, projectId);
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, !selected));
         this.router.navigate(["/projects"]);
     }
 
@@ -318,12 +366,37 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        this.project$ = this.store.pipe(select(selectSelectedProject));
+        const project$ = this.store.pipe(select(selectSelectedProject));
+
+        // Determine which matrix formats, if any, are available for download for this project
+        this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        
+        // Grab the project matrix URLs, if any, for this project
+        const projectMatrixUrls$ = this.store.pipe(
+            select(selectProjectMatrixUrlsByProjectId),
+            map(projectMatrixUrlsByProjectId => projectMatrixUrlsByProjectId.get(projectId))
+        );
 
         // Grab the ID's of the current set of selected projects, if any
-        this.selectedProjectIds$ = this.store.pipe(
+        const selectedProjectIds$ = this.store.pipe(
             select(selectSelectedProjectSearchTerms),
             map(this.mapSearchTermsToProjectIds)
+        );
+
+        this.state$ = combineLatest(
+            project$,
+            projectMatrixUrls$,
+            selectedProjectIds$
+        )
+        .pipe(
+            filter(([project]) => !!project),
+            map(([project, projectMatrixUrls, selectedProjectIds]) => {
+                return {
+                    project,
+                    projectMatrixUrls: projectMatrixUrls || {} as ProjectMatrixUrls,
+                    selectedProjectIds
+                }
+            })
         );
     }
 }

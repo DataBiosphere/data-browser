@@ -65,7 +65,10 @@ hca-section-title + hca-tab {
 
         /* Download text */
         a + span, img + span {
-            padding: 0 24px 0 8px;
+            padding: 0 10px 0 8px;
+            &:last-child {
+                padding-right: 0;
+            }
         }
     }
 

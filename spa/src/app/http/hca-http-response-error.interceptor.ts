@@ -48,8 +48,8 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
                 if ( error instanceof HttpErrorResponse ) {
 
-                    // Allow system service to handle health check errors
-                    if ( this.isHealthCheckError(error) ) {
+                    // Allow system service to handle health check errors or HEAD checks
+                    if ( this.isHEADRequest(req) || this.isHealthCheckError(error) ) {
                         return throwError(error);
                     }
 
@@ -79,6 +79,16 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     private isHealthCheckError(error: HttpErrorResponse): boolean {
 
         return error.status === 503 && new URL(error.url).pathname === "/health/progress";
+    }
+
+    /**
+     * Returns true if the request method is HEAD.
+     * 
+     * @param {HttpRequest<any>} req
+     */
+    private isHEADRequest(req: HttpRequest<any>): boolean {
+        
+        return req.method === "HEAD";
     }
 
     /**
