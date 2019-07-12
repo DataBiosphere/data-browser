@@ -201,7 +201,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public ngOnInit() {
 
         this.setAppStateFromURL();
-        // this.healthCheck();
+        this.healthCheck();
         
         this.config$ = this.store.pipe(
             select(selectConfigConfig),

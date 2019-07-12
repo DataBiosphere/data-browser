@@ -9,8 +9,8 @@
             <div class="select-project"
                  (click)="onProjectSelected(state.selectedProjectIds, state.project.entryId, state.project.projectShortname)">
                 <div class="chart-legend-bar"
-                     [ngStyle]="getLegendStyle(isProjectSelected(state.selectedProjectIds, state.project))">
-                    <mat-icon *ngIf="isProjectSelected(state.selectedProjectIds, state.project)">check</mat-icon>
+                     [ngStyle]="getLegendStyle(isProjectSelected(state.selectedProjectIds, state.project.entryId))">
+                    <mat-icon *ngIf="isProjectSelected(state.selectedProjectIds, state.project.entryId)">check</mat-icon>
                 </div>
                 <span class="fontsize-xs">Select Project</span>
             </div>
@@ -95,14 +95,16 @@
                                              [tooltipPosition]="'above'">Expression Matrix
                                 </hca-tooltip>
                             </p>
-                            <ng-container [ngSwitch]="isAnyProjectMatrixURLAvailable()">
+                            <ng-container [ngSwitch]="isAnyProjectMatrixURLAvailable(state.projectMatrixUrls)">
                                 <ng-container *ngSwitchCase="true">
-                                    here mim
+                                    <p class="fontsize-xs rhs">
+                                        <ng-container *ngIf="isProjectMatrixCSVAvailable(state.projectMatrixUrls)"><a [href]="state.projectMatrixUrls.csvUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>csv</span></ng-container>
+                                        <ng-container *ngIf="isProjectMatrixLoomAvailable(state.projectMatrixUrls)"><a [href]="state.projectMatrixUrls.loomUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>loom</span></ng-container>
+                                        <ng-container *ngIf="isProjectMatrixMtxAvailable(state.projectMatrixUrls)"><a [href]="state.projectMatrixUrls.mtxUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>mtx</span></ng-container>
+                                    </p>
                                 </ng-container>
-                                <p class="fontsize-xs" *ngSwitchDefault>No matrix available</p>
+                                <p class="fontsize-xs" *ngSwitchDefault>No expression matrix available</p>
                             </ng-container>
-                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(state.project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
-
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">

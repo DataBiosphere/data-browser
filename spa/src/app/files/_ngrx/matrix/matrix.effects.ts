@@ -22,7 +22,7 @@ import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { MatrixService } from "../../shared/matrix.service";
-import { selectProjectMatrixUrls } from "./matrix.selectors";
+import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 
 @Injectable()
 export class MatrixEffects {
@@ -78,7 +78,7 @@ export class MatrixEffects {
             ofType(FetchProjectMatrixUrlsRequestAction.ACTION_TYPE),
             switchMap((action) =>
                 this.store.pipe(
-                    select(selectProjectMatrixUrls),
+                    select(selectProjectMatrixUrlsByProjectId),
                     take(1),
                     map((projectMatrixUrls) => {
                         return {projectMatrixUrls, action};

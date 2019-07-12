@@ -29,4 +29,4 @@ export const selectMatrixResponse = createSelector(selectMatrix, (state) => stat
 /**
  * Returns the current set of cached per-project matrix URLs
  */
-export const selectProjectMatrixUrls = createSelector(selectMatrix, (state) => state.matrixUrlsByProjectId);
+export const selectProjectMatrixUrlsByProjectId = createSelector(selectMatrix, (state) => state.matrixUrlsByProjectId);

@@ -15,9 +15,11 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { HCAProjectState } from "./hca-project.state";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
@@ -31,7 +33,6 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-import { HCAProjectState } from "./hca-project.state";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
@@ -185,9 +186,11 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      * @param {ProjectMatrixUrls} projectMatrixURLs
      * @returns {boolean}
      */
-    public isProjectSelected(projectMatrixURLs: ProjectMatrixUrls): boolean {
+    public isAnyProjectMatrixURLAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
 
-        return selectedProjectIds.indexOf(project.entryId) >= 0;
+        return this.isProjectMatrixCSVAvailable(projectMatrixURLs) ||
+            this.isProjectMatrixLoomAvailable(projectMatrixURLs) ||
+            this.isProjectMatrixMtxAvailable(projectMatrixURLs);
     }
 
     /**
@@ -214,15 +217,48 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if matrix with CSV format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixCSVAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.csvUrl;
+    }
+
+    /**
+     * Returns true if matrix with loom format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixLoomAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.loomUrl;
+    }
+
+    /**
+     * Returns true if matrix with loom format is available for this project.
+     *
+     * @param {ProjectMatrixUrls} projectMatrixURLs
+     * @returns {boolean}
+     */
+    public isProjectMatrixMtxAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
+
+        return !!projectMatrixURLs.mtxUrl;
+    }
+    
+    /**
      * Returns true if project is a selected facet.
      *
      * @param {string[]} selectedProjectIds
-     * @param {any} project
+     * @param {string} projectId
      * @returns {boolean}
      */
-    public isProjectSelected(selectedProjectIds: string[], project: any): boolean {
+    public isProjectSelected(selectedProjectIds: string[], projectId: string): boolean {
 
-        return selectedProjectIds.indexOf(project.entryId) >= 0;
+        return selectedProjectIds.indexOf(projectId) >= 0;
     }
 
     /**
@@ -334,6 +370,12 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
         // Determine which matrix formats, if any, are available for download for this project
         this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        
+        // Grab the project matrix URLs, if any, for this project
+        const projectMatrixUrls$ = this.store.pipe(
+            select(selectProjectMatrixUrlsByProjectId),
+            map(projectMatrixUrlsByProjectId => projectMatrixUrlsByProjectId.get(projectId))
+        );
 
         // Grab the ID's of the current set of selected projects, if any
         const selectedProjectIds$ = this.store.pipe(
@@ -343,13 +385,15 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
         this.state$ = combineLatest(
             project$,
+            projectMatrixUrls$,
             selectedProjectIds$
         )
         .pipe(
-            filter(([project, selectedProjectIds]) => !!project),
-            map(([project, selectedProjectIds]) => {
+            filter(([project]) => !!project),
+            map(([project, projectMatrixUrls, selectedProjectIds]) => {
                 return {
                     project,
+                    projectMatrixUrls: projectMatrixUrls || {} as ProjectMatrixUrls,
                     selectedProjectIds
                 }
             })

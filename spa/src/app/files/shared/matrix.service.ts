@@ -8,8 +8,8 @@
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { interval, Observable, of, Subject } from "rxjs";
-import { catchError, filter, map, retry, take } from "rxjs/operators";
+import { forkJoin, interval, Observable, of, Subject } from "rxjs";
+import { catchError, filter, map, retry, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -23,7 +23,6 @@ import { FileManifestService } from "./file-manifest.service";
 import { ManifestResponse } from "./manifest-response.model";
 import { MatrixHttpResponse } from "./matrix-http-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { SearchTermService } from "./search-term.service";
 import { ManifestStatus } from "./manifest-status.model";
 import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 
@@ -64,15 +63,20 @@ export class MatrixService {
         }
 
         // Otherwise we don't have the matrix URLs for this project cached, request them from the server
-        // const test = this.httpClient.head<any>(`http://url.data.humancellatlas.org/project-matrices/cddab57b-6868-4be4-806f-395ed9dd635a/63910278-7763-4aeb-8b3a-15c0e199abd2.csv.zip`);
-        // test.subscribe(console.log);
-        // return test;
-        return of({
-            csvUrl: "http://google.com/csv",
-            entityId: entityId,
-            loomUrl: "http://google.com/loom",
-            mtxUrl: "http://google.com/mtx"
-        });
+        return forkJoin(
+            this.getProjectMatrixUrl(entityId, "csv.zip"),
+            this.getProjectMatrixUrl(entityId, "loom"),
+            this.getProjectMatrixUrl(entityId, "mtx.zip")
+        ).pipe(
+            map(([csvUrl, loomUrl, mtxUrl]) => {
+                return {
+                    csvUrl,
+                    loomUrl,
+                    mtxUrl,
+                    entityId
+                };
+            })
+        );
     }
 
     /**
@@ -275,7 +279,23 @@ export class MatrixService {
             searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
             searchTerm.getSearchValue() === FileFormat.MATRIX);
     }
-    
+
+    /**
+     * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
+     * 
+     * @param {string} entityId
+     * @param {string} matrixFormat
+     * @returns {Observable<string>}
+     */
+    private getProjectMatrixUrl(entityId: string, matrixFormat: string): Observable<string> {
+
+        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${entityId}.${matrixFormat}`;
+        return this.httpClient.head<any>(url).pipe(
+            catchError(() => of("")), // Convert error response to ""
+            switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
+        );
+    }
+
     /**
      * Get the manifest URL for the matrix request.
      * 
