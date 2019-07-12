@@ -19,10 +19,10 @@ import { FetchMatrixUrlRequestAction } from "./fetch-matrix-url-request.action";
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
 import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
-import { AppState } from "../../../_ngrx/app.state";
-import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { MatrixService } from "../../shared/matrix.service";
 import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
+import { AppState } from "../../../_ngrx/app.state";
+import { selectSelectedSearchTerms } from "../search/search.selectors";
 
 @Injectable()
 export class MatrixEffects {
