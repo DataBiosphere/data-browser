@@ -1,0 +1,79 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for get project matrix data component.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Project matrix */
+.project-matrix {
+    background: linear-gradient(rgba(250, 250, 250, 0.87), rgba(250, 250, 250, 0.87)), linear-gradient($hca-white, $hca-white);
+    border: 1px solid $hca-gray-lightest;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    position: absolute;
+    width: 275px;
+    z-index: 120;
+
+    h3, h4, span {
+        margin: 0;
+    }
+
+    h4, span {
+        color: $hca-gray-dark;
+    }
+
+    h3, .file-format span {
+        color: $hca-black;
+    }
+
+    /* Project Title */
+    .project-title {
+        padding: 16px 0;
+        position: relative; /* Positions line */
+
+        /* Line */
+        &:after {
+            border: 1px solid $hca-gray-light;
+            border-radius: 1px;
+            bottom: 0;
+            content: "";
+            display: block;
+            left: 0;
+            position: absolute;
+            width: 48px;
+        }
+    }
+
+    /* File format */
+    .file-format {
+        margin: 24px 0;
+
+        > div {
+            align-items: center;
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        img {
+            height: 14px;
+        }
+
+        span {
+            margin-left: 16px;
+        }
+    }
+
+    /* Close */
+    .close {
+        cursor: pointer;
+        height: 16px;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+}

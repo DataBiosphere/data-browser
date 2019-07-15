@@ -34,7 +34,6 @@ import { EntitiesDataSource } from "../table/entities.data-source";
 import { PaginationModel } from "../table/pagination.model";
 import {
     getColumnClass,
-    getColumnDescription,
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
@@ -60,25 +59,26 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         order: "asc"
     };
     displayedColumns = [
-        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd",
-        "genusSpecies", "disease", "metadataDownload", "matrixExpressions", "fileType", "donorCount", "totalCells"
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "getData",
+        "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getColumnClass = getColumnClass;
-    getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
     getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
     getRowStyle = getRowStyle;
+    getProjectDataMatrixActiveRow;
+    isProjectDataMatrixOpen = false;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<ProjectRowMapper>;
     projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
-    
+
     // Locals
     private ngDestroy$ = new Subject();
     private snapped: boolean;
@@ -107,7 +107,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     /**
      * Returns true if there is at least one matrix expression available for the specified project.
-     * 
+     *
      * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
      * @param {string} projectId
      * @returns {boolean}
@@ -126,6 +126,18 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isProjectSelected(project: any): boolean {
 
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
+    }
+
+    /**
+     * Handle the open/close event of project matrix download.
+     * Update local variables that will determine mat-row and mat-header-row styles.
+     * @param event
+     * @param row
+     */
+    public onProjectDataMatrixOpen(event, row) {
+
+        this.isProjectDataMatrixOpen = event;
+        this.getProjectDataMatrixActiveRow = row;
     }
 
     /**
@@ -235,7 +247,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
-        
+
         // Determine which matrix formats, if any, are available for download for the current set of projects
         this.data$.pipe(
             filter(data => !!data.length),

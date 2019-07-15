@@ -6,7 +6,10 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+
+// App dependencies
+import { getColumnDescription, isColumnSort } from "../table/table-methods";
 
 @Component({
     selector: "hca-table-column-header-title",
@@ -16,4 +19,10 @@ import { Component } from "@angular/core";
 
 export class HCATableColumnHeaderTitleComponent {
 
+    // Inputs
+    @Input() columnName: string;
+
+    // Template variables
+    getColumnDescription = getColumnDescription;
+    isColumnSort = isColumnSort;
 }

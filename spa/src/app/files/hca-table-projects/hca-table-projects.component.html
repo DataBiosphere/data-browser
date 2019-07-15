@@ -6,13 +6,13 @@
             <ng-container matColumnDef="projectTitle">
                 <mat-header-cell *matHeaderCellDef
                                  [ngClass]="getColumnClass('projectTitle')" [ngStyle]="getColumnStyle('projectTitle')">
-                    <hca-table-column-header [columnName]="'projectTitle'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"
-                                             [tooltipContent]="getColumnDescription('projectTitle')"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('projectTitle')}}
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'projectTitle'">
+                            {{getColumnDisplayName('projectTitle')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'projectTitle'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                       [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"
@@ -29,16 +29,18 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="sampleEntityType">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
-                    <hca-table-column-header [columnName]="'sampleEntityType'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [columnSort]="true"
-                                             [tooltipContent]="getColumnDescription('sampleEntityType')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('sampleEntityType')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleEntityType')"
+                                 [ngStyle]="getColumnStyle('sampleEntityType')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'sampleEntityType'">
+                            {{getColumnDisplayName('sampleEntityType')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'sampleEntityType'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')"
+                          [ngStyle]="getColumnStyle('sampleEntityType')">
                     <hca-table-cell [tooltipContent]="element.sampleEntityType"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -48,15 +50,18 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="organ">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
-                    <hca-table-column-header [columnName]="'organ'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('organ')"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('organ')}}</hca-table-column-header-title>
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organ')"
+                                 [ngStyle]="getColumnStyle('organ')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'organ'">
+                            {{getColumnDisplayName('organ')}}
+                        </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'organ'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')"
+                          [ngStyle]="getColumnStyle('organ')">
                     <hca-table-cell [tooltipContent]="element.organ" [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
                             <span class="fontsize-xxs" #cellContent>{{element.organ}}</span>
@@ -65,16 +70,18 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="selectedCellType">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
-                    <hca-table-column-header [columnName]="'selectedCellType'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('selectedCellType')"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('selectedCellType')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('selectedCellType')"
+                                 [ngStyle]="getColumnStyle('selectedCellType')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'selectedCellType'">
+                            {{getColumnDisplayName('selectedCellType')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'selectedCellType'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')"
+                          [ngStyle]="getColumnStyle('selectedCellType')">
                     <hca-table-cell [tooltipContent]="element.selectedCellType"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -85,17 +92,19 @@
             </ng-container>
             <ng-container matColumnDef="libraryConstructionApproach">
                 <mat-header-cell *matHeaderCellDef
-                                 [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
-                    <hca-table-column-header [columnName]="'libraryConstructionApproach'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('libraryConstructionApproach')"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('libraryConstructionApproach')}}
+                                 [ngClass]="getColumnClass('libraryConstructionApproach')"
+                                 [ngStyle]="getColumnStyle('libraryConstructionApproach')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'libraryConstructionApproach'">
+                            {{getColumnDisplayName('libraryConstructionApproach')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'libraryConstructionApproach'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"
-                          [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
+                          [ngClass]="getColumnClass('libraryConstructionApproach')"
+                          [ngStyle]="getColumnStyle('libraryConstructionApproach')">
                     <hca-table-cell [tooltipContent]="element.libraryConstructionApproach" [tooltipDisabled]="true">
                         <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
                     </hca-table-cell>
@@ -104,12 +113,12 @@
             <ng-container matColumnDef="pairedEnd">
                 <mat-header-cell *matHeaderCellDef
                                  [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
-                    <hca-table-column-header [columnName]="'pairedEnd'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('pairedEnd')"
-                                             [columnSort]="true">
-                        <hca-table-column-header-title>{{getColumnDisplayName('pairedEnd')}}
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'pairedEnd'">
+                            {{getColumnDisplayName('pairedEnd')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'pairedEnd'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"
@@ -123,15 +132,18 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="genusSpecies">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
-                    <hca-table-column-header [columnName]="'genusSpecies'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('genusSpecies')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('genusSpecies')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')"
+                                 [ngStyle]="getColumnStyle('genusSpecies')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'genusSpecies'">
+                            {{getColumnDisplayName('genusSpecies')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'genusSpecies'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')"
+                          [ngStyle]="getColumnStyle('genusSpecies')">
                     <hca-table-cell [tooltipContent]="element.genusSpecies"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -141,15 +153,18 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="disease">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
-                    <hca-table-column-header [columnName]="'disease'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('disease')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('disease')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('disease')"
+                                 [ngStyle]="getColumnStyle('disease')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'disease'">
+                            {{getColumnDisplayName('disease')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'disease'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')"
+                          [ngStyle]="getColumnStyle('disease')">
                     <hca-table-cell [tooltipContent]="element.disease"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -158,78 +173,37 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="metadataDownload">
-                <mat-header-cell *matHeaderCellDef [ngStyle]="getColumnStyle('metadataDownload')"
-                                 [ngClass]="getColumnClass('metadataDownload')">
-                    <hca-table-column-header [columnName]="'metadataDownload'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [columnSort]="false"
-                                             [tooltipContent]="getColumnDescription('metadataDownload')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('metadataDownload')}}
-                        </hca-table-column-header-title>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngStyle]="getColumnStyle('metadataDownload')"
-                          [ngClass]="getColumnClass('metadataDownload')">
-                    <hca-table-cell>
-                        <hca-download-metadata [projectId]="element.entryId"></hca-download-metadata>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="matrixExpressions">
-                <mat-header-cell *matHeaderCellDef [ngStyle]="getColumnStyle('matrixExpressions')"
-                                 [ngClass]="getColumnClass('matrixExpressions')">
-                    <hca-table-column-header [columnName]="'matrixExpressions'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [columnSort]="false"
-                                             [tooltipContent]="getColumnDescription('matrixExpressions')">
-                        <hca-table-column-header-title>{{getColumnDisplayName('matrixExpressions')}}
-                        </hca-table-column-header-title>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngStyle]="getColumnStyle('matrixExpressions')"
-                          [ngClass]="getColumnClass('matrixExpressions')">
-                    <hca-table-cell>
-                        <ng-container *ngIf="!isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)">--</ng-container>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="fileType">
+            <ng-container matColumnDef="getData">
                 <mat-header-cell *matHeaderCellDef
-                                 [ngClass]="getColumnClass('fileType')" [ngStyle]="getColumnStyle('fileType')">
-                    <hca-table-column-header [columnName]="'fileType'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [tooltipContent]="getColumnDescription('fileType')"
-                                             [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('fileType')}}
+                                 [ngClass]="getColumnClass('getData')" [ngStyle]="getColumnStyle('getData')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'getData'">
+                            {{getColumnDisplayName('getData')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-download columnSubTitle></hca-table-column-header-download>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileType')"
-                          [ngStyle]="getColumnStyle('fileType')">
+                <mat-cell *matCellDef="let element let j=index;" [ngClass]="getColumnClass('getData')"
+                          [ngStyle]="getColumnStyle('getData')">
                     <hca-table-cell [tooltipDisabled]="true">
-                        <div class="file-count">
-                            <span class="fontsize-xxs">{{element.rawCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.bamCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.matrixCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.otherCount | localeString}}</span>
-                            <span class="fontsize-xxs">{{element.totalCount | localeString}}</span>
-                        </div>
+                        <hca-get-project-data (onProjectDataMatrixOpen)="onProjectDataMatrixOpen($event, j)" [isMatrix]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)" [projectId]="element.entryId" [projectTitle]="element.projectTitle"></hca-get-project-data>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="donorCount">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('donorCount')" [ngStyle]="getColumnStyle('donorCount')">
-                    <hca-table-column-header [columnName]="'donorCount'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [summaryCount]="(selectFileSummary$ | async).donorCount | countSize"
-                                             [tooltipContent]="getColumnDescription('donorCount')"
-                                             [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('donorCount')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('donorCount')"
+                                 [ngStyle]="getColumnStyle('donorCount')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'donorCount'">
+                            {{getColumnDisplayName('donorCount')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'donorCount'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                       [summaryCount]="(selectFileSummary$ | async).donorCount | countSize"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('donorCount')" [ngStyle]="getColumnStyle('donorCount')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('donorCount')"
+                          [ngStyle]="getColumnStyle('donorCount')">
                     <hca-table-cell [tooltipContent]="element.donorCount | localeString"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -239,17 +213,19 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="totalCells">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
-                    <hca-table-column-header [columnName]="'totalCells'"
-                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                             [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"
-                                             [tooltipContent]="getColumnDescription('totalCells')"
-                                             [columnSort]="false">
-                        <hca-table-column-header-title>{{getColumnDisplayName('totalCells')}}
+                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')"
+                                 [ngStyle]="getColumnStyle('totalCells')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'totalCells'">
+                            {{getColumnDisplayName('totalCells')}}
                         </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                       [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
+                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')"
+                          [ngStyle]="getColumnStyle('totalCells')">
                     <hca-table-cell [tooltipContent]="element.totalCells | localeString"
                                     [tooltipDisabled]="isTooltipDisabled(cellContent)">
                         <hca-content-ellipsis>
@@ -258,9 +234,9 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped)"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped, isProjectDataMatrixOpen)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
+                     [ngClass]="getRowClass(i, snapped, isProjectDataMatrixOpen, getProjectDataMatrixActiveRow)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [isData]="data$ | async"></hca-table-data-status-placeholder>

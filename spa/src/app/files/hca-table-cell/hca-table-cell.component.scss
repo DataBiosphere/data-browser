@@ -27,4 +27,6 @@
 /* Centers column contents */
 :host-context(.center) {
     justify-content: center;
+    margin: 0;
+    width: 100%;
 }

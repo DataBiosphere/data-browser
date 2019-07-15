@@ -37,7 +37,6 @@ import { PaginationModel } from "../table/pagination.model";
 import {
     getAge,
     getColumnClass,
-    getColumnDescription,
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
@@ -64,12 +63,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     };
     displayedColumns = [
         "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies",
-        "organismAge", "biologicalSex", "disease", "fileType", "totalCells"
+        "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getAge = getAge;
     getColumnClass = getColumnClass;
-    getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;

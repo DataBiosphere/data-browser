@@ -27,7 +27,6 @@ import { PaginationModel } from "../table/pagination.model";
 import {
     getAge,
     getColumnClass,
-    getColumnDescription,
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
@@ -60,7 +59,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getAge = getAge;
     getColumnClass = getColumnClass;
-    getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;

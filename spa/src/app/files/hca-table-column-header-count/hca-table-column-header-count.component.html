@@ -1,0 +1,10 @@
+<div class="column-count fontsize-xs">
+    <hca-tooltip [tooltipContent]="tooltipContentForCount"
+                 [tooltipDisabled]="false"
+                 [tooltipPosition]="'above'"
+                 [tooltipClass]="'hca-tooltip narrow'"
+                 *ngIf="isDomainCountVisible(columnName)">
+        <span>({{getDomainCountDisplayText(columnName)}})</span>
+    </hca-tooltip>
+    <span *ngIf="isSummaryCountVisible(columnName)"><hca-content-ellipsis>{{summaryCount}}</hca-content-ellipsis></span>
+</div>

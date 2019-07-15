@@ -11,6 +11,9 @@ export interface TableColumn {
     columnFlexValue?: string;
     columnMaxWidth?: number;
     columnMinWidth?: number;
+    columnOverflow?: OverflowType;
+    columnPosition?: PositionType;
+    columnSort: boolean;
     countType: CountType;
     description?: string;
     userFriendly: string;
@@ -26,5 +29,13 @@ export enum CountType {
     "DOMAIN_COUNT",
     "NONE",
     "SUMMARY_COUNT"
+}
+
+export enum OverflowType {
+    "VISIBLE" = "visible"
+}
+
+export enum PositionType {
+    "RELATIVE" = "relative"
 }
 

@@ -8,7 +8,7 @@
 export class ProjectMatrixUrls {
 
     constructor(
-        public readonly entityId: string, 
+        public readonly entityId: string,
         public readonly csvUrl: string,
         public readonly loomUrl: string,
         public readonly mtxUrl: string) {}

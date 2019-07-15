@@ -1,0 +1,13 @@
+<div class="project-matrix" [ngStyle]="getProjectDataByMatrixStyles()">
+    <div>
+        <img class="close" (click)="onGetProjectDataMatrixClose()" src="assets/images/icon/clear.png"/>
+        <h3 class="fontsize-l">Download Expression Matrix</h3>
+        <h4 class="project-title fontsize-m">{{projectTitle}}</h4>
+        <div class="file-format fontsize-s">
+            <div><img src="assets/images/icon/hca-download-black.png"><span>mtx</span></div>
+            <div><img src="assets/images/icon/hca-download-black.png"><span>csv</span></div>
+            <div><img src="assets/images/icon/hca-download-black.png"><span>loom</span></div>
+        </div>
+    </div>
+    <span class="fontsize-xs">For instructions on how to use the expression matrix see the expression matrix userguide.</span>
+</div>

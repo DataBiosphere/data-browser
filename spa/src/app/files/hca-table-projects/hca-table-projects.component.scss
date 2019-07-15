@@ -66,6 +66,53 @@
                 border-bottom: 1px solid $hca-gray-lightest;
             }
 
+            /* Inactive header row and active row overlay */
+            /* Preserves clickable content i.e. sort button or other download matrix buttons, links */
+            .mat-header-row.inactive:after, mat-row.active:after {
+                background-color: transparent;
+                height: 100%;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+
+            /* Header row - inactive overlay */
+            mat-header-row.inactive:after {
+                content: "";
+                position: absolute;
+                z-index: 126; /* Positioned above mat-header-row && project matrix download */
+            }
+
+            /* Row active overlay */
+            mat-row.active:after {
+                position: fixed;
+                z-index: 110;
+            }
+
+            /* Row - active style */
+            mat-row.active:before {
+                background-color: rgba(0, 0, 0, 0.03);
+                bottom: 0;
+                content: "";
+                left: -30px;
+                position: absolute;
+                right: -30px;
+                top: 0;
+                width: auto;
+            }
+
+            /* Inactive row */
+            mat-row.inactive {
+                opacity: 0.24;
+            }
+
+            /* Inactive header row, active or inactive row */
+            /* Positions relevant overlays/shade */
+            /* Activated by project matrix download event [open/close] */
+            mat-header-row.inactive, mat-row.active, mat-row.inactive {
+                position: relative;
+            }
+
             /* Cell - header and cell */
             mat-header-cell, mat-cell {
                 flex: 0 1 8%;
@@ -126,13 +173,6 @@
                     }
                 }
             }
-
-            .file-count span {
-                display: inline-block;
-                line-height: 24px; /* Matches term-count line height */
-                text-align: right;
-                width: 50px;
-            }
         }
     }
 }
@@ -191,6 +231,12 @@
 
             mat-table {
                 margin: 0;
+
+                /* Header row - unsnapped - positions overlay */
+                /* For when project matrix download is active */
+                mat-header-row.inactive:not(.snapped) {
+                    position: relative;
+                }
 
                 /* Snapped header row */
                 mat-header-row.snapped {
