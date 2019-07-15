@@ -12,7 +12,7 @@ import {
 import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { filter, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -26,7 +26,10 @@ import {
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileSummary } from "../file-summary/file-summary";
+import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { ProjectRowMapper } from "./project-row-mapper";
+import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { PaginationModel } from "../table/pagination.model";
 import {
@@ -57,8 +60,8 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         order: "asc"
     };
     displayedColumns = [
-        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "metadataDownload", "fileType",
-        "donorCount", "totalCells"
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd",
+        "genusSpecies", "disease", "metadataDownload", "matrixExpressions", "fileType", "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getColumnClass = getColumnClass;
@@ -74,7 +77,8 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     pagination$: Observable<PaginationModel>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<ProjectRowMapper>;
-
+    projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
+    
     // Locals
     private ngDestroy$ = new Subject();
     private snapped: boolean;
@@ -100,6 +104,18 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     /**
      * Public API
      */
+
+    /**
+     * Returns true if there is at least one matrix expression available for the specified project.
+     * 
+     * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
+     * @param {string} projectId
+     * @returns {boolean}
+     */
+    public isAnyProjectMatrixUrlAvailable(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): boolean {
+
+        return projectsMatrixUrls.has(projectId) && projectsMatrixUrls.get(projectId).isAnyProjectMatrixUrlAvailable();
+    }
 
     /**
      * Returns true if project is in the current set of selected search terms.
@@ -219,5 +235,20 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
+        
+        // Determine which matrix formats, if any, are available for download for the current set of projects
+        this.data$.pipe(
+            filter(data => !!data.length),
+            take(1)
+        ).subscribe((data) => {
+
+            data.forEach((row) =>
+                this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(row.entryId)));
+        });
+
+        // Grab the project matrix URLs, if any, for the current set of projects
+        this.projectsMatrixUrls$ = this.store.pipe(
+            select(selectProjectMatrixUrlsByProjectId)
+        );
     }
 }

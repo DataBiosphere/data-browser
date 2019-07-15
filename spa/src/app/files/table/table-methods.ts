@@ -108,6 +108,15 @@ let tableColumns: TableColumn[] = [
         countType: CountType.NONE
     },
     {
+        key: "matrixExpressions",
+        userFriendly: "Matrix",
+        description: "Available matrix expressions.",
+        alignment: ColumnAlignment.CENTER,
+        columnMaxWidth: 76,
+        columnMinWidth: 76,
+        countType: CountType.NONE
+    },
+    {
         key: "organ",
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",

@@ -176,6 +176,24 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="matrixExpressions">
+                <mat-header-cell *matHeaderCellDef [ngStyle]="getColumnStyle('matrixExpressions')"
+                                 [ngClass]="getColumnClass('matrixExpressions')">
+                    <hca-table-column-header [columnName]="'matrixExpressions'"
+                                             [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                             [columnSort]="false"
+                                             [tooltipContent]="getColumnDescription('matrixExpressions')">
+                        <hca-table-column-header-title>{{getColumnDisplayName('matrixExpressions')}}
+                        </hca-table-column-header-title>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngStyle]="getColumnStyle('matrixExpressions')"
+                          [ngClass]="getColumnClass('matrixExpressions')">
+                    <hca-table-cell>
+                        <ng-container *ngIf="!isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)">--</ng-container>
+                    </hca-table-cell>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="fileType">
                 <mat-header-cell *matHeaderCellDef
                                  [ngClass]="getColumnClass('fileType')" [ngStyle]="getColumnStyle('fileType')">

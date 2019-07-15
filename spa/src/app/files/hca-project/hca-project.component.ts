@@ -181,19 +181,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if a project matrix, in any format, is available for download
-     *
-     * @param {ProjectMatrixUrls} projectMatrixURLs
-     * @returns {boolean}
-     */
-    public isAnyProjectMatrixURLAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
-
-        return this.isProjectMatrixCSVAvailable(projectMatrixURLs) ||
-            this.isProjectMatrixLoomAvailable(projectMatrixURLs) ||
-            this.isProjectMatrixMtxAvailable(projectMatrixURLs);
-    }
-
-    /**
      * Returns true if device is either mobile or tablet.
      * @returns {boolean}
      */
@@ -216,39 +203,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         return projectRole && projectRole.toLowerCase() === "human cell atlas wrangler";
     }
 
-    /**
-     * Returns true if matrix with CSV format is available for this project.
-     *
-     * @param {ProjectMatrixUrls} projectMatrixURLs
-     * @returns {boolean}
-     */
-    public isProjectMatrixCSVAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
-
-        return !!projectMatrixURLs.csvUrl;
-    }
-
-    /**
-     * Returns true if matrix with loom format is available for this project.
-     *
-     * @param {ProjectMatrixUrls} projectMatrixURLs
-     * @returns {boolean}
-     */
-    public isProjectMatrixLoomAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
-
-        return !!projectMatrixURLs.loomUrl;
-    }
-
-    /**
-     * Returns true if matrix with loom format is available for this project.
-     *
-     * @param {ProjectMatrixUrls} projectMatrixURLs
-     * @returns {boolean}
-     */
-    public isProjectMatrixMtxAvailable(projectMatrixURLs: ProjectMatrixUrls): boolean {
-
-        return !!projectMatrixURLs.mtxUrl;
-    }
-    
     /**
      * Returns true if project is a selected facet.
      *

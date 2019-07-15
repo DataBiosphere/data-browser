@@ -69,14 +69,25 @@ export class MatrixService {
             this.getProjectMatrixUrl(entityId, "mtx.zip")
         ).pipe(
             map(([csvUrl, loomUrl, mtxUrl]) => {
-                return {
-                    csvUrl,
-                    loomUrl,
-                    mtxUrl,
-                    entityId
-                };
+                return new ProjectMatrixUrls(entityId, csvUrl, loomUrl, mtxUrl);
             })
         );
+    }
+
+
+    /**
+     * Fetch the set of matrix URLs, if any, that are available for the specified set of projects.
+     *
+     * @param {Map<string, ProjectMatrixUrls>} projectMatrixUrls
+     * @param {string} entityId
+     */
+    public fetchProjectsMatrixURLs(projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityIds: string[]): Observable<ProjectMatrixUrls> {
+
+        entityIds.forEach((entityId) => {
+            this.fetchProjectMatrixURLs(projectMatrixUrls, entityId).subscribe(console.log);
+        });
+        
+        return of({} as ProjectMatrixUrls); // TODO revisit
     }
 
     /**
