@@ -11,6 +11,7 @@ import { ConfigService } from "../../config/config.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 // App dependencies
+import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
     selector: "hca-get-project-data",
@@ -20,9 +21,10 @@ import { DeviceDetectorService } from "ngx-device-detector";
 export class HCAGetProjectDataComponent {
 
     // Inputs
+    @Input() isMatrix: boolean;
     @Input() projectId: string;
     @Input() projectTitle: string;
-    @Input() isMatrix: boolean;
+    @Input() projectURLs: ProjectMatrixUrls;
 
     // Output
     @Output() onProjectDataMatrixOpen = new EventEmitter<boolean>();

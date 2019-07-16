@@ -187,9 +187,10 @@
                           [ngStyle]="getColumnStyle('getData')">
                     <hca-table-cell [tooltipDisabled]="true">
                         <hca-get-project-data (onProjectDataMatrixOpen)="onProjectDataMatrixOpen($event, j)"
-                                              [isMatrix]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                                              [isMatrix]="!isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
                                               [projectId]="element.entryId"
-                                              [projectTitle]="element.projectTitle"></hca-get-project-data>
+                                              [projectTitle]="element.projectTitle"
+                                              [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></hca-get-project-data>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>

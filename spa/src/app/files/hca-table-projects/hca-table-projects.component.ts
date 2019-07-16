@@ -106,6 +106,18 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
 
     /**
+     * Returns the matrix expression for the specified project.
+     * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
+     * @param {string} projectId
+     * @returns {ProjectMatrixUrls}
+     */
+    public getProjectMatrixUrls(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): ProjectMatrixUrls {
+
+        // TODO Mim, confirm if a check is required for whether projectsMatrixUrls.has(projectId) - what to return if false
+        return projectsMatrixUrls.get(projectId);
+    }
+
+    /**
      * Returns true if there is at least one matrix expression available for the specified project.
      *
      * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls

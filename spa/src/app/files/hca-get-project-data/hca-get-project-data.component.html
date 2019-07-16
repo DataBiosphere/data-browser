@@ -12,7 +12,8 @@
         <hca-get-project-matrix-data *ngIf="isProjectDownloadActive"
                                      (onProjectDataMatrixClose)="onProjectDataMatrixClose($event)"
                                      [projectId]="projectId"
-                                     [projectTitle]="projectTitle"></hca-get-project-matrix-data>
+                                     [projectTitle]="projectTitle"
+                                     [projectURLs]="projectURLs"></hca-get-project-matrix-data>
     </ng-container>
     <ng-template #deactivateDownload><img class="download" [src]="imgSrc"/></ng-template>
 </div>
