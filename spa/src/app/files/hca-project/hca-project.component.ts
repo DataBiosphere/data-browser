@@ -129,7 +129,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     public getProjectMetaURL(project: Project): string {
 
         const metaURL = this.configService.getProjectMetaURL();
-        return `${metaURL}/projects/${project.entryId}.tsv`;
+        return `${metaURL}/project-assets/project-metadata/${project.entryId}.tsv`;
     }
 
     /**
