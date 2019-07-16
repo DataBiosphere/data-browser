@@ -186,7 +186,10 @@
                 <mat-cell *matCellDef="let element let j=index;" [ngClass]="getColumnClass('getData')"
                           [ngStyle]="getColumnStyle('getData')">
                     <hca-table-cell [tooltipDisabled]="true">
-                        <hca-get-project-data (onProjectDataMatrixOpen)="onProjectDataMatrixOpen($event, j)" [isMatrix]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)" [projectId]="element.entryId" [projectTitle]="element.projectTitle"></hca-get-project-data>
+                        <hca-get-project-data (onProjectDataMatrixOpen)="onProjectDataMatrixOpen($event, j)"
+                                              [isMatrix]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                                              [projectId]="element.entryId"
+                                              [projectTitle]="element.projectTitle"></hca-get-project-data>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -234,9 +237,11 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped, isProjectDataMatrixOpen)"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns"
+                            [ngClass]="getHeaderClass(snapped, isProjectDataMatrixOpen)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped, isProjectDataMatrixOpen, getProjectDataMatrixActiveRow)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
+                     [ngClass]="getRowClass(i, snapped, isProjectDataMatrixOpen, getProjectDataMatrixActiveRow)"
+                     [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [isData]="data$ | async"></hca-table-data-status-placeholder>

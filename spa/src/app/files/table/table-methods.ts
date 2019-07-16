@@ -137,6 +137,7 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.CENTER,
         columnMaxWidth: 76,
         columnMinWidth: 76,
+        columnSort: false,
         countType: CountType.NONE
     },
     {
