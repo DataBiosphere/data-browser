@@ -294,13 +294,13 @@ export class MatrixService {
     /**
      * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
      *
-     * @param {string} entityId
+     * @param {string} projectId
      * @param {string} matrixFormat
      * @returns {Observable<string>}
      */
-    private getProjectMatrixUrl(entityId: string, matrixFormat: string): Observable<string> {
+    private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
 
-        const url = `${this.configService.getProjectMetaURL()}/project-assets/project-matrices/${entityId}.${matrixFormat}`;
+        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null

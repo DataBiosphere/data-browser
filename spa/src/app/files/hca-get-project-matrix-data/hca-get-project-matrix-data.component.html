@@ -4,9 +4,9 @@
         <h3 class="fontsize-l">Download Expression Matrix</h3>
         <h4 class="project-title fontsize-m">{{projectTitle}}</h4>
         <div class="file-format fontsize-s">
-            <div *ngIf="projectURLs.mtxUrl"><img src="assets/images/icon/hca-download-black.png"><span>mtx</span></div>
-            <div *ngIf="projectURLs.csvUrl"><img src="assets/images/icon/hca-download-black.png"><span>csv</span></div>
-            <div *ngIf="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-black.png"><span>loom</span></div>
+            <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()"><a [href]="projectURLs.mtxUrl"><img src="assets/images/icon/hca-download-black.png"></a><span>mtx</span></div>
+            <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()"><a [href]="projectURLs.csvUrl"><img src="assets/images/icon/hca-download-black.png"></a><span>csv</span></div>
+            <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()"><a [href]="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-black.png"></a><span>loom</span></div>
         </div>
     </div>
     <span class="fontsize-xs">For instructions on how to use the expression matrix see the expression matrix userguide.</span>
