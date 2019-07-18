@@ -2,7 +2,7 @@
     <a [href]="onDownloadMetadata(projectId)" *ngIf="!isDeviceHandheld(); else deactivateDownload">
         <ng-container *ngTemplateOutlet="deactivateDownload"></ng-container>
     </a>
-    <ng-container [ngSwitch]="isMatrix">
+    <ng-container [ngSwitch]="matrixAvailable">
         <ng-container *ngSwitchCase="true">
             <a (click)="onDownloadMatrix(projectId)" *ngIf="!isDeviceHandheld(); else deactivateDownload">
                 <ng-container *ngTemplateOutlet="deactivateDownload"></ng-container>

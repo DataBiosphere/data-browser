@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
 
 // App dependencies
@@ -20,7 +20,7 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
 
     // Inputs
-    @Input() isMatrix: boolean;
+    @Input() matrixAvailable: boolean;
     @Input() projectId: string;
     @Input() projectTitle: string;
     @Input() projectURLs: ProjectMatrixUrls;
@@ -36,7 +36,7 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
     /**
      * @param {ConfigService} configService
      */
-    public constructor(private configService: ConfigService) {
+    public constructor(private configService: ConfigService, private elementRef: ElementRef) {
     }
 
     /**
@@ -63,10 +63,11 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
     public getPositionProjectMatrixDataCard() {
 
         // Get elements.
-        let card = document.getElementsByClassName("project-matrix")[0].getBoundingClientRect(),
-            table = document.getElementsByTagName("mat-table")[0].getBoundingClientRect(),
-            row = document.getElementsByClassName("mat-row active")[0].getBoundingClientRect(),
-            headerRow = document.getElementsByTagName("mat-header-row")[0].getBoundingClientRect();
+        const nativeElement = this.elementRef.nativeElement;
+        let card = nativeElement.firstElementChild.getBoundingClientRect(),
+            table = nativeElement.closest("mat-table").getBoundingClientRect(),
+            row = nativeElement.closest("mat-row").getBoundingClientRect(),
+            headerRow = nativeElement.closest("mat-table").firstElementChild.getBoundingClientRect();
 
         // Get element co-ordinates, window scroll position.
         let cardHeight = card.height;
@@ -75,7 +76,7 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
             rowTop = row.top,
             windowScrollY = window.pageYOffset;
 
-        // Calculate available heights for: window, vertical px above and below card in relation to header row and table bottom, scroll position [includes table snapped/or not].
+       // Calculate available heights for: window, vertical px above and below card in relation to header row and table bottom, scroll position [includes table snapped/or not].
         let availableHeightAboveActiveRow = Math.max(0, (rowTop - table.top - headerRow.height)), // check value when not snapped
             availableHeightBelowActiveRow = (table.bottom - rowBottom),
             cardProjection = (cardHeight - row.height) / 2,
@@ -83,7 +84,7 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
             windowScroll = window.innerWidth < 1280 ? windowScrollY : headerRow.top === 0 ? windowScrollY + headerRow.top : windowScrollY + headerRow.top - 24; // <mat-table> margin top included if table not snapped
 
         // Card positioning.
-        // Car to be centered over active row.
+        // Card to be centered over active row.
         // If this is not possible then the card will be top aligned with first table row, or bottom aligned with last table row.
         this.cardTopStyle = availableHeightAboveActiveRow < cardProjection ? -availableHeightAboveActiveRow + "px" : availableHeightBelowActiveRow < cardProjection ? "unset" : "50%";
         this.cardBottomStyle = availableHeightBelowActiveRow < cardProjection ? -availableHeightBelowActiveRow + "px" : "unset";

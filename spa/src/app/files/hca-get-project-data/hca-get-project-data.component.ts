@@ -21,7 +21,7 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 export class HCAGetProjectDataComponent {
 
     // Inputs
-    @Input() isMatrix: boolean;
+    @Input() matrixAvailable: boolean;
     @Input() projectId: string;
     @Input() projectTitle: string;
     @Input() projectURLs: ProjectMatrixUrls;
