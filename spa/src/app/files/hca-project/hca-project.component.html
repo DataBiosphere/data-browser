@@ -10,7 +10,8 @@
                  (click)="onProjectSelected(state.selectedProjectIds, state.project.entryId, state.project.projectShortname)">
                 <div class="chart-legend-bar"
                      [ngStyle]="getLegendStyle(isProjectSelected(state.selectedProjectIds, state.project.entryId))">
-                    <mat-icon *ngIf="isProjectSelected(state.selectedProjectIds, state.project.entryId)">check</mat-icon>
+                    <mat-icon *ngIf="isProjectSelected(state.selectedProjectIds, state.project.entryId)">check
+                    </mat-icon>
                 </div>
                 <span class="fontsize-xs">Select Project</span>
             </div>
@@ -24,7 +25,8 @@
                         <h4 class="fontsize-m semi-bold">Contact</h4>
                         <ng-container [ngSwitch]="listContributors(state.project.contributors).length > 0">
                             <ng-container *ngSwitchCase="true">
-                                <div *ngFor="let contributor of listContributors(state.project.contributors)" class="details">
+                                <div *ngFor="let contributor of listContributors(state.project.contributors)"
+                                     class="details">
                                     <p class="fontsize-xxs">{{formatContributor(contributor.contactName)}}</p>
                                     <p class="fontsize-xxs">{{contributor.institution}}</p>
                                     <p class="fontsize-xxs">{{contributor.email}}</p>
@@ -65,7 +67,8 @@
                     <div>
                         <p class="fontsize-xs semi-bold lhs">GEO Series Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.geoSeriesAccessions, "Unspecified")}}</p>
+                            <p class="fontsize-xs">{{stringifyValues(state.project.geoSeriesAccessions,
+                                "Unspecified")}}</p>
                         </div>
                     </div>
                     <div>
@@ -78,7 +81,8 @@
                     <div>
                         <p class="fontsize-xs semi-bold lhs">INSDC Study Accessions</p>
                         <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.insdcStudyAccessions, "Unspecified")}}</p>
+                            <p class="fontsize-xs">{{stringifyValues(state.project.insdcStudyAccessions,
+                                "Unspecified")}}</p>
                         </div>
                     </div>
                 </div>
@@ -97,10 +101,16 @@
                             </p>
                             <ng-container [ngSwitch]="state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
                                 <ng-container *ngSwitchCase="true">
-                                    <p class="fontsize-xs rhs">
-                                        <ng-container *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a [href]="state.projectMatrixUrls.csvUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>csv</span></ng-container>
-                                        <ng-container *ngIf="state.projectMatrixUrls.isProjectMatrixLoomAvailable()"><a [href]="state.projectMatrixUrls.loomUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>loom</span></ng-container>
-                                        <ng-container *ngIf="state.projectMatrixUrls.isProjectMatrixMtxAvailable()"><a [href]="state.projectMatrixUrls.mtxUrl"><img src="assets/images/icon/hca-download-black.png"/></a><span>mtx</span></ng-container>
+                                    <p class="fontsize-xs rhs downloads">
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a
+                                                [href]="state.projectMatrixUrls.csvUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/></a><span>csv</span></span>
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixLoomAvailable()"><a
+                                                [href]="state.projectMatrixUrls.loomUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/></a><span>loom</span></span>
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixMtxAvailable()"><a
+                                                [href]="state.projectMatrixUrls.mtxUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/></a><span>mtx</span></span>
                                     </p>
                                 </ng-container>
                                 <p class="fontsize-xs rhs" *ngSwitchDefault>No expression matrix available</p>
@@ -114,7 +124,11 @@
                                              [tooltipPosition]="'above'">Project Metadata
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs"><a [href]="getProjectMetaURL(state.project)"><img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span></p>
+                            <p class="fontsize-xs rhs downloads">
+                                <span><a [href]="getProjectMetaURL(state.project)">
+                                    <img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span>
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <div class="project-details">
@@ -137,7 +151,8 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('genusSpecies')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.genusSpecies, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.genusSpecies,
+                                "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -249,7 +264,7 @@
                             <p class="fontsize-xs rhs">{{state.project.totalCount | localeString}}</p>
                         </div>
                     </div>
-                    <div class="project-views" *ngIf="isAvailable">
+                    <div class="project-views" *ngIf="analysisToolsAvailable">
                         <h4 class="fontsize-m semi-bold">View in Analysis Tool</h4>
                         <div>
                             <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
@@ -261,7 +276,7 @@
                                                                     rel="noopener noreferrer">Xena</a></p>
                         </div>
                     </div>
-                    <div class="project-workflows" *ngIf="isAvailable">
+                    <div class="project-workflows" *ngIf="analysisToolsAvailable">
                         <h4 class="fontsize-m semi-bold">Launch Workflow</h4>
                         <div>
                             <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank" rel="noopener noreferrer">Send

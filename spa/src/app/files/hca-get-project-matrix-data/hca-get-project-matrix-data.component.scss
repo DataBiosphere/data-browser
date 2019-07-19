@@ -15,9 +15,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 16px;
-    position: absolute;
     width: 275px;
-    z-index: 120;
 
     h3, h4, span {
         margin: 0;
@@ -59,8 +57,14 @@
             margin-bottom: 8px;
         }
 
+        /* Hover */
+        > div:hover img {
+            opacity: 1;
+        }
+
         img {
             height: 14px;
+            opacity: 0.38;
         }
 
         span {

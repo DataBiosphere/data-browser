@@ -30,8 +30,8 @@ export class HCAGetProjectDataComponent {
     @Output() onProjectDataMatrixOpen = new EventEmitter<boolean>();
 
     // Template variables
-    imgSrc = this.isDeviceHandheld() ? "assets/images/icon/hca-download-black.png" : "assets/images/icon/hca-download-primary.png";
     isProjectDownloadActive = false;
+    top;
 
     /**
      * @param {ConfigService} configService
@@ -60,10 +60,14 @@ export class HCAGetProjectDataComponent {
      * @param {string} projectId
      * @returns {string}
      */
-    public onDownloadMetadata(projectId: string): string {
+    public onDownloadMetadata(projectId: string) {
+
+        if ( this.isDeviceHandheld() ) {
+            return; // do nothing
+        }
 
         const metaURL = this.configService.getProjectMetaURL();
-        return `${metaURL}/projects/${this.projectId}.tsv`;
+        window.location.href = `${metaURL}/projects/${this.projectId}.tsv`; // TODO review Mim
     }
 
     /**
@@ -71,6 +75,10 @@ export class HCAGetProjectDataComponent {
      * @param {string} projectId
      */
     public onDownloadMatrix(projectId: string) {
+
+        if ( this.isDeviceHandheld() || !this.matrixAvailable ) {
+            return false; // do nothing
+        }
 
         this.onProjectDataMatrixOpen.emit(true);
         this.isProjectDownloadActive = true;
@@ -83,5 +91,10 @@ export class HCAGetProjectDataComponent {
 
         this.onProjectDataMatrixOpen.emit(false);
         this.isProjectDownloadActive = false;
+    }
+
+    public onProjectDataMatrixPosition(event) {
+        console.log(event);
+        this.top = event;
     }
 }

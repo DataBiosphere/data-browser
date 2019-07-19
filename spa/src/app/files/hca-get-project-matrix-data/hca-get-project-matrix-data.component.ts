@@ -27,11 +27,7 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
 
     // Output
     @Output() onProjectDataMatrixClose = new EventEmitter<boolean>();
-
-    // Template variables
-    cardBottomStyle;
-    cardTopStyle;
-    cardTransformStyle;
+    @Output() onProjectDataMatrixPosition = new EventEmitter<string>();
 
     /**
      * @param {ConfigService} configService
@@ -42,19 +38,6 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
     /**
      * Public API
      */
-
-    /**
-     * Return the inline style configuration for the get project matrix data card.
-     * @returns {{bottom: any; left: string; top: any; transform: string}}
-     */
-    getProjectDataByMatrixStyles() {
-        return {
-            "bottom": this.cardBottomStyle,
-            "left": "50%",
-            "top": this.cardTopStyle,
-            "transform": this.cardTransformStyle
-        };
-    }
 
     /**
      * Determines of the position of the project matrix data card relative to the active row.
@@ -70,34 +53,32 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
             headerRow = nativeElement.closest("mat-table").firstElementChild.getBoundingClientRect();
 
         // Get element co-ordinates, window scroll position.
-        let cardHeight = card.height;
-        let headerRowBottom = headerRow.bottom,
-            rowBottom = row.bottom,
-            rowTop = row.top,
-            windowScrollY = window.pageYOffset;
+        // let cardHeight = card.height;
+        // let rowTop = row.top;
+        // let headerRowBottom = headerRow.bottom,
+        // rowBottom = row.bottom,
+        // windowScrollY = window.pageYOffset;
 
-       // Calculate available heights for: window, vertical px above and below card in relation to header row and table bottom, scroll position [includes table snapped/or not].
-        let availableHeightAboveActiveRow = Math.max(0, (rowTop - table.top - headerRow.height)), // check value when not snapped
-            availableHeightBelowActiveRow = (table.bottom - rowBottom),
-            cardProjection = (cardHeight - row.height) / 2,
-            windowAvailability = window.innerWidth < 1280 ? window.innerHeight : window.innerHeight - headerRowBottom,
-            windowScroll = window.innerWidth < 1280 ? windowScrollY : headerRow.top === 0 ? windowScrollY + headerRow.top : windowScrollY + headerRow.top - 24; // <mat-table> margin top included if table not snapped
+        // Calculate available heights for: window, vertical px above and below active row in relation to header row and table bottom, scroll position [includes table snapped/or not].
+        let availableHeightAboveActiveRow = Math.max(0, (row.top - table.top - headerRow.height)); // check value when not snapped
+        // availableHeightBelowActiveRow = (table.bottom - rowBottom),
+        // windowAvailability = window.innerWidth < 1280 ? window.innerHeight : window.innerHeight - headerRowBottom,
+        // windowScroll = window.innerWidth < 1280 ? windowScrollY : headerRow.top === 0 ? windowScrollY + headerRow.top : windowScrollY + headerRow.top - 24;
+        // <mat-table> margin top included if table not snapped
 
         // Card positioning.
-        // Card to be centered over active row.
-        // If this is not possible then the card will be top aligned with first table row, or bottom aligned with last table row.
-        this.cardTopStyle = availableHeightAboveActiveRow < cardProjection ? -availableHeightAboveActiveRow + "px" : availableHeightBelowActiveRow < cardProjection ? "unset" : "50%";
-        this.cardBottomStyle = availableHeightBelowActiveRow < cardProjection ? -availableHeightBelowActiveRow + "px" : "unset";
-        this.cardTransformStyle = cardProjection <= availableHeightAboveActiveRow && cardProjection <= availableHeightBelowActiveRow ? "translate(-50%, -50%)" : "translateX(-50%)";
+        // Default position is above active row, unless there is insufficent space and then it will be positioned below the active row.
+        let projectDataMatrixTopPosition = availableHeightAboveActiveRow > card.height ? -card.height + "px" : "100%";
+        this.onProjectDataMatrixPosition.emit(projectDataMatrixTopPosition);
 
-        // Get card top and bottom position - based on the rules above.
-        let cardBottomPosition = availableHeightBelowActiveRow < cardProjection ? rowBottom + availableHeightBelowActiveRow : availableHeightAboveActiveRow < cardProjection ? rowTop - availableHeightAboveActiveRow + cardHeight : rowBottom + cardProjection;
-        let cardTopPosition = availableHeightAboveActiveRow < cardProjection ? rowTop - availableHeightAboveActiveRow : availableHeightBelowActiveRow < cardProjection ? rowBottom + availableHeightBelowActiveRow - cardHeight : rowTop - cardProjection;
+        // Get viewing extents of the card and its active row.
+        // let bottomViewingExtent = card.bottom > rowBottom ? card.bottom : rowBottom;
+        // let topViewingExtent = card.top < rowTop ? card.top : rowTop;
 
         // Card position related to window.
         // This will assist with scroll, if required.
-        let cardHiddenByBottom = cardBottomPosition - window.innerHeight;
-        let cardHiddenByTop = window.innerWidth >= 1280 ? cardTopPosition - headerRowBottom : cardTopPosition;
+        // let hiddenByBottom = window.innerHeight - bottomViewingExtent;
+        // let hiddenByTop = window.innerWidth >= 1280 ? topViewingExtent - headerRowBottom : topViewingExtent;
 
         // Scroll if card is partially hidden by window view or by table header row when table is snapped.
         // If window size is sufficient to display whole card, then the screen should scroll to always show the full card.
@@ -106,19 +87,19 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit {
         // top align card with mat-header-row,
         // or, bottom align card with the bottom of the table,
         // or, if card does not require scrolling to fully display card then screen should not scroll.
-        if ( cardHiddenByTop <= 0 || (cardHeight > windowAvailability) ) {
-
-            let scrollBy = rowTop <= 0 && window.innerWidth >= 1280 ? cardTopPosition : cardHiddenByTop;
-            window.scrollTo({left: 0, top: windowScroll + scrollBy, behavior: "smooth"});
-        }
-        else if ( cardHiddenByBottom > 0 ) {
-
-            window.scrollTo({left: 0, top: windowScroll + cardHiddenByBottom, behavior: "smooth"});
-        }
-        else {
-
-            return; // do nothing
-        }
+        // if ( hiddenByTop <= 0 || (cardHeight > windowAvailability) ) {
+        //
+        //     let scrollBy = rowTop <= 0 && window.innerWidth >= 1280 ? topViewingExtent : hiddenByTop;
+        //     window.scrollTo({left: 0, top: windowScroll + scrollBy, behavior: "smooth"});
+        // }
+        // else if ( hiddenByBottom < 0 ) {
+        //
+        //     window.scrollTo({left: 0, top: windowScroll - hiddenByBottom, behavior: "smooth"});
+        // }
+        // else {
+        //
+        //     return; // do nothing
+        // }
     }
 
     /**

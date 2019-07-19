@@ -16,26 +16,35 @@
         justify-content: space-around;
 
         /* Download icon */
-        .download {
+        > div {
+            background: url("/assets/images/icon/hca-download-primary.png") center / 14px 14px no-repeat;
             cursor: pointer;
-            width: 14px;
+            height: 48px;
+            width: 48px;
         }
 
-        /* "--" */
-        p {
-            margin: 0;
-        }
-
-        /* Handheld device */
-        /* Download icon - inactive */
-        &.device .download {
+        /* Download - unavailable */
+        .unavailable {
+            background: url("/assets/images/icon/no-result-dark.png") center / 14px 14px no-repeat;
             cursor: default;
-            opacity: 0.06;
+            opacity: 1;
         }
 
         /* Handheld device */
-        &.device p {
-            opacity: 0.54;
+        /* Download - inactive */
+        &.device {
+
+            > div:not(.unavailable) {
+                background: url("/assets/images/icon/hca-download-black.png") center / 14px 14px no-repeat;
+                cursor: default;
+                opacity: 0.34;
+            }
         }
+    }
+
+    hca-get-project-matrix-data {
+        position: absolute;
+        right: 0;
+        z-index: 120;
     }
 }

@@ -45,10 +45,9 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 export class HCAProjectComponent implements OnDestroy, OnInit {
 
     // Template variables
+    analysisToolsAvailable: false; // TODO remove
     getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
-    isSelected: boolean;
-    isAvailable: false; // TODO remove
     state$: Observable<HCAProjectState>;
 
     // Locals
@@ -324,7 +323,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
         // Determine which matrix formats, if any, are available for download for this project
         this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
-        
+
         // Grab the project matrix URLs, if any, for this project
         const projectMatrixUrls$ = this.store.pipe(
             select(selectProjectMatrixUrlsByProjectId),
@@ -349,7 +348,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
                     project,
                     projectMatrixUrls: projectMatrixUrls || {} as ProjectMatrixUrls,
                     selectedProjectIds
-                }
+                };
             })
         );
     }

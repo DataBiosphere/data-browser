@@ -1,19 +1,11 @@
 <div [ngClass]="{'project-data': true, 'device': isDeviceHandheld()}">
-    <a [href]="onDownloadMetadata(projectId)" *ngIf="!isDeviceHandheld(); else deactivateDownload">
-        <ng-container *ngTemplateOutlet="deactivateDownload"></ng-container>
-    </a>
-    <ng-container [ngSwitch]="matrixAvailable">
-        <ng-container *ngSwitchCase="true">
-            <a (click)="onDownloadMatrix(projectId)" *ngIf="!isDeviceHandheld(); else deactivateDownload">
-                <ng-container *ngTemplateOutlet="deactivateDownload"></ng-container>
-            </a>
-        </ng-container>
-        <p *ngSwitchDefault class="fontsize-xxs">--</p>
-        <hca-get-project-matrix-data *ngIf="isProjectDownloadActive"
-                                     (onProjectDataMatrixClose)="onProjectDataMatrixClose($event)"
-                                     [projectId]="projectId"
-                                     [projectTitle]="projectTitle"
-                                     [projectURLs]="projectURLs"></hca-get-project-matrix-data>
-    </ng-container>
-    <ng-template #deactivateDownload><img class="download" [src]="imgSrc"/></ng-template>
+    <div (click)="onDownloadMetadata(projectId)"></div>
+    <div [ngClass]="{'unavailable': !matrixAvailable}" (click)="onDownloadMatrix(projectId)"></div>
+    <hca-get-project-matrix-data *ngIf="isProjectDownloadActive"
+                                 [ngStyle]="{'top': top}"
+                                 (onProjectDataMatrixClose)="onProjectDataMatrixClose($event)"
+                                 (onProjectDataMatrixPosition)="onProjectDataMatrixPosition($event)"
+                                 [projectId]="projectId"
+                                 [projectTitle]="projectTitle"
+                                 [projectURLs]="projectURLs"></hca-get-project-matrix-data>
 </div>

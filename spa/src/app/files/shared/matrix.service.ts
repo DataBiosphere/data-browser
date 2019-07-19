@@ -300,8 +300,8 @@ export class MatrixService {
      */
     private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
 
-        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
-        // const url = `http://url.data.humancellatlas.org/project-matrices/cddab57b-6868-4be4-806f-395ed9dd635a.${matrixFormat}`;
+        // const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
+        const url = `http://url.data.humancellatlas.org/project-matrices/cddab57b-6868-4be4-806f-395ed9dd635a.${matrixFormat}`;
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
