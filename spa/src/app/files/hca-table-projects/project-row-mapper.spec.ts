@@ -76,7 +76,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual("Unspecified");
+            expect(mappedProject.donorCount).toEqual(0);
             done();
         })
     });
@@ -91,7 +91,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual(projectToMap.projectSummary.donorCount);
+            expect(mappedProject.donorCount).toEqual(projectToMap.donorOrganisms[0].id.length);
             done();
         })
     });
@@ -105,7 +105,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual("Unspecified");
+            expect(mappedProject.donorCount).toEqual(0);
             done();
         })
     });
@@ -150,7 +150,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.libraryConstructionApproach).toEqual(projectToMap.projectSummary.libraryConstructionApproach);
+            expect(mappedProject.libraryConstructionApproach).toEqual(projectToMap.protocols[0].libraryConstructionApproach[0]);
             done();
         })
     });

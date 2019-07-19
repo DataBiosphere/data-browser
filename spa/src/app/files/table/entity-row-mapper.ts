@@ -7,15 +7,15 @@
  */
 
 // App dependencies
-import { getUnspecifiedIfNullValue, rollUpMetadata } from "./table-methods";
+import { getUnspecifiedIfEmpty, getUnspecifiedIfNullValue, rollUpMetadata } from "./table-methods";
 import { EntityRow } from "./entity-row.model";
 
 export class EntityRowMapper {
     
     private cellSuspensions;
-    private donorOrganisms;
     private organs;
 
+    protected donorOrganisms;
     protected projects;
     protected protocols;
     protected row;
@@ -51,11 +51,19 @@ export class EntityRowMapper {
      */
     public mapRow(): EntityRow {
 
+        // Library construction approach should be displayed as "Unspecified" if it is null, or empty array
+        const libraryConstructionApproach = this.protocols.libraryConstructionApproach;
+        const mappedLibraryConstructionApproach = Array.isArray(libraryConstructionApproach) ?
+            getUnspecifiedIfEmpty(libraryConstructionApproach) :
+            getUnspecifiedIfNullValue(libraryConstructionApproach);
+
+
         return {
             ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
             disease: getUnspecifiedIfNullValue(this.samples.disease),
             genusSpecies: getUnspecifiedIfNullValue(this.donorOrganisms.genusSpecies),
+            libraryConstructionApproach: mappedLibraryConstructionApproach,
             organ: getUnspecifiedIfNullValue(this.organs),
             organismAge: getUnspecifiedIfNullValue(this.donorOrganisms.organismAge),
             organPart: getUnspecifiedIfNullValue(this.samples.organPart),

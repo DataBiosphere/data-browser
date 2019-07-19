@@ -32,7 +32,6 @@ export class FileRowMapper extends EntityRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            libraryConstructionApproach: getUnspecifiedIfNullValue(this.protocols.libraryConstructionApproach),
             specimenId: getSelfOrFirst(this.specimens.id),
             fileFormat: this.file.format,
             fileName: this.file.name,

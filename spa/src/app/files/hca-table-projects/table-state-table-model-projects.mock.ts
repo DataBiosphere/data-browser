@@ -165,24 +165,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -337,24 +320,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -509,24 +475,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -681,24 +630,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -853,24 +785,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -1025,24 +940,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -1197,24 +1095,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -1369,24 +1250,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -1541,24 +1405,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     },
     {
         "protocols": [
@@ -1713,24 +1560,7 @@ const PROJECTS_DATA = [
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     }
 ];
 
