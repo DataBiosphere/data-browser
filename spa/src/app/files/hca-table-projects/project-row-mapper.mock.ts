@@ -160,24 +160,7 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [
-                "10x_v2"
-            ],
-            "disease": [
-                "x"
-            ]
-        }
+        ]
     };
 
 // Example of project with multiple values within single objects
@@ -301,7 +284,8 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
         "donorOrganisms": [
             {
                 "id": [
-                    "420508"
+                    "420508",
+                    "123456"
                 ],
                 "genusSpecies": [
                     "Mus musculus"
@@ -363,20 +347,7 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [],
-            "disease": []
-        }
+        ]
     };
 
 // Example of project with single and multiple values across multiple objects
@@ -657,20 +628,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "count": 1,
                 "totalSize": 637725
             }
-        ],
-        "projectSummary": {
-            "donorCount": 1,
-            "totalCellCount": 0,
-            "organTypes": [
-                "brain"
-            ],
-            "cellCountSummaries": [],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [],
-            "disease": []
-        }
+        ]
     };
 
 // Example of project with empty array values
@@ -731,24 +689,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
         ],
         "organoids": [],
         "cellSuspensions": [],
-        "fileTypeSummaries": [],
-        "projectSummary": {
-            "donorCount": 12345,
-            "totalCellCount": 1330000,
-            "organTypes": [],
-            "cellCountSummaries": [
-                {
-                    "organType": [],
-                    "countOfDocsWithOrganType": 1,
-                    "totalCellCountByOrgan": 1330000
-                }
-            ],
-            "genusSpecies": [
-                "Mus musculus"
-            ],
-            "libraryConstructionApproach": [],
-            "disease": []
-        }
+        "fileTypeSummaries": []
     };
 
 // Example of project with top level null values
@@ -763,8 +704,7 @@ export const PROJECT_ROW_NULL_TOP_LEVEL_VALUES =
         "donorOrganisms": null,
         "organoids": null,
         "cellSuspensions": null,
-        "fileTypeSummaries": null,
-        "projectSummary": null
+        "fileTypeSummaries": null
     };
 
 // Example of project with null values
@@ -860,20 +800,5 @@ export const PROJECT_ROW_NULL_VALUES =
                 "count": null,
                 "totalSize": null
             }
-        ],
-        "projectSummary": {
-            "donorCount": null,
-            "totalCellCount": null,
-            "organTypes": null,
-            "cellCountSummaries": [
-                {
-                    "organType": null,
-                    "countOfDocsWithOrganType": null,
-                    "totalCellCountByOrgan": null
-                }
-            ],
-            "genusSpecies": null,
-            "libraryConstructionApproach": null,
-            "disease": null
-        }
+        ]
     };

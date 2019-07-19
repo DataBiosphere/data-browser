@@ -25,8 +25,7 @@ export class SampleRowMapper extends FileTypeSummariesRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            sampleId: getSelfOrFirst(this.samples.id),
-            libraryConstructionApproach: getUnspecifiedIfNullValue(this.protocols.libraryConstructionApproach)
+            sampleId: getSelfOrFirst(this.samples.id)
         });
     }
 }
