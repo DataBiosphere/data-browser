@@ -30,6 +30,8 @@ import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { HCATableSamplesComponent } from "./hca-table-samples.component";
+import { HCAGetProjectMatrixDataComponent } from "../hca-get-project-matrix-data/hca-get-project-matrix-data.component";
+import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -44,8 +46,10 @@ describe("HCATableSamplesComponent", () => {
             declarations: [
                 HCAContentEllipsisComponent,
                 HCAGetProjectDataComponent,
+                HCAGetProjectMatrixDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
+                HCATableColumnHeaderCountComponent,
                 HCATableColumnHeaderTitleComponent,
                 HCATableDataStatusPlaceholderComponent,
                 HCATablePaginationComponent,
@@ -191,7 +195,7 @@ describe("HCATableSamplesComponent", () => {
     function findHeader(columnName: string): DebugElement {
 
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header[ng-reflect-column-name="${columnName}"]`)
+            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
         );
     }
 
