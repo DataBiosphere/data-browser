@@ -116,6 +116,18 @@ export class ConfigService {
     }
 
     /**
+     * Returns the complete URL for the download of the prepared matrix for the specified project.
+     *
+     * @param {string} projectId
+     * @param {string} matrixFormat
+     * @returns {string}
+     */
+    public getProjectPreparedMatrixDownloadURL(projectId: string, matrixFormat: string): string {
+
+        return `${this.getProjectMetaURL()}/project-assets/project-matrices/${projectId}.${matrixFormat}`;
+    }
+
+    /**
      * Return the full data API URL for this Boardwalk instance.
      *
      * @returns {string}

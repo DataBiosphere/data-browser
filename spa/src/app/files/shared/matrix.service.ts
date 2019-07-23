@@ -284,7 +284,7 @@ export class MatrixService {
      */
     private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
 
-        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
+        const url = this.configService.getProjectPreparedMatrixDownloadURL(projectId, matrixFormat);
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
