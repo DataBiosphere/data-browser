@@ -93,8 +93,10 @@ export class HCAGetProjectDataComponent {
         this.isProjectDownloadActive = false;
     }
 
+    /**
+     * @param event
+     */
     public onProjectDataMatrixPosition(event) {
-        console.log(event);
         this.top = event;
     }
 }

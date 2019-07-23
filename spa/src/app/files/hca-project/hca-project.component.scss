@@ -59,6 +59,10 @@ hca-section-title + hca-tab {
 
     /* Downloads */
     p.downloads {
+        
+        a {
+            color: $hca-black;
+        }
 
         /* Icon */
         img {
@@ -68,7 +72,7 @@ hca-section-title + hca-tab {
         }
 
         /* Download - hover */
-        img:hover {
+        a:hover img {
             opacity: 1;
         }
 

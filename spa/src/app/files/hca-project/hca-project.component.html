@@ -94,31 +94,6 @@
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
                                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                             [tooltipContent]="'Download expression matrix'"
-                                             [tooltipDisabled]="false"
-                                             [tooltipPosition]="'above'">Expression Matrix
-                                </hca-tooltip>
-                            </p>
-                            <ng-container [ngSwitch]="state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
-                                <ng-container *ngSwitchCase="true">
-                                    <p class="fontsize-xs rhs downloads">
-                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a
-                                                [href]="state.projectMatrixUrls.csvUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/></a><span>csv</span></span>
-                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixLoomAvailable()"><a
-                                                [href]="state.projectMatrixUrls.loomUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/></a><span>loom</span></span>
-                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixMtxAvailable()"><a
-                                                [href]="state.projectMatrixUrls.mtxUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/></a><span>mtx</span></span>
-                                    </p>
-                                </ng-container>
-                                <p class="fontsize-xs rhs" *ngSwitchDefault>No expression matrix available</p>
-                            </ng-container>
-                        </div>
-                        <div>
-                            <p class="fontsize-xs semi-bold lhs">
-                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                                              [tooltipContent]="'Download project metadata'"
                                              [tooltipDisabled]="false"
                                              [tooltipPosition]="'above'">Project Metadata
@@ -126,9 +101,34 @@
                             </p>
                             <p class="fontsize-xs rhs downloads">
                                 <span><a [href]="getProjectMetaURL(state.project)">
-                                    <img src="assets/images/icon/hca-download-black.png"/></a><span>tsv</span>
+                                    <img src="assets/images/icon/hca-download-black.png"/><span>tsv</span></a>
                                 </span>
                             </p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="'Download expression matrix'"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">Expression Matrix
+                                </hca-tooltip>
+                            </p>
+                            <ng-container [ngSwitch]="state.projectMatrixUrls && state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
+                                <ng-container *ngSwitchCase="true">
+                                    <p class="fontsize-xs rhs downloads">
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a
+                                                [href]="state.projectMatrixUrls.csvUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/><span>csv</span></a></span>
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixLoomAvailable()"><a
+                                                [href]="state.projectMatrixUrls.loomUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/><span>loom</span></a></span>
+                                        <span *ngIf="state.projectMatrixUrls.isProjectMatrixMtxAvailable()"><a
+                                                [href]="state.projectMatrixUrls.mtxUrl"><img
+                                                src="assets/images/icon/hca-download-black.png"/><span>mtx</span></a></span>
+                                    </p>
+                                </ng-container>
+                                <p class="fontsize-xs rhs" *ngSwitchDefault>No expression matrix available</p>
+                            </ng-container>
                         </div>
                     </div>
                     <div class="project-details">

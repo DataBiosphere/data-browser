@@ -23,7 +23,6 @@ import { MatrixService } from "../../shared/matrix.service";
 import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
-import { FetchProjectsMatrixUrlsRequestAction } from "./fetch-projects-matrix-urls-request.action";
 
 @Injectable()
 export class MatrixEffects {
@@ -89,28 +88,6 @@ export class MatrixEffects {
             mergeMap(({projectMatrixUrls, action}) =>
                 this.matrixService.fetchProjectMatrixURLs(
                     projectMatrixUrls, (action as FetchProjectMatrixUrlsRequestAction).entityId)),
-            map(response => new FetchProjectMatrixUrlsSuccessAction(response))
-        );
-
-    /**
-     * Request matrix URLs, if any, for the specified set of projects.
-     */
-    @Effect()
-    fetchProjectsMatrixURLs$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchProjectsMatrixUrlsRequestAction.ACTION_TYPE),
-            switchMap((action) =>
-                this.store.pipe(
-                    select(selectProjectMatrixUrlsByProjectId),
-                    take(1),
-                    map((projectMatrixUrls) => {
-                        return {projectMatrixUrls, action};
-                    })
-                )
-            ),
-            mergeMap(({projectMatrixUrls, action}) =>
-                this.matrixService.fetchProjectsMatrixURLs(
-                    projectMatrixUrls, (action as FetchProjectsMatrixUrlsRequestAction).entityIds)),
             map(response => new FetchProjectMatrixUrlsSuccessAction(response))
         );
 }

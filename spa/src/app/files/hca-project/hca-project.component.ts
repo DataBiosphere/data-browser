@@ -346,7 +346,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             map(([project, projectMatrixUrls, selectedProjectIds]) => {
                 return {
                     project,
-                    projectMatrixUrls: projectMatrixUrls || {} as ProjectMatrixUrls,
+                    projectMatrixUrls: projectMatrixUrls,
                     selectedProjectIds
                 };
             })

@@ -74,22 +74,6 @@ export class MatrixService {
         );
     }
 
-
-    /**
-     * Fetch the set of matrix URLs, if any, that are available for the specified set of projects.
-     *
-     * @param {Map<string, ProjectMatrixUrls>} projectMatrixUrls
-     * @param {string} entityId
-     */
-    public fetchProjectsMatrixURLs(projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityIds: string[]): Observable<ProjectMatrixUrls> {
-
-        entityIds.forEach((entityId) => {
-            this.fetchProjectMatrixURLs(projectMatrixUrls, entityId).subscribe(console.log);
-        });
-
-        return of({} as ProjectMatrixUrls); // TODO revisit
-    }
-
     /**
      * Request manifest URL then kick off matrix URL request.
      *
@@ -300,8 +284,7 @@ export class MatrixService {
      */
     private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
 
-        // const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
-        const url = `http://url.data.humancellatlas.org/project-matrices/cddab57b-6868-4be4-806f-395ed9dd635a.${matrixFormat}`;
+        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
