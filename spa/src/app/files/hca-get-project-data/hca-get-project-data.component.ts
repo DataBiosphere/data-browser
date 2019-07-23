@@ -67,7 +67,7 @@ export class HCAGetProjectDataComponent {
         }
 
         const metaURL = this.configService.getProjectMetaURL();
-        window.location.href = `${metaURL}/projects/${this.projectId}.tsv`; // TODO review Mim
+        window.location.href = `${metaURL}/project-assets/project-metadata/${this.projectId}.tsv`;
     }
 
     /**
