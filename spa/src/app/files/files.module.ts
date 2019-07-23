@@ -46,7 +46,6 @@ import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-bann
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
 import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
-import { HCADownloadMetadataComponent } from "./hca-download-metadata/hca-download-metadata.component";
 import { HCAExportToTerraComponent } from "./hca-export-to-terra/hca-export-to-terra.component";
 import { HCAExportToTerraModalComponent } from "./hca-export-to-terra-modal/hca-export-to-terra-modal.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
@@ -55,10 +54,14 @@ import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.compon
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result.component";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
+import { HCAGetProjectDataComponent } from "./hca-get-project-data/hca-get-project-data.component";
+import { HCAGetProjectMatrixDataComponent } from "./hca-get-project-matrix-data/hca-get-project-matrix-data.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
+import { HCATableColumnHeaderCountComponent } from "./hca-table-column-header-count/hca-table-column-header-count.component";
+import { HCATableColumnHeaderDownloadComponent } from "./hca-table-column-header-download/hca-table-column-header-download.component";
 import { HCATableColumnHeaderTitleComponent } from "./hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCASearchComponent } from "./hca-search/hca-search.component";
 import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
@@ -127,7 +130,6 @@ import { TermResponseService } from "./shared/term-response.service";
         HCADownloadFileComponent,
         HCADownloadManifestComponent,
         HCADownloadManifestModalComponent,
-        HCADownloadMetadataComponent,
         HCAExportToTerraComponent,
         HCAExportToTerraModalComponent,
         HCAFacetTermListComponent,
@@ -135,12 +137,16 @@ import { TermResponseService } from "./shared/term-response.service";
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
+        HCAGetProjectDataComponent,
+        HCAGetProjectMatrixDataComponent,
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,
         HCASearchComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
+        HCATableColumnHeaderCountComponent,
+        HCATableColumnHeaderDownloadComponent,
         HCATableColumnHeaderTitleComponent,
         HCATableDataStatusPlaceholderComponent,
         HCATableFilesComponent,

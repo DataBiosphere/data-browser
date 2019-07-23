@@ -1,1 +1,12 @@
-<span class="fontsize-xxs bold"><ng-content></ng-content></span>
+<hca-table-sort *ngIf="isColumnSort(columnName); else headerTitle">
+    <ng-container *ngTemplateOutlet="headerTitle"></ng-container>
+</hca-table-sort>
+<ng-template #headerTitle>
+    <hca-tooltip
+            [tooltipContent]="getColumnDescription(columnName)"
+            [tooltipDisabled]="getColumnDescription(columnName) === null"
+            [tooltipPosition]="'above'"
+            [tooltipClass]="'hca-tooltip narrow'">
+        <span [ngClass]="{'fontsize-xxs bold': true, 'spacer': !isColumnSort(columnName)}"><ng-content></ng-content></span>
+    </hca-tooltip>
+</ng-template>

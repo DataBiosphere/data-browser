@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { map, switchMap, take } from "rxjs/operators";
+import { map, mergeMap, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats-request.action";
@@ -85,7 +85,7 @@ export class MatrixEffects {
                     })
                 )
             ),
-            switchMap(({projectMatrixUrls, action}) =>
+            mergeMap(({projectMatrixUrls, action}) =>
                 this.matrixService.fetchProjectMatrixURLs(
                     projectMatrixUrls, (action as FetchProjectMatrixUrlsRequestAction).entityId)),
             map(response => new FetchProjectMatrixUrlsSuccessAction(response))

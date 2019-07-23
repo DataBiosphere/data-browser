@@ -55,20 +55,39 @@ hca-section-title + hca-tab {
             cursor: pointer;
             font: inherit;
         }
+    }
 
-        /* Download */
+    /* Downloads */
+    p.downloads {
+        
+        a {
+            color: $hca-black;
+        }
+
+        /* Icon */
         img {
             cursor: pointer;
             height: 20px;
             opacity: 0.38;
         }
 
+        /* Download - hover */
+        a:hover img {
+            opacity: 1;
+        }
+
+        /* Container */
+        span {
+            flex:none;
+        }
+
+        > span:not(:last-of-type) {
+            padding-right: 10px;
+        }
+
         /* Download text */
         a + span, img + span {
-            padding: 0 10px 0 8px;
-            &:last-child {
-                padding-right: 0;
-            }
+            padding-left: 8px;
         }
     }
 
@@ -296,6 +315,14 @@ hca-section-title + hca-tab {
 @media screen and (min-width: 1920px) {
 
     .wrapper {
+
+        /* Downloads */
+        p.downloads {
+
+            > span:not(:last-of-type) {
+                padding-right: 16px;
+            }
+        }
 
         /* First column */
         .project-overview > div:first-of-type, .project-overview > div:last-of-type > div {

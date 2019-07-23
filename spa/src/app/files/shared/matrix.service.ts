@@ -69,12 +69,7 @@ export class MatrixService {
             this.getProjectMatrixUrl(entityId, "mtx.zip")
         ).pipe(
             map(([csvUrl, loomUrl, mtxUrl]) => {
-                return {
-                    csvUrl,
-                    loomUrl,
-                    mtxUrl,
-                    entityId
-                };
+                return new ProjectMatrixUrls(entityId, csvUrl, loomUrl, mtxUrl);
             })
         );
     }
@@ -91,7 +86,7 @@ export class MatrixService {
 
         // Set up polling for matrix URL completion
         const matrixResponse$ = this.initMatrixUrlRequestPoller();
-        
+
         const manifestRequest$ =
             this.requestFileManifestUrl(searchTerms)
                 .subscribe((manifestResponse: ManifestResponse) => {
@@ -101,7 +96,7 @@ export class MatrixService {
                         manifestRequest$.unsubscribe();
                         return this.initMatrixUrlRequest(manifestResponse, matrixResponse$, matrixFormat);
                     }
-                    
+
                     // Manifest URL request failed - update matrix response to indicate failure
                     if ( manifestResponse.status === ManifestStatus.FAILED ) {
                         manifestRequest$.unsubscribe();
@@ -110,8 +105,8 @@ export class MatrixService {
                         } as MatrixResponse);
                         return;
                     }
-    
-                    // Manifest URL request is in progress - update matrix status 
+
+                    // Manifest URL request is in progress - update matrix status
                     matrixResponse$.next({
                         status: MatrixStatus.MANIFEST_IN_PROGRESS
                     } as MatrixResponse);
@@ -224,7 +219,7 @@ export class MatrixService {
 
                 matrixResponse$.unsubscribe();
             });
-        
+
         return matrixResponse$;
     }
 
@@ -282,14 +277,14 @@ export class MatrixService {
 
     /**
      * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
-     * 
-     * @param {string} entityId
+     *
+     * @param {string} projectId
      * @param {string} matrixFormat
      * @returns {Observable<string>}
      */
-    private getProjectMatrixUrl(entityId: string, matrixFormat: string): Observable<string> {
+    private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
 
-        const url = `${this.configService.getProjectMetaURL()}/project-assets/project-matrices/${entityId}.${matrixFormat}`;
+        const url = `${this.configService.getProjectMetaURL()}/project-matrices/${projectId}.${matrixFormat}`;
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
@@ -298,7 +293,7 @@ export class MatrixService {
 
     /**
      * Get the manifest URL for the matrix request.
-     * 
+     *
      * @param {SearchTerm[]} searchTerms
      * @returns {ManifestResponse}
      */
@@ -308,7 +303,7 @@ export class MatrixService {
         const matrixSearchTerms = this.isMatrixFileFormatSelected(searchTerms) ?
             searchTerms :
             this.addMatrixFileFormatToSearchTerms(searchTerms);
-        
+
         return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms);
     }
 

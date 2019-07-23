@@ -19,7 +19,7 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCADownloadMetadataComponent } from "../hca-download-metadata/hca-download-metadata.component";
+import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
@@ -43,7 +43,7 @@ describe("HCATableSamplesComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCAContentEllipsisComponent,
-                HCADownloadMetadataComponent,
+                HCAGetProjectDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderTitleComponent,
@@ -197,7 +197,7 @@ describe("HCATableSamplesComponent", () => {
 
     /**
      * Return the sort header for the specified column.
-     * 
+     *
      * @param {DebugElement} columnHeaderDE
      */
     function findSortHeader(columnHeaderDE): DebugElement {

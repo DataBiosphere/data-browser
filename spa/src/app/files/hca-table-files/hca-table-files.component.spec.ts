@@ -26,7 +26,7 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCADownloadMetadataComponent } from "../hca-download-metadata/hca-download-metadata.component";
+import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
@@ -53,7 +53,7 @@ describe("HCATableFilesComponent", () => {
             declarations: [
                 HCAContentEllipsisComponent,
                 HCADownloadFileComponent,
-                HCADownloadMetadataComponent,
+                HCAGetProjectDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderTitleComponent,

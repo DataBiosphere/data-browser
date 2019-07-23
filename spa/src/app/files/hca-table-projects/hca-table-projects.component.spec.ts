@@ -19,7 +19,7 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCADownloadMetadataComponent } from "../hca-download-metadata/hca-download-metadata.component";
+import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
@@ -43,7 +43,7 @@ describe("HCATableProjectsComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCAContentEllipsisComponent,
-                HCADownloadMetadataComponent,
+                HCAGetProjectDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderTitleComponent,
@@ -168,17 +168,17 @@ describe("HCATableProjectsComponent", () => {
         const columnName = "sampleEntityType";
         const columnHeaderDE = findHeader(columnName);
         const sortHeaderDE = findSortHeader(columnHeaderDE);
-        
+
         // Execute first click to sort by sample entity type sort header
         sortHeaderDE.triggerEventHandler("click", null);
         expect(component.matSort.active).toEqual(columnName);
         expect(component.matSort.direction).toEqual("asc");
-        
+
         // Execute second click to sort by sample entity type descending
         sortHeaderDE.triggerEventHandler("click", null);
         expect(component.matSort.active).toEqual(columnName);
         expect(component.matSort.direction).toEqual("desc");
-        
+
         // Execute third click to clear sort
         sortHeaderDE.triggerEventHandler("click", null);
         fixture.detectChanges();
@@ -200,7 +200,7 @@ describe("HCATableProjectsComponent", () => {
 
     /**
      * Return the sort header for the specified column.
-     * 
+     *
      * @param {DebugElement} columnHeaderDE
      */
     function findSortHeader(columnHeaderDE): DebugElement {

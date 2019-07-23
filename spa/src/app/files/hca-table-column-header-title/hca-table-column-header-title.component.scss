@@ -8,17 +8,36 @@
 
 :host {
     color: $hca-black;
-    display: flex;
     padding-bottom: 2px;
-    text-align: left; /* Default alignment */
+
+    /* Default header alignment - left */
+    span {
+        display: block;
+        text-align: left;
+
+        /* Required for headers without MatSort */
+        &.spacer {
+            padding-left: 16px;
+        }
+    }
 }
 
 /* Title - right aligned if column is right aligned */
 :host-context(.right) {
-    text-align: right;
+
+    span {
+        text-align: right;
+    }
 }
 
 /* Title - centered if column is centered */
-:host-context(.center), :host-context(.file-type) {
-    text-align: center;
+:host-context(.center) {
+
+    span {
+        text-align: center;
+
+        &.spacer {
+            padding: 0;
+        }
+    }
 }

@@ -12,7 +12,7 @@ import {
 import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { filter, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -26,12 +26,14 @@ import {
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileSummary } from "../file-summary/file-summary";
+import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { ProjectRowMapper } from "./project-row-mapper";
+import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { PaginationModel } from "../table/pagination.model";
 import {
     getColumnClass,
-    getColumnDescription,
     getColumnDisplayName,
     getColumnStyle,
     getHeaderClass,
@@ -57,23 +59,25 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         order: "asc"
     };
     displayedColumns = [
-        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "metadataDownload", "fileType",
+        "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "getData",
         "donorCount", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getColumnClass = getColumnClass;
-    getColumnDescription = getColumnDescription;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
     getHeaderClass = getHeaderClass;
     getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
     getRowStyle = getRowStyle;
+    getProjectDataMatrixActiveRow;
+    isProjectDataMatrixOpen = false;
     isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     pagination$: Observable<PaginationModel>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<ProjectRowMapper>;
+    projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -102,6 +106,30 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      */
 
     /**
+     * Returns the matrix expression for the specified project.
+     * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
+     * @param {string} projectId
+     * @returns {ProjectMatrixUrls}
+     */
+    public getProjectMatrixUrls(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): ProjectMatrixUrls {
+
+        // TODO Mim, confirm if a check is required for whether projectsMatrixUrls.has(projectId) - what to return if false
+        return projectsMatrixUrls.get(projectId);
+    }
+
+    /**
+     * Returns true if there is at least one matrix expression available for the specified project.
+     *
+     * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
+     * @param {string} projectId
+     * @returns {boolean}
+     */
+    public isAnyProjectMatrixUrlAvailable(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): boolean {
+
+        return projectsMatrixUrls.has(projectId) && projectsMatrixUrls.get(projectId).isAnyProjectMatrixUrlAvailable();
+    }
+
+    /**
      * Returns true if project is in the current set of selected search terms.
      *
      * @param {any} project
@@ -110,6 +138,18 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isProjectSelected(project: any): boolean {
 
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
+    }
+
+    /**
+     * Handle the open/close event of project matrix download.
+     * Update local variables that will determine mat-row and mat-header-row styles.
+     * @param event
+     * @param row
+     */
+    public onProjectDataMatrixOpen(event, row) {
+
+        this.isProjectDataMatrixOpen = event;
+        this.getProjectDataMatrixActiveRow = row;
     }
 
     /**
@@ -219,5 +259,20 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
+
+        // Determine which matrix formats, if any, are available for download for the current set of projects
+        this.data$.pipe(
+            filter(data => !!data.length),
+            take(1)
+        ).subscribe((data) => {
+
+            data.forEach((row) =>
+                this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(row.entryId)));
+        });
+
+        // Grab the project matrix URLs, if any, for the current set of projects
+        this.projectsMatrixUrls$ = this.store.pipe(
+            select(selectProjectMatrixUrlsByProjectId)
+        );
     }
 }

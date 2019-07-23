@@ -10,7 +10,7 @@
  */
 
 // App dependencies
-import { ColumnAlignment, CountType, TableColumn } from "./table-column.model";
+import { ColumnAlignment, CountType, OverflowType, PositionType, TableColumn } from "./table-column.model";
 
 /* TableColumn array.
  * Provides user friendly name and description for each table column matColumnDef.
@@ -22,6 +22,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Sex",
         description: "The biological sex of the organism. Should be one of male, female, mixed, or unknown.",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -30,6 +31,7 @@ let tableColumns: TableColumn[] = [
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 88,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -37,6 +39,7 @@ let tableColumns: TableColumn[] = [
         key: "donorCount",
         userFriendly: "Donor Count",
         alignment: ColumnAlignment.RIGHT,
+        columnSort: false,
         countType: CountType.NONE
 
     },
@@ -45,8 +48,8 @@ let tableColumns: TableColumn[] = [
         userFriendly: "File Count",
         description: "The count of files for this specimen.",
         alignment: ColumnAlignment.RIGHT,
-        countType: CountType.NONE
-
+        countType: CountType.NONE,
+        columnSort: false,
     },
     {
         key: "fileFormat",
@@ -55,6 +58,7 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnMaxWidth: 88,
         columnMinWidth: 80,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -64,6 +68,7 @@ let tableColumns: TableColumn[] = [
         description: "The filename of the data file.",
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "1 1 20%",
+        columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
     {
@@ -72,14 +77,16 @@ let tableColumns: TableColumn[] = [
         description: "The file size of the data file.",
         alignment: ColumnAlignment.RIGHT,
         columnMaxWidth: 112,
+        columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
     {
-        key: "fileType",
+        key: "fileType", // TODO remove
         userFriendly: "Data",
         description: "The format of the data file.",
         alignment: ColumnAlignment.RIGHT,
         columnFlexValue: "none",
+        columnSort: false,
         countType: CountType.NONE
     },
     {
@@ -88,7 +95,21 @@ let tableColumns: TableColumn[] = [
         description: "The scientific binomial name for the species of the biomaterial.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 64,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
+    },
+    {
+        key: "getData",
+        userFriendly: "Download/Export",
+        description: "Full project downloads.",
+        alignment: ColumnAlignment.CENTER,
+        columnOverflow: OverflowType.VISIBLE,
+        columnFlexValue: "none",
+        columnMaxWidth: 140,
+        columnMinWidth: 140,
+        columnPosition: PositionType.RELATIVE,
+        columnSort: false,
+        countType: CountType.NONE
     },
     {
         key: "libraryConstructionApproach",
@@ -96,15 +117,27 @@ let tableColumns: TableColumn[] = [
         description: "The general method for sequencing library construction.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 96,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
-        key: "metadataDownload",
+        key: "metadataDownload", // TODO remove
         userFriendly: "Metadata",
         description: "Full project metadata download in .tsv format.",
         alignment: ColumnAlignment.CENTER,
         columnMaxWidth: 76,
         columnMinWidth: 76,
+        columnSort: false,
+        countType: CountType.NONE
+    },
+    {
+        key: "matrixExpressions",
+        userFriendly: "Matrix",
+        description: "Available matrix expressions.",
+        alignment: ColumnAlignment.CENTER,
+        columnMaxWidth: 76,
+        columnMinWidth: 76,
+        columnSort: false,
         countType: CountType.NONE
     },
     {
@@ -112,6 +145,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -119,6 +153,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Organ Part",
         description: "A term for a specific part of the organ that the biomaterial came from.",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -127,6 +162,7 @@ let tableColumns: TableColumn[] = [
         description: "Age, measured since birth. Age unit is the unit in which age is expressed. Must be one of hour, day, week, month, or year.",
         alignment: ColumnAlignment.RIGHT,
         columnMaxWidth: 100,
+        columnSort: true,
         countType: CountType.NONE
     },
     {
@@ -134,6 +170,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Paired End",
         description: "Whether the sequenced molecule was sequenced from both ends.",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -141,6 +178,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Project Label",
         description: "A short name for the project.",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.NONE
     },
     {
@@ -149,6 +187,7 @@ let tableColumns: TableColumn[] = [
         description: "An official title for the project.",
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "0 1 20%",
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -157,12 +196,14 @@ let tableColumns: TableColumn[] = [
         description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 64,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
         key: "sampleId",
         userFriendly: "Sample Id",
         alignment: ColumnAlignment.LEFT,
+        columnSort: true,
         countType: CountType.NONE
     },
     {
@@ -171,6 +212,7 @@ let tableColumns: TableColumn[] = [
         description: "The cell type(s) selected to be present in the suspension.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 70,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -180,6 +222,7 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "0 1 12%",
         columnMinWidth: 80,
+        columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
     {
@@ -187,6 +230,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Cell Count Estimate",
         description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
         alignment: ColumnAlignment.RIGHT,
+        columnSort: false,
         countType: CountType.NONE
     }
 ];
@@ -233,7 +277,6 @@ export function getColumnAlignment(column: string): string {
 export function getColumnClass(column: string): { [className: string]: boolean } {
 
     return {
-        "file-type": column === "fileType",
         center: getColumnAlignment(column) === "CENTER",
         right: getColumnAlignment(column) === "RIGHT"
     };
@@ -281,11 +324,15 @@ export function getColumnStyle(column: string): any {
     let columnFlexValue = tableColumn.get(column).columnFlexValue;
     let columnMaxWidth = tableColumn.get(column).columnMaxWidth;
     let columnMinWidth = tableColumn.get(column).columnMinWidth;
+    let columnOverflow = tableColumn.get(column).columnOverflow;
+    let columnPosition = tableColumn.get(column).columnPosition;
 
     return {
         "flex": columnFlexValue ? columnFlexValue : {},
         "max-width": columnMaxWidth ? columnMaxWidth + "px" : {},
-        "min-width": columnMinWidth ? columnMinWidth + "px" : {}
+        "min-width": columnMinWidth ? columnMinWidth + "px" : {},
+        "overflow": columnOverflow ? columnOverflow : {},
+        "position": columnPosition ? columnPosition : {}
     };
 }
 
@@ -342,10 +389,11 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
  * @param snapped
  * @returns {[className: string]: boolean}
  */
-export function getHeaderClass(snapped): { [className: string]: boolean } {
+export function getHeaderClass(snapped, projectMatrixOpen: boolean): { [className: string]: boolean } {
 
     return {
-        snapped: snapped
+        snapped: snapped,
+        inactive: projectMatrixOpen
     };
 }
 
@@ -359,26 +407,30 @@ export function getHeaderRowHeight(): number {
 }
 
 /**
- * Return the set of CSS class names that are currently applicable to the first row in the table.
+ * Return the set of CSS class names that are currently applicable to table rows.
  * @param {number} rowIndex
  * @param snapped
- * @returns {[className: string]: boolean}
+ * @param {boolean} projectMatrixOpen
+ * @param {number} activeRow
+ * @returns {{[p: string]: boolean}}
  */
-export function getRowClass(rowIndex: number, snapped): { [className: string]: boolean } {
+export function getRowClass(rowIndex: number, snapped, projectMatrixOpen: boolean, activeRow: number): { [className: string]: boolean } {
 
     return {
-        snapped: (rowIndex === 0) && snapped
+        snapped: (rowIndex === 0) && snapped,
+        active: (rowIndex === activeRow) && projectMatrixOpen,
+        inactive: (rowIndex !== activeRow) && projectMatrixOpen
     };
 }
 
 /**
  * Returns ngStyle applicable to the first row in table when table has snapped.
  * @param {number} rowIndex
- * @param snapped
+ * @param {boolean} snapped
  * @param {number} headerRowHeight
  * @returns {any}
  */
-export function getRowStyle(rowIndex: number, snapped, headerRowHeight: number): any {
+export function getRowStyle(rowIndex: number, snapped: boolean, headerRowHeight: number): any {
 
     return {
         "padding-top": (rowIndex === 0) && snapped ? headerRowHeight + "px" : (rowIndex === 0) && !snapped ? 0 : {},
@@ -456,6 +508,16 @@ export function getUnspecifiedIfEmpty(value: any[]): any {
     }
 
     return "Unspecified";
+}
+
+/**
+ * Returns true if the column may be sorted.
+ * @param {string} column
+ * @returns {string}
+ */
+export function isColumnSort(column: string): boolean {
+
+    return tableColumn.get(column).columnSort;
 }
 
 /**
