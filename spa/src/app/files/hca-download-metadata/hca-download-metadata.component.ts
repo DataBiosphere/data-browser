@@ -38,6 +38,6 @@ export class HCADownloadMetadataComponent {
     public onDownloadMetadata(projectId: string): string {
 
         const metaURL = this.configService.getProjectMetaURL();
-        return `${metaURL}/projects/${this.projectId}.tsv`;
+        return `${metaURL}/project-assets/project-metadata/${this.projectId}.tsv`;
     }
 }
