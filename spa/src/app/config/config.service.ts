@@ -105,6 +105,17 @@ export class ConfigService {
     }
 
     /**
+     * Returns the complete URL for the meta download for the specified project.
+     * 
+     * @param {string} projectId
+     * @returns {string}
+     */
+    public getProjectMetaDownloadURL(projectId: string): string {
+
+        return `${this.getProjectMetaURL()}/project-assets/project-metadata/${projectId}.tsv`;
+    }
+
+    /**
      * Return the full data API URL for this Boardwalk instance.
      *
      * @returns {string}

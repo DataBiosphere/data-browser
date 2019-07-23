@@ -72,7 +72,7 @@ describe("HCATableProjectsComponent", () => {
                 })
             }, {
                 provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL"])
+                useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL", "getProjectMetaDownloadURL"])
             }]
         }).compileComponents();
 
