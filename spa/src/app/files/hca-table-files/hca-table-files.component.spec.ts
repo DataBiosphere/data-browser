@@ -27,9 +27,11 @@ import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
+import { HCAGetProjectMatrixDataComponent } from "../hca-get-project-matrix-data/hca-get-project-matrix-data.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
+import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableFilesComponent } from "./hca-table-files.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
@@ -54,8 +56,10 @@ describe("HCATableFilesComponent", () => {
                 HCAContentEllipsisComponent,
                 HCADownloadFileComponent,
                 HCAGetProjectDataComponent,
+                HCAGetProjectMatrixDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
+                HCATableColumnHeaderCountComponent,
                 HCATableColumnHeaderTitleComponent,
                 HCATableDataStatusPlaceholderComponent,
                 HCATableFilesComponent,
@@ -151,7 +155,7 @@ describe("HCATableFilesComponent", () => {
         // Confirm data was loaded - table should be visible including sort column headers
         expect(component.matSort).toBeTruthy();
 
-        // Find the sort header for the projet name column
+        // Find the sort header for the project name column
         const columnName = "projectTitle";
         const columnHeaderDE = findHeader(columnName);
         expect(columnHeaderDE).toBeTruthy();
@@ -213,7 +217,7 @@ describe("HCATableFilesComponent", () => {
     function findHeader(columnName: string): DebugElement {
 
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header[ng-reflect-column-name="${columnName}"]`)
+            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
         );
     }
 

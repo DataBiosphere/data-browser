@@ -12,6 +12,7 @@ import { MatIconModule, MatSortHeader, MatSortModule, MatTableModule, MatTooltip
 import { RouterTestingModule } from "@angular/router/testing";
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 
@@ -20,6 +21,9 @@ import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
+import { HCAGetProjectMatrixDataComponent } from "../hca-get-project-matrix-data/hca-get-project-matrix-data.component";
+import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
+import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-header-download/hca-table-column-header-download.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
@@ -44,8 +48,11 @@ describe("HCATableProjectsComponent", () => {
             declarations: [
                 HCAContentEllipsisComponent,
                 HCAGetProjectDataComponent,
+                HCAGetProjectMatrixDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
+                HCATableColumnHeaderCountComponent,
+                HCATableColumnHeaderDownloadComponent,
                 HCATableColumnHeaderTitleComponent,
                 HCATableDataStatusPlaceholderComponent,
                 HCATablePaginationComponent,
@@ -73,6 +80,9 @@ describe("HCATableProjectsComponent", () => {
             }, {
                 provide: ConfigService,
                 useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL", "getProjectMetaDownloadURL"])
+            }, {
+                provide: DeviceDetectorService,
+                useValue: jasmine.createSpyObj("DeviceDetectorService", ["getDeviceInfo", "isMobile", "isTablet", "isDesktop"])
             }]
         }).compileComponents();
 
@@ -100,7 +110,8 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.loading),
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()) // project matrix URLs
         );
 
         component.selectedProjectIds = [];
@@ -122,7 +133,8 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.loading),
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()) // project matrix URLs
         );
 
         component.selectedProjectIds = [];
@@ -158,7 +170,8 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.loading),
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()) // project matrix URLs
         );
 
         component.selectedProjectIds = [];
@@ -194,7 +207,7 @@ describe("HCATableProjectsComponent", () => {
     function findHeader(columnName: string): DebugElement {
 
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header[ng-reflect-column-name="${columnName}"]`)
+            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
         );
     }
 
