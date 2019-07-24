@@ -12,7 +12,7 @@ import {
 import { MatSort, MatSortHeader, Sort } from "@angular/material";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { filter, take, takeUntil } from "rxjs/operators";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -263,7 +263,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         // Determine which matrix formats, if any, are available for download for the current set of projects
         this.data$.pipe(
             filter(data => !!data.length),
-            take(1)
+            takeUntil(this.ngDestroy$)
         ).subscribe((data) => {
 
             data.forEach((row) =>
