@@ -101,7 +101,7 @@
                             </p>
                             <p class="fontsize-xs rhs downloads">
                                 <span><a [href]="getProjectMetaURL(state.project)">
-                                    <img src="assets/images/icon/hca-download-black.png"/><span>tsv</span></a>
+                                    <img src="assets/images/icon/hca-download-primary.png"/><span>tsv</span></a>
                                 </span>
                             </p>
                         </div>
@@ -118,13 +118,13 @@
                                     <p class="fontsize-xs rhs downloads">
                                         <span *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a
                                                 [href]="state.projectMatrixUrls.csvUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/><span>csv</span></a></span>
+                                                src="assets/images/icon/hca-download-primary.png"/><span>csv</span></a></span>
                                         <span *ngIf="state.projectMatrixUrls.isProjectMatrixLoomAvailable()"><a
                                                 [href]="state.projectMatrixUrls.loomUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/><span>loom</span></a></span>
+                                                src="assets/images/icon/hca-download-primary.png"/><span>loom</span></a></span>
                                         <span *ngIf="state.projectMatrixUrls.isProjectMatrixMtxAvailable()"><a
                                                 [href]="state.projectMatrixUrls.mtxUrl"><img
-                                                src="assets/images/icon/hca-download-black.png"/><span>mtx</span></a></span>
+                                                src="assets/images/icon/hca-download-primary.png"/><span>mtx</span></a></span>
                                     </p>
                                 </ng-container>
                                 <p class="fontsize-xs rhs" *ngSwitchDefault>No expression matrix available</p>
