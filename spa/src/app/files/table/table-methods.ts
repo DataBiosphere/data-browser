@@ -100,7 +100,7 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "getData",
-        userFriendly: "Download/Export",
+        userFriendly: "Project Downloads",
         description: "Full project downloads.",
         alignment: ColumnAlignment.CENTER,
         columnOverflow: OverflowType.VISIBLE,
