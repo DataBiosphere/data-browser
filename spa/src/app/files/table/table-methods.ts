@@ -81,15 +81,6 @@ let tableColumns: TableColumn[] = [
         countType: CountType.SUMMARY_COUNT
     },
     {
-        key: "fileType", // TODO remove
-        userFriendly: "Data",
-        description: "The format of the data file.",
-        alignment: ColumnAlignment.RIGHT,
-        columnFlexValue: "none",
-        columnSort: false,
-        countType: CountType.NONE
-    },
-    {
         key: "genusSpecies",
         userFriendly: "Species",
         description: "The scientific binomial name for the species of the biomaterial.",
@@ -243,6 +234,7 @@ tableColumns.forEach((column) => {
 
 /**
  * Returns age and ageUnit, truncated at first character.
+ *
  * @param age
  * @param ageUnit
  * @returns {string}
@@ -261,6 +253,7 @@ export function getAge(age: string, ageUnit: string): string {
 
 /**
  * Returns column alignment for specified column.
+ *
  * @param {string} column
  * @returns {string}
  */
@@ -271,6 +264,7 @@ export function getColumnAlignment(column: string): string {
 
 /**
  * Return the set of CSS class names that are applicable to the table columns.
+ *
  * @param {string} column
  * @returns {[className: string]: boolean}
  */
@@ -284,6 +278,7 @@ export function getColumnClass(column: string): { [className: string]: boolean }
 
 /**
  * Returns count type for specified column.
+ *
  * @param {string} column
  * @returns {string}
  */
@@ -295,6 +290,7 @@ export function getColumnCountType(column: string): string {
 /**
  * Returns the column description.
  * Used by table header tooltip.
+ *
  * @param {string} column
  * @returns {string}
  */
@@ -306,6 +302,7 @@ export function getColumnDescription(column: string): string {
 
 /**
  * Returns the column name to display as table header.
+ *
  * @param {string} column
  * @returns {string}
  */
@@ -316,6 +313,7 @@ export function getColumnDisplayName(column: string): string {
 
 /**
  * Return the inline style configuration for the column.
+ *
  * @param {string} column
  * @returns {any}
  */
@@ -338,6 +336,7 @@ export function getColumnStyle(column: string): any {
 
 /**
  * Returns "--" if file count is zero, otherwise returns count.
+ *
  * @param {number} count
  * @returns {any}
  */
@@ -348,6 +347,7 @@ export function getFileCountDisplay(count: number): any {
 
 /**
  * Returns file counts for a set of file types as well as total count.
+ *
  * @param {any[]} fileTypeSummaries
  * @returns {any}
  */
@@ -386,20 +386,21 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
 
 /**
  * Return the set of CSS class names that are currently applicable to the table header row.
- * @param snapped
- * @returns {[className: string]: boolean}
+ *
+ * @param {boolean} snapped
+ * @returns {{[p: string]: boolean}}
  */
-export function getHeaderClass(snapped, projectMatrixOpen: boolean): { [className: string]: boolean } {
+export function getHeaderClass(snapped: boolean): { [className: string]: boolean } {
 
     return {
         snapped: snapped,
-        inactive: projectMatrixOpen
     };
 }
 
 /**
  * Returns height of mat-header-row.
  * Used to calculate first mat-row padding when table snapped.
+ *
  * @returns {number}
  */
 export function getHeaderRowHeight(): number {
@@ -408,6 +409,7 @@ export function getHeaderRowHeight(): number {
 
 /**
  * Return the set of CSS class names that are currently applicable to table rows.
+ *
  * @param {number} rowIndex
  * @param snapped
  * @param {boolean} projectMatrixOpen
@@ -418,13 +420,13 @@ export function getRowClass(rowIndex: number, snapped, projectMatrixOpen: boolea
 
     return {
         snapped: (rowIndex === 0) && snapped,
-        active: (rowIndex === activeRow) && projectMatrixOpen,
-        inactive: (rowIndex !== activeRow) && projectMatrixOpen
+        active: projectMatrixOpen && (rowIndex === activeRow)
     };
 }
 
 /**
  * Returns ngStyle applicable to the first row in table when table has snapped.
+ *
  * @param {number} rowIndex
  * @param {boolean} snapped
  * @param {number} headerRowHeight
@@ -439,6 +441,7 @@ export function getRowStyle(rowIndex: number, snapped: boolean, headerRowHeight:
 
 /**
  * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
+ *
  * @param {string} pairedEnd
  * @returns {string}
  */
@@ -466,6 +469,7 @@ export function getPairedEnd(pairedEnd: string): string {
 
 /**
  * Returns first value.
+ *
  * @param value
  * @returns {any}
  */
@@ -481,7 +485,22 @@ export function getSelfOrFirst(value) {
 }
 
 /**
+ * Return the inline style configuration for the table.
+ * Applied when the <hca-get-project-matrix-data> card renders beyond the table bounds.
+ * Used by <hca-table-projects>.
+ *
+ * @param {string} margin
+ * @returns {any}
+ */
+export function getTableStyle(margin: number): any {
+    return {
+        "margin-bottom": margin && margin > 0 ? margin + "px" : 0,
+    };
+}
+
+/**
  * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
+ *
  * @param {any} value
  * @returns {any}
  */
@@ -512,6 +531,7 @@ export function getUnspecifiedIfEmpty(value: any[]): any {
 
 /**
  * Returns true if the column may be sorted.
+ *
  * @param {string} column
  * @returns {string}
  */
@@ -523,6 +543,7 @@ export function isColumnSort(column: string): boolean {
 /**
  * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
  * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
+ *
  * @param el
  * @returns {boolean}
  */

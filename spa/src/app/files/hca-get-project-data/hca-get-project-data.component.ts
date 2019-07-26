@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 
@@ -27,16 +27,19 @@ export class HCAGetProjectDataComponent {
     @Input() projectURLs: ProjectMatrixUrls;
 
     // Output
-    @Output() onProjectDataMatrixOpen = new EventEmitter<boolean>();
+    @Output() projectDataMatrixOpen = new EventEmitter<boolean>();
+    @Output() projectDataMatrixPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
-    isProjectDownloadActive = false;
-    top;
+    projectDownloadActive = false;
+    cardTopPosition;
 
     /**
      * @param {ConfigService} configService
+     * @param {DeviceDetectorService} deviceService
+     * @param {ElementRef} elementRef
      */
-    public constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {
+    public constructor(private configService: ConfigService, private deviceService: DeviceDetectorService, private elementRef: ElementRef) {
     }
 
     /**
@@ -57,10 +60,10 @@ export class HCAGetProjectDataComponent {
 
     /**
      * Return the URL to the meta TSV for the specified project.
-     * @param {string} projectId
+     *
      * @returns {string}
      */
-    public onDownloadMetadata(projectId: string) {
+    public onDownloadMetadata() {
 
         if ( this.isDeviceHandheld() ) {
             return; // do nothing
@@ -72,16 +75,15 @@ export class HCAGetProjectDataComponent {
 
     /**
      * Matrix download for the project is requested.
-     * @param {string} projectId
      */
-    public onDownloadMatrix(projectId: string) {
+    public onDownloadMatrix() {
 
         if ( this.isDeviceHandheld() || !this.matrixAvailable ) {
             return false; // do nothing
         }
 
-        this.onProjectDataMatrixOpen.emit(true);
-        this.isProjectDownloadActive = true;
+        this.projectDataMatrixOpen.emit(true);
+        this.projectDownloadActive = true;
     }
 
     /**
@@ -89,14 +91,26 @@ export class HCAGetProjectDataComponent {
      */
     public onProjectDataMatrixClose() {
 
-        this.onProjectDataMatrixOpen.emit(false);
-        this.isProjectDownloadActive = false;
+        this.projectDataMatrixOpen.emit(false);
+        this.projectDownloadActive = false;
     }
 
     /**
+     * Provides a calculated table margin, if required, determined by the vertical positioning
+     * of <hca-get-project-matrix-data>.
+     *
+     * @param event
+     */
+    public onProjectDataMatrixPositionBelowTable(event) {
+        this.projectDataMatrixPositionBelowTable.emit(event);
+    }
+
+    /**
+     * Provides vertical positioning for <hca-get-project-matrix-data>.
+     *
      * @param event
      */
     public onProjectDataMatrixPosition(event) {
-        this.top = event;
+        this.cardTopPosition = event;
     }
 }

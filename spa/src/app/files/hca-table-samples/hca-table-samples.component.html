@@ -225,7 +225,7 @@
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
+                     [ngClass]="getRowClass(i, snapped, false, 0)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [isData]="data$ | async"></hca-table-data-status-placeholder>

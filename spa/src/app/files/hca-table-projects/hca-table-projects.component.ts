@@ -40,6 +40,7 @@ import {
     getHeaderRowHeight,
     getRowClass,
     getRowStyle,
+    getTableStyle,
     isTooltipDisabled,
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -53,31 +54,33 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Template variables
-    data$: Observable<any[]>;
-    defaultSortOrder = {
+    public data$: Observable<any[]>;
+    public defaultSortOrder = {
         sort: "projectTitle",
         order: "asc"
     };
-    displayedColumns = [
+    public displayedColumns = [
         "projectTitle", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies", "disease", "getData",
         "donorCount", "totalCells"
     ];
-    domainCountsByColumnName$: Observable<Map<string, number>>;
-    getColumnClass = getColumnClass;
-    getColumnDisplayName = getColumnDisplayName;
-    getColumnStyle = getColumnStyle;
-    getHeaderClass = getHeaderClass;
-    getHeaderRowHeight = getHeaderRowHeight;
-    getRowClass = getRowClass;
-    getRowStyle = getRowStyle;
-    getProjectDataMatrixActiveRow;
-    isProjectDataMatrixOpen = false;
-    isTooltipDisabled = isTooltipDisabled;
-    loading$: Observable<boolean>;
-    pagination$: Observable<PaginationModel>;
-    selectFileSummary$: Observable<FileSummary>;
-    dataSource: EntitiesDataSource<ProjectRowMapper>;
-    projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
+    public domainCountsByColumnName$: Observable<Map<string, number>>;
+    public getColumnClass = getColumnClass;
+    public getColumnDisplayName = getColumnDisplayName;
+    public getColumnStyle = getColumnStyle;
+    public getHeaderClass = getHeaderClass;
+    public getHeaderRowHeight = getHeaderRowHeight;
+    public getRowClass = getRowClass;
+    public getRowStyle = getRowStyle;
+    public getTableStyle = getTableStyle;
+    public isTooltipDisabled = isTooltipDisabled;
+    public loading$: Observable<boolean>;
+    public pagination$: Observable<PaginationModel>;
+    public projectDataMatrixActiveRow;
+    public projectDataMatrixOpen = false;
+    public selectFileSummary$: Observable<FileSummary>;
+    public dataSource: EntitiesDataSource<ProjectRowMapper>;
+    public projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
+    public tableMarginBottom: number;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -107,13 +110,13 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     /**
      * Returns the matrix expression for the specified project.
+     *
      * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
      * @param {string} projectId
      * @returns {ProjectMatrixUrls}
      */
     public getProjectMatrixUrls(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): ProjectMatrixUrls {
 
-        // TODO Mim, confirm if a check is required for whether projectsMatrixUrls.has(projectId) - what to return if false
         return projectsMatrixUrls.get(projectId);
     }
 
@@ -143,13 +146,24 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     /**
      * Handle the open/close event of project matrix download.
      * Update local variables that will determine mat-row and mat-header-row styles.
+     *
      * @param event
      * @param row
      */
     public onProjectDataMatrixOpen(event, row) {
 
-        this.isProjectDataMatrixOpen = event;
-        this.getProjectDataMatrixActiveRow = row;
+        this.projectDataMatrixOpen = event;
+        this.projectDataMatrixActiveRow = row;
+    }
+
+    /**
+     * Provides a calculated table margin, if required, determined by the vertical positioning
+     * of <hca-get-project-matrix-data>.
+     *
+     * @param event
+     */
+    public onProjectDataMatrixPositionBelowTable(event) {
+        this.tableMarginBottom = event;
     }
 
     /**

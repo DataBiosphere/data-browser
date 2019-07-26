@@ -1,10 +1,11 @@
 <div [ngClass]="{'project-data': true, 'device': isDeviceHandheld()}">
-    <div (click)="onDownloadMetadata(projectId)"></div>
-    <div [ngClass]="{'unavailable': !matrixAvailable}" (click)="onDownloadMatrix(projectId)"></div>
-    <hca-get-project-matrix-data *ngIf="isProjectDownloadActive"
-                                 [ngStyle]="{'top': top}"
-                                 (onProjectDataMatrixClose)="onProjectDataMatrixClose($event)"
-                                 (onProjectDataMatrixPosition)="onProjectDataMatrixPosition($event)"
+    <div (click)="onDownloadMetadata()"></div>
+    <div [ngClass]="{'unavailable': !matrixAvailable}" (click)="onDownloadMatrix()"></div>
+    <hca-get-project-matrix-data *ngIf="projectDownloadActive"
+                                 [ngStyle]="{'top': cardTopPosition}"
+                                 (projectDataMatrixClose)="onProjectDataMatrixClose($event)"
+                                 (projectDataMatrixPosition)="onProjectDataMatrixPosition($event)"
+                                 (projectDataMatrixPositionBelowTable)="onProjectDataMatrixPositionBelowTable($event)"
                                  [projectId]="projectId"
                                  [projectTitle]="projectTitle"
                                  [projectURLs]="projectURLs"></hca-get-project-matrix-data>
