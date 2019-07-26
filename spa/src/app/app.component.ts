@@ -61,6 +61,19 @@ export class AppComponent implements OnInit, OnDestroy {
      */
 
     /**
+     * Returns true if the maintenance mode warning is visible.
+     * 
+     * @param {string} environmentName
+     * @returns {boolean}
+     */
+    public isMaintenanceModeWarningVisible(environmentName: string): boolean {
+
+        // Maintenance mode warning is currently disabled. To re-enable, uncomment line below.
+        // return environmentName === "prod";
+        return false;
+    }
+
+    /**
      * Remove scroll on body when menu is open.
      * Adds class no-scroll to body tag.
      * Class defined in _cgl.global.scss.
