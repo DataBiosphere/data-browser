@@ -71,7 +71,8 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
 
     /**
-     * Returns formatted name from "firstName,middleName,lastName" to "firstName middleName lastName"
+     * Returns formatted name from "firstName,middleName,lastName" to "firstName middleName lastName".
+     *
      * @param {string} commaDelimitedName
      * @returns {string}
      */
@@ -92,6 +93,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
     /**
      * Return the inline style configuration for the chart legend, for the specified project.
+     *
      * @param {boolean} selected
      * @returns {any}
      */
@@ -131,8 +133,20 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns publication title with a link to the publication URL, if it exists.
+     *
+     * @param publication
+     * @returns {string}
+     */
+    public getPublication(publication): string {
+
+        return publication.publicationUrl ? `<a href=${publication.publicationUrl} target="_blank" rel="noopener noreferrer">${publication.publicationTitle}</a>` : publication.publicationTitle;
+    }
+
+    /**
      * Return the list of authors of the project, or "None" if not specified.
      * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
+     *
      * @param contributors
      * @returns {string}
      */
@@ -155,6 +169,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     /**
      * Return the distinct list of collaborating organizations of the project, or "None" if not specified.
      * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
+     *
      * @param contributors
      * @returns {string}
      */
@@ -169,7 +184,8 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns the list of contributors of the project
+     * Returns the list of contributors of the project.
+     *
      * @param contributors
      * @returns {Contributor[]}
      */
@@ -180,6 +196,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
     /**
      * Returns true if device is either mobile or tablet.
+     *
      * @returns {boolean}
      */
     public isDeviceHandheld(): boolean {
@@ -193,6 +210,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
     /**
      * Returns true if the projectRole is "Human Cell Atlas wrangler".
+     *
      * @param {string} projectRole
      * @returns {boolean}
      */
@@ -272,6 +290,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     /**
      * Returns string-concat'ed version of the array,
      * with the value of interest "Smart-seq2" linked to a page in the Data Portal.
+     *
      * @param {any[]} values
      * @param {string} linkedValue
      * @returns {string}

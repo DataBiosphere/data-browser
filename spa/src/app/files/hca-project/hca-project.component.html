@@ -38,11 +38,7 @@
                         <ng-container [ngSwitch]="state.project.publications.length > 0">
                             <ng-container *ngSwitchCase="true">
                                 <div *ngFor="let publication of state.project.publications" class="details">
-                                    <p class="fontsize-xxs">{{publication.publicationTitle}}</p>
-                                    <p class="fontsize-xxs" *ngIf="!!publication.publicationUrl"><a
-                                            href="{{publication.publicationUrl}}" target="_blank"
-                                            class="link">View
-                                        here</a></p>
+                                    <p class="fontsize-xxs" [innerHTML]="getPublication(publication)"></p>
                                 </div>
                             </ng-container>
                             <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
