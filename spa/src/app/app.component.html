@@ -1,5 +1,5 @@
-<div *ngIf="(config$ | async)?.deployment === 'prod'" class="status persistent">
-    Warning: in maintenance mode for data re-ingestion
+<div *ngIf="isMaintenanceModeWarningVisible((config$ | async)?.deployment)" class="status persistent">
+    <p class="fontsize-l">Warning: in maintenance mode for data re-ingestion</p>
 </div>
 <ng-container *ngIf="health$ | async as health">
     <div *ngIf="!health.ok" class="status">
