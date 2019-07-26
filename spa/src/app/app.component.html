@@ -3,10 +3,10 @@
 </div>
 <ng-container *ngIf="health$ | async as health">
     <div *ngIf="!health.ok" class="status">
-        One or more of the systems composing the HCA DCP is currently unavailable. Please try again later, or monitor the full system status <a href="/system-status">here</a>
+        <p class="fontsize-l">One or more of the systems composing the HCA DCP is currently unavailable. Please try again later, or monitor the full system status <a href="/system-status">here</a>.</p>
     </div>
     <div *ngIf="health.ok && health.indexing" class="status">
-        Data indexing in progress. Search results may be incomplete.
+        <p class="fontsize-l">Data indexing in progress. Search results may be incomplete.</p>
     </div>
 </ng-container>
 <header>

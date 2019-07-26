@@ -16,17 +16,21 @@
         background-color: #000;
         display: flex;
         color: #fff;
-        font-family: Montserrat,sans-serif;
-        font-size: 18px;
         justify-content: center;
-        min-height: 66px;
-        padding: 0 16px;
+        padding: 14px 0;
+
         &.persistent {
             background-color: $hca-orange;
         }
+
+        p {
+            margin: 0 16px;
+        }
+
         a {
+            color: inherit;
             display: inline-block;
-            margin-left: 6px;
+            text-decoration: underline;
         }
     }
 
