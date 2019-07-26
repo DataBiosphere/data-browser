@@ -7,8 +7,7 @@
 
 // Core dependencies
 import {
-    AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input,
-    Output
+    AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output
 } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
 
@@ -16,11 +15,11 @@ import { ConfigService } from "../../config/config.service";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
-    selector: "hca-get-project-matrix-data",
-    templateUrl: "./hca-get-project-matrix-data.component.html",
-    styleUrls: ["./hca-get-project-matrix-data.component.scss"]
+    selector: "project-prepared-matrix-downloads",
+    templateUrl: "./project-prepared-matrix-downloads.component.html",
+    styleUrls: ["./project-prepared-matrix-downloads.component.scss"]
 })
-export class HCAGetProjectMatrixDataComponent implements AfterViewInit, AfterViewChecked {
+export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, AfterViewChecked, OnInit {
 
     // Inputs
     @Input() matrixAvailable: boolean;
@@ -29,44 +28,36 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit, AfterVie
     @Input() projectURLs: ProjectMatrixUrls;
 
     // Outputs
-    @Output() projectDataMatrixClose = new EventEmitter<boolean>();
-    @Output() projectDataMatrixPosition = new EventEmitter<string>();
+    @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
+    @Output() preparedMatrixDownloadsTop = new EventEmitter<string>(); // CC position top value
     @Output() projectDataMatrixPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
-    public cardOpen = false;
     public cardProjection: number;
 
     /**
      * @param {ConfigService} configService
      * @param {ElementRef} elementRef
      */
-    public constructor(private configService: ConfigService, private elementRef: ElementRef) {}
+    public constructor(private configService: ConfigService, private elementRef: ElementRef) {
+    }
 
     /**
      * Public API
      */
 
     /**
-     * Click event to close card.
-     * Listens for a click event outside of the card.
+     * Add click handler to determine if we should close card.
      *
-     * @param target
+     * @param {EventTarget} target
      */
     @HostListener("document:click", ["$event.target"])
-    public onClick(target) {
+    public onDocumentClick(target: EventTarget) {
 
+        // If the click event is outside the card, then close the card.
         const clickedInside = this.elementRef.nativeElement.contains(target);
-
-        // If the <hca-get-project-matrix-data> card is open and
-        // the click event was outside the card, then close the card.
-        if ( !clickedInside && this.cardOpen ) {
-            this.cardOpen = false;
-            this.onGetProjectDataMatrixClose();
-        }
-        // The card is closed
-        else {
-            this.cardOpen = true;
+        if ( !clickedInside ) {
+            this.onPreparedMatrixDownloadsOpened(false);
         }
     }
 
@@ -101,18 +92,19 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit, AfterVie
 
         // Get elements.
         const nativeElement = this.elementRef.nativeElement;
-        let card = nativeElement.firstElementChild.getBoundingClientRect(),
+        const card = nativeElement.firstElementChild.getBoundingClientRect(),
             table = nativeElement.closest("mat-table").getBoundingClientRect(),
             row = nativeElement.closest("mat-row").getBoundingClientRect(),
             headerRow = nativeElement.closest("mat-table").firstElementChild.getBoundingClientRect();
 
         // Calculate available heights for: window, vertical px above and below active row in relation to header row and table bottom, scroll position [includes table snapped/or not].
-        let availableHeightAboveActiveRow = Math.max(0, (row.top - table.top - headerRow.height)); // check value when not snapped
+        const availableHeightAboveActiveRow = Math.max(0, (row.top - table.top - headerRow.height)); // check value when not snapped
 
-        // Card positioning.
-        // Default position is above active row, unless there is insufficent space and then it will be positioned below the active row.
-        let projectDataMatrixTopPosition = availableHeightAboveActiveRow > card.height ? -card.height + "px" : "100%";
-        this.projectDataMatrixPosition.emit(projectDataMatrixTopPosition);
+        // Card positioning. Default position is above active row, unless there is insufficient space and then it will
+        // be positioned below the active row. For position above, scoot card up by the total card height. For position
+        // below, use "100%" of row height to place it below row.
+        const projectDataMatrixTopPosition = availableHeightAboveActiveRow > card.height ? `-${card.height}px` : "100%";
+        this.preparedMatrixDownloadsTop.emit(projectDataMatrixTopPosition);
     }
 
     /**
@@ -127,11 +119,16 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit, AfterVie
     }
 
     /**
-     * Closes get project data by matrix.
+     * Let parents know download component has either been opened or closed.
+     *
+     * @param {boolean} opened
      */
-    public onGetProjectDataMatrixClose() {
-        this.projectDataMatrixClose.emit(false);
-        this.projectDataMatrixPositionBelowTable.emit(0);
+    public onPreparedMatrixDownloadsOpened(opened: boolean) {
+
+        this.preparedMatrixDownloadsOpened.emit(opened);
+        if ( !opened ) {
+            this.projectDataMatrixPositionBelowTable.emit(0);
+        }
     }
 
     /**
@@ -146,8 +143,19 @@ export class HCAGetProjectMatrixDataComponent implements AfterViewInit, AfterVie
         this.getPositionProjectMatrixDataCard();
     }
 
+    /**
+     *
+     */
     ngAfterViewChecked() {
 
         this.getCardPositionBelowTable();
+    }
+
+    /**
+     * Let parents know downloads are now open.
+     */
+    ngOnInit() {
+
+        this.onPreparedMatrixDownloadsOpened(true);
     }
 }

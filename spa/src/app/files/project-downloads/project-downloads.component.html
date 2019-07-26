@@ -1,0 +1,12 @@
+<div [ngClass]="{'project-data': true, 'device': isDeviceHandheld()}">
+    <div (click)="onDownloadMetadata()"></div>
+    <div [ngClass]="{'unavailable': !matrixAvailable}" (click)="onShowPreparedMatrixDownloadsClicked($event)"></div>
+    <project-prepared-matrix-downloads *ngIf="preparedMatrixDownloadsOpen"
+                                 [ngStyle]="{'top': preparedMatrixDownloadsTop}"
+                                 (preparedMatrixDownloadsOpened)="onPreparedMatrixDownloadsOpened($event)"
+                                 (preparedMatrixDownloadsTop)="onPreparedMatrixDownloadsTop($event)"
+                                 (projectDataMatrixPositionBelowTable)="onProjectDataMatrixPositionBelowTable($event)"
+                                 [projectId]="projectId"
+                                 [projectTitle]="projectTitle"
+                                 [projectURLs]="projectURLs"></project-prepared-matrix-downloads>
+</div>

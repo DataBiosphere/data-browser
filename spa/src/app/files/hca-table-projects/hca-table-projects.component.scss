@@ -7,7 +7,7 @@
 @import "../../site/theme/cgl.vars";
 
 :host {
-    flex: 1; // Required for <hca-get-project-matrix-data>, and for table to take up remaining space - positions mobile download banner to bottom */
+    flex: 1; // Required for <project-prepared-matrix-downloads>, and for table to take up remaining space - positions mobile download banner to bottom */
     position: relative; /* Positions fade on horizontal scroll */
 
     /* Fade on horizontal scroll */
@@ -39,7 +39,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: 100%; /* Required for <hca-get-project-matrix-data> */
+    height: 100%; /* Required for <project-prepared-matrix-downloads> */
     overflow-x: auto; /* Horizontal scroll */
     -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
     overscroll-behavior-x: none; /* Prevents bounce - excludes safari */

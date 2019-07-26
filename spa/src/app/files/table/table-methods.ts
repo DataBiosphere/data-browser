@@ -413,14 +413,13 @@ export function getHeaderRowHeight(): number {
  * @param {number} rowIndex
  * @param snapped
  * @param {boolean} projectMatrixOpen
- * @param {number} activeRow
  * @returns {{[p: string]: boolean}}
  */
-export function getRowClass(rowIndex: number, snapped, projectMatrixOpen: boolean, activeRow: number): { [className: string]: boolean } {
+export function getRowClass(rowIndex: number, snapped, activeRowIndex: number): { [className: string]: boolean } {
 
     return {
         snapped: (rowIndex === 0) && snapped,
-        active: projectMatrixOpen && (rowIndex === activeRow)
+        active: rowIndex === activeRowIndex
     };
 }
 
@@ -486,7 +485,7 @@ export function getSelfOrFirst(value) {
 
 /**
  * Return the inline style configuration for the table.
- * Applied when the <hca-get-project-matrix-data> card renders beyond the table bounds.
+ * Applied when the <project-prepared-matrix-downloads> card renders beyond the table bounds.
  * Used by <hca-table-projects>.
  *
  * @param {string} margin

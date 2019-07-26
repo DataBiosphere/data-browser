@@ -14,11 +14,11 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
-    selector: "hca-get-project-data",
-    templateUrl: "./hca-get-project-data.component.html",
-    styleUrls: ["./hca-get-project-data.component.scss"]
+    selector: "project-downloads",
+    templateUrl: "./project-downloads.component.html",
+    styleUrls: ["./project-downloads.component.scss"]
 })
-export class HCAGetProjectDataComponent {
+export class ProjectDownloadsComponent {
 
     // Inputs
     @Input() matrixAvailable: boolean;
@@ -27,12 +27,12 @@ export class HCAGetProjectDataComponent {
     @Input() projectURLs: ProjectMatrixUrls;
 
     // Output
-    @Output() projectDataMatrixOpen = new EventEmitter<boolean>();
+    @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
     @Output() projectDataMatrixPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
-    projectDownloadActive = false;
-    cardTopPosition;
+    public preparedMatrixDownloadsOpen = false;
+    public preparedMatrixDownloadsTop;
 
     /**
      * @param {ConfigService} configService
@@ -74,30 +74,37 @@ export class HCAGetProjectDataComponent {
     }
 
     /**
-     * Matrix download for the project is requested.
+     * Display the prepared matrix downloads card.
+     * 
+     * @param {MouseEvent} event
      */
-    public onDownloadMatrix() {
+    public onShowPreparedMatrixDownloadsClicked(event: MouseEvent) {
+
+        if ( !this.preparedMatrixDownloadsOpen ) {
+            event.stopPropagation();
+        }
 
         if ( this.isDeviceHandheld() || !this.matrixAvailable ) {
             return false; // do nothing
         }
 
-        this.projectDataMatrixOpen.emit(true);
-        this.projectDownloadActive = true;
+        this.preparedMatrixDownloadsOpen = true;
     }
 
     /**
-     * Matrix download for the project is cancelled.
+     * Prepared matrix download card for the selected project is closed.
+     * 
+     * @param {boolean} opened
      */
-    public onProjectDataMatrixClose() {
+    public onPreparedMatrixDownloadsOpened(opened: boolean) {
 
-        this.projectDataMatrixOpen.emit(false);
-        this.projectDownloadActive = false;
+        this.preparedMatrixDownloadsOpen = opened;
+        this.preparedMatrixDownloadsOpened.emit(this.preparedMatrixDownloadsOpen);
     }
 
     /**
      * Provides a calculated table margin, if required, determined by the vertical positioning
-     * of <hca-get-project-matrix-data>.
+     * of <project-prepared-matrix-downloads>.
      *
      * @param event
      */
@@ -106,11 +113,12 @@ export class HCAGetProjectDataComponent {
     }
 
     /**
-     * Provides vertical positioning for <hca-get-project-matrix-data>.
+     * Provides vertical positioning for <project-prepared-matrix-downloads>.
      *
-     * @param event
+     * @param {string} top
      */
-    public onProjectDataMatrixPosition(event) {
-        this.cardTopPosition = event;
+    public onPreparedMatrixDownloadsTop(top: string) {
+
+        this.preparedMatrixDownloadsTop = top;
     }
 }

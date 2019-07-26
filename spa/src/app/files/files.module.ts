@@ -54,8 +54,6 @@ import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.compon
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result.component";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
-import { HCAGetProjectDataComponent } from "./hca-get-project-data/hca-get-project-data.component";
-import { HCAGetProjectMatrixDataComponent } from "./hca-get-project-matrix-data/hca-get-project-matrix-data.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
 import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
@@ -72,13 +70,15 @@ import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projec
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
+import { ProjectService } from "./project/project.service";
+import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
+import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
-import { ProjectService } from "./project/project.service";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
@@ -137,8 +137,8 @@ import { TermResponseService } from "./shared/term-response.service";
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
-        HCAGetProjectDataComponent,
-        HCAGetProjectMatrixDataComponent,
+        ProjectDownloadsComponent,
+        ProjectPreparedMatrixDownloadsComponent,
         HCAProjectComponent,
         HCARequestMatrixComponent,
         HCARequestMatrixModalComponent,

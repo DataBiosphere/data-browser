@@ -75,8 +75,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isTooltipDisabled = isTooltipDisabled;
     public loading$: Observable<boolean>;
     public pagination$: Observable<PaginationModel>;
-    public projectDataMatrixActiveRow;
-    public projectDataMatrixOpen = false;
+    public activeRowIndex = null;
     public selectFileSummary$: Observable<FileSummary>;
     public dataSource: EntitiesDataSource<ProjectRowMapper>;
     public projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
@@ -121,6 +120,16 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Returns true if any row is currently active. Currently only possible during prepared matrix download flow.
+     * 
+     * @returns {boolean}
+     */
+    public isAnyRowActive(): boolean {
+
+        return this.activeRowIndex !== null;
+    }
+
+    /**
      * Returns true if there is at least one matrix expression available for the specified project.
      *
      * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
@@ -147,18 +156,17 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      * Handle the open/close event of project matrix download.
      * Update local variables that will determine mat-row and mat-header-row styles.
      *
-     * @param event
-     * @param row
+     * @param {boolean} opened
+     * @param {number} selectedIndex
      */
-    public onProjectDataMatrixOpen(event, row) {
+    public onPreparedMatrixDownloadsOpened(opened: boolean, selectedIndex: number) {
 
-        this.projectDataMatrixOpen = event;
-        this.projectDataMatrixActiveRow = row;
+        this.activeRowIndex = opened ? selectedIndex : null;
     }
 
     /**
      * Provides a calculated table margin, if required, determined by the vertical positioning
-     * of <hca-get-project-matrix-data>.
+     * of <project-prepared-matrix-downloads>.
      *
      * @param event
      */

@@ -11,7 +11,7 @@
     flex: 1; // Push footer to bottom of available space (inside snapper)
 
     .layout-column {
-        display: flex; // Required to display <hca-get-project-matrix-data>
+        display: flex; // Required to display <project-prepared-matrix-downloads>
         height: 100%; // Required for download banner hca-download-manifest
     }
 
