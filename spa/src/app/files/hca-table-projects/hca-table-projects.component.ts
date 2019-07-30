@@ -170,7 +170,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
      *
      * @param event
      */
-    public onProjectDataMatrixPositionBelowTable(event) {
+    public onPreparedMatrixDownloadsPositionBelowTable(event) {
         this.tableMarginBottom = event;
     }
 

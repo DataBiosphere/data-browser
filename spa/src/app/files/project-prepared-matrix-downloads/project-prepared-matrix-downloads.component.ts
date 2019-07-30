@@ -30,7 +30,7 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
     // Outputs
     @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
     @Output() preparedMatrixDownloadsTop = new EventEmitter<string>(); // CC position top value
-    @Output() projectDataMatrixPositionBelowTable = new EventEmitter<number>();
+    @Output() preparedMatrixDownloadsPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
     public cardProjection: number;
@@ -78,7 +78,7 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
         if ( cardPositionRelativeToTable > 0 && this.cardProjection !== cardPositionRelativeToTable ) {
 
             this.cardProjection = cardPositionRelativeToTable;
-            this.projectDataMatrixPositionBelowTable.emit(this.cardProjection);
+            this.preparedMatrixDownloadsPositionBelowTable.emit(this.cardProjection);
         }
         else {
             return; // do nothing
@@ -127,7 +127,7 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
 
         this.preparedMatrixDownloadsOpened.emit(opened);
         if ( !opened ) {
-            this.projectDataMatrixPositionBelowTable.emit(0);
+            this.preparedMatrixDownloadsPositionBelowTable.emit(0);
         }
     }
 

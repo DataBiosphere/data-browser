@@ -28,7 +28,7 @@ export class ProjectDownloadsComponent {
 
     // Output
     @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
-    @Output() projectDataMatrixPositionBelowTable = new EventEmitter<number>();
+    @Output() preparedMatrixDownloadsPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
     public preparedMatrixDownloadsOpen = false;
@@ -108,8 +108,8 @@ export class ProjectDownloadsComponent {
      *
      * @param event
      */
-    public onProjectDataMatrixPositionBelowTable(event) {
-        this.projectDataMatrixPositionBelowTable.emit(event);
+    public onPreparedMatrixDownloadsPositionBelowTable(event) {
+        this.preparedMatrixDownloadsPositionBelowTable.emit(event);
     }
 
     /**

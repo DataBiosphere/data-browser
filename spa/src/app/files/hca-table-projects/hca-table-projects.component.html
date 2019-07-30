@@ -187,7 +187,7 @@
                           [ngStyle]="getColumnStyle('getData')">
                     <hca-table-cell [tooltipDisabled]="true">
                         <project-downloads (preparedMatrixDownloadsOpened)="onPreparedMatrixDownloadsOpened($event, j)"
-                                              (projectDataMatrixPositionBelowTable)="onProjectDataMatrixPositionBelowTable($event)"
+                                              (preparedMatrixDownloadsPositionBelowTable)="onPreparedMatrixDownloadsPositionBelowTable($event)"
                                               [matrixAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
                                               [projectId]="element.entryId"
                                               [projectTitle]="element.projectTitle"
