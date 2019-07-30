@@ -20,8 +20,6 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
-import { HCAGetProjectMatrixDataComponent } from "../hca-get-project-matrix-data/hca-get-project-matrix-data.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-header-download/hca-table-column-header-download.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
@@ -32,6 +30,8 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { ProjectDownloadsComponent } from "../project-downloads/project-downloads.component";
+import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 
@@ -47,8 +47,6 @@ describe("HCATableProjectsComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCAContentEllipsisComponent,
-                HCAGetProjectDataComponent,
-                HCAGetProjectMatrixDataComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,
@@ -58,7 +56,9 @@ describe("HCATableProjectsComponent", () => {
                 HCATablePaginationComponent,
                 HCATableProjectsComponent,
                 HCATableSortComponent,
-                HCATooltipComponent
+                HCATooltipComponent,
+                ProjectDownloadsComponent,
+                ProjectPreparedMatrixDownloadsComponent
             ],
             imports: [
                 BrowserAnimationsModule,

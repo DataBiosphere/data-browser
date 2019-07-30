@@ -26,8 +26,6 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCAGetProjectDataComponent } from "../hca-get-project-data/hca-get-project-data.component";
-import { HCAGetProjectMatrixDataComponent } from "../hca-get-project-matrix-data/hca-get-project-matrix-data.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
@@ -39,6 +37,8 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { ProjectDownloadsComponent } from "../project-downloads/project-downloads.component";
+import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { DownloadService } from "../shared/download.service";
 
@@ -55,8 +55,8 @@ describe("HCATableFilesComponent", () => {
             declarations: [
                 HCAContentEllipsisComponent,
                 HCADownloadFileComponent,
-                HCAGetProjectDataComponent,
-                HCAGetProjectMatrixDataComponent,
+                ProjectDownloadsComponent,
+                ProjectPreparedMatrixDownloadsComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,

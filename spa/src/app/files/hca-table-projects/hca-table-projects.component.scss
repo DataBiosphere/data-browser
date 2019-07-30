@@ -7,7 +7,7 @@
 @import "../../site/theme/cgl.vars";
 
 :host {
-    height: 100%; /* Table to take up remaining space - positions mobile download banner to bottom hca-download-manifest */
+    flex: 1; // Required for <project-prepared-matrix-downloads>, and for table to take up remaining space - positions mobile download banner to bottom */
     position: relative; /* Positions fade on horizontal scroll */
 
     /* Fade on horizontal scroll */
@@ -39,6 +39,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    height: 100%; /* Required for <project-prepared-matrix-downloads> */
     overflow-x: auto; /* Horizontal scroll */
     -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
     overscroll-behavior-x: none; /* Prevents bounce - excludes safari */
@@ -47,6 +48,15 @@
     /* HCA table */
     .hca-table {
         margin-top: 24px;
+
+        /* Project data matrix card open - opacity applied to unselected rows */
+        &.card-open {
+
+            /* Unselected rows */
+            mat-row:not(.active) {
+                opacity: 0.24;
+            }
+        }
 
         mat-table {
             margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
@@ -66,27 +76,11 @@
                 border-bottom: 1px solid $hca-gray-lightest;
             }
 
-            /* Inactive header row and active row overlay */
-            /* Preserves clickable content i.e. sort button or other download matrix buttons, links */
-            .mat-header-row.inactive:after, mat-row.active:after {
-                background-color: transparent;
-                height: 100%;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            /* Header row - inactive overlay */
-            mat-header-row.inactive:after {
-                content: "";
-                position: absolute;
-                z-index: 126; /* Positioned above mat-header-row && project matrix download */
-            }
-
-            /* Row active overlay */
-            mat-row.active:after {
-                position: fixed;
-                z-index: 110;
+            /* Active row */
+            /* Positions relevant overlays/shade */
+            /* Activated by project matrix download event [open/close] */
+            mat-row.active {
+                position: relative;
             }
 
             /* Row - active style */
@@ -95,22 +89,11 @@
                 bottom: 0;
                 content: "";
                 left: -30px;
+                pointer-events: none;
                 position: absolute;
                 right: -30px;
                 top: 0;
                 width: auto;
-            }
-
-            /* Inactive row */
-            mat-row.inactive {
-                opacity: 0.24;
-            }
-
-            /* Inactive header row, active or inactive row */
-            /* Positions relevant overlays/shade */
-            /* Activated by project matrix download event [open/close] */
-            mat-header-row.inactive, mat-row.active, mat-row.inactive {
-                position: relative;
             }
 
             /* Cell - header and cell */
@@ -231,12 +214,6 @@
 
             mat-table {
                 margin: 0;
-
-                /* Header row - unsnapped - positions overlay */
-                /* For when project matrix download is active */
-                mat-header-row.inactive:not(.snapped) {
-                    position: relative;
-                }
 
                 /* Snapped header row */
                 mat-header-row.snapped {

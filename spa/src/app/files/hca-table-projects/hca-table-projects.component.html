@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped}">
+    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped, 'card-open': isAnyRowActive()}" [ngStyle]="getTableStyle(tableMarginBottom)">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
@@ -186,11 +186,12 @@
                 <mat-cell *matCellDef="let element let j=index;" [ngClass]="getColumnClass('getData')"
                           [ngStyle]="getColumnStyle('getData')">
                     <hca-table-cell [tooltipDisabled]="true">
-                        <hca-get-project-data (onProjectDataMatrixOpen)="onProjectDataMatrixOpen($event, j)"
+                        <project-downloads (preparedMatrixDownloadsOpened)="onPreparedMatrixDownloadsOpened($event, j)"
+                                              (preparedMatrixDownloadsPositionBelowTable)="onPreparedMatrixDownloadsPositionBelowTable($event)"
                                               [matrixAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
                                               [projectId]="element.entryId"
                                               [projectTitle]="element.projectTitle"
-                                              [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></hca-get-project-data>
+                                              [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></project-downloads>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -239,9 +240,9 @@
                 </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"
-                            [ngClass]="getHeaderClass(snapped, isProjectDataMatrixOpen)"></mat-header-row>
+                            [ngClass]="getHeaderClass(snapped)"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped, isProjectDataMatrixOpen, getProjectDataMatrixActiveRow)"
+                     [ngClass]="getRowClass(i, snapped, activeRowIndex)"
                      [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
