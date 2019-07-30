@@ -33,7 +33,7 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { Publication } from "../shared/publication.model";
 
 @Component({
     selector: "hca-project",
@@ -135,10 +135,10 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     /**
      * Returns publication title with a link to the publication URL, if it exists.
      *
-     * @param publication
+     * @param {Publication} publication
      * @returns {string}
      */
-    public getPublication(publication): string {
+    public getPublication(publication: Publication): string {
 
         return publication.publicationUrl ? `<a href=${publication.publicationUrl} target="_blank" rel="noopener noreferrer">${publication.publicationTitle}</a>` : publication.publicationTitle;
     }

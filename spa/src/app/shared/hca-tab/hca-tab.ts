@@ -28,7 +28,7 @@ export class HCATabComponent {
     @Input() tabs: EntitySpec[];
 
     // Outputs
-    @Output() tabSelected = new EventEmitter<string>();
+    @Output() tabSelected = new EventEmitter<EntitySpec>();
 
     /**
      * Public API
@@ -36,6 +36,7 @@ export class HCATabComponent {
 
     /**
      * Return the set of CSS class names that are applicable to the tab.
+     *
      * @param {string} selectedTab
      * @param {string} tabKey
      * @param {string} tabDisplayName
@@ -55,7 +56,7 @@ export class HCATabComponent {
      *
      * @param {string} tab
      */
-    public onClickTab(tab: string): void {
+    public onClickTab(tab: EntitySpec): void {
 
         this.tabSelected.emit(tab);
     }

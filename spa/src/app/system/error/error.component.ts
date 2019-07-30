@@ -12,8 +12,10 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
+import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
+import { selectSelectedEntity } from "../../files/_ngrx/file.selectors";
+import EntitySpec from "../../files/shared/entity-spec";
 
 
 @Component({
@@ -26,11 +28,41 @@ export class ErrorComponent implements OnDestroy, OnInit {
     // Public variables
     public errorMessage$: Observable<string>;
     public requestUrl$: Observable<string>;
+    public selectedEntity$: Observable<EntitySpec>;
 
     /**
      * @param {Store<AppState>} store
      */
     public constructor(private store: Store<AppState>) {}
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Returns routerLink with previously stored tab key.
+     *
+     * @param {EntitySpec} selectedEntity
+     * @returns {string[]}
+     */
+    public getRouterLink(selectedEntity: EntitySpec): string[] {
+
+        if ( selectedEntity ) {
+            return ["/" + selectedEntity.key];
+        }
+        else {
+            return ["/projects"];
+        }
+    }
+
+    /**
+     * Returns current selected tab key from the store and display name.
+     *
+     * @returns {EntitySpec[]}
+     */
+    public getTab(selectedEntity: EntitySpec): EntitySpec[] {
+        return [{key: selectedEntity.key, displayName: "Back"}];
+    }
 
     /**
      * Life cycle hooks
@@ -52,5 +84,8 @@ export class ErrorComponent implements OnDestroy, OnInit {
         // Grab reference to error message and request URL
         this.errorMessage$ = this.store.pipe(select(selectErrorMessage));
         this.requestUrl$ = this.store.pipe(select(selectRequestUrl));
+
+        // Determine the current selected tab (from table)
+        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
     }
 }
