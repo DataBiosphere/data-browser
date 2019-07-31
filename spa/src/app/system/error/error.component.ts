@@ -6,16 +6,14 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { ClearSelectedTermsAction } from "../../files/_ngrx/search/clear-selected-terms.action";
-import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
+import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 
 
 @Component({
@@ -31,20 +29,20 @@ export class ErrorComponent implements OnDestroy, OnInit {
 
     /**
      * @param {Store<AppState>} store
+     * @param {Window} window
      */
-    public constructor(private router: Router, private store: Store<AppState>) {}
+    public constructor(private store: Store<AppState>, @Inject("Window") private window: Window) {}
 
     /**
      * Public API
      */
 
     /**
-     * Dispatch event to remove all selected search terms and return user back to projects tab.
+     * Return user back to projects tab.
      */
     public onReturnToExplore() {
 
-        this.store.dispatch(new ClearSelectedTermsAction());
-        this.router.navigate(["/projects"]);
+        this.window.location.href = "/projects";
     }
 
     /**
