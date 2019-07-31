@@ -6,14 +6,14 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
+import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 
 
 @Component({
@@ -29,8 +29,21 @@ export class ErrorComponent implements OnDestroy, OnInit {
 
     /**
      * @param {Store<AppState>} store
+     * @param {Window} window
      */
-    public constructor(private store: Store<AppState>) {}
+    public constructor(private store: Store<AppState>, @Inject("Window") private window: Window) {}
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Return user back to projects tab.
+     */
+    public onReturnToExplore() {
+
+        this.window.location.href = "/projects";
+    }
 
     /**
      * Life cycle hooks
