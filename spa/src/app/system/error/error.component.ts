@@ -7,11 +7,13 @@
 
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { ClearSelectedTermsAction } from "../../files/_ngrx/search/clear-selected-terms.action";
 import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
 
@@ -30,7 +32,20 @@ export class ErrorComponent implements OnDestroy, OnInit {
     /**
      * @param {Store<AppState>} store
      */
-    public constructor(private store: Store<AppState>) {}
+    public constructor(private router: Router, private store: Store<AppState>) {}
+
+    /**
+     * Public API
+     */
+
+    /**
+     * Dispatch event to remove all selected search terms and return user back to projects tab.
+     */
+    public onReturnToExplore() {
+
+        this.store.dispatch(new ClearSelectedTermsAction());
+        this.router.navigate(["/projects"]);
+    }
 
     /**
      * Life cycle hooks

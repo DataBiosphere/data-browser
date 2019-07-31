@@ -4,6 +4,7 @@
             <ng-container [ngSwitch]="!!(errorMessage$ | async)">
                 <ng-container *ngSwitchCase="true">
                     <p class="fontsize-m">An error occurred processing your request.</p>
+                    <p class="fontsize-m link" (click)="onReturnToExplore()">Return to Explore.</p>
                     <h4 class="fontsize-m">Request URL</h4>
                     <p class="error-info fontsize-s">{{requestUrl$ | async}}</p>
                     <h4 class="fontsize-m">Error Message</h4>
@@ -11,6 +12,7 @@
                 </ng-container>
                 <ng-container *ngSwitchDefault>
                     <p>An error occurred processing your request.</p>
+                    <p class="fontsize-m link" (click)="onReturnToExplore()">Return to Explore.</p>
                 </ng-container>
             </ng-container>
         </ng-container>

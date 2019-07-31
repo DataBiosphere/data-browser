@@ -11,6 +11,16 @@
 :host {
     flex: 1;
 
+    /* Link */
+    .link {
+        color: $hca-primary;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
     .error-info {
         background-color: $hca-off-white;
         border-radius: 3px;
