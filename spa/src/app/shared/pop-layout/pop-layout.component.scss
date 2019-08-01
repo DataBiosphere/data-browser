@@ -5,43 +5,17 @@
  * Styles for a plain old page layout.
  */
 
-@import "../../site/theme/cgl.vars";
-
 :host {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
 
     /* Wrapper */
     .wrapper {
-        //align-items: center;
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
-        flex: 1;
-        width: 100%;
-    }
-
-    .content {
-        margin: 36px 0;
     }
 }
 
-:host-context(.content-centered) {
-    .wrapper {
-        text-align: center;
-    }
-}
-
-/**
- * Tablet +
- */
-@media screen and (min-width: 768px) {
-
-    .wrapper {
-        max-width: 656px; /* 688px total width and 16px padding, in keeping with hca-project component */
-    }
+/* <hca-tab> nested underneath <hca-section-title> */
+hca-section-title + hca-tab {
+    margin-top: -24px;
 }
 
 /**
@@ -53,7 +27,7 @@
 
         /* Wrapper */
         .wrapper {
-            padding: 0 30px;
+            padding: 0 30px; /* Gutter 30px */
         }
     }
 }

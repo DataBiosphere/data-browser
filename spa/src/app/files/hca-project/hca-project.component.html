@@ -1,9 +1,6 @@
-<hca-section-title>
+<pop-layout [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()">
     <ng-container title>Explore Project</ng-container>
-</hca-section-title>
-<hca-tab [tabs]="getProjectDetailTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
-<div *ngIf="state$ | async as state">
-    <div class="wrapper">
+    <div content class="explore-project" *ngIf="state$ | async as state">
         <div class="project-title">
             <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
             <div class="select-project"
@@ -109,7 +106,8 @@
                                              [tooltipPosition]="'above'">Expression Matrix
                                 </hca-tooltip>
                             </p>
-                            <ng-container [ngSwitch]="state.projectMatrixUrls && state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
+                            <ng-container
+                                    [ngSwitch]="state.projectMatrixUrls && state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
                                 <ng-container *ngSwitchCase="true">
                                     <p class="fontsize-xs rhs downloads">
                                         <span *ngIf="state.projectMatrixUrls.isProjectMatrixCSVAvailable()"><a
@@ -134,7 +132,8 @@
                                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                                              [tooltipContent]="getColumnDescription('projectShortname')"
                                              [tooltipDisabled]="false"
-                                             [tooltipPosition]="'above'">{{getColumnDisplayName('projectShortname')}}
+                                             [tooltipPosition]="'above'">
+                                    {{getColumnDisplayName('projectShortname')}}
                                 </hca-tooltip>
                             </p>
                             <p class="fontsize-xs rhs">{{state.project.projectShortname}}</p>
@@ -169,7 +168,8 @@
                                 >{{getColumnDisplayName('organPart')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.organPart, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.organPart,
+                                "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -212,7 +212,8 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('fileFormat')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.fileType, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.fileType,
+                                "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -275,7 +276,8 @@
                     <div class="project-workflows" *ngIf="analysisToolsAvailable">
                         <h4 class="fontsize-m semi-bold">Launch Workflow</h4>
                         <div>
-                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank" rel="noopener noreferrer">Send
+                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
+                                                                    rel="noopener noreferrer">Send
                                 to Terra</a></p>
                         </div>
                     </div>
@@ -283,4 +285,4 @@
             </div>
         </div>
     </div>
-</div>
+</pop-layout>

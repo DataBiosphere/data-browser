@@ -10,16 +10,10 @@
     flex: 1;
 }
 
-/* <hca-tab> nested underneath <hca-section-title> */
-hca-section-title + hca-tab {
-    margin-top: -24px;
-}
-
-/* Wrapper */
-.wrapper {
+/* Explore project */
+.explore-project {
     display: flex;
     flex-direction: column;
-    padding: 0 16px; /* Gutter 16px */
 
     /* Project overview */
     .project-overview {
@@ -194,7 +188,7 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 600px) {
 
-    .wrapper {
+    .explore-project {
 
         /* LHS container */
         .lhs {
@@ -225,7 +219,7 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 1024px) {
 
-    .wrapper {
+    .explore-project {
 
         /* Project overview */
         .project-overview {
@@ -259,10 +253,9 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 1200px) {
 
-    .wrapper {
+    .explore-project {
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 0 30px; /* Gutter 30px */
 
         /* First column */
         .project-overview > div:first-of-type {
@@ -278,7 +271,7 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 1600px) {
 
-    .wrapper {
+    .explore-project {
 
         /* LHS container */
         .lhs {
@@ -308,7 +301,7 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 1920px) {
 
-    .wrapper {
+    .explore-project {
 
         /* Downloads */
         p.downloads {
