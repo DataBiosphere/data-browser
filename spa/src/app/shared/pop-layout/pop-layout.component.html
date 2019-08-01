@@ -1,11 +1,7 @@
 <hca-section-title>
-    <ng-container title>
-        <ng-content select="[title]"></ng-content>
-    </ng-container>
+    <ng-content select="[title]"></ng-content>
 </hca-section-title>
-<hca-tab class="secondary" select="[tab]"></hca-tab>
+<hca-tab [tabs]="getTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
 <div class="wrapper">
-    <div class="content">
-        <ng-content select="[content]"></ng-content>
-    </div>
+    <ng-content select="[content]"></ng-content>
 </div>

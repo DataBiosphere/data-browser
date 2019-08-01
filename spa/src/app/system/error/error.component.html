@@ -1,19 +1,19 @@
 <pop-layout>
         <ng-container title>Error</ng-container>
         <ng-container content>
-            <ng-container [ngSwitch]="!!(errorMessage$ | async)">
+            <div class="error" [ngSwitch]="!!(errorMessage$ | async)">
                 <ng-container *ngSwitchCase="true">
                     <p class="fontsize-m">An error occurred processing your request.</p>
                     <p class="fontsize-m link" (click)="onReturnToExplore()">Return to Explore.</p>
                     <h4 class="fontsize-m">Request URL</h4>
-                    <p class="error-info fontsize-s">{{requestUrl$ | async}}</p>
+                    <p class="fontsize-s inline-code">{{requestUrl$ | async}}</p>
                     <h4 class="fontsize-m">Error Message</h4>
                     <p class="error-info fontsize-s" [innerHTML]="errorMessage$ | async"></p>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
-                    <p>An error occurred processing your request.</p>
+                    <p class="fontsize-m">An error occurred processing your request.</p>
                     <p class="fontsize-m link" (click)="onReturnToExplore()">Return to Explore.</p>
                 </ng-container>
-            </ng-container>
+            </div>
         </ng-container>
 </pop-layout>
