@@ -50,7 +50,8 @@
 
         mat-table {
             margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
-            min-width: 1220px; /* Fixed table width for horizontal scroll - snap at 1280px */
+            max-width: 1540px; /* Required to prevent table from fully expanding on small screens - prod environment only. Width variation for files table. */
+            min-width: 1540px; /* Fixed table width for horizontal scroll. Width variation for files table. */
 
             /* Row - header and cell */
             mat-header-row, mat-row {
@@ -69,7 +70,7 @@
 
             /* Cell - header and cell */
             mat-header-cell, mat-cell {
-                flex: 0 1 10%;
+                flex: 0 1 10%; /* NB: flex variation to project and samples tables */
                 padding: 0;
             }
 
@@ -156,6 +157,8 @@
 
             mat-table {
                 margin: 0;
+                max-width: unset; /* Required */
+                min-width: 1220px; /* Fixed table width for horizontal scroll - snap at 1280px */
 
                 /* Snapped header row */
                 mat-header-row.snapped {
