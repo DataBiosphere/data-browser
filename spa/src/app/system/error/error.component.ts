@@ -42,7 +42,7 @@ export class ErrorComponent implements OnDestroy, OnInit {
      */
     public onReturnToExplore() {
 
-        this.window.location.href = "/projects";
+        this.window.location.href = "/explore";
     }
 
     /**
