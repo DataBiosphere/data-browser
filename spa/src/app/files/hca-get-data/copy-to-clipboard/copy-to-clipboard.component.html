@@ -1,0 +1,8 @@
+<div class="download-url">
+    <a class="fontsize-xxs link" href="{{copyToClipboardLink}}"
+       [attr.target]="targetBlank ? '_blank' : null">{{copyToClipboardLink}}</a>
+    <div class="clipboard-copy" ngxClipboard [cbContent]="copyToClipboardLink">
+        <img src="assets/images/icon/hca-copy.png"/>
+        <span class="fontsize-xxs">Copy link to clipboard. {{note}}</span>
+    </div>
+</div>

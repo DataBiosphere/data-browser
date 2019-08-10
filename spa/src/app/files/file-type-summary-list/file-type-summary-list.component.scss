@@ -1,8 +1,8 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Facet term list styles, displayed inside MD menu.
+ * Facet term list styles.
  */
 @import "../../site/theme/cgl.vars";
 
@@ -10,10 +10,10 @@
 :host {
 
     .facet-term {
-        align-items: start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line) 
+        align-items: flex-start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line)
+        display: flex;
         cursor: pointer;
         padding: 6px 0;
-        //width: 100%; // Overrides any flex wrap on terms for small cards
 
         /* Select box */
         .chart-legend-bar {
@@ -38,12 +38,21 @@
             }
         }
 
+        .chart-legend-bar + .term-summary {
+            margin-left: 0;
+        }
+
         .term-summary {
             align-items: flex-start;
             display: flex; // Spit title and count (with justify-content) to be left and right aligned
             flex: 1; // Always set term and count to consume remaining space (excluding checkbox)
             justify-content: space-between;
             min-width: 0; /* Fix ellipses bleeding into count Fix ellipses bleeding into count (see https://css-tricks.com/flexbox-truncated-text/) */
+
+            /* Select all button */
+            .select-all {
+                color: $hca-primary;
+            }
 
             /* Term name */
             .term-name {
@@ -57,7 +66,7 @@
                 color: $hca-gray-dark;
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px;
-                flex-basis: 56px; // Always set width of count to 56px
+                flex-basis: 100px; // Always set width of count to 100px
                 flex-shrink: 0;
                 text-align: right;
             }
@@ -75,13 +84,8 @@
             }
         }
     }
-}
 
-/* Download manifest summary */
-:host-context(.hca-download-content .facet-term-list) {
-
-    /* Term count */
-    .facet-term .term-summary .term-count {
-        flex-basis: 100px;
+    .facet-term > .term-summary {
+        margin-left: 23px;
     }
 }

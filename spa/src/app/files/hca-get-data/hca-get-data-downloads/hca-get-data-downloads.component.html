@@ -1,0 +1,51 @@
+<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)">
+    <h4 class="fontsize-m semi-bold">Create Concatenated Expression Matrix</h4>
+    <ng-container *ngIf="!isMatrixSupportedLoading(matrixEnabled)">
+        <ng-container [ngSwitch]="matrixEnabled">
+            <p class="fontsize-m" *ngSwitchCase="true">Request an expression matrix for the selected data from the HCA
+                Matrix
+                service.</p>
+            <warning *ngSwitchDefault>
+                <p class="fontsize-m">
+                    The data types selected are not currently available in the HCA Matrix Service. To obtain an expression
+                    matrix, please select data that matches:
+                </p>
+                <ol class="fontsize-m">
+                    <li>Human, Smart Seq2, paired end, or</li>
+                    <li>Human, 10x_V2</li>
+                </ol>
+            </warning>
+        </ng-container>
+        <div class="start">
+            <button class="button secondary"
+                    type="button"
+                    (click)="onStartGetData('MATRIX')"
+                    [disabled]="!matrixEnabled">Start
+            </button>
+            <!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a>-->
+        </div>
+    </ng-container>
+</hca-get-data-panel>
+<hca-get-data-panel>
+    <h4 class="fontsize-m semi-bold">Request a File Manifest (for downloading files via the HCA CLI)</h4>
+    <p class="fontsize-m">Request a file manifest for the current query for use with the HCA
+        Command Line Interface (HCA CLI) to download the selected data (e.g. fastqs, BAMs) and metadata.</p>
+    <div class="start">
+        <button class="button secondary" type="button" (click)="onStartGetData('MANIFEST')">Start</button>
+        <!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a>-->
+    </div>
+</hca-get-data-panel>
+<!--<hca-get-data-panel>-->
+<!--<h4 class="fontsize-m semi-bold">Request Metadata Only</h4>-->
+<!--<p class="fontsize-m">Request the full metadata tsv for the selected data.</p>-->
+<!--<div class="start"><button class="button secondary">Start</button>-->
+<!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a></div>-->
+<!--</hca-get-data-panel>-->
+<hca-get-data-panel>
+    <h4 class="fontsize-m semi-bold">Export to Terra</h4>
+    <p class="fontsize-m">Export the selected data into a Terra workspace.</p>
+    <div class="start">
+        <button class="button secondary" (click)="onStartGetData('TERRA')" [disabled]="!terraEnabled">Start</button>
+        <!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a>-->
+    </div>
+</hca-get-data-panel>

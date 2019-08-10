@@ -33,9 +33,8 @@ export class HCAFileSummaryComponent {
 
     // Inputs
     @Input() showDownload: boolean;
-    @Input() matrixEnabled: boolean;
     @Input() summary: FileSummary;
-    @Input() terraEnabled: boolean;
+    @Input() tableSummary: boolean;
 
     /**
      * @param store {Store<AppState>}
@@ -47,6 +46,7 @@ export class HCAFileSummaryComponent {
     /**
      * Returns true if the count value is not formatted by CountSizePipe.
      * Value will be less than 1,000 if true.
+     *
      * @param {number} count
      * @returns {boolean}
      */

@@ -35,7 +35,7 @@ export class HCATablePaginationComponent implements OnInit {
     pagination$: Observable<PaginationModel>;
 
     // Inputs
-    @Input() isData: any[];
+    @Input() tableData: any[];
 
     /**
      * @param {Store<AppState>} store
@@ -72,6 +72,8 @@ export class HCATablePaginationComponent implements OnInit {
 
     /**
      * Called when table previous page selected.
+     *
+     * @param {PaginationModel} pm
      */
     public previousPageSelected(pm: PaginationModel) {
 

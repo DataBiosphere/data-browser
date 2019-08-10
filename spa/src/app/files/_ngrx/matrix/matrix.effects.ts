@@ -15,6 +15,8 @@ import { map, mergeMap, switchMap, take } from "rxjs/operators";
 // App dependencies
 import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats-request.action";
 import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats-success.action";
+import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partial-query-match-success.action";
+import { FetchMatrixPartialQueryMatchRequestAction } from "./fetch-matrix-partial-query-match-request.action";
 import { FetchMatrixUrlRequestAction } from "./fetch-matrix-url-request.action";
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
@@ -22,7 +24,10 @@ import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls
 import { MatrixService } from "../../shared/matrix.service";
 import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectSelectedSearchTerms } from "../search/search.selectors";
+import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../search/search.selectors";
+import { FilesService } from "../../shared/files.service";
+import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import { SearchTerm } from "../../search/search-term.model";
 
 @Injectable()
 export class MatrixEffects {
@@ -34,6 +39,7 @@ export class MatrixEffects {
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
+                private fileService: FilesService,
                 private matrixService: MatrixService) {
     }
     
@@ -46,6 +52,30 @@ export class MatrixEffects {
             ofType(FetchMatrixFileFormatsRequestAction.ACTION_TYPE),
             switchMap(() => this.matrixService.fetchFileFormats()),
             map((fileFormats: string[]) => new FetchMatrixFileFormatsSuccessAction(fileFormats))
+        );
+
+    /**
+     * Determine if all data, or only some of the data, for the current seach terms will be included in a generated
+     * matrix.
+     */
+    @Effect()
+    fetchMatrixPartialQueryStatus: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchMatrixPartialQueryMatchRequestAction.ACTION_TYPE),
+            switchMap(() =>
+                this.store.pipe(
+                    select(selectSelectedSearchTermsBySearchKey),
+                    take(1)
+                )
+            ),
+            switchMap((selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) => {
+                
+                return this.fileService.fetchIsMatrixPartialQueryMatch(selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
+            }),
+            map((partialQueryMatch: boolean) => {
+                
+                return new FetchMatrixPartialQueryMatchSuccessAction(partialQueryMatch);
+            })
         );
 
     /**

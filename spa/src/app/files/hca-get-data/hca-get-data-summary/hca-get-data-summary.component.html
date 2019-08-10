@@ -1,0 +1,14 @@
+<div class="data-snapshot">
+    <div class="query" *ngIf="selectedSearchTerms$ | async as selectedSearchTerms">
+        <h4 class="fontsize-m semi-bold">Query</h4>
+        <hca-file-filter-result [removable]="false"
+                                [selectedSearchTerms]="selectedSearchTerms"></hca-file-filter-result>
+        <p class="fontsize-xs" *ngIf="selectedSearchTerms && selectedSearchTerms.length === 0">No query applied to
+            data</p>
+    </div>
+    <div class="summary">
+        <h4 class="fontsize-m semi-bold">Summary</h4>
+        <hca-file-summary [showDownload]="false"
+                          [summary]="selectFileSummary$ | async"></hca-file-summary>
+    </div>
+</div>

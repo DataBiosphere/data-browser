@@ -13,6 +13,8 @@ import { Observable, of } from "rxjs";
 import { map, mergeMap, switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { FetchIsMatrixSupportedRequestAction } from "./file-facet-list/fetch-is-matrix-supported-request.action";
+import { FetchIsMatrixSupportedSuccessAction } from "./file-facet-list/fetch-is-matrix-supported-success.action";
 import { SetViewStateAction } from "./file-facet-list/set-view-state.action";
 import { FileSummary } from "../file-summary/file-summary";
 import {
@@ -113,7 +115,7 @@ export class FileEffects {
                         sort: tableQueryParams.pagination.sort,
                         order: tableQueryParams.pagination.order
                     });
-                
+
                 return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, tableParams, selectedEntity)
                     .pipe(
                         map((entitySearchResults) => {
@@ -126,7 +128,7 @@ export class FileEffects {
                 // Set up fetch success action
                 const fileFacets = entitySearchResults.fileFacets;
                 const fetchSuccessAction = new FetchFileFacetsSuccessAction(fileFacets);
-                
+
                 // Set up search term action
                 const searchTermUpdatedAction = new SearchTermsUpdatedAction(entitySearchResults.searchTerms);
 
@@ -163,6 +165,29 @@ export class FileEffects {
                     tableDataAction
                 );
             })
+        );
+
+    /**
+     * Determine if the current set of data is matrixable.
+     */
+    @Effect()
+    fetchIsMatrixSupported: Observable<Action> = this.actions$
+        .pipe(
+            ofType(
+                FetchIsMatrixSupportedRequestAction.ACTION_TYPE
+            ),
+            switchMap(() =>
+                this.store.pipe(
+                    select(selectTableQueryParams),
+                    take(1)
+                )
+            ),
+            switchMap((tableQueryParams) => {
+
+                return this.fileService.fetchIsMatrixSupported(
+                    tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
+            }),
+            map((matrixableSearchResults: boolean) => new FetchIsMatrixSupportedSuccessAction(matrixableSearchResults))
         );
 
     /**

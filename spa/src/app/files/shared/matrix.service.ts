@@ -40,6 +40,43 @@ export class MatrixService {
     }
 
     /**
+     * Remove all file types other than matrix. Add matrix file type if not already selected. Required for when we are
+     * querying the manifest end point before request the matrix URL.
+     *
+     * @param {SearchTerm[]} searchTerms
+     * @returns {SearchTerm[]}
+     */
+    public createMatrixableSearchTerms(
+        searchTerms: SearchTerm[]): SearchTerm[] {
+
+        let matrixAdded = false;
+        const matrixSearchTerms = searchTerms.reduce((accum, searchTerm) => {
+
+            // Check if this search term is for a file format
+            if ( searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT ) {
+
+                // Only allow MATRIX to be added as a file format
+                if ( searchTerm.getSearchValue() === FileFormat.MATRIX ) {
+                    accum.push(searchTerm);
+                    matrixAdded = true;
+                }
+            }
+            // Add search terms for all other facets, as is
+            else {
+                accum.push(searchTerm);
+            }
+            return accum;
+        }, []);
+
+        // If matrix wasn't in the set of selected terms, add it now
+        if ( !matrixAdded ) {
+            matrixSearchTerms.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
+        }
+        
+        return matrixSearchTerms;
+    }
+
+    /**
      * Request the set of possible matrix file formats.
      *
      * @returns {Observable<string[]>}
@@ -171,20 +208,6 @@ export class MatrixService {
     }
 
     /**
-     * Add matrix file format to the set of search terms.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {SearchTerm[]}
-     */
-    private addMatrixFileFormatToSearchTerms(searchTerms: SearchTerm[]): SearchTerm[] {
-
-        return [
-            ...searchTerms,
-            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
-        ];
-    }
-
-    /**
      * Normalize matrix response to FE-friendly format.
      *
      * @param {MatrixHttpResponse} response
@@ -263,19 +286,6 @@ export class MatrixService {
     }
 
     /**
-     * Returns true if there matrix file format is in the current set of selected search terms.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {boolean}
-     */
-    private isMatrixFileFormatSelected(searchTerms: SearchTerm[]): boolean {
-
-        return searchTerms.some((searchTerm) =>
-            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
-            searchTerm.getSearchValue() === FileFormat.MATRIX);
-    }
-
-    /**
      * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
      *
      * @param {string} projectId
@@ -300,10 +310,7 @@ export class MatrixService {
     private requestFileManifestUrl(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
 
         // Add matrix file format, if not yet specified
-        const matrixSearchTerms = this.isMatrixFileFormatSelected(searchTerms) ?
-            searchTerms :
-            this.addMatrixFileFormatToSearchTerms(searchTerms);
-
+        const matrixSearchTerms = this.createMatrixableSearchTerms(searchTerms);
         return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms);
     }
 

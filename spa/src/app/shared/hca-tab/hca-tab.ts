@@ -49,7 +49,7 @@ export class HCATabComponent {
         return {
             "hca-tab": true,
             "active": selectedTab === tabKey,
-            "arrow": tabDisplayName === "Back"
+            "arrow": tabDisplayName === "Back" || tabDisplayName === "Export Data"
         };
     }
 

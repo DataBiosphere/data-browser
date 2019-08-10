@@ -11,6 +11,7 @@ import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
 
 export interface Matrix {
     fileFormats: string[];
+    partialQueryMatch: boolean;
     matrixResponse: MatrixResponse;
     matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>
 }

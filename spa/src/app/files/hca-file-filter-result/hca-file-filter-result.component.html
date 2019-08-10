@@ -1,29 +1,34 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="tableFilter; else filterResult">
     <div [ngClass]="{'filter-result':true, 'inactive': !removable}">
-        <ng-container *ngFor="let selectedSearchFacet of getSelectedSearchFacets(); last as isLastFacet">
+        <ng-container *ngTemplateOutlet="filterResult"></ng-container>
+        <button class="clear-all" mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()"
+                (click)="removeAllSearchTerms()">Clear All
+        </button>
+    </div>
+</div>
+<ng-template #filterResult>
+    <ng-container *ngFor="let selectedSearchFacet of getSelectedSearchFacets(); last as lastFacet">
             <span class="selected-facets">
                 <div class="selected-facet">
                     <span class="facet-name fontsize-xxs"
                           (click)="removeAllSearchTermsForSearchFacet(selectedSearchFacet)">{{getFacetName(selectedSearchFacet)}}</span>
-                    <mat-icon>close</mat-icon>
+                    <mat-icon *ngIf="removable">close</mat-icon>
                 </div>
                 <div class="selected-terms">
                     <ng-container
-                            *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as isLastTerm; first as isFirstTerm">
+                            *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as lastTerm; first as firstTerm">
                     <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerm)">
-                        <span class="parenthesis open" *ngIf="isFirstTerm && isFirstTerm !== isLastTerm">(</span>
+                        <span class="parenthesis open" *ngIf="firstTerm && firstTerm !== lastTerm && tableFilter">(</span>
                         <div>
                             <span class="fontsize-xxs">{{selectedSearchTerm.getDisplayValue()}}</span>
-                            <mat-icon>close</mat-icon>
+                            <mat-icon *ngIf="removable">close</mat-icon>
                         </div>
-                        <span class="parenthesis close" *ngIf="isLastTerm && isFirstTerm !== isLastTerm">)</span>
+                        <span class="parenthesis close" *ngIf="lastTerm && firstTerm !== lastTerm && tableFilter">)</span>
                     </div>
-                    <span class="operator" *ngIf="!isLastTerm">OR</span>
+                    <span class="operator" *ngIf="!lastTerm">OR</span>
                 </ng-container>
-                    <span class="operator" *ngIf="!isLastFacet">AND</span>
+                    <span class="operator" *ngIf="!lastFacet && tableFilter">AND</span>
                 </div>
             </span>
-        </ng-container>
-        <button class="clear-all" mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()" (click)="removeAllSearchTerms()">Clear All</button>
-    </div>
-</div>
+    </ng-container>
+</ng-template>

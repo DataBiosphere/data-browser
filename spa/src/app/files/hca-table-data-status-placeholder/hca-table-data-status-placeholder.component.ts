@@ -31,7 +31,7 @@ import { animate, style, transition, trigger } from "@angular/animations";
 export class HCATableDataStatusPlaceholderComponent {
 
     // Inputs
-    @Input() isData: any[];
+    @Input() tableData: any[];
     @Input() loading: boolean;
 
     /**
@@ -40,6 +40,7 @@ export class HCATableDataStatusPlaceholderComponent {
 
     /**
      * Returns a string if the table is loading or has an empty data set.
+     *
      * @returns {string}
      */
     public getTableStatus(): string {
@@ -48,7 +49,7 @@ export class HCATableDataStatusPlaceholderComponent {
             return "Loading...";
         }
 
-        if ( !this.loading && this.isData.length === 0 ) {
+        if ( !this.loading && this.tableData.length === 0 ) {
             return "No Results";
         }
 

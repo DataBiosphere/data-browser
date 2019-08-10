@@ -9,6 +9,9 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { ClearIsMatrixSupportedAction } from "./clear-is-matrix-supported.action";
+import { FetchIsMatrixSupportedRequestAction } from "./fetch-is-matrix-supported-request.action";
+import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FileFacetListState } from "./file-facet-list.state";
 import {
     ClearSelectedFileFacetsAction,
@@ -31,6 +34,16 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
         case InitEntityStateAction.ACTION_TYPE:
             return state.requestFileFacets();
 
+        case ClearSelectedFileFacetsAction.ACTION_TYPE:
+            return state.clearSelectedFacet();
+
+        case ClearSelectedTermsAction.ACTION_TYPE:
+            return FileFacetListState.getDefaultState();
+            
+        // Handle clear of matrixable search results
+        case ClearIsMatrixSupportedAction.ACTION_TYPE:
+            return  state.clearMatrixableSearchResults();
+
         // Handle case where term has been selected - selected/deselected state of term must be updated, and possibly
         // the selected facet itself (if user has switched from the previously selected facet, to select a new term).
         case SelectFileFacetTermAction.ACTION_TYPE:
@@ -41,11 +54,13 @@ export function reducer(state: FileFacetListState = FileFacetListState.getDefaul
         case FetchFileFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFileFacets(action as FetchFileFacetsSuccessAction);
 
-        case ClearSelectedFileFacetsAction.ACTION_TYPE:
-            return state.clearSelectedFacet();
-
-        case ClearSelectedTermsAction.ACTION_TYPE:
-            return FileFacetListState.getDefaultState();
+        // Request matrixable data from the server
+        case FetchIsMatrixSupportedRequestAction.ACTION_TYPE:
+            return state.requestMatrixSupported();
+            
+        // Matrixable data has been successfully returned from server
+        case FetchIsMatrixSupportedSuccessAction.ACTION_TYPE:
+            return state.receiveMatrixSupported(action as FetchIsMatrixSupportedSuccessAction);
 
         // Handle the case where the view state has been parsed from URL param on app init - must do this here to set
         // the initial set of selected facet terms.

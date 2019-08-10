@@ -28,22 +28,6 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 // Include global CGL styles.
 @import "cgl.global";
 
-/* Overrides styles for Angular Material Dialog (backdrop) */
-.hca-form-backdrop {
-    opacity: 1 !important;
-    background-color: rgba($hca-white, 0.9);
-    top: 0;
-}
-
-/* Overrides styles for Angular Material Dialog (mat-dialog-container) */
-.hca-form-dialog .mat-dialog-container {
-    box-shadow: none !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
-}
-
 /* Overrides styles for Angular Spinner (mat-spinner) */
 .hca-spinner circle {
     stroke: $hca-secondary;

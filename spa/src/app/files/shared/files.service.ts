@@ -8,24 +8,31 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { Dictionary } from "../../dictionary";
+import { EntityName } from "./entity-name.model";
 import { EntitySearchResults } from "./entity-search-results.model";
-import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FilesAPIResponse } from "./files-api-response.model";
+import { FileFormat } from "./file-format.model";
+import { FacetTermsResponse } from "./facet-terms-response.model";
 import { FileFacet } from "./file-facet.model";
 import { FileFacetName } from "./file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
+import { GenusSpecies } from "./genus-species.model";
+import { LibraryConstructionApproach } from "./library-construction-approach.model";
+import { MatrixableFileFacets } from "./matrixable-file-facets.model";
+import { PairedEnd } from "./paired-end.model";
 import { SearchTermService } from "./search-term.service";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
 import { TermResponse } from "./term-response.model";
 import { TermResponseService } from "./term-response.service";
+import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 
 @Injectable()
 export class FilesService {
@@ -58,7 +65,7 @@ export class FilesService {
                                     filterableByProject = true): Observable<EntitySearchResults> {
 
         // Build API URL
-        const url = this.configService.buildApiUrl(`/repository/` + selectedEntity);
+        const url = this.buildEntitySearchResultsUrl(selectedEntity);
 
         // Build up param map
         let paramMap;
@@ -73,25 +80,8 @@ export class FilesService {
         return this.httpClient
             .get<FilesAPIResponse>(url, {params: paramMap})
             .pipe(
-                map((apiResponse: FilesAPIResponse) => {
-
-                    const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
-                    const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
-                    const searchTerms = this.searchTermService.bindSearchTerms(apiResponse.termFacets);
-
-                    const tableModel = {
-                        data: apiResponse.hits,
-                        pagination: apiResponse.pagination,
-                        tableName: selectedEntity,
-                        termCountsByFacetName
-                    };
-
-                    return {
-                        fileFacets,
-                        searchTerms,
-                        tableModel
-                    };
-                })
+                map((apiResponse: FilesAPIResponse) =>
+                    this.bindEntitySearchResultsResponse(apiResponse, searchTermsBySearchKey, selectedEntity))
             );
     }
 
@@ -119,6 +109,105 @@ export class FilesService {
     }
 
     /**
+     * Returns true if there is matrixable data for the current search terms. Query FILES endpoint with the current
+     * search terms, updating the file type to only matrix if necessary.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<MatrixableSearchResults>}
+     */
+    public fetchIsMatrixSupported(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                  tableParams: TableParamsModel): Observable<boolean> {
+
+        return this.fetchMatrixableFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
+            map((apiResponse: FilesAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
+        );
+    }
+
+    /**
+     * Returns true if the matrix partial query is true. A matrix partial query is true when not all of the data for
+     * the current search terms will be included in a matrix. A matrix partial query is false when all of the data for
+     * the current search terms will be included in a matrix.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<boolean>}
+     */
+    public fetchIsMatrixPartialQueryMatch(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                          tableParams: TableParamsModel): Observable<boolean> {
+
+        return this.fetchMatrixableFilesAPIResponse(searchTermsBySearchKey, tableParams)
+            .pipe(
+                map((apiResponse: FilesAPIResponse) =>
+                    this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
+                switchMap((matrixableFileFacets: MatrixableFileFacets) => {
+
+                    // Check if an additional query is required to determine if smart seq 2 / false is a combination in
+                    // the current data. We currently can not determine the association between a library construction
+                    // approach and a paired end, so we do this manually here.
+
+                    // If there is anything other human selected for species, then we don't need to do any additional
+                    // checks. We know at this point that the matrix partial query match is going to be partial. 
+                    const genusSpecies = matrixableFileFacets.genusSpecies;
+                    if ( !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS) ) {
+                        return of(true);
+                    }
+                    
+                    // Check the library construction approach. If we have anything other than smart seq 2 or 10x v2, then
+                    // we know it's a partial match.
+                    const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
+                    const validApproachesSelected =
+                        libraryConstructionApproaches.isOnlySelectedTerm(
+                            LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2);
+                    if ( !validApproachesSelected ) {
+                        return of(true);
+                    }
+                    
+                    // If we have only 10x v2 selected, then it's not a partial match.
+                    if ( libraryConstructionApproaches.
+                                isOnlySelectedTerm(LibraryConstructionApproach.TENX_V2) ) {
+                        return of(false);
+                    }
+                    
+                    // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
+                    if ( matrixableFileFacets.pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE) ) {
+                        return of(false);
+                    }
+
+                    // We could potentially have a partial query match and therefore need to execute the additional
+                    // query to determine if there are any smart seq 2 / paired end false combinations in the data.
+                    return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
+                })
+            );
+    }
+
+    /**
+     * Returns true if there is data for the specified search terms, but additionally restricting the library construction
+     * approach to just smart seq 2.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<boolean>}
+     */
+    private fetchIsSmartSeq2False(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                             tableParams: TableParamsModel): Observable<boolean> {
+
+        // Build API URL
+        const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
+
+        // Clear out any library construction approaches other than smart seq 2
+        const ss2SearchTerms = this.createSmartSeq2SearchTerms(searchTermsBySearchKey);
+        const paramMap = this.buildFetchSearchResultsQueryParams(ss2SearchTerms, tableParams);
+
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {params: paramMap})
+            .pipe(
+                map((apiResponse: FilesAPIResponse) =>
+                    this.bindIsPairedEndFalseResponse(apiResponse, searchTermsBySearchKey))
+            );
+    }
+
+    /**
      * Create a new file summary object (to trigger change detecting) from the file summary response, and fix erroneous
      * total file size count if applicable.
      *
@@ -129,6 +218,36 @@ export class FilesService {
 
         const totalFileSize = (typeof fileSummary.totalFileSize === "string") ? 0 : fileSummary.totalFileSize;
         return Object.assign({}, fileSummary, {totalFileSize});
+    }
+
+    /**
+     * Parse the API response and build up entity search results.
+     *
+     * @param {FilesAPIResponse} apiResponse
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {string} selectedEntity
+     * @returns {EntitySearchResults}
+     */
+    private bindEntitySearchResultsResponse(apiResponse: FilesAPIResponse,
+                                            searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                            selectedEntity: string): EntitySearchResults {
+
+        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
+        const searchTerms = this.searchTermService.bindSearchTerms(apiResponse.termFacets);
+
+        const tableModel = {
+            data: apiResponse.hits,
+            pagination: apiResponse.pagination,
+            tableName: selectedEntity,
+            termCountsByFacetName
+        };
+
+        return {
+            fileFacets,
+            searchTerms,
+            tableModel
+        };
     }
 
     /**
@@ -185,6 +304,68 @@ export class FilesService {
     }
 
     /**
+     * Returns true if there are no hits in the specified API response.
+     *
+     * @param {FilesAPIResponse} apiResponse
+     * @returns {boolean}
+     */
+    private bindIsEmptySetResponse(apiResponse: FilesAPIResponse): boolean {
+
+        return apiResponse.hits.length === 0;
+    }
+
+    /**
+     * Returns the set of file facets that are applicable to determining the matrix partial query status. The status is
+     * either partial (ie there is data that wont be included in the matrix), or complete (ie all data is included in the
+     * matrix).
+     *
+     * @param {FilesAPIResponse} apiResponse
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * searchTermsBySearchKey: Map<string, Set<SearchTerm>>
+     * @returns {MatrixableFileFacets}
+     */
+    private bindMatrixableFileFacetsResponse(apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): MatrixableFileFacets {
+
+        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const fileFacetsByName = fileFacets.reduce((accum, fileFacet) => {
+            accum.set(fileFacet.name, fileFacet);
+            return accum;
+        }, new Map<string, FileFacet>());
+
+        return {
+            genusSpecies: fileFacetsByName.get(FileFacetName.GENUS_SPECIES),
+            libraryConstructionApproaches: fileFacetsByName.get(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH),
+            pairedEnds: fileFacetsByName.get(FileFacetName.PAIRED_END)
+        };
+    }
+
+    /**
+     * Returns true if the only paired end returned is TRUE.
+     *
+     * @param {FilesAPIResponse} apiResponse
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * searchTermsBySearchKey: Map<string, Set<SearchTerm>>
+     * @returns {MatrixableFileFacets}
+     */
+    private bindIsPairedEndFalseResponse(apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): boolean {
+
+        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const pairedEnd = fileFacets.find(facet => facet.name === FileFacetName.PAIRED_END);
+        return !pairedEnd.isOnlySelectedTerm(PairedEnd.TRUE);
+    }
+
+    /**
+     * Build the entity search results end point URL.
+     *
+     * @param {string} entity
+     * @returns {string}
+     */
+    private buildEntitySearchResultsUrl(entity: string): string {
+
+        return this.configService.buildApiUrl(`/repository/${entity}`);
+    }
+
+    /**
      * Build up set of query params for fetching search results.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
@@ -224,6 +405,60 @@ export class FilesService {
         }
 
         return paramMap;
+    }
+
+    /**
+     * Remove all file types other than matrix. Add matrix file type if not already selected.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @returns {Map<string, Set<SearchTerm>>}
+     */
+    private createMatrixableSearchTerms(
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
+
+        const matrixableSearchTerms = new Map(searchTermsByFacetName);
+        matrixableSearchTerms.set(FileFacetName.FILE_FORMAT, new Set([
+            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+        ]));
+        return matrixableSearchTerms;
+    }
+
+    /**
+     * Remove all library construction approaches other than smart seq 2. Add smart seq 2 if not already selected.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @returns {Map<string, Set<SearchTerm>>}
+     */
+    private createSmartSeq2SearchTerms(
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
+
+        const ss2SearchTerms = new Map(searchTermsByFacetName);
+        ss2SearchTerms.set(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, new Set([
+            new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
+        ]));
+        return ss2SearchTerms;
+    }
+
+    /**
+     * Fetch the matrixable data for the current search terms, if any. Query FILES endpoint with the current search
+     * terms, updating the file type to only matrix if necessary.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<MatrixableSearchResults>}
+     */
+    private fetchMatrixableFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                            tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+
+        // Build API URL
+        const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
+
+        // Update search terms such that only selected file type is matrix
+        const matrixSearchTerms = this.createMatrixableSearchTerms(searchTermsBySearchKey);
+        const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
+
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {params: paramMap});
     }
 
     /**

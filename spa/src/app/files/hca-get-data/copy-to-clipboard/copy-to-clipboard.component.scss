@@ -1,0 +1,42 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for HCA get data requested url.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* Clipboard value */
+.download-url {
+    margin: 24px 0 32px;
+
+    /* Link */
+    .link {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* autoprefixer: ignore next */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+    }
+
+    /* Copy to clipboard */
+    .clipboard-copy {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        margin: 8px 0;
+
+        span {
+            padding-left: 8px;
+            margin: 0;
+        }
+
+        /* Icon */
+        img {
+            height: 18px; /* Matches line height of <span> */
+        }
+    }
+}
+

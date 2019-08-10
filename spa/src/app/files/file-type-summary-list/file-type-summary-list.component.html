@@ -1,6 +1,5 @@
 <ng-container *ngIf="fileTypeSummaries.length">
-    <div class="facet-term list-headers layout-row ng-scope layout-row layout-align-space-between-center">
-        <div class="chart-legend-bar"></div>
+    <div class="facet-term list-headers">
         <div class="term-summary">
             <div class="term-name">
                 <span>Name</span>
@@ -9,16 +8,12 @@
             <div class="term-count">File Size</div>
         </div>
     </div>
-    <div *ngIf="getDisplayList().length > 1" (click)="onClickSelectAll()"
-         class="facet-term layout-row ng-scope layout-row layout-align-space-between-center">
-        <div class="chart-legend-bar" [ngStyle]="getLegendStyle(selectToggle)">
-            <mat-icon *ngIf="selectToggle">check</mat-icon>
-        </div>
+    <div class="facet-term" *ngIf="getDisplayList().length > 1" (click)="onClickSelectAll()">
         <div class="term-summary">
-            <div class="term-name"><span>Select All</span></div>
+            <div class="term-name select-all"><span>{{getSelectAllDisplayText()}}</span></div>
         </div>
     </div>
-    <div class="facet-term layout-row ng-scope layout-row layout-align-space-between-center"
+    <div class="facet-term"
          *ngFor="let facetFileTypeSummary of getDisplayList()"
          (click)="onClickFacetTerm(facetFileTypeSummary)">
         <div class="chart-legend-bar" [ngStyle]="getLegendStyle(facetFileTypeSummary.selected)">

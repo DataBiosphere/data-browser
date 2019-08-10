@@ -36,6 +36,13 @@ export const selectFileFormatsFileFacet = createSelector(selectFileFacets, (stat
 });
 
 /**
+ * Returns true if current search terms yield matrixable data.
+ */
+export const selectMatrixSupported = createSelector(selectFileFacets, (state) => {
+    return state.matrixSupported;
+});
+
+/**
  * Return the file summary from the store.
  */
 export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSummary");
@@ -121,15 +128,6 @@ export const selectTableQueryParams = createSelector(selectSelectedSearchTermsBy
 export const selectSelectedProject = createSelector(selectTableState, (tableState: TableState) => {
 
     return tableState.selectedProject;
-});
-
-/*
- * Returns true if there are files of file type Matrix for the current set of selected facets, if any.
- */
-export const selectFileTypeMatrix = createSelector(selectFileSummary, (fileSummaryState: FileSummaryState) => {
-    return fileSummaryState.fileTypeSummaries.some(fileTypeSummary => {
-        return fileTypeSummary.fileType === "matrix" && fileTypeSummary.count > 0;
-    });
 });
 
 /**

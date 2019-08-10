@@ -30,3 +30,9 @@ export const selectMatrixResponse = createSelector(selectMatrix, (state) => stat
  * Returns the current set of cached per-project matrix URLs
  */
 export const selectProjectMatrixUrlsByProjectId = createSelector(selectMatrix, (state) => state.matrixUrlsByProjectId);
+
+/**
+ * Returns the matrix partial query match. That is, return true when not all of the data for the current search terms
+ * will be included in a matrix.
+ */
+export const selectMatrixPartialQueryMatch = createSelector(selectMatrix, (state) => state.partialQueryMatch);

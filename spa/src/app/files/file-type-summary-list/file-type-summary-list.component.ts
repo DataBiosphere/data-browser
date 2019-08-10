@@ -30,7 +30,7 @@ export class FileTypeSummaryListComponent implements OnInit {
     @Input() fileTypeSummaries: FileTypeSummary[];
 
     // Locals
-    private selectToggle = false;
+    private selectAll = true;
 
     /**
      * @param {TermSortService} termSortService
@@ -61,10 +61,10 @@ export class FileTypeSummaryListComponent implements OnInit {
                     fileTypeSummary.totalSize,
                     fileTypeSummary.count,
                     this.selectedSearchTermNames.indexOf(fileTypeSummary.fileType) >= 0);
-        });
-        
+            });
+
         this.termSortService.sortTerms(FileFacetName.FILE_FORMAT, fileTypeSummaryViews);
-        
+
         return fileTypeSummaryViews;
     }
 
@@ -86,6 +86,14 @@ export class FileTypeSummaryListComponent implements OnInit {
         }
 
         return {};
+    }
+
+    /**
+     * Returns display text for the "Select All" text button.
+     * @returns {string}
+     */
+    public getSelectAllDisplayText(): string {
+        return this.selectAll ? "Select All" : "Select None";
     }
 
     /**
@@ -117,14 +125,14 @@ export class FileTypeSummaryListComponent implements OnInit {
      */
     public onClickSelectAll(): void {
 
-        this.selectToggle = !this.selectToggle;
+        this.selectAll = !this.selectAll;
         this.getDisplayList().map((facetFileTypeSummary) => {
 
-            if ( this.selectToggle && facetFileTypeSummary.selected === false ) {
+            if ( !this.selectAll && facetFileTypeSummary.selected === false ) {
                 this.onClickFacetTerm(facetFileTypeSummary);
             }
 
-            if ( !this.selectToggle && facetFileTypeSummary.selected === true ) {
+            if ( this.selectAll && facetFileTypeSummary.selected === true ) {
                 this.onClickFacetTerm(facetFileTypeSummary);
             }
         });
@@ -135,10 +143,10 @@ export class FileTypeSummaryListComponent implements OnInit {
      */
 
     /**
-     * Set up state of selectToggle.
+     * Set up state of "Select All" text.
      */
     public ngOnInit() {
 
-        this.selectToggle = !this.getDisplayList().some(facetFileTypeSummary => facetFileTypeSummary.selected === false);
+        this.selectAll = this.getDisplayList().some(facetFileTypeSummary => facetFileTypeSummary.selected === false);
     }
 }

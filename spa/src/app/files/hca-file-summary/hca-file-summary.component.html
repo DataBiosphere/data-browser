@@ -1,60 +1,63 @@
-<div class="wrapper">
-    <div class="file-summary">
+<div class="wrapper" *ngIf="tableSummary; else fileSummary">
+    <div class="file-summary" *ngIf="summary.projectCount > 0">
         <div>
-            <div class="summary">
-                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.donorCount | localeString"
-                             [tooltipDisabled]="isDisabled(summary.donorCount)"
-                             [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.donorCount | countSize}}</h3>
-                </hca-tooltip>
-                <span class="fontsize-xxs label">Donors</span>
-            </div>
-            <div class="summary">
-                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.specimenCount | localeString"
-                             [tooltipDisabled]="isDisabled(summary.specimenCount)"
-                             [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.specimenCount | countSize}}</h3>
-                </hca-tooltip>
-                <span class="fontsize-xxs label">Specimens</span>
-            </div>
-            <div class="summary">
-                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.totalCellCount | localeString"
-                             [tooltipDisabled]="isDisabled(summary.totalCellCount)"
-                             [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
-                </hca-tooltip>
-                <span class="fontsize-xxs label">Estimated Cells</span>
-            </div>
-            <div class="summary">
-                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.fileCount | localeString"
-                             [tooltipDisabled]="isDisabled(summary.fileCount)"
-                             [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.fileCount | countSize}}</h3>
-                </hca-tooltip>
-                <span class="fontsize-xxs label">Files</span>
-            </div>
-            <div class="summary">
-                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.totalFileSize | localeString"
-                             [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.totalFileSize | fileSize}}</h3>
-                </hca-tooltip>
-                <span class="fontsize-xxs label">File Size</span>
-            </div>
+            <ng-container *ngTemplateOutlet="fileSummary"></ng-container>
         </div>
-        <div *ngIf="showDownload" class="download-buttons">
-            <hca-export-to-terra *ngIf="terraEnabled"></hca-export-to-terra>
-            <hca-download-manifest></hca-download-manifest>
-            <hca-tooltip [tooltipClass]="'hca-tooltip request'"
-                         [tooltipContent]="'The expression matrix concatenation service currently supports Smart-seq2 projects only. To use this service please select one or more Smart-seq2 projects. For 10x projects, expression matrices in H5 or MTX format may be downloaded directly from the files tab or via the HCA CLI with a file manifest.'"
-                         [tooltipDisabled]="matrixEnabled"
-                         [tooltipPosition]="'below'">
-                <hca-request-matrix [matrixEnabled]="matrixEnabled"></hca-request-matrix>
-            </hca-tooltip>
-        </div>
+        <button *ngIf="showDownload" class="button primary" [routerLink]="['/get-data']">Export Selected Data</button>
     </div>
 </div>
+<ng-template #fileSummary>
+    <div class="summary" *ngIf="!tableSummary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.projectCount | localeString"
+                     [tooltipDisabled]="isDisabled(summary.projectCount)"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.projectCount | countSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">Projects</span>
+    </div>
+    <div class="summary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.donorCount | localeString"
+                     [tooltipDisabled]="isDisabled(summary.donorCount)"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.donorCount | countSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">Donors</span>
+    </div>
+    <div class="summary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.specimenCount | localeString"
+                     [tooltipDisabled]="isDisabled(summary.specimenCount)"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.specimenCount | countSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">Specimens</span>
+    </div>
+    <div class="summary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.totalCellCount | localeString"
+                     [tooltipDisabled]="isDisabled(summary.totalCellCount)"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">Estimated Cells</span>
+    </div>
+    <div class="summary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.fileCount | localeString"
+                     [tooltipDisabled]="isDisabled(summary.fileCount)"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.fileCount | countSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">Files</span>
+    </div>
+    <div class="summary">
+        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                     [tooltipContent]="summary.totalFileSize | localeString"
+                     [tooltipPosition]="'above'">
+            <h3 class="fontsize-l count">{{summary.totalFileSize | fileSize}}</h3>
+        </hca-tooltip>
+        <span class="fontsize-xxs label">File Size</span>
+    </div>
+</ng-template>

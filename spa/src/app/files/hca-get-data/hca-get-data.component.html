@@ -1,0 +1,21 @@
+<hca-section-title>
+    <ng-container title>{{getTitle()}}</ng-container>
+</hca-section-title>
+<hca-tab [tabs]="getDataTabs(selectedEntity$ | async)" [activeTab]="getActiveTab()"
+         (tabSelected)="onTabSelected($event)"></hca-tab>
+<div class="wrapper">
+    <div class="get-data">
+        <div>
+            <ng-container [ngSwitch]="viewState">
+                <hca-get-data-downloads *ngSwitchDefault
+                                        [matrixEnabled]="matrixSupported$ | async"
+                                        [terraEnabled]="isTerraEnabled(config$ | async)"
+                                        (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
+                <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
+                <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>
+                <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
+            </ng-container>
+        </div>
+        <hca-get-data-summary></hca-get-data-summary>
+    </div>
+</div>

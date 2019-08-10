@@ -29,6 +29,7 @@ export class HCAFileFilterResultComponent {
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
     @Input() removable: boolean;
+    @Input() tableFilter: boolean;
 
     /**
      * @param {FileFacetDisplayService} fileFacetDisplayService
@@ -50,6 +51,7 @@ export class HCAFileFilterResultComponent {
 
     /**
      * Returns a distinct array of facet names from the selected search terms.
+     *
      * @returns {string[]}
      */
     public getSelectedSearchFacets(): string[] {
@@ -59,6 +61,7 @@ export class HCAFileFilterResultComponent {
 
     /**
      * Returns search terms for each selected search facet.
+     *
      * @param selectedSearchFacet
      * @returns {SearchTerm[]}
      */
@@ -79,6 +82,7 @@ export class HCAFileFilterResultComponent {
 
     /**
      * Removes all selected search terms for a given selected search facet.
+     *
      * @param selectedSearchFacet
      */
     public removeAllSearchTermsForSearchFacet(selectedSearchFacet) {

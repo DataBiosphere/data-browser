@@ -1,0 +1,34 @@
+<div *ngIf="state$ | async as state">
+    <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
+        <hca-get-data-panel [loading]="getFileTypeSummaries(state.manifestDownloadFileSummary).length === 0">
+            <h4 class="fontsize-m semi-bold">Select Export File Types</h4>
+            <p class="fontsize-m">Export selected files to a Terra workspace.</p>
+        </hca-get-data-panel>
+        <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
+            <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                    [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"></file-type-summary-list>
+            <button class="button primary" type="button" (click)="onExportToTerra()" [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export</button>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
+        <hca-get-data-panel [loading]="isRequestInProgress(state.exportToTerraStatus)">
+            <h4 class="fontsize-m semi-bold">Your Export is Being Prepared</h4>
+            <p class="fontsize-m">Your export will be ready shortly.</p>
+        </hca-get-data-panel>
+    </ng-container>
+    <ng-container *ngIf="isRequestComplete(state.exportToTerraStatus)">
+        <hca-get-data-panel>
+            <h4 class="fontsize-m semi-bold">Your Export is Ready</h4>
+            <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
+            <p class="fontsize-m">The workspace URL is referenced below.</p>
+        </hca-get-data-panel>
+        <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
+                           [targetBlank]="true"></copy-to-clipboard>
+    </ng-container>
+    <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
+        <hca-get-data-panel [downloadError]="isRequestFailed(state.exportToTerraStatus)">
+            <h4 class="fontsize-m semi-bold">Error</h4>
+            <p class="fontsize-m">An error has occurred.</p>
+        </hca-get-data-panel>
+    </ng-container>
+</div>
