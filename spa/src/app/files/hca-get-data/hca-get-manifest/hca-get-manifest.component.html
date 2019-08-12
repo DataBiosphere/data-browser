@@ -21,15 +21,13 @@
     <ng-container *ngIf="isDownloadComplete(state.manifestResponse)">
         <hca-get-data-panel>
             <h4 class="fontsize-m semi-bold">Your File Manifest is Ready</h4>
-            <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to download the files listed in your
-                manifest along with their associated metadata.</p>
-            <p class="fontsize-m"><a target="_blank"
-                                     href="{{portalURL}}/guides#downloading-a-data-manifest">View HCA CLI
-                Instructions</a></p>
         </hca-get-data-panel>
-        <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl" [note]="'Note this link expires in 24 hours.'"></copy-to-clipboard>
-        <button class="button primary" type="button" (click)="onDownloadManifest(state.manifestResponse)">Download
-            Manifest
-        </button>
+        <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to download the files listed in your
+            manifest along with their associated metadata.</p>
+        <p class="fontsize-m"><a target="_blank"
+                                 href="{{portalURL}}/guides#downloading-a-data-manifest">View HCA CLI
+            Instructions</a></p>
+        <p class="fontsize-m">Select the link below to download your manifest. Note this link expires in 24 hours.</p>
+        <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"></copy-to-clipboard>
     </ng-container>
 </div>

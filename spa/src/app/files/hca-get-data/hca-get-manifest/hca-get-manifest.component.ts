@@ -129,16 +129,6 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Open manifest in new tab.
-     *
-     * @param {ManifestResponse} manifestResponse
-     */
-    public onDownloadManifest(manifestResponse: ManifestResponse) {
-
-        window.location.href = manifestResponse.fileUrl;
-    }
-
-    /**
      * Dispatch action to generate manifest summary URL.
      */
     public onRequestManifest() {

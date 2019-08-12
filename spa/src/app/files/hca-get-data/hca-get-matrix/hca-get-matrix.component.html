@@ -5,7 +5,8 @@
                 <hca-get-data-panel>
                     <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
                     <warning *ngIf="state.matrixPartialQueryMatch">
-                        <h4 class="fontsize-m">Note: Not all selected data will be included in the generated matrix.</h4>
+                        <h4 class="fontsize-m">Note: Not all selected data will be included in the generated
+                            matrix.</h4>
                         <p class="fontsize-m">The HCA Matrix Service supports the currently following data types:</p>
                         <ol class="fontsize-m">
                             <li>Human, Smart Seq2, paired end, or</li>
@@ -20,7 +21,8 @@
                 <div class="file-format fontsize-s">
                     <p class="fontsize-s">Select Output File Format:</p>
                     <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
-                        <mat-radio-button *ngFor="let fileFormat of getFileFormats(state)" [value]="fileFormat">{{fileFormat}}
+                        <mat-radio-button *ngFor="let fileFormat of getFileFormats(state)" [value]="fileFormat">
+                            {{fileFormat}}
                         </mat-radio-button>
                     </mat-radio-group>
                 </div>
@@ -47,7 +49,6 @@
     <ng-container *ngIf="isRequestFailed(state.matrixResponse)">
         <hca-get-data-panel [downloadError]="isRequestFailed(state.matrixResponse)">
             <h4 class="fontsize-m semi-bold">Error</h4>
-            <p class="fontsize-m">An error has occurred.</p>
         </hca-get-data-panel>
         <p class="fontsize-m error-message" [innerHTML]="state.matrixResponse.message"></p>
     </ng-container>
@@ -56,12 +57,12 @@
             <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
         </hca-get-data-panel>
         <p class="fontsize-m">Your expression matrix is available at the following URL.</p>
-        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(state.matrixResponse)"
-                                    [note]="'Note this link expires in 24 hours.'"></copy-to-clipboard>
-        <p class="fontsize-m">Your expression matrix is also available for direct download.</p>
-        <p class="fontsize-xxs">Your expression matrix will be downloaded with the name <span class="fontsize-xxs semi-bold">{{getMatrixDownloadFileName(state.matrixResponse)}}</span>. To save your expression matrix with a different name, right click the button below and choose “Save Link As...”.</p>
-        <button class="button primary" type="button" (click)="onDownloadMatrix(state.matrixResponse, saveAs)">Download
-            Matrix
-        </button>
+        <p class="fontsize-m">By selecting the link below your expression matrix will be downloaded with the name
+            <span class="fontsize-m semi-bold file-name">{{getMatrixDownloadFileName(state.matrixResponse)}}</span>. To save
+            your expression matrix with a different name, right click the link below and choose “Save Link As...”. Note
+            this link expires in 30 days.</p>
+        <p class="fontsize-m">This can take several minutes to an hour or more depending on the size of the request.
+            Please leave this browser window open during processing</p>
+        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(state.matrixResponse)"></copy-to-clipboard>
     </ng-container>
 </div>

@@ -31,7 +31,7 @@ import EntitySpec from "../shared/entity-spec";
     selector: "hca-get-data",
     templateUrl: "./hca-get-data.component.html",
     styleUrls: ["./hca-get-data.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HCAGetDataComponent implements OnInit {

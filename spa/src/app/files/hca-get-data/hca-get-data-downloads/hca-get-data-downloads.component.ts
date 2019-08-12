@@ -12,7 +12,7 @@ import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from 
     selector: "hca-get-data-downloads",
     templateUrl: "./hca-get-data-downloads.component.html",
     styleUrls: ["./hca-get-data-downloads.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HCAGetDataDownloadsComponent {

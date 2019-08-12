@@ -22,17 +22,8 @@
         }
     }
 
-    .fontsize-xxs {
-        margin-bottom: 16px;
-    }
-
-    /** Warnings TODO encapsulate within warning component */
-    warning h4 {
-        margin: 0 0 8px;
-    }
-
-    warning p {
-        margin-bottom: 8px;
+    .file-name.semi-bold {
+        font-weight: 500;
     }
 
     /* Error message */
