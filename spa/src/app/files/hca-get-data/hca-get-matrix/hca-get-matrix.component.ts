@@ -171,16 +171,6 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Download matrix from URL specified in matrix response.
-     *
-     * @param {MatrixResponse} response
-     */
-    public onDownloadMatrix(response: MatrixResponse) {
-
-        window.location.href = response.matrixUrl;
-    }
-
-    /**
      * Request matrix.
      *
      * @param {MatrixFormat} fileFormat
