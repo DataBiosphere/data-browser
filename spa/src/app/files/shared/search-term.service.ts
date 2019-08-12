@@ -17,6 +17,7 @@ import { TermResponse } from "./term-response.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { SearchEntity } from "../search/search-entity.model";
 import { TermResponseService } from "./term-response.service";
+import { FileFormat } from "./file-format.model";
 
 @Injectable()
 export class SearchTermService {

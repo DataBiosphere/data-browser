@@ -10,14 +10,16 @@ import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats
 import { FetchFileManifestUrlSuccessAction } from "../file-manifest/fetch-file-manifest-url-success.action";
 import { FileManifestState } from "../file-manifest/file-manifest.state";
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
+import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partial-query-match-success.action";
+import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 import { Matrix } from "./matrix.model";
 import { MatrixResponse } from "../../shared/matrix-response.model";
 import { MatrixStatus } from "../../shared/matrix-status.model";
 import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
-import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 
 const DEFAULT_MATRIX = {
     fileFormats: [],
+    partialQueryMatch: null,
     matrixResponse: {
         status: MatrixStatus.NOT_STARTED
     } as MatrixResponse,
@@ -27,6 +29,7 @@ const DEFAULT_MATRIX = {
 export class MatrixState implements Matrix {
 
     fileFormats: string[];
+    partialQueryMatch: boolean;
     matrixResponse: MatrixResponse;
     matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>;
 
@@ -46,9 +49,25 @@ export class MatrixState implements Matrix {
 
         return new MatrixState({
             fileFormats: this.fileFormats,
+            partialQueryMatch: this.partialQueryMatch,
             matrixResponse: {
                 status: MatrixStatus.NOT_STARTED
             } as MatrixResponse,
+            matrixUrlsByProjectId: this.matrixUrlsByProjectId
+        });
+    }
+
+    /**
+     * Cancel the partial query status.
+     *
+     * @returns {MatrixState}
+     */
+    public clearMatrixPartialQueryStatus(): MatrixState {
+
+        return new MatrixState({
+            fileFormats: this.fileFormats,
+            partialQueryMatch: null,
+            matrixResponse: this.matrixResponse,
             matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });
     }
@@ -68,6 +87,23 @@ export class MatrixState implements Matrix {
         const fileFormats = action.fileFormats;
         return new MatrixState({
             fileFormats,
+            partialQueryMatch: this.partialQueryMatch,
+            matrixResponse: this.matrixResponse,
+            matrixUrlsByProjectId: this.matrixUrlsByProjectId
+        });
+    }
+
+    /**
+     * Update state with the specified matrix partial query status.
+     * 
+     * @param {FetchMatrixPartialQueryMatchSuccessAction} action
+     * @returns {MatrixState}
+     */
+    public fetchMatrixPartialQueryStatusSuccessAction(action: FetchMatrixPartialQueryMatchSuccessAction): MatrixState {
+
+        return new MatrixState({
+            fileFormats: this.fileFormats,
+            partialQueryMatch: action.partialQueryMatch,
             matrixResponse: this.matrixResponse,
             matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });
@@ -87,6 +123,7 @@ export class MatrixState implements Matrix {
 
         return new MatrixState({
             fileFormats: this.fileFormats,
+            partialQueryMatch: this.partialQueryMatch,
             matrixResponse: this.matrixResponse,
             matrixUrlsByProjectId: updatedMatrixUrlsByProjectId
         });
@@ -103,6 +140,7 @@ export class MatrixState implements Matrix {
     public fetchMatrixUrlSuccess(action: FetchMatrixUrlSuccessAction) {
         return new MatrixState({
             fileFormats: this.fileFormats,
+            partialQueryMatch: this.partialQueryMatch,
             matrixResponse: action.response,
             matrixUrlsByProjectId: this.matrixUrlsByProjectId
         });

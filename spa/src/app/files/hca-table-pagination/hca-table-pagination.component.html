@@ -1,4 +1,4 @@
-<ng-container *ngIf="isData.length > 0">
+<ng-container *ngIf="tableData.length > 0">
     <div *ngIf="pagination$ | async; let pagination" class="pagination">
         <ng-container *ngIf="pagination.current_page">
             <button mat-icon-button (click)="previousPageSelected(pagination)"

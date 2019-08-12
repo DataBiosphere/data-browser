@@ -46,7 +46,31 @@ export class FileFacet {
 
         this.termCount = terms.length;
         this.selectedTermCount = this.selectedTerms.length;
+    }
 
+    /**
+     * Returns true if the specified term(s) is the only term in the list of terms for this facet, or is the only
+     * selected term.
+     * 
+     * @param {string[]} termNames
+     * @returns {boolean}
+     */
+    public isOnlySelectedTerm(...termNames: string[]): boolean {
+
+        // False if there are no terms
+        if ( !this.terms || !this.terms.length ) {
+            return false;
+        }
+
+        // Otherwise ensure the list of selected terms only contain the specified terms
+        const selected = this.terms.filter(term => term.selected);
+        const termsToSearch = selected.length ?
+            selected :
+            this.terms;
+
+        return !termsToSearch.some((term: Term) => {
+            return termNames.indexOf(term.name) === -1;
+        });
     }
 
     /**

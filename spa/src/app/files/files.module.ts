@@ -19,7 +19,6 @@ import {
     MatCardModule,
     MatCheckboxModule,
     MatChipsModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -44,19 +43,21 @@ import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
-import { HCADownloadManifestComponent } from "./hca-download-manifest/hca-download-manifest.component";
-import { HCADownloadManifestModalComponent } from "./hca-download-manifest-modal/hca-download-manifest-modal.component";
-import { HCAExportToTerraComponent } from "./hca-export-to-terra/hca-export-to-terra.component";
-import { HCAExportToTerraModalComponent } from "./hca-export-to-terra-modal/hca-export-to-terra-modal.component";
+import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
 import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
 import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
 import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result.component";
 import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
+import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
+import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
+import { HCAGetDataPanelComponent } from "./hca-get-data/hca-get-data-panel/hca-get-data-panel.component";
+import { CopyToClipboardComponent } from "./hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
+import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
+import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
-import { HCARequestMatrixComponent } from "./hca-request-matrix/hca-request-matrix.component";
-import { HCARequestMatrixModalComponent } from "./hca-request-matrix-modal/hca-request-matrix-modal.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderCountComponent } from "./hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderDownloadComponent } from "./hca-table-column-header-download/hca-table-column-header-download.component";
@@ -95,7 +96,6 @@ import { TermResponseService } from "./shared/term-response.service";
         MatCardModule,
         MatCheckboxModule,
         MatChipsModule,
-        MatDialogModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
@@ -119,19 +119,13 @@ import { TermResponseService } from "./shared/term-response.service";
     declarations: [
 
         FileTypeSummaryListComponent,
-
         FileSummaryComponent,
         FileManifestSummaryComponent,
-
         FilesComponent,
-
         HCAContentEllipsisComponent,
         HCADesktopBannerComponent,
         HCADownloadFileComponent,
-        HCADownloadManifestComponent,
-        HCADownloadManifestModalComponent,
         HCAExportToTerraComponent,
-        HCAExportToTerraModalComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,
         HCAFileFilterComponent,
@@ -139,9 +133,14 @@ import { TermResponseService } from "./shared/term-response.service";
         HCAFileFilterWrapperComponent,
         ProjectDownloadsComponent,
         ProjectPreparedMatrixDownloadsComponent,
+        HCAGetDataComponent,
+        HCAGetDataDownloadsComponent,
+        HCAGetDataPanelComponent,
+        CopyToClipboardComponent,
+        HCAGetDataSummaryComponent,
+        HCAGetManifestComponent,
+        HCAGetMatrixComponent,
         HCAProjectComponent,
-        HCARequestMatrixComponent,
-        HCARequestMatrixModalComponent,
         HCASearchComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
@@ -161,10 +160,6 @@ import { TermResponseService } from "./shared/term-response.service";
         // Components specific to Boardwalk instances
         HCAFileSummaryComponent
     ],
-    exports: [
-        HCADownloadManifestModalComponent,
-        HCARequestMatrixModalComponent
-    ],
     providers: [
         ConfigService,
         DownloadService,
@@ -179,11 +174,6 @@ import { TermResponseService } from "./shared/term-response.service";
         TerraService,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
-    entryComponents: [
-        HCADownloadManifestModalComponent,
-        HCAExportToTerraModalComponent,
-        HCARequestMatrixModalComponent
-    ]
 })
 export class FilesModule {
 }

@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Core shared module as per https://angular.io/guide/sharing-ngmodules. Contains declarations and export of components
  * used across app modules.
@@ -17,6 +17,7 @@ import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 import { ResponsiveService } from "./responsive/responsive.service";
+import { WarningComponent } from "./warning/warning.component";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ResponsiveService } from "./responsive/responsive.service";
         CCToolbarNavItemComponent,
         HCASectionTitleComponent,
         HCATabComponent,
-        PopLayoutComponent
+        PopLayoutComponent,
+        WarningComponent
     ],
     providers: [
         ResponsiveService
@@ -39,7 +41,8 @@ import { ResponsiveService } from "./responsive/responsive.service";
         CCToolbarNavItemComponent,
         HCASectionTitleComponent,
         HCATabComponent,
-        PopLayoutComponent
+        PopLayoutComponent,
+        WarningComponent
     ]
 })
 export class SharedModule {

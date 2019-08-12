@@ -11,6 +11,7 @@
     align-items: center;
     display: flex;
     margin: 0 auto;
+    min-height: 56px;
     padding: 0 16px; /* Gutter is 16px */
 
     .file-summary {
@@ -25,24 +26,6 @@
             display: flex;
             flex-wrap: wrap; /* Wraps on smaller devices */
             margin: 12px 0 12px -10px; /* Negative left margin to allow for first tab's padding */
-
-            /* Buttons - download and request matrix */
-            &.download-buttons {
-                flex: none;
-                flex-wrap: wrap;
-
-                hca-export-to-terra {
-                    margin: 0 0 4px 8px;
-                }
-
-                hca-download-manifest {
-                    margin: 0 0 4px 8px;
-                }
-
-                hca-request-matrix {
-                    margin: 0 0 4px 8px;
-                }
-            }
 
             /* Summary */
             .summary {
@@ -66,34 +49,36 @@
     }
 }
 
-/**
- * Medium +
- */
-@media screen and (min-width: 768px) {
+/* Get Data */
+:host-context(.get-data) {
 
-    /* Wrapper */
-    .wrapper .file-summary {
+    display: flex;
+    flex-direction: column;
 
-        /* Summaries and counts - container */
-        > div {
+    .summary {
+        align-items: center;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        margin-bottom: 8px;
 
-            /* Buttons - download and request matrix */
-            &.download-buttons {
-                flex-wrap: nowrap;
-                margin-left: 0;
+        /* Text - count, label */
+        /* Mimics HCA paragraph font class "fontsize-xs" */
+        .count, .label {
+            font-family: "Montserrat", sans-serif;
+            font-size: 13px;
+            letter-spacing: normal;
+            line-height: 20px;
+            margin: 0;
+        }
 
-                hca-export-to-terra {
-                    margin: 0 8px 0 0;
-                }
+        .count {
+            font-weight: 400;
+        }
 
-                hca-download-manifest {
-                    margin: 0;
-                }
-
-                hca-request-matrix {
-                    margin: 0 0 0 8px;
-                }
-            }
+        .label {
+            font-weight: 500;
+            width: 220px;
         }
     }
 }

@@ -4,6 +4,8 @@
  *
  * Model of file facet list and related selected facet terms states, pagination etc. Also contains convenience maps for
  * querying state.
+ * 
+ * Also contains boolean indicating if current search terms yield any results that are matrixable.
  */
 
 // App dependencies
@@ -16,13 +18,15 @@ import { FileFacet } from "../../shared/file-facet.model";
 import { QueryStringFacet } from "../../shared/query-string-facet.model";
 import { Term } from "../../shared/term.model";
 import { PaginationModel } from "../../table/pagination.model";
+import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 
 export class FileFacetListState {
 
     public readonly fileFacets: FileFacet[];
     public readonly selectedFacet: FileFacet; // the one being edited.
+    public readonly matrixSupported: boolean;
     public readonly paginationModel: PaginationModel;
-
+    
     private readonly fileFacetNames: string[];
     private readonly fileFacetsByName: Map<string, FileFacet>;
 
@@ -31,11 +35,13 @@ export class FileFacetListState {
      * @param {Map<string, FileFacet>} fileFacetsByName
      * @param {FileFacet} selectedFacet
      * @param {PaginationModel} paginationModel
+     * @param {matrixSupported} matrixSupported
      */
     constructor(fileFacetNames: string[],
                 fileFacetsByName: Map<string, FileFacet>,
                 selectedFacet: FileFacet,
-                paginationModel: PaginationModel) {
+                paginationModel: PaginationModel,
+                matrixSupported: boolean) {
 
         this.fileFacetNames = fileFacetNames;
         this.fileFacetsByName = fileFacetsByName;
@@ -47,6 +53,8 @@ export class FileFacetListState {
         this.fileFacets = this.fileFacetNames.map((facetName) => {
             return this.fileFacetsByName.get(facetName);
         });
+        
+        this.matrixSupported = matrixSupported;
     }
 
     /**
@@ -55,36 +63,21 @@ export class FileFacetListState {
      * @returns {FileFacetListState}
      */
     public static getDefaultState() {
-        return new FileFacetListState([], new Map<string, FileFacet>(), undefined, undefined);
+        return new FileFacetListState(
+            [],
+            new Map<string, FileFacet>(),
+            undefined,
+            undefined,
+            undefined);
     }
 
     /**
-     * Convert array of facets into a map of facets keyed by facet name.
-     *
-     * @param {FileFacet[]} fileFacets
-     * @returns {Map<string, FileFacet>}
+     * Clear the matrixable search results.
      */
-    private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
+    public clearMatrixableSearchResults(): FileFacetListState {
 
-        const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
-
-        return fileFacets.reduce((acc: Map<string, FileFacet>, value: FileFacet): Map<string, FileFacet> => {
-            acc.set(value.name, value);
-            return acc;
-        }, startValue);
-    }
-
-    /**
-     * Convert array of file facets into an array of file facet names
-     *
-     * @param {FileFacet[]} fileFacets
-     * @returns {string[]}
-     */
-    private static createFileFacetNames(fileFacets: FileFacet[]): string[] {
-
-        return fileFacets.map((fileFacet) => {
-            return fileFacet.name;
-        });
+        return new FileFacetListState(
+            this.fileFacetNames, this.fileFacetsByName, this.selectedFacet, this.paginationModel, undefined);
     }
 
     /**
@@ -94,7 +87,8 @@ export class FileFacetListState {
      */
     public requestFileFacets(): FileFacetListState {
 
-        return new FileFacetListState(this.fileFacetNames, this.fileFacetsByName, this.selectedFacet, this.paginationModel);
+        return new FileFacetListState(
+            this.fileFacetNames, this.fileFacetsByName, this.selectedFacet, this.paginationModel, this.matrixSupported);
     }
 
     /**
@@ -105,8 +99,40 @@ export class FileFacetListState {
      */
     public receiveFileFacets(action: FetchFileFacetsSuccessAction): FileFacetListState {
 
-        return new FileFacetListState(FileFacetListState.createFileFacetNames(action.fileFacets),
-            FileFacetListState.createFileFacetsMap(action.fileFacets), this.selectedFacet, this.paginationModel);
+        return new FileFacetListState(
+            FileFacetListState.createFileFacetNames(action.fileFacets),
+            FileFacetListState.createFileFacetsMap(action.fileFacets),
+            this.selectedFacet,
+            this.paginationModel,
+            this.matrixSupported);
+    }
+
+    /**
+     * Matrixable state of data has been returned from server.
+     * 
+     * @param {FetchIsMatrixSupportedSuccessAction} action
+     */
+    public receiveMatrixSupported(action: FetchIsMatrixSupportedSuccessAction): FileFacetListState {
+
+        return new FileFacetListState(
+            this.fileFacetNames,
+            this.fileFacetsByName,
+            this.selectedFacet,
+            this.paginationModel,
+            action.matrixableSearchResults);
+    }
+
+    /**
+     * Matrixable search results has been requested from server.
+     */
+    public requestMatrixSupported(): FileFacetListState {
+
+        return new FileFacetListState(
+            this.fileFacetNames,
+            this.fileFacetsByName,
+            this.selectedFacet,
+            this.paginationModel,
+            this.matrixSupported)
     }
 
     /**
@@ -117,7 +143,7 @@ export class FileFacetListState {
     public clearSelectedFacet() {
 
         return new FileFacetListState(
-            this.fileFacetNames, this.fileFacetsByName, undefined, undefined);
+            this.fileFacetNames, this.fileFacetsByName, undefined, undefined, undefined);
     }
 
     /**
@@ -167,7 +193,8 @@ export class FileFacetListState {
 
         // Return new state of file facet list (ie with newly selected/deselected term and potentially newly selected
         // facet).
-        return new FileFacetListState(this.fileFacetNames, fileFacetsByName, selectedFacet, this.paginationModel);
+        return new FileFacetListState(
+            this.fileFacetNames, fileFacetsByName, selectedFacet, this.paginationModel, this.matrixSupported);
     }
 
     /**
@@ -205,6 +232,35 @@ export class FileFacetListState {
             return accum;
         }, new Map<string, FileFacet>());
 
-        return new FileFacetListState(fileFacetNames, fileFacetsMap, null, null);
+        return new FileFacetListState(fileFacetNames, fileFacetsMap, null, null, undefined);
+    }
+
+    /**
+     * Convert array of facets into a map of facets keyed by facet name.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Map<string, FileFacet>}
+     */
+    private static createFileFacetsMap(fileFacets: FileFacet[]): Map<string, FileFacet> {
+
+        const startValue: Map<string, FileFacet> = new Map<string, FileFacet>();
+
+        return fileFacets.reduce((acc: Map<string, FileFacet>, value: FileFacet): Map<string, FileFacet> => {
+            acc.set(value.name, value);
+            return acc;
+        }, startValue);
+    }
+
+    /**
+     * Convert array of file facets into an array of file facet names
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {string[]}
+     */
+    private static createFileFacetNames(fileFacets: FileFacet[]): string[] {
+
+        return fileFacets.map((fileFacet) => {
+            return fileFacet.name;
+        });
     }
 }

@@ -33,7 +33,6 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
     selector: "hca-project",
@@ -45,10 +44,10 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 export class HCAProjectComponent implements OnDestroy, OnInit {
 
     // Template variables
-    analysisToolsAvailable: false; // TODO remove
-    getColumnDescription = getColumnDescription;
-    getColumnDisplayName = getColumnDisplayName;
-    state$: Observable<HCAProjectState>;
+    public analysisToolsAvailable: false; // TODO remove
+    public getColumnDescription = getColumnDescription;
+    public getColumnDisplayName = getColumnDisplayName;
+    public state$: Observable<HCAProjectState>;
 
     // Locals
     private deviceInfo = null;
@@ -323,7 +322,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      * Clear out the selected project when the user navigates away from project detail page.
      */
     ngOnDestroy() {
-
         this.store.dispatch(new ClearSelectedProjectAction());
     }
 

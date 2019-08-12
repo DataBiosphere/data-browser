@@ -9,9 +9,8 @@
     </hca-file-filter-wrapper>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="!isDeviceHandheld()"
-                      [matrixEnabled]="fileTypeMatrix$ | async"
                       [summary]="selectFileSummary$ | async"
-                      [terraEnabled]="isTerraEnabled(config$ | async)">
+                      [tableSummary]="true">
     </hca-file-summary>
     <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
              (tabSelected)="onTabSelected($event)"></hca-tab>

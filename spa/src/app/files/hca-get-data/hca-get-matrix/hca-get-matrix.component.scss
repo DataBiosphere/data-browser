@@ -1,0 +1,46 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for HCA get matrix.
+ */
+@import "../../../site/theme/cgl.vars";
+
+.matrix {
+
+    /* File format */
+    .file-format {
+        margin: 24px 0 32px;
+
+        mat-radio-group {
+            display: flex;
+            margin-top: 8px;
+        }
+
+        mat-radio-button {
+            padding-right: 16px;
+        }
+    }
+
+    .fontsize-xxs {
+        margin-bottom: 16px;
+    }
+
+    /** Warnings TODO encapsulate within warning component */
+    warning h4 {
+        margin: 0 0 8px;
+    }
+
+    warning p {
+        margin-bottom: 8px;
+    }
+
+    /* Error message */
+    .error-message {
+        background-color: $hca-off-white;
+        border: 3px;
+        padding: 8px;
+        margin: 24px 0 32px;
+        width: fit-content;
+    }
+}

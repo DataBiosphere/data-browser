@@ -228,7 +228,7 @@
                      [ngClass]="getRowClass(i, snapped, false, 0)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
         </mat-table>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
-                                           [isData]="data$ | async"></hca-table-data-status-placeholder>
-        <hca-table-pagination [isData]="data$ | async"></hca-table-pagination>
+                                           [tableData]="data$ | async"></hca-table-data-status-placeholder>
+        <hca-table-pagination [tableData]="data$ | async"></hca-table-pagination>
     </div>
 </div>

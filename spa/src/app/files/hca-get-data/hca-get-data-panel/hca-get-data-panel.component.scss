@@ -1,0 +1,97 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for HCA get data panel.
+ * ViewEncapsulation is disabled - required in order to style <ng-content>.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* Download */
+.download-panel {
+    padding: 16px 0 24px;
+    position: relative; /* Positions separator */
+
+    /* Heading <h4> */
+    h4 {
+        line-height: 28px;
+    }
+
+    /* Heading, link */
+    h4, a, .start p {
+        margin: 0;
+    }
+
+    /* Separator */
+    &:before, &.loading:after {
+        border-radius: 3px;
+        bottom: 10px;
+        content: "";
+        display: block;
+        height: 3px;
+        position: absolute;
+    }
+
+    &:before {
+        background-color: $hca-gray-lightest;
+        width: 84px;
+    }
+
+    /* Loading indicator */
+    &.loading:after {
+        animation: 1.2s loading linear infinite;
+        background-color: $hca-secondary;
+        width: 8px;
+    }
+
+    /* Loading animation */
+    @keyframes loading {
+        from {
+            left: 0;
+        }
+        to {
+            left: 76px;
+        }
+    }
+
+    /* Separator - error */
+    &.error:before {
+        background-color: $hca-orange;
+    }
+
+    /* Text */
+    > p {
+        margin: 8px 0;
+    }
+
+    /* Start, help */
+    .start {
+        align-items: center;
+        display: flex;
+
+        a {
+            cursor: pointer;
+
+            /* Hide help */
+            &:last-of-type {
+                display: none;
+            }
+        }
+
+        /* Help separator */
+        p {
+            color: $hca-primary;
+            display: none;
+            padding: 0 4px;
+        }
+    }
+
+    /* Hover */
+    &:hover {
+
+        /* Show help */
+        .start a:last-of-type, .start p {
+            display: block;
+        }
+    }
+}

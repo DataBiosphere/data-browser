@@ -1,10 +1,9 @@
-/*!
+/*
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
  * Styles for displaying set of currently selected search terms (file facet terms and projects).
  */
-
 @import "../../site/theme/cgl.vars";
 
 /* Wrapper */
@@ -117,7 +116,7 @@
             letter-spacing: 0.34px;
             line-height: 26px; /* Overrides MD button spec */
             min-width: 0;
-            padding: 0 4px; /* Overrides MD button spec - button text positioned 10px right of last selected chip */
+            padding: 0 4px; /* Overrides MD button spec */
         }
     }
 
@@ -127,15 +126,96 @@
         .selected-term > div, .selected-facet {
             cursor: auto;
         }
+    }
+}
 
-        /* Hide 'x' */
-        mat-icon {
-            display: none;
+/* Get Data */
+:host-context(.get-data) {
+
+    display: flex;
+    flex-direction: column;
+
+    .selected-facets, .selected-terms, .selected-facets span:not(.operator) {
+        align-items: flex-start;
+        display: flex;
+    }
+
+    /* Facet - container */
+    .selected-facets {
+        flex-direction: column;
+        margin-bottom: 12px;
+        width: 100%;
+
+        /* Facet */
+        .selected-facet {
+            margin-bottom: 4px;
         }
 
-        /* Hide 'clear all' button */
-        .clear-all {
-            display: none;
+        /* Terms */
+        .selected-terms {
+            flex-wrap: wrap;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Selected term */
+        .selected-term {
+            padding-right: 6px;
+        }
+
+        /* Text - facet name, terms, operator */
+        span {
+            letter-spacing: normal;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        /* Text - facet name, and terms */
+        /* Mimics HCA paragraph font class "fontsize-xs" */
+        span:not(.operator) {
+            font-family: "Montserrat", sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+
+            /* Text - facet name */
+            &.facet-name {
+                font-weight: 500;
+            }
+        }
+
+        /* Operator - OR, AND */
+        .operator {
+            color: $hca-gray-darkest;
+            font-family: "Courier New", sans-serif;
+            font-size: 14px;
+            font-style: italic;
+            padding-right: 6px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+/**
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1280px) {
+
+    /* Get Data */
+    :host-context(.get-data) {
+
+        /* Facet - container */
+        .selected-facets {
+            flex-direction: row;
+            margin-bottom: 8px;
+            width: 100%;
+
+            /* Facet */
+            .selected-facet {
+                flex: none;
+                margin: 0;
+                width: 220px;
+            }
         }
     }
 }

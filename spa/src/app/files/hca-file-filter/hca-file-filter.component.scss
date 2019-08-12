@@ -229,34 +229,6 @@
             z-index: 40;
         }
     }
-
-    /* Button */
-    button {
-        align-items: center;
-        background-color: $hca-primary;
-        border: none;
-        border-radius: 3px;
-        color: $hca-white;
-        display: flex;
-        flex-shrink: 0;
-        font-family: "Montserrat", sans-serif; /* TODO typography */
-        font-size: 14px; /* TODO typography */
-        font-weight: 600; /* TODO typography */
-        height: 38px; /* HCA specific style */
-        justify-content: center;
-        letter-spacing: 0.21px; /* TODO typography */
-        min-width: 84px;
-        padding: 0 12px;
-
-        &:hover {
-            background-color: $hca-primary-hover;
-        }
-
-        &:focus {
-            outline: none;
-        }
-    }
-
 }
 
 /* Select overlay */

@@ -213,7 +213,7 @@ describe("FileRowMapper:", () => {
     });
 
     // /**
-    //  * Mapper should handle null files value. Use file format as the check for this. TODO ****************************************
+    //  * Mapper should handle null files value. Use file format as the check for this. TODO ****
     //  */
     // it(`should map file format to "Unspecified" when files is null`, (done: DoneFn) => {
     //

@@ -12,20 +12,16 @@ import * as _ from "lodash";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
 import { Observable, Subject, Subscription } from "rxjs";
-import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 // App dependencies
-import { Config } from "../config/config.model";
-import { Deployment } from "../config/deployment.model";
-import { selectConfigConfig } from "../config/_ngrx/config.selectors";
 import { FileSummary } from "./file-summary/file-summary";
 import {
     selectFileFacetsFileFacets,
     selectFileSummary,
     selectEntities,
     selectSelectedEntity,
-    selectSelectedViewState,
-    selectFileTypeMatrix
+    selectSelectedViewState
 } from "./_ngrx/file.selectors";
 import {
     selectSearchTerms,
@@ -46,10 +42,8 @@ import { FileFacet } from "./shared/file-facet.model";
 export class FilesComponent implements OnInit, OnDestroy {
 
     // Public/template variables
-    public config$: Observable<Config>;
     public entities$: Observable<EntitySpec[]>;
     public fileFacets$: Observable<FileFacet[]>;
-    public fileTypeMatrix$: Observable<boolean>;
     public selectedEntity$: Observable<EntitySpec>;
     public selectFileSummary$: Observable<FileSummary>;
     public selectedProjectIds: Observable<string[]>;
@@ -90,20 +84,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         const isTablet = this.deviceService.isTablet();
 
         return (isMobile || isTablet);
-    }
-
-    /**
-     * Returns true if export to Terra functionality is enabled. Currently true for dev and ux-dev.
-     * 
-     * @param {Config} config
-     * @returns {boolean}
-     */
-    public isTerraEnabled(config: Config): boolean {
-
-        const deployment = config.deployment;
-        return deployment === Deployment.LOCAL ||
-            deployment === Deployment.DEVELOP ||
-            deployment === Deployment.UX_DEV;
     }
 
     /**
@@ -184,9 +164,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         // Determine the current selected tab
         this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
 
-        // Determine if Matrix files are included in the current files result set.
-        this.fileTypeMatrix$ = this.store.pipe(select(selectFileTypeMatrix));
-
         // Grab the set of current selected search terms
         this.selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
@@ -227,10 +204,5 @@ export class FilesComponent implements OnInit, OnDestroy {
 
             this.location.replaceState(path, params.toString());
         });
-
-        this.config$ = this.store.pipe(
-            select(selectConfigConfig),
-            takeUntil(this.ngDestroy$)
-        );
     }
 }
