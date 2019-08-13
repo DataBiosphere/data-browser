@@ -119,7 +119,7 @@ export class FilesService {
     public fetchIsMatrixSupported(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                   tableParams: TableParamsModel): Observable<boolean> {
 
-        return this.fetchMatrixableFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
+        return this.fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
             map((apiResponse: FilesAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
         );
     }
@@ -137,15 +137,7 @@ export class FilesService {
                                           tableParams: TableParamsModel): Observable<boolean> {
 
 
-        // Build API URL
-        const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
-
-        // Update search terms such that only selected file type is matrix
-        const paramMap = this.buildFetchSearchResultsQueryParams(searchTermsBySearchKey, tableParams);
-
-        return this.httpClient
-            .get<FilesAPIResponse>(url, {params: paramMap})
-            .pipe(
+        return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
                 map((apiResponse: FilesAPIResponse) =>
                     this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
                 switchMap((matrixableFileFacets: MatrixableFileFacets) => {
@@ -416,19 +408,40 @@ export class FilesService {
     }
 
     /**
+     * Remove all file types other than matrix.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @returns {Map<string, Set<SearchTerm>>}
+     */
+    private createMatrixPartialQuerySearchTerms(
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
+
+        const searchTerms = new Map(searchTermsByFacetName);
+        searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
+            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+        ]));
+        return searchTerms;
+    }
+
+    /**
      * Remove all file types other than matrix. Add matrix file type if not already selected.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @returns {Map<string, Set<SearchTerm>>}
      */
-    private createMatrixableSearchTerms(
+    private createMatrixSupportedSearchTerms(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
 
-        const matrixableSearchTerms = new Map(searchTermsByFacetName);
-        matrixableSearchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
-        ]));
-        return matrixableSearchTerms;
+        const searchTerms = new Map(searchTermsByFacetName);
+        const currentFileFormats = searchTerms.get(FileFacetName.FILE_FORMAT) || [];
+        const fileFormats = Array.from(currentFileFormats).reduce((accum, searchTerm) => {
+            if ( searchTerm.getSearchValue() === FileFormat.MATRIX ) {
+                accum.add(searchTerm);
+            }
+            return accum;
+        }, new Set()); 
+        searchTerms.set(FileFacetName.FILE_FORMAT, fileFormats);
+        return searchTerms;
     }
 
     /**
@@ -449,20 +462,42 @@ export class FilesService {
 
     /**
      * Fetch the matrixable data for the current search terms, if any. Query FILES endpoint with the current search
+     * terms, removing all selected file formats except matrix.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @returns {Observable<MatrixableSearchResults>}
+     */
+    private fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+
+        // Build API URL
+        const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
+
+        // Update search terms such that only selected file type is matrix
+        const matrixSearchTerms = this.createMatrixSupportedSearchTerms(searchTermsBySearchKey);
+        const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
+
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {params: paramMap});
+    }
+
+    /**
+     * Fetch the matrixable data for the current search terms, if any. Query FILES endpoint with the current search
      * terms, updating the file type to only matrix if necessary.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
      * @returns {Observable<MatrixableSearchResults>}
      */
-    private fetchMatrixableFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    private fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                             tableParams: TableParamsModel): Observable<FilesAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
 
         // Update search terms such that only selected file type is matrix
-        const matrixSearchTerms = this.createMatrixableSearchTerms(searchTermsBySearchKey);
+        const matrixSearchTerms = this.createMatrixSupportedSearchTerms(searchTermsBySearchKey);
         const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
 
         return this.httpClient
