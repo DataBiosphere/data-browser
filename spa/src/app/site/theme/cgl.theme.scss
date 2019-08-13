@@ -33,6 +33,10 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     stroke: $hca-secondary;
 }
 
+.hca-spinner.hca-spinner-grey circle {
+    stroke: $hca-gray-lightest;
+}
+
 /* Overrides styles for Angular Radio Button (mat-radio-button) */
 .hca-radio .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
     border-color: $hca-secondary;
