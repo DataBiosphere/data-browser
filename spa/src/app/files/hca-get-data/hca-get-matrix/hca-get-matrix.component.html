@@ -5,14 +5,16 @@
                 <hca-get-data-panel>
                     <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
                     <warning *ngIf="state.matrixPartialQueryMatch">
-                        <h4 class="fontsize-m">Note: Not all selected data will be included in the generated
-                            matrix.</h4>
-                        <p class="fontsize-m">The HCA Matrix Service supports the currently following data types:</p>
-                        <ol class="fontsize-m">
-                            <li>Human, Smart Seq2, paired end, or</li>
-                            <li>Human, 10x_V2</li>
-                        </ol>
-                        <p class="fontsize-m">Non-matching data types will be omitted from the generated matrix.</p>
+                        <warning-title><h4 class="fontsize-m">Note: Not all selected data will be included in the generated
+                            matrix.</h4></warning-title>
+                        <warning-content>
+                            <p class="fontsize-m">The HCA Matrix Service supports the currently following data types:</p>
+                            <ol class="fontsize-m">
+                                <li>Human, Smart Seq2, paired end, or</li>
+                                <li>Human, 10x_V2</li>
+                            </ol>
+                            <p class="fontsize-m">Non-matching data types will be omitted from the generated matrix.</p>
+                        </warning-content>
                     </warning>
                     <p class="fontsize-m">Request an expression matrix for the selected data from the HCA Matrix
                         service.</p>
@@ -39,8 +41,9 @@
         <hca-get-data-panel [loading]="isRequestInProgress(state.matrixResponse)">
             <h4 class="fontsize-m semi-bold">Your Expression Matrix is Being Prepared</h4>
             <ng-container [ngSwitch]="isETASpecified(state.matrixResponse)">
-                <p class="fontsize-m" *ngSwitchDefault>This may take several minutes or
-                    more.</p>
+                <p class="fontsize-m" *ngSwitchDefault>This can take several minutes to an hour or more depending on the
+                    size of the request.
+                    Please leave this browser window open during processing.</p>
                 <p class="fontsize-m" *ngSwitchCase="true">Wait times are currently about
                     {{formatETA(state.matrixResponse.eta)}}.</p>
             </ng-container>
@@ -56,13 +59,12 @@
         <hca-get-data-panel>
             <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
         </hca-get-data-panel>
-        <p class="fontsize-m">Your expression matrix is available at the following URL.</p>
-        <p class="fontsize-m">By selecting the link below your expression matrix will be downloaded with the name
-            <span class="fontsize-m semi-bold file-name">{{getMatrixDownloadFileName(state.matrixResponse)}}</span>. To save
-            your expression matrix with a different name, right click the link below and choose “Save Link As...”. Note
-            this link expires in 30 days.</p>
-        <p class="fontsize-m">This can take several minutes to an hour or more depending on the size of the request.
-            Please leave this browser window open during processing</p>
+        <p class="fontsize-m">To download your expression matrix with the file name
+            <span class="fontsize-m semi-bold file-name">{{getMatrixDownloadFileName(state.matrixResponse)}}</span>,
+            select the link below.</p>
+        <p class="fontsize-m">To save your expression matrix with a different name, right click the link below and
+            choose “Save Link As...”.</p>
+        <p class="fontsize-m">This link expires in 30 days.</p>
         <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(state.matrixResponse)"></copy-to-clipboard>
     </ng-container>
 </div>

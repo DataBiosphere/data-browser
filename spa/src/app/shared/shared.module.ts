@@ -18,6 +18,8 @@ import { HCATabComponent } from "./hca-tab/hca-tab";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 import { ResponsiveService } from "./responsive/responsive.service";
 import { WarningComponent } from "./warning/warning.component";
+import { WarningContentComponent } from "./warning/warning-content.component";
+import { WarningTitleComponent } from "./warning/warning-title.component";
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { WarningComponent } from "./warning/warning.component";
         HCASectionTitleComponent,
         HCATabComponent,
         PopLayoutComponent,
-        WarningComponent
+        WarningComponent,
+        WarningContentComponent,
+        WarningTitleComponent
     ],
     providers: [
         ResponsiveService
@@ -42,7 +46,9 @@ import { WarningComponent } from "./warning/warning.component";
         HCASectionTitleComponent,
         HCATabComponent,
         PopLayoutComponent,
-        WarningComponent
+        WarningComponent,
+        WarningContentComponent,
+        WarningTitleComponent
     ]
 })
 export class SharedModule {
