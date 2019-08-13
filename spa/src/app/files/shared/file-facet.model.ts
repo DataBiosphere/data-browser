@@ -49,9 +49,25 @@ export class FileFacet {
     }
 
     /**
+     * Returns for a specified facet, all terms if none are selected, or the selected terms only.
+     *
+     * @returns {Term[]}
+     */
+    public getEffectiveTerms(): Term[] {
+
+        // Return an empty array if there are no terms
+        if ( !this.terms || !this.terms.length ) {
+            return [];
+        }
+
+        // Otherwise return either the list of selected terms only, or if none are selected, the full list of terms
+        return this.selected ? this.selectedTerms : this.terms;
+    }
+
+    /**
      * Returns true if the specified term(s) is the only term in the list of terms for this facet, or is the only
      * selected term.
-     * 
+     *
      * @param {string[]} termNames
      * @returns {boolean}
      */

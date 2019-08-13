@@ -8,7 +8,9 @@
     </div>
     <div class="summary">
         <h4 class="fontsize-m semi-bold">Summary</h4>
-        <hca-file-summary [showDownload]="false"
+        <hca-file-summary [selectedGenusSpecies]="selectedGenusSpecies"
+                          [selectedLibraryConstructionApproaches]="selectedLibraryConstructionApproaches"
+                          [showDownload]="false"
                           [summary]="selectFileSummary$ | async"></hca-file-summary>
     </div>
 </div>
