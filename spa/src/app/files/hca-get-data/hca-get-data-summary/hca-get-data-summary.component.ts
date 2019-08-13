@@ -30,6 +30,7 @@ export class HCAGetDataSummaryComponent implements OnInit {
     // Inputs
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
+    @Input() selectedPairedEnds: Term[];
 
     // Template variables
     public selectFileSummary$: Observable<FileSummary>;

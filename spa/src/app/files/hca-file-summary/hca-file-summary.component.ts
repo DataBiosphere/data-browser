@@ -35,6 +35,7 @@ export class HCAFileSummaryComponent {
     // Inputs
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
+    @Input() selectedPairedEnds: Term[];
     @Input() showDownload: boolean;
     @Input() summary: FileSummary;
     @Input() tableSummary: boolean;

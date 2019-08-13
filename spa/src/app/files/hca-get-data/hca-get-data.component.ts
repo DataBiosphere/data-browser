@@ -104,12 +104,7 @@ export class HCAGetDataComponent implements OnInit {
      */
     public listSelectedGenusSpecies(fileFacets: FileFacet[]): Term[] {
 
-        if ( fileFacets.length ) {
-            return fileFacets.filter(fileFacet => fileFacet.name === FileFacetName.GENUS_SPECIES)[0].getEffectiveTerms();
-        }
-        else {
-            return [];
-        }
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.GENUS_SPECIES);
     }
 
     /**
@@ -119,13 +114,19 @@ export class HCAGetDataComponent implements OnInit {
      * @returns {Term[]}
      */
     public listSelectedLibraryConstructionApproaches(fileFacets: FileFacet[]): Term[] {
+        
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
+    }
 
-        if ( fileFacets.length ) {
-            return fileFacets.filter(fileFacet => fileFacet.name === FileFacetName.LIBRARY_CONSTRUCTION_APPROACH)[0].getEffectiveTerms();
-        }
-        else {
-            return [];
-        }
+    /**
+     * Returns the effective terms for the paired end facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedPairedEnds(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.PAIRED_END);
     }
 
     /**
@@ -171,8 +172,25 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Life cycle hooks
+     * Returns the effective terms for the specified facet
+     *
+     * @param {FileFacet[]} fileFacets
+     * @param {string} facetName
+     * @returns {Term[]}
      */
+    private listSelectedTermsOfFacet(fileFacets: FileFacet[], facetName: string): Term[] {
+
+        if ( fileFacets.length ) {
+            const facet = fileFacets.find(fileFacet => fileFacet.name === facetName);
+            if ( !facet ) {
+                return [];
+            }
+            return facet.getEffectiveTerms();
+        }
+        else {
+            return [];
+        }
+    }
 
     /**
      * Kill subscriptions on destroy of component.

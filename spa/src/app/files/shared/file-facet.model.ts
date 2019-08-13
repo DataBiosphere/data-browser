@@ -79,7 +79,7 @@ export class FileFacet {
         }
 
         // Otherwise ensure the list of selected terms only contain the specified terms
-        const selected = this.terms.filter(term => term.selected);
+        const selected = this.getEffectiveTerms();
         const termsToSearch = selected.length ?
             selected :
             this.terms;
