@@ -6,6 +6,6 @@
  */
 
 export interface ContributorView {
-    contributorCitation: number;
-    contributorName: string;
+    citation: number;
+    name: string;
 }

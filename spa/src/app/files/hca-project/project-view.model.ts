@@ -15,5 +15,6 @@ export interface ProjectView {
     contacts: ContactView[];
     collaboratingOrganizations: CollaboratingOrganizationView[];
     contributors: ContributorView[];
+    dataCurators: string[];
     project: Project;
 }

@@ -17,7 +17,5 @@ export interface Project extends ProjectRow {
     insdcProjectAccessions: string[];
     insdcStudyAccessions: string[];
     projectDescription: string;
-    projectShortName: string;
-    projectTitle: string;
     publications: Publication[];
 }

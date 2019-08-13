@@ -6,7 +6,7 @@
  */
 
 export interface ContactView {
-    contactName: string;
-    contactEmail: string;
-    contactInstitution: string;
+    name: string;
+    email: string;
+    institution: string;
 }

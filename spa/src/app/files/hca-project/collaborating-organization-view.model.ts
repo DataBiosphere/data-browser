@@ -6,6 +6,6 @@
  */
 
 export interface CollaboratingOrganizationView {
-    organizationCitation: number;
-    organizationName: string;
+    citation: number;
+    name: string;
 }

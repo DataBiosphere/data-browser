@@ -20,19 +20,19 @@
                     <p class="fontsize-s">{{state.project.project.projectDescription}}</p>
                     <div class="lhs">
                         <h4 class="fontsize-m semi-bold">Contact</h4>
-                        <ng-container [ngSwitch]="isProjectContacts(state.project.contacts)">
+                        <ng-container [ngSwitch]="isAnyContactAssociated(state.project.contacts)">
                             <ng-container *ngSwitchCase="true">
                                 <div *ngFor="let contact of state.project.contacts"
                                      class="details">
-                                    <p class="fontsize-xxs">{{contact.contactName}}</p>
-                                    <p class="fontsize-xxs">{{contact.contactInstitution}}</p>
-                                    <p class="fontsize-xxs">{{contact.contactEmail}}</p>
+                                    <p class="fontsize-xxs">{{contact.name}}</p>
+                                    <p class="fontsize-xxs">{{contact.institution}}</p>
+                                    <p class="fontsize-xxs">{{contact.email}}</p>
                                 </div>
                             </ng-container>
                             <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
                         </ng-container>
                         <h4 class="fontsize-m semi-bold">Publications</h4>
-                        <ng-container [ngSwitch]="isProjectPublications(state.project.project.publications)">
+                        <ng-container [ngSwitch]="isAnyPublicationAssociated(state.project.project.publications)">
                             <ng-container *ngSwitchCase="true">
                                 <div *ngFor="let publication of state.project.project.publications" class="details">
                                     <p class="fontsize-xxs" [innerHTML]="getProjectPublication(publication)"></p>
@@ -44,26 +44,38 @@
                     <div class="rhs">
                         <h4 class="fontsize-m semi-bold">Contributors</h4>
                         <p class="fontsize-xxs contributor-list">
-                            <ng-container [ngSwitch]="isProjectContributors(state.project.contributors)">
+                            <ng-container [ngSwitch]="isAnyContributorAssociated(state.project.contributors)">
                                 <ng-container *ngSwitchCase="true">
                                     <span *ngFor="let contributor of state.project.contributors; last as lastContributor">
-                                        <span>{{contributor.contributorName}}</span>
-                                        <sup>{{contributor.contributorCitation}}</sup>
+                                        <span>{{contributor.name}}</span>
+                                        <sup>{{contributor.citation}}</sup>
                                         <span *ngIf="!lastContributor">, </span>
                                     </span>
                                 </ng-container>
-                                <span *ngSwitchDefault>None</span>
+                                <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
                         <h4 class="fontsize-m semi-bold">Collaborating Organizations</h4>
                         <p class="fontsize-xxs organization-list">
-                            <ng-container [ngSwitch]="isProjectCollaboratingOrganizations(state.project.collaboratingOrganizations)">
+                            <ng-container [ngSwitch]="isAnyCollaboratingOrganizationAssociated(state.project.collaboratingOrganizations)">
                                 <ng-container *ngSwitchCase="true">
                                     <span *ngFor="let organization of state.project.collaboratingOrganizations">
-                                        <sup>{{organization.organizationCitation}}</sup><span> {{organization.organizationName}}</span>
+                                        <sup>{{organization.citation}}</sup><span> {{organization.name}}</span>
                                     </span>
                                 </ng-container>
-                                <span *ngSwitchDefault>None</span>
+                                <span *ngSwitchDefault>Unspecified</span>
+                            </ng-container>
+                        </p>
+                        <h4 class="fontsize-m semi-bold">HCA Data Curators</h4>
+                        <p class="fontsize-xxs curator-list">
+                            <ng-container [ngSwitch]="isAnyDataCuratorAssociated(state.project.dataCurators)">
+                                <ng-container *ngSwitchCase="true">
+                                    <span *ngFor="let curator of state.project.dataCurators; last as lastCurator">
+                                        <span>{{curator}}</span>
+                                        <span *ngIf="!lastCurator">, </span>
+                                    </span>
+                                </ng-container>
+                                <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
                     </div>

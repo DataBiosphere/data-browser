@@ -82,64 +82,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns the project contributor's list of organizations with their corresponding citation.
-     *
-     * @param {Contributor[]} contributors
-     * @returns {CollaboratingOrganizationView[]}
-     */
-    public getCollaboratingOrganizations(contributors: Contributor[]): CollaboratingOrganizationView[] {
-
-        let projectContributors = this.getProjectContributors(contributors),
-            projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
-
-        return projectDistinctListOfContributorOrganizations.map((organization, i) => {
-
-            return {
-                organizationCitation: i + 1,
-                organizationName: organization,
-            };
-        });
-    }
-
-    /**
-     * Returns formatted project contacts.
-     *
-     * @param {Contributor[]} contributors
-     * @returns {ContactView[]}
-     */
-    public getContacts(contributors: Contributor[]): ContactView[] {
-
-        return contributors.filter(contributor => contributor.correspondingContributor).map(correspondingContributor => {
-
-            return {
-                contactName: this.getFormattedContributorName(correspondingContributor.contactName),
-                contactEmail: correspondingContributor.email,
-                contactInstitution: correspondingContributor.institution
-            };
-        });
-    }
-
-    /**
-     * Returns formatted project contributors with their corresponding [organization] citation number.
-     *
-     * @param {Contributor[]} contributors
-     * @returns {ContributorView[]}
-     */
-    public getContributors(contributors: Contributor[]): ContributorView[] {
-
-        let projectContributors = this.getProjectContributors(contributors),
-            projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
-
-        return projectContributors.map(projectContributor => {
-
-            return {
-                contributorCitation: projectDistinctListOfContributorOrganizations.indexOf(projectContributor.institution) + 1,
-                contributorName: this.getFormattedContributorName(projectContributor.contactName),
-            };
-        });
-    }
-
-    /**
      * Returns the distinct list of collaborating organizations of the project.
      * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
      *
@@ -148,7 +90,9 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public getDistinctListOfCollaboratingOrganizations(contributors: Contributor[]): string[] {
 
-        return this.getProjectContributors(contributors).map(contributor => contributor.institution).filter((o, i, a) => a.indexOf(o) === i);
+        return this.getProjectContributors(contributors)
+            .map(contributor => contributor.institution)
+            .filter((o, i, a) => a.indexOf(o) === i);
     }
 
     /**
@@ -173,12 +117,10 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         // If term is selected, set the background color as well
         if ( selected ) {
 
-            let style = {
+            return {
                 "border-color": "#1F6B9A",
                 "background-color": "#1C7CC7"
             };
-
-            return style;
         }
     }
 
@@ -238,28 +180,45 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             publication.publicationTitle;
     }
 
+
     /**
-     * Returns the list of HCA data contributors of the project.
+     * Returns true if at least one data curator has been specified for this project.
      *
-     * @param {Contributor[]} contributors
-     * @returns {string}
+     * @param {string[]} curators
+     * @returns {boolean}
      */
-    public listHCADataCurators(contributors: Contributor[]): string {
-
-        const listOfDataCurators = contributors.filter(contributor => this.isContributorDataCurator(contributor.projectRole)).map(contributor => contributor.contactName);
-
-        return this.stringifyValues(listOfDataCurators.map(name => this.formatContributor(name)), "Unspecified");
+    public isAnyDataCuratorAssociated(curators: string[]): boolean {
+        return curators.length > 0;
     }
 
     /**
-     * Returns true if the contributor's projectRole is "data curator".
+     * Returns true if project collaborating organizations exist.
      *
-     * @param {string} projectRole
+     * @param {CollaboratingOrganizationView[]} collaboratingOrganzations
      * @returns {boolean}
      */
-    public isContributorDataCurator(projectRole: string): boolean {
+    public isAnyCollaboratingOrganizationAssociated(collaboratingOrganzations: CollaboratingOrganizationView[]): boolean {
+        return collaboratingOrganzations.length > 0;
+    }
 
-        return projectRole && projectRole.toLowerCase() === "data curator";
+    /**
+     * Returns true if project contributors exist.
+     *
+     * @param {ContributorView[]} contributors
+     * @returns {boolean}
+     */
+    public isAnyContributorAssociated(contributors: ContributorView[]): boolean {
+        return contributors.length > 0;
+    }
+
+    /**
+     * Returns true if project publications exist.
+     *
+     * @param {Publication[]} publications
+     * @returns {boolean}
+     */
+    public isAnyPublicationAssociated(publications: Publication[]): boolean {
+        return publications.length > 0;
     }
 
     /**
@@ -277,43 +236,13 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if project collaborating organizations exist.
-     *
-     * @param {CollaboratingOrganizationView[]} collaboratingOrganzations
-     * @returns {boolean}
-     */
-    public isProjectCollaboratingOrganizations(collaboratingOrganzations: CollaboratingOrganizationView[]): boolean {
-        return collaboratingOrganzations.length > 0;
-    }
-
-    /**
      * Returns true if project contacts exist.
      *
      * @param {ContactView[]} contacts
      * @returns {boolean}
      */
-    public isProjectContacts(contacts: ContactView[]): boolean {
+    public isAnyContactAssociated(contacts: ContactView[]): boolean {
         return contacts.length > 0;
-    }
-
-    /**
-     * Returns true if project contributors exist.
-     *
-     * @param {ContributorView[]} contributors
-     * @returns {boolean}
-     */
-    public isProjectContributors(contributors: ContributorView[]): boolean {
-        return contributors.length > 0;
-    }
-
-    /**
-     * Returns true if project publications exist.
-     *
-     * @param {Publication[]} publications
-     * @returns {boolean}
-     */
-    public isProjectPublications(publications: Publication[]): boolean {
-        return publications.length > 0;
     }
 
     /**
@@ -334,12 +263,12 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      *
      * @param {string[]} selectedProjectIds
      * @param {string} projectId
-     * @param {string} projectShortName
+     * @param {string} projectShortname
      */
-    public onProjectSelected(selectedProjectIds: string[], projectId: string, projectShortName: string) {
+    public onProjectSelected(selectedProjectIds: string[], projectId: string, projectShortname: string) {
 
         const selected = this.isProjectSelected(selectedProjectIds, projectId);
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortName, !selected));
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !selected));
         this.router.navigate(["/projects"]);
     }
 
@@ -414,8 +343,106 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             collaboratingOrganizations: this.getCollaboratingOrganizations(project.contributors),
             contacts: this.getContacts(project.contributors),
             contributors: this.getContributors(project.contributors),
+            dataCurators: this.getDataCurators(project.contributors),
             project: project
         };
+    }
+
+    /**
+     * Returns formatted name from "firstName,middleName,lastName" to "firstName middleName lastName".
+     *
+     * @param {string} commaDelimitedName
+     * @returns {string}
+     */
+    public formatContributor(commaDelimitedName: string): string {
+
+        return commaDelimitedName.split(/[ ,]+/).join(" ");
+    }
+
+    /**
+     * Returns the project contributor's list of organizations with their corresponding citation.
+     *
+     * @param {Contributor[]} contributors
+     * @returns {CollaboratingOrganizationView[]}
+     */
+    private getCollaboratingOrganizations(contributors: Contributor[]): CollaboratingOrganizationView[] {
+
+        const projectContributors = this.getProjectContributors(contributors),
+            projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
+
+        return projectDistinctListOfContributorOrganizations.map((organization, i) => {
+
+            return {
+                citation: i + 1,
+                name: organization,
+            };
+        });
+    }
+
+    /**
+     * Returns formatted project contacts.
+     *
+     * @param {Contributor[]} contributors
+     * @returns {ContactView[]}
+     */
+    private getContacts(contributors: Contributor[]): ContactView[] {
+
+        return contributors
+            .filter(contributor => contributor.correspondingContributor)
+            .map(correspondingContributor => {
+
+                return {
+                    name: this.getFormattedContributorName(correspondingContributor.contactName),
+                    email: correspondingContributor.email,
+                    institution: correspondingContributor.institution
+                };
+        });
+    }
+
+    /**
+     * Returns formatted project contributors with their corresponding [organization] citation number.
+     *
+     * @param {Contributor[]} contributors
+     * @returns {ContributorView[]}
+     */
+    private getContributors(contributors: Contributor[]): ContributorView[] {
+
+        const projectContributors = this.getProjectContributors(contributors),
+            projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
+
+        return projectContributors.map(projectContributor => {
+
+            return {
+                citation: projectDistinctListOfContributorOrganizations.indexOf(projectContributor.institution) + 1,
+                name: this.getFormattedContributorName(projectContributor.contactName),
+            };
+        });
+    }
+
+    /**
+     * Returns formatted data curators.
+     *
+     * @param {Contributor[]} contributors
+     * @returns {ContributorView[]}
+     */
+    private getDataCurators(contributors: Contributor[]): string[] {
+
+        return contributors
+            .filter(contributor => this.isContributorDataCurator(contributor.projectRole))
+            .map(contributor => contributor.contactName)
+            .map(name => this.formatContributor(name));
+
+    }
+
+    /**
+     * Returns true if the contributor's projectRole is "data curator".
+     *
+     * @param {string} projectRole
+     * @returns {boolean}
+     */
+    private isContributorDataCurator(projectRole: string): boolean {
+
+        return projectRole && projectRole.toLowerCase() === "data curator";
     }
 
     /**
@@ -434,7 +461,8 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     /**
      * Clear out the selected project when the user navigates away from project detail page.
      */
-    ngOnDestroy() {
+    public ngOnDestroy() {
+
         this.store.dispatch(new ClearSelectedProjectAction());
     }
 

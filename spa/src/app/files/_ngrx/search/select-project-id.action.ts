@@ -25,12 +25,12 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction {
 
     /**
      * @param {string} projectId
-     * @param {string} projectShortName
+     * @param {string} projectShortname
      * @param {boolean} selected
      */
     constructor(
         public readonly projectId: string,
-        public readonly projectShortName: string,
+        public readonly projectShortname: string,
         public readonly selected = true) {}
 
     /**
@@ -40,7 +40,7 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction {
      */
     public asSearchTerm(): SearchTerm {
 
-        return new SearchEntity(this.facetName,  this.projectId, this.projectShortName);
+        return new SearchEntity(this.facetName,  this.projectId, this.projectShortname);
     }
 
     /**
