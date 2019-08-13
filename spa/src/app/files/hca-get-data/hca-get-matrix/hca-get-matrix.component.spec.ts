@@ -44,6 +44,8 @@ import { TermResponseService } from "../../shared/term-response.service";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
 import { WarningComponent } from "../../../shared/warning/warning.component";
+import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
+import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
 
 describe("HCAGetMatrixComponent", () => {
 
@@ -66,7 +68,9 @@ describe("HCAGetMatrixComponent", () => {
                 FileTypeSummaryListComponent,
                 HCAGetManifestComponent,
                 HCATooltipComponent,
-                WarningComponent
+                WarningComponent,
+                WarningContentComponent,
+                WarningTitleComponent
             ],
             imports: [
                 BrowserAnimationsModule,
