@@ -6,12 +6,12 @@
  */
 
 // App dependencies
-import { Project } from "../shared/project.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { ProjectView } from "./project-view.model";
 
 export interface HCAProjectState {
 
-    project: Project;
+    project: ProjectView;
     projectMatrixUrls: ProjectMatrixUrls;
     selectedProjectIds: string[];
 }

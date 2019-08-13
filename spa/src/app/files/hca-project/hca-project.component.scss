@@ -150,6 +150,30 @@
             h4 + .details {
                 padding-top: 0;
             }
+
+            /* Organizations */
+            .organization-list {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            /* Contributors */
+            .contributor-list {
+                display: block;
+            }
+
+            /* Contributors, organizations */
+            .contributor-list, .organization-list {
+
+                sup {
+                    font-size: smaller;
+                    vertical-align: super;
+                }
+            }
+            
+            .contributor-list, .curator-list, .organization-list {
+                white-space: pre-wrap;
+            }
         }
     }
 
