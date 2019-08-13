@@ -6,11 +6,12 @@
  */
 
 // Core dependencies
+import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { combineLatest, Observable, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -30,12 +31,21 @@ import { FileFacet } from "../shared/file-facet.model";
 import { DownloadViewState } from "./download-view-state.model";
 import { FileFacetName } from "../shared/file-facet-name.model";
 import { Term } from "../shared/term.model";
+import { HCAGetDataState } from "./hca-get-data.state";
 
 @Component({
     selector: "hca-get-data",
     templateUrl: "./hca-get-data.component.html",
     styleUrls: ["./hca-get-data.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger("fadeIn", [
+            transition(":enter", [
+                style({opacity: 0}),
+                animate("750ms ease-out", style({opacity: 1}))
+            ])
+        ])
+    ]
 })
 
 export class HCAGetDataComponent implements OnInit {
@@ -44,11 +54,8 @@ export class HCAGetDataComponent implements OnInit {
     private ngDestroy$ = new Subject();
 
     // Template variables
-    public config$: Observable<Config>;
-    public fileFacets$: Observable<FileFacet[]>;
-    public matrixSupported$: Observable<boolean>;
-    public selectedEntity$: Observable<EntitySpec>;
-    public viewState = DownloadViewState.NONE;
+    private state$: Observable<HCAGetDataState>;
+    private viewState = DownloadViewState.NONE;
 
     /**
      * @param {Router} router
@@ -114,7 +121,7 @@ export class HCAGetDataComponent implements OnInit {
      * @returns {Term[]}
      */
     public listSelectedLibraryConstructionApproaches(fileFacets: FileFacet[]): Term[] {
-        
+
         return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
     }
 
@@ -172,6 +179,17 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
+     * Returns true if whether matrix is supported or not, has been determined.
+     *
+     * @param {boolean} supported
+     * @returns {boolean}
+     */
+    private isMatrixSupportedLoaded(supported: boolean): boolean {
+
+        return (supported === true || supported === false);
+    }
+
+    /**
      * Returns the effective terms for the specified facet
      *
      * @param {FileFacet[]} fileFacets
@@ -208,18 +226,37 @@ export class HCAGetDataComponent implements OnInit {
     public ngOnInit() {
 
         // Determine the current selected tab (from table)
-        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
+        const selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
 
         // Get the list of facets to display
-        this.fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
+        const fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
 
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
-        this.matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
+        const matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
 
-        this.config$ = this.store.pipe(
+        const config$ = this.store.pipe(
             select(selectConfigConfig),
             takeUntil(this.ngDestroy$)
         );
+
+        this.state$ = combineLatest(
+            selectedEntity$,
+            fileFacets$,
+            matrixSupported$,
+            config$
+        )
+            .pipe(
+                map(([selectedEntity, fileFacets, matrixSupported, config]) => {
+
+                    return {
+                        selectedEntity,
+                        fileFacets,
+                        matrixSupported,
+                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
+                        config
+                    };
+                })
+            );
     }
 }
