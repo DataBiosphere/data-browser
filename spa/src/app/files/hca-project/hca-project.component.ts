@@ -68,25 +68,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
                        private deviceService: DeviceDetectorService,
                        private router: Router,
                        private store: Store<AppState>,
-                       private configService: ConfigService) {}
-
-    /**
-     * Public API
-     */
-
-    /**
-     * Returns project related information, including formatted contact, contributor and organizations lists.
-     *
-     * @param {Project} project
-     * @returns {ProjectView}
-     */
-    public buildProjectView(project: Project): ProjectView {
-        return {
-            collaboratingOrganizations: this.getCollaboratingOrganizations(project.contributors),
-            contacts: this.getContacts(project.contributors),
-            contributors: this.getContributors(project.contributors),
-            project: project
-        };
+                       private configService: ConfigService) {
     }
 
     /**
@@ -127,14 +109,14 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public getContacts(contributors: Contributor[]): ContactView[] {
 
-            return contributors.filter(contributor => contributor.correspondingContributor).map(correspondingContributor => {
+        return contributors.filter(contributor => contributor.correspondingContributor).map(correspondingContributor => {
 
-                return {
-                    contactName: this.getFormattedContributorName(correspondingContributor.contactName),
-                    contactEmail: correspondingContributor.email,
-                    contactInstitution: correspondingContributor.institution
-                };
-            });
+            return {
+                contactName: this.getFormattedContributorName(correspondingContributor.contactName),
+                contactEmail: correspondingContributor.email,
+                contactInstitution: correspondingContributor.institution
+            };
+        });
     }
 
     /**
@@ -251,7 +233,9 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public getProjectPublication(publication: Publication): string {
 
-        return publication.publicationUrl ? `<a href=${publication.publicationUrl} target="_blank" rel="noopener noreferrer">${publication.publicationTitle}</a>` : publication.publicationTitle;
+        return publication.publicationUrl ?
+            `<a href=${publication.publicationUrl} target="_blank" rel="noopener noreferrer">${publication.publicationTitle}</a>` :
+            publication.publicationTitle;
     }
 
     /**
@@ -417,6 +401,21 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
 
         return `${values.slice(0, posOfValue).concat(innerHTMLOfValue).concat(values.slice(posOfValue + 1, values.length)).join(", ")}`;
+    }
+
+    /**
+     * Returns project related information, including formatted contact, contributor and organizations lists.
+     *
+     * @param {Project} project
+     * @returns {ProjectView}
+     */
+    private buildProjectView(project: Project): ProjectView {
+        return {
+            collaboratingOrganizations: this.getCollaboratingOrganizations(project.contributors),
+            contacts: this.getContacts(project.contributors),
+            contributors: this.getContributors(project.contributors),
+            project: project
+        };
     }
 
     /**
