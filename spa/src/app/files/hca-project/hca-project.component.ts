@@ -158,7 +158,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
                 return false;
             }
 
-            return !this.isHCAWrangler(contributor.projectRole);
+            return !this.isContributorDataCurator(contributor.projectRole);
 
         }).map(contributor => contributor.contactName);
 
@@ -174,7 +174,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public listCollaboratingOrganizations(contributors): string {
 
-        let listOfCollaboratingOrganizations = contributors.filter(contributor => contributor.correspondingContributor != true && !this.isHCAWrangler(contributor.projectRole)).map(contributor => contributor.institution);
+        let listOfCollaboratingOrganizations = contributors.filter(contributor => contributor.correspondingContributor != true && !this.isContributorDataCurator(contributor.projectRole)).map(contributor => contributor.institution);
 
         // Find the distinct list of collaborating organisations
         let uniqueListOfCollaboratingOrganizations = listOfCollaboratingOrganizations.filter((o, i, a) => a.indexOf(o) === i);
@@ -194,6 +194,30 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns the list of HCA data contributors of the project.
+     *
+     * @param {Contributor[]} contributors
+     * @returns {string}
+     */
+    public listHCADataCurators(contributors: Contributor[]): string {
+
+        const listOfDataCurators = contributors.filter(contributor => this.isContributorDataCurator(contributor.projectRole)).map(contributor => contributor.contactName);
+
+        return this.stringifyValues(listOfDataCurators.map(name => this.formatContributor(name)), "Unspecified");
+    }
+
+    /**
+     * Returns true if the contributor's projectRole is "data curator".
+     *
+     * @param {string} projectRole
+     * @returns {boolean}
+     */
+    public isContributorDataCurator(projectRole: string): boolean {
+
+        return projectRole && projectRole.toLowerCase() === "data curator";
+    }
+
+    /**
      * Returns true if device is either mobile or tablet.
      *
      * @returns {boolean}
@@ -205,17 +229,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         const isTablet = this.deviceService.isTablet();
 
         return (isMobile || isTablet);
-    }
-
-    /**
-     * Returns true if the projectRole is "Human Cell Atlas wrangler".
-     *
-     * @param {string} projectRole
-     * @returns {boolean}
-     */
-    public isHCAWrangler(projectRole: string): boolean {
-
-        return projectRole && projectRole.toLowerCase() === "human cell atlas wrangler";
     }
 
     /**
