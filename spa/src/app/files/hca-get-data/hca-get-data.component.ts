@@ -13,19 +13,23 @@ import { Observable, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { selectConfigConfig } from "../../config/_ngrx/config.selectors";
 import { Config } from "../../config/config.model";
 import { Deployment } from "../../config/deployment.model";
-import { DownloadViewState } from "./download-view-state.model";
 import {
+    selectFileFacetsFileFacets,
     selectMatrixSupported,
     selectSelectedEntity
 } from "../_ngrx/file.selectors";
-import { AppState } from "../../_ngrx/app.state";
-import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/file-facet-list/fetch-is-matrix-supported-request.action";
 import { ClearIsMatrixSupportedAction } from "../_ngrx/file-facet-list/clear-is-matrix-supported.action";
+import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/file-facet-list/fetch-is-matrix-supported-request.action";
 import { EntitySelectAction } from "../_ngrx/table/table.actions";
 import EntitySpec from "../shared/entity-spec";
+import { FileFacet } from "../shared/file-facet.model";
+import { DownloadViewState } from "./download-view-state.model";
+import { FileFacetName } from "../shared/file-facet-name.model";
+import { Term } from "../shared/term.model";
 
 @Component({
     selector: "hca-get-data",
@@ -41,11 +45,12 @@ export class HCAGetDataComponent implements OnInit {
 
     // Template variables
     public config$: Observable<Config>;
+    public fileFacets$: Observable<FileFacet[]>;
     public matrixSupported$: Observable<boolean>;
     public selectedEntity$: Observable<EntitySpec>;
     public viewState = DownloadViewState.NONE;
 
-/**
+    /**
      * @param {Router} router
      * @param {Store<AppState>} store
      */
@@ -92,6 +97,39 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
+     * Returns the effective terms for the genus species facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedGenusSpecies(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.GENUS_SPECIES);
+    }
+
+    /**
+     * Returns the effective terms for the library construction approach facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedLibraryConstructionApproaches(fileFacets: FileFacet[]): Term[] {
+        
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
+    }
+
+    /**
+     * Returns the effective terms for the paired end facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedPairedEnds(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.PAIRED_END);
+    }
+
+    /**
      * Returns true if export to Terra functionality is enabled. Currently true for dev and ux-dev.
      *
      * @param {Config} config
@@ -134,8 +172,25 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Life cycle hooks
+     * Returns the effective terms for the specified facet
+     *
+     * @param {FileFacet[]} fileFacets
+     * @param {string} facetName
+     * @returns {Term[]}
      */
+    private listSelectedTermsOfFacet(fileFacets: FileFacet[], facetName: string): Term[] {
+
+        if ( fileFacets.length ) {
+            const facet = fileFacets.find(fileFacet => fileFacet.name === facetName);
+            if ( !facet ) {
+                return [];
+            }
+            return facet.getEffectiveTerms();
+        }
+        else {
+            return [];
+        }
+    }
 
     /**
      * Kill subscriptions on destroy of component.
@@ -154,6 +209,9 @@ export class HCAGetDataComponent implements OnInit {
 
         // Determine the current selected tab (from table)
         this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
+
+        // Get the list of facets to display
+        this.fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
 
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());

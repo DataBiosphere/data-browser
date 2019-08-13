@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, OnInit, Input } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
@@ -16,6 +16,7 @@ import { selectFileSummary } from "../../_ngrx/file.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { SearchTerm } from "../../search/search-term.model";
+import { Term } from "../../shared/term.model";
 
 @Component({
     selector: "hca-get-data-summary",
@@ -25,6 +26,11 @@ import { SearchTerm } from "../../search/search-term.model";
 })
 
 export class HCAGetDataSummaryComponent implements OnInit {
+
+    // Inputs
+    @Input() selectedGenusSpecies: Term[];
+    @Input() selectedLibraryConstructionApproaches: Term[];
+    @Input() selectedPairedEnds: Term[];
 
     // Template variables
     public selectFileSummary$: Observable<FileSummary>;

@@ -196,6 +196,17 @@
 }
 
 /**
+ * HCA specific breakpoint
+ */
+@media screen and (min-width: 1200px) {
+
+    /* Wrapper */
+    .wrapper {
+        padding: 0 30px;
+    }
+}
+
+/**
  * Medium Window +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
@@ -217,16 +228,5 @@
                 width: 220px;
             }
         }
-    }
-}
-
-/**
- * HCA specific breakpoint
- */
-@media screen and (min-width: 1200px) {
-
-    /* Wrapper */
-    .wrapper {
-        padding: 0 30px;
     }
 }

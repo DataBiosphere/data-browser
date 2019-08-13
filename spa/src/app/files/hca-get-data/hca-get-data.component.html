@@ -16,6 +16,8 @@
                 <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
             </ng-container>
         </div>
-        <hca-get-data-summary></hca-get-data-summary>
+        <hca-get-data-summary [selectedGenusSpecies]="listSelectedGenusSpecies(fileFacets$ | async)"
+                              [selectedLibraryConstructionApproaches]="listSelectedLibraryConstructionApproaches(fileFacets$ | async)"
+                              [selectedPairedEnds]="listSelectedPairedEnds(fileFacets$ | async)"></hca-get-data-summary>
     </div>
 </div>
