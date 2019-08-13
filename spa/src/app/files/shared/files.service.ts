@@ -136,7 +136,15 @@ export class FilesService {
     public fetchIsMatrixPartialQueryMatch(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                           tableParams: TableParamsModel): Observable<boolean> {
 
-        return this.fetchMatrixableFilesAPIResponse(searchTermsBySearchKey, tableParams)
+
+        // Build API URL
+        const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
+
+        // Update search terms such that only selected file type is matrix
+        const paramMap = this.buildFetchSearchResultsQueryParams(searchTermsBySearchKey, tableParams);
+
+        return this.httpClient
+            .get<FilesAPIResponse>(url, {params: paramMap})
             .pipe(
                 map((apiResponse: FilesAPIResponse) =>
                     this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
