@@ -6,14 +6,16 @@
                 Matrix
                 service.</p>
             <warning *ngSwitchDefault>
-                <p class="fontsize-m">
-                    The data types selected are not currently available in the HCA Matrix Service. To obtain an expression
-                    matrix, please select data that matches:
-                </p>
-                <ol class="fontsize-m">
-                    <li>Human, Smart Seq2, paired end, or</li>
-                    <li>Human, 10x_V2</li>
-                </ol>
+                <warning-content>
+                    <p class="fontsize-m">
+                        The data types selected are not currently available in the HCA Matrix Service. To obtain an expression
+                        matrix, please select data that matches:
+                    </p>
+                    <ol class="fontsize-m">
+                        <li>Human, Smart Seq2, paired end, or</li>
+                        <li>Human, 10x_V2</li>
+                    </ol>
+                </warning-content>
             </warning>
         </ng-container>
         <div class="start">
