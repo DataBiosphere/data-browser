@@ -408,28 +408,12 @@ export class FilesService {
     }
 
     /**
-     * Remove all file types other than matrix.
-     *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
-     * @returns {Map<string, Set<SearchTerm>>}
-     */
-    private createMatrixPartialQuerySearchTerms(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
-
-        const searchTerms = new Map(searchTermsByFacetName);
-        searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
-        ]));
-        return searchTerms;
-    }
-
-    /**
      * Remove all file types other than matrix. Add matrix file type if not already selected.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @returns {Map<string, Set<SearchTerm>>}
      */
-    private createMatrixSupportedSearchTerms(
+    private createMatrixPartialQuerySearchTerms(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
 
         const searchTerms = new Map(searchTermsByFacetName);
@@ -439,8 +423,24 @@ export class FilesService {
                 accum.add(searchTerm);
             }
             return accum;
-        }, new Set()); 
+        }, new Set());
         searchTerms.set(FileFacetName.FILE_FORMAT, fileFormats);
+        return searchTerms;
+    }
+
+    /**
+     * Remove all file types other than matrix.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @returns {Map<string, Set<SearchTerm>>}
+     */
+    private createMatrixSupportedSearchTerms(
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>): Map<string, Set<SearchTerm>> {
+
+        const searchTerms = new Map(searchTermsByFacetName);
+        searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
+            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+        ]));
         return searchTerms;
     }
 
@@ -475,7 +475,7 @@ export class FilesService {
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
 
         // Update search terms such that only selected file type is matrix
-        const matrixSearchTerms = this.createMatrixSupportedSearchTerms(searchTermsBySearchKey);
+        const matrixSearchTerms = this.createMatrixPartialQuerySearchTerms(searchTermsBySearchKey);
         const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
 
         return this.httpClient
