@@ -114,13 +114,13 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<boolean>}
      */
     public fetchIsMatrixSupported(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                   tableParams: TableParamsModel): Observable<boolean> {
 
         return this.fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-            map((apiResponse: FilesAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
+            map((apiResponse: FilesAPIResponse) => this.bindIsMatrixSupportedResponse(apiResponse, searchTermsBySearchKey))
         );
     }
 
@@ -138,47 +138,46 @@ export class FilesService {
 
 
         return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-                map((apiResponse: FilesAPIResponse) =>
-                    this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
-                switchMap((matrixableFileFacets: MatrixableFileFacets) => {
+            map((apiResponse: FilesAPIResponse) =>
+                this.bindIsMatrixPartialQueryResponse(apiResponse, searchTermsBySearchKey)),
+            switchMap((matrixableFileFacets: MatrixableFileFacets) => {
 
-                    // Check if an additional query is required to determine if smart seq 2 / false is a combination in
-                    // the current data. We currently can not determine the association between a library construction
-                    // approach and a paired end, so we do this manually here.
+                // Check if an additional query is required to determine if smart seq 2 / false is a combination in
+                // the current data. We currently can not determine the association between a library construction
+                // approach and a paired end, so we do this manually here.
 
-                    // If there is anything other human selected for species, then we don't need to do any additional
-                    // checks. We know at this point that the matrix partial query match is going to be partial. 
-                    const genusSpecies = matrixableFileFacets.genusSpecies;
-                    if ( !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS) ) {
-                        return of(true);
-                    }
-                    
-                    // Check the library construction approach. If we have anything other than smart seq 2 or 10x v2, then
-                    // we know it's a partial match.
-                    const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
-                    const validApproachesSelected =
-                        libraryConstructionApproaches.isOnlySelectedTerm(
-                            LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2);
-                    if ( !validApproachesSelected ) {
-                        return of(true);
-                    }
-                    
-                    // If we have only 10x v2 selected, then it's not a partial match.
-                    if ( libraryConstructionApproaches.
-                                isOnlySelectedTerm(LibraryConstructionApproach.TENX_V2) ) {
-                        return of(false);
-                    }
-                    
-                    // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
-                    if ( matrixableFileFacets.pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE) ) {
-                        return of(false);
-                    }
+                // If there is anything other human selected for species, then we don't need to do any additional
+                // checks. We know at this point that the matrix partial query match is going to be partial. 
+                const genusSpecies = matrixableFileFacets.genusSpecies;
+                if ( !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS) ) {
+                    return of(true);
+                }
 
-                    // We could potentially have a partial query match and therefore need to execute the additional
-                    // query to determine if there are any smart seq 2 / paired end false combinations in the data.
-                    return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
-                })
-            );
+                // Check the library construction approach. If we have anything other than smart seq 2 or 10x v2, then
+                // we know it's a partial match.
+                const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
+                const validApproachesSelected =
+                    libraryConstructionApproaches.isOnlySelectedTerm(
+                        LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2);
+                if ( !validApproachesSelected ) {
+                    return of(true);
+                }
+
+                // If we have only 10x v2 selected, then it's not a partial match.
+                if ( libraryConstructionApproaches.isOnlySelectedTerm(LibraryConstructionApproach.TENX_V2) ) {
+                    return of(false);
+                }
+
+                // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
+                if ( matrixableFileFacets.pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE) ) {
+                    return of(false);
+                }
+
+                // We could potentially have a partial query match and therefore need to execute the additional
+                // query to determine if there are any smart seq 2 / paired end false combinations in the data.
+                return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
+            })
+        );
     }
 
     /**
@@ -190,7 +189,7 @@ export class FilesService {
      * @returns {Observable<boolean>}
      */
     private fetchIsSmartSeq2False(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                             tableParams: TableParamsModel): Observable<boolean> {
+                                  tableParams: TableParamsModel): Observable<boolean> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -307,11 +306,32 @@ export class FilesService {
      * Returns true if there are no hits in the specified API response.
      *
      * @param {FilesAPIResponse} apiResponse
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @returns {boolean}
      */
-    private bindIsEmptySetResponse(apiResponse: FilesAPIResponse): boolean {
+    private bindIsMatrixSupportedResponse(
+        apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): boolean {
 
-        return apiResponse.hits.length === 0;
+        // If there are no hits in the response, we know matrix is not supported
+        if ( apiResponse.hits.length === 0 ) {
+            return false;
+        }
+
+        // If there are hits in the response, we need to check that only smart seq 2 and 10x v2 are included in the
+        // result set. We need to ignore matrix files that exist for certain library construction approaches
+        // (eg 10x 3' v2) but are not loaded into the matrix service and are therefore not supported.
+        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const libraryConstructionApproaches =
+            fileFacets.find(facet => facet.name === FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
+        if ( !libraryConstructionApproaches ) {
+            return false;
+        }
+
+        // At this point, the only valid cases are if either the smart seq 2 term or 10x v2 term is selected.
+        const selectedApproaches = libraryConstructionApproaches.getEffectiveTerms();
+        return selectedApproaches.some((approach: Term) => {
+            return approach.name === LibraryConstructionApproach.SMART_SEQ2 ||
+                approach.name === LibraryConstructionApproach.TENX_V2}); 
     }
 
     /**
@@ -324,7 +344,8 @@ export class FilesService {
      * searchTermsBySearchKey: Map<string, Set<SearchTerm>>
      * @returns {MatrixableFileFacets}
      */
-    private bindMatrixableFileFacetsResponse(apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): MatrixableFileFacets {
+    private bindIsMatrixPartialQueryResponse(
+        apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): MatrixableFileFacets {
 
         const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
         const fileFacetsByName = fileFacets.reduce((accum, fileFacet) => {
@@ -466,10 +487,10 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<FilesAPIResponse>}
      */
     private fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                           tableParams: TableParamsModel): Observable<FilesAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -488,10 +509,10 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<FilesAPIResponse>}
      */
     private fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                            tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
