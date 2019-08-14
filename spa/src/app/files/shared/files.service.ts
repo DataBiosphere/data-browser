@@ -153,19 +153,22 @@ export class FilesService {
                         return of(true);
                     }
                     
-                    // Check the library construction approach. If we have anything other than smart seq 2 or 10x v2, then
-                    // we know it's a partial match.
+                    // Check the library construction approach. If we have anything other than smart seq 2, 10x v2 or
+                    // 10x 3' v2 then we know it's a partial match.
                     const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
                     const validApproachesSelected =
                         libraryConstructionApproaches.isOnlySelectedTerm(
-                            LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2);
+                            LibraryConstructionApproach.SMART_SEQ2,
+                            LibraryConstructionApproach.TENX_V2,
+                            LibraryConstructionApproach.TENX_3PRIME_V2);
                     if ( !validApproachesSelected ) {
                         return of(true);
                     }
                     
-                    // If we have only 10x v2 selected, then it's not a partial match.
+                    // If we have only 10x v2 or 10x 3' v2 selected, then it's not a partial match.
                     if ( libraryConstructionApproaches.
-                                isOnlySelectedTerm(LibraryConstructionApproach.TENX_V2) ) {
+                                isOnlySelectedTerm(
+                                    LibraryConstructionApproach.TENX_V2, LibraryConstructionApproach.TENX_3PRIME_V2) ) {
                         return of(false);
                     }
                     
