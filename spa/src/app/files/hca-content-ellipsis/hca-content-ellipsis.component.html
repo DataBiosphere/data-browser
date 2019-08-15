@@ -4,5 +4,7 @@
         [tooltipContent]="tooltipContent"
         [tooltipDisabled]="isTooltipDisabled()"
         [tooltipPosition]="'above'">
-    <ng-content></ng-content>
+    <hca-ellipsis-text>
+        <ng-content></ng-content>
+    </hca-ellipsis-text>
 </hca-tooltip>

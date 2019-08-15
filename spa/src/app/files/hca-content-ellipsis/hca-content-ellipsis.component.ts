@@ -6,7 +6,11 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, Input } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+
+// App dependencies
+import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { HCAEllipsisTextComponent } from "./hca-ellipsis-text.component";
 
 @Component({
     selector: "hca-content-ellipsis",
@@ -18,11 +22,10 @@ export class HCAContentEllipsisComponent {
 
     // Inputs
     @Input() tooltipContent: string;
-
-    /**
-     * @param {ElementRef} elementRef
-     */
-    public constructor(private elementRef: ElementRef) {}
+    
+    // // View child/ren
+    @ViewChild(HCAEllipsisTextComponent, {read: ElementRef}) textElementRef: ElementRef;
+    @ViewChild(HCATooltipComponent, {read: ElementRef}) tooltipElementRef: ElementRef;
 
     /**
      * Returns true (disable tooltip) if the width of the element of interest is less than its parent container.
@@ -32,9 +35,18 @@ export class HCAContentEllipsisComponent {
      */
     public isTooltipDisabled(): boolean {
 
-        // Get element
-        const nativeElement = this.elementRef.nativeElement;
+        // Return false if we didn't find a tooltip child or a text child
+        if ( !this.tooltipElementRef || !this.textElementRef ) {
+            return false;
+        }
 
-        return nativeElement.firstElementChild.firstElementChild.firstElementChild.getBoundingClientRect().width <= nativeElement.closest("hca-table-cell").getBoundingClientRect().width;
+        // Grab the width of the text to be displayed
+        const contentWidth = this.textElementRef.nativeElement.getBoundingClientRect().width;
+        
+        // We can use the tooltip to determine the width available 
+        const containerWidth = this.tooltipElementRef.nativeElement.getBoundingClientRect().width; 
+
+        // The tooltip is only enabled if the width of the ellipsis content is wider than the container width
+        return contentWidth <= containerWidth;
     }
 }
