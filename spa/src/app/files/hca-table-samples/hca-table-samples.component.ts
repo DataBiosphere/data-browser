@@ -42,8 +42,7 @@ import {
     getHeaderClass,
     getHeaderRowHeight,
     getRowClass,
-    getRowStyle,
-    isTooltipDisabled,
+    getRowStyle
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
@@ -74,7 +73,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
     getRowStyle = getRowStyle;
-    isTooltipDisabled = isTooltipDisabled;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<SampleRowMapper>;

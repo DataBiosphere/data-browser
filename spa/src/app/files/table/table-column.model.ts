@@ -9,6 +9,7 @@ export interface TableColumn {
     key: string;
     alignment: ColumnAlignment;
     columnFlexValue?: string;
+    columnFlexDirection?: ColumnFlexDirection;
     columnMaxWidth?: number;
     columnMinWidth?: number;
     columnOverflow?: OverflowType;
@@ -23,6 +24,10 @@ export enum ColumnAlignment {
     "CENTER",
     "LEFT",
     "RIGHT"
+}
+
+export enum ColumnFlexDirection {
+    "COLUMN"
 }
 
 export enum CountType {

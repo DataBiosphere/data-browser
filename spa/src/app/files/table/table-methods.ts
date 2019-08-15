@@ -10,7 +10,10 @@
  */
 
 // App dependencies
-import { ColumnAlignment, CountType, OverflowType, PositionType, TableColumn } from "./table-column.model";
+import {
+    ColumnAlignment, ColumnFlexDirection, CountType, OverflowType, PositionType,
+    TableColumn
+} from "./table-column.model";
 
 /* TableColumn array.
  * Provides user friendly name and description for each table column matColumnDef.
@@ -132,10 +135,20 @@ let tableColumns: TableColumn[] = [
         countType: CountType.NONE
     },
     {
+        key: "modelOrgan",
+        userFriendly: "Model Organ",
+        description: "Organ for which the cell line / organoid is a model.",
+        alignment: ColumnAlignment.LEFT,
+        columnSort: false,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
         key: "organ",
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
         alignment: ColumnAlignment.LEFT,
+        columnFlexDirection: ColumnFlexDirection.COLUMN,
+        columnMinWidth: 100,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -272,6 +285,7 @@ export function getColumnClass(column: string): { [className: string]: boolean }
 
     return {
         center: getColumnAlignment(column) === "CENTER",
+        "flex-column": getColumnFlexDirection(column) === "COLUMN",
         right: getColumnAlignment(column) === "RIGHT"
     };
 }
@@ -309,6 +323,17 @@ export function getColumnDescription(column: string): string {
 export function getColumnDisplayName(column: string): string {
 
     return tableColumn.get(column).userFriendly;
+}
+
+/**
+ * Returns column flex direction for specified column.
+ *
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnFlexDirection(column: string): string {
+
+    return ColumnFlexDirection[tableColumn.get(column).columnFlexDirection];
 }
 
 /**
@@ -537,18 +562,6 @@ export function getUnspecifiedIfEmpty(value: any[]): any {
 export function isColumnSort(column: string): boolean {
 
     return tableColumn.get(column).columnSort;
-}
-
-/**
- * Returns false (tooltip not to be disabled) if the width of the parent container is smaller than the element of interest.
- * If false, an ellipsis has been applied to the text and a tooltip will show the element's content.
- *
- * @param el
- * @returns {boolean}
- */
-export function isTooltipDisabled(el) {
-
-    return !( el.parentElement.getBoundingClientRect().width < el.getBoundingClientRect().width );
 }
 
 /**

@@ -15,6 +15,7 @@ export interface EntityRow {
     organ: string;
     organismAge: string;
     organPart: string;
+    modelOrgan: string;
     pairedEnd: string;
     projectTitle: string;
     sampleEntityType: string;

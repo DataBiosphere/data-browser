@@ -20,6 +20,21 @@
             padding-left: 16px;
         }
     }
+
+    /* Organ column only */
+    .column-organ {
+        display: block;
+        text-align: left;
+
+        hca-tooltip, span {
+            display: inline-block;
+        }
+
+        /* "/" separator */
+        > span {
+            padding: 0 4px;
+        }
+    }
 }
 
 /* Title - right aligned if column is right aligned */

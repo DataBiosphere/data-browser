@@ -83,6 +83,19 @@
                 .fontsize-xxs {
                     margin: 0; /* Required.  Overrides global .fontsize-xxs */
                 }
+
+                /* flex-column style */
+                .cell-flex-column {
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    &.cell-ellipsis > span {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
             }
         }
     }

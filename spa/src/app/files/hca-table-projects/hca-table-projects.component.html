@@ -1,5 +1,6 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped, 'card-open': isAnyRowActive()}" [ngStyle]="getTableStyle(tableMarginBottom)">
+    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped, 'card-open': isAnyRowActive()}"
+         [ngStyle]="getTableStyle(tableMarginBottom)">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
@@ -41,10 +42,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')"
                           [ngStyle]="getColumnStyle('sampleEntityType')">
-                    <hca-table-cell [tooltipContent]="element.sampleEntityType"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.sampleEntityType}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.sampleEntityType">
+                            <span class="fontsize-xxs">{{element.sampleEntityType}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -62,9 +62,13 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')"
                           [ngStyle]="getColumnStyle('organ')">
-                    <hca-table-cell [tooltipContent]="element.organ" [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.organ}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.organ">
+                            <span class="fontsize-xxs">{{element.organ}}<span
+                                    *ngIf="element.modelOrgan"> /</span></span>
+                        </hca-content-ellipsis>
+                        <hca-content-ellipsis *ngIf="element.modelOrgan" [tooltipContent]="element.modelOrgan">
+                            <span class="fontsize-xxs">{{element.modelOrgan}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -82,10 +86,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')"
                           [ngStyle]="getColumnStyle('selectedCellType')">
-                    <hca-table-cell [tooltipContent]="element.selectedCellType"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.selectedCellType}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.selectedCellType">
+                            <span class="fontsize-xxs">{{element.selectedCellType}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -105,8 +108,8 @@
                 <mat-cell *matCellDef="let element"
                           [ngClass]="getColumnClass('libraryConstructionApproach')"
                           [ngStyle]="getColumnStyle('libraryConstructionApproach')">
-                    <hca-table-cell [tooltipContent]="element.libraryConstructionApproach" [tooltipDisabled]="true">
-                        <span class="fontsize-xxs" #cellContent>{{element.libraryConstructionApproach}}</span>
+                    <hca-table-cell>
+                        <span class="fontsize-xxs">{{element.libraryConstructionApproach}}</span>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -123,10 +126,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"
                           [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
-                    <hca-table-cell [tooltipContent]="element.pairedEnd"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.pairedEnd}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.pairedEnd">
+                            <span class="fontsize-xxs">{{element.pairedEnd}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -144,10 +146,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')"
                           [ngStyle]="getColumnStyle('genusSpecies')">
-                    <hca-table-cell [tooltipContent]="element.genusSpecies"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.genusSpecies}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.genusSpecies">
+                            <span class="fontsize-xxs">{{element.genusSpecies}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -165,10 +166,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')"
                           [ngStyle]="getColumnStyle('disease')">
-                    <hca-table-cell [tooltipContent]="element.disease"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.disease}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.disease">
+                            <span class="fontsize-xxs">{{element.disease}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -185,13 +185,13 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element let j=index;" [ngClass]="getColumnClass('getData')"
                           [ngStyle]="getColumnStyle('getData')">
-                    <hca-table-cell [tooltipDisabled]="true">
+                    <hca-table-cell>
                         <project-downloads (preparedMatrixDownloadsOpened)="onPreparedMatrixDownloadsOpened($event, j)"
-                                              (preparedMatrixDownloadsPositionBelowTable)="onPreparedMatrixDownloadsPositionBelowTable($event)"
-                                              [matrixAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
-                                              [projectId]="element.entryId"
-                                              [projectTitle]="element.projectTitle"
-                                              [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></project-downloads>
+                                           (preparedMatrixDownloadsPositionBelowTable)="onPreparedMatrixDownloadsPositionBelowTable($event)"
+                                           [matrixAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                                           [projectId]="element.entryId"
+                                           [projectTitle]="element.projectTitle"
+                                           [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></project-downloads>
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
@@ -209,10 +209,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('donorCount')"
                           [ngStyle]="getColumnStyle('donorCount')">
-                    <hca-table-cell [tooltipContent]="element.donorCount | localeString"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.donorCount | localeString}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.donorCount | localeString">
+                            <span class="fontsize-xxs">{{element.donorCount | localeString}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>
@@ -231,10 +230,9 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')"
                           [ngStyle]="getColumnStyle('totalCells')">
-                    <hca-table-cell [tooltipContent]="element.totalCells | localeString"
-                                    [tooltipDisabled]="isTooltipDisabled(cellContent)">
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs" #cellContent>{{element.totalCells | localeString}}</span>
+                    <hca-table-cell>
+                        <hca-content-ellipsis [tooltipContent]="element.totalCells | localeString">
+                            <span class="fontsize-xxs">{{element.totalCells | localeString}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>

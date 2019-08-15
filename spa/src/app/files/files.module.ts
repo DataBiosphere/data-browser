@@ -57,6 +57,7 @@ import { CopyToClipboardComponent } from "./hca-get-data/copy-to-clipboard/copy-
 import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
 import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
+import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderCountComponent } from "./hca-table-column-header-count/hca-table-column-header-count.component";
@@ -83,8 +84,8 @@ import { FilesService } from "./shared/files.service";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
-import { TermSortService } from "./sort/term-sort.service";
 import { TermResponseService } from "./shared/term-response.service";
+import { TermSortService } from "./sort/term-sort.service";
 
 @NgModule({
     imports: [
@@ -125,6 +126,7 @@ import { TermResponseService } from "./shared/term-response.service";
         HCAContentEllipsisComponent,
         HCADesktopBannerComponent,
         HCADownloadFileComponent,
+        HCAEllipsisTextComponent,
         HCAExportToTerraComponent,
         HCAFacetTermListComponent,
         HCAFileFacetComponent,

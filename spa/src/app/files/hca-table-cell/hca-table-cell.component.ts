@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
     selector: "hca-table-cell",
@@ -15,8 +15,4 @@ import { Component, Input } from "@angular/core";
 })
 
 export class HCATableCellComponent {
-
-    // Inputs
-    @Input() tooltipContent: string;
-    @Input() tooltipDisabled: boolean;
 }
