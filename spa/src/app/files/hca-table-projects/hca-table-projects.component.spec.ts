@@ -34,6 +34,7 @@ import { ProjectDownloadsComponent } from "../project-downloads/project-download
 import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
+import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -47,6 +48,7 @@ describe("HCATableProjectsComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCAContentEllipsisComponent,
+                HCAEllipsisTextComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,

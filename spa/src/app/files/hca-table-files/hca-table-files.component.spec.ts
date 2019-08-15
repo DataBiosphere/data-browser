@@ -41,6 +41,7 @@ import { ProjectDownloadsComponent } from "../project-downloads/project-download
 import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { DownloadService } from "../shared/download.service";
+import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 
 describe("HCATableFilesComponent", () => {
 
@@ -54,6 +55,7 @@ describe("HCATableFilesComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 HCAContentEllipsisComponent,
+                HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
                 ProjectDownloadsComponent,
                 ProjectPreparedMatrixDownloadsComponent,
