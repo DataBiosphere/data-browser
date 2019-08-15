@@ -18,6 +18,7 @@ import { Component, Input, ViewEncapsulation } from "@angular/core";
 export class HCATooltipComponent {
 
     // Inputs
+    @Input() tableCellContentWrapper: boolean;
     @Input() tooltipClass: string;
     @Input() tooltipContent: string;
     @Input() tooltipDisabled: boolean;

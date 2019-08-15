@@ -1,1 +1,8 @@
-<ng-content></ng-content>
+<hca-tooltip
+        [tableCellContentWrapper]="true"
+        [tooltipClass]="'hca-tooltip'"
+        [tooltipContent]="tooltipContent"
+        [tooltipDisabled]="isTooltipDisabled()"
+        [tooltipPosition]="'above'">
+    <ng-content></ng-content>
+</hca-tooltip>

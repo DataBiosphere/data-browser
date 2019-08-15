@@ -40,8 +40,7 @@ import {
     getHeaderRowHeight,
     getRowClass,
     getRowStyle,
-    getTableStyle,
-    isTooltipDisabled,
+    getTableStyle
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 
@@ -72,7 +71,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public getRowClass = getRowClass;
     public getRowStyle = getRowStyle;
     public getTableStyle = getTableStyle;
-    public isTooltipDisabled = isTooltipDisabled;
     public loading$: Observable<boolean>;
     public pagination$: Observable<PaginationModel>;
     public activeRowIndex = null;

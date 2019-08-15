@@ -10,6 +10,13 @@
  */
 @import "../../site/theme/cgl.vars";
 
+/* Styles for ellipsis on table cell only - positions tooltip centered in relation to cell content */
+.cell-wrapper {
+    display: inherit;
+    overflow: inherit;
+    text-overflow: inherit;
+}
+
 /* Tooltip styles */
 .hca-tooltip {
     background: $hca-black;

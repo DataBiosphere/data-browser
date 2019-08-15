@@ -1,10 +1,1 @@
-<hca-tooltip *ngIf="!tooltipDisabled; else columnCell"
-             [tooltipClass]="'hca-tooltip'"
-             [tooltipContent]="tooltipContent"
-             [tooltipDisabled]="tooltipDisabled"
-             [tooltipPosition]="'above'">
-    <ng-container *ngTemplateOutlet="columnCell"></ng-container>
-</hca-tooltip>
-<ng-template #columnCell>
-    <ng-content></ng-content>
-</ng-template>
+<ng-content></ng-content>

@@ -11,6 +11,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%; /* Required for content to take up full available cell width */
+
+    /* <hca-tooltip> styles applied for table cell content only */
+    hca-tooltip {
+        overflow: hidden; /* Required, if ellipsis applied */
+        display: inherit;
+        text-overflow: inherit;
+    }
 
     /* Hides ellipsis tooltip - Safari only */
     &:after {

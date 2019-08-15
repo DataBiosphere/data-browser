@@ -11,7 +11,7 @@ import { getUnspecifiedIfEmpty, getUnspecifiedIfNullValue, rollUpMetadata } from
 import { EntityRow } from "./entity-row.model";
 
 export class EntityRowMapper {
-    
+
     private cellSuspensions;
     private organs;
 
@@ -57,6 +57,8 @@ export class EntityRowMapper {
             getUnspecifiedIfEmpty(libraryConstructionApproach) :
             getUnspecifiedIfNullValue(libraryConstructionApproach);
 
+        // Model organ should only display a value when sampleEntityType is cellLines or organoids
+        const modelOrgan = this.samples.modelOrgan ? this.samples.modelOrgan : null;
 
         return {
             ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
@@ -67,6 +69,7 @@ export class EntityRowMapper {
             organ: getUnspecifiedIfNullValue(this.organs),
             organismAge: getUnspecifiedIfNullValue(this.donorOrganisms.organismAge),
             organPart: getUnspecifiedIfNullValue(this.samples.organPart),
+            modelOrgan: modelOrgan,
             pairedEnd: getUnspecifiedIfNullValue(this.protocols.pairedEnd),
             projectTitle: getUnspecifiedIfNullValue(this.projects.projectTitle),
             sampleEntityType: getUnspecifiedIfNullValue(this.samples.sampleEntityType),

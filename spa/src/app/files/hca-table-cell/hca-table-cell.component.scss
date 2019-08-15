@@ -13,15 +13,6 @@
     margin-left: 16px;
     padding: 4px 0;
     width: calc(100% - 16px);
-
-    hca-tooltip {
-        overflow: hidden; /* Required, if ellipsis applied */
-    }
-}
-
-/* Right align column contents */
-:host-context(.right) {
-    justify-content: flex-end;
 }
 
 /* Centers column contents */
@@ -29,4 +20,15 @@
     justify-content: center;
     margin: 0;
     width: 100%;
+}
+
+/* Contents flex - direction column */
+:host-context(.flex-column) {
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Right align column contents */
+:host-context(.right) {
+    justify-content: flex-end;
 }
