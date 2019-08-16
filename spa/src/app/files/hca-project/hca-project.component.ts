@@ -83,7 +83,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
     /**
      * Returns the distinct list of collaborating organizations of the project.
-     * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
+     * Will exclude corresponding contributors and any contributor with role "data curator" from EBI or UCSC.
      *
      * @param {Contributor[]} contributors
      * @returns {string[]}
@@ -126,24 +126,16 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
     /**
      * Returns the list of contributors for the project.
-     * Will exclude corresponding contributors and any contributor with role "Human Cell Atlas wrangler".
+     * Will exclude corresponding contributors and any contributor with role "data curator" from EBI or UCSC.
      *
      * @param {Contributor[]} contributors
      * @returns {Contributor[]}
      */
     public getProjectContributors(contributors: Contributor[]): Contributor[] {
 
-        // Exclude corresponding contributors and contributors with a project role "human cell atlas wrangler".
-        return contributors.filter((contributor) => {
-
-            if ( contributor.correspondingContributor ) {
-
-                return false;
-            }
-
-            return !this.isContributorDataCurator(contributor.projectRole);
-
-        });
+        return contributors
+            .filter(contributor => !contributor.correspondingContributor)
+            .filter(contributor => !this.isContributorDataCuratorFromEBIOrUCSC(contributor));
     }
 
     /**
@@ -243,6 +235,17 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public isAnyContactAssociated(contacts: ContactView[]): boolean {
         return contacts.length > 0;
+    }
+
+    /**
+     * Returns true if contributor is a "data curator" and is from EBI or UCSC.
+     *
+     * @param {Contributor} contributor
+     * @returns {boolean}
+     */
+    public isContributorDataCuratorFromEBIOrUCSC(contributor: Contributor): boolean {
+
+        return this.isContributorDataCurator(contributor.projectRole) && this.isContributorEmailEBIOrUCSC(contributor.email);
     }
 
     /**
@@ -396,7 +399,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
                     email: correspondingContributor.email,
                     institution: correspondingContributor.institution
                 };
-        });
+            });
     }
 
     /**
@@ -407,8 +410,8 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     private getContributors(contributors: Contributor[]): ContributorView[] {
 
-        const projectContributors = this.getProjectContributors(contributors),
-            projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
+        const projectContributors = this.getProjectContributors(contributors);
+        const projectDistinctListOfContributorOrganizations = this.getDistinctListOfCollaboratingOrganizations(projectContributors);
 
         return projectContributors.map(projectContributor => {
 
@@ -428,7 +431,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     private getDataCurators(contributors: Contributor[]): string[] {
 
         return contributors
-            .filter(contributor => this.isContributorDataCurator(contributor.projectRole))
+            .filter(contributor => this.isContributorDataCuratorFromEBIOrUCSC(contributor))
             .map(contributor => contributor.contactName)
             .map(name => this.formatContributor(name));
 
@@ -443,6 +446,17 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     private isContributorDataCurator(projectRole: string): boolean {
 
         return projectRole && projectRole.toLowerCase() === "data curator";
+    }
+
+    /**
+     * Returns true if the contributor is from EBI or UCSC.
+     *
+     * @param {string} email
+     * @returns {boolean}
+     */
+    private isContributorEmailEBIOrUCSC(email: string): boolean {
+
+        return email.includes("ebi.") || email.includes("ucsc.");
     }
 
     /**
