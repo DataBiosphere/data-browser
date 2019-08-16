@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
     selector: "hca-table-column-header",
@@ -15,12 +15,4 @@ import { Component, Input } from "@angular/core";
 })
 
 export class HCATableColumnHeaderComponent {
-
-    // Inputs
-    @Input() columnName: string;
-    @Input() columnSort: boolean;
-    @Input() tooltipContent: string;
-
-    // Template variables
-    tooltipDisabled = this.tooltipContent === null;
 }

@@ -15,10 +15,10 @@
     width: calc(100% - 16px);
 }
 
-/* Centers column contents */
+/* Centers column contents - downloads only */
 :host-context(.center) {
     justify-content: center;
-    margin: 0;
+    margin: 0; /* Downloads only */
     width: 100%;
 }
 

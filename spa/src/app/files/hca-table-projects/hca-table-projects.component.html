@@ -43,7 +43,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')"
                           [ngStyle]="getColumnStyle('sampleEntityType')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.sampleEntityType">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.sampleEntityType}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -63,11 +63,11 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')"
                           [ngStyle]="getColumnStyle('organ')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.organ">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.organ}}<span
                                     *ngIf="element.modelOrgan"> /</span></span>
                         </hca-content-ellipsis>
-                        <hca-content-ellipsis *ngIf="element.modelOrgan" [tooltipContent]="element.modelOrgan">
+                        <hca-content-ellipsis *ngIf="element.modelOrgan">
                             <span class="fontsize-xxs">{{element.modelOrgan}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -87,7 +87,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')"
                           [ngStyle]="getColumnStyle('selectedCellType')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.selectedCellType">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.selectedCellType}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -127,7 +127,7 @@
                 <mat-cell *matCellDef="let element"
                           [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.pairedEnd">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.pairedEnd}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -147,7 +147,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')"
                           [ngStyle]="getColumnStyle('genusSpecies')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.genusSpecies">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.genusSpecies}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -167,7 +167,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')"
                           [ngStyle]="getColumnStyle('disease')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.disease">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.disease}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -210,7 +210,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('donorCount')"
                           [ngStyle]="getColumnStyle('donorCount')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.donorCount | localeString">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.donorCount | localeString}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
@@ -231,7 +231,7 @@
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')"
                           [ngStyle]="getColumnStyle('totalCells')">
                     <hca-table-cell>
-                        <hca-content-ellipsis [tooltipContent]="element.totalCells | localeString">
+                        <hca-content-ellipsis>
                             <span class="fontsize-xxs">{{element.totalCells | localeString}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
