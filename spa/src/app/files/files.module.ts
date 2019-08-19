@@ -54,6 +54,7 @@ import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
 import { HCAGetDataPanelComponent } from "./hca-get-data/hca-get-data-panel/hca-get-data-panel.component";
 import { CopyToClipboardComponent } from "./hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { HCAGetDataFileSummaryComponent } from "./hca-get-data/hca-get-data-file-summary/hca-get-data-file-summary.component";
 import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
 import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
@@ -139,6 +140,7 @@ import { TermSortService } from "./sort/term-sort.service";
         HCAGetDataDownloadsComponent,
         HCAGetDataPanelComponent,
         CopyToClipboardComponent,
+        HCAGetDataFileSummaryComponent,
         HCAGetDataSummaryComponent,
         HCAGetManifestComponent,
         HCAGetMatrixComponent,

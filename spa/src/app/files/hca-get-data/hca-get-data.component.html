@@ -10,8 +10,8 @@
                 <ng-container [ngSwitch]="viewState">
                     <ng-container *ngSwitchDefault>
                         <div *ngIf="state.matrixSupportedLoaded" [@fadeIn]>
-                            <hca-get-data-downloads [matrixEnabled]="state.matrixSupported" 
-                                                    [terraEnabled]="isTerraEnabled(state.config)" 
+                            <hca-get-data-downloads [matrixEnabled]="state.matrixSupported"
+                                                    [terraEnabled]="isTerraEnabled(state.config)"
                                                     (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
                         </div>
                         <div class="spinner-container" *ngIf="!state.matrixSupportedLoaded">
@@ -27,7 +27,8 @@
             </div>
             <hca-get-data-summary [selectedGenusSpecies]="listSelectedGenusSpecies(state.fileFacets)"
                                   [selectedLibraryConstructionApproaches]="listSelectedLibraryConstructionApproaches(state.fileFacets)"
-                                  [selectedPairedEnds]="listSelectedPairedEnds(state.fileFacets)"></hca-get-data-summary>
+                                  [selectedPairedEnds]="listSelectedPairedEnds(state.fileFacets)"
+                                  [viewState]="viewState"></hca-get-data-summary>
         </div>
     </div>
 </ng-container>
