@@ -10,24 +10,20 @@
     <ng-container *ngFor="let selectedSearchFacet of getSelectedSearchFacets(); last as lastFacet">
             <span class="selected-facets">
                 <div class="selected-facet">
-                    <span class="facet-name fontsize-xxs"
+                    <span class="fontsize-xxs facet-name"
                           (click)="removeAllSearchTermsForSearchFacet(selectedSearchFacet)">{{getFacetName(selectedSearchFacet)}}</span>
-                    <mat-icon *ngIf="removable">close</mat-icon>
                 </div>
                 <div class="selected-terms">
                     <ng-container
                             *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as lastTerm; first as firstTerm">
                     <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerm)">
                         <span class="parenthesis open" *ngIf="firstTerm && firstTerm !== lastTerm && tableFilter">(</span>
-                        <div>
-                            <span class="fontsize-xxs">{{selectedSearchTerm.getDisplayValue()}}</span>
-                            <mat-icon *ngIf="removable">close</mat-icon>
-                        </div>
+                        <span class="fontsize-xxs term-name">{{selectedSearchTerm.getDisplayValue()}}</span>
                         <span class="parenthesis close" *ngIf="lastTerm && firstTerm !== lastTerm && tableFilter">)</span>
                     </div>
                     <span class="operator" *ngIf="!lastTerm">OR</span>
                 </ng-container>
-                    <span class="operator" *ngIf="!lastFacet && tableFilter">AND</span>
+                    <span class="operator and" *ngIf="!lastFacet && tableFilter">AND</span>
                 </div>
             </span>
     </ng-container>
