@@ -44,9 +44,9 @@ describe("HCAGetDataPanelComponent", () => {
     });
 
     /**
-     * Confirm panel has class "loading" when loading input is set to true. 
+     * Confirm panel has class "loading" when loading input is set to true.
      */
-    fit(`should have class "loading" when downloading set to true`, () => {
+    it(`should have class "loading" when downloading set to true`, () => {
 
         // Set downloading to true on the component
         component.loading = true;
@@ -60,4 +60,20 @@ describe("HCAGetDataPanelComponent", () => {
         expect(loadingDebugEl).toBeTruthy();
     });
 
+    /**
+     * Confirm panel has class "error" when downloadError is set to true.
+     */
+    it(`should have class "error" when downloadError set to true`, () => {
+
+        // Set downloadError to true on the component
+        component.downloadError = true;
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm error class is added to the root div - first execute a query to find the element with the
+        // class "error" and then confirm the element was found.
+        const errorDebugEl = fixture.debugElement.query(By.css(".error"));
+        expect(errorDebugEl).toBeTruthy();
+    });
 });
