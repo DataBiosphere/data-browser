@@ -13,8 +13,6 @@ import { ClipboardModule } from "ngx-clipboard";
 // App dependencies
 import { CopyToClipboardComponent } from "./copy-to-clipboard.component";
 
-// App components
-
 describe("CopyToClipboardComponent", () => {
 
     let component: CopyToClipboardComponent;
@@ -82,7 +80,7 @@ describe("CopyToClipboardComponent", () => {
     /**
      * Confirm copy to clipboard has attribute target "_blank" when target blank input is set to true.
      */
-    fit(`should have attribute target "_blank" when target blank set to true`, () => {
+    it(`should have attribute target "_blank" when target blank set to true`, () => {
 
         // Set up initial component state
         component.targetBlank = true;
@@ -117,9 +115,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm note is not displayed when note is undefined.
      */
     it(`should not display note when note is undefined`, () => {
-
-        // Set up initial component state
-        component.note;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
