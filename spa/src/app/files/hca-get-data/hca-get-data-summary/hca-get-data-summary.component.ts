@@ -17,6 +17,7 @@ import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { SearchTerm } from "../../search/search-term.model";
 import { Term } from "../../shared/term.model";
+import { DownloadViewState } from "../download-view-state.model";
 
 @Component({
     selector: "hca-get-data-summary",
@@ -31,6 +32,7 @@ export class HCAGetDataSummaryComponent implements OnInit {
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
     @Input() selectedPairedEnds: Term[];
+    @Input() viewState: DownloadViewState;
 
     // Template variables
     public selectFileSummary$: Observable<FileSummary>;

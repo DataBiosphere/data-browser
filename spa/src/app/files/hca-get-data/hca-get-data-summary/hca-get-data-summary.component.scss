@@ -12,7 +12,7 @@
     min-width: 338px; /* Required for snap */
 
     /* Query, summary */
-    .query, .summary {
+    .data-query, .data-file-summary {
         padding: 16px 0 24px;
         position: relative; /* Positions separator */
 
@@ -22,7 +22,7 @@
         }
 
         /* Separator */
-        &:not(.summary):after {
+        &:not(.data-file-summary):after {
             background-color: $hca-gray-lightest;
             border-radius: 3px;
             bottom: 10px;
@@ -35,7 +35,7 @@
     }
 
     /* Query, summary */
-    .query, .summary {
+    .data-query, .data-file-summary {
 
         h4 {
             margin: 0 0 8px;

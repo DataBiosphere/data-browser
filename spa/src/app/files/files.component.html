@@ -9,13 +9,13 @@
     </hca-file-filter-wrapper>
     <hca-file-summary id="hcaFileSummary"
                       [showDownload]="!isDeviceHandheld()"
-                      [summary]="selectFileSummary$ | async"
-                      [tableSummary]="true">
+                      [summary]="selectFileSummary$ | async">
     </hca-file-summary>
     <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
              (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-table-samples *ngIf="(selectedEntity$ | async).key == 'samples'"></hca-table-samples>
     <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'" [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>
+    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"
+                        [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>
     <hca-desktop-banner *ngIf="isDeviceHandheld()"></hca-desktop-banner>
 </div>

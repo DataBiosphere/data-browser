@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component displaying summary counts as well as the export selected data button.
+ * Component displaying get data summary counts.
  */
 
 // Core dependencies
@@ -11,30 +11,34 @@ import {
     Input,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { AppState } from "../../_ngrx/app.state";
+import { AppState } from "../../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { CountSizePipe } from "../../cc-pipe/count-size/count-size.pipe";
-import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
-import { FileSummary } from "../file-summary/file-summary";
-import { Term } from "../shared/term.model";
+import { CountSizePipe } from "../../../cc-pipe/count-size/count-size.pipe";
+import { LocaleStringPipe } from "../../../cc-pipe/locale-string/locale-string.pipe";
+import { FileSummary } from "../../file-summary/file-summary";
+import { Term } from "../../shared/term.model";
+import { DownloadViewState } from "../download-view-state.model";
 
 @Component({
-    selector: "hca-file-summary",
-    templateUrl: "./hca-file-summary.component.html",
-    styleUrls: ["./hca-file-summary.component.scss"],
+    selector: "hca-get-data-file-summary",
+    templateUrl: "./hca-get-data-file-summary.component.html",
+    styleUrls: ["./hca-get-data-file-summary.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HCAFileSummaryComponent {
+export class HCAGetDataFileSummaryComponent {
 
     // Locals
     private store: Store<AppState>;
 
     // Inputs
-    @Input() showDownload: boolean;
+    @Input() selectedGenusSpecies: Term[];
+    @Input() selectedLibraryConstructionApproaches: Term[];
+    @Input() selectedPairedEnds: Term[];
     @Input() summary: FileSummary;
+    @Input() viewState: DownloadViewState;
 
     /**
      * @param store {Store<AppState>}
@@ -57,6 +61,16 @@ export class HCAFileSummaryComponent {
         else {
             return "Unspecified";
         }
+    }
+
+    /**
+     * Returns true if the download view state is "Matrix".
+     *
+     * @param {DownloadViewState} downloadViewState
+     * @returns {boolean}
+     */
+    public isDownloadViewStateMatrix(downloadViewState: DownloadViewState): boolean {
+        return downloadViewState === DownloadViewState.MATRIX;
     }
 
     /**
