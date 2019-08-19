@@ -23,7 +23,7 @@
     .filter-result {
         min-height: 26px; /* Placeholder for empty list */
 
-        .selected-facets {
+        .selected-facets:last-of-type {
             margin-right: 8px;
         }
 
@@ -66,46 +66,26 @@
             text-transform: uppercase;
         }
 
+        /* Operator - AND */
+        .operator.and {
+            padding: 0 12px;
+        }
+
         /* Selected term */
         .selected-term {
             display: flex;
             flex: none;
         }
 
-        .selected-term > div, .selected-facet {
-            display: flex;
+        /* Facet, term name */
+        .term-name, .facet-name {
             cursor: pointer;
-            position: relative; /* Positions remove button */
         }
 
         /* Selected term/facet - hover state */
-        .selected-term:hover mat-icon, .selected-facet:hover mat-icon {
-            opacity: 1;
-            transition: opacity 1s ease;
-        }
-
-        /* Remove button 'x' */
-        .selected-term mat-icon, .selected-facet mat-icon {
-            color: $hca-secondary;
-            cursor: pointer;
-            font-size: 12px;
-            height: 12px;
-            margin: 0;
-            opacity: 0;
-            position: absolute;
-            width: 12px;
-        }
-
-        /* Selected facet - hover state */
-        .selected-facet mat-icon {
-            right: 4px;
-            top: -4px;
-        }
-
-        /* Selected term - hover state */
-        .selected-term mat-icon {
-            right: -4px;
-            top: -4px;
+        .term-name:hover, .facet-name:hover {
+            text-decoration: line-through $hca-black;
+            transition: text-decoration 0.5s ease;
         }
 
         /* Clear all button */
@@ -123,7 +103,7 @@
     /* Inactive result - elements are inactive and cannot be removed */
     .inactive {
 
-        .selected-term > div, .selected-facet {
+        .term-name, .facet-name {
             cursor: auto;
         }
     }
