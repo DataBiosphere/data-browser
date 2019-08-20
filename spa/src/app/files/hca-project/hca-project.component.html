@@ -66,18 +66,18 @@
                                 <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
-                        <h4 class="fontsize-m semi-bold">HCA Data Curators</h4>
-                        <p class="fontsize-xxs curator-list">
-                            <ng-container [ngSwitch]="isAnyDataCuratorAssociated(state.project.dataCurators)">
-                                <ng-container *ngSwitchCase="true">
-                                    <span *ngFor="let curator of state.project.dataCurators; last as lastCurator">
-                                        <span>{{curator}}</span>
-                                        <span *ngIf="!lastCurator">, </span>
-                                    </span>
-                                </ng-container>
-                                <span *ngSwitchDefault>Unspecified</span>
-                            </ng-container>
-                        </p>
+                        <!--<h4 class="fontsize-m semi-bold">HCA Data Curators</h4>-->
+                        <!--<p class="fontsize-xxs curator-list">-->
+                            <!--<ng-container [ngSwitch]="isAnyDataCuratorAssociated(state.project.dataCurators)">-->
+                                <!--<ng-container *ngSwitchCase="true">-->
+                                    <!--<span *ngFor="let curator of state.project.dataCurators; last as lastCurator">-->
+                                        <!--<span>{{curator}}</span>-->
+                                        <!--<span *ngIf="!lastCurator">, </span>-->
+                                    <!--</span>-->
+                                <!--</ng-container>-->
+                                <!--<span *ngSwitchDefault>Unspecified</span>-->
+                            <!--</ng-container>-->
+                        <!--</p>-->
                     </div>
                 </div>
                 <div class="project-accessions">
