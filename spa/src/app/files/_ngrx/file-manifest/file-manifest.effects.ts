@@ -59,21 +59,23 @@ export class FileManifestEffects {
     requestFileManifestUrl$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFileManifestUrlRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
+            switchMap((action) => this.store.pipe(
                 select(selectSelectedSearchTerms),
-                take(1)
+                take(1),
+                map(searchTerms => ({action, searchTerms}))
             )),
-            switchMap((searchTerms) =>
+            switchMap(({action, searchTerms}) =>
                 this.store.pipe(
                     select(selectFileFormatsFileFacet),
                     take(1),
                     map((fileFormatsFileFacet) => {
-                        return {searchTerms, fileFormatsFileFacet};
+                        return {action, searchTerms, fileFormatsFileFacet};
                     })
                 )
             ),
-            switchMap(({searchTerms, fileFormatsFileFacet}) =>
-                this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet)),
+            switchMap(({action, searchTerms, fileFormatsFileFacet}) =>
+                this.fileManifestService.requestFileManifestUrl(
+                    searchTerms, fileFormatsFileFacet, (action as FetchFileManifestUrlRequestAction).killSwitch$)),
             map(response => new FetchFileManifestUrlSuccessAction(response))
         );
 }

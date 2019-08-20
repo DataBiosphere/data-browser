@@ -9,7 +9,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { forkJoin, interval, Observable, of, Subject } from "rxjs";
-import { catchError, filter, map, retry, switchMap, take } from "rxjs/operators";
+import { catchError, map, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -72,7 +72,7 @@ export class MatrixService {
         if ( !matrixAdded ) {
             matrixSearchTerms.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
         }
-        
+
         return matrixSearchTerms;
     }
 
@@ -116,22 +116,22 @@ export class MatrixService {
      *
      * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
+     * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<MatrixResponse>}
      */
     public requestMatrixUrl(
-        searchTerms: SearchTerm[], matrixFormat: MatrixFormat): Observable<MatrixResponse> {
+        searchTerms: SearchTerm[], matrixFormat: MatrixFormat, killSwitch$: Observable<boolean>): Observable<MatrixResponse> {
 
-        // Set up polling for matrix URL completion
-        const matrixResponse$ = this.initMatrixUrlRequestPoller();
+        const matrixResponse$ = new Subject<MatrixResponse>();
 
         const manifestRequest$ =
-            this.requestFileManifestUrl(searchTerms)
+            this.requestFileManifestUrl(searchTerms, killSwitch$)
                 .subscribe((manifestResponse: ManifestResponse) => {
 
                     // Manifest URL request is complete - kick off matrix URL request
                     if ( manifestResponse.status === ManifestStatus.COMPLETE ) {
                         manifestRequest$.unsubscribe();
-                        return this.initMatrixUrlRequest(manifestResponse, matrixResponse$, matrixFormat);
+                        return this.sendRequestMatrixUrl(manifestResponse, matrixFormat, matrixResponse$, killSwitch$);
                     }
 
                     // Manifest URL request failed - update matrix response to indicate failure
@@ -223,51 +223,6 @@ export class MatrixService {
     }
 
     /**
-     * Set up polling to check for matrix URL completion - if request is still in progress, continue to poll. Otherwise
-     * kill polling subscription.
-     */
-    private initMatrixUrlRequestPoller() {
-
-        const matrixResponse$ = new Subject<MatrixResponse>();
-        matrixResponse$
-            .pipe(
-                // Do nothing while we're waiting for manifest request to complete
-                filter(response => response.status !== MatrixStatus.MANIFEST_IN_PROGRESS)
-            )
-            .subscribe((response: MatrixResponse) => {
-
-                if ( response.status === MatrixStatus.IN_PROGRESS ) {
-                    return this.pollMatrixUrlRequestStatus(response, matrixResponse$);
-                }
-
-                matrixResponse$.unsubscribe();
-            });
-
-        return matrixResponse$;
-    }
-
-    /**
-     * Request matrix URL - either the initial request or a status update request.
-     *
-     * @param {string} requestId
-     * @param {Observable<MatrixHttpResponse>} httpRequest$
-     * @param {Subject<MatrixResponse>} matrixResponse$
-     */
-    private sendMatrixUrlRequest(
-        requestId: string, httpRequest$: Observable<MatrixHttpResponse>, matrixResponse$: Subject<MatrixResponse>) {
-
-        httpRequest$
-            .pipe(
-                retry(2),
-                catchError(this.handleMatrixStatusError.bind(this, requestId)),
-                map(this.bindMatrixResponse.bind(this))
-            )
-            .subscribe((response: MatrixResponse) => {
-                matrixResponse$.next(response);
-            });
-    }
-
-    /**
      * A client-side error occurred during request that we couldn't recover from - build up dummy FAILED matrix
      * response.
      *
@@ -305,33 +260,14 @@ export class MatrixService {
      * Get the manifest URL for the matrix request.
      *
      * @param {SearchTerm[]} searchTerms
+     * @param {Observable<boolean>} killSwitch$
      * @returns {ManifestResponse}
      */
-    private requestFileManifestUrl(searchTerms: SearchTerm[]): Observable<ManifestResponse> {
+    private requestFileManifestUrl(searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         // Add matrix file format, if not yet specified
         const matrixSearchTerms = this.createMatrixableSearchTerms(searchTerms);
-        return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms);
-    }
-
-    /**
-     * Send HTTP request for matrix URL.
-     *
-     * @param {ManifestResponse} manifestResponse
-     * @param {Subject<MatrixResponse>} matrixResponse$
-     * @param {MatrixFormat} matrixFormat
-     */
-    private initMatrixUrlRequest(
-        manifestResponse: ManifestResponse, matrixResponse$: Subject<MatrixResponse>, matrixFormat: MatrixFormat) {
-
-        // Build up the matrix POST body
-        const body = {
-            bundle_fqids_url: manifestResponse.fileUrl,
-            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
-        };
-
-        const httpRequest$ = this.httpClient.post<MatrixHttpResponse>(this.configService.getMatrixURL(), body);
-        this.sendMatrixUrlRequest(null, httpRequest$, matrixResponse$);
+        return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms, killSwitch$);
     }
 
     /**
@@ -347,22 +283,58 @@ export class MatrixService {
     }
 
     /**
-     * Send request to fetch matrix URL request status.
+     * Send HTTP request for matrix URL, and set up polling to monitor status.
      *
-     * @param {MatrixResponse} response
+     * @param {ManifestResponse} manifestResponse
+     * @param {MatrixFormat} matrixFormat
      * @param {Subject<MatrixResponse>} matrixResponse$
+     * @param {Observable<boolean>} killSwitch$
      */
-    private pollMatrixUrlRequestStatus(response: MatrixResponse, matrixResponse$: Subject<MatrixResponse>) {
+    private sendRequestMatrixUrl(manifestResponse, matrixFormat, matrixResponse$, killSwitch$) {
 
-        interval(5000)
-            .pipe(
-                take(1)
-            )
-            .subscribe(() => {
-                const requestId = response.requestId;
-                const getRequest =
-                    this.httpClient.get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`);
-                this.sendMatrixUrlRequest(requestId, getRequest, matrixResponse$);
-            });
+        // Build up the matrix POST body
+        const body = {
+            bundle_fqids_url: manifestResponse.fileUrl,
+            format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
+        };
+
+        const httpRequest$ = this.httpClient.post<MatrixHttpResponse>(this.configService.getMatrixURL(), body);
+        this.pollRequestMatrixUrl(null, httpRequest$, 0, matrixResponse$, killSwitch$);
+    }
+
+    /**
+     * 
+     */
+    private pollRequestMatrixUrl(requestId, httpRequest$, delay, matrixResponse$, killSwitch$) {
+
+            const subscription = interval(delay)
+                .pipe(
+                    take(1),
+                    switchMap(() => {
+
+                        return httpRequest$.pipe(
+                            retry(2),
+                            catchError(this.handleMatrixStatusError.bind(this, requestId)),
+                            map(this.bindMatrixResponse.bind(this))
+                        );
+                    }),
+                    takeUntil(killSwitch$)
+                )
+                .subscribe((response: MatrixResponse) => {
+
+                    // Let subscribers know the latest status
+                    matrixResponse$.next(response);
+                    
+                    // If the request is still in progress, poll again for status
+                    if ( response.status === MatrixStatus.IN_PROGRESS ) {
+                        const requestId = response.requestId;
+                        const getRequest$ = 
+                            this.httpClient.get<MatrixHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`);
+                        this.pollRequestMatrixUrl(requestId, getRequest$, 5000, matrixResponse$, killSwitch$);
+                    }
+
+                    // Clean up each loop through the poll
+                    subscription.unsubscribe();
+                });
     }
 }

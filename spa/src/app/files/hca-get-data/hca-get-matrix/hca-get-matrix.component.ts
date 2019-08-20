@@ -42,7 +42,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     public state$: Observable<HCAGetMatrixState>;
 
     // Locals
-    private ngDestroy$ = new Subject();
+    private ngDestroy$ = new Subject<boolean>();
 
     /**
      * @param {MatrixService} matrixService
@@ -177,7 +177,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
      */
     public onRequestMatrix(fileFormat: MatrixFormat) {
 
-        this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat));
+        this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat, this.ngDestroy$));
     }
 
     /**

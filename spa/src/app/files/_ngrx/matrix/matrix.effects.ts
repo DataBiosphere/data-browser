@@ -94,8 +94,10 @@ export class MatrixEffects {
                     })
                 )
             ),
-            switchMap(({searchTerms, action}) =>
-                this.matrixService.requestMatrixUrl(searchTerms, (action as FetchMatrixUrlRequestAction).fileFormat)),
+            switchMap(({searchTerms, action}) => {
+                const {fileFormat, killSwitch$} = (action as FetchMatrixUrlRequestAction);
+                return this.matrixService.requestMatrixUrl(searchTerms, fileFormat, killSwitch$);
+            }),
             map(response => new FetchMatrixUrlSuccessAction(response))
         );
 
