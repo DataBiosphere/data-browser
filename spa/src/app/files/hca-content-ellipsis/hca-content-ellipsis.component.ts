@@ -37,9 +37,7 @@ export class HCAContentEllipsisComponent {
         }
 
         // Grab the content of the text child
-        const contentText = this.textElementRef.nativeElement.textContent;
-
-        return contentText;
+        return this.textElementRef.nativeElement.textContent;
     }
 
     /**
