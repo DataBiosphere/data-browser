@@ -1,7 +1,7 @@
 <hca-tooltip
         [tableCellContentWrapper]="true"
         [tooltipClass]="'hca-tooltip'"
-        [tooltipContent]="tooltipContent"
+        [tooltipContent]="getTooltipContent()"
         [tooltipDisabled]="isTooltipDisabled()"
         [tooltipPosition]="'above'">
     <hca-ellipsis-text>

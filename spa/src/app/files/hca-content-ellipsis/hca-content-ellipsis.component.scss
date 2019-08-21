@@ -26,3 +26,8 @@
         display: block;
     }
 }
+
+/* Right align column contents */
+:host-context(.right) {
+    text-align: right;
+}
