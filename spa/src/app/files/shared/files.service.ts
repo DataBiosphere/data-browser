@@ -411,7 +411,7 @@ export class FilesService {
     }
 
     /**
-     * Remove all file types other than matrix. Add matrix file type if not already selected.
+     * Remove all file types other than matrix.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @returns {Map<string, Set<SearchTerm>>}

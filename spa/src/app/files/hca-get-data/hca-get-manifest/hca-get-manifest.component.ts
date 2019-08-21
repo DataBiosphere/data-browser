@@ -8,7 +8,7 @@
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable } from "rxjs";
+import { combineLatest, Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
@@ -38,6 +38,9 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     // Template variables
     public portalURL: string;
     public state$: Observable<HCAGetManifestState>;
+
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
 
     /**
      * @param {ConfigService} configService
@@ -133,15 +136,18 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
      */
     public onRequestManifest() {
 
-        this.store.dispatch(new FetchFileManifestUrlRequestAction());
+        this.store.dispatch(new FetchFileManifestUrlRequestAction(this.ngDestroy$));
     }
 
     /**
-     * Clear summary on close of modal.
+     * Clear summary and kill subscriptions on exit of component.
      */
     public ngOnDestroy() {
 
         this.store.dispatch(new ClearManifestDownloadFileSummaryAction());
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
 
     /**
