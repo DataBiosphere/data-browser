@@ -11,8 +11,6 @@ import {
     Input,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { AppState } from "../../../_ngrx/app.state";
-import { Store } from "@ngrx/store";
 
 // App dependencies
 import { CountSizePipe } from "../../../cc-pipe/count-size/count-size.pipe";
@@ -30,22 +28,12 @@ import { DownloadViewState } from "../download-view-state.model";
 
 export class HCAGetDataFileSummaryComponent {
 
-    // Locals
-    private store: Store<AppState>;
-
     // Inputs
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
     @Input() selectedPairedEnds: Term[];
     @Input() summary: FileSummary;
     @Input() viewState: DownloadViewState;
-
-    /**
-     * @param store {Store<AppState>}
-     */
-    constructor(store: Store<AppState>) {
-        this.store = store;
-    }
 
     /**
      * Returns a concatenation of all terms in the specified array.
@@ -55,7 +43,7 @@ export class HCAGetDataFileSummaryComponent {
      */
     public displayTerms(terms: Term[]): string {
 
-        if ( terms.length ) {
+        if ( terms && terms.length ) {
             return terms.map(term => term.name.trim()).join(", ");
         }
         else {
