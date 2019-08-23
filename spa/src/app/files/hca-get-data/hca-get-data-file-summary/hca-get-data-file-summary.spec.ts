@@ -18,11 +18,6 @@ import { HCATooltipComponent } from "../../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { DownloadViewState } from "../download-view-state.model";
 import { HCAGetDataFileSummaryComponent } from "./hca-get-data-file-summary.component";
-import {
-    DEFAULT_SELECTED_GENUS_SPECIES_TERMS, DEFAULT_SELECTED_LIBRARY_CONSTRUCTION_METHOD_TERMS,
-    DEFAULT_SELECTED_PAIRED_END_TERMS,
-    DEFAULT_SELECTED_TERMS
-} from "./selected-terms.mock";
 import { Term } from "../../shared/term.model";
 import { DebugElement, ElementRef } from "@angular/core";
 
@@ -87,10 +82,16 @@ describe("HCAGetDataFileSummaryComponent", () => {
      */
     it("should return a concatenation of all term names", () => {
 
+        const selectedTerms = [
+            new Term("Homo sapiens", 22, true),
+            new Term("Mus musculus", 123, true),
+            new Term("Fastq", 233, true)
+        ];
+
         // Confirm term names are concatenated - first execute the method
         // and then confirm the returned value is a concatenation of all term names.
-        const displayTerms = component.displayTerms(DEFAULT_SELECTED_TERMS);
-        expect(displayTerms).toEqual(getTermNames(DEFAULT_SELECTED_TERMS));
+        const displayTerms = component.displayTerms(selectedTerms);
+        expect(displayTerms).toEqual(getTermNames(selectedTerms));
     });
 
     /**
@@ -323,9 +324,14 @@ describe("HCAGetDataFileSummaryComponent", () => {
      */
     it(`should display selected genus species when view mode is "NONE"`, () => {
 
+        const selectedTerms = [
+            new Term("Homo sapiens", 22, true),
+            new Term("Mus musculus", 123, true)
+        ];
+
         // Set up initial component state
         component.viewState = DownloadViewState.NONE;
-        component.selectedGenusSpecies = DEFAULT_SELECTED_GENUS_SPECIES_TERMS;
+        component.selectedGenusSpecies = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
@@ -333,7 +339,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected genus species is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Species"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(SPECIES_COUNT_INDEX)).toEqual(component.displayTerms(DEFAULT_SELECTED_GENUS_SPECIES_TERMS));
+        expect(getTermInnerHTML(SPECIES_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
@@ -341,9 +347,15 @@ describe("HCAGetDataFileSummaryComponent", () => {
      */
     it(`should display selected library construction approaches when view mode is "NONE"`, () => {
 
+        const selectedTerms = [
+            new Term("Drop-seq", 22, true),
+            new Term("10x 3' v3 sequencing", 22, true),
+            new Term("Smart-seq2", 22, true),
+        ];
+
         // Set up initial component state
         component.viewState = DownloadViewState.NONE;
-        component.selectedLibraryConstructionApproaches = DEFAULT_SELECTED_LIBRARY_CONSTRUCTION_METHOD_TERMS;
+        component.selectedLibraryConstructionApproaches = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
@@ -351,7 +363,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected library construction approaches is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Library Construction Method"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(LIBRARY_CONSTRUCTION_METHOD_COUNT_INDEX)).toEqual(component.displayTerms(DEFAULT_SELECTED_LIBRARY_CONSTRUCTION_METHOD_TERMS));
+        expect(getTermInnerHTML(LIBRARY_CONSTRUCTION_METHOD_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
@@ -359,9 +371,13 @@ describe("HCAGetDataFileSummaryComponent", () => {
      */
     it(`should display selected paired ends when view mode is "NONE"`, () => {
 
+        const selectedTerms = [
+            new Term("true", 234, true)
+        ];
+
         // Set up initial component state
         component.viewState = DownloadViewState.NONE;
-        component.selectedPairedEnds = DEFAULT_SELECTED_PAIRED_END_TERMS;
+        component.selectedPairedEnds = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
@@ -369,7 +385,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected paired Ends is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Paired End"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(PAIRED_END_COUNT_INDEX)).toEqual(component.displayTerms(DEFAULT_SELECTED_PAIRED_END_TERMS));
+        expect(getTermInnerHTML(PAIRED_END_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
