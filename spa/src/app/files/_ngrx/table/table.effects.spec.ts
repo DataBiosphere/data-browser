@@ -15,24 +15,25 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { FileState } from "../file.state";
-import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../file.state.mock";
-import { SelectProjectIdAction } from "../search/select-project-id.action";
-import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchFileFacetsRequestAction } from "../file-facet-list/file-facet-list.actions";
-import { PROJECT_1M_NEURONS } from "../search/search.state.mock";
-import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../../shared/entity-search-results.mock";
-import { FilesService } from "../../shared/files.service";
-import { FilesMockService } from "../../shared/files.service.mock";
-import { ProjectService } from "../../project/project.service";
-import { ProjectMockService } from "../../shared/project.service.mock";
-import { TableEffects } from "./table.effects";
+import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../file.state.mock";
+import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
+import { PROJECT_1M_NEURONS } from "../search/search.state.mock";
+import { SelectProjectIdAction } from "../search/select-project-id.action";
+import { ProjectService } from "../../project/project.service";
+import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../../shared/entity-search-results.mock";
+import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FilesService } from "../../shared/files.service";
+import { ProjectMockService } from "../../shared/project.service.mock";
+import { TableEffects } from "./table.effects";
 import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "./table.actions";
+import { of } from "rxjs/index";
 
 
 describe("Table Effects", () => {
@@ -46,6 +47,10 @@ describe("Table Effects", () => {
      */
     beforeEach(() => {
 
+        const filesService = jasmine.createSpyObj("FilesService", ["fetchEntitySearchResults", "fetchFileSummary"]);
+        filesService.fetchEntitySearchResults.and.returnValue(of(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS));
+        filesService.fetchFileSummary.and.returnValue(of(DEFAULT_FILE_SUMMARY));
+
         TestBed.configureTestingModule({
             imports: [
                 // any modules needed
@@ -53,7 +58,7 @@ describe("Table Effects", () => {
             providers: [
                 TableEffects,
                 provideMockActions(() => actions),
-                {provide: FilesService, useClass: FilesMockService},
+                {provide: FilesService, useValue: filesService},
                 {provide: ProjectService, useClass: ProjectMockService},
                 provideMockStore({initialState: DEFAULT_PROJECTS_STATE})
             ],

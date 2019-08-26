@@ -6,5 +6,6 @@
  */
 
 export enum GenusSpecies {
-    "HOMO_SAPIENS" = "Homo sapiens"
+    "HOMO_SAPIENS" = "Homo sapiens",
+    "MUS_MUSCULUS" = "Mus musculus"
 }

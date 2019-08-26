@@ -11,7 +11,7 @@ import { cold, hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
 import { Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 // App dependencies
 import { FileEffects } from "./file.effects";
@@ -24,9 +24,9 @@ import {
 } from "./file.state.mock";
 import { FetchFileFacetsRequestAction, FetchFileFacetsSuccessAction } from "./file-facet-list/file-facet-list.actions";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
-import { FilesService } from "../shared/files.service";
-import { FilesMockService } from "../shared/files.service.mock";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
+import { FilesService } from "../shared/files.service";
+import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
@@ -42,6 +42,10 @@ describe("File Effects", () => {
      */
     beforeEach(() => {
 
+        const filesService = jasmine.createSpyObj("FilesService", ["fetchEntitySearchResults", "fetchFileSummary"]);
+        filesService.fetchEntitySearchResults.and.returnValue(of(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS));
+        filesService.fetchFileSummary.and.returnValue(of(DEFAULT_FILE_SUMMARY));
+
         TestBed.configureTestingModule({
             imports: [
                 // any modules needed
@@ -49,9 +53,12 @@ describe("File Effects", () => {
             providers: [
                 FileEffects,
                 provideMockActions(() => actions),
-                {provide: FilesService, useClass: FilesMockService},
+                {
+                    provide: FilesService,
+                    useValue: filesService
+                },
                 provideMockStore({initialState: DEFAULT_PROJECTS_STATE})
-            ],
+            ]
         });
 
         effects = TestBed.get(FileEffects);

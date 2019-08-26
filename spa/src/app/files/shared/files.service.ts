@@ -138,50 +138,11 @@ export class FilesService {
 
 
         return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-                map((apiResponse: FilesAPIResponse) =>
-                    this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
-                switchMap((matrixableFileFacets: MatrixableFileFacets) => {
-
-                    // Check if an additional query is required to determine if smart seq 2 / false is a combination in
-                    // the current data. We currently can not determine the association between a library construction
-                    // approach and a paired end, so we do this manually here.
-
-                    // If there is anything other human selected for species, then we don't need to do any additional
-                    // checks. We know at this point that the matrix partial query match is going to be partial. 
-                    const genusSpecies = matrixableFileFacets.genusSpecies;
-                    if ( !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS) ) {
-                        return of(true);
-                    }
-                    
-                    // Check the library construction approach. If we have anything other than smart seq 2, 10x v2 or
-                    // 10x 3' v2 then we know it's a partial match.
-                    const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
-                    const validApproachesSelected =
-                        libraryConstructionApproaches.isOnlySelectedTerm(
-                            LibraryConstructionApproach.SMART_SEQ2,
-                            LibraryConstructionApproach.TENX_V2,
-                            LibraryConstructionApproach.TENX_3PRIME_V2);
-                    if ( !validApproachesSelected ) {
-                        return of(true);
-                    }
-                    
-                    // If we have only 10x v2 or 10x 3' v2 selected, then it's not a partial match.
-                    if ( libraryConstructionApproaches.
-                                isOnlySelectedTerm(
-                                    LibraryConstructionApproach.TENX_V2, LibraryConstructionApproach.TENX_3PRIME_V2) ) {
-                        return of(false);
-                    }
-                    
-                    // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
-                    if ( matrixableFileFacets.pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE) ) {
-                        return of(false);
-                    }
-
-                    // We could potentially have a partial query match and therefore need to execute the additional
-                    // query to determine if there are any smart seq 2 / paired end false combinations in the data.
-                    return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
-                })
-            );
+            map((apiResponse: FilesAPIResponse) =>
+                this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
+            switchMap((matrixableFileFacets: MatrixableFileFacets) =>
+                this.isMatrixPartialQueryMatch(searchTermsBySearchKey, tableParams, matrixableFileFacets))
+        );
     }
 
     /**
@@ -193,7 +154,7 @@ export class FilesService {
      * @returns {Observable<boolean>}
      */
     private fetchIsSmartSeq2False(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                             tableParams: TableParamsModel): Observable<boolean> {
+                                  tableParams: TableParamsModel): Observable<boolean> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -427,7 +388,12 @@ export class FilesService {
             }
             return accum;
         }, new Set());
-        searchTerms.set(FileFacetName.FILE_FORMAT, fileFormats);
+        if ( fileFormats.size ) {
+            searchTerms.set(FileFacetName.FILE_FORMAT, fileFormats);
+        }
+        else {
+            searchTerms.delete(FileFacetName.FILE_FORMAT);
+        }
         return searchTerms;
     }
 
@@ -472,7 +438,7 @@ export class FilesService {
      * @returns {Observable<MatrixableSearchResults>}
      */
     private fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                           tableParams: TableParamsModel): Observable<FilesAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -494,7 +460,7 @@ export class FilesService {
      * @returns {Observable<MatrixableSearchResults>}
      */
     private fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                            tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -505,6 +471,90 @@ export class FilesService {
 
         return this.httpClient
             .get<FilesAPIResponse>(url, {params: paramMap});
+    }
+
+    /**
+     * Returns true if not all of the data for the current set of search terms is matrixable and is therefore considered
+     * a partial query match. Returns observable as we may need to execute an additional query to the backend to
+     * determine partial query match status.
+     *
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {TableParamsModel} tableParams
+     * @param {MatrixableFileFacets} matrixableFileFacets
+     * @returns {Observable<boolean>}
+     */
+    private isMatrixPartialQueryMatch(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                                      tableParams: TableParamsModel,
+                                      matrixableFileFacets: MatrixableFileFacets): Observable<boolean> {
+
+        // Check if an additional query is required to determine if smart seq 2 / false is a combination in
+        // the current data. We currently can not determine the association between a library construction
+        // approach and a paired end, so we do this manually here.
+
+        // If there is anything other human selected for species, then we don't need to do any additional
+        // checks. We know at this point that the matrix partial query match is going to be partial. 
+        if ( this.isGenusSpeciesPartialQueryMatch(matrixableFileFacets.genusSpecies) ) {
+            return of(true);
+        }
+
+        // Check the library construction approach. If we have anything other than smart seq 2, 10x v2 or
+        // 10x 3' v2 then we know it's a partial match.
+        const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
+        if ( !this.isValidMatrixLibraryConstructionApproach(libraryConstructionApproaches) ) {
+            return of(true);
+        }
+
+        // If we have only 10x v2 or 10x 3' v2 selected, then it's not a partial match.
+        if ( libraryConstructionApproaches.isOnlySelectedTerm(
+            LibraryConstructionApproach.TENX_V2, LibraryConstructionApproach.TENX_3PRIME_V2) ) {
+            return of(false);
+        }
+
+        // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
+        if ( !this.isPairedEndPartialQueryMatch(matrixableFileFacets.pairedEnds) ) {
+            return of(false);
+        }
+
+        // We could potentially have a partial query match and therefore need to execute the additional
+        // query to determine if there are any smart seq 2 / paired end false combinations in the data.
+        return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
+    }
+
+    /**
+     * Returns true if there is a genus species value other than homo sapiens
+     *
+     * @param {FileFacet} genusSpecies
+     * @returns {boolean}
+     */
+    private isGenusSpeciesPartialQueryMatch(genusSpecies: FileFacet): boolean {
+
+        return !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS);
+    }
+
+    /**
+     * Returns true if the only selected or specified library construction approaches are valid for generating matrix.
+     * Specifically, library construction approach must be one of:
+     * 1. Smart seq 2
+     * 2. 10x v2
+     * 3. 10x 3' v2
+     */
+    private isValidMatrixLibraryConstructionApproach(libraryConstructionApproaches: FileFacet): boolean {
+
+        return libraryConstructionApproaches.isOnlySelectedTerm(
+            LibraryConstructionApproach.SMART_SEQ2,
+            LibraryConstructionApproach.TENX_V2,
+            LibraryConstructionApproach.TENX_3PRIME_V2);
+    }
+
+    /**
+     * Returns true if there is a paired end value of than true
+     *
+     * @param {FileFacet} pairedEnds
+     * @returns {boolean}
+     */
+    private isPairedEndPartialQueryMatch(pairedEnds: FileFacet): boolean {
+
+        return !pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE)
     }
 
     /**

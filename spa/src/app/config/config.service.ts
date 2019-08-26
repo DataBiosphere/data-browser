@@ -134,7 +134,11 @@ export class ConfigService {
      */
     public getAPIURL(): string {
 
-        return `${this.dataURL}`;
+        if ( this.dataURL ) {
+            return this.dataURL;
+        }
+        
+        return "";
     }
 
     /**
