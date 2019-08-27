@@ -69,19 +69,6 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return the curl command to download the manifest.
-     *
-     * @param {ManifestResponse} manifestResponse
-     * @returns {string}
-     */
-    public getManifestCurlCommand(response: ManifestResponse): string {
-
-        const link = response.fileUrl;
-        const fileName = link.split("/").pop();
-        return `curl ${link} --output ${fileName}`;
-    }
-
-    /**
      * Returns true if any "fileFormat" facet terms are selected.
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
