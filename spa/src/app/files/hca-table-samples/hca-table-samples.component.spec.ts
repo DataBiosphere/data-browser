@@ -10,7 +10,7 @@ import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule, MatSortHeader, MatSortModule, MatTableModule, MatTooltipModule } from "@angular/material";
 import { RouterTestingModule } from "@angular/router/testing";
-import { By } from '@angular/platform-browser';
+import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
@@ -79,6 +79,10 @@ describe("HCATableSamplesComponent", () => {
             }, {
                 provide: ConfigService,
                 useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL"])
+            }, {
+                provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
+                useValue: () => new Promise(() => {
+                })
             }]
         }).compileComponents();
 

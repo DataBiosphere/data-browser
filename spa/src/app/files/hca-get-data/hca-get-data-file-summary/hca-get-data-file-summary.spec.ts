@@ -8,7 +8,7 @@
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material";
-import { By } from "@angular/platform-browser";
+import { By, HAMMER_LOADER } from "@angular/platform-browser";
 
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
@@ -50,7 +50,11 @@ describe("HCAGetDataFileSummaryComponent", () => {
                 CcPipeModule,
                 MatTooltipModule
             ],
-            providers: []
+            providers: [{
+                provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
+                useValue: () => new Promise(() => {
+                })
+            }]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCAGetDataFileSummaryComponent);
