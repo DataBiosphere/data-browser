@@ -8,4 +8,5 @@
 export interface ContributorView {
     citation: number;
     name: string;
+    role: string;
 }

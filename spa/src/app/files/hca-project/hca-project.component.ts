@@ -407,6 +407,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             return {
                 citation: projectDistinctListOfContributorOrganizations.indexOf(projectContributor.institution) + 1,
                 name: this.getFormattedContributorName(projectContributor.contactName),
+                role: projectContributor.projectRole
             };
         });
     }

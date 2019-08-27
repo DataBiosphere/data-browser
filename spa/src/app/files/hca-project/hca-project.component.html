@@ -18,7 +18,7 @@
                 <div class="project-description">
                     <h4 class="fontsize-m semi-bold">Description</h4>
                     <p class="fontsize-s">{{state.project.project.projectDescription}}</p>
-                    <div class="lhs">
+                    <div class="stretch">
                         <h4 class="fontsize-m semi-bold">Contact</h4>
                         <ng-container [ngSwitch]="isAnyContactAssociated(state.project.contacts)">
                             <ng-container *ngSwitchCase="true">
@@ -34,27 +34,29 @@
                         <h4 class="fontsize-m semi-bold">Publications</h4>
                         <ng-container [ngSwitch]="isAnyPublicationAssociated(state.project.project.publications)">
                             <ng-container *ngSwitchCase="true">
-                                <div *ngFor="let publication of state.project.project.publications" class="details">
+                                <div *ngFor="let publication of state.project.project.publications" class="details publications">
                                     <p class="fontsize-xxs" [innerHTML]="getProjectPublication(publication)"></p>
                                 </div>
                             </ng-container>
                             <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
                         </ng-container>
                     </div>
-                    <div class="rhs">
+                    <div class="lhs contributors">
                         <h4 class="fontsize-m semi-bold">Contributors</h4>
                         <p class="fontsize-xxs contributor-list">
                             <ng-container [ngSwitch]="isAnyContributorAssociated(state.project.contributors)">
                                 <ng-container *ngSwitchCase="true">
-                                    <span *ngFor="let contributor of state.project.contributors; last as lastContributor">
+                                    <span *ngFor="let contributor of state.project.contributors">
                                         <span>{{contributor.name}}</span>
+                                        <span *ngIf="contributor.role"> ({{contributor.role | titlecase}})</span>
                                         <sup>{{contributor.citation}}</sup>
-                                        <span *ngIf="!lastContributor">, </span>
                                     </span>
                                 </ng-container>
                                 <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
+                    </div>
+                    <div class="rhs">
                         <h4 class="fontsize-m semi-bold">Collaborating Organizations</h4>
                         <p class="fontsize-xxs organization-list">
                             <ng-container [ngSwitch]="isAnyCollaboratingOrganizationAssociated(state.project.collaboratingOrganizations)">
@@ -78,37 +80,6 @@
                                 <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
-                    </div>
-                </div>
-                <div class="project-accessions">
-                    <h4 class="fontsize-m semi-bold">Accessions</h4>
-                    <div>
-                        <p class="fontsize-xs semi-bold lhs">Array Express Accessions</p>
-                        <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.project.arrayExpressAccessions,
-                                "Unspecified")}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="fontsize-xs semi-bold lhs">GEO Series Accessions</p>
-                        <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.project.geoSeriesAccessions,
-                                "Unspecified")}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="fontsize-xs semi-bold lhs">INSDC Project Accessions</p>
-                        <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.project.insdcProjectAccessions,
-                                "Unspecified")}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="fontsize-xs semi-bold lhs">INSDC Study Accessions</p>
-                        <div class="rhs">
-                            <p class="fontsize-xs">{{stringifyValues(state.project.project.insdcStudyAccessions,
-                                "Unspecified")}}</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -291,6 +262,37 @@
                         <div>
                             <p class="fontsize-xs semi-bold lhs">Total</p>
                             <p class="fontsize-xs rhs">{{state.project.project.totalCount | localeString}}</p>
+                        </div>
+                    </div>
+                    <div class="project-accessions">
+                        <h4 class="fontsize-m semi-bold">Accessions</h4>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">Array Express Accessions</p>
+                            <div class="rhs">
+                                <p class="fontsize-xs">{{stringifyValues(state.project.project.arrayExpressAccessions,
+                                    "Unspecified")}}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">GEO Series Accessions</p>
+                            <div class="rhs">
+                                <p class="fontsize-xs">{{stringifyValues(state.project.project.geoSeriesAccessions,
+                                    "Unspecified")}}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">INSDC Project Accessions</p>
+                            <div class="rhs">
+                                <p class="fontsize-xs">{{stringifyValues(state.project.project.insdcProjectAccessions,
+                                    "Unspecified")}}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">INSDC Study Accessions</p>
+                            <div class="rhs">
+                                <p class="fontsize-xs">{{stringifyValues(state.project.project.insdcStudyAccessions,
+                                    "Unspecified")}}</p>
+                            </div>
                         </div>
                     </div>
                     <div class="project-views" *ngIf="analysisToolsAvailable">
