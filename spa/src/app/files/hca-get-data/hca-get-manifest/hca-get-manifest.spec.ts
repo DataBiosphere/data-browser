@@ -22,8 +22,8 @@ import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
 import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
-import { DEFAULT_FILE_SUMMARY_EMPTY, DEFAULT_SEARCH_TERM_WITH_FILE_FORMAT } from "./get-manifest-state.mock";
 import { HCAGetManifestComponent } from "./hca-get-manifest.component";
+import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
 
 describe("HCAGetManifestComponent", () => {
 
@@ -32,6 +32,28 @@ describe("HCAGetManifestComponent", () => {
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
+    // Search terms with file format selected
+    const SEARCH_TERMS_WITH_FILE_FORMAT = [
+        new SearchFileFacetTerm("fileFormat", "fastq", 123),
+        new SearchFileFacetTerm("disease", "ESRD", 8),
+        new SearchFileFacetTerm("genusSpecies", "Homo sapiens", 20)
+    ];
+    
+    // Empty file summary
+    const FILE_SUMMARY_EMPTY = {
+        "donorCount": 0,
+        "fileCount": 0,
+        "fileTypeSummaries": [],
+        "organTypes": [],
+        "projectCount": 0,
+        "specimenCount": 0,
+        "totalCellCount": 0,
+        "totalFileSize": 0
+    };
+
+    /**
+     * Setup before each test.
+     */
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
@@ -82,8 +104,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm get file type summaries returns an empty array, when file summaries is empty - first execute the
         // method and then confirm the returned value is an empty array.
-        const getFileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY_EMPTY);
-        expect(getFileTypeSummaries).toEqual([]);
+        const fileTypeSummaries = component.getFileTypeSummaries(FILE_SUMMARY_EMPTY);
+        expect(fileTypeSummaries).toEqual([]);
     });
 
     /**
@@ -93,8 +115,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
         // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
-        const getFileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY);
-        expect(getFileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        const fileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY);
+        expect(fileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
     });
 
     /**
@@ -104,8 +126,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm any file format selected returns false, when no "fileFormat" facet terms are selected - first execute the
         // method and then confirm the returned value is false.
-        const getFileTypeSummaries = component.isAnyFileFormatSelected([]);
-        expect(getFileTypeSummaries).toEqual(false);
+        const anyFormatSelected = component.isAnyFileFormatSelected([]);
+        expect(anyFormatSelected).toEqual(false);
     });
 
     /**
@@ -115,8 +137,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm any file format selected returns true, when "fileFormat" facet terms are selected - first execute the
         // method and then confirm the returned value is true.
-        const getFileTypeSummaries = component.isAnyFileFormatSelected(DEFAULT_SEARCH_TERM_WITH_FILE_FORMAT);
-        expect(getFileTypeSummaries).toEqual(true);
+        const anyFormatSelected = component.isAnyFileFormatSelected(SEARCH_TERMS_WITH_FILE_FORMAT);
+        expect(anyFormatSelected).toEqual(true);
     });
 
     /**
@@ -126,8 +148,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm file type summaries empty returns true, when file summary is empty - first execute the
         // method and then confirm the returned value is true.
-        const isFileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY_EMPTY);
-        expect(isFileTypeSummariesEmpty).toEqual(true);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY_EMPTY);
+        expect(fileTypeSummariesEmpty).toEqual(true);
     });
 
     /**
@@ -137,8 +159,8 @@ describe("HCAGetManifestComponent", () => {
 
         // Confirm file type summaries empty returns false, when file summary is not empty - first execute the
         // method and then confirm the returned value is false.
-        const isFileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY);
-        expect(isFileTypeSummariesEmpty).toEqual(false);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY);
+        expect(fileTypeSummariesEmpty).toEqual(false);
     });
 
     /**
@@ -437,7 +459,7 @@ describe("HCAGetManifestComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(DEFAULT_SEARCH_TERM_WITH_FILE_FORMAT), // search terms
+            of(SEARCH_TERMS_WITH_FILE_FORMAT), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
             of({
                 status: ManifestStatus.NOT_STARTED

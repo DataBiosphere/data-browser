@@ -17,7 +17,7 @@ import {
     MatTooltipModule
 } from "@angular/material";
 import { RouterTestingModule } from "@angular/router/testing";
-import { By } from '@angular/platform-browser';
+import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
@@ -101,6 +101,10 @@ describe("HCATableFilesComponent", () => {
                     "isFileDownloadRequestNotStarted",
                     "requestFileDownload"
                 ])
+            }, {
+                provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
+                useValue: () => new Promise(() => {
+                })
             }]
         }).compileComponents();
 
