@@ -76,6 +76,7 @@ import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ProjectService } from "./project/project.service";
 import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
 import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
+import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
@@ -135,6 +136,7 @@ import { TermSortService } from "./sort/term-sort.service";
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
         ProjectDownloadsComponent,
+        ProjectTSVDownloadComponent,
         ProjectPreparedMatrixDownloadsComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,

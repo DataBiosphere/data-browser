@@ -34,7 +34,7 @@ export class MatrixState implements Matrix {
     matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>;
 
     /**
-     * @param {MatrixState} state
+     * @param {ProjectState} state
      */
     constructor(state: Matrix = DEFAULT_MATRIX) {
         Object.assign(this, state);
@@ -43,7 +43,7 @@ export class MatrixState implements Matrix {
     /**
      * Cancel the existing matrix URL request.
      *
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public cancelMatrixUrlRequest(): MatrixState {
 
@@ -60,7 +60,7 @@ export class MatrixState implements Matrix {
     /**
      * Cancel the partial query status.
      *
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public clearMatrixPartialQueryStatus(): MatrixState {
 
@@ -73,7 +73,7 @@ export class MatrixState implements Matrix {
     }
 
     /**
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public fetchMatrixFileFormatsRequest(): MatrixState {
         return this;
@@ -81,7 +81,7 @@ export class MatrixState implements Matrix {
 
     /**
      * @param {FetchFileSummarySuccessAction} action
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public fetchMatrixFileFormatsSuccess(action: FetchMatrixFileFormatsSuccessAction) {
         const fileFormats = action.fileFormats;
@@ -97,7 +97,7 @@ export class MatrixState implements Matrix {
      * Update state with the specified matrix partial query status.
      * 
      * @param {FetchMatrixPartialQueryMatchSuccessAction} action
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public fetchMatrixPartialQueryStatusSuccessAction(action: FetchMatrixPartialQueryMatchSuccessAction): MatrixState {
 
@@ -113,7 +113,7 @@ export class MatrixState implements Matrix {
      * Update state with the set of available matrix URLs for the specified project.
      *
      * @param {FetchFileSummarySuccessAction} action
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public fetchProjectMatrixURLsSuccess(action: FetchProjectMatrixUrlsSuccessAction) {
 
@@ -147,7 +147,7 @@ export class MatrixState implements Matrix {
     }
 
     /**
-     * @returns {MatrixState}
+     * @returns {ProjectState}
      */
     public static getDefaultState() {
         return new MatrixState();

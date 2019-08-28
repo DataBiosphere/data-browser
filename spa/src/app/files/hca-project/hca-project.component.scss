@@ -55,7 +55,9 @@
     p.downloads {
         
         a {
+            align-items: center;
             color: $hca-black;
+            display: flex;
         }
 
         /* Icon */
@@ -73,8 +75,8 @@
             padding-right: 10px;
         }
 
-        /* Download text */
-        a + span, img + span {
+        /* Download text - "csv", "tsv", "loom" etc */
+        a + span, img + span, project-tsv-download span {
             padding-left: 8px;
         }
     }

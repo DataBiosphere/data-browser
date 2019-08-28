@@ -149,17 +149,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return the URL to the meta TSV for the specified project.
-     *
-     * @param {ProjectView} project
-     * @returns {string}
-     */
-    public getProjectMetaURL(project: ProjectView): string {
-
-        return this.configService.getProjectMetaDownloadURL(project.project.entryId);
-    }
-
-    /**
      * Returns publication title with a link to the publication URL, if it exists.
      *
      * @param {Publication} publication

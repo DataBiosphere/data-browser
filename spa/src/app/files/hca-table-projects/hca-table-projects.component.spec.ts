@@ -8,7 +8,13 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatSortHeader, MatSortModule, MatTableModule, MatTooltipModule } from "@angular/material";
+import {
+    MatIconModule, MatProgressSpinnerModule,
+    MatSortHeader,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule
+} from "@angular/material";
 import { RouterTestingModule } from "@angular/router/testing";
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -35,6 +41,8 @@ import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-mat
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
+import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
+import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -60,6 +68,7 @@ describe("HCATableProjectsComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 ProjectDownloadsComponent,
+                ProjectTSVDownloadComponent,
                 ProjectPreparedMatrixDownloadsComponent
             ],
             imports: [
@@ -67,6 +76,7 @@ describe("HCATableProjectsComponent", () => {
                 CcPipeModule,
                 MatIconModule,
                 MatSortModule,
+                MatProgressSpinnerModule,
                 MatTableModule,
                 MatTooltipModule,
                 RouterTestingModule
@@ -117,7 +127,10 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY),
-            of(new Map()) // project matrix URLs
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
         );
 
         component.selectedProjectIds = [];
@@ -140,7 +153,10 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY),
-            of(new Map()) // project matrix URLs
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
         );
 
         component.selectedProjectIds = [];
@@ -177,7 +193,10 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.pagination),
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY),
-            of(new Map()) // project matrix URLs
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
         );
 
         component.selectedProjectIds = [];

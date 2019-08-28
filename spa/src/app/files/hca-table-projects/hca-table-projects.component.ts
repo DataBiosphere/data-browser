@@ -27,7 +27,6 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
-import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { ProjectRowMapper } from "./project-row-mapper";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
@@ -43,6 +42,7 @@ import {
     getTableStyle
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 
 @Component({
     selector: "hca-table-projects",

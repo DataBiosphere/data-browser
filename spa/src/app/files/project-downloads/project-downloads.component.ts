@@ -6,12 +6,13 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
-import { ConfigService } from "../../config/config.service";
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 // App dependencies
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../_ngrx/app.state";
 
 @Component({
     selector: "project-downloads",
@@ -30,21 +31,20 @@ export class ProjectDownloadsComponent {
     @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
     @Output() preparedMatrixDownloadsPositionBelowTable = new EventEmitter<number>();
 
+    // View child/ren
+    @ViewChild("download") downloadEl: ElementRef;
+
     // Template variables
     public preparedMatrixDownloadsOpen = false;
     public preparedMatrixDownloadsTop;
 
     /**
-     * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      * @param {ElementRef} elementRef
+     * @param {Store<AppStore>} store
      */
-    public constructor(private configService: ConfigService, private deviceService: DeviceDetectorService, private elementRef: ElementRef) {
-    }
-
-    /**
-     * Public API
-     */
+    public constructor(
+        private deviceService: DeviceDetectorService, private elementRef: ElementRef, private store: Store<AppState>) {}
 
     /**
      * Returns true if device is either mobile or tablet.
@@ -56,21 +56,6 @@ export class ProjectDownloadsComponent {
         const isTablet = this.deviceService.isTablet();
 
         return (isMobile || isTablet);
-    }
-
-    /**
-     * Return the URL to the meta TSV for the specified project.
-     *
-     * @returns {string}
-     */
-    public onDownloadMetadata() {
-
-        if ( this.isDeviceHandheld() ) {
-            return; // do nothing
-        }
-
-        const metaURL = this.configService.getProjectMetaURL();
-        window.location.href = `${metaURL}/project-assets/project-metadata/${this.projectId}.tsv`;
     }
 
     /**
@@ -109,6 +94,7 @@ export class ProjectDownloadsComponent {
      * @param event
      */
     public onPreparedMatrixDownloadsPositionBelowTable(event) {
+
         this.preparedMatrixDownloadsPositionBelowTable.emit(event);
     }
 

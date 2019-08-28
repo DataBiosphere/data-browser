@@ -23,6 +23,8 @@ import {
     PROJECT_SINGLE_VALUES,
     PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "../hca-table-projects/project-mapper.mock";
+import { TermResponseService } from "../shared/term-response.service";
+import { SearchTermService } from "../shared/search-term.service";
 
 describe("ProjectService:", () => {
 
@@ -42,9 +44,12 @@ describe("ProjectService:", () => {
             }]
         });
 
+        const termResponseService = new TermResponseService();
+        const searchTermService = new SearchTermService(termResponseService);
+
         const configService = TestBed.get(ConfigService);
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
-        projectService = new ProjectService(configService, <any>httpClientSpy);
+        projectService = new ProjectService(configService, searchTermService, <any>httpClientSpy);
     }));
 
     /**

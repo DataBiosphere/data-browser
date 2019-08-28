@@ -12,6 +12,7 @@ import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { TableState } from "./table/table.state";
 import { MatrixState } from "./matrix/matrix.state";
+import { ProjectState } from "./project/project.state";
 import { SearchState } from "./search/search.state";
 
 export interface FileState {
@@ -20,6 +21,7 @@ export interface FileState {
     fileFacetList: FileFacetListState;
     fileManifest: FileManifestState;
     matrix: MatrixState;
+    project: ProjectState;
     search: SearchState;
     tableState: TableState;
 }

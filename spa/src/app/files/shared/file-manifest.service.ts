@@ -169,7 +169,7 @@ export class FileManifestService {
     }
 
     /**
-     * An error occurred during a file download - return error state.
+     * An error occurred during a request for file manifest URL - return error state.
      *
      * @returns {ManifestResponse}
      */
