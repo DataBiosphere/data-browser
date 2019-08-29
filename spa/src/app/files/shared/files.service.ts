@@ -491,44 +491,47 @@ export class FilesService {
         // the current data. We currently can not determine the association between a library construction
         // approach and a paired end, so we do this manually here.
 
-        // If there is anything other human selected for species, then we don't need to do any additional
-        // checks. We know at this point that the matrix partial query match is going to be partial. 
+        // If there is anything other homo sapien or undefined selected for species, then we don't need to do any
+        // additional checks. We know at this point that the matrix partial query match is going to be partial. 
         if ( this.isGenusSpeciesPartialQueryMatch(matrixableFileFacets.genusSpecies) ) {
             return of(true);
         }
 
-        // Check the library construction approach. If we have anything other than smart seq 2, 10x v2 or
-        // 10x 3' v2 then we know it's a partial match.
+        // Check the library construction approach. If we have anything other than smart seq 2, 10x v2,
+        // 10x 3' v2 or Unspecified, then we know it's a partial match.
         const libraryConstructionApproaches = matrixableFileFacets.libraryConstructionApproaches;
         if ( !this.isValidMatrixLibraryConstructionApproach(libraryConstructionApproaches) ) {
             return of(true);
         }
 
-        // If we have only 10x v2 or 10x 3' v2 selected, then it's not a partial match.
+        // If we have only 10x v2, 10x 3' v2 or Unspecified selected, then it's not a partial match.
         if ( libraryConstructionApproaches.isOnlySelectedTerm(
-            LibraryConstructionApproach.TENX_V2, LibraryConstructionApproach.TENX_3PRIME_V2) ) {
+            LibraryConstructionApproach.TENX_V2,
+            LibraryConstructionApproach.TENX_3PRIME_V2,
+            LibraryConstructionApproach.UNSPECIFIED) ) {
             return of(false);
         }
 
         // We have smart seq 2 in the mix. If we only have paired end true, we know it's not a partial match.
-        if ( !this.isPairedEndPartialQueryMatch(matrixableFileFacets.pairedEnds) ) {
+        if ( !this.isPairedEndPartialQueryMatchForSmartSeq2(matrixableFileFacets.pairedEnds) ) {
             return of(false);
         }
-
+        
         // We could potentially have a partial query match and therefore need to execute the additional
         // query to determine if there are any smart seq 2 / paired end false combinations in the data.
         return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
     }
 
     /**
-     * Returns true if there is a genus species value other than homo sapiens
+     * Returns true if there is a genus species value other than homo sapiens or unspecified.
      *
      * @param {FileFacet} genusSpecies
      * @returns {boolean}
      */
     private isGenusSpeciesPartialQueryMatch(genusSpecies: FileFacet): boolean {
 
-        return !genusSpecies.isOnlySelectedTerm(GenusSpecies.HOMO_SAPIENS);
+        return !genusSpecies.isOnlySelectedTerm(
+            GenusSpecies.HOMO_SAPIENS, GenusSpecies.homo_sapiens, GenusSpecies.UNSPECIFIED);
     }
 
     /**
@@ -537,24 +540,27 @@ export class FilesService {
      * 1. Smart seq 2
      * 2. 10x v2
      * 3. 10x 3' v2
+     * 4. Unspecified
      */
     private isValidMatrixLibraryConstructionApproach(libraryConstructionApproaches: FileFacet): boolean {
 
         return libraryConstructionApproaches.isOnlySelectedTerm(
             LibraryConstructionApproach.SMART_SEQ2,
             LibraryConstructionApproach.TENX_V2,
-            LibraryConstructionApproach.TENX_3PRIME_V2);
+            LibraryConstructionApproach.TENX_3PRIME_V2,
+            LibraryConstructionApproach.UNSPECIFIED);
     }
 
     /**
-     * Returns true if there is a paired end value of than true
+     * Returns true if there is a paired end value of than true or unspecified. Paired end must be true (or unspecified)
+     * when library construction approach smart seq 2 is selected.
      *
      * @param {FileFacet} pairedEnds
      * @returns {boolean}
      */
-    private isPairedEndPartialQueryMatch(pairedEnds: FileFacet): boolean {
+    private isPairedEndPartialQueryMatchForSmartSeq2(pairedEnds: FileFacet): boolean {
 
-        return !pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE)
+        return !pairedEnds.isOnlySelectedTerm(PairedEnd.TRUE, PairedEnd.UNSPECIFIED)
     }
 
     /**
