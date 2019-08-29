@@ -385,15 +385,27 @@ describe("FileService:", () => {
         });
 
         /**
-         * Genus species is considered partial match if it contains a value other than homo sapiens
+         * Genus species is considered partial match if it contains a value other than homo sapiens and unspecified
          */
-        it("should consider genus species a partial match if it contains a value other than homo sapiens", () => {
+        it("should consider genus species a partial match if it contains a value other than homo sapiens and unspecified", () => {
 
             const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
                 new Term(GenusSpecies.HOMO_SAPIENS, 90, false),
-                new Term(GenusSpecies.MUS_MUSCULUS, 10, false)
+                new Term(GenusSpecies.UNSPECIFIED, 5, false),
+                new Term(GenusSpecies.MUS_MUSCULUS, 5, false)
             ]);
             expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(true)
+        });
+
+        /**
+         * Genus species is not considered partial match if it contains unspecified
+         */
+        it("should not consider genus species a partial match if it only contains unspecified", () => {
+
+            const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                new Term(GenusSpecies.UNSPECIFIED, 90, false)
+            ]);
+            expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(false)
         });
 
         /**
@@ -408,6 +420,17 @@ describe("FileService:", () => {
         });
 
         /**
+         * Genus species is not considered partial match if it only contains homo sapiens lower case
+         */
+        it("should not consider genus species a partial match if it only contains homo sapiens lower case", () => {
+
+            const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                new Term(GenusSpecies.homo_sapiens, 90, false)
+            ]);
+            expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(false)
+        });
+
+        /**
          * Paired end is considered partial match if it contains a value other than true
          */
         it("should consider paired end a partial match if it contains a value other than true", () => {
@@ -416,7 +439,7 @@ describe("FileService:", () => {
                 new Term(PairedEnd.TRUE, 90, false),
                 new Term(PairedEnd.FALSE, 10, false)
             ]);
-            expect(fileService["isPairedEndPartialQueryMatch"](pairedEnd)).toEqual(true)
+            expect(fileService["isPairedEndPartialQueryMatchForSmartSeq2"](pairedEnd)).toEqual(true)
         });
 
         /**
@@ -427,7 +450,7 @@ describe("FileService:", () => {
             const pairedEnd = new FileFacet(FileFacetName.PAIRED_END, 100, [
                 new Term(PairedEnd.TRUE, 90, false)
             ]);
-            expect(fileService["isPairedEndPartialQueryMatch"](pairedEnd)).toEqual(false)
+            expect(fileService["isPairedEndPartialQueryMatchForSmartSeq2"](pairedEnd)).toEqual(false)
         });
 
         /**
@@ -464,7 +487,18 @@ describe("FileService:", () => {
         });
 
         /**
-         * Value other than smart seq 2, 10x v2, 10x 3' v2 is not a valid construction approach
+         * Unspecified is a valid library construction approach
+         */
+        it("should consider unspecified to be a valid library construction approach", () => {
+
+            const libraryConstructionApproach = new FileFacet(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, 100, [
+                new Term(LibraryConstructionApproach.UNSPECIFIED, 90, false)
+            ]);
+            expect(fileService["isValidMatrixLibraryConstructionApproach"](libraryConstructionApproach)).toEqual(true)
+        });
+
+        /**
+         * Value other than smart seq 2, 10x v2, 10x 3' v2, unspecified is not a valid construction approach
          */
         it("should not consider inDrop to be a valid library construction approach", () => {
 
@@ -505,9 +539,39 @@ describe("FileService:", () => {
         });
 
         /**
+         * Matrix is not considered partial query match when genus species only contains unspecified
+         */
+        it("should not be considered partial match when genus species only contains unspecified", (done: DoneFn) => {
+
+            // Pass any search terms and any table params in because these values are not used to determine the partial
+            // query match at this point. Build up matrixable file facets that we are not expecting to be considered a
+            // partial query match. Pass in genus species that is not considered partial. Using square bracket notation
+            // to access private method.
+            const matrixableFileFacets = {
+                // Non-partial genus species
+                genusSpecies: new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                    new Term(GenusSpecies.HOMO_SAPIENS, 90, false)
+                ]),
+                // Non-partial library construction approach 
+                libraryConstructionApproaches: new FileFacet(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, 100, [
+                    new Term(LibraryConstructionApproach.TENX_V2, 100, false)
+                ]),
+                // Non-partial paired ends
+                pairedEnds: new FileFacet(FileFacetName.PAIRED_END, 100, [
+                    new Term(PairedEnd.UNSPECIFIED, 100, false)
+                ])
+            } as MatrixableFileFacets;
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+                .subscribe(partialQuery => {
+                    expect(partialQuery).toBe(false);
+                    done();
+                })
+        });
+        
+        /**
          * Matrix is considered partial query match if genus species contains value other than homo sapiens
          */
-        it("should be considered partial match when genus species contains value other than mus muscuslus", (done: DoneFn) => {
+        it("should be considered partial match when genus species contains value other than homo sapiens", (done: DoneFn) => {
 
             // Pass any search terms and any table params in because these values are not used to determine the partial
             // query match at this point. Build up matrixable file facet that we are expecting to be considered a partial
@@ -598,9 +662,33 @@ describe("FileService:", () => {
         });
 
         /**
-         * Matrix is not considered partial query match if the library construction is smart seq 2 and paired end is false
+         * Matrix is not considered partial query match if the library construction is unspecified.
          */
-        it("should not be considered a partial match when library construction approach is smart seq 2 and paired end false", (done: DoneFn) => {
+        it("should not be considered a partial match when library construction approach is unspecified", (done: DoneFn) => {
+
+            // Pass any search terms and any table params in because these values are not used to determine the partial
+            // query match at this point. Build up matrixable file facet that we are expecting to be considered a partial
+            // query match. Pass in genus species that is not considered partial. Using square bracket notation to access
+            // private method.
+            const matrixableFileFacets = {
+                genusSpecies: new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                    new Term(GenusSpecies.HOMO_SAPIENS, 90, false)
+                ]),
+                libraryConstructionApproaches: new FileFacet(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, 100, [
+                    new Term(LibraryConstructionApproach.UNSPECIFIED, 100, false)
+                ])
+            } as MatrixableFileFacets;
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+                .subscribe(partialQuery => {
+                    expect(partialQuery).toBe(false);
+                    done();
+                })
+        });
+
+        /**
+         * Matrix is not considered partial query match if the library construction is smart seq 2 and paired end is true
+         */
+        it("should not be considered a partial match when library construction approach is smart seq 2 and paired end true", (done: DoneFn) => {
 
             // Pass any search terms and any table params in because these values are not used to determine the partial
             // query match at this point. Build up matrixable file facet that we are expecting to be considered a partial
@@ -615,6 +703,34 @@ describe("FileService:", () => {
                 ]),
                 pairedEnds: new FileFacet(FileFacetName.PAIRED_END, 100, [
                     new Term(PairedEnd.TRUE, 100, false)
+                ])
+            } as MatrixableFileFacets;
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+                .subscribe(partialQuery => {
+                    expect(partialQuery).toBe(false);
+                    done();
+                })
+        });
+
+        /**
+         * Matrix is not considered partial query match if the library construction is smart seq 2 and paired end is
+         * unspecified
+         */
+        it("should not be considered a partial match when library construction approach is smart seq 2 and paired end unspecified", (done: DoneFn) => {
+
+            // Pass any search terms and any table params in because these values are not used to determine the partial
+            // query match at this point. Build up matrixable file facet that we are expecting to be considered a partial
+            // query match. Pass in genus species that is not considered partial. Using square bracket notation to access
+            // private method.
+            const matrixableFileFacets = {
+                genusSpecies: new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                    new Term(GenusSpecies.HOMO_SAPIENS, 90, false)
+                ]),
+                libraryConstructionApproaches: new FileFacet(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, 100, [
+                    new Term(LibraryConstructionApproach.TENX_3PRIME_V2, 100, false)
+                ]),
+                pairedEnds: new FileFacet(FileFacetName.PAIRED_END, 100, [
+                    new Term(PairedEnd.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
             fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
