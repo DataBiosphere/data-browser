@@ -12,6 +12,7 @@ import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileState } from "./file.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { MatrixState } from "./matrix/matrix.state";
+import { ProjectState } from "./project/project.state";
 import { SearchState } from "./search/search.state";
 import { TerraState } from "./terra/terra.state";
 import { EntityName } from "../shared/entity-name.model";
@@ -25,6 +26,7 @@ export const DEFAULT_PROJECTS_STATE = {
     fileFacetList: FileFacetListState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
     matrix: MatrixState.getDefaultState(),
+    project: ProjectState.getDefaultState(),
     search: SearchState.getDefaultState(),
     tableState: getDefaultTableState(),
     terra: TerraState.getDefaultState()

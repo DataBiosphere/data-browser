@@ -1,0 +1,12 @@
+<ng-container *ngIf="state$ | async as state">
+    <div class="download-progress-indicator">
+        <div class="download-not-started" (click)="onDownloadMetadata()" *ngIf="state.projectTSVUrlNotStarted"></div>
+        <mat-spinner class="hca-spinner"
+                     diameter="14"
+                     *ngIf="state.projectTSVUrlInitiated || state.projectTSVUrlInProgress"></mat-spinner>
+        <div class="download-failed" *ngIf="state.projectTSVUrlFailed">x</div>
+        <img src="assets/images/icon/check-black.png" *ngIf="state.projectTSVUrlCompleted" class="download-completed">
+    </div>
+    <ng-content></ng-content>
+    <a class="hidden" #download></a>
+</ng-container>

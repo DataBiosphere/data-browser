@@ -42,6 +42,7 @@ import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-mat
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { DownloadService } from "../shared/download.service";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
+import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 
 describe("HCATableFilesComponent", () => {
 
@@ -58,6 +59,7 @@ describe("HCATableFilesComponent", () => {
                 HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
                 ProjectDownloadsComponent,
+                ProjectTSVDownloadComponent,
                 ProjectPreparedMatrixDownloadsComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,

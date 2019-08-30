@@ -34,7 +34,8 @@
                         <h4 class="fontsize-m semi-bold">Publications</h4>
                         <ng-container [ngSwitch]="isAnyPublicationAssociated(state.project.project.publications)">
                             <ng-container *ngSwitchCase="true">
-                                <div *ngFor="let publication of state.project.project.publications" class="details publications">
+                                <div *ngFor="let publication of state.project.project.publications"
+                                     class="details publications">
                                     <p class="fontsize-xxs" [innerHTML]="getProjectPublication(publication)"></p>
                                 </div>
                             </ng-container>
@@ -96,8 +97,11 @@
                                 </hca-tooltip>
                             </p>
                             <p class="fontsize-xs rhs downloads">
-                                <span><a [href]="getProjectMetaURL(state.project)">
-                                    <img src="assets/images/icon/hca-download-primary.png"/><span>tsv</span></a>
+                                <span>
+                                    <project-tsv-download [projectId]="state.project.project.projectId"
+                                                          [projectTitle]="state.project.project.projectTitle">
+                                        <span>tsv</span>
+                                    </project-tsv-download>
                                 </span>
                             </p>
                         </div>
@@ -160,7 +164,8 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.organ, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.organ,
+                                "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
@@ -182,7 +187,8 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('disease')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.disease, "Unspecified")}}</p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.disease,
+                                "Unspecified")}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">

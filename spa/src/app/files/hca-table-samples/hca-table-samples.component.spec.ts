@@ -8,7 +8,13 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatSortHeader, MatSortModule, MatTableModule, MatTooltipModule } from "@angular/material";
+import {
+    MatIconModule, MatProgressSpinnerModule,
+    MatSortHeader,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule
+} from "@angular/material";
 import { RouterTestingModule } from "@angular/router/testing";
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -33,6 +39,7 @@ import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-mat
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
+import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -57,6 +64,7 @@ describe("HCATableSamplesComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 ProjectDownloadsComponent,
+                ProjectTSVDownloadComponent,
                 ProjectPreparedMatrixDownloadsComponent
             ],
             imports: [
@@ -64,6 +72,7 @@ describe("HCATableSamplesComponent", () => {
                 CcPipeModule,
                 MatIconModule,
                 MatSortModule,
+                MatProgressSpinnerModule,
                 MatTableModule,
                 MatTooltipModule,
                 RouterTestingModule

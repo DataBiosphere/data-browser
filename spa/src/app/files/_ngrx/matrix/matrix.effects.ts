@@ -35,6 +35,7 @@ export class MatrixEffects {
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
+     * @param {FilesService} filesService
      * @param {MatrixService} matrixService
      */
     constructor(private store: Store<AppState>,

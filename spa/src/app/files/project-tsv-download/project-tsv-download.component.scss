@@ -1,0 +1,71 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for backing project TSV download component. This is currently displayed in the project table as well as on
+ * the project detail page.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    /* Add component height and width inside project table to align with matrix download icon. Not required for project detail */
+    :host-context(hca-table-projects) {
+        height: 48px;
+        width: 48px;
+    }
+
+    /* Slot for displaying download icon, spinner, done and error icons */
+    :host-context(hca-project) .download-progress-indicator {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        width: 20px;
+        height: 25px; /* Matches line height of matrix downloads below */
+    }
+
+    /* Download icon */
+    .download-not-started {
+        background: url("/assets/images/icon/hca-download-primary.png") center no-repeat;
+        cursor: pointer;
+    }
+
+    /* Download icon - inside project table component */
+    :host-context(hca-table-projects) .download-not-started {
+        background-size: 14px 14px;
+        height: 48px;
+        width: 48px;
+    }
+
+    /* Download icon - inside project detail component */
+    :host-context(hca-project) .download-not-started {
+        background-size: 20px 20px;
+        height: 20px;
+        width: 20px;
+    }
+
+    /* Download complete image */
+    .download-completed {
+        cursor: pointer;
+        height: 14px;
+        opacity: 0.4;
+        width: 14px;
+    }
+
+    /* Error state on download */
+    .download-failed {
+        color: red;
+        font-size: 12px;
+    }
+
+    /* Sneaky hidden anchor to facilitate standard browser download */
+    .hidden {
+        display: none;
+    }
+}
+
