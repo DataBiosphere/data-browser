@@ -184,8 +184,8 @@
         }
     }
 
-    /* Project downloads, details, accessions etc. */
-    .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+    /* Project downloads, details, accessions, data release policy etc. */
+    .project-details, .project-downloads, .project-counts, .project-views, .project-workflows, .project-accessions, .data-release-policy {
 
         /* Row - excludes last row in each group */
         > div:not(:last-child) {
@@ -197,6 +197,16 @@
             align-items: flex-start;
             display: flex;
             flex-direction: column;
+        }
+    }
+
+    /* Data release policy */
+    .data-release-policy p {
+        display: inline-block;
+        max-width: 400px;
+
+        a {
+            cursor: pointer;
         }
     }
 
@@ -244,7 +254,7 @@
         }
 
         /* Project downloads, details, accessions etc. */
-        .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows {
+        .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows, .data-release-policy {
 
             /* Row */
             > div {
