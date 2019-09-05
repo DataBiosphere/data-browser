@@ -81,6 +81,7 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
     public getTerraServiceUrl(exportToTerraUrl): string {
         return this.terraService.buildExportToTerraWorkspaceUrl(exportToTerraUrl);
     }
+
     /**
      * Returns true if any "fileFormat" facet terms are selected.
      * @param {SearchTerm[]} selectedSearchTerms
