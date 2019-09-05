@@ -5,7 +5,8 @@
                      diameter="14"
                      *ngIf="state.projectTSVUrlInitiated || state.projectTSVUrlInProgress"></mat-spinner>
         <div class="download-failed" *ngIf="state.projectTSVUrlFailed">x</div>
-        <img src="assets/images/icon/check-black.png" *ngIf="state.projectTSVUrlCompleted" class="download-completed">
+        <img src="assets/images/icon/check-black.png"
+             [ngClass]="{'download-completed': true, 'hidden': !state.projectTSVUrlCompleted}">
     </div>
     <ng-content></ng-content>
     <a class="hidden" #download></a>
