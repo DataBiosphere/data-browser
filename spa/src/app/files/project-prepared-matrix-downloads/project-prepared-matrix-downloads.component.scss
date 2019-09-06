@@ -65,6 +65,13 @@
         span {
             margin-left: 16px;
         }
+
+        /* Copy to clipboard */
+        .clipboard {
+            color: $hca-primary;
+            cursor: pointer;
+            margin: 0;
+        }
     }
 
     /* Close */

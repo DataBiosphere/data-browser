@@ -4,9 +4,23 @@
         <h3 class="fontsize-l">Download Expression Matrix</h3>
         <h4 class="project-title fontsize-m">{{projectTitle}}</h4>
         <div class="file-format fontsize-s">
-            <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()"><a [href]="projectURLs.mtxUrl"><img src="assets/images/icon/hca-download-primary.png"><span>mtx</span></a></div>
-            <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()"><a [href]="projectURLs.csvUrl"><img src="assets/images/icon/hca-download-primary.png"><span>csv</span></a></div>
-            <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()"><a [href]="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-primary.png"><span>loom</span></a></div>
+            <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()">
+                <a [href]="projectURLs.mtxUrl"><img
+                        src="assets/images/icon/hca-download-primary.png"><span>mtx</span></a>
+                <span ngxClipboard [cbContent]="projectURLs.mtxUrl">(<span
+                        class="clipboard">Copy link to clipboard</span>)</span>
+            </div>
+            <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()">
+                <a [href]="projectURLs.csvUrl"><img
+                        src="assets/images/icon/hca-download-primary.png"><span>csv</span></a>
+                <span ngxClipboard [cbContent]="projectURLs.csvUrl">(<span
+                        class="clipboard">Copy link to clipboard</span>)</span>
+            </div>
+            <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()">
+                <a [href]="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-primary.png"><span>loom</span></a>
+                <span ngxClipboard [cbContent]="projectURLs.loomUrl">(<span
+                        class="clipboard">Copy link to clipboard</span>)</span>
+            </div>
         </div>
     </div>
     <!--<span class="fontsize-xs">For instructions on how to use the expression matrix see the expression matrix userguide.</span>-->
