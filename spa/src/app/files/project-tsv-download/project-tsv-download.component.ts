@@ -33,7 +33,7 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
     @Input() projectTitle: string;
 
     // View child/ren
-    @ViewChild("download") downloadEl: ElementRef;
+    @ViewChild("download" , { static: false }) downloadEl: ElementRef;
 
     // Template variables
     public state$: Observable<ProjectTSVDownloadState>;

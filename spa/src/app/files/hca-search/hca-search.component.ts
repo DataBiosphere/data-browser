@@ -8,7 +8,7 @@
 // Core dependencies
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
@@ -43,7 +43,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild("filterInput") filterInput: ElementRef;
+    @ViewChild("filterInput", { static: true }) filterInput: ElementRef; // Static true: filter input available on init
 
     /**
      * @param {FileFacetDisplayService} fileFacetDisplayService

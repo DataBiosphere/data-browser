@@ -160,7 +160,7 @@ export class SearchState {
             }
 
             return accum;
-        }, new Set());
+        }, new Set<SearchTerm>());
 
         // Clone selected map for immutability
         const clonedTermsByFacetName = new Map(searchTermsBySearchKey);

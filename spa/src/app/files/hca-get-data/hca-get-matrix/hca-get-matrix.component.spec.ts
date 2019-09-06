@@ -11,13 +11,11 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {
-    MatChipsModule,
-    MatRadioModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule
-} from "@angular/material";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { ClipboardModule } from "ngx-clipboard";
 import { Store } from "@ngrx/store";
 import { RouterModule } from "@angular/router";

@@ -20,9 +20,9 @@ import { HCAEllipsisTextComponent } from "./hca-ellipsis-text.component";
 
 export class HCAContentEllipsisComponent {
 
-    // View child/ren
-    @ViewChild(HCAEllipsisTextComponent, {read: ElementRef}) textElementRef: ElementRef;
-    @ViewChild(HCATooltipComponent, {read: ElementRef}) tooltipElementRef: ElementRef;
+    // View child/ren. Static false for both as we must wait for after view init (ie child components have been initialized)
+    @ViewChild(HCAEllipsisTextComponent, { read: ElementRef, static: false }) textElementRef: ElementRef; 
+    @ViewChild(HCATooltipComponent, { read: ElementRef, static: false }) tooltipElementRef: ElementRef;
 
     /**
      * Returns the text content of the element of interest.

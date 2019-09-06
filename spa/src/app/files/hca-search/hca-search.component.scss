@@ -36,8 +36,7 @@
 }
 
 /* mat-option panel */
-// TODO deep deprecated
-/deep/ .mat-autocomplete-panel {
+::ng-deep .mat-autocomplete-panel {
     border: 1px solid $hca-gray-light;
     box-shadow: 0 2px 4px 0 $hca-gray-light !important;
     margin: 6px 0; /* Panel to take up full width + opens below search box */
@@ -45,8 +44,7 @@
 }
 
 /* mat-optgroup-label */
-// TODO deep deprecated
-/deep/ .hca-optgroup .mat-optgroup-label {
+::ng-deep .hca-optgroup .mat-optgroup-label {
     color: $hca-gray-medium;
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 10px; /* TODO typography */
@@ -58,8 +56,7 @@
 }
 
 /* mat-option list */
-// TODO deep deprecated
-/deep/ .mat-option.hca-option {
+::ng-deep .mat-option.hca-option {
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 14px; /* TODO typography */
     height: unset; /* Override MD spec */

@@ -8,7 +8,7 @@
 
 // Core dependencies
 import { Component, Input, OnInit } from "@angular/core";
-import { Sort } from "@angular/material";
+import { Sort } from "@angular/material/sort";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 

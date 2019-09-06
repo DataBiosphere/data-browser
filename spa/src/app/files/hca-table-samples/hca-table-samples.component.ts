@@ -16,7 +16,7 @@ import {
     OnInit,
     ViewChild
 } from "@angular/core";
-import { MatSort, MatSortHeader, Sort } from "@angular/material";
+import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -83,7 +83,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     private snapped: boolean;
 
     // View child/ren
-    @ViewChild(MatSort) matSort: MatSort;
+    @ViewChild(MatSort, { static: false }) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store
