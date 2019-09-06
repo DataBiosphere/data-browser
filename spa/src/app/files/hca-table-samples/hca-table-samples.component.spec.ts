@@ -38,6 +38,8 @@ import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
+import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { ClipboardModule } from "ngx-clipboard";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -50,6 +52,7 @@ describe("HCATableSamplesComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                CopyToClipboardComponent,
                 HCAContentEllipsisComponent,
                 HCAEllipsisTextComponent,
                 HCATableCellComponent,
@@ -68,6 +71,7 @@ describe("HCATableSamplesComponent", () => {
             imports: [
                 BrowserAnimationsModule,
                 CcPipeModule,
+                ClipboardModule,
                 MatIconModule,
                 MatSortModule,
                 MatProgressSpinnerModule,

@@ -41,6 +41,8 @@ import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
+import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { ClipboardModule } from "ngx-clipboard";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -53,6 +55,7 @@ describe("HCATableProjectsComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                CopyToClipboardComponent,
                 HCAContentEllipsisComponent,
                 HCAEllipsisTextComponent,
                 HCATableCellComponent,
@@ -72,6 +75,7 @@ describe("HCATableProjectsComponent", () => {
             imports: [
                 BrowserAnimationsModule,
                 CcPipeModule,
+                ClipboardModule,
                 MatIconModule,
                 MatSortModule,
                 MatProgressSpinnerModule,

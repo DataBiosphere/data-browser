@@ -7,19 +7,19 @@
             <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()">
                 <a [href]="projectURLs.mtxUrl"><img
                         src="assets/images/icon/hca-download-primary.png"><span>mtx</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.mtxUrl">(<span
-                        class="clipboard">Copy link to clipboard</span>)</span>
+                <span ngxClipboard [cbContent]="projectURLs.mtxUrl"><span
+                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
             </div>
             <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()">
                 <a [href]="projectURLs.csvUrl"><img
                         src="assets/images/icon/hca-download-primary.png"><span>csv</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.csvUrl">(<span
-                        class="clipboard">Copy link to clipboard</span>)</span>
+                <span ngxClipboard [cbContent]="projectURLs.csvUrl"><span
+                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
             </div>
             <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()">
                 <a [href]="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-primary.png"><span>loom</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.loomUrl">(<span
-                        class="clipboard">Copy link to clipboard</span>)</span>
+                <span ngxClipboard [cbContent]="projectURLs.loomUrl"><span
+                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
             </div>
         </div>
     </div>
