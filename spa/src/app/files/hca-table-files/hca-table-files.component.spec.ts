@@ -8,14 +8,11 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import {
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSortHeader,
-    MatSortModule,
-    MatTableModule,
-    MatTooltipModule
-} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSortHeader, MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { RouterTestingModule } from "@angular/router/testing";
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";

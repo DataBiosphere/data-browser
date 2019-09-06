@@ -13,27 +13,24 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
-import {
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSortModule,
-    MatTableModule,
-    MatTooltipModule
-} from "@angular/material";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 // App dependencies
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
-import { CcTypeaheadModule } from "../cc-typeahead/cc-typeahead.module";
 import { ConfigService } from "../config/config.service";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
@@ -113,7 +110,6 @@ import { TermSortService } from "./sort/term-sort.service";
         RouterModule.forChild(routes),
 
         CcPipeModule,
-        CcTypeaheadModule,
 
         HttpClientModule,
 

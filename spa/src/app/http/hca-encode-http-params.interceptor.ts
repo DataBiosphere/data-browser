@@ -6,6 +6,7 @@
  */
 
 // Core dependencies
+import { Injectable } from "@angular/core";
 import {
     HttpEvent,
     HttpHandler,
@@ -18,6 +19,7 @@ import { Observable } from "rxjs";
 // App dependencies
 import { HCAHttpParameterCodec } from "./hca-http-parameter-codec";
 
+@Injectable()
 export class HCAEncodeHttpParamsInterceptor implements HttpInterceptor {
 
     /**

@@ -6,6 +6,7 @@
  */
 
 // Core dependencies
+import { Injectable } from "@angular/core";
 import {
     HttpErrorResponse,
     HttpEvent,
@@ -22,6 +23,7 @@ import { catchError } from "rxjs/operators";
 import { AppState } from "../_ngrx/app.state";
 import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
 
+@Injectable()
 export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
     // Constants

@@ -9,7 +9,7 @@
 import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild
 } from "@angular/core";
-import { MatSort, MatSortHeader, Sort } from "@angular/material";
+import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
@@ -87,7 +87,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     @Input() selectedProjectIds: string[];
 
     // View child/ren
-    @ViewChild(MatSort) matSort: MatSort;
+    @ViewChild(MatSort, { static: false }) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store

@@ -39,7 +39,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     @Output() fileUrlGenerated = new EventEmitter<string>();
 
     // View child/ren
-    @ViewChild("download") downloadEl: ElementRef;
+    @ViewChild("download", { static: false }) downloadEl: ElementRef; // Static false: must wait for ng switch to resolve 
 
     /**
      * @param {DownloadService} downloadService
