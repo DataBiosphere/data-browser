@@ -31,9 +31,6 @@ export class ProjectDownloadsComponent {
     @Output() preparedMatrixDownloadsOpened = new EventEmitter<boolean>();
     @Output() preparedMatrixDownloadsPositionBelowTable = new EventEmitter<number>();
 
-    // View child/ren
-    @ViewChild("download") downloadEl: ElementRef;
-
     // Template variables
     public preparedMatrixDownloadsOpen = false;
     public preparedMatrixDownloadsTop;
