@@ -59,8 +59,8 @@ describe("HCAGetDataDownloadsComponent", () => {
 
         // Confirm is matrix supported loading returns false, when matrix is supported - first execute the
         // method and then confirm the returned value is false.
-        const isMatrixSupportedLoading = component.isMatrixSupportedLoading(true);
-        expect(isMatrixSupportedLoading).toEqual(false);
+        const matrixSupportedLoading = component.isMatrixSupportedLoading(true);
+        expect(matrixSupportedLoading).toEqual(false);
     });
 
     /**
@@ -70,8 +70,8 @@ describe("HCAGetDataDownloadsComponent", () => {
 
         // Confirm is matrix supported loading returns false, when matrix is not supported - first execute the
         // method and then confirm the returned value is false.
-        const isMatrixSupportedLoading = component.isMatrixSupportedLoading(false);
-        expect(isMatrixSupportedLoading).toEqual(false);
+        const matrixSupportedLoading = component.isMatrixSupportedLoading(false);
+        expect(matrixSupportedLoading).toEqual(false);
     });
 
     /**
@@ -81,8 +81,8 @@ describe("HCAGetDataDownloadsComponent", () => {
 
         // Confirm is matrix supported loading returns true, when matrix is not yet determined - first execute the
         // method and then confirm the returned value is true.
-        const isMatrixSupportedLoading = component.isMatrixSupportedLoading(null);
-        expect(isMatrixSupportedLoading).toEqual(true);
+        const matrixSupportedLoading = component.isMatrixSupportedLoading(null);
+        expect(matrixSupportedLoading).toEqual(true);
     });
 
     /**
