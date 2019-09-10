@@ -26,7 +26,7 @@ export class HCAGetDataDownloadsComponent {
 
     /**
      * Returns true if whether matrix is supported or not, is not yet determined.
-     * 
+     *
      * @param {boolean} supported
      * @returns {boolean}
      */
