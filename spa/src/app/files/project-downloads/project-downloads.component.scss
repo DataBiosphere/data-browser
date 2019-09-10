@@ -17,7 +17,7 @@
 
         /* Download icon */
         > div {
-            background: url("/assets/images/icon/hca-download-primary.png") center / 14px 14px no-repeat;
+            background: url("assets/images/icon/hca-download-primary.png") center / 14px 14px no-repeat;
             cursor: pointer;
             height: 48px;
             width: 48px;
@@ -25,7 +25,7 @@
 
         /* Download - unavailable */
         .unavailable {
-            background: url("/assets/images/icon/no-result-dark.png") center / 14px 14px no-repeat;
+            background: url("assets/images/icon/no-result-dark.png") center / 14px 14px no-repeat;
             cursor: default;
             opacity: 1;
         }
@@ -35,7 +35,7 @@
         &.device {
 
             > div:not(.unavailable) {
-                background: url("/assets/images/icon/hca-download-black.png") center / 14px 14px no-repeat;
+                background: url("assets/images/icon/hca-download-black.png") center / 14px 14px no-repeat;
                 cursor: default;
                 opacity: 0.34;
             }
