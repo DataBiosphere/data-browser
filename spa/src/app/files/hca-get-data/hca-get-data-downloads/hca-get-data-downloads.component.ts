@@ -19,7 +19,6 @@ export class HCAGetDataDownloadsComponent {
 
     // Inputs
     @Input() matrixEnabled: boolean;
-    @Input() terraEnabled: boolean;
 
     // Outputs
     @Output() downloadSelected = new EventEmitter<string>();

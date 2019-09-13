@@ -11,7 +11,6 @@
                     <ng-container *ngSwitchDefault>
                         <div *ngIf="state.matrixSupportedLoaded" [@fadeIn]>
                             <hca-get-data-downloads [matrixEnabled]="state.matrixSupported"
-                                                    [terraEnabled]="isTerraEnabled(state.config)"
                                                     (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
                         </div>
                         <div class="spinner-container" *ngIf="!state.matrixSupportedLoaded">
