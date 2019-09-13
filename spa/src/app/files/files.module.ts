@@ -37,6 +37,7 @@ import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manif
 import { routes } from "./files.routes";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
+import { CanActivateProject } from "./hca-project/can-active-project.guard";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
@@ -163,6 +164,7 @@ import { TermSortService } from "./sort/term-sort.service";
         HCAFileSummaryComponent
     ],
     providers: [
+        CanActivateProject,
         ConfigService,
         DownloadService,
         SearchTermService,
