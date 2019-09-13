@@ -12,7 +12,6 @@ import { FileFacet } from "../shared/file-facet.model";
 
 export interface HCAGetDataState {
 
-    config: Config;
     fileFacets: FileFacet[];
     matrixSupported: boolean;
     matrixSupportedLoaded: boolean;

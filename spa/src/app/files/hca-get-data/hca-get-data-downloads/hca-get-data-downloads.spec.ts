@@ -186,27 +186,14 @@ describe("HCAGetDataDownloadsComponent", () => {
     });
 
     /**
-     * Confirm "Export to Terra" is displayed when terra enabled is true.
+     * Confirm "Export to Terra" is displayed 
      */
-    it(`should display "Export to Terra" when terra enabled is true`, () => {
+    it(`should display "Export to Terra"`, () => {
 
-        component.terraEnabled = true;
         fixture.detectChanges();
 
         // Confirm "Export to Terra" is displayed
-        expect(isPanelHeaderDisplayed("Export to Terra")).toEqual(true);
-    });
-
-    /**
-     * Confirm "Export to Terra" is not displayed when terra enabled is false.
-     */
-    it(`should not display "Export to Terra" when terra enabled is false`, () => {
-
-        component.terraEnabled = false;
-        fixture.detectChanges();
-
-        // Confirm "Export to Terra" is displayed
-        expect(isPanelHeaderDisplayed("Export to Terra")).toEqual(false);
+        expect(isPanelHeaderDisplayed("Export to Terra (Beta)")).toEqual(true);
     });
 
     /**
@@ -255,7 +242,6 @@ describe("HCAGetDataDownloadsComponent", () => {
     it(`should emit "TERRA" on click of terra start button`, () => {
 
         component.matrixEnabled = true;
-        component.terraEnabled = true;
         fixture.detectChanges();
 
         let selectedDownload: string;

@@ -11,13 +11,10 @@ import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { map } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectConfigConfig } from "../../config/_ngrx/config.selectors";
-import { Config } from "../../config/config.model";
-import { Deployment } from "../../config/deployment.model";
 import {
     selectFileFacetsFileFacets,
     selectMatrixSupported,
@@ -137,20 +134,6 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Returns true if export to Terra functionality is enabled. Currently true for dev and ux-dev.
-     *
-     * @param {Config} config
-     * @returns {boolean}
-     */
-    public isTerraEnabled(config: Config): boolean {
-
-        const deployment = config.deployment;
-        return deployment === Deployment.LOCAL ||
-            deployment === Deployment.DEVELOP ||
-            deployment === Deployment.UX_DEV;
-    }
-
-    /**
      * Sets a string value to indicate which download has been selected, and is in progress.
      *
      * @param {string} download
@@ -235,26 +218,19 @@ export class HCAGetDataComponent implements OnInit {
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
         const matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
 
-        const config$ = this.store.pipe(
-            select(selectConfigConfig),
-            takeUntil(this.ngDestroy$)
-        );
-
         this.state$ = combineLatest(
             selectedEntity$,
             fileFacets$,
-            matrixSupported$,
-            config$
+            matrixSupported$
         )
             .pipe(
-                map(([selectedEntity, fileFacets, matrixSupported, config]) => {
+                map(([selectedEntity, fileFacets, matrixSupported]) => {
 
                     return {
                         selectedEntity,
                         fileFacets,
                         matrixSupported,
-                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
-                        config
+                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported)
                     };
                 })
             );
