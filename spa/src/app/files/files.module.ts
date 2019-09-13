@@ -37,7 +37,6 @@ import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manif
 import { routes } from "./files.routes";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
-import { CanActivateProject } from "./hca-project/can-active-project.guard";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
@@ -72,6 +71,7 @@ import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ProjectService } from "./project/project.service";
+import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
 import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
@@ -86,6 +86,7 @@ import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermResponseService } from "./shared/term-response.service";
 import { TermSortService } from "./sort/term-sort.service";
+import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 
 @NgModule({
     imports: [
@@ -132,7 +133,9 @@ import { TermSortService } from "./sort/term-sort.service";
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
+        ProjectDeprecatedComponent,
         ProjectDownloadsComponent,
+        ProjectGuardComponent,
         ProjectTSVDownloadComponent,
         ProjectPreparedMatrixDownloadsComponent,
         HCAGetDataComponent,
@@ -164,7 +167,6 @@ import { TermSortService } from "./sort/term-sort.service";
         HCAFileSummaryComponent
     ],
     providers: [
-        CanActivateProject,
         ConfigService,
         DownloadService,
         SearchTermService,
