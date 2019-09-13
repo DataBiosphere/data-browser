@@ -10,6 +10,7 @@ import { Route } from "@angular/router";
 
 // App dependencies
 import { FilesComponent } from "./files.component";
+import { CanActivateProject } from "./hca-project/can-active-project.guard";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 
@@ -36,7 +37,9 @@ export const routes: Route[] = [
             },
             {
                 path: ":id",
-                component: HCAProjectComponent
+                component: HCAProjectComponent,
+                canActivate: [CanActivateProject]
+                
             }
         ]
     }
