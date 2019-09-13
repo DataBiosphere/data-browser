@@ -1,0 +1,6 @@
+<ng-container *ngIf="projectId$ | async as projectId">
+    <ng-container [ngSwitch]="isProjectDeprecated(projectId)">
+        <project-deprecated *ngSwitchCase="true" [updatedProjectId]="getUpdatedProjectId(projectId)"></project-deprecated>
+        <hca-project *ngSwitchDefault></hca-project>
+    </ng-container>
+</ng-container>
