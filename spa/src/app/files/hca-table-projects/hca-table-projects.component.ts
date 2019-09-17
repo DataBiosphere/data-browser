@@ -10,6 +10,7 @@ import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild
 } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
+import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
@@ -27,6 +28,7 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { ProjectRowMapper } from "./project-row-mapper";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
@@ -42,7 +44,7 @@ import {
     getTableStyle
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
-import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { TableRenderService } from "../table/table-render.service";
 
 @Component({
     selector: "hca-table-projects",
@@ -87,15 +89,18 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     @Input() selectedProjectIds: string[];
 
     // View child/ren
+    @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
     @ViewChild(MatSort, { static: false }) matSort: MatSort;
 
     /**
+     * @param {TableRenderService} tableRenderService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,
+    constructor(private tableRenderService: TableRenderService,
+                private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 @Inject("Window") private window: Window) {
@@ -148,6 +153,16 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isProjectSelected(project: any): boolean {
 
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
+    }
+
+    /**
+     * Returns true if the table is narrower than its container.
+     * 
+     * @returns {boolean}
+     */
+    public isHorizontalScrollDisabled(): boolean {
+
+        return this.tableRenderService.isHorizontalScrollDisabled(this.elementRef, this.matTableElementRef);
     }
 
     /**

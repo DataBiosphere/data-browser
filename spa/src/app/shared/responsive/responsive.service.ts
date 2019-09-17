@@ -12,8 +12,6 @@ import { Inject, Injectable } from "@angular/core";
 export class ResponsiveService {
 
     /**
-     * @param {DeviceDetectorService} deviceService
-     * @param {Store<AppState>} store
      * @param {Window} window
      */
     constructor(@Inject("Window") private window: Window) {}
@@ -25,7 +23,7 @@ export class ResponsiveService {
      */
     public isWindowWidthMedium(): boolean {
 
-        return window.document.body.offsetWidth < 1200;
+        return this.window.document.body.offsetWidth < 1200;
     }
 
     /**
@@ -35,7 +33,7 @@ export class ResponsiveService {
      */
     public isWindowWidthSmallTablet(): boolean {
 
-        return window.document.body.offsetWidth < 960;
+        return this.window.document.body.offsetWidth < 960;
     }
 
     /**
@@ -45,6 +43,6 @@ export class ResponsiveService {
      */
     public isWindowWidthSmall(): boolean {
 
-        return window.document.body.offsetWidth < 675;
+        return this.window.document.body.offsetWidth < 675;
     }
 }

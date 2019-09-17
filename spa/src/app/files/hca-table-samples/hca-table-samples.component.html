@@ -1,9 +1,9 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table': true, 'snapped': snapped}">
+    <div [ngClass]="{'hca-table': true, 'snapped': snapped, 'scrollDisabled': isHorizontalScrollDisabled()}">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="sampleId">
+            <ng-container matColumnDef="sampleId" sticky>
                 <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleId')"
                                  [ngStyle]="getColumnStyle('sampleId')">
                     <hca-table-column-header>

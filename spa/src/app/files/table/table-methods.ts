@@ -207,6 +207,7 @@ let tableColumns: TableColumn[] = [
         key: "sampleId",
         userFriendly: "Sample Id",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 100,
         columnSort: true,
         countType: CountType.NONE
     },
