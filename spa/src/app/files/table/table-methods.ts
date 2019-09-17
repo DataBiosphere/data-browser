@@ -192,7 +192,7 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnFlexValue: "0 1 20%",
         columnSort: true,
-        countType: CountType.DOMAIN_COUNT
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "sampleEntityType",
