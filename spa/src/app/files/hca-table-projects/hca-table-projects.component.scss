@@ -60,8 +60,6 @@
 
         mat-table {
             margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
-            min-width: 1220px; /* Fixed table width for horizontal scroll - snap at 1280px */
-            max-width: 1220px; /* Required to prevent table from fully expanding on small screens - prod environment only */
 
             /* Row - header and cell */
             mat-header-row, mat-row {
@@ -177,14 +175,28 @@
     /* Wrapper */
     .wrapper {
 
+        margin: 0 30px;
+
         /* HCA table */
         .hca-table {
 
             mat-table {
-                margin: 0 30px; /* Gutter 30px - margin to maintain RHS gutter in mobile view */
+                margin: 0;
             }
         }
     }
+}
+
+/**
+ * Medium -
+ */
+@media screen and (max-width: 1279px) {
+
+    /* Override sticky table on small devices */
+    ::ng-deep .mat-table-sticky {
+        position: relative !important;
+    }
+
 }
 
 /**
@@ -203,20 +215,19 @@
 
     /* Wrapper */
     .wrapper {
-        margin: 0 auto;
-        padding: 0 30px; /* Gutter 30px */
 
         .hca-table {
-            width: 100%; /* To take up full width of screen */
+            
+            &.scrollDisabled {
+                width: 100%; /* To take up full width of screen */
+            }
 
             &.snapped {
                 margin-top: 0;
             }
 
             mat-table {
-                margin: 0;
-                max-width: unset; /* Required */
-
+                
                 /* Snapped header row */
                 mat-header-row.snapped {
                     left: 0;

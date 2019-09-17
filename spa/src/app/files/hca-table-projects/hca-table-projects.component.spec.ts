@@ -16,6 +16,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { RouterTestingModule } from "@angular/router/testing";
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ClipboardModule } from "ngx-clipboard";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
@@ -24,6 +25,8 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
+import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
+import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-header-download/hca-table-column-header-download.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
@@ -36,13 +39,11 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { ProjectDownloadsComponent } from "../project-downloads/project-downloads.component";
 import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
-import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
-import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
-import { ClipboardModule } from "ngx-clipboard";
+import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
+import { TableRenderService } from "../table/table-render.service";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -101,6 +102,9 @@ describe("HCATableProjectsComponent", () => {
                 provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
                 useValue: () => new Promise(() => {
                 })
+            }, {
+                provide: TableRenderService,
+                useValue: jasmine.createSpyObj("TableRenderService", ["isHorizontalScrollDisabled"])
             }]
         }).compileComponents();
 

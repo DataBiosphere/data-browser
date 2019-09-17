@@ -73,6 +73,7 @@ import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ProjectService } from "./project/project.service";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
+import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
@@ -86,7 +87,7 @@ import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermResponseService } from "./shared/term-response.service";
 import { TermSortService } from "./sort/term-sort.service";
-import { ProjectGuardComponent } from "./project-guard/project-guard.component";
+import { TableRenderService } from "./table/table-render.service";
 
 @NgModule({
     imports: [
@@ -175,6 +176,7 @@ import { ProjectGuardComponent } from "./project-guard/project-guard.component";
         FilesService,
         MatrixService,
         ProjectService,
+        TableRenderService,
         TermResponseService,
         TermSortService,
         TerraService,

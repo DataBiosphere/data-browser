@@ -1,9 +1,9 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table files': true, 'snapped': snapped}">
+    <div [ngClass]="{'hca-table files': true, 'snapped': snapped, 'scrollDisabled': isHorizontalScrollDisabled()}">
         <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="fileName">
+            <ng-container matColumnDef="fileName" sticky>
                 <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('fileName')"
                                  [ngStyle]="getColumnStyle('fileName')">
                     <hca-table-column-header>

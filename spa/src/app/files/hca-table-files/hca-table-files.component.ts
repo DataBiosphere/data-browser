@@ -8,6 +8,7 @@
 // Core dependencies
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
+import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
 import { fromEvent, Observable, merge, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -37,6 +38,7 @@ import {
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
+import { TableRenderService } from "../table/table-render.service";
 
 @Component({
     selector: "hca-table-files",
@@ -75,6 +77,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
     // View child/ren
     @ViewChild(MatSort, { static: false }) matSort: MatSort;
+    @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
 
     /**
      * @param {Store<AppState>} store
@@ -82,7 +85,8 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      * @param {ElementRef} elementRef
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,
+    constructor(private tableRenderService: TableRenderService,
+                private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 @Inject("Window") private window: Window) {
@@ -105,6 +109,16 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         return {
             "file-download": true
         };
+    }
+
+    /**
+     * Returns true if the table is narrower than its container.
+     *
+     * @returns {boolean}
+     */
+    public isHorizontalScrollDisabled(): boolean {
+
+        return this.tableRenderService.isHorizontalScrollDisabled(this.elementRef, this.matTableElementRef);
     }
 
     /**
