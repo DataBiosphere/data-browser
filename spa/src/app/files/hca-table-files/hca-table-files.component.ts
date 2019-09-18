@@ -54,7 +54,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         order: "asc"
     };
     displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "projectTitle", "specimenId", "sampleEntityType", "organ", "organPart", "selectedCellType",
+        "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "sampleEntityType", "organ", "organPart", "selectedCellType",
         "libraryConstructionApproach", "pairedEnd", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -80,6 +80,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
 
     /**
+     * @param {TableRenderService} tableRenderService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef

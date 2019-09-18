@@ -206,10 +206,11 @@ let tableColumns: TableColumn[] = [
     {
         key: "sampleId",
         userFriendly: "Sample Id",
+        description: "A unique ID for this sample.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 100,
         columnSort: true,
-        countType: CountType.NONE
+        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "selectedCellType",
@@ -219,16 +220,6 @@ let tableColumns: TableColumn[] = [
         columnMinWidth: 70,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
-    },
-    {
-        key: "specimenId",
-        userFriendly: "Specimen Id",
-        description: "A unique ID for this specimen.",
-        alignment: ColumnAlignment.LEFT,
-        columnFlexValue: "0 1 12%",
-        columnMinWidth: 80,
-        columnSort: true,
-        countType: CountType.SUMMARY_COUNT
     },
     {
         key: "totalCells",
