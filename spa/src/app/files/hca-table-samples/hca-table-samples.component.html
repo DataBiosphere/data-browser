@@ -9,7 +9,7 @@
                     <hca-table-column-header>
                         <hca-table-column-header-title columnTitle [columnName]="'sampleId'">{{getColumnDisplayName('sampleId')}}
                             </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'sampleId'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'sampleId'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).specimenCount | countSize"></hca-table-column-header-count>
                     </hca-table-column-header>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleId')"

@@ -66,59 +66,59 @@ describe("FileRowMapper:", () => {
     });
 
     /**
-     * Specimen ID should be mapped
+     * Sample ID should be mapped
      */
-    it("should map specimen ID", (done: DoneFn) => {
+    it("should map sample ID", (done: DoneFn) => {
 
         const fileToMap = FILE_SINGLE_VALUES;
         dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.specimenId).toEqual(fileToMap.specimens[0].id[0]);
+            expect(mappedFile.sampleId).toEqual(fileToMap.samples[0].id[0]);
             done();
         })
     });
 
     /**
-     * First specimen ID should be mapped if more than one is specified
+     * First sample ID should be mapped if more than one is specified
      */
-    it("should map first specimen ID if multiple are specified", (done: DoneFn) => {
+    it("should map first sample ID if multiple are specified", (done: DoneFn) => {
 
         const fileToMap = FILE_MULTIPLE_VALUES_SINGLE_OBJECT;
         dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.specimenId).toEqual(fileToMap.specimens[0].id[0]);
+            expect(mappedFile.sampleId).toEqual(fileToMap.samples[0].id[0]);
             done();
         })
     });
 
     /**
-     * Mapper leave unspecified specimens IDs as is.
+     * Mapper leave unspecified sample IDs as is.
      */
-    it("should not map specimen ID when specimens is null", (done: DoneFn) => {
+    it("should not map sample ID when samples is null", (done: DoneFn) => {
 
         dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_TOP_LEVEL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.specimenId).toBeFalsy();
+            expect(mappedFile.sampleId).toBeFalsy();
             done();
         })
     });
 
     /**
-     * Mapper should not map null specimen ID value.
+     * Mapper should not map null sample ID value.
      */
-    it("should not map null specimen ID ", (done: DoneFn) => {
+    it("should not map null sample ID ", (done: DoneFn) => {
 
         dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.specimenId).toBeFalsy();
+            expect(mappedFile.sampleId).toBeFalsy();
             done();
         })
     });
