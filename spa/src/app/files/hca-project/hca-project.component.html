@@ -210,8 +210,17 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('pairedEnd')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs"
-                               [innerHTML]="stringifyValues(state.project.project.pairedEnd, '-')"></p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.pairedEnd, '-')}}</p>
+                        </div>
+                        <div *ngIf="isWorkflowNotUnspecified(state.project.project.workflow)">
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('workflow')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('workflow')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{state.project.project.workflow}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">

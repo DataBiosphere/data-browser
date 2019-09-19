@@ -57,6 +57,12 @@ export class EntityRowMapper {
             getUnspecifiedIfEmpty(libraryConstructionApproach) :
             getUnspecifiedIfNullValue(libraryConstructionApproach);
 
+        // Workflow "Analysis Protocol" should be displayed as "Unspecified" if it is null, or empty array
+        const workflow = this.protocols.workflow;
+        const mappedWorkflow = Array.isArray(workflow) ?
+            getUnspecifiedIfEmpty(workflow) :
+            getUnspecifiedIfNullValue(workflow);
+
         // Model organ should only display a value when sampleEntityType is cellLines or organoids
         const modelOrgan = this.samples.modelOrgan ? this.samples.modelOrgan : null;
 
@@ -75,6 +81,7 @@ export class EntityRowMapper {
             sampleEntityType: getUnspecifiedIfNullValue(this.samples.sampleEntityType),
             selectedCellType: getUnspecifiedIfNullValue(this.cellSuspensions.selectedCellType),
             totalCells: getUnspecifiedIfNullValue(this.cellSuspensions.totalCells),
+            workflow: mappedWorkflow
         };
     }
 }

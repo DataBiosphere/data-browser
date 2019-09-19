@@ -55,7 +55,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     };
     displayedColumns = [
         "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "sampleEntityType", "organ", "organPart", "selectedCellType",
-        "libraryConstructionApproach", "pairedEnd", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
+        "libraryConstructionApproach", "pairedEnd", "workflow", "genusSpecies", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;
     getAge = getAge;

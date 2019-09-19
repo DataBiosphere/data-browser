@@ -223,6 +223,139 @@ describe("HCATableFilesComponent", () => {
     });
 
     /**
+     * Confirm workflow column labeled as "Analysis Protocol" is displayed.
+     */
+    it(`should display column "Analysis Protocol"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnName = "workflow";
+        const columnHeaderDE = findHeader(columnName);
+
+        // Confirm column "Analysis Protocol" is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual("Analysis Protocol");
+    });
+
+    /**
+     * Confirm "Unspecified" is displayed when workflow value is empty.
+     */
+    it(`should display "Unspecified" when workflow value is empty`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnName = "workflow";
+        const columnCellDEFirstRow = findColumnCells(columnName)[0];
+
+        // Confirm first row in column "Analysis Protocol" displays "Unspecified"
+        expect(columnCellDEFirstRow.nativeElement.innerText).toEqual("Unspecified");
+    });
+
+    /**
+     * Confirm "Unspecified" is displayed when workflow value is null.
+     */
+    it(`should display "Unspecified" when workflow value is null`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnName = "workflow";
+        const columnCellDESecondRow = findColumnCells(columnName)[1];
+
+        // Confirm second row in column "Analysis Protocol" displays "Unspecified"
+        expect(columnCellDESecondRow.nativeElement.innerText).toEqual("Unspecified");
+    });
+
+    /**
+     * Confirm single value is displayed when workflow is single value.
+     */
+    it("should display single value when workflow is single value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnName = "workflow";
+        const columnCellDEThirdRow = findColumnCells(columnName)[2];
+
+        // Confirm third row in column "Analysis Protocol" displays a single value
+        expect(columnCellDEThirdRow.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[2].protocols[0].workflow.join(", "));
+    });
+
+    /**
+     * Confirm multiple string value is displayed when multiple workflows within a single protocol.
+     */
+    it("should display multiple string value when multiple workflows within a single protocol", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnName = "workflow";
+        const columnCellDEFourthRow = findColumnCells(columnName)[3];
+
+        // Confirm fourth row in column "Analysis Protocol" displays multiple string value
+        expect(columnCellDEFourthRow.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[3].protocols[0].workflow.join(", "));
+    });
+
+    /**
+     * Returns the column cells for the specified name.
+     *
+     * @param {string} columnName
+     * @returns {DebugElement[]}
+     */
+    function findColumnCells(columnName: string): DebugElement[] {
+
+        return fixture.debugElement.queryAll(
+            By.css(`.mat-cell.mat-column-${columnName}`)
+        );
+    }
+
+    /**
      * Return the column with the specified name.
      *
      * @param {string} columnName

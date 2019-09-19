@@ -21,4 +21,5 @@ export interface EntityRow {
     sampleEntityType: string;
     selectedCellType: string;
     totalCells: number;
+    workflow: string;
 }

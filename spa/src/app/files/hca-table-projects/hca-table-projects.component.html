@@ -133,6 +133,26 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="workflow">
+                <mat-header-cell *matHeaderCellDef
+                                 [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
+                    <hca-table-column-header>
+                        <hca-table-column-header-title columnTitle [columnName]="'workflow'">
+                            {{getColumnDisplayName('workflow')}}
+                        </hca-table-column-header-title>
+                        <hca-table-column-header-count columnSubTitle [columnName]="'workflow'"
+                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                    </hca-table-column-header>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element"
+                          [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
+                    <hca-table-cell>
+                        <hca-content-ellipsis>
+                            <span class="fontsize-xxs">{{element.workflow}}</span>
+                        </hca-content-ellipsis>
+                    </hca-table-cell>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="genusSpecies">
                 <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')"
                                  [ngStyle]="getColumnStyle('genusSpecies')">
