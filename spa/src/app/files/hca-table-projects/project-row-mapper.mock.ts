@@ -20,7 +20,7 @@ export const PROJECT_ROW_SINGLE_VALUES =
                     false
                 ],
                 "workflow": [
-                    "x"
+                    "optimus_v1.1.0"
                 ],
                 "assayType": [
                     "in situ sequencing"
@@ -181,8 +181,8 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                     true
                 ],
                 "workflow": [
-                    "x",
-                    "y"
+                    "optimus_v1.1.0",
+                    "optimus_v1.2.0"
                 ],
                 "assayType": [
                     "in situ sequencing",
@@ -365,7 +365,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     false,
                 ],
                 "workflow": [
-                    "a"
+                    "optimus_v1.2.0"
                 ],
                 "assayType": [
                     "in situ sequencing"
@@ -384,8 +384,8 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     true
                 ],
                 "workflow": [
-                    "x",
-                    "y"
+                    "smartseq2_v2.4.0",
+                    "optimus_v1.0.0"
                 ],
                 "assayType": [
                     "x",

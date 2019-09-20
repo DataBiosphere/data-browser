@@ -10,5 +10,6 @@ export enum FileFacetNameDisplay {
     "disease" = "Known Diseases",
     "libraryConstructionApproach" = "Library Construction Method",
     "projectId" = "Project",
-    "sampleEntityType" = "Sample Type"
+    "sampleEntityType" = "Sample Type",
+    "workflow" = "Analysis Protocol"
 }

@@ -63,7 +63,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
         order: "asc"
     };
     displayedColumns = [
-        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "genusSpecies",
+        "sampleId", "projectTitle", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "workflow", "genusSpecies",
         "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     domainCountsByColumnName$: Observable<Map<string, number>>;

@@ -24,8 +24,266 @@ const FILES_DATA = [
                 "pairedEnd": [
                     true
                 ],
+                "workflow": [],
+                "workflowVersion": [
+                    "v2.3.0"
+                ]
+            }
+        ],
+        "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
+        "projects": [
+            {
+                "projectTitle": [
+                    "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
+                ],
+                "projectShortname": [
+                    "Single cell RNAseq characterization of cell types produced over time in an in vitro model of human inhibitory interneuron differentiation."
+                ],
+                "laboratory": [
+                    "Human Cell Atlas Data Coordination Platform",
+                    "Molecular Atlas"
+                ]
+            }
+        ],
+        "samples": [
+            {
+                "sampleEntityType": [
+                    "cellLines"
+                ],
+                "id": [
+                    "cell_line_at_day_26"
+                ]
+            }
+        ],
+        "specimens": [
+            {
+                "id": [
+                    "embryo_WAe001-A"
+                ],
+                "organ": [
+                    "embryo"
+                ],
+                "organPart": [
+                    "blastocyst"
+                ],
+                "disease": [
+                    "normal"
+                ],
+                "preservationMethod": [
+                    null
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "cellLines": [
+            {
+                "id": [
+                    "cell_line_WAe001-A"
+                ]
+            }
+        ],
+        "donorOrganisms": [
+            {
+                "id": [
+                    "donor_WAe001-A"
+                ],
+                "genusSpecies": [
+                    "Homo sapiens"
+                ],
+                "organismAge": [
+                    "a"
+                ],
+                "organismAgeUnit": [
+                    "a"
+                ],
+                "biologicalSex": [
+                    "male"
+                ],
+                "disease": [
+                    "a"
+                ]
+            }
+        ],
+        "organoids": [
+            "a"
+        ],
+        "cellSuspensions": [
+            {
+                "organ": [
+                    "embryo"
+                ],
+                "organPart": [
+                    "blastocyst"
+                ],
+                "selectedCellType": [
+                    "inhibitory interneuron"
+                ],
+                "totalCells": 100
+            }
+        ],
+        "bundles": [
+            {
+                "bundleUuid": "e42b77f3-112a-47a8-a47b-0afa56c99585",
+                "bundleVersion": "2019-05-15T232146.052000Z"
+            }
+        ],
+        "files": [
+            {
+                "format": "matrix",
+                "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
+                "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
+                "size": 148,
+                "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
+                "version": "2019-05-16T020707.744487Z",
+                "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
+            }
+        ]
+    },
+    {
+        "protocols": [
+            {
+                "libraryConstructionApproach": [
+                    "Smart-seq2"
+                ],
+                "instrumentManufacturerModel": [
+                    "Illumina HiSeq 2500"
+                ],
+                "pairedEnd": [
+                    true
+                ],
+                "workflow": null,
+                "workflowVersion": [
+                    "v2.3.0"
+                ]
+            }
+        ],
+        "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
+        "projects": [
+            {
+                "projectTitle": [
+                    "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
+                ],
+                "projectShortname": [
+                    "Single cell RNAseq characterization of cell types produced over time in an in vitro model of human inhibitory interneuron differentiation."
+                ],
+                "laboratory": [
+                    "Human Cell Atlas Data Coordination Platform",
+                    "Molecular Atlas"
+                ]
+            }
+        ],
+        "samples": [
+            {
+                "sampleEntityType": [
+                    "cellLines"
+                ],
+                "id": [
+                    "cell_line_at_day_26"
+                ]
+            }
+        ],
+        "specimens": [
+            {
+                "id": [
+                    "embryo_WAe001-A"
+                ],
+                "organ": [
+                    "embryo"
+                ],
+                "organPart": [
+                    "blastocyst"
+                ],
+                "disease": [
+                    "normal"
+                ],
+                "preservationMethod": [
+                    null
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "cellLines": [
+            {
+                "id": [
+                    "cell_line_WAe001-A"
+                ]
+            }
+        ],
+        "donorOrganisms": [
+            {
+                "id": [
+                    "donor_WAe001-A"
+                ],
+                "genusSpecies": [
+                    "Homo sapiens"
+                ],
+                "organismAge": [
+                    "a"
+                ],
+                "organismAgeUnit": [
+                    "a"
+                ],
+                "biologicalSex": [
+                    "male"
+                ],
+                "disease": [
+                    "a"
+                ]
+            }
+        ],
+        "organoids": [
+            "a"
+        ],
+        "cellSuspensions": [
+            {
+                "organ": [
+                    "embryo"
+                ],
+                "organPart": [
+                    "blastocyst"
+                ],
+                "selectedCellType": [
+                    "inhibitory interneuron"
+                ],
+                "totalCells": 100
+            }
+        ],
+        "bundles": [
+            {
+                "bundleUuid": "e42b77f3-112a-47a8-a47b-0afa56c99585",
+                "bundleVersion": "2019-05-15T232146.052000Z"
+            }
+        ],
+        "files": [
+            {
+                "format": "matrix",
+                "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
+                "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
+                "size": 148,
+                "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
+                "version": "2019-05-16T020707.744487Z",
+                "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
+            }
+        ]
+    },
+    {
+        "protocols": [
+            {
+                "libraryConstructionApproach": [
+                    "Smart-seq2"
+                ],
+                "instrumentManufacturerModel": [
+                    "Illumina HiSeq 2500"
+                ],
+                "pairedEnd": [
+                    true
+                ],
                 "workflow": [
-                    "smartseq2"
+                    "optimus_v1.2.0"
                 ],
                 "workflowVersion": [
                     "v2.3.0"
@@ -156,269 +414,7 @@ const FILES_DATA = [
                     true
                 ],
                 "workflow": [
-                    "smartseq2"
-                ],
-                "workflowVersion": [
-                    "v2.3.0"
-                ]
-            }
-        ],
-        "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
-        "projects": [
-            {
-                "projectTitle": [
-                    "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
-                ],
-                "projectShortname": [
-                    "Single cell RNAseq characterization of cell types produced over time in an in vitro model of human inhibitory interneuron differentiation."
-                ],
-                "laboratory": [
-                    "Human Cell Atlas Data Coordination Platform",
-                    "Molecular Atlas"
-                ]
-            }
-        ],
-        "samples": [
-            {
-                "sampleEntityType": [
-                    "cellLines"
-                ],
-                "id": [
-                    "cell_line_at_day_26"
-                ]
-            }
-        ],
-        "specimens": [
-            {
-                "id": [
-                    "embryo_WAe001-A"
-                ],
-                "organ": [
-                    "embryo"
-                ],
-                "organPart": [
-                    "blastocyst"
-                ],
-                "disease": [
-                    "normal"
-                ],
-                "preservationMethod": [
-                    null
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "cellLines": [
-            {
-                "id": [
-                    "cell_line_WAe001-A"
-                ]
-            }
-        ],
-        "donorOrganisms": [
-            {
-                "id": [
-                    "donor_WAe001-A"
-                ],
-                "genusSpecies": [
-                    "Homo sapiens"
-                ],
-                "organismAge": [
-                    "a"
-                ],
-                "organismAgeUnit": [
-                    "a"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "a"
-                ]
-            }
-        ],
-        "organoids": [
-            "a"
-        ],
-        "cellSuspensions": [
-            {
-                "organ": [
-                    "embryo"
-                ],
-                "organPart": [
-                    "blastocyst"
-                ],
-                "selectedCellType": [
-                    "inhibitory interneuron"
-                ],
-                "totalCells": 100
-            }
-        ],
-        "bundles": [
-            {
-                "bundleUuid": "e42b77f3-112a-47a8-a47b-0afa56c99585",
-                "bundleVersion": "2019-05-15T232146.052000Z"
-            }
-        ],
-        "files": [
-            {
-                "format": "matrix",
-                "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
-                "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
-                "size": 148,
-                "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
-                "version": "2019-05-16T020707.744487Z",
-                "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
-            }
-        ]
-    },
-    {
-        "protocols": [
-            {
-                "libraryConstructionApproach": [
-                    "Smart-seq2"
-                ],
-                "instrumentManufacturerModel": [
-                    "Illumina HiSeq 2500"
-                ],
-                "pairedEnd": [
-                    true
-                ],
-                "workflow": [
-                    "smartseq2"
-                ],
-                "workflowVersion": [
-                    "v2.3.0"
-                ]
-            }
-        ],
-        "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
-        "projects": [
-            {
-                "projectTitle": [
-                    "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
-                ],
-                "projectShortname": [
-                    "Single cell RNAseq characterization of cell types produced over time in an in vitro model of human inhibitory interneuron differentiation."
-                ],
-                "laboratory": [
-                    "Human Cell Atlas Data Coordination Platform",
-                    "Molecular Atlas"
-                ]
-            }
-        ],
-        "samples": [
-            {
-                "sampleEntityType": [
-                    "cellLines"
-                ],
-                "id": [
-                    "cell_line_at_day_26"
-                ]
-            }
-        ],
-        "specimens": [
-            {
-                "id": [
-                    "embryo_WAe001-A"
-                ],
-                "organ": [
-                    "embryo"
-                ],
-                "organPart": [
-                    "blastocyst"
-                ],
-                "disease": [
-                    "normal"
-                ],
-                "preservationMethod": [
-                    null
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "cellLines": [
-            {
-                "id": [
-                    "cell_line_WAe001-A"
-                ]
-            }
-        ],
-        "donorOrganisms": [
-            {
-                "id": [
-                    "donor_WAe001-A"
-                ],
-                "genusSpecies": [
-                    "Homo sapiens"
-                ],
-                "organismAge": [
-                    "a"
-                ],
-                "organismAgeUnit": [
-                    "a"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "a"
-                ]
-            }
-        ],
-        "organoids": [
-            "a"
-        ],
-        "cellSuspensions": [
-            {
-                "organ": [
-                    "embryo"
-                ],
-                "organPart": [
-                    "blastocyst"
-                ],
-                "selectedCellType": [
-                    "inhibitory interneuron"
-                ],
-                "totalCells": 100
-            }
-        ],
-        "bundles": [
-            {
-                "bundleUuid": "e42b77f3-112a-47a8-a47b-0afa56c99585",
-                "bundleVersion": "2019-05-15T232146.052000Z"
-            }
-        ],
-        "files": [
-            {
-                "format": "matrix",
-                "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
-                "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
-                "size": 148,
-                "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
-                "version": "2019-05-16T020707.744487Z",
-                "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
-            }
-        ]
-    },
-    {
-        "protocols": [
-            {
-                "libraryConstructionApproach": [
-                    "Smart-seq2"
-                ],
-                "instrumentManufacturerModel": [
-                    "Illumina HiSeq 2500"
-                ],
-                "pairedEnd": [
-                    true
-                ],
-                "workflow": [
-                    "smartseq2"
+                    "cellranger_v1.0.1", "cellranger_v1.0.0"
                 ],
                 "workflowVersion": [
                     "v2.3.0"

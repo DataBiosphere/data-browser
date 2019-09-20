@@ -239,6 +239,17 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if workflow is any value other than "Unspecified".
+     *
+     * @param {string} workflow
+     * @returns {boolean}
+     */
+    public isWorkflowNotUnspecified(workflow: string): boolean {
+
+        return workflow !== "Unspecified";
+    }
+
+    /**
      * Handle click on term in list of terms - update store with selected / unsselected project and return user back to
      * project table.
      *

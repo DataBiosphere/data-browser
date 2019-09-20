@@ -228,6 +228,15 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.RIGHT,
         columnSort: false,
         countType: CountType.NONE
+    },
+    {
+        key: "workflow",
+        userFriendly: "Analysis Protocol",
+        description: "The type of protocol.",
+        alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 70,
+        columnSort: true,
+        countType: CountType.DOMAIN_COUNT
     }
 ];
 

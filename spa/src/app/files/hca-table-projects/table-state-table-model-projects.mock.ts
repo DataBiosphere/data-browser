@@ -24,8 +24,314 @@ const PROJECTS_DATA = [
                 "pairedEnd": [
                     false
                 ],
-                "workflow": [
+                "workflow": [],
+                "assayType": [
+                    "in situ sequencing"
+                ]
+            }
+        ],
+        "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
+        "projects": [
+            {
+                "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
+                "projectShortname": "barista_seq",
+                "laboratory": [
                     "x"
+                ],
+                "arrayExpressAccessions": [
+                    "x"
+                ],
+                "geoSeriesAccessions": [
+                    "x"
+                ],
+                "insdcProjectAccessions": [
+                    "x"
+                ],
+                "insdcStudyAccessions": [
+                    "x"
+                ]
+            }
+        ],
+        "samples": [
+            {
+                "sampleEntityType": [
+                    "specimens"
+                ],
+                "id": [
+                    "420508_specimen"
+                ],
+                "organ": [
+                    "brain"
+                ],
+                "organPart": [
+                    "x"
+                ],
+                "disease": [
+                    "normal"
+                ],
+                "preservationMethod": [
+                    "fresh"
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "specimens": [
+            {
+                "id": [
+                    "420508_specimen"
+                ],
+                "organ": [
+                    "brain"
+                ],
+                "organPart": [
+                    "x"
+                ],
+                "disease": [
+                    "x"
+                ],
+                "preservationMethod": [
+                    "fresh"
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "cellLines": [],
+        "donorOrganisms": [
+            {
+                "id": [
+                    "420508"
+                ],
+                "genusSpecies": [
+                    "Mus musculus"
+                ],
+                "organismAge": [
+                    "56"
+                ],
+                "organismAgeUnit": [
+                    "day"
+                ],
+                "biologicalSex": [
+                    "male"
+                ],
+                "disease": [
+                    "x"
+                ]
+            }
+        ],
+        "organoids": [],
+        "cellSuspensions": [
+            {
+                "organ": [
+                    "Brain"
+                ],
+                "organPart": [
+                    "cortex"
+                ],
+                "selectedCellType": [
+                    "neuron"
+                ],
+                "totalCells": 1330000
+            }
+        ],
+        "fileTypeSummaries": [
+            {
+                "fileType": "fastq.gz",
+                "count": 3,
+                "totalSize": 17837811
+            },
+            {
+                "fileType": "unknown",
+                "count": 5,
+                "totalSize": 7529700
+            },
+            {
+                "fileType": "bam",
+                "count": 1,
+                "totalSize": 22403106
+            },
+            {
+                "fileType": "matrix",
+                "count": 1,
+                "totalSize": 148
+            },
+            {
+                "fileType": "csv",
+                "count": 1,
+                "totalSize": 637725
+            }
+        ]
+    },
+    {
+        "protocols": [
+            {
+                "libraryConstructionApproach": [
+                    "10x_v2"
+                ],
+                "instrumentManufacturerModel": [
+                    "Illumina HiSeq 4000"
+                ],
+                "pairedEnd": [
+                    false
+                ],
+                "workflow": null,
+                "assayType": [
+                    "in situ sequencing"
+                ]
+            }
+        ],
+        "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
+        "projects": [
+            {
+                "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
+                "projectShortname": "barista_seq",
+                "laboratory": [
+                    "x"
+                ],
+                "arrayExpressAccessions": [
+                    "x"
+                ],
+                "geoSeriesAccessions": [
+                    "x"
+                ],
+                "insdcProjectAccessions": [
+                    "x"
+                ],
+                "insdcStudyAccessions": [
+                    "x"
+                ]
+            }
+        ],
+        "samples": [
+            {
+                "sampleEntityType": [
+                    "specimens"
+                ],
+                "id": [
+                    "420508_specimen"
+                ],
+                "organ": [
+                    "brain"
+                ],
+                "organPart": [
+                    "x"
+                ],
+                "disease": [
+                    "normal"
+                ],
+                "preservationMethod": [
+                    "fresh"
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "specimens": [
+            {
+                "id": [
+                    "420508_specimen"
+                ],
+                "organ": [
+                    "brain"
+                ],
+                "organPart": [
+                    "x"
+                ],
+                "disease": [
+                    "x"
+                ],
+                "preservationMethod": [
+                    "fresh"
+                ],
+                "source": [
+                    "specimen_from_organism"
+                ]
+            }
+        ],
+        "cellLines": [],
+        "donorOrganisms": [
+            {
+                "id": [
+                    "420508"
+                ],
+                "genusSpecies": [
+                    "Mus musculus"
+                ],
+                "organismAge": [
+                    "56"
+                ],
+                "organismAgeUnit": [
+                    "day"
+                ],
+                "biologicalSex": [
+                    "male"
+                ],
+                "disease": [
+                    "x"
+                ]
+            }
+        ],
+        "organoids": [],
+        "cellSuspensions": [
+            {
+                "organ": [
+                    "Brain"
+                ],
+                "organPart": [
+                    "cortex"
+                ],
+                "selectedCellType": [
+                    "neuron"
+                ],
+                "totalCells": 1330000
+            }
+        ],
+        "fileTypeSummaries": [
+            {
+                "fileType": "fastq.gz",
+                "count": 3,
+                "totalSize": 17837811
+            },
+            {
+                "fileType": "unknown",
+                "count": 5,
+                "totalSize": 7529700
+            },
+            {
+                "fileType": "bam",
+                "count": 1,
+                "totalSize": 22403106
+            },
+            {
+                "fileType": "matrix",
+                "count": 1,
+                "totalSize": 148
+            },
+            {
+                "fileType": "csv",
+                "count": 1,
+                "totalSize": 637725
+            }
+        ]
+    },
+    {
+        "protocols": [
+            {
+                "libraryConstructionApproach": [
+                    "10x_v2"
+                ],
+                "instrumentManufacturerModel": [
+                    "Illumina HiSeq 4000"
+                ],
+                "pairedEnd": [
+                    false
+                ],
+                "workflow": [
+                    "optimus_v1.2.0"
                 ],
                 "assayType": [
                     "in situ sequencing"
@@ -180,317 +486,7 @@ const PROJECTS_DATA = [
                     false
                 ],
                 "workflow": [
-                    "x"
-                ],
-                "assayType": [
-                    "in situ sequencing"
-                ]
-            }
-        ],
-        "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
-        "projects": [
-            {
-                "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
-                "projectShortname": "barista_seq",
-                "laboratory": [
-                    "x"
-                ],
-                "arrayExpressAccessions": [
-                    "x"
-                ],
-                "geoSeriesAccessions": [
-                    "x"
-                ],
-                "insdcProjectAccessions": [
-                    "x"
-                ],
-                "insdcStudyAccessions": [
-                    "x"
-                ]
-            }
-        ],
-        "samples": [
-            {
-                "sampleEntityType": [
-                    "specimens"
-                ],
-                "id": [
-                    "420508_specimen"
-                ],
-                "organ": [
-                    "brain"
-                ],
-                "organPart": [
-                    "x"
-                ],
-                "disease": [
-                    "normal"
-                ],
-                "preservationMethod": [
-                    "fresh"
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "specimens": [
-            {
-                "id": [
-                    "420508_specimen"
-                ],
-                "organ": [
-                    "brain"
-                ],
-                "organPart": [
-                    "x"
-                ],
-                "disease": [
-                    "x"
-                ],
-                "preservationMethod": [
-                    "fresh"
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "cellLines": [],
-        "donorOrganisms": [
-            {
-                "id": [
-                    "420508"
-                ],
-                "genusSpecies": [
-                    "Mus musculus"
-                ],
-                "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
-                ]
-            }
-        ],
-        "organoids": [],
-        "cellSuspensions": [
-            {
-                "organ": [
-                    "Brain"
-                ],
-                "organPart": [
-                    "cortex"
-                ],
-                "selectedCellType": [
-                    "neuron"
-                ],
-                "totalCells": 1330000
-            }
-        ],
-        "fileTypeSummaries": [
-            {
-                "fileType": "fastq.gz",
-                "count": 3,
-                "totalSize": 17837811
-            },
-            {
-                "fileType": "unknown",
-                "count": 5,
-                "totalSize": 7529700
-            },
-            {
-                "fileType": "bam",
-                "count": 1,
-                "totalSize": 22403106
-            },
-            {
-                "fileType": "matrix",
-                "count": 1,
-                "totalSize": 148
-            },
-            {
-                "fileType": "csv",
-                "count": 1,
-                "totalSize": 637725
-            }
-        ]
-    },
-    {
-        "protocols": [
-            {
-                "libraryConstructionApproach": [
-                    "10x_v2"
-                ],
-                "instrumentManufacturerModel": [
-                    "Illumina HiSeq 4000"
-                ],
-                "pairedEnd": [
-                    false
-                ],
-                "workflow": [
-                    "x"
-                ],
-                "assayType": [
-                    "in situ sequencing"
-                ]
-            }
-        ],
-        "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
-        "projects": [
-            {
-                "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
-                "projectShortname": "barista_seq",
-                "laboratory": [
-                    "x"
-                ],
-                "arrayExpressAccessions": [
-                    "x"
-                ],
-                "geoSeriesAccessions": [
-                    "x"
-                ],
-                "insdcProjectAccessions": [
-                    "x"
-                ],
-                "insdcStudyAccessions": [
-                    "x"
-                ]
-            }
-        ],
-        "samples": [
-            {
-                "sampleEntityType": [
-                    "specimens"
-                ],
-                "id": [
-                    "420508_specimen"
-                ],
-                "organ": [
-                    "brain"
-                ],
-                "organPart": [
-                    "x"
-                ],
-                "disease": [
-                    "normal"
-                ],
-                "preservationMethod": [
-                    "fresh"
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "specimens": [
-            {
-                "id": [
-                    "420508_specimen"
-                ],
-                "organ": [
-                    "brain"
-                ],
-                "organPart": [
-                    "x"
-                ],
-                "disease": [
-                    "x"
-                ],
-                "preservationMethod": [
-                    "fresh"
-                ],
-                "source": [
-                    "specimen_from_organism"
-                ]
-            }
-        ],
-        "cellLines": [],
-        "donorOrganisms": [
-            {
-                "id": [
-                    "420508"
-                ],
-                "genusSpecies": [
-                    "Mus musculus"
-                ],
-                "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
-                ]
-            }
-        ],
-        "organoids": [],
-        "cellSuspensions": [
-            {
-                "organ": [
-                    "Brain"
-                ],
-                "organPart": [
-                    "cortex"
-                ],
-                "selectedCellType": [
-                    "neuron"
-                ],
-                "totalCells": 1330000
-            }
-        ],
-        "fileTypeSummaries": [
-            {
-                "fileType": "fastq.gz",
-                "count": 3,
-                "totalSize": 17837811
-            },
-            {
-                "fileType": "unknown",
-                "count": 5,
-                "totalSize": 7529700
-            },
-            {
-                "fileType": "bam",
-                "count": 1,
-                "totalSize": 22403106
-            },
-            {
-                "fileType": "matrix",
-                "count": 1,
-                "totalSize": 148
-            },
-            {
-                "fileType": "csv",
-                "count": 1,
-                "totalSize": 637725
-            }
-        ]
-    },
-    {
-        "protocols": [
-            {
-                "libraryConstructionApproach": [
-                    "10x_v2"
-                ],
-                "instrumentManufacturerModel": [
-                    "Illumina HiSeq 4000"
-                ],
-                "pairedEnd": [
-                    false
-                ],
-                "workflow": [
-                    "x"
+                    "cellranger_v1.0.1", "cellranger_v1.0.0"
                 ],
                 "assayType": [
                     "in situ sequencing"

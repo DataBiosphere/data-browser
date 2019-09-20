@@ -27,10 +27,8 @@ describe("EntityRowMapper:", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [
-            ],
-            imports: [
-            ],
+            declarations: [],
+            imports: [],
             providers: [{
                 provide: Store,
                 useValue: testStore
@@ -209,9 +207,9 @@ describe("EntityRowMapper:", () => {
             done();
         })
     });
-    
+
     /**
-     * Disease, when specified, should be rolled up and mapped 
+     * Disease, when specified, should be rolled up and mapped
      */
     it("should map single disease value", (done: DoneFn) => {
 
@@ -256,7 +254,6 @@ describe("EntityRowMapper:", () => {
         })
     });
 
-
     /**
      * Mapper should handle null samples value (from which, age, sex, species, and age unit are pulled). Use
      * disease as the check for this.
@@ -271,7 +268,7 @@ describe("EntityRowMapper:", () => {
             done();
         })
     });
-    
+
     /**
      * A disease value that is an empty array should be mapped to "Unspecified"
      */
@@ -1009,6 +1006,80 @@ describe("EntityRowMapper:", () => {
 
             const mappedProject = rows[0];
             expect(mappedProject.totalCells).toEqual("Unspecified");
+            done();
+        })
+    });
+
+    /**
+     * Workflow, when specified, should be mapped
+     */
+    it("should map single workflow value", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.workflow).toEqual(projectToMap.protocols[0].workflow[0]);
+            return done();
+        })
+    });
+
+    /**
+     * Multiple workflows within a single protocol should be rolled up and mapped
+     */
+    it("should roll up and map multiple workflow values in a single protocol", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.workflow).toEqual(projectToMap.protocols[0].workflow.join(", "));
+            done();
+        })
+    });
+
+    /**
+     * Multiple workflows across multiple protocols should be rolled up and mapped
+     */
+    it("should roll up and map multiple workflow values across multiple protocols", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            const expectedValue = mapMultipleValues(projectToMap.protocols, "workflow");
+            expect(mappedProject.workflow).toEqual(expectedValue);
+            done();
+        })
+    });
+
+    /**
+     * A workflow that is an empty array should be mapped to "Unspecified"
+     */
+    it(`should map an empty workflow array to "Unspecified"`, (done: DoneFn) => {
+
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.workflow).toEqual("Unspecified");
+            done();
+        })
+    });
+
+    /**
+     * A null workflow should be mapped to "Unspecified"
+     */
+    it(`should map null workflow to "Unspecified"`, (done: DoneFn) => {
+
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.workflow).toEqual("Unspecified");
             done();
         })
     });

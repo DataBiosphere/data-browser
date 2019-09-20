@@ -33,7 +33,7 @@ export class FileFacetDisplayService {
         },
         {
             facetGroupName: "Method",
-            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach", "pairedEnd"]
+            facetNames: ["instrumentManufacturerModel", "preservationMethod", "libraryConstructionApproach", "pairedEnd", "workflow"]
         },
         {
             facetGroupName: "File",
