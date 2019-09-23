@@ -13,4 +13,8 @@
     <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
 </header>
 <router-outlet></router-outlet>
+<sticky-footer>
+    <desktop-footer *ngIf="isDeviceHandheld()"></desktop-footer>
+    <data-policy-footer></data-policy-footer>
+</sticky-footer>
 <hca-footer></hca-footer>

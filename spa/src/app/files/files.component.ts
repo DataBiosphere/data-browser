@@ -51,7 +51,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     public selectedSearchTerms$: Observable<SearchTerm[]>;
 
     // Locals
-    private deviceInfo = null;
     private ngDestroy$ = new Subject();
     private urlUpdater: Subscription;
 
@@ -79,11 +78,10 @@ export class FilesComponent implements OnInit, OnDestroy {
      */
     public isDeviceHandheld(): boolean {
 
-        this.deviceInfo = this.deviceService.getDeviceInfo();
-        const isMobile = this.deviceService.isMobile();
-        const isTablet = this.deviceService.isTablet();
+        const mobile = this.deviceService.isMobile();
+        const tablet = this.deviceService.isTablet();
 
-        return (isMobile || isTablet);
+        return (mobile || tablet);
     }
 
     /**
