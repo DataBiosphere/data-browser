@@ -1,8 +1,8 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Core toolbar component for HCA instance, displays HCA logo and HCA-related menu items.
+ * Core toolbar component for HCA, displays HCA logo and HCA-related menu items.
  */
 // Core dependencies
 import { Component, EventEmitter, Output } from "@angular/core";
@@ -23,9 +23,8 @@ export class HCAToolbarComponent {
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();
 
-    // Locals
-    rootUrl: string;
-    portalURL: string;
+    // Template variables
+    public portalURL: string;
 
     /**
      * @param {Store<AppState>} store
@@ -34,13 +33,8 @@ export class HCAToolbarComponent {
     constructor(private store: Store<AppState>,
                 private configService: ConfigService) {
 
-        this.rootUrl = this.configService.getDataURL();
         this.portalURL = this.configService.getPortalURL();
     }
-
-    /**
-     * Public API
-     */
 
     /**
      * Event emitted when mobile navigation menu is open - to prevent body scroll.

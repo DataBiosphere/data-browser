@@ -1,0 +1,13 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Container for displaying content that is sticky, relative to the bottom of the viewport.
+ */
+
+:host {
+    bottom: 0;
+    display: block;
+    position: sticky;
+    z-index: 20;
+}

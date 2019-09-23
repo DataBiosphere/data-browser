@@ -1,9 +1,10 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Core footer component, displays HCA-related links and copyright.
  */
+
 // Core dependencies
 import { Component } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
@@ -16,10 +17,13 @@ import { ConfigService } from "../../config/config.service";
 
 export class HCAFooterComponent {
 
-    portalURL: string;
+    // Template variables
+    public portalURL: string;
 
+    /**
+     * @param {ConfigService} configService
+     */
     constructor(private configService: ConfigService) {
         this.portalURL = this.configService.getPortalURL();
     }
-
 }

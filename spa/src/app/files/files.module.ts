@@ -38,7 +38,6 @@ import { routes } from "./files.routes";
 import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
-import { HCADesktopBannerComponent } from "./hca-desktop-banner/hca-desktop-banner.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
 import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
@@ -125,7 +124,6 @@ import { TableRenderService } from "./table/table-render.service";
         FileManifestSummaryComponent,
         FilesComponent,
         HCAContentEllipsisComponent,
-        HCADesktopBannerComponent,
         HCADownloadFileComponent,
         HCAEllipsisTextComponent,
         HCAExportToTerraComponent,

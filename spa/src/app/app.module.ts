@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Code app module definition - imports shared and config modules as well as all app specific modules that must either
  * be eager-loaded or contain app-wide singleton services.
@@ -33,8 +33,12 @@ import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.
 import { AppEffects } from "./_ngrx/app.effects";
 import { SharedModule } from "./shared/shared.module";
 import { CCHamburgerDirective } from "./site/cc-hamburger/cc-hamburger.directive";
+import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
+import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
 import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
+import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
+import { LocalStorageService } from "./storage/local-storage.service";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { ErrorComponent } from "./system/error/error.component";
 import { SystemService } from "./system/shared/system.service";
@@ -74,10 +78,14 @@ import { SystemService } from "./system/shared/system.service";
 
         // Site components
         CCHamburgerDirective,
+        DataPolicyFooterComponent,
+        DesktopFooterComponent,
         HCAFooterComponent,
-        HCAToolbarComponent
+        HCAToolbarComponent,
+        StickyFooterComponent
     ],
     providers: [
+        LocalStorageService,
         SystemService,
         UserService,
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,

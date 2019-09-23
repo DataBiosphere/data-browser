@@ -20,6 +20,7 @@ import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state
 import { EntityName } from "./files/shared/entity-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { AppState } from "./_ngrx/app.state";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
 import { HealthState } from "./system/_ngrx/health/health.state";
 import { selectHealth } from "./system/_ngrx/system.selectors";
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private routerEventsSubscription: Subscription;
 
     /**
+     * @param {DeviceDetectorService} deviceService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Location} location
@@ -48,7 +50,8 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Renderer2} renderer
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,
+    constructor(private deviceService: DeviceDetectorService,
+                private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
                 private location: Location,
                 private router: Router,
@@ -57,8 +60,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Public API
+     * Returns true if device is either mobile or tablet.
+     * @returns {boolean}
      */
+    public isDeviceHandheld(): boolean {
+
+        const mobile = this.deviceService.isMobile();
+        const tablet = this.deviceService.isTablet();
+
+        return (mobile || tablet);
+    }
 
     /**
      * Returns true if the maintenance mode warning is visible.
@@ -89,10 +100,6 @@ export class AppComponent implements OnInit, OnDestroy {
             this.renderer.removeClass(document.body, "no-scroll");
         }
     }
-
-    /**
-     * Privates
-     */
 
     /**
      * Returns true if a filter state is encoded in the query params.

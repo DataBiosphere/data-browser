@@ -1,0 +1,58 @@
+/*!
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * HCA-specific overrides of Material Design toolbar.
+ */
+
+@import "../theme/cgl.vars";
+
+:host {
+    align-items: center;
+    background-color: $hca-off-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 30px; /* Match left and right padding of site (eg data tables) */
+    text-align: center;
+}
+
+/* Text */
+p {
+    margin: 0;
+}
+
+/* Button */
+span {
+    align-items: center;
+    border: 1px solid $hca-primary;
+    color: $hca-primary;
+    cursor: pointer;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-weight: 500;
+    justify-content: center;
+    margin: 8px 0 0;
+    min-width: 84px;
+    padding: 10px 12px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+}
+
+/**
+ * Tablet +
+ */
+@media screen and (min-width: 768px) {
+    
+    :host {
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    span {
+        margin: 0;
+    }
+}
