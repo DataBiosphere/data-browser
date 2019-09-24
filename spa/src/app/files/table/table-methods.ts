@@ -566,6 +566,17 @@ export function isColumnSort(column: string): boolean {
 }
 
 /**
+ * Returns true if the cell content is "Unspecified".
+ *
+ * @param {string} element
+ * @returns {boolean}
+ */
+export function isElementUnspecified(element: string): boolean {
+
+    return element === "Unspecified";
+}
+
+/**
  * Returns a single object that is a concatenation of all elements in the specified array. For example, given
  *
  * [{one: "1", two: "2"}, {one: "11", two: "22", three: 3}]

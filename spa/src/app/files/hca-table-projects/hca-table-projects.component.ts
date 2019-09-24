@@ -41,7 +41,8 @@ import {
     getHeaderRowHeight,
     getRowClass,
     getRowStyle,
-    getTableStyle
+    getTableStyle,
+    isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 import { TableRenderService } from "../table/table-render.service";
@@ -73,6 +74,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public getRowClass = getRowClass;
     public getRowStyle = getRowStyle;
     public getTableStyle = getTableStyle;
+    public isElementUnspecified = isElementUnspecified;
     public loading$: Observable<boolean>;
     public pagination$: Observable<PaginationModel>;
     public activeRowIndex = null;
