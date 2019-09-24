@@ -239,6 +239,17 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if sample entity type is "specimens".
+     *
+     * @param {string} sampleEntityType
+     * @returns {boolean}
+     */
+    public isSampleEntityTypeSpecimens(sampleEntityType: string): boolean {
+
+        return sampleEntityType === "specimens";
+    }
+
+    /**
      * Returns true if workflow is any value other than "Unspecified".
      *
      * @param {string} workflow
