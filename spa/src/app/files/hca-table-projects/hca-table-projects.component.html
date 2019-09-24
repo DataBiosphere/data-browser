@@ -146,9 +146,10 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"
                           [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.workflow}}</span>
+                    <hca-table-cell [ngSwitch]="isElementUnspecified(element.workflow)">
+                        <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
+                        <hca-content-ellipsis *ngSwitchDefault>
+                                <span class="fontsize-xxs">{{element.workflow}}</span>
                         </hca-content-ellipsis>
                     </hca-table-cell>
                 </mat-cell>

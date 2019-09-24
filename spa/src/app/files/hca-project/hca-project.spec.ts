@@ -26,7 +26,7 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { HCAProjectComponent } from "./hca-project.component";
 import {
     PROJECT_DETAIL_SINGLE_VALUE,
-    PROJECT_DETAIL_SINGLE_VALUE_WITH_WORKFLOW_AS_UNSPECIFIED
+    PROJECT_DETAIL_UNSPECIFIED_VALUES
 } from "./hca-project-mapper.mock";
 
 describe("HCAProjectComponent", () => {
@@ -128,7 +128,7 @@ describe("HCAProjectComponent", () => {
 
         testStore.pipe
             .and.returnValues(
-            of(PROJECT_DETAIL_SINGLE_VALUE_WITH_WORKFLOW_AS_UNSPECIFIED), // selected project detail
+            of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
             of([]) // project ids
         );

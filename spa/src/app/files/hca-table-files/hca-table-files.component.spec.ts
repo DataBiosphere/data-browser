@@ -25,6 +25,7 @@ import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
+import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
@@ -51,12 +52,25 @@ describe("HCATableFilesComponent", () => {
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
+    const ROW_INDEX_0 = 0;
+    const ROW_INDEX_1 = 1;
+    const ROW_INDEX_2 = 2;
+    const ROW_INDEX_3 = 3;
+
+    const PROTOCOL_ARRAY_INDEX_0 = 0;
+
+    const WORKFLOW_COLUMN = "workflow";
+
+    const HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT = "hca-content-unspecified-dash";
+    const HCA_CONTENT_ELLIPSIS_COMPONENT = "hca-content-ellipsis";
+
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
                 HCAContentEllipsisComponent,
+                HCAContentUnspecifiedDashComponent,
                 HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
                 ProjectDownloadsComponent,
@@ -239,17 +253,16 @@ describe("HCATableFilesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnName = "workflow";
-        const columnHeaderDE = findHeader(columnName);
+        const columnHeaderDE = findHeader(WORKFLOW_COLUMN);
 
         // Confirm column "Analysis Protocol" is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual("Analysis Protocol");
     });
 
     /**
-     * Confirm "Unspecified" is displayed when workflow value is empty.
+     * Confirm <hca-content-unspecified-dash> is displayed when workflow value is empty.
      */
-    it(`should display "Unspecified" when workflow value is empty`, () => {
+    it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
 
         testStore.pipe
             .and.returnValues(
@@ -263,17 +276,14 @@ describe("HCATableFilesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnName = "workflow";
-        const columnCellDEFirstRow = findColumnCells(columnName)[0];
-
-        // Confirm first row in column "Analysis Protocol" displays "Unspecified"
-        expect(columnCellDEFirstRow.nativeElement.innerText).toEqual("Unspecified");
+        // Confirm first row in column "Analysis Protocol" displays component
+        expect(findColumnCellComponent(ROW_INDEX_0, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).not.toBe(null);
     });
 
     /**
-     * Confirm "Unspecified" is displayed when workflow value is null.
+     * Confirm <hca-content-unspecified-dash> is displayed when workflow value is null.
      */
-    it(`should display "Unspecified" when workflow value is null`, () => {
+    it("should display component hca-content-unspecified-dash when workflow value is null", () => {
 
         testStore.pipe
             .and.returnValues(
@@ -287,11 +297,50 @@ describe("HCATableFilesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnName = "workflow";
-        const columnCellDESecondRow = findColumnCells(columnName)[1];
+        // Confirm second row in column "Analysis Protocol" displays component
+        expect(findColumnCellComponent(ROW_INDEX_1, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).not.toBe(null);
+    });
 
-        // Confirm second row in column "Analysis Protocol" displays "Unspecified"
-        expect(columnCellDESecondRow.nativeElement.innerText).toEqual("Unspecified");
+    /**
+     * Confirm <hca-content-ellipsis> is not displayed when workflow value is empty.
+     */
+    it("should not display component hca-content-ellipsis when workflow value is empty", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        // Confirm first row in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(ROW_INDEX_0, WORKFLOW_COLUMN, HCA_CONTENT_ELLIPSIS_COMPONENT)).toBe(null);
+    });
+
+    /**
+     * Confirm <hca-content-ellipsis> is not displayed when workflow value is null.
+     */
+    it("should not display component hca-content-ellipsis when workflow value is null", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        // Confirm second row in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(ROW_INDEX_1, WORKFLOW_COLUMN, HCA_CONTENT_ELLIPSIS_COMPONENT)).toBe(null);
     });
 
     /**
@@ -311,11 +360,10 @@ describe("HCATableFilesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnName = "workflow";
-        const columnCellDEThirdRow = findColumnCells(columnName)[2];
+        const columnRowDE = findColumnCells(WORKFLOW_COLUMN)[ROW_INDEX_2];
 
         // Confirm third row in column "Analysis Protocol" displays a single value
-        expect(columnCellDEThirdRow.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[2].protocols[0].workflow.join(", "));
+        expect(columnRowDE.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[ROW_INDEX_2].protocols[PROTOCOL_ARRAY_INDEX_0].workflow.join(", "));
     });
 
     /**
@@ -335,11 +383,31 @@ describe("HCATableFilesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnName = "workflow";
-        const columnCellDEFourthRow = findColumnCells(columnName)[3];
+        const columnRowDE = findColumnCells(WORKFLOW_COLUMN)[ROW_INDEX_3];
 
         // Confirm fourth row in column "Analysis Protocol" displays multiple string value
-        expect(columnCellDEFourthRow.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[3].protocols[0].workflow.join(", "));
+        expect(columnRowDE.nativeElement.innerText).toEqual(FILES_TABLE_MODEL.data[ROW_INDEX_3].protocols[PROTOCOL_ARRAY_INDEX_0].workflow.join(", "));
+    });
+
+    /**
+     * Confirm <hca-content-unspecified-dash> is not displayed when workflow value is single value.
+     */
+    it("should not display component hca-content-unspecified-dash when workflow value is single value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        // Confirm third row in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(ROW_INDEX_2, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).toBe(null);
     });
 
     /**
@@ -353,6 +421,21 @@ describe("HCATableFilesComponent", () => {
         return fixture.debugElement.queryAll(
             By.css(`.mat-cell.mat-column-${columnName}`)
         );
+    }
+
+    /**
+     * Returns the component for the specified column cell and specified component.
+     *
+     * @param {number} rowIndex
+     * @param {string} columnName
+     * @param {string} componentName
+     * @returns {DebugElement}
+     */
+    function findColumnCellComponent(rowIndex: number, columnName: string, componentName: string): DebugElement {
+
+        const columnRowDE = findColumnCells(columnName)[rowIndex];
+
+        return columnRowDE.nativeElement.querySelector(componentName);
     }
 
     /**

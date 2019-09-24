@@ -33,7 +33,8 @@ import {
     getHeaderClass,
     getHeaderRowHeight,
     getRowClass,
-    getRowStyle
+    getRowStyle,
+    isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
@@ -66,6 +67,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
     getRowStyle = getRowStyle;
+    isElementUnspecified = isElementUnspecified;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<FileRowMapper>;
