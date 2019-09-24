@@ -158,6 +158,17 @@
                         <div>
                             <p class="fontsize-xs semi-bold lhs">
                                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('sampleEntityType')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('sampleEntityType')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.sampleEntityType,
+                                "Unspecified")}}</p>
+                        </div>
+                        <div>
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                                              [tooltipContent]="getColumnDescription('organ')"
                                              [tooltipDisabled]="false"
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('organ')}}
@@ -176,6 +187,17 @@
                                 </hca-tooltip>
                             </p>
                             <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.organPart,
+                                "Unspecified")}}</p>
+                        </div>
+                        <div *ngIf="!isSampleEntityTypeSpecimens(state.project.project.sampleEntityType)">
+                            <p class="fontsize-xs semi-bold lhs">
+                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                             [tooltipContent]="getColumnDescription('modelOrgan')"
+                                             [tooltipDisabled]="false"
+                                             [tooltipPosition]="'above'">{{getColumnDisplayName('modelOrgan')}}
+                                </hca-tooltip>
+                            </p>
+                            <p class="fontsize-xs rhs">{{stringifyValues(state.project.project.modelOrgan,
                                 "Unspecified")}}</p>
                         </div>
                         <div>
