@@ -697,7 +697,7 @@ export const FILE_NULL_VALUES =
                 "format": null,
                 "name": null,
                 "sha256": null,
-                "size": null,
+                "size": 148,
                 "uuid": null,
                 "version": null,
                 "url": null

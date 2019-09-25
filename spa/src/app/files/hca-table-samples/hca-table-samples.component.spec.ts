@@ -50,17 +50,17 @@ describe("HCATableSamplesComponent", () => {
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
-    const ROW_INDEX_0 = 0;
-    const ROW_INDEX_1 = 1;
-    const ROW_INDEX_2 = 2;
-    const ROW_INDEX_3 = 3;
+    const INDEX_TABLE_ROW_SINGLE_VALUES = 0;
+    const INDEX_TABLE_ROW_MULTIPLE_VALUES_SINGLE_OBJECT = 1;
+    const INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES = 3;
+    const INDEX_TABLE_ROW_NULL_VALUES = 5;
 
-    const PROTOCOL_ARRAY_INDEX_0 = 0;
+    const INDEX_PROTOCOL_OBJECT_0 = 0;
 
-    const WORKFLOW_COLUMN = "workflow";
+    const COLUMN_NAME_WORKFLOW = "workflow";
 
-    const HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT = "hca-content-unspecified-dash";
-    const HCA_CONTENT_ELLIPSIS_COMPONENT = "hca-content-ellipsis";
+    const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
+    const COMPONENT_NAME_HCA_CONTENT_ELLIPSIS = "hca-content-ellipsis";
 
     beforeEach(async(() => {
 
@@ -239,7 +239,7 @@ describe("HCATableSamplesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnHeaderDE = findHeader(WORKFLOW_COLUMN);
+        const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
 
         // Confirm column "Analysis Protocol" is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual("Analysis Protocol");
@@ -262,8 +262,8 @@ describe("HCATableSamplesComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm first row in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(ROW_INDEX_0, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).not.toBe(null);
+        // Confirm row with empty values in column "Analysis Protocol" displays component
+        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
     });
 
     /**
@@ -283,8 +283,8 @@ describe("HCATableSamplesComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm second row in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(ROW_INDEX_1, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).not.toBe(null);
+        // Confirm row with null values in column "Analysis Protocol" displays component
+        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
     });
 
     /**
@@ -305,8 +305,8 @@ describe("HCATableSamplesComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm first row in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(ROW_INDEX_0, WORKFLOW_COLUMN, HCA_CONTENT_ELLIPSIS_COMPONENT)).toBe(null);
+        // Confirm row with empty values in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_ELLIPSIS)).toBe(null);
     });
 
     /**
@@ -327,8 +327,8 @@ describe("HCATableSamplesComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm second row in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(ROW_INDEX_1, WORKFLOW_COLUMN, HCA_CONTENT_ELLIPSIS_COMPONENT)).toBe(null);
+        // Confirm row with null values in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_ELLIPSIS)).toBe(null);
     });
 
     /**
@@ -348,10 +348,10 @@ describe("HCATableSamplesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnCellDEThirdRow = findColumnCells(WORKFLOW_COLUMN)[ROW_INDEX_2];
+        const columnRowDE = findColumnCells(COLUMN_NAME_WORKFLOW)[INDEX_TABLE_ROW_SINGLE_VALUES];
 
-        // Confirm third row in column "Analysis Protocol" displays a single value
-        expect(columnCellDEThirdRow.nativeElement.innerText).toEqual(SAMPLES_TABLE_MODEL.data[ROW_INDEX_2].protocols[PROTOCOL_ARRAY_INDEX_0].workflow.join(", "));
+        // Confirm row with single values in column "Analysis Protocol" displays a single value
+        expect(columnRowDE.nativeElement.innerText).toEqual(SAMPLES_TABLE_MODEL.data[INDEX_TABLE_ROW_SINGLE_VALUES].protocols[INDEX_PROTOCOL_OBJECT_0].workflow.join(", "));
     });
 
     /**
@@ -371,10 +371,10 @@ describe("HCATableSamplesComponent", () => {
 
         fixture.detectChanges();
 
-        const columnCellDEFourthRow = findColumnCells(WORKFLOW_COLUMN)[ROW_INDEX_3];
+        const columnRowDE = findColumnCells(COLUMN_NAME_WORKFLOW)[INDEX_TABLE_ROW_MULTIPLE_VALUES_SINGLE_OBJECT];
 
-        // Confirm fourth row in column "Analysis Protocol" displays multiple string value
-        expect(columnCellDEFourthRow.nativeElement.innerText).toEqual(SAMPLES_TABLE_MODEL.data[ROW_INDEX_3].protocols[PROTOCOL_ARRAY_INDEX_0].workflow.join(", "));
+        // Confirm row with multiple string values in column "Analysis Protocol" displays multiple string value
+        expect(columnRowDE.nativeElement.innerText).toEqual(SAMPLES_TABLE_MODEL.data[INDEX_TABLE_ROW_MULTIPLE_VALUES_SINGLE_OBJECT].protocols[INDEX_PROTOCOL_OBJECT_0].workflow.join(", "));
     });
 
     /**
@@ -395,8 +395,8 @@ describe("HCATableSamplesComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm third row in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(ROW_INDEX_2, WORKFLOW_COLUMN, HCA_CONTENT_UNSPECIFIED_DASH_COMPONENT)).toBe(null);
+        // Confirm row with single values in column "Analysis Protocol" does not display component
+        expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
     });
 
     /**
@@ -423,6 +423,10 @@ describe("HCATableSamplesComponent", () => {
     function findColumnCellComponent(rowIndex: number, columnName: string, componentName: string): DebugElement {
 
         const columnRowDE = findColumnCells(columnName)[rowIndex];
+
+        if ( !columnRowDE ) {
+            return null;
+        }
 
         return columnRowDE.nativeElement.querySelector(componentName);
     }
