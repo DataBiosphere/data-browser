@@ -3,16 +3,18 @@
 The HCA Data Portal is an [AngularJs](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
 
 
-## Prerequisites
 
-1. node 10.16.0
-1. npm 6.9.0
-1. [git-secrets] must be installed
 
 [git-secrets]: https://github.com/awslabs/git-secrets
 
  
 ## Development Environment Setup
+
+## Prerequisites
+
+1. node 10.16.0
+1. npm 6.9.0
+1. [git-secrets] must be installed
 
 ### 1. Clone the Repo
 
@@ -48,7 +50,8 @@ If you have push access to the remote, you'll need to install [git-secrets],
    git secrets --register-aws
    git secrets --add '[-]----BEGIN.PRIVATE.KEY-----'
    ```
-
+## Deployment 
+The deployment runbook can be accessed [here](https://allspark.dev.data.humancellatlas.org/dcp-ops/docs/wikis/Data-Browser-Runbook)
 
 
  
