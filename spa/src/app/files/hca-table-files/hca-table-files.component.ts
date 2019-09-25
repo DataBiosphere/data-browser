@@ -102,7 +102,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
      */
     public getFileDownloadClass(tableData: string): { [className: string]: boolean } {
 
-        if ( tableData.indexOf(" ") == -1 ) {
+        if ( tableData && tableData.indexOf(" ") == -1 ) {
             return {
                 "file-download": true,
                 truncate: true
