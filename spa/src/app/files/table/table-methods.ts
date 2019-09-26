@@ -30,7 +30,7 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "disease",
-        userFriendly: "Disease Status",
+        userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 88,
