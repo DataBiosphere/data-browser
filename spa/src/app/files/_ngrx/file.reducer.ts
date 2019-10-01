@@ -9,6 +9,7 @@
 import * as fileFacetListReducer from "./file-facet-list/file-facet-list.reducer";
 import * as fileSummaryReducer from "./file-summary/file-summary.reducer";
 import * as fileManifestReducer from "./file-manifest/file-manifest.reducer";
+import * as integrationReducer from "./integration/integration.reducer";
 import * as matrixReducer from "./matrix/matrix.reducer";
 import * as projectReducer from "./project/project.reducer";
 import * as tableReducer from "./table/table.reducer";
@@ -18,6 +19,7 @@ export const reducer = {
     fileFacetList: fileFacetListReducer.reducer,
     fileManifest: fileManifestReducer.reducer,
     fileSummary: fileSummaryReducer.reducer,
+    integration: integrationReducer.reducer,
     matrix: matrixReducer.reducer,
     project: projectReducer.reducer,
     search: searchReducer.reducer,

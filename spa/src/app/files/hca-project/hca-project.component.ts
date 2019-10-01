@@ -14,10 +14,16 @@ import { combineLatest, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 // App dependencies
+import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
+import { ContactView } from "./contact-view.model";
+import { ContributorView } from "./contributor-view.model";
 import { HCAProjectState } from "./hca-project.state";
+import { ProjectView } from "./project-view.model";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
+import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
@@ -34,10 +40,6 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
-import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
-import { ContactView } from "./contact-view.model";
-import { ContributorView } from "./contributor-view.model";
-import { ProjectView } from "./project-view.model";
 
 @Component({
     selector: "hca-project",
@@ -496,18 +498,27 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             select(selectSelectedProjectSearchTerms),
             map(this.mapSearchTermsToProjectIds)
         );
+        
+        // Request and grab the integrations for the current project
+        this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
+        const integrations$ = this.store.pipe(
+            select(selectProjectIntegrations, {projectId: projectId})
+        );
 
         this.state$ = combineLatest(
             project$,
             projectMatrixUrls$,
-            selectedProjectIds$
+            selectedProjectIds$,
+            integrations$
         )
             .pipe(
                 filter(([project]) => !!project),
-                map(([project, projectMatrixUrls, selectedProjectIds]) => {
+                map(([project, projectMatrixUrls, selectedProjectIds, integrations]) => {
 
                     const projectView = this.buildProjectView(project);
                     return {
+                        integrations: integrations,
+                        integratedWithTertiaryPortals: integrations.length > 0,
                         project: projectView,
                         projectMatrixUrls: projectMatrixUrls,
                         selectedProjectIds

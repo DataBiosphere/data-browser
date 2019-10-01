@@ -300,6 +300,18 @@
                             <p class="fontsize-xs rhs">{{state.project.project.totalCount | localeString}}</p>
                         </div>
                     </div>
+                    <div class="project-integrations">
+                        <h4 class="fontsize-m semi-bold">Tertiary Portals</h4>
+                        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
+                            <ng-container *ngSwitchCase="true">
+                                <div class="stretch">
+                                    <p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>
+                                </div>
+                                <project-integrations [integrations]="state.integrations"></project-integrations>
+                            </ng-container>
+                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>
+                        </ng-container>
+                    </div>
                     <div class="project-accessions">
                         <h4 class="fontsize-m semi-bold">Accessions</h4>
                         <div>

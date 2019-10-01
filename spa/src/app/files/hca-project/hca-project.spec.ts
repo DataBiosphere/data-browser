@@ -29,6 +29,7 @@ import {
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
     PROJECT_DETAIL_UNSPECIFIED_VALUES
 } from "./hca-project-mapper.mock";
+import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 
 describe("HCAProjectComponent", () => {
 
@@ -84,6 +85,7 @@ describe("HCAProjectComponent", () => {
                 HCATabComponent,
                 HCATooltipComponent,
                 PopLayoutComponent,
+                ProjectIntegrationsComponent,
                 ProjectTSVDownloadComponent
             ],
             imports: [
@@ -147,7 +149,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -165,7 +168,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -183,7 +187,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -201,7 +206,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -219,7 +225,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_MULTIPLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -237,7 +244,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -255,7 +263,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SPECIFIC_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -273,7 +282,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -291,7 +301,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -309,7 +320,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -326,7 +338,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_MULTIPLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -344,7 +357,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();
@@ -362,7 +376,8 @@ describe("HCAProjectComponent", () => {
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
             of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-            of([]) // project ids
+            of([]), // project ids
+            of([]) // integrations
         );
 
         fixture.detectChanges();

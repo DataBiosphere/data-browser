@@ -185,7 +185,8 @@
     }
 
     /* Project downloads, details, accessions, data release policy etc. */
-    .project-details, .project-downloads, .project-counts, .project-views, .project-workflows, .project-accessions, .data-release-policy {
+    .project-details, .project-downloads, .project-counts, .project-integrations, 
+    .project-views, .project-workflows, .project-accessions, .data-release-policy {
 
         /* Row - excludes last row in each group */
         > div:not(:last-child) {
