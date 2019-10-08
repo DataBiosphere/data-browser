@@ -6,12 +6,12 @@
  */
 
 // Core dependencies
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
-import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -30,23 +30,19 @@ import {
     getColumnClass,
     getColumnDisplayName,
     getColumnStyle,
-    getHeaderClass,
-    getHeaderRowHeight,
     getRowClass,
-    getRowStyle,
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
-import { TableRenderService } from "../table/table-render.service";
 
 @Component({
     selector: "hca-table-files",
     templateUrl: "./hca-table-files.component.html",
     styleUrls: ["./hca-table-files.component.scss"]
 })
-export class HCATableFilesComponent implements OnInit, AfterViewInit {
+export class HCATableFilesComponent implements OnInit {
 
     // Template variables
     data$: Observable<any[]>;
@@ -63,10 +59,7 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     getColumnClass = getColumnClass;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
-    getHeaderClass = getHeaderClass;
-    getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
-    getRowStyle = getRowStyle;
     isElementUnspecified = isElementUnspecified;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
@@ -75,24 +68,20 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    private snapped: boolean;
+    public dataLoaded$: Observable<boolean>;
 
     // View child/ren
     @ViewChild(MatSort, { static: false }) matSort: MatSort;
     @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
 
     /**
-     * @param {TableRenderService} tableRenderService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {Window} window
      */
-    constructor(private tableRenderService: TableRenderService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef,
-                @Inject("Window") private window: Window) {
+                private elementRef: ElementRef) {
     }
 
     /**
@@ -112,16 +101,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
         return {
             "file-download": true
         };
-    }
-
-    /**
-     * Returns true if the table is narrower than its container.
-     *
-     * @returns {boolean}
-     */
-    public isHorizontalScrollDisabled(): boolean {
-
-        return this.tableRenderService.isHorizontalScrollDisabled(this.elementRef, this.matTableElementRef);
     }
 
     /**
@@ -162,31 +141,6 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Update snapped status of table, on scroll of component.
-     */
-    public ngAfterViewInit() {
-
-        const nativeElement = this.elementRef.nativeElement;
-        const scrolls$ = fromEvent(this.window, "scroll");
-        const wheels$ = fromEvent(this.window, "wheel");
-
-        merge(scrolls$, wheels$).pipe(
-            takeUntil(this.ngDestroy$)
-        )
-            .subscribe(() => {
-
-                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
-
-                    this.snapped = false;
-                }
-                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-            });
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -219,5 +173,10 @@ export class HCATableFilesComponent implements OnInit, AfterViewInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
+
+        this.dataLoaded$ = this.data$.pipe(
+            filter(data => !!data.length),
+            map(() => true)
+        );
     }
 }

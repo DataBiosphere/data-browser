@@ -7,10 +7,10 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
+import { Subject } from "rxjs";
 
 // App dependencies
 import { MatrixFormat } from "../../shared/matrix-format.model";
-import { Subject } from "rxjs/index";
 
 export class FetchMatrixUrlRequestAction implements Action {
     public static ACTION_TYPE = "FILE.FETCH_MATRIX_URL_REQUEST";

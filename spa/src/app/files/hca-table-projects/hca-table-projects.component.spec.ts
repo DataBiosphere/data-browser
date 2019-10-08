@@ -43,8 +43,10 @@ import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-mat
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { TableRenderService } from "../table/table-render.service";
+import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { TableScroll } from "../table-scroll/table-scroll.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
+import { TableRendererService } from "../table/table-renderer.service";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -85,7 +87,8 @@ describe("HCATableProjectsComponent", () => {
                 HCATooltipComponent,
                 ProjectDownloadsComponent,
                 ProjectTSVDownloadComponent,
-                ProjectPreparedMatrixDownloadsComponent
+                ProjectPreparedMatrixDownloadsComponent,
+                TableScroll
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -102,11 +105,6 @@ describe("HCATableProjectsComponent", () => {
                 provide: Store,
                 useValue: testStore
             }, {
-                provide: "Window",
-                useFactory: (() => {
-                    return window;
-                })
-            }, {
                 provide: ConfigService,
                 useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL", "getProjectMetaDownloadURL"])
             }, {
@@ -117,8 +115,18 @@ describe("HCATableProjectsComponent", () => {
                 useValue: () => new Promise(() => {
                 })
             }, {
-                provide: TableRenderService,
-                useValue: jasmine.createSpyObj("TableRenderService", ["isHorizontalScrollDisabled"])
+                provide: ResponsiveService,
+                useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+            }, {
+                provide: TableRendererService,
+                useValue: jasmine.createSpyObj("TableRendererService", {
+                    "onRenderCompleted": of(true)
+                })
+            }, {
+                provide: "Window",
+                useFactory: (() => {
+                    return window;
+                })
             }]
         }).compileComponents();
 

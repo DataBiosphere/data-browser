@@ -1,7 +1,8 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table projects': true, 'snapped': snapped, 'card-open': isAnyRowActive(), 'scrollDisabled': isHorizontalScrollDisabled()}"
+    <div [ngClass]="{'hca-table projects': true, 'card-open': isAnyRowActive()}"
          [ngStyle]="getTableStyle(tableMarginBottom)">
-        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
+            <table-scroll [dataLoaded]="dataLoaded$">
+            <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                    matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                    (matSortChange)="sortTable(pagination, $event)">
             <ng-container matColumnDef="projectTitle" sticky>
@@ -258,12 +259,11 @@
                     </hca-table-cell>
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"
-                            [ngClass]="getHeaderClass(snapped)"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped, activeRowIndex)"
-                     [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
+                     [ngClass]="getRowClass(i, activeRowIndex)"></mat-row>
         </mat-table>
+        </table-scroll>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [tableData]="data$ | async"></hca-table-data-status-placeholder>
         <hca-table-pagination [tableData]="data$ | async"></hca-table-pagination>

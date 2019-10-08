@@ -1,8 +1,8 @@
 /*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Global styles, specific to CGL. Included in core cgl.theme style sheet.
+ * Global styles, specific to HCA. Included in core cgl.theme style sheet.
  */
 @import "cgl.vars";
 @import "cgl.mixin";
@@ -176,21 +176,6 @@ hr {
 /**
  * Buttons
  */
-
-/** Style and position global FAB TODO(theme) background color spec is no longer necessary once CGL theme is implemented */
-$cgl-fab-gutter-xs: 16px;
-$cgl-fab-gutter-gt-xs: 24px;
-.cgl-fab {
-    background-color: $cgl-turquoise !important; /* !important to override .mat-fab.mat-accent background color */
-    bottom: $cgl-fab-gutter-xs + 12;
-    right: $cgl-fab-gutter-xs;
-    z-index: 1;
-    /** Use specific selector to overide MD defaults */
-    &[mat-fab] {
-        color: #ffffff;
-        position: fixed;
-    }
-}
 
 /** Override MD default focus style of buttons */
 button {

@@ -1,246 +1,248 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table': true, 'snapped': snapped, 'scrollDisabled': isHorizontalScrollDisabled()}">
-        <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
-                   matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
-                   (matSortChange)="sortTable(pagination, $event)">
-            <ng-container matColumnDef="sampleId" sticky>
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleId')"
-                                 [ngStyle]="getColumnStyle('sampleId')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'sampleId'">{{getColumnDisplayName('sampleId')}}
+    <div [ngClass]="{'hca-table': true}">
+        <table-scroll [dataLoaded]="dataLoaded$">
+            <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
+                       matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
+                       (matSortChange)="sortTable(pagination, $event)">
+                <ng-container matColumnDef="sampleId" sticky>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleId')"
+                                     [ngStyle]="getColumnStyle('sampleId')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'sampleId'">{{getColumnDisplayName('sampleId')}}
+                                </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'sampleId'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).specimenCount | countSize"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleId')"
+                              [ngStyle]="getColumnStyle('sampleId')">
+                        <hca-table-cell>
+                            <span class="fontsize-xxs">{{element.sampleId}}</span>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="projectTitle">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('projectTitle')"
+                                     [ngStyle]="getColumnStyle('projectTitle')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'projectTitle'">{{getColumnDisplayName('projectTitle')}}
                             </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'sampleId'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).specimenCount | countSize"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleId')"
-                          [ngStyle]="getColumnStyle('sampleId')">
-                    <hca-table-cell>
-                        <span class="fontsize-xxs">{{element.sampleId}}</span>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="projectTitle">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('projectTitle')"
-                                 [ngStyle]="getColumnStyle('projectTitle')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'projectTitle'">{{getColumnDisplayName('projectTitle')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'projectTitle'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('projectTitle')"
-                          [ngStyle]="getColumnStyle('projectTitle')">
-                    <hca-table-cell>
-                        <span class="fontsize-xxs">{{element.projectTitle}}</span>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="sampleEntityType">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'sampleEntityType'">{{getColumnDisplayName('sampleEntityType')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'sampleEntityType'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.sampleEntityType}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="organ">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'organ'">{{getColumnDisplayName('organ')}}</hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'organ'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.organ}}<span
-                                    *ngIf="element.modelOrgan"> /</span></span>
-                        </hca-content-ellipsis>
-                        <hca-content-ellipsis *ngIf="element.modelOrgan">
-                            <span class="fontsize-xxs">{{element.modelOrgan}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="organPart">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'organPart'">{{getColumnDisplayName('organPart')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'organPart'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.organPart}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="selectedCellType">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'selectedCellType'">{{getColumnDisplayName('selectedCellType')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'selectedCellType'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.selectedCellType}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="libraryConstructionApproach">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'libraryConstructionApproach'">{{getColumnDisplayName('libraryConstructionApproach')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'libraryConstructionApproach'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
-                    <hca-table-cell>
-                        <span class="fontsize-xxs">{{element.libraryConstructionApproach}}</span>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="pairedEnd">
-                <mat-header-cell *matHeaderCellDef
-                                 [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'pairedEnd'">{{getColumnDisplayName('pairedEnd')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'pairedEnd'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element"
-                          [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.pairedEnd}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="workflow">
-                <mat-header-cell *matHeaderCellDef
-                                 [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'workflow'">
-                            {{getColumnDisplayName('workflow')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'workflow'"
-                                                       [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element"
-                          [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
-                    <hca-table-cell [ngSwitch]="isElementUnspecified(element.workflow)">
-                        <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
-                        <hca-content-ellipsis *ngSwitchDefault>
-                            <span class="fontsize-xxs">{{element.workflow}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="genusSpecies">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'genusSpecies'">{{getColumnDisplayName('genusSpecies')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'genusSpecies'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.genusSpecies}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="organismAge">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organismAge')"
-                                 [ngStyle]="getColumnStyle('organismAge')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'organismAge'">{{getColumnDisplayName('organismAge')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'organismAge'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organismAge')"
-                          [ngStyle]="getColumnStyle('organismAge')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{getAge(element.organismAge, element.ageUnit)}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="biologicalSex">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('biologicalSex')" [ngStyle]="getColumnStyle('biologicalSex')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'biologicalSex'">{{getColumnDisplayName('biologicalSex')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'biologicalSex'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('biologicalSex')" [ngStyle]="getColumnStyle('biologicalSex')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.biologicalSex}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="disease">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'disease'">{{getColumnDisplayName('disease')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'disease'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.disease}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="totalCells">
-                <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
-                    <hca-table-column-header>
-                        <hca-table-column-header-title columnTitle [columnName]="'totalCells'">{{getColumnDisplayName('totalCells')}}
-                        </hca-table-column-header-title>
-                        <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"></hca-table-column-header-count>
-                    </hca-table-column-header>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
-                    <hca-table-cell>
-                        <hca-content-ellipsis>
-                            <span class="fontsize-xxs">{{element.totalCells | localeString}}</span>
-                        </hca-content-ellipsis>
-                    </hca-table-cell>
-                </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="getHeaderClass(snapped)"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                     [ngClass]="getRowClass(i, snapped, false, 0)" [ngStyle]="getRowStyle(i, snapped, getHeaderRowHeight())"></mat-row>
-        </mat-table>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'projectTitle'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).projectCount | countSize"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('projectTitle')"
+                              [ngStyle]="getColumnStyle('projectTitle')">
+                        <hca-table-cell>
+                            <span class="fontsize-xxs">{{element.projectTitle}}</span>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="sampleEntityType">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'sampleEntityType'">{{getColumnDisplayName('sampleEntityType')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'sampleEntityType'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleEntityType')" [ngStyle]="getColumnStyle('sampleEntityType')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.sampleEntityType}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organ">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'organ'">{{getColumnDisplayName('organ')}}</hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'organ'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organ')" [ngStyle]="getColumnStyle('organ')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.organ}}<span
+                                        *ngIf="element.modelOrgan"> /</span></span>
+                            </hca-content-ellipsis>
+                            <hca-content-ellipsis *ngIf="element.modelOrgan">
+                                <span class="fontsize-xxs">{{element.modelOrgan}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organPart">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'organPart'">{{getColumnDisplayName('organPart')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'organPart'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.organPart}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="selectedCellType">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'selectedCellType'">{{getColumnDisplayName('selectedCellType')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'selectedCellType'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('selectedCellType')" [ngStyle]="getColumnStyle('selectedCellType')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.selectedCellType}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="libraryConstructionApproach">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'libraryConstructionApproach'">{{getColumnDisplayName('libraryConstructionApproach')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'libraryConstructionApproach'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('libraryConstructionApproach')" [ngStyle]="getColumnStyle('libraryConstructionApproach')">
+                        <hca-table-cell>
+                            <span class="fontsize-xxs">{{element.libraryConstructionApproach}}</span>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="pairedEnd">
+                    <mat-header-cell *matHeaderCellDef
+                                     [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'pairedEnd'">{{getColumnDisplayName('pairedEnd')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'pairedEnd'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element"
+                              [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.pairedEnd}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="workflow">
+                    <mat-header-cell *matHeaderCellDef
+                                     [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'workflow'">
+                                {{getColumnDisplayName('workflow')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'workflow'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element"
+                              [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
+                        <hca-table-cell [ngSwitch]="isElementUnspecified(element.workflow)">
+                            <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
+                            <hca-content-ellipsis *ngSwitchDefault>
+                                <span class="fontsize-xxs">{{element.workflow}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="genusSpecies">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'genusSpecies'">{{getColumnDisplayName('genusSpecies')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'genusSpecies'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('genusSpecies')" [ngStyle]="getColumnStyle('genusSpecies')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.genusSpecies}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organismAge">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organismAge')"
+                                     [ngStyle]="getColumnStyle('organismAge')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'organismAge'">{{getColumnDisplayName('organismAge')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'organismAge'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organismAge')"
+                              [ngStyle]="getColumnStyle('organismAge')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{getAge(element.organismAge, element.ageUnit)}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="biologicalSex">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('biologicalSex')" [ngStyle]="getColumnStyle('biologicalSex')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'biologicalSex'">{{getColumnDisplayName('biologicalSex')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'biologicalSex'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('biologicalSex')" [ngStyle]="getColumnStyle('biologicalSex')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.biologicalSex}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="disease">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'disease'">{{getColumnDisplayName('disease')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'disease'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.disease}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="totalCells">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'">{{getColumnDisplayName('totalCells')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.totalCells | localeString}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
+                         [ngClass]="getRowClass(i)"></mat-row>
+            </mat-table>
+        </table-scroll>
         <hca-table-data-status-placeholder [loading]="loading$ | async"
                                            [tableData]="data$ | async"></hca-table-data-status-placeholder>
         <hca-table-pagination [tableData]="data$ | async"></hca-table-pagination>

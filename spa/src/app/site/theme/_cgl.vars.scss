@@ -1,20 +1,9 @@
 /*!
- * UCSC Boardwalk
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Global variables, use by including this file into individual component style sheets.
  */
-
-/**
- * CGL-specific colors
- **/
-$cgl-blue-dark: #113871;
-$cgl-green: #1A535C;
-$cgl-green-light: #F7FFF7;
-$cgl-orange: #FFA560;
-$cgl-peach: #FF6B6B;
-$cgl-purple: #5C83D0;
-$cgl-turquoise: #4CC9C0;
-$cgl-yellow: #FFE66D;
 
 /**
  * HCA-specific colors
@@ -36,6 +25,7 @@ $hca-white: #FFFFFF;
 
 /**
  * Material Design media break points
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  **/
 $md-xl-min: 1920px;
 $md-lg-min: 1280px;
@@ -45,3 +35,9 @@ $md-md-max: $md-lg-min - 1;
 $md-sm-min: 600px;
 $md-sm-max: $md-md-min - 1;
 $md-xs-max: $md-sm-min - 1;
+
+/**
+ * HCA-specific breakpoints
+ */
+$hca-md-min: 1200px;
+$hca-sm-max: $hca-md-min - 1;

@@ -8,7 +8,7 @@
 // Core dependencies
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable } from "rxjs";
+import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -26,7 +26,6 @@ import { SearchTerm } from "../../search/search-term.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
 import { HCAExportToTerraState } from "./hca-export-to-terra.state";
-import { Subject } from "rxjs/index";
 
 @Component({
     selector: "hca-export-to-terra",

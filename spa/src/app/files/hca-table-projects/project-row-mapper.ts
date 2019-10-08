@@ -7,7 +7,7 @@
  */
 
 // App dependencies
-import { getUnspecifiedIfEmpty, getUnspecifiedIfNullValue } from "../table/table-methods";
+import { getUnspecifiedIfNullValue } from "../table/table-methods";
 import { EntityRow } from "../table/entity-row.model";
 import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
 

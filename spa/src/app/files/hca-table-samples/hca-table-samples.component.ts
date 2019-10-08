@@ -7,11 +7,9 @@
 
 // Core dependencies
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Component,
     ElementRef,
-    Inject,
     OnDestroy,
     OnInit,
     ViewChild
@@ -19,8 +17,8 @@ import {
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
-import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -40,22 +38,18 @@ import {
     getColumnClass,
     getColumnDisplayName,
     getColumnStyle,
-    getHeaderClass,
-    getHeaderRowHeight,
     getRowClass,
-    getRowStyle,
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
-import { TableRenderService } from "../table/table-render.service";
 
 @Component({
     selector: "hca-table-samples",
     templateUrl: "./hca-table-samples.component.html",
     styleUrls: ["./hca-table-samples.component.scss"]
 })
-export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewInit {
+export class HCATableSamplesComponent implements OnDestroy, OnInit {
 
     // Template variables
     data$: Observable<any[]>;
@@ -72,10 +66,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     getColumnClass = getColumnClass;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
-    getHeaderClass = getHeaderClass;
-    getHeaderRowHeight = getHeaderRowHeight;
     getRowClass = getRowClass;
-    getRowStyle = getRowStyle;
     isElementUnspecified = isElementUnspecified;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
@@ -84,35 +75,22 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
 
     // Locals
     private ngDestroy$ = new Subject();
-    private snapped: boolean;
+    private dataLoaded$: Observable<boolean>;
 
     // View child/ren
     @ViewChild(MatSort, { static: false }) matSort: MatSort;
     @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
 
     /**
-     * @param {TableRenderService} tableRenderService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {Window} window
      */
-    constructor(private tableRenderService: TableRenderService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef,
-                @Inject("Window") private window: Window) {
+                private elementRef: ElementRef) {
     }
 
-    /**
-     * Returns true if the table is narrower than its container.
-     *
-     * @returns {boolean}
-     */
-    public isHorizontalScrollDisabled(): boolean {
-
-        return this.tableRenderService.isHorizontalScrollDisabled(this.elementRef, this.matTableElementRef);
-    }
 
     /**
      * Sort the table given the sort param and the order.
@@ -152,32 +130,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
     }
 
     /**
-     * Update snapped status of table, on scroll of component.
-     */
-    public ngAfterViewInit() {
-
-        const nativeElement = this.elementRef.nativeElement;
-        const scrolls$ = fromEvent(this.window, "scroll");
-        const wheels$ = fromEvent(this.window, "wheel");
-
-        merge(scrolls$, wheels$)
-            .pipe(
-                takeUntil(this.ngDestroy$)
-            )
-            .subscribe(() => {
-
-                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
-
-                    this.snapped = false;
-                }
-                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-            });
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -210,5 +162,10 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit, AfterViewIni
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
+
+        this.dataLoaded$ = this.data$.pipe(
+            filter(data => !!data.length),
+            map(() => true)
+        );
     }
 }

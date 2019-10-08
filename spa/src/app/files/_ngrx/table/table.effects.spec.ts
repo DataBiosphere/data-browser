@@ -11,7 +11,7 @@ import { cold, hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
 import { Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 // App dependencies
 import { FileState } from "../file.state";
@@ -33,8 +33,6 @@ import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { FetchPagedOrSortedTableDataRequestAction } from "./table.actions";
-import { of } from "rxjs/index";
-
 
 describe("Table Effects", () => {
 

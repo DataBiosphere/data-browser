@@ -35,7 +35,6 @@ import { ConfigService } from "../config/config.service";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
-import { FileSummaryComponent } from "./file-summary/file-summary.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
@@ -87,7 +86,8 @@ import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermResponseService } from "./shared/term-response.service";
 import { TermSortService } from "./sort/term-sort.service";
-import { TableRenderService } from "./table/table-render.service";
+import { TableRendererService } from "./table/table-renderer.service";
+import { TableScroll } from "./table-scroll/table-scroll.component";
 
 @NgModule({
     imports: [
@@ -121,8 +121,8 @@ import { TableRenderService } from "./table/table-render.service";
     declarations: [
 
         FileTypeSummaryListComponent,
-        FileSummaryComponent,
         FileManifestSummaryComponent,
+        FileNameShortenerPipe,
         FilesComponent,
         HCAContentEllipsisComponent,
         HCAContentUnspecifiedDashComponent,
@@ -161,11 +161,8 @@ import { TableRenderService } from "./table/table-render.service";
         HCATableSamplesComponent,
         HCATableSortComponent,
         HCATooltipComponent,
-
-        FileNameShortenerPipe,
-
-        // Components specific to Boardwalk instances
-        HCAFileSummaryComponent
+        HCAFileSummaryComponent,
+        TableScroll
     ],
     providers: [
         ConfigService,
@@ -176,7 +173,7 @@ import { TableRenderService } from "./table/table-render.service";
         FilesService,
         MatrixService,
         ProjectService,
-        TableRenderService,
+        TableRendererService,
         TermResponseService,
         TermSortService,
         TerraService,
