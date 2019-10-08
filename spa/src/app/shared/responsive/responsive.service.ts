@@ -17,17 +17,18 @@ export class ResponsiveService {
     constructor(@Inject("Window") private window: Window) {}
 
     /**
-     * Returns true if window width is less than 1200px
+     * Returns true if window width is less than 1200px, which is a HCA-specific breakpoint.
      *
      * @returns {boolean}
      */
-    public isWindowWidthMedium(): boolean {
+    public isWindowWidthHCAMedium(): boolean {
 
         return this.window.document.body.offsetWidth < 1200;
     }
 
     /**
-     * Returns true if window width is less than 960px
+     * Returns true if window width is less than 960px, which is a standard Material Design breakpoint (see _cgl.vars
+     * for matching responsive value).
      *
      * @returns {boolean}
      */

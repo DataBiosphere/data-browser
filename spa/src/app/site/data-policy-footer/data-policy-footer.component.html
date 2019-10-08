@@ -1,5 +1,7 @@
 <ng-container *ngIf="!policyAccepted">
-    <p class="fontsize-xs">By downloading any data I accept the
-        <a href="https://www.humancellatlas.org/data-release-policy/" target="_blank">HCA Data Use Policy.</a></p>
-    <span class="fontsize-xs" (click)="onPolicyAccepted()">Got it</span>
+    <div class="wrapper">
+        <p class="fontsize-xs">By downloading any data I accept the
+            <a href="https://www.humancellatlas.org/data-release-policy/" target="_blank">HCA Data Use Policy.</a></p>
+        <span class="fontsize-xs" (click)="onPolicyAccepted()">Got it</span>
+    </div>
 </ng-container>

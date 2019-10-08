@@ -7,7 +7,7 @@
 
 @import "../theme/cgl.vars";
 
-:host {
+.wrapper {
     align-items: center;
     background-color: $hca-off-white;
     display: flex;
@@ -46,7 +46,7 @@ span {
  */
 @media screen and (min-width: 768px) {
     
-    :host {
+    .wrapper {
         align-items: center;
         flex-direction: row;
         justify-content: space-between;

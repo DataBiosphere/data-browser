@@ -9,28 +9,6 @@
 :host {
     flex: 1; // Required for <project-prepared-matrix-downloads>, and for table to take up remaining space - positions mobile download banner to bottom */
     position: relative; /* Positions fade on horizontal scroll */
-
-    /* Fade on horizontal scroll */
-    &::after, &::before {
-        content: "";
-        height: 100%;
-        position: absolute;
-        top: 0;
-        width: 16px;
-        z-index: 8;
-    }
-
-    /* Fade on horizontal scroll RHS */
-    &::after {
-        background: linear-gradient(-90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%);
-        right: 0;
-    }
-
-    /* Fade on horizontal scroll LHS */
-    &::before {
-        background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 50%, rgba(255, 255, 255, 0.00) 100%);
-        left: 0;
-    }
 }
 
 /* Wrapper */
@@ -40,14 +18,9 @@
     flex: 1;
     flex-direction: column;
     height: 100%; /* Required for <project-prepared-matrix-downloads> */
-    overflow-x: auto; /* Horizontal scroll */
-    -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
-    overscroll-behavior-x: none; /* Prevents bounce - excludes safari */
-    margin-top: 4px;
 
     /* HCA table */
     .hca-table {
-        margin-top: 24px;
 
         /* Project data matrix card open - opacity applied to unselected rows */
         &.card-open {
@@ -59,7 +32,6 @@
         }
 
         mat-table {
-            margin: 0 16px; /* Gutter 16px - margin to maintain RHS gutter in mobile view */
 
             /* Row - header and cell */
             mat-header-row, mat-row {
@@ -98,7 +70,7 @@
             /* Cell - header and cell */
             mat-header-cell, mat-cell {
                 flex: 1;
-                padding: 0;
+                padding: 24px 0 0;
             }
 
             mat-header-cell {
@@ -153,89 +125,6 @@
                             width: 10px;
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-/**
- * HCA specific breakpoint
- */
-@media screen and (min-width: 1200px) {
-
-    :host {
-
-        /* Fade on horizontal scroll */
-        &::after, &::before {
-            width: 30px;
-        }
-    }
-
-    /* Wrapper */
-    .wrapper {
-
-        margin: 0 30px;
-
-        /* HCA table */
-        .hca-table {
-
-            mat-table {
-                margin: 0;
-            }
-        }
-    }
-}
-
-/**
- * Medium -
- */
-@media screen and (max-width: 1279px) {
-
-    /* Override sticky table on small devices */
-    ::ng-deep .mat-table-sticky {
-        position: relative !important;
-    }
-
-}
-
-/**
- * Medium +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 1280px) {
-
-    :host {
-
-        /* Hide fade on larger screens */
-        &::after, &::before {
-            display: none;
-        }
-    }
-
-    /* Wrapper */
-    .wrapper {
-
-        .hca-table {
-            
-            &.scrollDisabled {
-                width: 100%; /* To take up full width of screen */
-            }
-
-            &.snapped {
-                margin-top: 0;
-            }
-
-            mat-table {
-                
-                /* Snapped header row */
-                mat-header-row.snapped {
-                    left: 0;
-                    padding: 0 30px;
-                    position: fixed;
-                    right: 0;
-                    top: 0;
-                    z-index: 122; /* Positioned above project matrix download */
                 }
             }
         }

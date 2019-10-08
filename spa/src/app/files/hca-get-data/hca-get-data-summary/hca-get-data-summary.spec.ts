@@ -10,7 +10,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
-import { of } from "rxjs/index";
+import { of } from "rxjs";
 
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";

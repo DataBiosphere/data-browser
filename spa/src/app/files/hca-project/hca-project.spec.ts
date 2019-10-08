@@ -11,7 +11,7 @@ import { MatIconModule, MatProgressSpinnerModule, MatTooltipModule } from "@angu
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { of } from "rxjs/index";
+import { of } from "rxjs";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 // App dependencies

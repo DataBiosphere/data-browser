@@ -87,7 +87,7 @@ export class HCAFileFilterComponent implements OnChanges {
      */
     public getFacetWidth(): number {
 
-        return (this.isWindowWidthMedium() ? 216 : 256);
+        return (this.isWindowWidthHCAMedium() ? 216 : 256);
     }
 
     /**
@@ -170,17 +170,17 @@ export class HCAFileFilterComponent implements OnChanges {
     }
 
     /**
-     * Returns true if window width is less than 1200px.
+     * Returns true if window width is less than 1200px, which is a HCA-specific breakpoint for medium devices.
      *
      * @returns {boolean}
      */
-    public isWindowWidthMedium() {
+    public isWindowWidthHCAMedium() {
 
-        return this.responsiveService.isWindowWidthMedium();
+        return this.responsiveService.isWindowWidthHCAMedium();
     }
 
     /**
-     * Returns true if window width is less than 960px.
+     * Returns true if window width is less than 960px, which is a standard Material Design breakpoint.
      *
      * @returns {boolean}
      */
@@ -190,7 +190,7 @@ export class HCAFileFilterComponent implements OnChanges {
     }
 
     /**
-     * Returns true if window width is less than 675px.
+     * Returns true if window width is less than 675px. TODO is this a custom HCA breakpoint? If so, rename method.
      *
      * @returns {boolean}
      */

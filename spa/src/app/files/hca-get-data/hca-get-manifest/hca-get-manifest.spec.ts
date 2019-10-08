@@ -12,7 +12,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
-import { of } from "rxjs/index";
+import { of } from "rxjs";
 
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";

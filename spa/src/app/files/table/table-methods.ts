@@ -33,7 +33,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 88,
+        // columnMinWidth: 88,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
 
@@ -70,7 +70,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "File Name",
         description: "The filename of the data file.",
         alignment: ColumnAlignment.LEFT,
-        columnFlexValue: "1 1 20%",
+        columnMinWidth: 300,
         columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
@@ -88,7 +88,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Species",
         description: "The scientific binomial name for the species of the biomaterial.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 64,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -110,7 +109,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Library Construction Method",
         description: "The general method for sequencing library construction.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 96,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -148,7 +146,6 @@ let tableColumns: TableColumn[] = [
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
         alignment: ColumnAlignment.LEFT,
         columnFlexDirection: ColumnFlexDirection.COLUMN,
-        columnMinWidth: 100,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -190,7 +187,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Project Title",
         description: "An official title for the project.",
         alignment: ColumnAlignment.LEFT,
-        columnFlexValue: "0 1 20%",
+        columnMinWidth: 300,
         columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
@@ -199,7 +196,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Sample Type",
         description: "The type of the biomaterial used to create the cell suspension. Will be one of cell line, organoid, or specimen.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 64,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -208,7 +204,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Sample Id",
         description: "A unique ID for this sample.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 100,
+        columnMinWidth: 150,
         columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
@@ -217,7 +213,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Selected Cell Type",
         description: "The cell type(s) selected to be present in the suspension.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 70,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -234,7 +229,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Analysis Protocol",
         description: "The type of protocol.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 70,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     }
@@ -411,56 +405,16 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
 }
 
 /**
- * Return the set of CSS class names that are currently applicable to the table header row.
- *
- * @param {boolean} snapped
- * @returns {{[p: string]: boolean}}
- */
-export function getHeaderClass(snapped: boolean): { [className: string]: boolean } {
-
-    return {
-        snapped: snapped,
-    };
-}
-
-/**
- * Returns height of mat-header-row.
- * Used to calculate first mat-row padding when table snapped.
- *
- * @returns {number}
- */
-export function getHeaderRowHeight(): number {
-    return document.getElementsByTagName("mat-header-row")[0].getBoundingClientRect().height;
-}
-
-/**
  * Return the set of CSS class names that are currently applicable to table rows.
  *
  * @param {number} rowIndex
- * @param snapped
  * @param {boolean} projectMatrixOpen
  * @returns {{[p: string]: boolean}}
  */
-export function getRowClass(rowIndex: number, snapped, activeRowIndex: number): { [className: string]: boolean } {
+export function getRowClass(rowIndex: number, activeRowIndex: number): { [className: string]: boolean } {
 
     return {
-        snapped: (rowIndex === 0) && snapped,
         active: rowIndex === activeRowIndex
-    };
-}
-
-/**
- * Returns ngStyle applicable to the first row in table when table has snapped.
- *
- * @param {number} rowIndex
- * @param {boolean} snapped
- * @param {number} headerRowHeight
- * @returns {any}
- */
-export function getRowStyle(rowIndex: number, snapped: boolean, headerRowHeight: number): any {
-
-    return {
-        "padding-top": (rowIndex === 0) && snapped ? headerRowHeight + "px" : (rowIndex === 0) && !snapped ? 0 : {},
     };
 }
 

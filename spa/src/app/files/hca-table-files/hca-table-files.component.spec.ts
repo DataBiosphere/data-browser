@@ -43,8 +43,10 @@ import { ProjectDownloadsComponent } from "../project-downloads/project-download
 import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { DownloadService } from "../shared/download.service";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
-import { TableRenderService } from "../table/table-render.service";
-
+import { TableScroll } from "../table-scroll/table-scroll.component";
+import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { TableRendererService } from "../table/table-renderer.service";
+ 
 describe("HCATableFilesComponent", () => {
 
     let component: HCATableFilesComponent;
@@ -84,7 +86,8 @@ describe("HCATableFilesComponent", () => {
                 HCATableFilesComponent,
                 HCATablePaginationComponent,
                 HCATableSortComponent,
-                HCATooltipComponent
+                HCATooltipComponent,
+                TableScroll
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -100,11 +103,6 @@ describe("HCATableFilesComponent", () => {
             providers: [{
                 provide: Store,
                 useValue: testStore
-            }, {
-                provide: "Window",
-                useFactory: (() => {
-                    return window;
-                })
             }, {
                 provide: ConfigService,
                 useValue: jasmine.createSpyObj("ConfigService", ["getProjectMetaURL"])
@@ -124,8 +122,18 @@ describe("HCATableFilesComponent", () => {
                 useValue: () => new Promise(() => {
                 })
             }, {
-                provide: TableRenderService,
-                useValue: jasmine.createSpyObj("TableRenderService", ["isHorizontalScrollDisabled"])
+                provide: ResponsiveService,
+                useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+            }, {
+                provide: TableRendererService,
+                useValue: jasmine.createSpyObj("TableRendererService", {
+                    "onRenderCompleted": of(true)
+                })
+            }, {
+                provide: "Window",
+                useFactory: (() => {
+                    return window;
+                })
             }]
         }).compileComponents();
 

@@ -6,14 +6,12 @@
  */
 
 // Core dependencies
-import {
-    AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild
-} from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
-import { fromEvent, Observable, merge, Subject } from "rxjs";
-import { filter, takeUntil } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -37,15 +35,11 @@ import {
     getColumnClass,
     getColumnDisplayName,
     getColumnStyle,
-    getHeaderClass,
-    getHeaderRowHeight,
     getRowClass,
-    getRowStyle,
     getTableStyle,
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
-import { TableRenderService } from "../table/table-render.service";
 
 @Component({
     selector: "hca-table-projects",
@@ -53,7 +47,7 @@ import { TableRenderService } from "../table/table-render.service";
     styleUrls: ["./hca-table-projects.component.scss"]
 })
 
-export class HCATableProjectsComponent implements OnInit, AfterViewInit {
+export class HCATableProjectsComponent implements OnInit {
 
     // Template variables
     public data$: Observable<any[]>;
@@ -69,10 +63,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public getColumnClass = getColumnClass;
     public getColumnDisplayName = getColumnDisplayName;
     public getColumnStyle = getColumnStyle;
-    public getHeaderClass = getHeaderClass;
-    public getHeaderRowHeight = getHeaderRowHeight;
     public getRowClass = getRowClass;
-    public getRowStyle = getRowStyle;
     public getTableStyle = getTableStyle;
     public isElementUnspecified = isElementUnspecified;
     public loading$: Observable<boolean>;
@@ -85,7 +76,7 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    private snapped: boolean;
+    private dataLoaded$: Observable<boolean>;
 
     // Inputs
     @Input() selectedProjectIds: string[];
@@ -95,17 +86,13 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort, { static: false }) matSort: MatSort;
 
     /**
-     * @param {TableRenderService} tableRenderService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
-     * @param {Window} window
      */
-    constructor(private tableRenderService: TableRenderService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef,
-                @Inject("Window") private window: Window) {
+                private elementRef: ElementRef) {
     }
 
     /**
@@ -155,16 +142,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     public isProjectSelected(project: any): boolean {
 
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
-    }
-
-    /**
-     * Returns true if the table is narrower than its container.
-     * 
-     * @returns {boolean}
-     */
-    public isHorizontalScrollDisabled(): boolean {
-
-        return this.tableRenderService.isHorizontalScrollDisabled(this.elementRef, this.matTableElementRef);
     }
 
     /**
@@ -239,31 +216,6 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Update snapped status of table, on scroll of component.
-     */
-    public ngAfterViewInit() {
-
-        const nativeElement = this.elementRef.nativeElement;
-        const scrolls$ = fromEvent(this.window, "scroll");
-        const wheels$ = fromEvent(this.window, "wheel");
-
-        merge(scrolls$, wheels$).pipe(
-            takeUntil(this.ngDestroy$)
-        )
-            .subscribe(() => {
-
-                if ( this.window.innerWidth < 1280 || (this.window.pageYOffset < nativeElement.offsetTop && this.snapped) ) {
-
-                    this.snapped = false;
-                }
-                else if ( this.window.innerWidth >= 1280 && this.window.pageYOffset >= nativeElement.offsetTop && !this.snapped ) {
-
-                    this.snapped = true;
-                }
-            });
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -310,6 +262,11 @@ export class HCATableProjectsComponent implements OnInit, AfterViewInit {
         // Grab the project matrix URLs, if any, for the current set of projects
         this.projectsMatrixUrls$ = this.store.pipe(
             select(selectProjectMatrixUrlsByProjectId)
+        );
+
+        this.dataLoaded$ = this.data$.pipe(
+            filter(data => !!data.length),
+            map(() => true)
         );
     }
 }
