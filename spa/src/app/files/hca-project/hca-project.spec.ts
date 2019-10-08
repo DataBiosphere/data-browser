@@ -27,7 +27,7 @@ import { HCAProjectComponent } from "./hca-project.component";
 import {
     PROJECT_DETAIL_EMPTY_VALUES, PROJECT_DETAIL_MULTIPLE_VALUES,
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
-    PROJECT_DETAIL_UNSPECIFIED_VALUES
+    PROJECT_DETAIL_UNSPECIFIED_VALUES, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "./hca-project-mapper.mock";
 import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 
@@ -39,6 +39,9 @@ describe("HCAProjectComponent", () => {
     const testConfig = jasmine.createSpyObj("ConfigService", ["getPortalURL"]);
     const testRouter = jasmine.createSpyObj("Router", ["navigate"]);
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
+
+    // Heading labels
+    const HEADING_TERTIARY_PORTALS = "Tertiary Portals";
 
     // Project matrix urls
     const PROJECT_DETAIL_PROJECT_MATRIX_URLS = new ProjectMatrixUrls("2cd14cf5-f8e0-4c97-91a2-9e8957f41ea8", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.csv.zip", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.loom", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.mtx.zip");
@@ -387,6 +390,67 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
+     * Confirm "Tertiary Portals" is displayed.
+     */
+    it(`should display "Tertiary Portals"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm "Tertiary Portals" is displayed
+        expect(isHeadingDisplayed(HEADING_TERTIARY_PORTALS)).toEqual(true);
+    });
+
+    /**
+     * Confirm <project-integrations> is displayed when project integration is single value.
+     */
+    it("should display component project integrations when project integration is single value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+
+        // Confirm component project-integrations is displayed when integrations is single value
+        expect(projectIntegrationsEl).not.toBe(null);
+    });
+
+    /**
+     * Confirm <project-integrations> is not displayed when project integration is empty.
+     */
+    it("should not display component project integrations when project integration is empty", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+
+        // Confirm component project-integrations is not displayed when integrations is empty
+        expect(projectIntegrationsEl).toBe(null);
+    });
+
+    /**
      * Returns the project detail value for the specified project detail.
      *
      * @param {string} projectDetailLabel
@@ -403,6 +467,20 @@ describe("HCAProjectComponent", () => {
         const projectDetailIndex = PROJECT_DETAIL_DISPLAY_ORDER.indexOf(projectDetailLabel);
 
         return projectDetailValueEls[projectDetailIndex].nativeElement.innerText;
+    }
+
+
+    /**
+     * Returns true if heading is displayed.
+     *
+     * @param {string} heading
+     * @returns {boolean}
+     */
+    function isHeadingDisplayed(heading: string): boolean {
+
+        const headingEls = fixture.debugElement.queryAll(By.css("h4"));
+
+        return headingEls.some(headingEl => headingEl.nativeElement.innerText === heading);
     }
 
     /**
