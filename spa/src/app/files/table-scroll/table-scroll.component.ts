@@ -92,29 +92,6 @@ export class TableScroll implements OnDestroy, AfterContentInit {
     }
 
     /**
-     * Add class to component if component has been scrolled horizontally: we want to add an indicator to the first
-     * column to highlight that the column sticky.
-     */
-    private addScrollEventListener() {
-
-        const el = this.elementRef.nativeElement;
-        let scrolled = false;
-        fromEvent(el, "scroll").pipe(
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
-            const scrollLeft = el.scrollLeft;
-            if ( !scrolled && scrollLeft > 0 ) {
-                scrolled = true;
-                this.renderer.addClass(el, "scrolled");
-            }
-            else if ( scrolled && scrollLeft === 0 ) {
-                scrolled = false;
-                this.renderer.removeClass(el, "scrolled");
-            }
-        });
-    }
-
-    /**
      * After the table data has been loaded, calculate the width of the table and explicitly add it to the table element
      * (to ensure rendering of row delimiters is correct). Once table width has been calculated, update component host
      * class to indicate loading is complete and overflow can now be added.
@@ -122,7 +99,6 @@ export class TableScroll implements OnDestroy, AfterContentInit {
     ngAfterContentInit() {
 
         this.addResizeEventListener();
-        this.addScrollEventListener();
     }
 
     /**

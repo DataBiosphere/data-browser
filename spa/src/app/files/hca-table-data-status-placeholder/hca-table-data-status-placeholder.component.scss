@@ -1,6 +1,6 @@
 /*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Styles for table data status placeholder.
  */
@@ -10,14 +10,9 @@
     align-items: center;
     display: flex;
     height: 58px;
-    padding: 0 16px;
+    padding: 0 16px 0 46px;
 
     span {
         margin: 0;
     }
-}
-
-/* Project table */
-:host-context(.projects) .table-status {
-    padding: 0 16px 0 46px;
 }

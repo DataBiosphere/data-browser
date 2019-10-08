@@ -20,7 +20,7 @@
 // Set a min width on all cells in the table. Widths for individual columns can be specified in the table config.
 ::ng-deep mat-header-cell,
 ::ng-deep mat-cell {
-    min-width: 150px;
+    min-width: 100px;
 }
 
 /**
@@ -44,12 +44,6 @@
     :host {
         margin: 0 30px;
         width: calc(100vw - 60px); /* Allow for 2 x 30px gutters */
-    }
-
-    /* Set up fade on right hand side of first column, displayed once scroll left has been initiated */
-    :host.scrolled ::ng-deep mat-header-cell:first-of-type,
-    :host.scrolled ::ng-deep mat-cell:first-of-type {
-        border-right: 1px solid $hca-gray-lightest;
     }
 }
 
