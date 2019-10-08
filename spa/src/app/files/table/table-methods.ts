@@ -33,7 +33,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
-        // columnMinWidth: 88,
+        columnMinWidth: 88,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
 
@@ -42,6 +42,7 @@ let tableColumns: TableColumn[] = [
         key: "donorCount",
         userFriendly: "Donor Count",
         alignment: ColumnAlignment.RIGHT,
+        columnMinWidth: 88,
         columnSort: false,
         countType: CountType.NONE
 
@@ -88,6 +89,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Species",
         description: "The scientific binomial name for the species of the biomaterial.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 64,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -109,6 +111,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Library Construction Method",
         description: "The general method for sequencing library construction.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 96,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -146,6 +149,7 @@ let tableColumns: TableColumn[] = [
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
         alignment: ColumnAlignment.LEFT,
         columnFlexDirection: ColumnFlexDirection.COLUMN,
+        columnMinWidth: 100,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -204,7 +208,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Sample Id",
         description: "A unique ID for this sample.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 150,
+        columnMinWidth: 100,
         columnSort: true,
         countType: CountType.SUMMARY_COUNT
     },
@@ -213,6 +217,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Selected Cell Type",
         description: "The cell type(s) selected to be present in the suspension.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 70,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
@@ -229,6 +234,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Analysis Protocol",
         description: "The type of protocol.",
         alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 70,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     }
