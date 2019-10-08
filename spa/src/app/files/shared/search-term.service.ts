@@ -27,7 +27,8 @@ export class SearchTermService {
         "contactName",
         "laboratory",
         "organismAge",
-        "organismAgeUnit"
+        "organismAgeUnit",
+        "project"
     ];
 
     /**
