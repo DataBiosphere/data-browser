@@ -28,7 +28,8 @@ export class SearchTermService {
         "laboratory",
         "organismAge",
         "organismAgeUnit",
-        "project"
+        "project",
+        "projectDescription"
     ];
 
     /**
