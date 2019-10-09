@@ -73,6 +73,7 @@ import { ProjectService } from "./project/project.service";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
+import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
@@ -81,6 +82,7 @@ import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
+import { IntegrationService } from "./shared/integration.service";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
@@ -137,6 +139,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         ProjectDeprecatedComponent,
         ProjectDownloadsComponent,
         ProjectGuardComponent,
+        ProjectIntegrationsComponent,
         ProjectTSVDownloadComponent,
         ProjectPreparedMatrixDownloadsComponent,
         HCAGetDataComponent,
@@ -171,6 +174,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         FileFacetDisplayService,
         FileManifestService,
         FilesService,
+        IntegrationService,
         MatrixService,
         ProjectService,
         TableRendererService,

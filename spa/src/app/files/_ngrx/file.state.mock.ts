@@ -17,6 +17,7 @@ import { SearchState } from "./search/search.state";
 import { TerraState } from "./terra/terra.state";
 import { EntityName } from "../shared/entity-name.model";
 import * as searchStateMock from "./search/search.state.mock";
+import { IntegrationState } from "./integration/integration.state";
 
 /**
  * Default project state - current tab is projects, no selected search terms
@@ -25,6 +26,7 @@ export const DEFAULT_PROJECTS_STATE = {
     fileSummary: FileSummaryState.getDefaultState(),
     fileFacetList: FileFacetListState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
+    integration: IntegrationState.getDefaultState(),
     matrix: MatrixState.getDefaultState(),
     project: ProjectState.getDefaultState(),
     search: SearchState.getDefaultState(),
