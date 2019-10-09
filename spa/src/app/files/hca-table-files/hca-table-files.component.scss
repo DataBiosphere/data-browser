@@ -41,12 +41,14 @@
             /* Cell - header and cell */
             mat-header-cell, mat-cell {
                 flex: 0 1 10%; /* NB: flex variation to project and samples tables */
-                padding: 24px 0 0;
+                padding: 0;
             }
 
             mat-header-cell {
                 align-items: flex-start;
+                padding-top: 24px;
             }
+
 
             mat-cell {
                 align-items: stretch;
