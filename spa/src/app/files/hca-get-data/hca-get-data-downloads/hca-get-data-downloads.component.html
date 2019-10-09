@@ -35,7 +35,7 @@
         Command Line Interface (HCA CLI) to download the selected data (e.g. fastqs, BAMs) and metadata.</p>
     <div class="start">
         <button class="button secondary" type="button" (click)="onStartGetData('MANIFEST')">Start</button>
-        <!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a>-->
+        <p class="fontsize-m">|</p><a href="{{portalURL}}/guides/consumer-vignettes/intro-to-downloading-and-analyzing" target="_blank" rel="noopener noreferrer"><h4 class="fontsize-m">Help</h4></a>
     </div>
 </hca-get-data-panel>
 <!--<hca-get-data-panel>-->
@@ -49,6 +49,6 @@
     <p class="fontsize-m">Export the selected data into a Terra workspace.</p>
     <div class="start">
         <button class="button secondary" (click)="onStartGetData('TERRA')">Start</button>
-        <!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a>-->
+        <p class="fontsize-m">|</p><a href="{{portalURL}}/guides/consumer-vignettes/export-to-terra" target="_blank" rel="noopener noreferrer"><h4 class="fontsize-m">Help</h4></a>
     </div>
 </hca-get-data-panel>

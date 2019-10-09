@@ -8,6 +8,9 @@
 // Core dependencies
 import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from "@angular/core";
 
+// App dependencies
+import { ConfigService } from "../../../config/config.service";
+
 @Component({
     selector: "hca-get-data-downloads",
     templateUrl: "./hca-get-data-downloads.component.html",
@@ -17,11 +20,21 @@ import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from 
 
 export class HCAGetDataDownloadsComponent {
 
+    // Template variables
+    public portalURL: string;
+
     // Inputs
     @Input() matrixEnabled: boolean;
 
     // Outputs
     @Output() downloadSelected = new EventEmitter<string>();
+
+    /**
+     * @param {ConfigService} configService
+     */
+    constructor(private configService: ConfigService) {
+        this.portalURL = this.configService.getPortalURL();
+    }
 
     /**
      * Returns true if whether matrix is supported or not, is not yet determined.
