@@ -41,7 +41,7 @@ export class IntegrationService {
         const paramMap = {
             "integration_type": IntegrationType.GET,
             "entity_type": EntityType.PROJECT,
-            // "entity_ids": [projectId]
+            "entity_ids": [projectId]
         }; 
         return this.httpClient.get<Portal[]>(url, {params: paramMap}).pipe(
             catchError(() => of([])), // Convert error response to []
