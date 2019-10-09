@@ -11,6 +11,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 
 // App dependencies
+import { ConfigService } from "../../../config/config.service";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { DownloadViewState } from "../download-view-state.model";
@@ -37,7 +38,12 @@ describe("HCAGetDataDownloadsComponent", () => {
                 WarningContentComponent
             ],
             imports: [],
-            providers: []
+            providers: [
+                {
+                    provide: ConfigService,
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                },
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCAGetDataDownloadsComponent);
