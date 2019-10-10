@@ -12,7 +12,7 @@ import { By } from "@angular/platform-browser";
 // App dependencies
 import { Portal } from "../_ngrx/integration/portal.model";
 import {
-    PROJECT_PORTAL_SINGLE_VALUE_NULL_INTEGRATION_OBJECT,
+    PROJECT_PORTAL_NULL_VALUES,
     PROJECT_PORTAL_MULTIPLE_VALUES_SINGLE_INTEGRATION_OBJECT, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "../hca-project/hca-project-mapper.mock";
 import { ProjectIntegrationsComponent } from "./project-integrations.component";
@@ -72,22 +72,22 @@ describe("ProjectIntegrationsComponent", () => {
     });
 
     /**
-     * Confirm no portals are displayed when single portal with null integration value.
+     * Confirm no portals are displayed when portal with null values.
      */
-    it("should not display any portals when single portal with null integration value", () => {
+    it("should not display any portals when portal with null values", () => {
 
-        component.integrations = PROJECT_PORTAL_SINGLE_VALUE_NULL_INTEGRATION_OBJECT;
+        component.integrations = PROJECT_PORTAL_NULL_VALUES;
 
         fixture.detectChanges();
 
         // Confirm no portal values are displayed
-        expect(getCountOfPortalEls()).toEqual(getCountOfIntegrations(PROJECT_PORTAL_SINGLE_VALUE_NULL_INTEGRATION_OBJECT));
+        expect(getCountOfPortalEls()).toEqual(getCountOfIntegrations(PROJECT_PORTAL_NULL_VALUES));
     });
 
     /**
      * Confirm portal url is added to href attribute.
      */
-    it(`should add portal url to href`, () => {
+    it("should add portal url to href", () => {
 
         // Set up initial component state
         component.integrations = PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT;
@@ -104,16 +104,16 @@ describe("ProjectIntegrationsComponent", () => {
     /**
      * Returns the number of portal integrations.
      *
-     * @param {Portal[]} integrations
+     * @param {Portal[]} portals
      * @returns {number}
      */
-    function getCountOfIntegrations(integrations: Portal[]): number {
+    function getCountOfIntegrations(portals: Portal[]): number {
 
-        if ( integrations ) {
-
-            return integrations.reduce((integrationCount, portal) => integrationCount + portal.integrations.length, 0);
+        if ( !portals ) {
+            return 0;
         }
-        return -1;
+
+        return portals.reduce((integrationCount, portal) => integrationCount + portal.integrations.length, 0);
     }
 
     /**
@@ -129,15 +129,27 @@ describe("ProjectIntegrationsComponent", () => {
     /**
      * Returns the first portal's, first integration's portal url.
      *
-     * @param {Portal[]} integrations
+     * @param {Portal[]} portals
      * @returns {string}
      */
-    function getFirstPortalFirstIntegrationUrl(integrations: Portal[]): string {
+    function getFirstPortalFirstIntegrationUrl(portals: Portal[]): string {
 
-        if ( integrations ) {
-
-            return integrations[0].integrations[0].portalUrl;
+        if ( !portals ) {
+            return "";
         }
-        return "";
+
+        const portal = portals[0];
+
+        if ( !portal ) {
+            return "";
+        }
+
+        const integrations = portal.integrations[0];
+
+        if ( !integrations ) {
+            return "";
+        }
+
+        return integrations.portalUrl;
     }
 });
