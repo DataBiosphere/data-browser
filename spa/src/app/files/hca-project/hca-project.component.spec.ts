@@ -41,7 +41,7 @@ describe("HCAProjectComponent", () => {
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     // Heading labels
-    const HEADING_TERTIARY_PORTALS = "Tertiary Portals";
+    const HEADING_ANALYSIS_TOOLS = "Analysis Tools";
 
     // Project matrix urls
     const PROJECT_DETAIL_PROJECT_MATRIX_URLS = new ProjectMatrixUrls("2cd14cf5-f8e0-4c97-91a2-9e8957f41ea8", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.csv.zip", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.loom", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.mtx.zip");
@@ -390,9 +390,9 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
-     * Confirm "Tertiary Portals" is displayed.
+     * Confirm "Analysis Tools" is displayed.
      */
-    it(`should display "Tertiary Portals"`, () => {
+    it(`should display "Analysis Tools"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -404,8 +404,8 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm "Tertiary Portals" is displayed
-        expect(isHeadingDisplayed(HEADING_TERTIARY_PORTALS)).toEqual(true);
+        // Confirm "Analysis Tools" is displayed
+        expect(isHeadingDisplayed(HEADING_ANALYSIS_TOOLS)).toEqual(true);
     });
 
     /**

@@ -51,7 +51,6 @@ import {
 export class HCAProjectComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public analysisToolsAvailable: false; // TODO remove
     public getColumnDescription = getColumnDescription;
     public getColumnDisplayName = getColumnDisplayName;
     public state$: Observable<HCAProjectState>;
