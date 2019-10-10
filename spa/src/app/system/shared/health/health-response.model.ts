@@ -5,12 +5,8 @@
  * Model of health response.
  */
 
-// App dependencies
-import { HealthRequestStatus } from "./health-request-status.model";
-
 export interface HealthResponse {
 
+    serviceName: string;
     ok: boolean;
-    indexing: boolean;
-    status: HealthRequestStatus;
 }

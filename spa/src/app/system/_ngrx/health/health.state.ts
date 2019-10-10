@@ -12,9 +12,8 @@ export class HealthState {
 
     /**
      * @param {boolean} ok
-     * @param {boolean} indexing
      */
-    constructor(public readonly ok: boolean, public readonly indexing: boolean) {}
+    constructor(public readonly ok: boolean) {}
 
     /**
      * Return the current health status on request of health check.
@@ -34,7 +33,7 @@ export class HealthState {
      */
     public receiveHealth(action: HealthSuccessAction): HealthState {
 
-        return new HealthState(action.ok, action.indexing);
+        return new HealthState(action.ok);
     }
 
     /**
@@ -44,6 +43,6 @@ export class HealthState {
      */
     public static getDefaultState() {
 
-        return new HealthState(true,false);
+        return new HealthState(true);
     }
 }

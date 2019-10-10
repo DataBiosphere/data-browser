@@ -20,6 +20,7 @@ export class ConfigService {
 
     // Locals
     private dataURL: string; // Pulled from config store, saved as local state here on service
+    private dcpHealthCheckUrl: string;
     private matrixURL: string;
     private portalURL: string;
     private deployment: string;
@@ -65,13 +66,23 @@ export class ConfigService {
     }
 
     /**
-     * Return the data URL for this Boardwalk instance.
+     * Return the data URL.
      *
      * @returns {string}
      */
     public getDataURL(): string {
 
         return this.dataURL;
+    }
+
+    /**
+     * Return the DCP health check path.
+     *
+     * @returns {string}
+     */
+    public getDCPHealthCheckURL(): string {
+
+        return this.dcpHealthCheckUrl;
     }
 
     /**
@@ -150,6 +161,7 @@ export class ConfigService {
 
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
+        this.dcpHealthCheckUrl = config.dcpHealthCheckUrl;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;

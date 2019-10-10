@@ -29,7 +29,8 @@ export class ConfigState {
      */
     public static getDefaultState() {
 
-        return new ConfigState(new Config("", "", "", "", ""));
+        return new ConfigState(
+            new Config("", "", "", "", "", ""));
     }
 
     /**

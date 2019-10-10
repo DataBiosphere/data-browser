@@ -10,8 +10,8 @@ import { Location } from "@angular/common";
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subscription, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { combineLatest, Observable, Subscription, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { Config } from "./config/config.model";
@@ -22,8 +22,9 @@ import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { AppState } from "./_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
-import { HealthState } from "./system/_ngrx/health/health.state";
-import { selectHealth } from "./system/_ngrx/system.selectors";
+import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
+import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
+import { SystemState } from "./system.state";
 
 @Component({
     selector: "app-root",
@@ -34,7 +35,7 @@ import { selectHealth } from "./system/_ngrx/system.selectors";
 export class AppComponent implements OnInit, OnDestroy {
 
     // Template/public variables
-    public health$: Observable<HealthState>;
+    public systemStatus$: Observable<SystemState>;
     public config$: Observable<Config>;
 
     // Locals
@@ -165,14 +166,25 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Fetch current status of system and display information banners, if necessary.
+     * Fetch current status of system, and current status of index, and display information banners, if necessary.
      */
-    private healthCheck() {
+    private systemCheck() {
 
         this.store.dispatch(new HealthRequestAction());
-        this.health$ = this.store.pipe(
-            select(selectHealth),
-            takeUntil(this.ngDestroy$)
+        const health$ = this.store.pipe(select(selectHealth));
+
+        this.store.dispatch(new IndexRequestAction());
+        const index$ = this.store.pipe(select(selectIndex));
+        
+        this.systemStatus$ = combineLatest(health$, index$).pipe(
+            takeUntil(this.ngDestroy$),
+            map(([health, index]) => {
+
+                return {
+                    health,
+                    index
+                }
+            })
         );
     }
 
@@ -221,7 +233,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public ngOnInit() {
 
         this.setAppStateFromURL();
-        this.healthCheck();
+        this.systemCheck();
         
         this.config$ = this.store.pipe(
             select(selectConfigConfig),

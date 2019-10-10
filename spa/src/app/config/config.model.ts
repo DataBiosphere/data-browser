@@ -8,6 +8,7 @@
 export class Config {
 
     public readonly dataURL: string;
+    public readonly dcpHealthCheckUrl: string;
     public readonly matrixURL: string;
     public readonly portalURL: string;
     public readonly deployment: string;
@@ -15,13 +16,20 @@ export class Config {
 
     /**
      * @param {string} dataURL
+     * @param {string} dcpHealthCheckPath
      * @param {string} matrixURL
      * @param {string} portalURL
      * @param {string} projectMetaURL
      */
-    constructor(dataURL: string, matrixURL: string, portalURL: string, projectMetaURL: string, deployment: string) {
+    constructor(dataURL: string,
+                dcpHealthCheckUrl: string,
+                matrixURL: string,
+                portalURL: string,
+                projectMetaURL: string,
+                deployment: string) {
 
         this.dataURL = dataURL;
+        this.dcpHealthCheckUrl = dcpHealthCheckUrl;
         this.matrixURL = matrixURL;
         this.deployment = deployment;
         this.portalURL = portalURL;
