@@ -348,15 +348,15 @@ export const PROJECT_PORTAL_MULTIPLE_VALUES_SINGLE_INTEGRATION_OBJECT = [
     }
 ];
 
-// Example of single portal with null integration value
-export const PROJECT_PORTAL_SINGLE_VALUE_NULL_INTEGRATION_OBJECT = [
+// Example of portal with null values
+export const PROJECT_PORTAL_NULL_VALUES = [
     {
-        "contactEmail": "Irene Papatheodorou irenep@ebi.ac.uk",
+        "contactEmail": null,
         "integrations": [],
-        "organizationName": "European Bioinformatics Institute",
-        "portalDescription": "Single Cell Expression Atlas annotates publicly available single cell RNA-Seq experiments with ontology identifiers and re-analyses them using standardised pipelines available through SCXA-Workflows, our collection of RNA-Seq analysis pipelines, which is available at https://github.com/ebi-gene-expression-group/scxa-workflows . The browser enables visualisation of clusters of cells, their annotations and supports searches for gene expression within and across studies.",
-        "portalIcon": "https://www.ebi.ac.uk/gxa/sc/resources/images/logos/sc_atlas_logo.png",
+        "organizationName": null,
+        "portalDescription": null,
+        "portalIcon": null,
         "portalId": "f58bdc5e-98cd-4df4-80a4-7372dc035e87",
-        "portalName": "Single Cell Expression Atlas"
+        "portalName": null
     }
 ];
