@@ -131,6 +131,18 @@
                             </ng-container>
                         </div>
                     </div>
+                    <div class="project-integrations">
+                        <h4 class="fontsize-m semi-bold">Analysis Tools</h4>
+                        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
+                            <ng-container *ngSwitchCase="true">
+                                <div class="stretch">
+                                    <p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>
+                                </div>
+                                <project-integrations [integrations]="state.integrations"></project-integrations>
+                            </ng-container>
+                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>
+                        </ng-container>
+                    </div>
                     <div class="project-details">
                         <h4 class="fontsize-m semi-bold">Project Details</h4>
                         <div>
@@ -300,18 +312,6 @@
                             <p class="fontsize-xs rhs">{{state.project.project.totalCount | localeString}}</p>
                         </div>
                     </div>
-                    <div class="project-integrations">
-                        <h4 class="fontsize-m semi-bold">Tertiary Portals</h4>
-                        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
-                            <ng-container *ngSwitchCase="true">
-                                <div class="stretch">
-                                    <p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>
-                                </div>
-                                <project-integrations [integrations]="state.integrations"></project-integrations>
-                            </ng-container>
-                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>
-                        </ng-container>
-                    </div>
                     <div class="project-accessions">
                         <h4 class="fontsize-m semi-bold">Accessions</h4>
                         <div>
@@ -347,26 +347,6 @@
                         <h4 class="fontsize-m semi-bold">Data Release Policy</h4>
                         <div class="stretch">
                             <p class="fontsize-xs">For information regarding data sharing and data use, please see our <a href="https://www.humancellatlas.org/data-release-policy/" target="_blank" rel="noopener noreferrer">Data Release Policy</a></p>
-                        </div>
-                    </div>
-                    <div class="project-views" *ngIf="analysisToolsAvailable">
-                        <h4 class="fontsize-m semi-bold">View in Analysis Tool</h4>
-                        <div>
-                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
-                                                                    rel="noopener noreferrer">Single
-                                Cell Portal (SCP)</a></p>
-                        </div>
-                        <div>
-                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
-                                                                    rel="noopener noreferrer">Xena</a></p>
-                        </div>
-                    </div>
-                    <div class="project-workflows" *ngIf="analysisToolsAvailable">
-                        <h4 class="fontsize-m semi-bold">Launch Workflow</h4>
-                        <div>
-                            <p class="fontsize-xs semi-bold lhs"><a href="" target="_blank"
-                                                                    rel="noopener noreferrer">Send
-                                to Terra</a></p>
                         </div>
                     </div>
                 </div>
