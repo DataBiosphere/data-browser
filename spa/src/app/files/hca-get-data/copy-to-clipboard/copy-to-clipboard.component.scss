@@ -27,15 +27,23 @@
         cursor: pointer;
         display: flex;
         margin: 8px 0;
+        position: relative;
 
         span {
             padding-left: 8px;
             margin: 0;
         }
 
-        /* Icon */
-        img {
-            height: 18px; /* Matches line height of <span> */
+        /* Copy icon */
+        mat-icon {
+            color: $hca-gray-dark;
+        }
+
+        /* Icon - copy complete */
+        mat-icon:last-of-type {
+            left: 0;
+            position: absolute;
+            top: 0;
         }
     }
 }

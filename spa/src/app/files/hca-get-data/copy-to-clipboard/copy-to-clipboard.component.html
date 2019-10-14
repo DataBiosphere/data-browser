@@ -1,8 +1,12 @@
 <div class="download-url">
     <a class="fontsize-s link" href="{{copyToClipboardLink}}"
        [attr.target]="targetBlank ? '_blank' : null">{{copyToClipboardLink}}</a>
-    <div class="clipboard-copy" ngxClipboard [cbContent]="copyToClipboardLink">
-        <img src="assets/images/icon/hca-copy.png"/>
+    <div class="clipboard-copy" (cbOnSuccess)="onCopied()" ngxClipboard [cbContent]="copyToClipboardLink">
+        <mat-icon class="material-icons-outlined"
+                  [@showHide]="copied ? 'hideCopy' : 'show'">assignment</mat-icon>
+        <mat-icon class="material-icons-round"
+                  [@showHide]="copied ? 'show' : 'hideCopied'"
+                  (@showHide.done)="onAnimationEvent($event)">check_circle</mat-icon>
         <span class="fontsize-xxs">Copy link to clipboard. {{note}}</span>
     </div>
 </div>
