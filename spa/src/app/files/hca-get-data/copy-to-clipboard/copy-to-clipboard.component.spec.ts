@@ -7,11 +7,13 @@
 
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatIconModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { CopyToClipboardComponent } from "./copy-to-clipboard.component";
+import { DebugElement } from "@angular/core";
 
 describe("CopyToClipboardComponent", () => {
 
@@ -25,10 +27,10 @@ describe("CopyToClipboardComponent", () => {
                 CopyToClipboardComponent
             ],
             imports: [
-                ClipboardModule
+                ClipboardModule,
+                MatIconModule
             ],
-            providers: [
-            ]
+            providers: []
         }).compileComponents();
 
         fixture = TestBed.createComponent(CopyToClipboardComponent);
@@ -44,6 +46,22 @@ describe("CopyToClipboardComponent", () => {
     });
 
     /**
+     * Confirm copied method returns true when copied is true.
+     */
+    it("should copied method return true when copied is true", () => {
+
+        expect(component.isCopied(true)).toEqual(true);
+    });
+
+    /**
+     * Confirm copied method returns false when copied is false.
+     */
+    it("should copied method return false when copied is false", () => {
+
+        expect(component.isCopied(false)).toEqual(false);
+    });
+
+    /**
      * Confirm copy to clipboard link is displayed.
      */
     it(`should display copy to clipboard link`, () => {
@@ -56,7 +74,7 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm copy to clipboard link text is displayed - first execute a query to find the element with the
         // class "link" and then confirm the content is displayed.
-        const copyToClipboardEl = fixture.debugElement.query(By.css(".link"));
+        const copyToClipboardEl = getElementByClassName(".link");
         expect(copyToClipboardEl.nativeElement.textContent).toEqual(component.copyToClipboardLink);
     });
 
@@ -73,7 +91,7 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm copy to clipboard link text is added to href attribute - first execute a query to find the element with the
         // class "link" and then confirm the copy to clipboard link is added to the href attribute.
-        const copyToClipboardEl = fixture.debugElement.query(By.css(".link"));
+        const copyToClipboardEl = getElementByClassName(".link");
         expect(copyToClipboardEl.nativeElement.getAttribute("href")).toEqual(component.copyToClipboardLink);
     });
 
@@ -90,7 +108,7 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm "_blank" is added to target attribute - first execute a query to find the element with the
         // class "link" and then confirm the target attribute is equal to "_blank".
-        const copyToClipboardEl = fixture.debugElement.query(By.css(".link"));
+        const copyToClipboardEl = getElementByClassName(".link");
         expect(copyToClipboardEl.nativeElement.getAttribute("target")).toEqual("_blank");
     });
 
@@ -107,7 +125,7 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm note text is displayed - first execute a query to find the element with the
         // class "clipboard-copy" and then confirm the note is displayed.
-        const noteEl = fixture.debugElement.query(By.css(".clipboard-copy"));
+        const noteEl = getElementByClassName(".clipboard-copy");
         expect(noteEl.nativeElement.querySelector("span").textContent).toContain(component.note);
     });
 
@@ -121,7 +139,77 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm note text is not displayed when note is undefined - first execute a query to find the element with the
         // class "clipboard-copy" and then confirm note is not displayed.
-        const noteEl = fixture.debugElement.query(By.css(".clipboard-copy"));
+        const noteEl = getElementByClassName(".clipboard-copy");
         expect(noteEl.nativeElement.querySelector("span").textContent).toEqual("Copy link to clipboard. ");
     });
+
+    /**
+     * Confirm "Copy link to clipboard. " is displayed when copied is false.
+     */
+    it(`should display "Copy link to clipboard. " when copied is false`, () => {
+
+        // Set up initial component state
+        component.copied.next(false);
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm text is displayed - first execute a query to find the element with the
+        // class "fontsize-xxs" and then confirm the content is displayed.
+        const copyInstructionEl = getElementByClassName(".fontsize-xxs");
+        expect(copyInstructionEl.nativeElement.textContent).toEqual("Copy link to clipboard. ");
+    });
+
+    /**
+     * Confirm "Copied!" is displayed when copied is true.
+     */
+    it(`should display "Copied!" when copied is true`, () => {
+
+        // Set up initial component state
+        component.copied.next(true);
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm text is displayed - first execute a query to find the element with the
+        // class "fontsize-xxs" and then confirm the content is displayed.
+        const copyInstructionEl = getElementByClassName(".fontsize-xxs");
+        expect(copyInstructionEl.nativeElement.textContent).toEqual("Copied!");
+    });
+
+    /**
+     * Confirm method copy is called on click of copy to clipboard.
+     */
+    it("should method copy is called on click of copy to clipboard", () => {
+
+        const onCopy = spyOn(component, "onCopy");
+        const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
+
+        // Execute click on copy to clipboard
+        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        expect(onCopy).toHaveBeenCalled();
+    });
+
+    /**
+     * Confirm copied is true on click of copy to clipboard.
+     */
+    it("should copied is true on click of copy to clipboard", () => {
+
+        const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
+
+        // Execute click on copy to clipboard
+        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        expect(component.copied.value).toEqual(true);
+    });
+
+    /**
+     * Returns element for the specified class name.
+     *
+     * @param {string} className
+     * @returns {DebugElement}
+     */
+    function getElementByClassName(className: string): DebugElement {
+
+        return fixture.debugElement.query(By.css(className));
+    }
 });
