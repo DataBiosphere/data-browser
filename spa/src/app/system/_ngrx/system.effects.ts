@@ -13,12 +13,15 @@ import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { HealthFailureAction } from "./health/health-failure.action";
 import { HealthRequestAction } from "./health/health-request.action";
 import { HealthSuccessAction } from "./health/health-success.action";
-import { HealthRequestStatus } from "../shared/health/health-request-status.model";
+import { IndexRequestAction } from "./index/index-request.action";
+import { IndexSuccessAction } from "./index/index-success.action";
+import { IndexFailureAction } from "./index/index-failure.action";
+import { AppState } from "../../_ngrx/app.state";
 import { HealthResponse } from "../shared/health/health-response.model";
+import { IndexResponse } from "../shared/index/index-response.model";
+import { IndexRequestStatus } from "../shared/index/index-request-status.model";
 import { SystemService } from "../shared/system.service";
 
 @Injectable()
@@ -35,7 +38,27 @@ export class SystemEffects {
     }
 
     /**
-     * Trigger fetch of system health, including indexing status.
+     * Trigger fetch of index status.
+     *
+     * @type {Observable<Action>}
+     */
+    @Effect()
+    indexStatus$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(IndexRequestAction.ACTION_TYPE),
+            switchMap(() => this.systemService.checkIndexStatus()),
+            map((response: IndexResponse) => {
+
+                if ( response.status === IndexRequestStatus.COMPLETE ) {
+                    return new IndexSuccessAction(response.ok, response.indexing);
+                }
+
+                return new IndexFailureAction();
+            })
+        );
+
+    /**
+     * Trigger fetch of system health.
      *
      * @type {Observable<Action>}
      */
@@ -43,14 +66,10 @@ export class SystemEffects {
     healthCheck$: Observable<Action> = this.actions$
         .pipe(
             ofType(HealthRequestAction.ACTION_TYPE),
-            switchMap(() => this.systemService.healthCheck()),
+            switchMap(() => this.systemService.checkHealth()),
             map((response: HealthResponse) => {
 
-                if ( response.status === HealthRequestStatus.COMPLETE ) {
-                    return new HealthSuccessAction(response.ok, response.indexing);
-                }
-
-                return new HealthFailureAction();
+                return new HealthSuccessAction(response.ok);
             })
         );
 }

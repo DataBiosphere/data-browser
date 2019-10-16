@@ -6,10 +6,15 @@
  */
 
 // Core dependencies
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createFeatureSelector } from "@ngrx/store";
 
 // App dependencies
 import { HealthState } from "./health/health.state";
+import { IndexState } from "./index/index.state";
+
+// Health status slice
+export const selectHealth = createFeatureSelector<HealthState>("health");
+
 
 // Index status slice
-export const selectHealth = createFeatureSelector<HealthState>("health");
+export const selectIndex = createFeatureSelector<IndexState>("index");

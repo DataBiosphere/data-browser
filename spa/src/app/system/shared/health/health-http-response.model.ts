@@ -7,9 +7,6 @@
 
 export interface HealthHttpResponse {
 
-    up: boolean;
-    progress: {
-        unindexed_bundles: number;
-        unindexed_documents: number;
-    }
+    service_name: string;
+    status: string;
 }

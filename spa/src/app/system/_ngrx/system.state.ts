@@ -7,7 +7,9 @@
 
 // App dependencies
 import { HealthState } from "./health/health.state";
+import { IndexState } from "./index/index.state";
 
 export interface SystemState {
     health: HealthState;
+    index: IndexState;
 }
