@@ -16,7 +16,7 @@ export class Config {
 
     /**
      * @param {string} dataURL
-     * @param {string} dcpHealthCheckPath
+     * @param {string} dcpHealthCheckUrl
      * @param {string} matrixURL
      * @param {string} portalURL
      * @param {string} projectMetaURL
