@@ -161,7 +161,7 @@ describe("CopyToClipboardComponent", () => {
     });
 
     /**
-     * Confirm "Copied!" is displayed when copied is true.
+     * Confirm "Linked copied." is displayed when copied is true.
      */
     it(`should display "Copied!" when copied is true`, () => {
 
@@ -174,7 +174,7 @@ describe("CopyToClipboardComponent", () => {
         // Confirm text is displayed - first execute a query to find the element with the
         // class "fontsize-xxs" and then confirm the content is displayed.
         const copyInstructionEl = getElementByClassName(".fontsize-xxs");
-        expect(copyInstructionEl.nativeElement.textContent).toEqual("Copied!");
+        expect(copyInstructionEl.nativeElement.textContent).toEqual("Link copied.");
     });
 
     /**

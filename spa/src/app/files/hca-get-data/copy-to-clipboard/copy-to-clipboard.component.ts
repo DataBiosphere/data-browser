@@ -52,7 +52,7 @@ export class CopyToClipboardComponent {
      */
     private resetCopied() {
 
-        interval(1000)
+        interval(2000)
             .pipe(
                 take(1)
             )

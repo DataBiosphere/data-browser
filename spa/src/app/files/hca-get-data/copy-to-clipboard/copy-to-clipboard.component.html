@@ -4,6 +4,6 @@
     <div class="clipboard-copy" ngxClipboard (cbOnSuccess)="onCopy()" [cbContent]="copyToClipboardLink">
         <mat-icon>assignment</mat-icon>
         <span class="fontsize-xxs" *ngIf="!isCopied(copied | async)">Copy link to clipboard. {{note}}</span>
-        <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">Copied!</span>
+        <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">Link copied.</span>
     </div>
 </div>
