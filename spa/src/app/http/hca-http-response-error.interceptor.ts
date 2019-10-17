@@ -31,6 +31,9 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         [404, "/not-found"],
         [500, "/error"]
     ]);
+    private NO_REDIRECT_PATHS = [
+        "/integrations"
+    ];
 
     /**
      * @param {Router} router
@@ -51,7 +54,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
                 if ( error instanceof HttpErrorResponse ) {
 
                     // Allow system service to handle health check errors or HEAD checks
-                    if ( this.isHEADRequest(req) || this.isHealthCheckError(error) ) {
+                    if ( this.isNoRedirectOnError(req, error) ) {
                         return throwError(error);
                     }
 
@@ -69,6 +72,34 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
                 return throwError(error);
             })
         );
+    }
+
+    /**
+     * Returns true if the error should be ignored by interceptor and handled by calling code.
+     * 
+     * @param {HttpRequest<any>} req
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isNoRedirectOnError(req: HttpRequest<any>, error: HttpErrorResponse): boolean {
+
+        return this.isHEADRequest(req) ||
+            this.isNoRedirectPath(req, error) ||
+            this.isHealthCheckError(error);
+    }
+
+    /**
+     * Returns true if the request path can be handled by the calling code and ignored by the interceptor.
+     *
+     * @param {HttpRequest<any>} req
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isNoRedirectPath(req: HttpRequest<any>, error: HttpErrorResponse): boolean {
+
+        const path = new URL(error.url).pathname;
+        return error.status === 400 && 
+            this.NO_REDIRECT_PATHS.indexOf(path) >= 0;
     }
 
     /**

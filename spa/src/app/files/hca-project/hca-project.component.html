@@ -131,18 +131,18 @@
                             </ng-container>
                         </div>
                     </div>
-                    <!--<div class="project-integrations">-->
-                        <!--<h4 class="fontsize-m semi-bold">Analysis Tools</h4>-->
-                        <!--<ng-container [ngSwitch]="state.integratedWithTertiaryPortals">-->
-                            <!--<ng-container *ngSwitchCase="true">-->
-                                <!--<div class="stretch">-->
-                                    <!--<p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>-->
-                                <!--</div>-->
-                                <!--<project-integrations [integrations]="state.integrations"></project-integrations>-->
-                            <!--</ng-container>-->
-                            <!--<p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>-->
-                        <!--</ng-container>-->
-                    <!--</div>-->
+                    <div class="project-integrations">
+                        <h4 class="fontsize-m semi-bold">Analysis Tools</h4>
+                        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
+                            <ng-container *ngSwitchCase="true">
+                                <div class="stretch">
+                                    <p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>
+                                </div>
+                                <project-integrations [integrations]="state.integrations"></project-integrations>
+                            </ng-container>
+                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>
+                        </ng-container>
+                    </div>
                     <div class="project-details">
                         <h4 class="fontsize-m semi-bold">Project Details</h4>
                         <div>

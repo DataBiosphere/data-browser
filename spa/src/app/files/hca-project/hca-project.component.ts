@@ -499,7 +499,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
         );
         
         // Request and grab the integrations for the current project
-        // this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
+        this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
         const integrations$ = this.store.pipe(
             select(selectProjectIntegrations, {projectId: projectId})
         );

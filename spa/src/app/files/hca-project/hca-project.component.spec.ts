@@ -389,66 +389,66 @@ describe("HCAProjectComponent", () => {
         expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW)).toEqual(false);
     });
 
-    // /**
-    //  * Confirm "Analysis Tools" is displayed.
-    //  */
-    // it(`should display "Analysis Tools"`, () => {
-    //
-    //     testStore.pipe
-    //         .and.returnValues(
-    //         of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-    //         of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-    //         of([]), // project ids
-    //         of([]) // integrations
-    //     );
-    //
-    //     fixture.detectChanges();
-    //
-    //     // Confirm "Analysis Tools" is displayed
-    //     expect(isHeadingDisplayed(HEADING_ANALYSIS_TOOLS)).toEqual(true);
-    // });
-    //
-    // /**
-    //  * Confirm <project-integrations> is displayed when project integration is single value.
-    //  */
-    // it("should display component project integrations when project integration is single value", () => {
-    //
-    //     testStore.pipe
-    //         .and.returnValues(
-    //         of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-    //         of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-    //         of([]), // project ids
-    //         of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
-    //     );
-    //
-    //     fixture.detectChanges();
-    //
-    //     const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
-    //
-    //     // Confirm component project-integrations is displayed when integrations is single value
-    //     expect(projectIntegrationsEl).not.toBe(null);
-    // });
-    //
-    // /**
-    //  * Confirm <project-integrations> is not displayed when project integration is empty.
-    //  */
-    // it("should not display component project integrations when project integration is empty", () => {
-    //
-    //     testStore.pipe
-    //         .and.returnValues(
-    //         of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-    //         of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
-    //         of([]), // project ids
-    //         of([]) // integrations
-    //     );
-    //
-    //     fixture.detectChanges();
-    //
-    //     const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
-    //
-    //     // Confirm component project-integrations is not displayed when integrations is empty
-    //     expect(projectIntegrationsEl).toBe(null);
-    // });
+    /**
+     * Confirm "Analysis Tools" is displayed.
+     */
+    it(`should display "Analysis Tools"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm "Analysis Tools" is displayed
+        expect(isHeadingDisplayed(HEADING_ANALYSIS_TOOLS)).toEqual(true);
+    });
+
+    /**
+     * Confirm <project-integrations> is displayed when project integration is single value.
+     */
+    it("should display component project integrations when project integration is single value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+
+        // Confirm component project-integrations is displayed when integrations is single value
+        expect(projectIntegrationsEl).not.toBe(null);
+    });
+
+    /**
+     * Confirm <project-integrations> is not displayed when project integration is empty.
+     */
+    it("should not display component project integrations when project integration is empty", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+
+        // Confirm component project-integrations is not displayed when integrations is empty
+        expect(projectIntegrationsEl).toBe(null);
+    });
 
     /**
      * Returns the project detail value for the specified project detail.
