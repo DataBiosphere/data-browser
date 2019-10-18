@@ -11,6 +11,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { ProjectStatus } from "./project-status.model";
 
 @Component({
     selector: "project-guard",
@@ -23,12 +24,34 @@ export class ProjectGuardComponent implements OnInit {
         ["29f53b7e-071b-44b5-998a-0ae70d0229a4", "091cf39b-01bc-42e5-9437-f419a66c8a45"] // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/865
     ]);
 
+    private PROJECT_IDS_INGEST_IN_PROGRESS = [
+        "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944
+    ];
+
     public projectId$: Observable<string>;
 
     /**
      * @param {ActivatedRoute} route
      */
     constructor(private route: ActivatedRoute) {
+    }
+
+    /**
+     * Return the view mode for the project, depending on its current status.
+     * 
+     * @param {string} projectId
+     * @returns {string}
+     */
+    public getProjectViewMode(projectId): string {
+
+        if ( this.isProjectDeprecated(projectId) ) {
+            return ProjectStatus.DEPRECATED;
+        }
+        else if ( this.isProjectIngestInProgress(projectId) ) {
+            return ProjectStatus.INGEST_IN_PROGRESS;
+        }
+        
+        return ProjectStatus.LIVE;
     }
 
     /**
@@ -51,6 +74,17 @@ export class ProjectGuardComponent implements OnInit {
     public isProjectDeprecated(projectIdToCheck: string): boolean {
 
         return this.PROJECT_IDS_BY_DEPRECATED_ID.has(projectIdToCheck);
+    }
+
+    /**
+     * Returns true if project ingest is currently in progress.
+     *
+     * @param {string} projectIdToCheck
+     * @returns {boolean}
+     */
+    public isProjectIngestInProgress(projectIdToCheck: string): boolean {
+
+        return this.PROJECT_IDS_INGEST_IN_PROGRESS.indexOf(projectIdToCheck) >= 0;
     }
 
     /**
