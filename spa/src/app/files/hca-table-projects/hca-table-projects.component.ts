@@ -56,9 +56,8 @@ export class HCATableProjectsComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "projectTitle", "getData", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd",
-        "workflow", "genusSpecies", "disease",
-        "donorCount", "totalCells"
+        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd",
+        "workflow", "disease", "donorCount", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getColumnClass = getColumnClass;
