@@ -39,11 +39,13 @@ export class CopyToClipboardComponent {
     /**
      * Sets the copied value to true, when copy to clipboard is successful.
      *
+     * @param {MouseEvent} event
      */
-    public onCopy() {
+    public onCopy(event: MouseEvent) {
 
         this.copied.next(true);
         this.resetCopied();
+        event.stopPropagation();
     }
 
     /**

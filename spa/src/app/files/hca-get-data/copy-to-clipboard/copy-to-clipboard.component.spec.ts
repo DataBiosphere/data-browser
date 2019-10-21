@@ -6,6 +6,7 @@
  */
 
 // Core dependencies
+import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
@@ -13,7 +14,6 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { CopyToClipboardComponent } from "./copy-to-clipboard.component";
-import { DebugElement } from "@angular/core";
 
 describe("CopyToClipboardComponent", () => {
 
@@ -184,9 +184,11 @@ describe("CopyToClipboardComponent", () => {
 
         const onCopy = spyOn(component, "onCopy");
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
+        const event = jasmine.createSpyObj("event", ["stopPropagation"]);
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        requestCopyToClipboard.triggerEventHandler("click", event);
+
         expect(onCopy).toHaveBeenCalled();
     });
 
@@ -196,9 +198,11 @@ describe("CopyToClipboardComponent", () => {
     it("should copied is true on click of copy to clipboard", () => {
 
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
+        const event = jasmine.createSpyObj("event", ["stopPropagation"]);
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        requestCopyToClipboard.triggerEventHandler("click", event);
+
         expect(component.copied.value).toEqual(true);
     });
 

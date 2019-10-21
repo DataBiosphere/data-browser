@@ -19,7 +19,7 @@ import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { DownloadViewState } from "../download-view-state.model";
 import { HCAGetDataFileSummaryComponent } from "./hca-get-data-file-summary.component";
 import { Term } from "../../shared/term.model";
-import { DebugElement, ElementRef } from "@angular/core";
+import { DebugElement } from "@angular/core";
 
 describe("HCAGetDataFileSummaryComponent", () => {
 

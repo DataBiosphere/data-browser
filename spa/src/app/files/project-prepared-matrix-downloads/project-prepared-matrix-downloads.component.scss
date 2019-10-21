@@ -53,7 +53,7 @@
         margin: 24px 0;
 
         > div {
-            align-items: center;
+            align-items: baseline;
             display: flex;
             margin-bottom: 8px;
         }
@@ -64,13 +64,6 @@
 
         span {
             margin-left: 8px;
-        }
-
-        /* Copy to clipboard */
-        .clipboard {
-            color: $hca-primary;
-            cursor: pointer;
-            margin: 0;
         }
     }
 
