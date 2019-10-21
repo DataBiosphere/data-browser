@@ -7,12 +7,11 @@
 
 // Core dependencies
 import {
-    AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild
+    AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output
 } from "@angular/core";
 
 // App dependencies
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 
 @Component({
     selector: "project-prepared-matrix-downloads",
@@ -46,27 +45,25 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
      */
 
     /**
-     * Add click handler to determine if we should close card.
+     * Add click handler to close card.
      *
      */
     @HostListener("document:click")
-    public onDocumentClick() {
+    public onClickDocument() {
 
-        // If the click event is outside the card, then close the card.
-        // Any click event inside the card will trigger method OnClickInsideCard, and card will not close.
-        // Exception to this is the calling of method onPreparedMatrixDownloadsOpened when close icon is clicked.
+        // Any click event will close the card.
         this.onPreparedMatrixDownloadsOpened(false);
     }
 
     /**
-     * Prevents event propagation when mouse event is inside card.
-     * Excludes calling of method onPreparedMatrixDownloadsOpened when close icon is clicked.
+     * Prevents event propagation when click event is inside card.
+     * Method will allow card to remain open when a click event is inside the card, by
+     * stopping the propagation of click event to @HostListener (where any document click event closes card).
      *
      * @param {MouseEvent} event
      */
-    public onClickInsideCard(event: MouseEvent) {
+    public onClickCard(event: MouseEvent) {
 
-        // Prevent any click event inside card from propagation.
         event.stopPropagation();
     }
 

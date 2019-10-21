@@ -184,10 +184,9 @@ describe("CopyToClipboardComponent", () => {
 
         const onCopy = spyOn(component, "onCopy");
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
-        const event = jasmine.createSpyObj("event", ["stopPropagation"]);
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("click", event);
+        requestCopyToClipboard.nativeElement.click();
 
         expect(onCopy).toHaveBeenCalled();
     });
@@ -198,10 +197,9 @@ describe("CopyToClipboardComponent", () => {
     it("should copied is true on click of copy to clipboard", () => {
 
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
-        const event = jasmine.createSpyObj("event", ["stopPropagation"]);
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("click", event);
+        requestCopyToClipboard.nativeElement.click();
 
         expect(component.copied.value).toEqual(true);
     });

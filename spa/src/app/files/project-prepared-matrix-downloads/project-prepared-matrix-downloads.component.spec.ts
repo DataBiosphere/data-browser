@@ -330,12 +330,13 @@ describe("ProjectPreparedMatrixDownloadsComponent", () => {
         fixture.detectChanges();
 
         const matrixLinkEl = getMatrixLinkElement(INDEX_MTX);
-        const onClickInsideCard = spyOn(component, "onClickInsideCard");
+        matrixLinkEl.addEventListener("click", (event) => {event.preventDefault()});
+        const onClickCard = spyOn(component, "onClickCard");
 
         // Execute click on mtx download
         matrixLinkEl.click();
 
-        expect(onClickInsideCard).toHaveBeenCalled();
+        expect(onClickCard).toHaveBeenCalled();
     });
 
     /**
@@ -347,12 +348,12 @@ describe("ProjectPreparedMatrixDownloadsComponent", () => {
         fixture.detectChanges();
 
         const closeImageDE = getElementByClassName(".close");
-        const onClickInsideCard = spyOn(component, "onClickInsideCard");
+        const onClickCard = spyOn(component, "onClickCard");
 
         // Execute click on close image
         closeImageDE.triggerEventHandler("click", null);
 
-        expect(onClickInsideCard).not.toHaveBeenCalled();
+        expect(onClickCard).not.toHaveBeenCalled();
     });
 
     /**
