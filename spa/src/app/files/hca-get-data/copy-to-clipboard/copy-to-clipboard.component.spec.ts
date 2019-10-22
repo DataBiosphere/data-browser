@@ -6,6 +6,7 @@
  */
 
 // Core dependencies
+import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
@@ -13,7 +14,6 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { CopyToClipboardComponent } from "./copy-to-clipboard.component";
-import { DebugElement } from "@angular/core";
 
 describe("CopyToClipboardComponent", () => {
 
@@ -186,7 +186,8 @@ describe("CopyToClipboardComponent", () => {
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        requestCopyToClipboard.nativeElement.click();
+
         expect(onCopy).toHaveBeenCalled();
     });
 
@@ -198,7 +199,8 @@ describe("CopyToClipboardComponent", () => {
         const requestCopyToClipboard = getElementByClassName(".clipboard-copy");
 
         // Execute click on copy to clipboard
-        requestCopyToClipboard.triggerEventHandler("cbOnSuccess", null);
+        requestCopyToClipboard.nativeElement.click();
+
         expect(component.copied.value).toEqual(true);
     });
 

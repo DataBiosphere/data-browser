@@ -9,7 +9,6 @@
 import {
     AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output
 } from "@angular/core";
-import { ConfigService } from "../../config/config.service";
 
 // App dependencies
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
@@ -33,13 +32,12 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
     @Output() preparedMatrixDownloadsPositionBelowTable = new EventEmitter<number>();
 
     // Template variables
-    public cardProjection: number;
+    private cardProjection: number;
 
     /**
-     * @param {ConfigService} configService
      * @param {ElementRef} elementRef
      */
-    public constructor(private configService: ConfigService, private elementRef: ElementRef) {
+    public constructor(private elementRef: ElementRef) {
     }
 
     /**
@@ -47,17 +45,39 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
      */
 
     /**
-     * Add click handler to determine if we should close card.
+     * Add click handler to close card.
      *
-     * @param {EventTarget} target
      */
-    @HostListener("document:click", ["$event.target"])
-    public onDocumentClick(target: EventTarget) {
+    @HostListener("document:click")
+    public onClickDocument() {
 
-        // If the click event is outside the card, then close the card.
-        const clickedInside = this.elementRef.nativeElement.contains(target);
-        if ( !clickedInside ) {
-            this.onPreparedMatrixDownloadsOpened(false);
+        // Any click event will close the card.
+        this.onPreparedMatrixDownloadsOpened(false);
+    }
+
+    /**
+     * Prevents event propagation when click event is inside card.
+     * Method will allow card to remain open when a click event is inside the card, by
+     * stopping the propagation of click event to @HostListener (where any document click event closes card).
+     *
+     * @param {MouseEvent} event
+     */
+    public onClickCard(event: MouseEvent) {
+
+        event.stopPropagation();
+    }
+
+    /**
+     * Let parents know download component has either been opened or closed.
+     *
+     * @param {boolean} opened
+     */
+    public onPreparedMatrixDownloadsOpened(opened: boolean) {
+
+        this.preparedMatrixDownloadsOpened.emit(opened);
+
+        if ( !opened ) {
+            this.preparedMatrixDownloadsPositionBelowTable.emit(0);
         }
     }
 
@@ -66,7 +86,7 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
      * If true, the px value of the projection is passed back to the parent to allocate a sufficient bottom margin to the table.
      * This assists with preventing a scroll action within the table itself - and maintains scroll on the body.
      */
-    public getCardPositionBelowTable() {
+    private getCardPositionBelowTable() {
 
         // Get elements.
         const nativeElement = this.elementRef.nativeElement,
@@ -88,7 +108,7 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
     /**
      * Determines of the position of the project matrix data card relative to the active row.
      */
-    public getPositionProjectMatrixDataCard() {
+    private getPositionProjectMatrixDataCard() {
 
         // Get elements.
         const nativeElement = this.elementRef.nativeElement;
@@ -105,30 +125,6 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
         // below, use "100%" of row height to place it below row.
         const projectDataMatrixTopPosition = availableHeightAboveActiveRow > card.height ? `-${card.height}px` : "100%";
         this.preparedMatrixDownloadsTop.emit(projectDataMatrixTopPosition);
-    }
-
-    /**
-     * Return the URL to the meta TSV for the specified project.
-     *
-     * @returns {string}
-     */
-    public onDownloadMetadata(): string {
-
-        const metaURL = this.configService.getProjectMetaURL();
-        return `${metaURL}/projects/${this.projectId}.tsv`;
-    }
-
-    /**
-     * Let parents know download component has either been opened or closed.
-     *
-     * @param {boolean} opened
-     */
-    public onPreparedMatrixDownloadsOpened(opened: boolean) {
-
-        this.preparedMatrixDownloadsOpened.emit(opened);
-        if ( !opened ) {
-            this.preparedMatrixDownloadsPositionBelowTable.emit(0);
-        }
     }
 
     /**

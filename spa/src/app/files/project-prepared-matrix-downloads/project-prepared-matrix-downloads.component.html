@@ -1,25 +1,29 @@
-<div class="project-matrix">
+<div class="project-matrix" (click)="onClickCard($event)">
     <div>
         <img class="close" (click)="onPreparedMatrixDownloadsOpened(false)" src="assets/images/icon/clear.png"/>
         <h3 class="fontsize-l">Download Expression Matrix</h3>
         <h4 class="project-title fontsize-m">{{projectTitle}}</h4>
         <div class="file-format fontsize-s">
             <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()">
-                <a [href]="projectURLs.mtxUrl"><img
-                        src="assets/images/icon/hca-download-primary.png"><span>mtx</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.mtxUrl"><span
-                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
+                <a [href]="projectURLs.mtxUrl">
+                    <img src="assets/images/icon/hca-download-primary.png">
+                    <span>mtx</span>
+                </a>
+                <copy-to-clipboard [copyToClipboardLink]="projectURLs.mtxUrl"></copy-to-clipboard>
             </div>
             <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()">
-                <a [href]="projectURLs.csvUrl"><img
-                        src="assets/images/icon/hca-download-primary.png"><span>csv</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.csvUrl"><span
-                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
+                <a [href]="projectURLs.csvUrl">
+                    <img src="assets/images/icon/hca-download-primary.png">
+                    <span>csv</span>
+                </a>
+                <copy-to-clipboard [copyToClipboardLink]="projectURLs.csvUrl"></copy-to-clipboard>
             </div>
             <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()">
-                <a [href]="projectURLs.loomUrl"><img src="assets/images/icon/hca-download-primary.png"><span>loom</span></a>
-                <span ngxClipboard [cbContent]="projectURLs.loomUrl"><span
-                        class="clipboard fontsize-xxs">Copy link to clipboard</span></span>
+                <a [href]="projectURLs.loomUrl">
+                    <img src="assets/images/icon/hca-download-primary.png">
+                    <span>loom</span>
+                </a>
+                <copy-to-clipboard [copyToClipboardLink]="projectURLs.loomUrl"></copy-to-clipboard>
             </div>
         </div>
     </div>
