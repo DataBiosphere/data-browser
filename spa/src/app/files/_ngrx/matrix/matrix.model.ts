@@ -6,12 +6,12 @@
  */
 
 // App dependencies
-import { MatrixResponse } from "../../shared/matrix-response.model";
+import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { ProjectMatrixUrls } from "../../shared/project-matrix-urls.model";
 
 export interface Matrix {
     fileFormats: string[];
     partialQueryMatch: boolean;
-    matrixResponse: MatrixResponse;
-    matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>
+    matrixUrlRequestsBySpecies: Map<string, MatrixUrlRequest>;
+    matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>;
 }

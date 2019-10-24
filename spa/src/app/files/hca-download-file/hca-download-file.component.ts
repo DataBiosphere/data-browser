@@ -161,7 +161,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
 
         return this.isDownloadInitiated(response) ||
             this.isDownloadInProgress(response) ||
-            // Include COMPLETE here as there is a delay between when the "complete" status is received
+            // Include COMPLETED here as there is a delay between when the "complete" status is received
             // from the server and when the browser initiates the actual download.
             this.isDownloadComplete(response);
     }

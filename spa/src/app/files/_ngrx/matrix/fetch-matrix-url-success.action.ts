@@ -9,10 +9,10 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
-import { MatrixResponse } from "../../shared/matrix-response.model";
+import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 
 export class FetchMatrixUrlSuccessAction implements Action {
     public static ACTION_TYPE = "FILE.FETCH_MATRIX_URL_SUCCESS";
     public readonly type = FetchMatrixUrlSuccessAction.ACTION_TYPE;
-    constructor(public readonly response: MatrixResponse) {}
+    constructor(public readonly response: MatrixUrlRequest) {}
 }

@@ -1,0 +1,24 @@
+<ng-container [ngSwitch]="matrixPartialQueryMatchCompleted">
+    <ng-container *ngSwitchCase="true">
+        <hca-get-data-panel>
+            <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
+            <matrix-partial-query-match-warning *ngIf="matrixPartialQueryMatch"></matrix-partial-query-match-warning>
+            <p class="fontsize-m">Request an expression matrix for the selected data from the HCA Matrix service.</p>
+            <p class="fontsize-m">To begin, choose one of the output file formats below.</p>
+        </hca-get-data-panel>
+        <div class="file-format fontsize-s">
+            <p class="fontsize-s">Select Output File Format:</p>
+            <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
+                <mat-radio-button *ngFor="let fileFormat of fileFormats" [value]="fileFormat">
+                    {{fileFormat}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <button class="button primary" (click)="onMatrixUrlRequested(fileFormat)">Request Expression Matrix</button>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <hca-get-data-panel loading="true">
+            <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
+        </hca-get-data-panel>
+    </ng-container>
+</ng-container>

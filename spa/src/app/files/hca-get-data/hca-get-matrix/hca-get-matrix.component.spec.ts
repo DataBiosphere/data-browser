@@ -22,25 +22,15 @@ import { RouterModule } from "@angular/router";
 import { of } from "rxjs";
 
 // App components
-import { CcPipeModule } from "../../../cc-pipe";
 import { ConfigService } from "../../../config/config.service";
-import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
-import { HCAExportToTerraComponent } from "../hca-export-to-terra/hca-export-to-terra.component";
-import { HCAFileFilterResultComponent } from "../../hca-file-filter-result/hca-file-filter-result.component";
-import { HCAFileSummaryComponent } from "../../hca-file-summary/hca-file-summary.component";
-import { HCAGetManifestComponent } from "../hca-get-manifest/hca-get-manifest.component";
-import { HCAGetMatrixComponent } from "./hca-get-matrix.component";
-import { HCATooltipComponent } from "../../hca-tooltip/hca-tooltip.component";
-import { FileFacetDisplayService } from "../../shared/file-facet-display.service";
-import { FileManifestService } from "../../shared/file-manifest.service";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { MatrixResponse } from "../../shared/matrix-response.model";
-import { MatrixService } from "../../shared/matrix.service";
-import { MatrixStatus } from "../../shared/matrix-status.model";
-import { SearchTermService } from "../../shared/search-term.service";
-import { TermResponseService } from "../../shared/term-response.service";
-import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
+import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
+import { HCAGetMatrixComponent } from "./hca-get-matrix.component";
+import { MatrixUrlRequestFormComponent } from "../matrix-url-request-form/matrix-url-request-form.component";
+import { MatrixUrlRequestProgressComponent } from "../matrix-url-request-progress/matrix-url-request-progress.component";
+import { MatrixPartialQueryMatchWarningComponent } from "../matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
+import { FileManifestService } from "../../shared/file-manifest.service";
+import { MatrixService } from "../../shared/matrix.service";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
@@ -60,42 +50,38 @@ describe("HCAGetMatrixComponent", () => {
                 HCAGetDataPanelComponent,
                 CopyToClipboardComponent,
                 HCAGetMatrixComponent,
-                HCAExportToTerraComponent,
-                HCAFileFilterResultComponent,
-                HCAFileSummaryComponent,
-                FileTypeSummaryListComponent,
-                HCAGetManifestComponent,
-                HCATooltipComponent,
+                // HCAExportToTerraComponent,
+                // HCAFileFilterResultComponent,
+                // HCAFileSummaryComponent,
+                // FileTypeSummaryListComponent,
+                MatrixPartialQueryMatchWarningComponent,
+                MatrixUrlRequestFormComponent,
+                MatrixUrlRequestProgressComponent,
+                // HCAGetManifestComponent,
+                // HCATooltipComponent,
                 WarningComponent,
                 WarningContentComponent,
                 WarningTitleComponent
             ],
             imports: [
-                BrowserAnimationsModule,
-                CcPipeModule,
+                // BrowserAnimationsModule,
+                // CcPipeModule,
                 ClipboardModule,
                 FormsModule,
-                MatChipsModule,
+                // MatChipsModule,
                 MatIconModule,
-                MatProgressSpinnerModule,
+                // MatProgressSpinnerModule,
                 MatRadioModule,
-                MatTooltipModule,
-                RouterModule
+                // MatTooltipModule,
+                // RouterModule
             ],
             providers: [
                 MatrixService,
                 ConfigService,
-                SearchTermService,
-                TermResponseService,
                 {
                     provide: HttpClient,
                     useValue: jasmine.createSpyObj("HttpClient", [
                         "get"
-                    ])
-                }, {
-                provide: FileFacetDisplayService,
-                    useValue: jasmine.createSpyObj("FileFacetDisplayService", [
-                        "getFileFacetDisplayName"
                     ])
                 }, {
                     provide: FileManifestService,
@@ -120,31 +106,5 @@ describe("HCAGetMatrixComponent", () => {
     it("should create an instance", () => {
 
         expect(component).toBeTruthy();
-    });
-
-    /**
-     * Confirm file summary is displayed on init of state
-     */
-    it("should display output type on init of state", () => {
-
-        // Set up initial component state
-        testStore.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY),
-            of([]),
-            of(["csv", "loom", "mtx"]),
-            of({
-                eta: "",
-                matrixUrl: "",
-                message: "",
-                requestId: "",
-                status: MatrixStatus.NOT_STARTED
-            } as MatrixResponse),
-            of(false)
-        );
-
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.nativeElement.querySelector("mat-radio-group")).not.toBe(null);
     });
 });

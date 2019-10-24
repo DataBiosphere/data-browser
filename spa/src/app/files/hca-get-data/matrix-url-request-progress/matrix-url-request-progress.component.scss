@@ -1,0 +1,21 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for matrix URL request progress.
+ */
+
+@import "../../../site/theme/cgl.vars";
+
+.file-name.semi-bold {
+    font-weight: 500;
+}
+
+/* Error message */
+.error-message {
+    background-color: $hca-off-white;
+    border: 3px;
+    padding: 8px;
+    margin: 24px 0 32px;
+    width: fit-content;
+}
