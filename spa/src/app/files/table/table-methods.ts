@@ -226,7 +226,9 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Cell Count Estimate",
         description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
         alignment: ColumnAlignment.RIGHT,
-        columnSort: false,
+        columnSort: true,
+        columnSortKey: "cellCount",
+        columnTitleWidth: 64,
         countType: CountType.NONE
     },
     {
@@ -338,6 +340,31 @@ export function getColumnFlexDirection(column: string): string {
 }
 
 /**
+ * Returns column sort key for column sort.
+ *
+ * @param {string} column
+ * @returns {string}
+ */
+export function getColumnSortKey(column: string): string {
+
+    const col = tableColumn.get(column);
+
+    if ( !col ) {
+
+        return "";
+    }
+
+    const columnSortKey = col.columnSortKey;
+
+    if ( !columnSortKey ) {
+
+        return "";
+    }
+
+    return columnSortKey;
+}
+
+/**
  * Return the inline style configuration for the column.
  *
  * @param {string} column
@@ -425,34 +452,6 @@ export function getRowClass(rowIndex: number, activeRowIndex: number): { [classN
 }
 
 /**
- * Returns "Paired End", "Single End" or "Unspecified" for pairedEnd value.
- *
- * @param {string} pairedEnd
- * @returns {string}
- */
-export function getPairedEnd(pairedEnd: string): string {
-
-    if ( pairedEnd ) {
-
-        return (pairedEnd.split(",").map(p => {
-
-            p = p.trim();
-
-            if ( p === "true" ) {
-                return "Paired End";
-            }
-            else if ( p === "false" ) {
-                return "Single End";
-            }
-            return "Unspecified";
-
-        }).join(", "));
-    }
-
-    return "Unspecified";
-}
-
-/**
  * Returns first value.
  *
  * @param value
@@ -478,9 +477,37 @@ export function getSelfOrFirst(value) {
  * @returns {any}
  */
 export function getTableStyle(margin: number): any {
+
     return {
         "margin-bottom": margin && margin > 0 ? margin + "px" : 0,
     };
+}
+
+/**
+ * Return the inline style configuration for component hca-tooltip.
+ *
+ * @param {string} column
+ * @returns {any}
+ */
+export function getTooltipStyle(column: string): any {
+
+    const col = tableColumn.get(column);
+
+    if ( !col ) {
+
+        return {};
+    }
+
+    const columnTitleWidth = col.columnTitleWidth;
+
+    if ( !columnTitleWidth ) {
+
+        return {};
+    }
+
+    return {
+        "width": columnTitleWidth + "px"
+    }
 }
 
 /**

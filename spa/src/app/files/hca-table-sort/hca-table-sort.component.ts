@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input, ViewEncapsulation } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 
 @Component({
     selector: "hca-table-sort",
@@ -16,20 +16,4 @@ import { Component, Input, ViewEncapsulation } from "@angular/core";
 })
 
 export class HCATableSortComponent {
-
-    // Inputs
-    @Input() columnSort: boolean;
-
-    /**
-     * Returns false if no value set - default is column sort is always enabled unless otherwise specified
-     * @returns {boolean}
-     */
-    public isColumnSortDisabled(): boolean {
-
-        if ( this.columnSort === false ) {
-            return true;
-        }
-
-        return false;
-    }
 }

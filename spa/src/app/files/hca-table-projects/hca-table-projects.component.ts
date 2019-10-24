@@ -34,6 +34,7 @@ import { PaginationModel } from "../table/pagination.model";
 import {
     getColumnClass,
     getColumnDisplayName,
+    getColumnSortKey,
     getColumnStyle,
     getRowClass,
     getTableStyle,
@@ -185,6 +186,15 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {Sort} sort
      */
     public sortTable(pm: PaginationModel, sort: Sort) {
+
+        // Get column sort key, when sort key is specified by table config.
+        const tableConfigColumnSortKey = getColumnSortKey(sort.active);
+
+        // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
+        if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
+
+            sort.active = tableConfigColumnSortKey;
+        }
 
         // Force table to be sorted by project title if sort is cleared. Sort is cleared when user clicks on column header
         // to sort asc, then clicks again on the same columm header to sort desc, then once more. The third click on the
