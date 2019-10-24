@@ -25,7 +25,7 @@ export class ProjectGuardComponent implements OnInit {
     ]);
 
     private PROJECT_IDS_INGEST_IN_PROGRESS = [
-        "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944
+        // "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944, https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/948
     ];
 
     public projectId$: Observable<string>;
