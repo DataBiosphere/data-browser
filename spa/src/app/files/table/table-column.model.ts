@@ -15,6 +15,8 @@ export interface TableColumn {
     columnOverflow?: OverflowType;
     columnPosition?: PositionType;
     columnSort: boolean;
+    columnSortKey?: string;
+    columnTitleWidth?: number;
     countType: CountType;
     description?: string;
     userFriendly: string;

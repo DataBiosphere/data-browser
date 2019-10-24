@@ -62,10 +62,15 @@ describe("HCATableProjectsComponent", () => {
 
     const INDEX_PROTOCOL_OBJECT_0 = 0;
 
+    const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
+    const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
+
+    const COLUMN_NAME_TOTALCELLS = "totalCells";
     const COLUMN_NAME_WORKFLOW = "workflow";
 
     const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_CONTENT_ELLIPSIS = "hca-content-ellipsis";
+    const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
     beforeEach(async(() => {
 
@@ -278,8 +283,8 @@ describe("HCATableProjectsComponent", () => {
 
         const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
 
-        // Confirm column "Analysis Protocol" is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual("Analysis Protocol");
+        // Confirm column title is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
     });
 
     /**
@@ -483,6 +488,64 @@ describe("HCATableProjectsComponent", () => {
     });
 
     /**
+     * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
+     */
+    it(`should display column "Cell Count Estimate"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeader(COLUMN_NAME_TOTALCELLS);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
+    });
+
+    /**
+     * Confirm component <hca-table-sort> is displayed in totalCells header.
+     */
+    it("should display component hca-table-sort in totalCells header", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm column header displays component
+        expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+    });
+
+    /**
      * Returns the column cells for the specified name.
      *
      * @param {string} columnName
@@ -496,7 +559,7 @@ describe("HCATableProjectsComponent", () => {
     }
 
     /**
-     * Returns the component for the specified column cell and specified component.
+     * Returns the component for the specified row and column, and specified component.
      *
      * @param {number} rowIndex
      * @param {string} columnName
@@ -536,5 +599,27 @@ describe("HCATableProjectsComponent", () => {
         return columnHeaderDE.query(
             By.directive(MatSortHeader)
         );
+    }
+
+    /**
+     * Returns true if component is a child of the specified debug element.
+     *
+     * @param {DebugElement} debugElement
+     * @param {string} componentName
+     * @returns {boolean}
+     */
+    function isComponentDisplayed(debugElement: DebugElement, componentName: string): boolean {
+
+        if ( !debugElement ) {
+
+            return false;
+        }
+
+        if ( !debugElement.children ) {
+
+            return false;
+        }
+
+        return debugElement.children.some(child => child.name === componentName);
     }
 });

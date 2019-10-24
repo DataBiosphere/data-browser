@@ -20,7 +20,8 @@
             [tooltipContent]="getColumnDescription(columnName)"
             [tooltipDisabled]="getColumnDescription(columnName) === null"
             [tooltipPosition]="'above'"
-            [tooltipClass]="'hca-tooltip narrow'">
+            [tooltipClass]="'hca-tooltip narrow'"
+            [ngStyle]="getTooltipStyle(columnName)">
         <span [ngClass]="{'fontsize-xxs bold': true, 'spacer': !isColumnSort(columnName)}"><ng-content></ng-content></span>
     </hca-tooltip>
 </ng-template>
