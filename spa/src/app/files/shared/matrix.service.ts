@@ -69,16 +69,16 @@ export class MatrixService {
             return MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS;
         }
 
+        // Overall status is in progress if any individual request is in progress
+        const inProgress = matrixUrlRequests.find(request => this.isMatrixUrlRequestInProgress(request));
+        if ( inProgress ) {
+            return MatrixUrlRequestStatus.IN_PROGRESS;
+        }
+
         // Indicate failed status if any individual request has failed
         const failed = matrixUrlRequests.find(request => this.isMatrixUrlRequestFailed(request));
         if ( failed ) {
             return MatrixUrlRequestStatus.FAILED;
-        }
-
-        // Overall status is in progress if any individual request is in progress
-        const inProgress = matrixUrlRequests.find(request => this.isMatrixUrlRequestInProgress(request));
-        if ( failed ) {
-            return MatrixUrlRequestStatus.IN_PROGRESS;
         }
 
         // Otherwise we can consider the request/s complete

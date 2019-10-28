@@ -56,7 +56,7 @@ import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get
 import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
 import { MatrixPartialQueryMatchWarningComponent } from "./hca-get-data/matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
 import { MatrixUrlRequestFormComponent } from "./hca-get-data/matrix-url-request-form/matrix-url-request-form.component";
-import { MatrixUrlRequestProgressComponent } from "./hca-get-data/matrix-url-request-progress/matrix-url-request-progress.component";
+import { MatrixUrlRequestCompletedComponent } from "./hca-get-data/matrix-url-request-completed/matrix-url-request-completed.component";
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { HCATableColumnHeaderComponent } from "./hca-table-column-header/hca-table-column-header.component";
@@ -142,7 +142,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         HCAFileFilterWrapperComponent,
         MatrixPartialQueryMatchWarningComponent,
         MatrixUrlRequestFormComponent,
-        MatrixUrlRequestProgressComponent,
+        MatrixUrlRequestCompletedComponent,
         ProjectDeprecatedComponent,
         ProjectDownloadsComponent,
         ProjectGuardComponent,

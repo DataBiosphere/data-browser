@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component responsible for displaying the matrix URL request progress.
+ * Component responsible for displaying instructions for downloading the Matrix URL.
  */
 
 // Core dependencies
@@ -13,11 +13,11 @@ import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixService } from "../../shared/matrix.service";
 
 @Component({
-    selector: "matrix-url-request-progress",
-    templateUrl: "./matrix-url-request-progress.component.html",
-    styleUrls: ["./matrix-url-request-progress.component.scss"]
+    selector: "matrix-url-request-completed",
+    templateUrl: "./matrix-url-request-completed.component.html",
+    styleUrls: ["./matrix-url-request-completed.component.scss"]
 })
-export class MatrixUrlRequestProgressComponent {
+export class MatrixUrlRequestCompletedComponent {
 
     // Input/output
     @Input() matrixUrlRequest: MatrixUrlRequest;
@@ -68,16 +68,5 @@ export class MatrixUrlRequestProgressComponent {
     public isMatrixUrlRequestFailed(request: MatrixUrlRequest): boolean {
 
         return this.matrixService.isMatrixUrlRequestFailed(request);
-    }
-
-    /**
-     * Returns true if matrix request is in progress.
-     *
-     * @param {MatrixUrlRequest} request
-     * @returns {boolean}
-     */
-    public isMatrixUrlRequestInProgress(request: MatrixUrlRequest): boolean {
-
-        return this.matrixService.isMatrixUrlRequestInProgress(request);
     }
 }

@@ -30,7 +30,7 @@ import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixPartialQueryMatchWarningComponent } from "../matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
 import { MatrixUrlRequestFormComponent } from "../matrix-url-request-form/matrix-url-request-form.component";
-import { MatrixUrlRequestProgressComponent } from "../matrix-url-request-progress/matrix-url-request-progress.component";
+import { MatrixUrlRequestCompletedComponent } from "../matrix-url-request-completed/matrix-url-request-completed.component";
 import { HCAGetMatrixComponent } from "./hca-get-matrix.component";
 
 describe("HCAGetMatrixComponent", () => {
@@ -43,7 +43,7 @@ describe("HCAGetMatrixComponent", () => {
 
     const COMPONENT_NAME_HCA_GET_DATA_PANEL = "hca-get-data-panel";
     const COMPONENT_NAME_MATRIX_URL_REQUEST_FORM = "matrix-url-request-form";
-    const COMPONENT_NAME_MATRIX_URL_REQUEST_PROGRESS = "matrix-url-request-progress";
+    const COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED = "matrix-url-request-completed";
 
     const CLASSNAME_MATRIX = ".matrix";
 
@@ -67,7 +67,7 @@ describe("HCAGetMatrixComponent", () => {
                 HCAGetMatrixComponent,
                 MatrixPartialQueryMatchWarningComponent,
                 MatrixUrlRequestFormComponent,
-                MatrixUrlRequestProgressComponent,
+                MatrixUrlRequestCompletedComponent,
                 WarningComponent,
                 WarningContentComponent,
                 WarningTitleComponent
@@ -174,7 +174,7 @@ describe("HCAGetMatrixComponent", () => {
     });
 
     /**
-     * Confirm component <matrix-url-request-progress> is not displayed when matrix url request status is not started.
+     * Confirm component <matrix-url-request-completed> is not displayed when matrix url request status is not started.
      */
     it(`should not display component matrix url request progress when matrix url request status is "NOT_STARTED"`, () => {
 
@@ -191,7 +191,7 @@ describe("HCAGetMatrixComponent", () => {
         fixture.detectChanges();
 
         // Confirm component is not displayed
-        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_PROGRESS)).toBe(false);
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
     });
 
     /**
@@ -237,9 +237,9 @@ describe("HCAGetMatrixComponent", () => {
     });
 
     /**
-     * Confirm component <matrix-url-request-progress> is not displayed when matrix url request status is manifest in progress.
+     * Confirm component <matrix-url-request-completed> is not displayed when matrix url request status is manifest in progress.
      */
-    it(`should not display component matrix url request progress when matrix url request status is "MANIFEST_IN_PROGRESS"`, () => {
+    it(`should not display component matrix url request completed when matrix url request status is "MANIFEST_IN_PROGRESS"`, () => {
 
         // Set up initial component state
         testStore.pipe
@@ -254,7 +254,7 @@ describe("HCAGetMatrixComponent", () => {
         fixture.detectChanges();
 
         // Confirm component is not displayed
-        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_PROGRESS)).toBe(false);
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
     });
 
     /**
@@ -300,9 +300,9 @@ describe("HCAGetMatrixComponent", () => {
     });
 
     /**
-     * Confirm component <matrix-url-request-progress> is displayed when matrix url request status is manifest in progress.
+     * Confirm component <matrix-url-request-completed> is displayed when matrix url request status is manifest in progress.
      */
-    it(`should display component matrix url request progress when matrix url request status is "MANIFEST_IN_PROGRESS"`, () => {
+    it(`should not display component matrix url request completed when matrix url request status is "IN_PROGRESS"`, () => {
 
         // Set up initial component state
         testStore.pipe
@@ -317,7 +317,7 @@ describe("HCAGetMatrixComponent", () => {
         fixture.detectChanges();
 
         // Confirm component is displayed
-        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_PROGRESS)).toBe(true);
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
     });
 
     /**

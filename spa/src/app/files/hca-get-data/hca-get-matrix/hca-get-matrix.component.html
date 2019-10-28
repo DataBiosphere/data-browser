@@ -1,14 +1,14 @@
 <div class="matrix" *ngIf="state$ | async as state">
-    <ng-container [ngSwitch]="state.matrixUrlRequestStatus">
+    <ng-container [ngSwitch]="true">
         <!-- Matrix not started -->
-        <ng-container *ngSwitchCase="getStatusNotStarted()">
+        <ng-container *ngSwitchCase="isMatrixUrlRequestStatusNotStarted(state.matrixUrlRequestStatus)">
             <matrix-url-request-form [fileFormats]="getFileFormats(state.matrixFileFormats)"
                                      [matrixPartialQueryMatch]="state.matrixPartialQueryMatch"
                                      [matrixPartialQueryMatchCompleted]="state.matrixPartialQueryMatchCompleted"
                                      (matrixUrlRequested)="onMatrixUrlRequested($event)"></matrix-url-request-form>
         </ng-container>
         <!-- Matrix manifest in progress -->
-        <ng-container *ngSwitchCase="getStatusManifestInProgress()">
+        <ng-container *ngSwitchCase="isMatrixUrlRequestStatusManifestInProgress(state.matrixUrlRequestStatus) || isMatrixUrlRequestStatusInProgress(state.matrixUrlRequestStatus)">
             <hca-get-data-panel [loading]="true">
                 <h4 class="fontsize-m semi-bold">Your Expression Matrix is Being Prepared</h4>
                 <p class="fontsize-m">This can take several minutes to an hour or more depending on the size of the
@@ -17,8 +17,8 @@
         </ng-container>
         <!-- Matrix request/s in progress/failed/completed -->
         <ng-container *ngSwitchDefault>
-            <ng-container *ngFor="let matrixUrlRequest of state.matrixUrlRequests">
-                <matrix-url-request-progress [matrixUrlRequest]="matrixUrlRequest"></matrix-url-request-progress>
+            <ng-container *ngFor="let matrixUrlRequest of filterMatrixUrlRequestsWithData(state.matrixUrlRequests)">
+                <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest"></matrix-url-request-completed>
             </ng-container>
         </ng-container>
     </ng-container>

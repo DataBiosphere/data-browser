@@ -67,19 +67,48 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return the MatrixUrlRequestStatus MANIFEST_IN_PROGRESS, used for switching in the template
+     * Remove any Matrix URL requests from the specified list that have no data. This can potentially be true for
+     * requests for non-human data. Use the presence of matrixUrl to determine if data has been generated.
+     * 
+     * @param {MatrixUrlRequest[]} matrixUrlRequests
+     * @returns {MatrixUrlRequest[]}
      */
-    public getStatusManifestInProgress(): MatrixUrlRequestStatus {
+    public filterMatrixUrlRequestsWithData(matrixUrlRequests: MatrixUrlRequest[]): MatrixUrlRequest[] {
 
-        return MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS;
+        return matrixUrlRequests.filter(matrixUrlRequest => !!matrixUrlRequest.matrixUrl);
     }
 
     /**
-     * Return the MatrixUrlRequestStatus NOT_STARTED, used for switching in the template
+     * Returns true if the Matrix URL status is in progress.
+     * 
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
+     * @returns {boolean}
      */
-    public getStatusNotStarted(): MatrixUrlRequestStatus {
+    public isMatrixUrlRequestStatusInProgress(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
 
-        return MatrixUrlRequestStatus.NOT_STARTED;
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.IN_PROGRESS;
+    }
+    
+    /**
+     * Returns true if the Matrix URL status is Manifest in progress.
+     *
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
+     * @returns {boolean}
+     */
+    public isMatrixUrlRequestStatusManifestInProgress(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
+
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS;
+    }
+
+    /**
+     * Returns true if the Matrix URL status is not started.
+     *
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
+     * @returns {boolean}
+     */
+    public isMatrixUrlRequestStatusNotStarted(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
+
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.NOT_STARTED;
     }
 
     /**

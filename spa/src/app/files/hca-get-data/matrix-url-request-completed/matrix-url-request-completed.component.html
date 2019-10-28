@@ -1,11 +1,3 @@
-<ng-container *ngIf="isMatrixUrlRequestInProgress(matrixUrlRequest)">
-    <hca-get-data-panel [loading]="true">
-        <h4 class="fontsize-m semi-bold">{{matrixUrlRequest.species}}: Your expression matrix is being prepared.</h4>
-        <p class="fontsize-m">This can take several minutes to
-            an hour or more depending on the size of the request. Please leave this browser window open
-            during processing.</p>
-    </hca-get-data-panel>
-</ng-container>
 <ng-container *ngIf="isMatrixUrlRequestFailed(matrixUrlRequest)">
     <hca-get-data-panel [downloadError]="true">
         <h4 class="fontsize-m semi-bold">{{matrixUrlRequest.species}}: Error</h4>
