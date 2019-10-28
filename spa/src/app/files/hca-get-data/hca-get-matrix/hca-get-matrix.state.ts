@@ -14,10 +14,10 @@ import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.m
 export interface HCAGetMatrixState {
 
     fileSummary: FileSummary;
+    matrixFileFormats: string[];
     matrixPartialQueryMatch: boolean;
     matrixPartialQueryMatchCompleted: boolean;
-    matrixFileFormats: string[];
     matrixUrlRequests: MatrixUrlRequest[];
+    matrixUrlRequestStatus: MatrixUrlRequestStatus; // Overall status of matrix URL request/s (can be one or more requests, depending on the number of species included in the current data)
     selectedSearchTerms: SearchTerm[];
-    matrixUrlRequestStatus: MatrixUrlRequestStatus; // Overall status of matrix URL request/s (can be one or more requests, depending on the number of species included in the current data) 
 }
