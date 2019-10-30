@@ -25,6 +25,7 @@ import { WarningTitleComponent } from "../../../shared/warning/warning-title.com
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { MatrixService } from "../../shared/matrix.service";
+import { MatrixFormat } from "../../shared/matrix-format.model";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
 import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
@@ -47,16 +48,19 @@ describe("HCAGetMatrixComponent", () => {
 
     const CLASSNAME_MATRIX = ".matrix";
 
-    const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
-    const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map();
-    const MATRIX_URL_REQUEST_BY_SPECIES_IN_PROGRESS = new Map();
-
     const MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS = {status: MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS};
-    const MATRIX_URL_REQUEST_IN_PROGRESS_HOMO = {matrixUrl: undefined, message: "Job started.", requestId: "aace1b45-f7e6-4a86-b80e-17cfd62bcb00", species: "Homo sapiens", status: MatrixUrlRequestStatus.IN_PROGRESS};
-    const MATRIX_URL_REQUEST_IN_PROGRESS_MUS = {matrixUrl: "", requestId: "23d520f5-b50a-4407-90d7-1dc3500601cb", species: "Mus musculus", status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const MATRIX_URL_REQUEST_IN_PROGRESS_HOMO = {eta: "", matrixUrl: undefined, message: "Job started.", requestId: "aace1b45-f7e6-4a86-b80e-17cfd62bcb00", species: "Homo sapiens", status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const MATRIX_URL_REQUEST_IN_PROGRESS_MUS = {eta: "", matrixUrl: "", message: "", requestId: "23d520f5-b50a-4407-90d7-1dc3500601cb", species: "Mus musculus", status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const MATRIX_URL_REQUEST_COMPLETED_HOMO = {eta: "", matrixUrl: "https://matrixUrl.com", message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: "Homo sapiens", status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_COMPLETED_MUS = {eta: "", matrixUrl: "https://matrixUrl.com", message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_HOMO = {eta: "", matrixUrl: "", message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: "Homo sapiens", status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_MUS = {eta: "", matrixUrl: "", message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.COMPLETED};
 
-    MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS.set(undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS);
-    MATRIX_URL_REQUEST_BY_SPECIES_IN_PROGRESS.set(["Homo sapiens", MATRIX_URL_REQUEST_IN_PROGRESS_HOMO], ["Mus musculus", MATRIX_URL_REQUEST_IN_PROGRESS_MUS]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
+    const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map([[undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_IN_PROGRESS = new Map([["Homo sapiens", MATRIX_URL_REQUEST_IN_PROGRESS_HOMO], ["Mus musculus", MATRIX_URL_REQUEST_IN_PROGRESS_MUS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED = new Map([["Homo sapiens", MATRIX_URL_REQUEST_COMPLETED_HOMO],["Mus musculus", MATRIX_URL_REQUEST_COMPLETED_MUS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED_WITHOUT_URL = new Map([["Homo sapiens", MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_HOMO],["Mus musculus", MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_MUS]]);
 
     beforeEach(async(() => {
 
@@ -129,6 +133,66 @@ describe("HCAGetMatrixComponent", () => {
         fixture.detectChanges();
 
         expect(getElementByClassName(CLASSNAME_MATRIX)).not.toEqual(null);
+    });
+
+    /**
+     * Confirm get file formats return a sorted set of possible file formats.
+     */
+    it("should get file formats return a sorted set of possible file formats", () => {
+
+        // Confirm a sorted set of possible formats is returned
+        const getFileFormats = component.getFileFormats(["mtx","loom","zarr","csv"]);
+        expect(getFileFormats).toEqual(["csv", "loom", "mtx"]);
+    });
+
+    /**
+     * Confirm filter matrix url requests with data return only data with matrix url.
+     */
+    it("should filter matrix url requests with data return only data with matrix url", () => {
+
+        // Confirm only one set of data returned
+        const filterMatrixUrlRequestsWithData = component.filterMatrixUrlRequestsWithData([MATRIX_URL_REQUEST_COMPLETED_HOMO, MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_MUS]);
+        expect(filterMatrixUrlRequestsWithData).toEqual([MATRIX_URL_REQUEST_COMPLETED_HOMO]);
+    });
+
+    /**
+     * Confirm is matrix url request status in progress return true when matrix url request status is in progress.
+     */
+    it("should is matrix url request status in progress return true when matrix url request status is in progress", () => {
+
+        // Confirm is matrix url request status in progress returns true, when matrix url is in progress
+        const isMatrixUrlRequestStatusInProgress = component.isMatrixUrlRequestStatusInProgress(MatrixUrlRequestStatus.IN_PROGRESS);
+        expect(isMatrixUrlRequestStatusInProgress).toEqual(true);
+    });
+
+    /**
+     * Confirm is matrix url request status manifest in progress return true when matrix url request status is manifest in progress.
+     */
+    it("should is matrix url request status manifest in progress return true when matrix url request status is manifest in progress", () => {
+
+        // Confirm is matrix url request status manifest in progress returns true, when matrix url is manifest in progress
+        const isMatrixUrlRequestStatusManifestInProgress = component.isMatrixUrlRequestStatusManifestInProgress(MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS);
+        expect(isMatrixUrlRequestStatusManifestInProgress).toEqual(true);
+    });
+
+    /**
+     * Confirm is matrix url request status not started return true when matrix url request status is not started.
+     */
+    it("should is matrix url request status not started return true when matrix url request status is not started", () => {
+
+        // Confirm is matrix url request status not started returns true, when matrix url is not started
+        const isMatrixUrlRequestStatusNotStarted = component.isMatrixUrlRequestStatusNotStarted(MatrixUrlRequestStatus.NOT_STARTED);
+        expect(isMatrixUrlRequestStatusNotStarted).toEqual(true);
+    });
+
+    /**
+     * Confirm store dispatch is called when on matrix url requested.
+     */
+    it("should store dispatch is called when on matrix url requested", () => {
+
+        // Confirm store dispatch is called
+        component.onMatrixUrlRequested(MatrixFormat.loom);
+        expect(testStore.dispatch).toHaveBeenCalled();
     });
 
     /**
@@ -279,9 +343,9 @@ describe("HCAGetMatrixComponent", () => {
     });
 
     /**
-     * Confirm component <hca-get-data-panel> is not displayed when matrix url request status is in progress.
+     * Confirm component <hca-get-data-panel> is displayed when matrix url request status is in progress.
      */
-    it(`should not display component hca-get-data-panel when matrix url request status is "IN_PROGRESS"`, () => {
+    it(`should display component hca-get-data-panel when matrix url request status is "IN_PROGRESS"`, () => {
 
         // Set up initial component state
         testStore.pipe
@@ -295,12 +359,12 @@ describe("HCAGetMatrixComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm component is not displayed
-        expect(isComponentDisplayed(COMPONENT_NAME_HCA_GET_DATA_PANEL)).toBe(false);
+        // Confirm component is displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_HCA_GET_DATA_PANEL)).toBe(true);
     });
 
     /**
-     * Confirm component <matrix-url-request-completed> is displayed when matrix url request status is manifest in progress.
+     * Confirm component <matrix-url-request-completed> is not displayed when matrix url request status is in progress.
      */
     it(`should not display component matrix url request completed when matrix url request status is "IN_PROGRESS"`, () => {
 
@@ -316,9 +380,144 @@ describe("HCAGetMatrixComponent", () => {
 
         fixture.detectChanges();
 
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-form> is not displayed when matrix url request status is completed with matrix url.
+     */
+    it(`should not display component matrix url request form when matrix url request status is "COMPLETED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_FORM)).toBe(false);
+    });
+
+    /**
+     * Confirm component <hca-get-data-panel> is not displayed when matrix url request status is completed with matrix url.
+     */
+    it(`should not display component hca-get-data-panel when matrix url request status is "COMPLETED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_HCA_GET_DATA_PANEL)).toBe(false);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed when matrix url request status is completed with matrix url.
+     */
+    it(`should display component matrix url request completed when matrix url request status is "COMPLETED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(true);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed twice when matrix url request status is completed for homo and mus, both with urls.
+     */
+    it(`should display twice component matrix url request completed when matrix url request status is "COMPLETED" for homo and mus, both with urls`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed
+        expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(2);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is not displayed when matrix url request status is completed without matrix url.
+     */
+    it(`should not display component matrix url request completed when matrix url request status is "COMPLETED" without matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED_WITHOUT_URL), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
         // Confirm component is displayed
         expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
     });
+
+    /**
+     * Returns the debug element specified by class name ".matrix".
+     *
+     * @returns {DebugElement[]}
+     */
+    function getChildrenComponents(): DebugElement[] {
+
+        const parentComponentElement = getElementByClassName(CLASSNAME_MATRIX);
+        return parentComponentElement.children;
+    }
+
+
+    /**
+     * Returns all debug element displayed for the specified component name.
+     *
+     * @param {string} componentName
+     * @returns {boolean}
+     */
+    function getComponentsDisplayed(componentName: string): DebugElement[] {
+
+        const childrenComponentElements = getChildrenComponents();
+
+        if ( childrenComponentElements.length === 0 ) {
+
+            return;
+        }
+
+        return childrenComponentElements.filter(childrenEl => childrenEl.name === componentName);
+    }
 
     /**
      * Returns debug element for the specified class name.
@@ -334,15 +533,14 @@ describe("HCAGetMatrixComponent", () => {
     /**
      * Returns true if component is displayed.
      *
-     * @param {string} panelHeaderHeading
+     * @param {string} componentName
      * @returns {boolean}
      */
     function isComponentDisplayed(componentName: string): boolean {
 
-        const parentComponentElement = getElementByClassName(CLASSNAME_MATRIX);
-        const childrenComponentElements = parentComponentElement.children;
+        const childrenComponentElements = getChildrenComponents();
 
-        if ( !childrenComponentElements ) {
+        if ( childrenComponentElements.length === 0 ) {
 
             return false;
         }
