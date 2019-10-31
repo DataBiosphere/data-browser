@@ -108,9 +108,9 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm component <hca-get-data-panel> is displayed with attribute "loading" is true when matrix partial query match completed is false
+     * Confirm component <hca-get-data-panel> is displayed with input value "loading" is true when matrix partial query match completed is false
      */
-    it(`should display component hca get data panel with attribute "loading" is true when matrix partial query match completed is false`, () => {
+    it(`should display component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
 
         component.matrixPartialQueryMatchCompleted = false;
         fixture.detectChanges();
@@ -225,7 +225,7 @@ describe("MatrixUrlRequestForm", () => {
     }
 
     /**
-     * Returns the attribute value of an element.
+     * Returns the input value of a debug element [component].
      *
      * @param {DebugElement} debugElement
      * @param {string} inputName
@@ -234,7 +234,6 @@ describe("MatrixUrlRequestForm", () => {
     function getComponentInputValue(debugElement: DebugElement, inputName: string): any {
 
         return debugElement.componentInstance[inputName];
-        // return debugElement.getAttribute(attributeName);
     }
 
     /**

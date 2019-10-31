@@ -60,7 +60,7 @@ export class MatrixUrlRequestCompletedComponent {
     }
 
     /**
-     * Returns true if matrix has been requested and request is completed.
+     * Returns true if matrix has been requested and request is failed.
      *
      * @param {MatrixUrlRequest} request
      * @returns {boolean}
