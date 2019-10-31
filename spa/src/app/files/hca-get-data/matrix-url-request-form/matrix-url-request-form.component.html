@@ -17,7 +17,7 @@
         <button class="button primary" (click)="onMatrixUrlRequested(fileFormat)">Request Expression Matrix</button>
     </ng-container>
     <ng-container *ngSwitchDefault>
-        <hca-get-data-panel loading="true">
+        <hca-get-data-panel [loading]="true">
             <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
         </hca-get-data-panel>
     </ng-container>

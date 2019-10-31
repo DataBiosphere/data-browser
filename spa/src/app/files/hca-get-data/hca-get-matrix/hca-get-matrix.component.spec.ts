@@ -646,7 +646,7 @@ describe("HCAGetMatrixComponent", () => {
      * Returns all debug element displayed for the specified component name.
      *
      * @param {string} componentName
-     * @returns {boolean}
+     * @returns {DebugElement[]}
      */
     function getComponentsDisplayed(componentName: string): DebugElement[] {
 
