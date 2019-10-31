@@ -67,15 +67,20 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Remove any Matrix URL requests from the specified list that have no data. This can potentially be true for
-     * requests for non-human data. Use the presence of matrixUrl to determine if data has been generated.
+     * Returns true if there are matrix URL request for multiple species, and more than one of these requests has data
+     * generated for it. For example, it is possible that a mouse matrix URL request contains no data and in this case,
+     * we can ignore this request.
      * 
-     * @param {MatrixUrlRequest[]} matrixUrlRequests
-     * @returns {MatrixUrlRequest[]}
+     * @returns {boolean}
      */
-    public filterMatrixUrlRequestsWithData(matrixUrlRequests: MatrixUrlRequest[]): MatrixUrlRequest[] {
+    public isDisplayMultipleMatrixUrlRequests(requests: MatrixUrlRequest[]): boolean {
 
-        return matrixUrlRequests.filter(matrixUrlRequest => !!matrixUrlRequest.matrixUrl);
+        if ( requests.length === 1 ) {
+            return false;
+        }
+        
+        const requestsWithData = requests.filter(matrixUrlRequest => !!matrixUrlRequest.matrixUrl);
+        return requestsWithData.length > 1
     }
 
     /**

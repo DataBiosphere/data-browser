@@ -81,7 +81,7 @@ describe("MatrixUrlRequestCompleted", () => {
                 }, {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
-                        "requestFileManifestUrl"
+                        "requestMatrixFileManifestUrl"
                     ])
                 }, {
                     provide: Store,

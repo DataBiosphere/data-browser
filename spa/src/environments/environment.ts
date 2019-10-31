@@ -12,5 +12,3 @@ export const environment = {
     projectMetaURL: "https://dev.data.humancellatlas.org",
     deployment: "local"
 };
-
-

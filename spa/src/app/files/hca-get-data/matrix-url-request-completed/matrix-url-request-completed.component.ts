@@ -30,22 +30,36 @@ export class MatrixUrlRequestCompletedComponent {
     /**
      * Return the file name of the download
      *
+     * @param {MatrixUrlRequest} request
      * @returns {string}
      */
-    public getMatrixDownloadFileName(response: MatrixUrlRequest): string {
+    public getMatrixDownloadFileName(request: MatrixUrlRequest): string {
 
-        const tokens = response.matrixUrl.split("/");
+        const tokens = request.matrixUrl.split("/");
         return tokens[tokens.length - 1];
     }
 
     /**
      * Return the link to download the matrix.
      *
+     * @param {MatrixUrlRequest} request
      * @returns {string}
      */
-    public getMatrixLink(response: MatrixUrlRequest): string {
+    public getMatrixLink(request: MatrixUrlRequest): string {
 
-        return response.matrixUrl;
+        return request.matrixUrl;
+    }
+
+    /**
+     * Returns true if data has been generated for this Matrix request. That is, there is a corresponding Matrix URL
+     * for this request.
+     * 
+     * @param {MatrixUrlRequest} request
+     * @returns {boolean}
+     */
+    public isDataGeneratedForRequest(request: MatrixUrlRequest): boolean {
+
+        return !!request.matrixUrl;
     }
 
     /**
