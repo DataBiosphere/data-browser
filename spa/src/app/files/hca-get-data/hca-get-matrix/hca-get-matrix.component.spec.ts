@@ -27,6 +27,9 @@ import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixFormat } from "../../shared/matrix-format.model";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
+import { CancelFetchMatrixUrlRequestAction } from "../../_ngrx/matrix/cancel-fetch-matrix-url-request.action";
+import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-matrix-partial-query-match.action";
+import { FetchMatrixUrlRequestAction } from "../../_ngrx/matrix/fetch-matrix-url-request.action";
 import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixPartialQueryMatchWarningComponent } from "../matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
@@ -55,12 +58,18 @@ describe("HCAGetMatrixComponent", () => {
     const MATRIX_URL_REQUEST_COMPLETED_MUS = {eta: "", matrixUrl: "https://matrixUrl.com", message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.COMPLETED};
     const MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_HOMO = {eta: "", matrixUrl: "", message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: "Homo sapiens", status: MatrixUrlRequestStatus.COMPLETED};
     const MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_MUS = {eta: "", matrixUrl: "", message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_FAILED_HOMO = {eta: "", matrixUrl: "https://matrixUrl.com", message: "resolved bundles in request do not match bundles available in matrix service", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: "Homo sapiens", status: MatrixUrlRequestStatus.FAILED};
+    const MATRIX_URL_REQUEST_FAILED_MUS = {eta: "", matrixUrl: "https://matrixUrl.com", message: "resolved bundles in request do not match bundles available in matrix service", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.FAILED};
+    const MATRIX_URL_REQUEST_FAILED_WITHOUT_URL_HOMO = {eta: "", matrixUrl: "", message: "resolved bundles in request do not match bundles available in matrix service", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: "Homo sapiens", status: MatrixUrlRequestStatus.FAILED};
+    const MATRIX_URL_REQUEST_FAILED_WITHOUT_URL_MUS = {eta: "", matrixUrl: "", message: "resolved bundles in request do not match bundles available in matrix service", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: "Mus musculus", status: MatrixUrlRequestStatus.FAILED};
 
     const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
     const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map([[undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS]]);
     const MATRIX_URL_REQUEST_BY_SPECIES_IN_PROGRESS = new Map([["Homo sapiens", MATRIX_URL_REQUEST_IN_PROGRESS_HOMO], ["Mus musculus", MATRIX_URL_REQUEST_IN_PROGRESS_MUS]]);
     const MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED = new Map([["Homo sapiens", MATRIX_URL_REQUEST_COMPLETED_HOMO],["Mus musculus", MATRIX_URL_REQUEST_COMPLETED_MUS]]);
     const MATRIX_URL_REQUEST_BY_SPECIES_COMPLETED_WITHOUT_URL = new Map([["Homo sapiens", MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_HOMO],["Mus musculus", MATRIX_URL_REQUEST_COMPLETED_WITHOUT_URL_MUS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_FAILED = new Map([["Homo sapiens", MATRIX_URL_REQUEST_FAILED_HOMO],["Mus musculus", MATRIX_URL_REQUEST_FAILED_MUS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_FAILED_WITHOUT_URL = new Map([["Homo sapiens", MATRIX_URL_REQUEST_FAILED_WITHOUT_URL_HOMO],["Mus musculus", MATRIX_URL_REQUEST_FAILED_WITHOUT_URL_MUS]]);
 
     beforeEach(async(() => {
 
@@ -192,7 +201,35 @@ describe("HCAGetMatrixComponent", () => {
 
         // Confirm store dispatch is called
         component.onMatrixUrlRequested(MatrixFormat.loom);
-        expect(testStore.dispatch).toHaveBeenCalled();
+        expect(testStore.dispatch).toHaveBeenCalledWith(new FetchMatrixUrlRequestAction(MatrixFormat.loom, component["ngDestroy$"]));
+    });
+
+    /**
+     * Confirm store dispatch to be called with clear matrix partial query match action when ng on destroy requested.
+     */
+    it("should store dispatch to be called with clear matrix partial query match action when ng on destroy requested", () => {
+
+        // Confirm store dispatch is called
+        component.ngOnDestroy();
+        expect(testStore.dispatch).toHaveBeenCalledWith(new ClearMatrixPartialQueryMatchAction());
+    });
+
+    /**
+     * Confirm store dispatch to be called with cancel fetch matrix url request action when ng on destroy requested.
+     */
+    it("should store dispatch to be called with cancel fetch matrix url request action when ng on destroy requested", () => {
+
+        // Confirm store dispatch is called
+        component.ngOnDestroy();
+        expect(testStore.dispatch).toHaveBeenCalledWith(new CancelFetchMatrixUrlRequestAction());
+    });
+
+    /**
+     * Confirm ng on destroy emits true.
+     */
+    xit("should ng on destroy emit true", () => {
+
+        // TODO - pending test
     });
 
     /**
@@ -448,9 +485,9 @@ describe("HCAGetMatrixComponent", () => {
     });
 
     /**
-     * Confirm component <matrix-url-request-completed> is displayed twice when matrix url request status is completed for homo and mus, both with urls.
+     * Confirm component <matrix-url-request-completed> is displayed twice when matrix url request status is completed for homo and mus, both with matrix url.
      */
-    it(`should display twice component matrix url request completed when matrix url request status is "COMPLETED" for homo and mus, both with urls`, () => {
+    it(`should display twice component matrix url request completed when matrix url request status is "COMPLETED" for homo and mus, both with matrix url`, () => {
 
         // Set up initial component state
         testStore.pipe
@@ -464,7 +501,7 @@ describe("HCAGetMatrixComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm component is displayed
+        // Confirm component is displayed twice
         expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(2);
     });
 
@@ -485,7 +522,112 @@ describe("HCAGetMatrixComponent", () => {
 
         fixture.detectChanges();
 
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-form> is not displayed when matrix url request status is failed with matrix url.
+     */
+    it(`should not display component matrix url request form when matrix url request status is "FAILED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_FAILED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_FORM)).toBe(false);
+    });
+
+    /**
+     * Confirm component <hca-get-data-panel> is not displayed when matrix url request status is failed with matrix url.
+     */
+    it(`should not display component hca-get-data-panel when matrix url request status is "FAILED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_FAILED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_HCA_GET_DATA_PANEL)).toBe(false);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed when matrix url request status is failed with matrix url.
+     */
+    it(`should display component matrix url request completed when matrix url request status is "FAILED" with matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_FAILED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
         // Confirm component is displayed
+        expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(true);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed twice when matrix url request status is failed for homo and mus, both with matrix url.
+     */
+    it(`should display twice component matrix url request completed when matrix url request status is "FAILED" for homo and mus, both with martix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_FAILED), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed twice
+        expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(2);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is not displayed when matrix url request status is failed without matrix url.
+     */
+    it(`should not display component matrix url request completed when matrix url request status is "FAILED" without matrix url`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SPECIES_FAILED_WITHOUT_URL), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
         expect(isComponentDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED)).toBe(false);
     });
 
@@ -499,7 +641,6 @@ describe("HCAGetMatrixComponent", () => {
         const parentComponentElement = getElementByClassName(CLASSNAME_MATRIX);
         return parentComponentElement.children;
     }
-
 
     /**
      * Returns all debug element displayed for the specified component name.
