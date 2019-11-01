@@ -165,7 +165,7 @@
             }
 
             /* Contributors, curator list */
-            .contributor-list, .contributor-list > span, .curator-list, .curator-list > span {
+            .contributor-list, .contributor-list > span, .curator-list, .curator-list > span, .citation, .citation > span {
                 display: block;
             }
 
@@ -180,6 +180,12 @@
 
             .contributor-list, .curator-list, .organization-list {
                 white-space: pre-wrap;
+            }
+
+            /* Citation url */
+            .citation .url {
+                margin: 4px 0;
+                word-break: break-all;
             }
         }
     }

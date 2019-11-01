@@ -41,9 +41,10 @@
     }
 }
 
-/* Project matrix styles */
+/* Project matrix, project overview styles */
 /* ProjectPreparedMatrixDownloadsComponent */
-:host-context(.project-matrix) {
+/* HCAProjectComponent */
+:host-context(.project-matrix), :host-context(.project-overview) {
 
     /* Container, clipboard container */
     .download-url, .clipboard-copy {
@@ -59,5 +60,13 @@
     /* Copy text */
     .clipboard-copy span {
         color: $hca-primary;
+    }
+}
+
+:host-context(.project-overview) {
+
+    /* Copy text */
+    .clipboard-copy span {
+        padding-left: 0;
     }
 }

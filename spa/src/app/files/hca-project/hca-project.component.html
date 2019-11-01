@@ -80,6 +80,12 @@
                                 <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
+                        <h4 class="fontsize-m semi-bold">Citation</h4>
+                        <p class="fontsize-xxs citation">
+                            <span>To reference this project, please use the following link:</span>
+                            <span class="url">{{getCitationLink(state.project.project.entryId)}}</span>
+                            <copy-to-clipboard [copyToClipboardLink]="getCitationLink(state.project.project.entryId)"></copy-to-clipboard>
+                        </p>
                     </div>
                 </div>
             </div>

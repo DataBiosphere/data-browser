@@ -83,6 +83,19 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns project detail page url.
+     *
+     * @param {string} projectId
+     * @returns {string}
+     */
+    public getCitationLink(projectId: string): string {
+
+        const portalURL = this.configService.getPortalURL();
+
+        return portalURL + "/explore/projects/" + projectId;
+    }
+
+    /**
      * Returns the distinct list of collaborating organizations of the project.
      * Will exclude corresponding contributors and any contributor with role "data curator".
      *
