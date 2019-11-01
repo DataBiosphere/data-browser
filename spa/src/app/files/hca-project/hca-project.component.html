@@ -80,6 +80,12 @@
                                 <span *ngSwitchDefault>Unspecified</span>
                             </ng-container>
                         </p>
+                        <h4 class="fontsize-m semi-bold">Citation</h4>
+                        <p class="fontsize-xxs citation">
+                            <span>To reference this project, please use the following link:</span>
+                            <a [href]="getCitationLink(state.project.project.entryId)"><span class="url">{{getCitationLink(state.project.project.entryId)}}</span></a>
+                            <copy-to-clipboard [copyToClipboardLink]="getCitationLink(state.project.project.entryId)"></copy-to-clipboard>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -136,11 +142,13 @@
                         <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
                             <ng-container *ngSwitchCase="true">
                                 <div class="stretch">
-                                    <p class="fontsize-xs">This project's data can be viewed live in the following analysis tools:</p>
+                                    <p class="fontsize-xs">This project's data can be viewed live in the following
+                                        analysis tools:</p>
                                 </div>
                                 <project-integrations [integrations]="state.integrations"></project-integrations>
                             </ng-container>
-                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this time.</p>
+                            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project
+                                at this time.</p>
                         </ng-container>
                     </div>
                     <div class="project-details">
@@ -346,7 +354,10 @@
                     <div class="data-release-policy">
                         <h4 class="fontsize-m semi-bold">Data Release Policy</h4>
                         <div class="stretch">
-                            <p class="fontsize-xs">For information regarding data sharing and data use, please see our <a href="https://www.humancellatlas.org/data-release-policy/" target="_blank" rel="noopener noreferrer">Data Release Policy</a></p>
+                            <p class="fontsize-xs">For information regarding data sharing and data use, please see our
+                                <a href="https://www.humancellatlas.org/data-release-policy/"
+                                   target="_blank"
+                                   rel="noopener noreferrer">Data Release Policy</a></p>
                         </div>
                     </div>
                 </div>

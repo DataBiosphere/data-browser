@@ -6,13 +6,15 @@
  */
 
 // Core dependencies
+import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule, MatProgressSpinnerModule, MatTooltipModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { of } from "rxjs";
+import { ClipboardModule } from "ngx-clipboard";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { of } from "rxjs";
 
 // App dependencies
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
@@ -20,7 +22,9 @@ import { ConfigService } from "../../config/config.service";
 import { HCASectionTitleComponent } from "../../shared/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "../../shared/hca-tab/hca-tab";
 import { PopLayoutComponent } from "../../shared/pop-layout/pop-layout.component";
+import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { HCAProjectComponent } from "./hca-project.component";
@@ -29,7 +33,6 @@ import {
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
     PROJECT_DETAIL_UNSPECIFIED_VALUES, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "./hca-project-mapper.mock";
-import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 
 describe("HCAProjectComponent", () => {
 
@@ -40,8 +43,24 @@ describe("HCAProjectComponent", () => {
     const testRouter = jasmine.createSpyObj("Router", ["navigate"]);
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
+    // Create response for testConfig.getPortalUrl()
+    testConfig.getPortalURL.and.returnValue("https://test.com");
+
+    // Class names
+    const CLASSNAME_CITATION = ".citation";
+    const CLASSNAME_CITATION_URL = ".citation .url";
+    const CLASSNAME_PROJECT_DETAILS_LHS = ".project-details .lhs";
+    const CLASSNAME_PROJECT_DETAILS_RHS = ".project-details .rhs";
+
+    // Component input property
+    const COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK = "copyToClipboardLink";
+
+    // Component names
+    const COMPONENT_NAME_COPY_TO_CLIPBOARD = "copy-to-clipboard";
+
     // Heading labels
     const HEADING_ANALYSIS_TOOLS = "Analysis Tools";
+    const HEADING_CITATION = "Citation";
 
     // Project matrix urls
     const PROJECT_DETAIL_PROJECT_MATRIX_URLS = new ProjectMatrixUrls("2cd14cf5-f8e0-4c97-91a2-9e8957f41ea8", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.csv.zip", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.loom", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.mtx.zip");
@@ -79,10 +98,14 @@ describe("HCAProjectComponent", () => {
         PROJECT_LABEL_DONOR_COUNT
     ];
 
+    // Test values
+    const TEST_VALUE_CITATION_URL = testConfig.getPortalURL() + "/explore/projects/" + PROJECT_DETAIL_SINGLE_VALUES.entryId;
+
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
             declarations: [
+                CopyToClipboardComponent,
                 HCAProjectComponent,
                 HCASectionTitleComponent,
                 HCATabComponent,
@@ -93,6 +116,7 @@ describe("HCAProjectComponent", () => {
             ],
             imports: [
                 CcPipeModule,
+                ClipboardModule,
                 MatIconModule,
                 MatTooltipModule,
                 MatProgressSpinnerModule
@@ -144,6 +168,95 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
+     * Confirm get citation link returns project detail page url.
+     */
+    it("should get citation link returns project detail page url", () => {
+
+        const projectUrl = component.getCitationLink(PROJECT_DETAIL_SINGLE_VALUES.entryId);
+
+        // Confirm project detail page url is returned
+        expect(projectUrl).toEqual(TEST_VALUE_CITATION_URL);
+    });
+
+    /**
+     * Confirm "Citation" is displayed.
+     */
+    it(`should display "Citation"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm "Citation" is displayed
+        expect(isHeadingDisplayed(HEADING_CITATION)).toEqual(true);
+    });
+
+    /**
+     * Confirm citation url is displayed.
+     */
+    it("should display citation url", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm url is displayed
+        expect(getInnerHtmlText(CLASSNAME_CITATION_URL)).toEqual(TEST_VALUE_CITATION_URL);
+    });
+
+    /**
+     * Confirm component <copy-to-clipboard> is displayed for citation url.
+     */
+    it("should display component copy-to-clipboard for citation url", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed
+        expect(getComponent(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)).not.toBe(null);
+    });
+
+    /**
+     * Confirm component <copy-to-clipboard> input property copy to clipboard link is the citation url.
+     */
+    it("should display component copy-to-clipboard input property copy to clipboard link is the citation url", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const copyToClipboard = getComponent(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)[0];
+
+        // Confirm input property copy to clipboard link is citation url
+        expect(getComponentInputPropertyValue(copyToClipboard, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(TEST_VALUE_CITATION_URL);
+    });
+
+    /**
      * Confirm "Sample Type" is displayed.
      */
     it(`should display "Sample Type"`, () => {
@@ -159,7 +272,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Sample Type" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_SAMPLE_ENTITY_TYPE)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_SAMPLE_ENTITY_TYPE, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -254,7 +367,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Modal Organ" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -273,7 +386,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Modal Organ" is not displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN)).toEqual(false);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(false);
     });
 
     /**
@@ -367,7 +480,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Analysis Protocol" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -386,7 +499,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Analysis Protocol" is not displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW)).toEqual(false);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(false);
     });
 
     /**
@@ -409,7 +522,7 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
-     * Confirm <project-integrations> is displayed when project integration is single value.
+     * Confirm component <project-integrations> is displayed when project integration is single value.
      */
     it("should display component project integrations when project integration is single value", () => {
 
@@ -430,7 +543,7 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
-     * Confirm <project-integrations> is not displayed when project integration is empty.
+     * Confirm component <project-integrations> is not displayed when project integration is empty.
      */
     it("should not display component project integrations when project integration is empty", () => {
 
@@ -451,6 +564,68 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
+     * Returns the debug elements, specified by parent class name and child tag name.
+     *
+     * @param {string} tagName
+     * @param {string} componentName
+     * @returns {DebugElement[]}
+     */
+    function getComponent(className: string, tagName: string): DebugElement[] {
+
+        const de = getDebugElement(className);
+
+        if ( !de ) {
+            return;
+        }
+
+        return de.children.filter(child => child.name === tagName);
+    }
+
+    /**
+     * Returns the component input property value specified by input property.
+     *
+     * @param {DebugElement} component
+     * @param {string} inputProperty
+     * @returns {any}
+     */
+    function getComponentInputPropertyValue(component: DebugElement, inputProperty: string): any {
+
+        if ( !component ) {
+            return;
+        }
+
+        return component.componentInstance[inputProperty];
+    }
+
+    /**
+     * Returns the debug element for the specified class name.
+     *
+     * @param {string} className
+     * @returns {DebugElement}
+     */
+    function getDebugElement(className: string): DebugElement {
+
+        return fixture.debugElement.query(By.css(className));
+    }
+
+    /**
+     * Returns the inner html text, specified by class name.
+     *
+     * @param {string} className
+     * @returns {any}
+     */
+    function getInnerHtmlText(className: string): any {
+
+        const de = getDebugElement(className);
+
+        if ( !de ) {
+            return;
+        }
+
+        return de.nativeElement.innerText;
+    }
+
+    /**
      * Returns the project detail value for the specified project detail.
      *
      * @param {string} projectDetailLabel
@@ -458,7 +633,7 @@ describe("HCAProjectComponent", () => {
      */
     function getProjectDetailValue(projectDetailLabel: string): any {
 
-        const projectDetailValueEls = fixture.debugElement.queryAll(By.css(".project-details .rhs"));
+        const projectDetailValueEls = fixture.debugElement.queryAll(By.css(CLASSNAME_PROJECT_DETAILS_RHS));
 
         if ( !projectDetailValueEls.length ) {
             return null;
@@ -484,15 +659,16 @@ describe("HCAProjectComponent", () => {
     }
 
     /**
-     * Returns true if project detail label is displayed.
+     * Returns true if label is displayed.
      *
-     * @param {string} projectDetailLabel
+     * @param {string} label
+     * @param {string} queryString
      * @returns {boolean}
      */
-    function isProjectDetailLabelDisplayed(projectDetailLabel: string): boolean {
+    function isProjectDetailLabelDisplayed(label: string, queryString: string): boolean {
 
-        const projectDetailLabelEls = fixture.debugElement.queryAll(By.css(".project-details .lhs"));
+        const projectDetailLabelEls = fixture.debugElement.queryAll(By.css(queryString));
 
-        return projectDetailLabelEls.some(projectDetailLabelEl => projectDetailLabelEl.nativeElement.innerText === projectDetailLabel);
+        return projectDetailLabelEls.some(projectDetailLabelEl => projectDetailLabelEl.nativeElement.innerText === label);
     }
 });
