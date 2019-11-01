@@ -64,15 +64,7 @@ describe("MatrixUrlRequestCompleted", () => {
     };
     const COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED = {
         eta: "",
-        matrixUrl: URL_DATA,
-        message: "Failed",
-        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
-        species: SPECIES_MUS,
-        status: MatrixUrlRequestStatus.FAILED
-    };
-    const COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED_NULL_DATA = {
-        eta: "",
-        matrixUrl: URL_DATA_NULL,
+        matrixUrl: "",
         message: "Failed",
         requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
         species: SPECIES_MUS,
@@ -125,9 +117,9 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method get matrix download file name returns the file name.
+     * Confirm getMatrixDownloadFileName returns the file name.
      */
-    it("should get matrix download file name returns the file name", () => {
+    it("calculates the matrix download file name from URL specified in the completed request", () => {
 
         const fileName = component.getMatrixDownloadFileName(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
 
@@ -135,9 +127,9 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method get matrix link return the matrix url
+     * Confirm getMatrixLink returns the matrix url
      */
-    it("should get matrix link return the matrix url", () => {
+    it("returns the matrix URL as specified in the completed request", () => {
 
         const matrixUrl = component.getMatrixLink(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
 
@@ -145,29 +137,9 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is data generated for request return true when there is a corresponding matrix url for the request.
+     * Confirm isMatrixUrlRequestCompleted returns true when matrix request is "COMPLETED".
      */
-    it("should method is data generated for request return true when there is a corresponding matrix url for the request", () => {
-
-        const isDataGeneratedForRequest = component.isDataGeneratedForRequest(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
-
-        expect(isDataGeneratedForRequest).toEqual(true);
-    });
-
-    /**
-     * Confirm method is data generated for request return false when there is no corresponding matrix url for the request.
-     */
-    it("should method is data generated for request return false when there is no corresponding matrix url for the request", () => {
-
-        const isDataGeneratedForRequest = component.isDataGeneratedForRequest(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED_NULL_DATA);
-
-        expect(isDataGeneratedForRequest).toEqual(false);
-    });
-
-    /**
-     * Confirm method is matrix url request completed returns true when matrix request is "COMPLETED".
-     */
-    it(`should is matrix url request completed returns true when matrix request is "COMPLETED"`, () => {
+    it("identifies a completed request as a completed requested", () => {
 
         const isRequestCompleted = component.isMatrixUrlRequestCompleted(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
 
@@ -175,9 +147,9 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is matrix url request completed returns false when matrix request is not "COMPLETED".
+     * Confirm isMatrixUrlRequestCompleted returns false when matrix request is not "COMPLETED".
      */
-    it(`should is matrix url request completed returns false when matrix request is not "COMPLETED"`, () => {
+    it("identifies a request that hasn't completed as a request that hasn't completed", () => {
 
         const isRequestCompleted = component.isMatrixUrlRequestCompleted(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED);
 
@@ -187,7 +159,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm method is matrix url request failed returns true when matrix request is "FAILED".
      */
-    it(`should is matrix url request completed returns true when matrix request is "FAILED"`, () => {
+    it("identifies a failed request as a request that has failed", () => {
 
         const isRequestFailed = component.isMatrixUrlRequestFailed(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED);
 
@@ -197,7 +169,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm method is matrix url request failed returns false when matrix request is not "FAILED".
      */
-    it(`should is matrix url request completed returns false when matrix request is not "FAILED"`, () => {
+    it("identifies a request that hasn't failed as a request that hasn't failed", () => {
 
         const isRequestFailed = component.isMatrixUrlRequestFailed(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
 
@@ -205,53 +177,9 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm component is empty when matrix request is completed and species has no data.
-     */
-    it(`should component is empty when matrix request is "COMPLETED" and species has no data`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED_NULL_DATA;
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.children.length).toBe(0);
-    });
-
-    /**
-     * Confirm component is not empty when matrix request is completed and species has data.
-     */
-    it(`should component is not empty when matrix request is "COMPLETED" and species has data`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.children.length).toBeGreaterThan(0);
-    });
-
-    /**
-     * Confirm component is empty when matrix request is failed and species has no data.
-     */
-    it(`should component is empty when matrix request is "FAILED" and species has no data`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED_NULL_DATA;
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.children.length).toBe(0);
-    });
-
-    /**
-     * Confirm component is not empty when matrix request is failed and species has data.
-     */
-    it(`should component is not empty when matrix request is "FAILED" and species has data`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.children.length).toBeGreaterThan(0);
-    });
-
-    /**
      * Confirm error message is displayed when matrix request is "FAILED".
      */
-    it(`should display error message when matrix request is "FAILED"`, () => {
+    it(`displays error message when matrix request has failed`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
         fixture.detectChanges();
@@ -263,7 +191,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm error message is not displayed when matrix request is "COMPLETED".
      */
-    it(`should not display error message when matrix request is "COMPLETED"`, () => {
+    it(`hides error message when matrix request is completed successfully`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();
@@ -275,7 +203,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm file name is displayed when matrix request is "COMPLETED".
      */
-    it(`should display file name when matrix request is "COMPLETED"`, () => {
+    it(`displays file name when matrix request is completed successfully`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();
@@ -287,7 +215,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm file name is not displayed when matrix request is "FAILED".
      */
-    it(`should not display file name when matrix request is "FAILED"`, () => {
+    it(`hides file name when matrix request has failed"`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
         fixture.detectChanges();
@@ -299,7 +227,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm component <copy-to-clipboard> is displayed when matrix request is "COMPLETED".
      */
-    it(`should display component copy to clipboard when matrix request is "COMPLETED"`, () => {
+    it(`displays component copy to clipboard when matrix request completed successfully"`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();
@@ -311,7 +239,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm component <copy-to-clipboard> is not displayed when matrix request is "FAILED".
      */
-    it(`should not display component copy to clipboard when matrix request is "FAILED"`, () => {
+    it(`hides copy to clipboard when matrix request has failed`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
         fixture.detectChanges();
@@ -323,7 +251,7 @@ describe("MatrixUrlRequestCompleted", () => {
     /**
      * Confirm component <copy-to-clipboard> is with input property "copyToClipboardLink" is matrix link when matrix request is "COMPLETED".
      */
-    it(`should display component hca get data panel with input property "copyToClipboardLink" is matrix link when matrix request is "COMPLETED"`, () => {
+    it(`displays component hca get data panel with the matrix link as the input property "copyToClipboardLink" when matrix request successfully completed`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();

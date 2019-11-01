@@ -85,7 +85,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm method on matrix url requested emit file format.
      */
-    it("should on matrix url requested emit file format", () => {
+    it("emits selected file format when matrix URL is requested", () => {
 
         spyOn(component.matrixUrlRequested, "emit");
         component.onMatrixUrlRequested(MatrixFormat.loom);
@@ -96,7 +96,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <hca-get-data-panel> is displayed with input value "loading" is true when matrix partial query match completed is false.
      */
-    it(`should display component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
+    it(`displays component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
 
         component.matrixPartialQueryMatchCompleted = false;
         fixture.detectChanges();
@@ -108,7 +108,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <hca-get-data-panel> is displayed with input value "loading" is false when matrix partial query match completed is true.
      */
-    it(`should display component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
+    it(`displays component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         fixture.detectChanges();
@@ -120,7 +120,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <matrix-partial-query-match-warning> is not displayed when matrix partial query match is false.
      */
-    it("should not display component matrix partial query match warning when matrix partial query match is false", () => {
+    it("hides component matrix partial query match warning when matrix partial query match is false", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.matrixPartialQueryMatch = false;
@@ -133,7 +133,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <matrix-partial-query-match-warning> is displayed when matrix partial query match is true.
      */
-    it("should display component matrix partial query match warning when matrix partial query match is true", () => {
+    it("displays component matrix partial query match warning when matrix partial query match is true", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.matrixPartialQueryMatch = true;
@@ -146,7 +146,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm paragraph "Request an expression matrix for the selected data from the HCA Matrix service." is displayed when matrix partial query match completed is true.
      */
-    it(`should display paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is true`, () => {
+    it(`displays paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is true`, () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         fixture.detectChanges();
@@ -158,7 +158,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm paragraph "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed when matrix partial query match completed is false.
      */
-    it(`should not display paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is false`, () => {
+    it(`hides paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is false`, () => {
 
         component.matrixPartialQueryMatchCompleted = false;
         fixture.detectChanges();
@@ -170,7 +170,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm paragraph "To begin, choose one of the output file formats below." is displayed when matrix partial query match completed is true.
      */
-    it(`should display paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is true`, () => {
+    it(`displays paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is true`, () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         fixture.detectChanges();
@@ -182,7 +182,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm paragraph "To begin, choose one of the output file formats below." is not displayed when matrix partial query match completed is false.
      */
-    it(`should not display paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is false`, () => {
+    it(`hides paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is false`, () => {
 
         component.matrixPartialQueryMatchCompleted = false;
         fixture.detectChanges();
@@ -194,7 +194,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <mat-radio-group> is displayed when matrix partial query match completed is true.
      */
-    it("should display component mat radio group when matrix partial query match completed is true", () => {
+    it("displays component mat radio group when matrix partial query match completed is true", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         fixture.detectChanges();
@@ -206,7 +206,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <mat-radio-group> is not displayed when matrix partial query match completed is false.
      */
-    it("should not display component mat radio group when matrix partial query match completed is false", () => {
+    it("hides component mat radio group when matrix partial query match completed is false", () => {
 
         component.matrixPartialQueryMatchCompleted = false;
         fixture.detectChanges();
@@ -218,7 +218,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <mat-radio-button> is not displayed when file formats is empty
      */
-    it("should not display component mat radio button when file formats is empty", () => {
+    it("hides component mat radio button when file formats is empty", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS_EMPTY;
@@ -231,7 +231,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <mat-radio-button> is displayed when file formats is defined.
      */
-    it("should display component mat radio button when file formats is defined", () => {
+    it("displays component mat radio button when file formats is defined", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;
@@ -244,7 +244,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm component <mat-radio-button> is displayed three times, once for each file format.
      */
-    it(`should display component mat radio button three times, once for each file format`, () => {
+    it(`displays component mat radio button three times, once for each file format`, () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;
@@ -257,7 +257,7 @@ describe("MatrixUrlRequestForm", () => {
     /**
      * Confirm method on matrix url requested is called on click of button.
      */
-    it("should call method on matrix url requested on click of button", () => {
+    it("calls onMatrixURLRequested method on click of button", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
         component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;

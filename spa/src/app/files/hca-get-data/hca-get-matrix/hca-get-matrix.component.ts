@@ -53,6 +53,20 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * When displaying the status of each request, we only want to consider requests that have completed with data, or
+     * requests that have failed. That is, we ignore requests that have completed with no data/
+     * 
+     * @param {MatrixUrlRequest[]} requests
+     * @returns {MatrixUrlRequest[]}
+     */
+    public filterCompletedMatrixUrlRequestsWithNoData(requests: MatrixUrlRequest[]): MatrixUrlRequest[] {
+
+        return requests.filter(matrixUrlRequest => 
+            this.matrixService.isMatrixUrlRequestFailed(matrixUrlRequest) ||
+            !!matrixUrlRequest.matrixUrl);
+    }
+    
+    /**
      * Return the possible set of file formats for downloading the matrix.
      * 
      * @param {string[]} matrixFileFormats
@@ -70,7 +84,8 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
      * Returns true if there are matrix URL request for multiple species, and more than one of these requests has data
      * generated for it. For example, it is possible that a mouse matrix URL request contains no data and in this case,
      * we can ignore this request.
-     * 
+     *
+     * @param {MatrixUrlRequest[]} requests
      * @returns {boolean}
      */
     public isDisplayMultipleMatrixUrlRequests(requests: MatrixUrlRequest[]): boolean {
@@ -79,7 +94,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
             return false;
         }
 
-        const requestsWithData = requests.filter(matrixUrlRequest => !!matrixUrlRequest.matrixUrl);
+        const requestsWithData = this.filterCompletedMatrixUrlRequestsWithNoData(requests);
         return requestsWithData.length > 1
     }
 

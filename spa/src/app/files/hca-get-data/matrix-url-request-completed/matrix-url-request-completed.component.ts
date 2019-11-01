@@ -51,18 +51,6 @@ export class MatrixUrlRequestCompletedComponent {
     }
 
     /**
-     * Returns true if data has been generated for this Matrix request. That is, there is a corresponding Matrix URL
-     * for this request.
-     * 
-     * @param {MatrixUrlRequest} request
-     * @returns {boolean}
-     */
-    public isDataGeneratedForRequest(request: MatrixUrlRequest): boolean {
-
-        return !!request.matrixUrl;
-    }
-
-    /**
      * Returns true if matrix has been requested and request is completed.
      *
      * @param {MatrixUrlRequest} request

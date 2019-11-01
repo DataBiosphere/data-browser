@@ -18,12 +18,18 @@
         </ng-container>
         <!-- Matrix request/s failed/completed -->
         <ng-container *ngSwitchDefault>
-            <hca-get-data-panel>
-                <h4 class="fontsize-m semi-bold">Your expression matrices are ready.</h4>
-            </hca-get-data-panel>
-            <p class="fontsize-m" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">Your request
-                contains data from multiple species. Data from each species is returned in its own expression
-                matrix.</p>
+            <ng-container [ngSwitch]="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">
+                <ng-container *ngSwitchCase="true">
+                    <hca-get-data-panel>
+                        <h4 class="fontsize-m semi-bold">Your expression matrices are ready.</h4>
+                    </hca-get-data-panel>
+                    <p class="fontsize-m">Your request contains data from multiple species. Data from each species is
+                        returned in its own expression matrix.</p>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
+                </ng-container>
+            </ng-container>
             <ng-container *ngFor="let matrixUrlRequest of state.matrixUrlRequests">
                 <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest">
                     <p class="fontsize-m semi-bold" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">{{matrixUrlRequest.species}}</p>
