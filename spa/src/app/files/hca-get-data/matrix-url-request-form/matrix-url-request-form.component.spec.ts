@@ -54,10 +54,10 @@ describe("MatrixUrlRequestForm", () => {
         component = fixture.componentInstance;
     }));
 
-    const COMPONENT_INPUT_NAME = "loading";
+    const COMPONENT_INPUT_PROPERTY_LOADING = "loading";
 
-    const COMPONENT_INPUT_VALUE_FILE_FORMATS = ["csv", "loom", "mtx"];
-    const COMPONENT_INPUT_VALUE_FILE_FORMATS_EMPTY = [];
+    const COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS = ["csv", "loom", "mtx"];
+    const COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS_EMPTY = [];
 
     const COMPONENT_NAME_HCA_GET_DATA_PANEL = "hca-get-data-panel";
     const COMPONENT_NAME_MAT_RADIO_BUTTON = "mat-radio-button";
@@ -116,7 +116,7 @@ describe("MatrixUrlRequestForm", () => {
         fixture.detectChanges();
 
         // Confirm input value is true
-        expect(getComponentInputValue(getDebugElement(COMPONENT_NAME_HCA_GET_DATA_PANEL), COMPONENT_INPUT_NAME)).toEqual(true);
+        expect(getComponentInputValue(getDebugElement(COMPONENT_NAME_HCA_GET_DATA_PANEL), COMPONENT_INPUT_PROPERTY_LOADING)).toEqual(true);
     });
 
     /**
@@ -151,7 +151,7 @@ describe("MatrixUrlRequestForm", () => {
     it("should not display component mat radio button when file formats is empty", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
-        component.fileFormats = COMPONENT_INPUT_VALUE_FILE_FORMATS_EMPTY;
+        component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS_EMPTY;
         fixture.detectChanges();
 
         // Confirm component is not displayed
@@ -164,7 +164,7 @@ describe("MatrixUrlRequestForm", () => {
     it("should display component mat radio button when file formats is defined", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
-        component.fileFormats = COMPONENT_INPUT_VALUE_FILE_FORMATS;
+        component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;
         fixture.detectChanges();
 
         // Confirm component is displayed
@@ -177,7 +177,7 @@ describe("MatrixUrlRequestForm", () => {
     it(`should display component mat radio button three times, once for each file format`, () => {
 
         component.matrixPartialQueryMatchCompleted = true;
-        component.fileFormats = COMPONENT_INPUT_VALUE_FILE_FORMATS;
+        component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;
         fixture.detectChanges();
 
         // Confirm component is displayed for each file format
@@ -190,7 +190,7 @@ describe("MatrixUrlRequestForm", () => {
     it("should call method on matrix url requested on click of button", () => {
 
         component.matrixPartialQueryMatchCompleted = true;
-        component.fileFormats = COMPONENT_INPUT_VALUE_FILE_FORMATS;
+        component.fileFormats = COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS;
         fixture.detectChanges();
 
         const onMatrixUrlRequested = spyOn(component, "onMatrixUrlRequested");

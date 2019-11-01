@@ -8,7 +8,8 @@
                                      (matrixUrlRequested)="onMatrixUrlRequested($event)"></matrix-url-request-form>
         </ng-container>
         <!-- Matrix manifest in progress/in progress -->
-        <ng-container *ngSwitchCase="isMatrixUrlRequestStatusManifestInProgress(state.matrixUrlRequestStatus) || isMatrixUrlRequestStatusInProgress(state.matrixUrlRequestStatus)">
+        <ng-container
+                *ngSwitchCase="isMatrixUrlRequestStatusManifestInProgress(state.matrixUrlRequestStatus) || isMatrixUrlRequestStatusInProgress(state.matrixUrlRequestStatus)">
             <hca-get-data-panel [loading]="true">
                 <h4 class="fontsize-m semi-bold">Your Expression Matrix is Being Prepared</h4>
                 <p class="fontsize-m">This can take several minutes to an hour or more depending on the size of the
@@ -17,27 +18,15 @@
         </ng-container>
         <!-- Matrix request/s failed/completed -->
         <ng-container *ngSwitchDefault>
-            <ng-container [ngSwitch]="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">
-                <ng-container *ngSwitchCase="true">
-                    <hca-get-data-panel>
-                        <h4 class="fontsize-m semi-bold">Your expression matrices are ready.</h4>
-                    </hca-get-data-panel>
-                    <p class="fontsize-m">
-                        Your request contains data from multiple species. Data from each species is returned in its own
-                        expression matrix.
-                    </p>
-                </ng-container>
-                <ng-container *ngSwitchDefault>
-                    <hca-get-data-panel>
-                        <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
-                    </hca-get-data-panel>
-                </ng-container>
-            </ng-container>
+            <hca-get-data-panel>
+                <h4 class="fontsize-m semi-bold">Your expression matrices are ready.</h4>
+            </hca-get-data-panel>
+            <p class="fontsize-m" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">Your request
+                contains data from multiple species. Data from each species is returned in its own expression
+                matrix.</p>
             <ng-container *ngFor="let matrixUrlRequest of state.matrixUrlRequests">
                 <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest">
-                    <p class="fontsize-m semi-bold" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">
-                        {{matrixUrlRequest.species}}
-                    </p>
+                    <p class="fontsize-m semi-bold" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">{{matrixUrlRequest.species}}</p>
                 </matrix-url-request-completed>
             </ng-container>
         </ng-container>

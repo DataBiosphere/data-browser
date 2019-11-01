@@ -78,7 +78,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
         if ( requests.length === 1 ) {
             return false;
         }
-        
+
         const requestsWithData = requests.filter(matrixUrlRequest => !!matrixUrlRequest.matrixUrl);
         return requestsWithData.length > 1
     }
