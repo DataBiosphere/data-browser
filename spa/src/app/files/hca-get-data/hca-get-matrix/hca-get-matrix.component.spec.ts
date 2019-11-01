@@ -79,7 +79,9 @@ describe("HCAGetMatrixComponent", () => {
     const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA]]);
     const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_FAILED_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_FAILED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_FAILED_MUS]]);
     const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_IN_PROGRESS = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_IN_PROGRESS_HOMO], [SPECIES_MUS, MATRIX_URL_REQUEST_IN_PROGRESS_MUS]]);
+    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_MIXED_RESULT_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_FAILED_MUS]]);
     const MATRIX_URL_REQUEST_BY_SINGLE_SPECIES_COMPLETED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO]]);
+    const MATRIX_URL_REQUEST_BY_SINGLE_SPECIES_FAILED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_FAILED_HOMO]]);
     const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map([[undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS]]);
     const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
 
@@ -728,6 +730,69 @@ describe("HCAGetMatrixComponent", () => {
 
         // Confirm component is not displayed
         expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(1);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed twice when multiple matrix url request status is failed.
+     */
+    it(`should display component matrix url request completed twice when multiple matrix url request status is "FAILED".`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_FAILED_MULTIPLE_DATA), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed twice
+        expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(2);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed once when single matrix url request status is failed.
+     */
+    it(`should display component matrix url request completed twice when multiple matrix url request status is "FAILED".`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_SINGLE_SPECIES_FAILED_SINGLE_DATA), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed twice
+        expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(1);
+    });
+
+    /**
+     * Confirm component <matrix-url-request-completed> is displayed twice when one matrix url request status is failed and one is completed.
+     */
+    it(`should display component matrix url request completed twice when one matrix url request status is "FAILED" and one is "COMPLETED".`, () => {
+
+        // Set up initial component state
+        testStore.pipe
+            .and.returnValues(
+            of(DEFAULT_FILE_SUMMARY), // fileSummary
+            of([]), // selectedSearchTerms
+            of(["loom", "csv", "mtx"]), // matrixFileFormats
+            of(MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_MIXED_RESULT_MULTIPLE_DATA), // matrixUrlRequestsBySpecies
+            of(true), // matrixPartialQueryMatch
+        );
+
+        fixture.detectChanges();
+
+        // Confirm component is displayed twice
+        expect(getComponentsDisplayed(COMPONENT_NAME_MATRIX_URL_REQUEST_COMPLETED).length).toEqual(2);
     });
 
     /**
