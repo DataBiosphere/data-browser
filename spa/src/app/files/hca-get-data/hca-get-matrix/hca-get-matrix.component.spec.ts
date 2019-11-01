@@ -58,31 +58,30 @@ describe("HCAGetMatrixComponent", () => {
     const CLASSNAME_FONTSIZE_M_SEMI_BOLD = "p.fontsize-m.semi-bold"; // for paragraph PARAGRAPH_MULTIPLE_MATRIX_URL
 
     // Test values
-    const URL_DATA = "https://test.com";
-    const NULL_URL_DATA = "";
     const PARAGRAPH_MULTIPLE_MATRIX_URL = "Your request contains data from multiple species. Data from each species is returned in its own expression matrix.";
     const SPECIES_HOMO = "Homo sapiens";
     const SPECIES_MUS = "Mus musculus";
-    const MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS = {status: MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS};
-    const MATRIX_URL_REQUEST_IN_PROGRESS_HOMO = {eta: "", matrixUrl: undefined, message: "Job started.", requestId: "aace1b45-f7e6-4a86-b80e-17cfd62bcb00", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.IN_PROGRESS};
-    const MATRIX_URL_REQUEST_IN_PROGRESS_MUS = {eta: "", matrixUrl: NULL_URL_DATA, message: "", requestId: "23d520f5-b50a-4407-90d7-1dc3500601cb", species: SPECIES_MUS, status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const URL_DATA = "https://test.com";
+    const URL_DATA_NULL = "";
+
     const MATRIX_URL_REQUEST_COMPLETED_HOMO = {eta: "", matrixUrl: URL_DATA, message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.COMPLETED};
     const MATRIX_URL_REQUEST_COMPLETED_MUS = {eta: "", matrixUrl: URL_DATA, message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: SPECIES_MUS, status: MatrixUrlRequestStatus.COMPLETED};
-    const MATRIX_URL_REQUEST_COMPLETED_HOMO_NULL_DATA = {eta: "", matrixUrl: NULL_URL_DATA, message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.COMPLETED};
-    const MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA = {eta: "", matrixUrl: NULL_URL_DATA, message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: SPECIES_MUS, status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_COMPLETED_HOMO_NULL_DATA = {eta: "", matrixUrl: URL_DATA_NULL, message: "", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.COMPLETED};
+    const MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA = {eta: "", matrixUrl: URL_DATA_NULL, message: "", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: SPECIES_MUS, status: MatrixUrlRequestStatus.COMPLETED};
     const MATRIX_URL_REQUEST_FAILED_HOMO = {eta: "", matrixUrl: URL_DATA, message: "resolved bundles in request do not match bundles available in matrix service", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.FAILED};
     const MATRIX_URL_REQUEST_FAILED_MUS = {eta: "", matrixUrl: URL_DATA, message: "resolved bundles in request do not match bundles available in matrix service", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: SPECIES_MUS, status: MatrixUrlRequestStatus.FAILED};
-    const MATRIX_URL_REQUEST_FAILED_HOMO_NULL_DATA = {eta: "", matrixUrl: NULL_URL_DATA, message: "resolved bundles in request do not match bundles available in matrix service", requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.FAILED};
-    const MATRIX_URL_REQUEST_FAILED_MUS_NULL_DATA = {eta: "", matrixUrl: NULL_URL_DATA, message: "resolved bundles in request do not match bundles available in matrix service", requestId: "86ecf86d-df97-4b37-af6f-7f25d78d404b", species: SPECIES_MUS, status: MatrixUrlRequestStatus.FAILED};
+    const MATRIX_URL_REQUEST_IN_PROGRESS_HOMO = {eta: "", matrixUrl: undefined, message: "Job started.", requestId: "aace1b45-f7e6-4a86-b80e-17cfd62bcb00", species: SPECIES_HOMO, status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const MATRIX_URL_REQUEST_IN_PROGRESS_MUS = {eta: "", matrixUrl: URL_DATA_NULL, message: "", requestId: "23d520f5-b50a-4407-90d7-1dc3500601cb", species: SPECIES_MUS, status: MatrixUrlRequestStatus.IN_PROGRESS};
+    const MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS = {status: MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS};
 
-    const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
-    const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map([[undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS]]);
+    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS]]);
+    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_NULL_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO_NULL_DATA],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA]]);
+    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA]]);
+    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_FAILED_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_FAILED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_FAILED_MUS]]);
     const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_IN_PROGRESS = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_IN_PROGRESS_HOMO], [SPECIES_MUS, MATRIX_URL_REQUEST_IN_PROGRESS_MUS]]);
     const MATRIX_URL_REQUEST_BY_SINGLE_SPECIES_COMPLETED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO]]);
-    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS]]);
-    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_SINGLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA]]);
-    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_COMPLETED_NULL_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_COMPLETED_HOMO_NULL_DATA],[SPECIES_MUS, MATRIX_URL_REQUEST_COMPLETED_MUS_NULL_DATA]]);
-    const MATRIX_URL_REQUEST_BY_MULTIPLE_SPECIES_FAILED_MULTIPLE_DATA = new Map([[SPECIES_HOMO, MATRIX_URL_REQUEST_FAILED_HOMO],[SPECIES_MUS, MATRIX_URL_REQUEST_FAILED_MUS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_MANIFEST_IN_PROGRESS = new Map([[undefined, MATRIX_URL_REQUEST_MANIFEST_IN_PROGRESS]]);
+    const MATRIX_URL_REQUEST_BY_SPECIES_NOT_STARTED = new Map();
 
     beforeEach(async(() => {
 

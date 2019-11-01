@@ -9,8 +9,8 @@
 import { Component, Input } from "@angular/core";
 
 // App dependencies
-import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixService } from "../../shared/matrix.service";
+import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 
 @Component({
     selector: "matrix-url-request-completed",

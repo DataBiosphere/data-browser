@@ -30,26 +30,8 @@ describe("MatrixUrlRequestCompleted", () => {
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
-    const COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED = {
-        eta: "",
-        matrixUrl: "https://matrixUrl.com",
-        message: "Completed and successful",
-        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
-        species: "Homo sapiens",
-        status: MatrixUrlRequestStatus.COMPLETED
-    };
-    const COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED = {
-        eta: "",
-        matrixUrl: "https://matrixUrl.com",
-        message: "Failed",
-        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
-        species: "Homo sapiens",
-        status: MatrixUrlRequestStatus.FAILED
-    };
-
     // Class names
     const CLASSNAME_ERROR_MESSAGE = ".error-message";
-    const CLASSNAME_HCA_GET_DATA_PANEL_H4 = "hca-get-data-panel h4";
     const CLASSNAME_FILE_NAME = ".file-name";
 
     // Component input property
@@ -59,8 +41,43 @@ describe("MatrixUrlRequestCompleted", () => {
     const COMPONENT_NAME_COPY_TO_CLIPBOARD = "copy-to-clipboard";
 
     // Text values
-    const LABEL_COMPLETED = ": Your expression matrix is ready.";
-    const LABEL_FAILED = ": Error";
+    const SPECIES_HOMO = "Homo sapiens";
+    const SPECIES_MUS = "Mus musculus";
+    const URL_DATA = "https://test.com";
+    const URL_DATA_NULL = "";
+
+    const COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED = {
+        eta: "",
+        matrixUrl: URL_DATA,
+        message: "Completed and successful",
+        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
+        species: SPECIES_HOMO,
+        status: MatrixUrlRequestStatus.COMPLETED
+    };
+    const COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED_NULL_DATA = {
+        eta: "",
+        matrixUrl: URL_DATA_NULL,
+        message: "Completed and successful",
+        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
+        species: SPECIES_HOMO,
+        status: MatrixUrlRequestStatus.COMPLETED
+    };
+    const COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED = {
+        eta: "",
+        matrixUrl: URL_DATA,
+        message: "Failed",
+        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
+        species: SPECIES_MUS,
+        status: MatrixUrlRequestStatus.FAILED
+    };
+    const COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED_NULL_DATA = {
+        eta: "",
+        matrixUrl: URL_DATA_NULL,
+        message: "Failed",
+        requestId: "ea14b8fc-e567-4215-9625-2e4325c04ad3",
+        species: SPECIES_MUS,
+        status: MatrixUrlRequestStatus.FAILED
+    };
 
     beforeEach(async(() => {
 
@@ -100,7 +117,7 @@ describe("MatrixUrlRequestCompleted", () => {
     }));
 
     /**
-     * Smoke test
+     * Smoke test.
      */
     it("should create an instance", () => {
 
@@ -108,13 +125,13 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method get matrix download file name returns the file name
+     * Confirm method get matrix download file name returns the file name.
      */
     it("should get matrix download file name returns the file name", () => {
 
         const fileName = component.getMatrixDownloadFileName(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
 
-        expect(fileName).toEqual("matrixUrl.com");
+        expect(fileName).toEqual("test.com");
     });
 
     /**
@@ -128,7 +145,27 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is matrix url request completed returns true when matrix request is "COMPLETED"
+     * Confirm method is data generated for request return true when there is a corresponding matrix url for the request.
+     */
+    it("should method is data generated for request return true when there is a corresponding matrix url for the request", () => {
+
+        const isDataGeneratedForRequest = component.isDataGeneratedForRequest(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED);
+
+        expect(isDataGeneratedForRequest).toEqual(true);
+    });
+
+    /**
+     * Confirm method is data generated for request return false when there is no corresponding matrix url for the request.
+     */
+    it("should method is data generated for request return false when there is no corresponding matrix url for the request", () => {
+
+        const isDataGeneratedForRequest = component.isDataGeneratedForRequest(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED_NULL_DATA);
+
+        expect(isDataGeneratedForRequest).toEqual(false);
+    });
+
+    /**
+     * Confirm method is matrix url request completed returns true when matrix request is "COMPLETED".
      */
     it(`should is matrix url request completed returns true when matrix request is "COMPLETED"`, () => {
 
@@ -138,7 +175,7 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is matrix url request completed returns false when matrix request is not "COMPLETED"
+     * Confirm method is matrix url request completed returns false when matrix request is not "COMPLETED".
      */
     it(`should is matrix url request completed returns false when matrix request is not "COMPLETED"`, () => {
 
@@ -148,7 +185,7 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is matrix url request failed returns true when matrix request is "FAILED"
+     * Confirm method is matrix url request failed returns true when matrix request is "FAILED".
      */
     it(`should is matrix url request completed returns true when matrix request is "FAILED"`, () => {
 
@@ -158,7 +195,7 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm method is matrix url request failed returns false when matrix request is not "FAILED"
+     * Confirm method is matrix url request failed returns false when matrix request is not "FAILED".
      */
     it(`should is matrix url request completed returns false when matrix request is not "FAILED"`, () => {
 
@@ -168,79 +205,75 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm label "Homo sapiens: Error" is displayed when matrix request is "FAILED"
+     * Confirm component is empty when matrix request is completed and species has no data.
      */
-    it(`should display "Homo sapiens: Error" when matrix request is "FAILED"`, () => {
+    it(`should component is empty when matrix request is "COMPLETED" and species has no data`, () => {
 
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED_NULL_DATA;
         fixture.detectChanges();
 
-        // Confirm label is displayed
-        expect(getTextByClassQuery(CLASSNAME_HCA_GET_DATA_PANEL_H4)).toBe(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED.species + LABEL_FAILED);
+        expect(fixture.debugElement.children.length).toBe(0);
     });
 
     /**
-     * Confirm message "Failed" is displayed when matrix request is "FAILED"
+     * Confirm component is not empty when matrix request is completed and species has data.
      */
-    it(`should display message "Failed" when matrix request is "FAILED"`, () => {
+    it(`should component is not empty when matrix request is "COMPLETED" and species has data`, () => {
+
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.children.length).toBeGreaterThan(0);
+    });
+
+    /**
+     * Confirm component is empty when matrix request is failed and species has no data.
+     */
+    it(`should component is empty when matrix request is "FAILED" and species has no data`, () => {
+
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED_NULL_DATA;
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.children.length).toBe(0);
+    });
+
+    /**
+     * Confirm component is not empty when matrix request is failed and species has data.
+     */
+    it(`should component is not empty when matrix request is "FAILED" and species has data`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
         fixture.detectChanges();
 
-        // Confirm label is displayed
+        expect(fixture.debugElement.children.length).toBeGreaterThan(0);
+    });
+
+    /**
+     * Confirm error message is displayed when matrix request is "FAILED".
+     */
+    it(`should display error message when matrix request is "FAILED"`, () => {
+
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
+        fixture.detectChanges();
+
+        // Confirm message is displayed
         expect(getTextByClassQuery(CLASSNAME_ERROR_MESSAGE)).toBe(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED.message);
     });
 
     /**
-     * Confirm label "Homo sapiens: Your expression matrix is ready." is not displayed when matrix request is "FAILED"
+     * Confirm error message is not displayed when matrix request is "COMPLETED".
      */
-    it(`should not display "Homo sapiens: Your expression matrix is ready." when matrix request is "FAILED"`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
-        fixture.detectChanges();
-
-        // Confirm label is not displayed
-        expect(getTextByClassQuery(CLASSNAME_HCA_GET_DATA_PANEL_H4)).not.toBe(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED.species + LABEL_COMPLETED);
-    });
-
-    /**
-     * Confirm component <copy-to-clipboard> is not displayed when matrix request is "FAILED"
-     */
-    it(`should not display component copy to clipboard when matrix request is "FAILED"`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
-        fixture.detectChanges();
-
-        // Confirm component is not displayed
-        expect(getComponentElement(COMPONENT_NAME_COPY_TO_CLIPBOARD)).toBe(null);
-    });
-
-    /**
-     * Confirm label "Homo sapiens: Error" is not displayed when matrix request is "COMPLETED"
-     */
-    it(`should not display "Homo sapiens: Error" when matrix request is "COMPLETED"`, () => {
+    it(`should not display error message when matrix request is "COMPLETED"`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();
 
-        // Confirm label is not displayed
-        expect(getTextByClassQuery(CLASSNAME_HCA_GET_DATA_PANEL_H4)).not.toBe(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED.species + LABEL_FAILED);
+        // Confirm message is not displayed
+        expect(getTextByClassQuery(CLASSNAME_ERROR_MESSAGE)).toBeUndefined();
     });
 
     /**
-     * Confirm label "Homo sapiens: Your expression matrix is ready." is displayed when matrix request is "COMPLETED"
-     */
-    it(`should display "Homo sapiens: Your expression matrix is ready." when matrix request is "COMPLETED"`, () => {
-
-        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
-        fixture.detectChanges();
-
-        // Confirm label is not displayed
-        expect(getTextByClassQuery(CLASSNAME_HCA_GET_DATA_PANEL_H4)).toBe(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED.species + LABEL_COMPLETED);
-    });
-
-    /**
-     * Confirm file name is displayed when matrix request is "COMPLETED"
+     * Confirm file name is displayed when matrix request is "COMPLETED".
      */
     it(`should display file name when matrix request is "COMPLETED"`, () => {
 
@@ -248,11 +281,23 @@ describe("MatrixUrlRequestCompleted", () => {
         fixture.detectChanges();
 
         // Confirm label is not displayed
-        expect(getTextByClassQuery(CLASSNAME_FILE_NAME)).toBe(component.getMatrixDownloadFileName(COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED));
+        expect(getTextByClassQuery(CLASSNAME_FILE_NAME)).toBe(component.getMatrixDownloadFileName(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED));
     });
 
     /**
-     * Confirm component <copy-to-clipboard> is displayed when matrix request is "COMPLETED"
+     * Confirm file name is not displayed when matrix request is "FAILED".
+     */
+    it(`should not display file name when matrix request is "FAILED"`, () => {
+
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
+        fixture.detectChanges();
+
+        // Confirm file name is not displayed
+        expect(getTextByClassQuery(CLASSNAME_FILE_NAME)).toBeUndefined();
+    });
+
+    /**
+     * Confirm component <copy-to-clipboard> is displayed when matrix request is "COMPLETED".
      */
     it(`should display component copy to clipboard when matrix request is "COMPLETED"`, () => {
 
@@ -264,14 +309,26 @@ describe("MatrixUrlRequestCompleted", () => {
     });
 
     /**
-     * Confirm component <copy-to-clipboard> is with input value "copyToClipboardLink" is matrix link when matrix request is "COMPLETED"
+     * Confirm component <copy-to-clipboard> is not displayed when matrix request is "FAILED".
      */
-    it(`should display component hca get data panel with input value "copyToClipboardLink" is matrix link when matrix request is "COMPLETED"`, () => {
+    it(`should not display component copy to clipboard when matrix request is "FAILED"`, () => {
+
+        component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_FAILED;
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(getComponentElement(COMPONENT_NAME_COPY_TO_CLIPBOARD)).toBe(null);
+    });
+
+    /**
+     * Confirm component <copy-to-clipboard> is with input property "copyToClipboardLink" is matrix link when matrix request is "COMPLETED".
+     */
+    it(`should display component hca get data panel with input property "copyToClipboardLink" is matrix link when matrix request is "COMPLETED"`, () => {
 
         component.matrixUrlRequest = COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED;
         fixture.detectChanges();
 
-        // Confirm input value
+        // Confirm input property value
         expect(getComponentInputValue(COMPONENT_NAME_COPY_TO_CLIPBOARD, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(component.getMatrixLink(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED));
     });
 
@@ -287,29 +344,30 @@ describe("MatrixUrlRequestCompleted", () => {
     }
 
     /**
-     * Returns the input value of a component when specified by component and input name.
+     * Returns the input property of a component when specified by class name and input property.
      *
-     * @param {string} componentName
-     * @param {string} inputName
+     * @param {string} className
+     * @param {string} inputProperty
      * @returns {any}
      */
-    function getComponentInputValue(componentName: string, inputName: string): any {
+    function getComponentInputValue(className: string, inputProperty: string): any {
 
-        const componentDE = fixture.debugElement.query(By.css(componentName));
+        const componentDE = fixture.debugElement.query(By.css(className));
 
         if ( !componentDE ) {
             return;
         }
 
-        return componentDE.componentInstance[inputName];
+        return componentDE.componentInstance[inputProperty];
     }
 
     /**
-     * Returns debug element inner html text value specified by class name.
+     * Returns debug element inner html specified by class name.
+     *
      * @param {string} className
      * @returns {string}
      */
-    function getTextByClassQuery(className: string): string {
+    function getTextByClassQuery(className: string): any {
 
         const label = fixture.debugElement.query(By.css(className));
 
