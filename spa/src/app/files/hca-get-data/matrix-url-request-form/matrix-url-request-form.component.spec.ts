@@ -54,18 +54,28 @@ describe("MatrixUrlRequestForm", () => {
         component = fixture.componentInstance;
     }));
 
+    // Class names
+    const CLASSNAME_FONTSIZE_M = "p.fontsize-m";
+
+    // Component input properties
     const COMPONENT_INPUT_PROPERTY_LOADING = "loading";
 
+    // Component input property values
     const COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS = ["csv", "loom", "mtx"];
     const COMPONENT_INPUT_PROPERTY_VALUE_FILE_FORMATS_EMPTY = [];
 
+    // Component names
     const COMPONENT_NAME_HCA_GET_DATA_PANEL = "hca-get-data-panel";
     const COMPONENT_NAME_MAT_RADIO_BUTTON = "mat-radio-button";
     const COMPONENT_NAME_MAT_RADIO_GROUP = "mat-radio-group";
     const COMPONENT_NAME_MATRIX_PARTIAL_QUERY_MATCH_WARNING = "matrix-partial-query-match-warning";
 
+    // Test values
+    const PARAGRAPH_REQUEST_MATRIX = "Request an expression matrix for the selected data from the HCA Matrix service.";
+    const PARAGRAPH_TO_BEING = "To begin, choose one of the output file formats below.";
+
     /**
-     * Smoke test
+     * Smoke test.
      */
     it("should create an instance", () => {
 
@@ -73,7 +83,7 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm method on matrix url requested emit file format
+     * Confirm method on matrix url requested emit file format.
      */
     it("should on matrix url requested emit file format", () => {
 
@@ -84,31 +94,7 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm component <mat-radio-group> is displayed when matrix partial query match completed is true
-     */
-    it("should display component mat radio group when matrix partial query match completed is true", () => {
-
-        component.matrixPartialQueryMatchCompleted = true;
-        fixture.detectChanges();
-
-        // Confirm component is displayed
-        expect(getComponentElement(COMPONENT_NAME_MAT_RADIO_GROUP)).not.toBe(null);
-    });
-
-    /**
-     * Confirm component <mat-radio-group> is not displayed when matrix partial query match completed is false
-     */
-    it("should not display component mat radio group when matrix partial query match completed is false", () => {
-
-        component.matrixPartialQueryMatchCompleted = false;
-        fixture.detectChanges();
-
-        // Confirm component is not displayed
-        expect(getComponentElement(COMPONENT_NAME_MAT_RADIO_GROUP)).toBe(null);
-    });
-
-    /**
-     * Confirm component <hca-get-data-panel> is displayed with input value "loading" is true when matrix partial query match completed is false
+     * Confirm component <hca-get-data-panel> is displayed with input value "loading" is true when matrix partial query match completed is false.
      */
     it(`should display component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
 
@@ -116,11 +102,23 @@ describe("MatrixUrlRequestForm", () => {
         fixture.detectChanges();
 
         // Confirm input value is true
-        expect(getComponentInputValue(getDebugElement(COMPONENT_NAME_HCA_GET_DATA_PANEL), COMPONENT_INPUT_PROPERTY_LOADING)).toEqual(true);
+        expect(getComponentInputPropertyValue(getDebugElement(COMPONENT_NAME_HCA_GET_DATA_PANEL), COMPONENT_INPUT_PROPERTY_LOADING)).toEqual(true);
     });
 
     /**
-     * Confirm component <matrix-partial-query-match-warning> is not displayed when matrix partial query match is false
+     * Confirm component <hca-get-data-panel> is displayed with input value "loading" is false when matrix partial query match completed is true.
+     */
+    it(`should display component hca get data panel with input value "loading" is true when matrix partial query match completed is false`, () => {
+
+        component.matrixPartialQueryMatchCompleted = true;
+        fixture.detectChanges();
+
+        // Confirm input value is false
+        expect(getComponentInputPropertyValue(getDebugElement(COMPONENT_NAME_HCA_GET_DATA_PANEL), COMPONENT_INPUT_PROPERTY_LOADING)).toEqual(false);
+    });
+
+    /**
+     * Confirm component <matrix-partial-query-match-warning> is not displayed when matrix partial query match is false.
      */
     it("should not display component matrix partial query match warning when matrix partial query match is false", () => {
 
@@ -133,7 +131,7 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm component <matrix-partial-query-match-warning> is displayed when matrix partial query match is true
+     * Confirm component <matrix-partial-query-match-warning> is displayed when matrix partial query match is true.
      */
     it("should display component matrix partial query match warning when matrix partial query match is true", () => {
 
@@ -143,6 +141,78 @@ describe("MatrixUrlRequestForm", () => {
 
         // Confirm component is displayed
         expect(getComponentElement(COMPONENT_NAME_MATRIX_PARTIAL_QUERY_MATCH_WARNING)).not.toBe(null);
+    });
+
+    /**
+     * Confirm paragraph "Request an expression matrix for the selected data from the HCA Matrix service." is displayed when matrix partial query match completed is true.
+     */
+    it(`should display paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is true`, () => {
+
+        component.matrixPartialQueryMatchCompleted = true;
+        fixture.detectChanges();
+
+        // Confirm paragraph is displayed
+        expect(isTextDisplayed(CLASSNAME_FONTSIZE_M, PARAGRAPH_REQUEST_MATRIX)).toEqual(true);
+    });
+
+    /**
+     * Confirm paragraph "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed when matrix partial query match completed is false.
+     */
+    it(`should not display paragraph "Request an expression matrix for the selected data from the HCA Matrix service." when matrix partial query match completed is false`, () => {
+
+        component.matrixPartialQueryMatchCompleted = false;
+        fixture.detectChanges();
+
+        // Confirm paragraph is not displayed
+        expect(isTextDisplayed(CLASSNAME_FONTSIZE_M, PARAGRAPH_REQUEST_MATRIX)).toEqual(false);
+    });
+
+    /**
+     * Confirm paragraph "To begin, choose one of the output file formats below." is displayed when matrix partial query match completed is true.
+     */
+    it(`should display paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is true`, () => {
+
+        component.matrixPartialQueryMatchCompleted = true;
+        fixture.detectChanges();
+
+        // Confirm paragraph is displayed
+        expect(isTextDisplayed(CLASSNAME_FONTSIZE_M, PARAGRAPH_TO_BEING)).toEqual(true);
+    });
+
+    /**
+     * Confirm paragraph "To begin, choose one of the output file formats below." is not displayed when matrix partial query match completed is false.
+     */
+    it(`should not display paragraph "To begin, choose one of the output file formats below." when matrix partial query match completed is false`, () => {
+
+        component.matrixPartialQueryMatchCompleted = false;
+        fixture.detectChanges();
+
+        // Confirm paragraph is not displayed
+        expect(isTextDisplayed(CLASSNAME_FONTSIZE_M, PARAGRAPH_TO_BEING)).toEqual(false);
+    });
+
+    /**
+     * Confirm component <mat-radio-group> is displayed when matrix partial query match completed is true.
+     */
+    it("should display component mat radio group when matrix partial query match completed is true", () => {
+
+        component.matrixPartialQueryMatchCompleted = true;
+        fixture.detectChanges();
+
+        // Confirm component is displayed
+        expect(getComponentElement(COMPONENT_NAME_MAT_RADIO_GROUP)).not.toBe(null);
+    });
+
+    /**
+     * Confirm component <mat-radio-group> is not displayed when matrix partial query match completed is false.
+     */
+    it("should not display component mat radio group when matrix partial query match completed is false", () => {
+
+        component.matrixPartialQueryMatchCompleted = false;
+        fixture.detectChanges();
+
+        // Confirm component is not displayed
+        expect(getComponentElement(COMPONENT_NAME_MAT_RADIO_GROUP)).toBe(null);
     });
 
     /**
@@ -159,7 +229,7 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm component <mat-radio-button> is displayed when file formats is defined
+     * Confirm component <mat-radio-button> is displayed when file formats is defined.
      */
     it("should display component mat radio button when file formats is defined", () => {
 
@@ -172,7 +242,7 @@ describe("MatrixUrlRequestForm", () => {
     });
 
     /**
-     * Confirm component <mat-radio-button> is displayed three times, once for each file format
+     * Confirm component <mat-radio-button> is displayed three times, once for each file format.
      */
     it(`should display component mat radio button three times, once for each file format`, () => {
 
@@ -225,25 +295,55 @@ describe("MatrixUrlRequestForm", () => {
     }
 
     /**
-     * Returns the input value of a debug element [component].
+     * Returns the input property value of a debug element.
      *
      * @param {DebugElement} debugElement
-     * @param {string} inputName
+     * @param {string} inputProperty
      * @returns {any}
      */
-    function getComponentInputValue(debugElement: DebugElement, inputName: string): any {
+    function getComponentInputPropertyValue(debugElement: DebugElement, inputProperty: string): any {
 
-        return debugElement.componentInstance[inputName];
+        return debugElement.componentInstance[inputProperty];
     }
 
     /**
-     * Returns debug element specified by name.
+     * Returns debug element specified by class name.
      *
-     * @param {string} name
+     * @param {string} className
      * @returns {DebugElement}
      */
-    function getDebugElement(name: string): DebugElement {
+    function getDebugElement(className: string): DebugElement {
 
-        return fixture.debugElement.query(By.css(name));
+        return fixture.debugElement.query(By.css(className));
+    }
+
+    /**
+     * Returns debug elements specified by class name.
+     *
+     * @param {string} className
+     * @returns {DebugElement[]}
+     */
+    function getDebugElements(className: string): DebugElement[] {
+
+        return fixture.debugElement.queryAll(By.css(className));
+    }
+
+    /**
+     * Returns true if any debug element's innerHTML matches the specified text.
+     *
+     * @param className
+     * @param {string} text
+     * @returns {boolean}
+     */
+    function isTextDisplayed(className, text: string): boolean {
+
+        const textDEs = getDebugElements(className);
+
+        if ( !textDEs ) {
+
+            return;
+        }
+
+        return textDEs.some(textDE => textDE.nativeElement.innerHTML === text);
     }
 });

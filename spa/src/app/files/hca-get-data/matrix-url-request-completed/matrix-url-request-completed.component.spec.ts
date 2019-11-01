@@ -47,14 +47,18 @@ describe("MatrixUrlRequestCompleted", () => {
         status: MatrixUrlRequestStatus.FAILED
     };
 
+    // Class names
     const CLASSNAME_ERROR_MESSAGE = ".error-message";
     const CLASSNAME_HCA_GET_DATA_PANEL_H4 = "hca-get-data-panel h4";
     const CLASSNAME_FILE_NAME = ".file-name";
 
-    const COMPONENT_INPUT_VALUE_COPY_TO_CLIPBOARD_LINK = "copyToClipboardLink";
+    // Component input property
+    const COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK = "copyToClipboardLink";
 
+    // Component name
     const COMPONENT_NAME_COPY_TO_CLIPBOARD = "copy-to-clipboard";
 
+    // Text values
     const LABEL_COMPLETED = ": Your expression matrix is ready.";
     const LABEL_FAILED = ": Error";
 
@@ -268,7 +272,7 @@ describe("MatrixUrlRequestCompleted", () => {
         fixture.detectChanges();
 
         // Confirm input value
-        expect(getComponentInputValue(COMPONENT_NAME_COPY_TO_CLIPBOARD, COMPONENT_INPUT_VALUE_COPY_TO_CLIPBOARD_LINK)).toEqual(component.getMatrixLink(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED));
+        expect(getComponentInputValue(COMPONENT_NAME_COPY_TO_CLIPBOARD, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(component.getMatrixLink(COMPONENT_INPUT_MATRIX_URL_REQUEST_COMPLETED));
     });
 
     /**
