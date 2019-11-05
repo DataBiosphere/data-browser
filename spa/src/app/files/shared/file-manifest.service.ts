@@ -193,7 +193,7 @@ export class FileManifestService {
 
         const manifestResponse$ = new Subject<ManifestResponse>();
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TSV);
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
         this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);

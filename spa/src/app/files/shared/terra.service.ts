@@ -128,7 +128,7 @@ export class TerraService {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.BDBAG);
+        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
