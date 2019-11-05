@@ -261,7 +261,7 @@
                                              [tooltipPosition]="'above'">{{getColumnDisplayName('workflow')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{state.project.project.workflow}}</p>
+                            <analysis-protocol-pipeline-linker class="fontsize-xs rhs" [workflow]="state.project.project.workflow"></analysis-protocol-pipeline-linker>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">

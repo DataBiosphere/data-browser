@@ -22,6 +22,7 @@ import { ConfigService } from "../../config/config.service";
 import { HCASectionTitleComponent } from "../../shared/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "../../shared/hca-tab/hca-tab";
 import { PopLayoutComponent } from "../../shared/pop-layout/pop-layout.component";
+import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
@@ -105,6 +106,7 @@ describe("HCAProjectComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                AnalysisProtocolPipelineLinkerComponent,
                 CopyToClipboardComponent,
                 HCAProjectComponent,
                 HCASectionTitleComponent,
@@ -500,6 +502,27 @@ describe("HCAProjectComponent", () => {
 
         // Confirm "Analysis Protocol" is not displayed
         expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(false);
+    });
+
+    /**
+     * Confirm component <analysis-protocol-pipeline-linker> is displayed when when workflow is not "Unspecified".
+     */
+    it(`should display component analysis protocol pipeline linker when workflow is not "Unspecified"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const analysisProtocolPipelineLinkerEl = fixture.debugElement.nativeElement.querySelector("analysis-protocol-pipeline-linker");
+
+        // Confirm component analysis protocol pipeline linker is displayed when workflow is not "Unspecified"
+        expect(analysisProtocolPipelineLinkerEl).not.toBe(null);
     });
 
     /**

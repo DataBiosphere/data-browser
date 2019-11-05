@@ -32,6 +32,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 // App dependencies
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../config/config.service";
+import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
@@ -126,6 +127,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
     ],
     declarations: [
 
+        AnalysisProtocolPipelineLinkerComponent,
         FileTypeSummaryListComponent,
         FileManifestSummaryComponent,
         FileNameShortenerPipe,

@@ -236,7 +236,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Analysis Protocol",
         description: "The type of protocol.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 70,
+        columnMinWidth: 120,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     }

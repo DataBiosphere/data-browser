@@ -1,0 +1,27 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for analysis protocol pipeline linker.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Tables */
+/* HCATableFilesComponent */
+/* HCATableProjectsComponent */
+/* HCATableSamplesComponent */
+:host-context(.hca-table) {
+
+    .comma {
+        color: $hca-gray-dark;
+    }
+}
+
+/* Project detail page */
+/* HCAProjectComponent */
+:host-context(.explore-project) {
+
+    .comma {
+        color: black;
+    }
+}
