@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
@@ -21,14 +21,15 @@ import { FetchMatrixUrlRequestAction } from "../../_ngrx/matrix/fetch-matrix-url
 import {
     selectMatrixFileFormats,
     selectMatrixPartialQueryMatch,
-    selectMatrixResponse
+    selectMatrixUrlRequestsBySpecies
 } from "../../_ngrx/matrix/matrix.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { MatrixFormat } from "../../shared/matrix-format.model";
-import { MatrixResponse } from "../../shared/matrix-response.model";
+import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixService } from "../../shared/matrix.service";
 import { FetchMatrixPartialQueryMatchRequestAction } from "../../_ngrx/matrix/fetch-matrix-partial-query-match-request.action";
 import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-matrix-partial-query-match.action";
+import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
 
 @Component({
     selector: "hca-get-matrix",
@@ -38,7 +39,6 @@ import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-mat
 export class HCAGetMatrixComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public fileFormat = MatrixFormat.loom;
     public state$: Observable<HCAGetMatrixState>;
 
     // Locals
@@ -53,121 +53,82 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Format time remaining into human-readable format.
-     *
-     * @param {string} eta
-     * @returns {string}
+     * When displaying the status of each request, we only want to consider requests that have completed with data, or
+     * requests that have failed. That is, we ignore requests that have completed with no data/
+     * 
+     * @param {MatrixUrlRequest[]} requests
+     * @returns {MatrixUrlRequest[]}
      */
-    public formatETA(eta: string): string {
+    public filterCompletedMatrixUrlRequestsWithNoData(requests: MatrixUrlRequest[]): MatrixUrlRequest[] {
 
-        if ( !eta ) {
-            return "";
-        }
-
-        return eta;
+        return requests.filter(matrixUrlRequest => 
+            this.matrixService.isMatrixUrlRequestFailed(matrixUrlRequest) ||
+            !!matrixUrlRequest.matrixUrl);
     }
-
+    
     /**
      * Return the possible set of file formats for downloading the matrix.
-     * @param {HCAGetMatrixState} state
+     * 
+     * @param {string[]} matrixFileFormats
      * @returns {string[]}
      */
-    public getFileFormats(state: HCAGetMatrixState): string[] {
+    public getFileFormats(matrixFileFormats: string[]): string[] {
 
-        const formats = state.matrixFileFormats.filter((fileFormat: string) => {
+        const formats = matrixFileFormats.filter((fileFormat: string) => {
             return fileFormat !== MatrixFormat.zarr;
         });
         return formats.sort();
     }
 
     /**
-     * Return the link to download the matrix.
+     * Returns true if there are matrix URL request for multiple species, and more than one of these requests has data
+     * generated for it. For example, it is possible that a mouse matrix URL request contains no data and in this case,
+     * we can ignore this request.
      *
-     * @returns {string}
-     */
-    public getMatrixLink(response: MatrixResponse): string {
-
-        return response.matrixUrl;
-    }
-
-
-    /**
-     * Return the file name of the download
-     *
-     * @returns {string}
-     */
-    public getMatrixDownloadFileName(response: MatrixResponse): string {
-
-        const tokens = response.matrixUrl.split("/");
-        return tokens[tokens.length - 1];
-    }
-
-    /**
-     * Returns true if an ETA is specified in the matrix response.
-     *
-     * @param {MatrixResponse} response
+     * @param {MatrixUrlRequest[]} requests
      * @returns {boolean}
      */
-    public isETASpecified(response: MatrixResponse): boolean {
+    public isDisplayMultipleMatrixUrlRequests(requests: MatrixUrlRequest[]): boolean {
 
-        return !!response.eta;
+        if ( requests.length === 1 ) {
+            return false;
+        }
+
+        const requestsWithData = this.filterCompletedMatrixUrlRequestsWithNoData(requests);
+        return requestsWithData.length > 1
     }
 
     /**
-     * Returns true if request for partial query warnings is completed.
-     *
-     * @param {boolean} partialQueryMatch
+     * Returns true if the Matrix URL status is in progress.
+     * 
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
      * @returns {boolean}
      */
-    public isPartialQueryMatchCompleted(partialQueryMatch: boolean): boolean {
+    public isMatrixUrlRequestStatusInProgress(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
 
-        return (partialQueryMatch === true || partialQueryMatch === false);
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.IN_PROGRESS;
+    }
+    
+    /**
+     * Returns true if the Matrix URL status is Manifest in progress.
+     *
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
+     * @returns {boolean}
+     */
+    public isMatrixUrlRequestStatusManifestInProgress(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
+
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.MANIFEST_IN_PROGRESS;
     }
 
     /**
-     * Returns true if matrix has been requested and request is completed.
+     * Returns true if the Matrix URL status is not started.
      *
-     * @param {MatrixResponse} response
+     * @param {MatrixUrlRequestStatus} matrixUrlRequestStatus
      * @returns {boolean}
      */
-    public isRequestCompleted(response: MatrixResponse): boolean {
+    public isMatrixUrlRequestStatusNotStarted(matrixUrlRequestStatus: MatrixUrlRequestStatus): boolean {
 
-        return !!response && this.matrixService.isMatrixUrlRequestCompleted(response);
-    }
-
-    /**
-     * Returns true if matrix has been requested and request is completed.
-     *
-     * @param {MatrixResponse} response
-     * @returns {boolean}
-     */
-    public isRequestFailed(response: MatrixResponse): boolean {
-
-        return !!response && this.matrixService.isMatrixUrlRequestFailed(response);
-    }
-
-    /**
-     * Returns true if matrix request is in progress.
-     *
-     * @param {MatrixResponse} response
-     * @returns {boolean}
-     */
-    public isRequestInProgress(response: MatrixResponse): boolean {
-
-        return !!response &&
-            (this.matrixService.isMatrixUrlRequestInitiated(response) ||
-                this.matrixService.isMatrixUrlRequestInProgress(response));
-    }
-
-    /**
-     * Returns true if matrix has not yet been requested.
-     *
-     * @param {MatrixResponse} response
-     * @returns {boolean}
-     */
-    public isRequestNew(response: MatrixResponse): boolean {
-
-        return !response || this.matrixService.isMatrixUrlRequestNotStarted(response);
+        return matrixUrlRequestStatus === MatrixUrlRequestStatus.NOT_STARTED;
     }
 
     /**
@@ -175,7 +136,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
      *
      * @param {MatrixFormat} fileFormat
      */
-    public onRequestMatrix(fileFormat: MatrixFormat) {
+    public onMatrixUrlRequested(fileFormat: MatrixFormat) {
 
         this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat, this.ngDestroy$));
     }
@@ -196,42 +157,45 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
      */
     public ngOnInit() {
 
-        // Grab the file summary for displaying on the modal
-        const selectFileSummary$ = this.store.pipe(select(selectFileSummary));
-
-        // Grab the selected facets for displaying on the modal
-        const selectSelectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-
         // Request possible set of file types
         this.store.dispatch(new FetchMatrixFileFormatsRequestAction());
-        const selectMatrixFileFormats$ = this.store.pipe(select(selectMatrixFileFormats));
-
-        // Update the UI with any changes in the matrix URL request status
-        const selectMatrixResponse$ = this.store.pipe(select(selectMatrixResponse));
 
         // Determine the matrix partial query match status
         this.store.dispatch(new FetchMatrixPartialQueryMatchRequestAction());
-        const selectMatrixPartialQueryMatch$ = this.store.pipe(select(selectMatrixPartialQueryMatch));
 
         // Update state
         this.state$ =
             combineLatest(
-                selectFileSummary$,
-                selectSelectedSearchTerms$,
-                selectMatrixFileFormats$,
-                selectMatrixResponse$,
-                selectMatrixPartialQueryMatch$
+                // Grab the file summary for displaying on the modal
+                this.store.pipe(select(selectFileSummary)),
+                // Grab the selected facets for displaying on the modal
+                this.store.pipe(select(selectSelectedSearchTerms)),
+                // Grab the set of matrix file formats
+                this.store.pipe(select(selectMatrixFileFormats)),
+                // Get the status of each matrix URL request
+                this.store.pipe(select(selectMatrixUrlRequestsBySpecies)),
+                // Grab the partial query match status
+                this.store.pipe(select(selectMatrixPartialQueryMatch))
             )
             .pipe(
                 map(([
-                    fileSummary, selectedSearchTerms, matrixFileFormats, matrixResponse, matrixPartialQueryMatch]) => {
+                    fileSummary, selectedSearchTerms, matrixFileFormats, matrixUrlRequestsBySpecies, matrixPartialQueryMatch]) => {
+
+                    const matrixPartialQueryMatchCompleted =
+                        (matrixPartialQueryMatch === true || matrixPartialQueryMatch === false);
+
+                    const matrixUrlRequests = Array.from(matrixUrlRequestsBySpecies.values()) as MatrixUrlRequest[];
+                    const matrixUrlRequestStatus =
+                        this.matrixService.calculateOverallMatrixUrlRequestStatus(matrixUrlRequests);
 
                     return {
                         fileSummary,
                         matrixPartialQueryMatch,
+                        matrixPartialQueryMatchCompleted,
                         matrixFileFormats,
-                        matrixResponse,
-                        selectedSearchTerms
+                        matrixUrlRequests,
+                        selectedSearchTerms,
+                        matrixUrlRequestStatus
                     };
                 })
             );

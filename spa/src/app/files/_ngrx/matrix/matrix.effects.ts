@@ -19,6 +19,7 @@ import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partia
 import { FetchMatrixPartialQueryMatchRequestAction } from "./fetch-matrix-partial-query-match-request.action";
 import { FetchMatrixUrlRequestAction } from "./fetch-matrix-url-request.action";
 import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
+import { FetchMatrixUrlSpeciesSuccessAction } from "./fetch-matrix-url-species-success.action";
 import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
 import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 import { MatrixService } from "../../shared/matrix.service";
@@ -28,6 +29,8 @@ import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from 
 import { FilesService } from "../../shared/files.service";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 import { SearchTerm } from "../../search/search-term.model";
+import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
+import { MatrixUrlRequestSpecies } from "../../shared/matrix-url-request-species.model";
 
 @Injectable()
 export class MatrixEffects {
@@ -35,7 +38,7 @@ export class MatrixEffects {
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
-     * @param {FilesService} filesService
+     * @param {FilesService} fileService
      * @param {MatrixService} matrixService
      */
     constructor(private store: Store<AppState>,
@@ -99,7 +102,15 @@ export class MatrixEffects {
                 const {fileFormat, killSwitch$} = (action as FetchMatrixUrlRequestAction);
                 return this.matrixService.requestMatrixUrl(searchTerms, fileFormat, killSwitch$);
             }),
-            map(response => new FetchMatrixUrlSuccessAction(response))
+            map(response => {
+
+                // Response can be of type MatrixUrlRequest or MatrixUrlRequestSpecies
+                if ( response["matrixUrlRequestsBySpecies"] ) {
+                    return new FetchMatrixUrlSpeciesSuccessAction(response as MatrixUrlRequestSpecies)
+                }
+
+                return new FetchMatrixUrlSuccessAction(response as MatrixUrlRequest);
+            })
         );
 
     /**

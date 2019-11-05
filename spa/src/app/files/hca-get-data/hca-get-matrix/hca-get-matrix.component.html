@@ -1,71 +1,40 @@
 <div class="matrix" *ngIf="state$ | async as state">
-    <ng-container *ngIf="isRequestNew(state.matrixResponse) && state.matrixFileFormats.length">
-        <ng-container [ngSwitch]="isPartialQueryMatchCompleted(state.matrixPartialQueryMatch)">
-            <ng-container *ngSwitchCase="true">
-                <hca-get-data-panel>
-                    <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
-                    <warning *ngIf="state.matrixPartialQueryMatch">
-                        <warning-title><h4 class="fontsize-m">Note: Not all selected data will be included in the generated
-                            matrix.</h4></warning-title>
-                        <warning-content>
-                            <p class="fontsize-m">The HCA Matrix Service supports the currently following data types:</p>
-                            <ol class="fontsize-m">
-                                <li>Human, Smart Seq2, paired end true, or</li>
-                                <li>Human, 10X v2 sequencing</li>
-                                <li>Human, 10X 3' v2 sequencing</li>
-                            </ol>
-                            <p class="fontsize-m">Non-matching data types will be omitted from the generated matrix.</p>
-                        </warning-content>
-                    </warning>
-                    <p class="fontsize-m">Request an expression matrix for the selected data from the HCA Matrix
-                        service.</p>
-                    <p class="fontsize-m">To begin, choose one of the output file formats below.</p>
-                </hca-get-data-panel>
-                <div class="file-format fontsize-s">
-                    <p class="fontsize-s">Select Output File Format:</p>
-                    <mat-radio-group [(ngModel)]="fileFormat" class="hca-radio">
-                        <mat-radio-button *ngFor="let fileFormat of getFileFormats(state)" [value]="fileFormat">
-                            {{fileFormat}}
-                        </mat-radio-button>
-                    </mat-radio-group>
-                </div>
-                <button class="button primary" (click)="onRequestMatrix(fileFormat)">Request Expression Matrix</button>
+    <ng-container [ngSwitch]="true">
+        <!-- Matrix not started -->
+        <ng-container *ngSwitchCase="isMatrixUrlRequestStatusNotStarted(state.matrixUrlRequestStatus)">
+            <matrix-url-request-form [fileFormats]="getFileFormats(state.matrixFileFormats)"
+                                     [matrixPartialQueryMatch]="state.matrixPartialQueryMatch"
+                                     [matrixPartialQueryMatchCompleted]="state.matrixPartialQueryMatchCompleted"
+                                     (matrixUrlRequested)="onMatrixUrlRequested($event)"></matrix-url-request-form>
+        </ng-container>
+        <!-- Matrix manifest in progress/in progress -->
+        <ng-container
+                *ngSwitchCase="isMatrixUrlRequestStatusManifestInProgress(state.matrixUrlRequestStatus) || isMatrixUrlRequestStatusInProgress(state.matrixUrlRequestStatus)">
+            <hca-get-data-panel [loading]="true">
+                <h4 class="fontsize-m semi-bold">Your Expression Matrix is Being Prepared</h4>
+                <p class="fontsize-m">This can take several minutes to an hour or more depending on the size of the
+                    request. Please leave this browser window open during processing.</p>
+            </hca-get-data-panel>
+        </ng-container>
+        <!-- Matrix request/s failed/completed -->
+        <ng-container *ngSwitchDefault>
+            <ng-container [ngSwitch]="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">
+                <ng-container *ngSwitchCase="true">
+                    <hca-get-data-panel>
+                        <h4 class="fontsize-m semi-bold">Your expression matrices are ready.</h4>
+                    </hca-get-data-panel>
+                    <p class="fontsize-m">Your request contains data from multiple species. Data from each species is
+                        returned in its own expression matrix.</p>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
+                </ng-container>
             </ng-container>
-            <ng-container *ngSwitchDefault>
-                <hca-get-data-panel loading="true">
-                    <h4 class="fontsize-m semi-bold">Request Expression Matrix</h4>
-                </hca-get-data-panel>
+            <ng-container *ngFor="let matrixUrlRequest of state.matrixUrlRequests">
+                <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest">
+                    <p class="fontsize-m semi-bold" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">{{matrixUrlRequest.species}}</p>
+                </matrix-url-request-completed>
             </ng-container>
         </ng-container>
-    </ng-container>
-    <ng-container *ngIf="isRequestInProgress(state.matrixResponse)">
-        <hca-get-data-panel [loading]="isRequestInProgress(state.matrixResponse)">
-            <h4 class="fontsize-m semi-bold">Your Expression Matrix is Being Prepared</h4>
-            <ng-container [ngSwitch]="isETASpecified(state.matrixResponse)">
-                <p class="fontsize-m" *ngSwitchDefault>This can take several minutes to an hour or more depending on the
-                    size of the request.
-                    Please leave this browser window open during processing.</p>
-                <p class="fontsize-m" *ngSwitchCase="true">Wait times are currently about
-                    {{formatETA(state.matrixResponse.eta)}}.</p>
-            </ng-container>
-        </hca-get-data-panel>
-    </ng-container>
-    <ng-container *ngIf="isRequestFailed(state.matrixResponse)">
-        <hca-get-data-panel [downloadError]="isRequestFailed(state.matrixResponse)">
-            <h4 class="fontsize-m semi-bold">Error</h4>
-        </hca-get-data-panel>
-        <p class="fontsize-m error-message" [innerHTML]="state.matrixResponse.message"></p>
-    </ng-container>
-    <ng-container *ngIf="isRequestCompleted(state.matrixResponse)">
-        <hca-get-data-panel>
-            <h4 class="fontsize-m semi-bold">Your expression matrix is ready.</h4>
-        </hca-get-data-panel>
-        <p class="fontsize-m">To download your expression matrix with the file name
-            <span class="fontsize-m semi-bold file-name">{{getMatrixDownloadFileName(state.matrixResponse)}}</span>,
-            select the link below.</p>
-        <p class="fontsize-m">To save your expression matrix with a different name, right click the link below and
-            choose “Save Link As...”.</p>
-        <p class="fontsize-m">This link expires in 30 days.</p>
-        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(state.matrixResponse)"></copy-to-clipboard>
     </ng-container>
 </div>
