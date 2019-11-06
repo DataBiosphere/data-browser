@@ -55,6 +55,7 @@ import { HCAGetDataFileSummaryComponent } from "./hca-get-data/hca-get-data-file
 import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
 import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
+import { HCAGetMatrixSpeciesSelectionComponent } from "./hca-get-data/hca-get-matrix-species-selection/hca-get-matrix-species-selection.component";
 import { MatrixPartialQueryMatchWarningComponent } from "./hca-get-data/matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
 import { MatrixUrlRequestFormComponent } from "./hca-get-data/matrix-url-request-form/matrix-url-request-form.component";
 import { MatrixUrlRequestCompletedComponent } from "./hca-get-data/matrix-url-request-completed/matrix-url-request-completed.component";
@@ -160,6 +161,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         HCAGetDataSummaryComponent,
         HCAGetManifestComponent,
         HCAGetMatrixComponent,
+        HCAGetMatrixSpeciesSelectionComponent,
         HCAProjectComponent,
         HCASearchComponent,
         HCATableCellComponent,

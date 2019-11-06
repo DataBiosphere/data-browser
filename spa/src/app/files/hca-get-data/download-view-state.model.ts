@@ -8,6 +8,7 @@
 export enum DownloadViewState {
     "MANIFEST" = "MANIFEST",
     "MATRIX" = "MATRIX",
+    "MATRIX_SPECIES_SELECTION" = "MATRIX_SPECIES_SELECTION",
     "NONE" = "NONE",
     "TERRA" = "TERRA"
 }

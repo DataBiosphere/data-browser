@@ -1,0 +1,18 @@
+<hca-get-data-panel>
+    <h4 class="fontsize-m semi-bold">Select Species</h4>
+    <p class="fontsize-m">Your request may contain data from multiple species. Please explicitly select the species to
+        be included in your expression data.</p>
+</hca-get-data-panel>
+<div class="species fontsize-s">
+    <p class="fontsize-s">Species:</p>
+    <div *ngFor="let option of speciesCheckboxOptions"
+         (click)="onSpeciesClicked(option)"
+         class="hca-checkbox-group">
+        <div class="hca-checkbox" [ngClass]="{'selected': option.selected}">
+            <mat-icon *ngIf="option.selected">check</mat-icon>
+        </div>
+        <div class="hca-checkbox-label">{{option.label}}</div>
+    </div>
+</div>
+<button class="button primary" (click)="onSpeciesSelected(speciesFileFacet, speciesCheckboxOptions)"
+        [disabled]="!isSpeciesSelected(speciesCheckboxOptions)">Select Species</button>
