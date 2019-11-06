@@ -236,7 +236,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Analysis Protocol",
         description: "The type of protocol.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 70,
+        columnMinWidth: 120,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
     }
@@ -261,7 +261,7 @@ export function getAge(age: string, ageUnit: string): string {
 
     if ( age && age !== "Unspecified" ) {
 
-        return age + " " + ageUnitTruncated;
+        return `${age} ${ageUnitTruncated}`;
     }
 
     return "Unspecified";

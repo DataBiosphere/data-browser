@@ -36,8 +36,8 @@
         width: 100%;
     }
 
-    /* All <p> tag */
-    p {
+    /* All <p> tag, <analysis-protocol-pipeline-linker> */
+    p, analysis-protocol-pipeline-linker {
         align-items: center;
         display: flex;
         margin: 0;
@@ -49,6 +49,12 @@
             cursor: pointer;
             font: inherit;
         }
+    }
+
+    /* <analysis-protocol-pipeline-linker> */
+    analysis-protocol-pipeline-linker {
+        flex-wrap: wrap;
+        white-space: pre;
     }
 
     /* Downloads */
