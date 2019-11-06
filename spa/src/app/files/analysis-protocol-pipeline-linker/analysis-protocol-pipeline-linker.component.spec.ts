@@ -24,6 +24,16 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     // Create response for testConfig.getPortalUrl()
     testConfig.getPortalURL.and.returnValue("https://test.com");
 
+    // Local values
+    const LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY = {
+        "smartseq2": "/pipelines/smart-seq2-workflow",
+        "optimus": "/pipelines/optimus-workflow"
+    };
+
+    // Index values
+    const INDEX_OF_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY_OPTIMUS = 1;
+    const INDEX_OF_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY_SMARTSEQ2 = 0;
+
     // Template values
     const TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2 = "/pipelines/smart-seq2-workflow";
     const TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS = "/pipelines/optimus-workflow";
@@ -67,64 +77,13 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     });
 
     /**
-     * Confirm get analysis protocols returns a concatenated string array when multiple workflow values.
-     */
-    it("should get analysis protocols returns a concatenated string array when multiple workflow values", () => {
-
-        component.workflow = INPUT_VALUE_WORKFLOW_MULTIPLE_MIXED_VALUES;
-        fixture.detectChanges();
-
-        // Confirm get analysis protocols returns a concatenated string array
-        const getAnalysisProtocols = component.getAnalysisProtocols();
-        expect(getAnalysisProtocols).toEqual(TEST_VALUE_ANALYSIS_PROTOCOLS_MULTIPLE_MIXED_VALUES);
-    });
-
-    /**
-     * Confirm get analysis protocols returns a string array when single workflow values.
-     */
-    it("should get analysis protocols returns a string array when single workflow values", () => {
-
-        component.workflow = INPUT_VALUE_WORKFLOW_SINGLE_OPTIMUS_VALUE;
-        fixture.detectChanges();
-
-        // Confirm get analysis protocols returns a string array
-        const getAnalysisProtocols = component.getAnalysisProtocols();
-        expect(getAnalysisProtocols).toEqual([TEST_VALUE_OPTIMUS]);
-    });
-
-    /**
-     * Confirm get analysis protocols returns an empty array when empty workflow values.
-     */
-    it("should get analysis protocols returns an empty array when empty workflow values", () => {
-
-        component.workflow = "";
-        fixture.detectChanges();
-
-        // Confirm get analysis protocols returns a concatenated string array
-        const getAnalysisProtocols = component.getAnalysisProtocols();
-        expect(getAnalysisProtocols).toEqual([]);
-    });
-    /**
-     * Confirm get analysis protocols returns a string array when single workflow values.
-     */
-    it("should get analysis protocols returns a string array when single workflow values", () => {
-
-        component.workflow = INPUT_VALUE_WORKFLOW_SINGLE_OPTIMUS_VALUE;
-        fixture.detectChanges();
-
-        // Confirm get analysis protocols returns a string array
-        const getAnalysisProtocols = component.getAnalysisProtocols();
-        expect(getAnalysisProtocols).toEqual([TEST_VALUE_OPTIMUS]);
-    });
-
-    /**
      * Confirm get pipeline link returns corresponding data portal optimus link when analysis protocol includes "optimus".
      */
     it(`should get pipeline link returns corresponding data portal optimus link when analysis protocol includes "optimus"`, () => {
 
         // Confirm link is for data portal optimus
-        const getPipelineLink = component.getPipelineLink(TEST_VALUE_OPTIMUS);
-        expect(getPipelineLink).toEqual(testConfig.getPortalURL() + TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS);
+        const pipelineLink = component.getPipelineLink(TEST_VALUE_OPTIMUS);
+        expect(pipelineLink).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
     });
 
     /**
@@ -133,8 +92,8 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     it(`should get pipeline link returns corresponding data portal smartseq2 link when analysis protocol includes "smartseq2"`, () => {
 
         // Confirm link is for data portal smartseq2
-        const getPipelineLink = component.getPipelineLink(TEST_VALUE_SMARTSEQ2);
-        expect(getPipelineLink).toEqual(testConfig.getPortalURL() + TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2);
+        const pipelineLink = component.getPipelineLink(TEST_VALUE_SMARTSEQ2);
+        expect(pipelineLink).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
     });
 
     /**
@@ -143,8 +102,8 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     it("should get pipeline link returns the root base path when there is no corresponding pipeline", () => {
 
         // Confirm no link is returned
-        const getPipelineLink = component.getPipelineLink(TEST_VALUE_CELL_RANGER);
-        expect(getPipelineLink).toEqual("/");
+        const pipelineLink = component.getPipelineLink(TEST_VALUE_CELL_RANGER);
+        expect(pipelineLink).toEqual("/");
     });
 
     /**
@@ -153,8 +112,8 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     it(`should is analysis protocol linked returns true when analysis protocol includes "optimus"`, () => {
 
         // Confirm true is returned
-        const isAnalysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_OPTIMUS);
-        expect(isAnalysisProtocolLinked).toEqual(true);
+        const analysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_OPTIMUS);
+        expect(analysisProtocolLinked).toEqual(true);
     });
 
     /**
@@ -163,8 +122,8 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     it(`should is analysis protocol linked returns true when analysis protocol includes "smartseq2"`, () => {
 
         // Confirm true is returned
-        const isAnalysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_SMARTSEQ2);
-        expect(isAnalysisProtocolLinked).toEqual(true);
+        const analysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_SMARTSEQ2);
+        expect(analysisProtocolLinked).toEqual(true);
     });
 
     /**
@@ -173,8 +132,90 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     it(`should is analysis protocol linked returns true when analysis protocol neither includes "smartseq2" nor "optimus"`, () => {
 
         // Confirm true is returned
-        const isAnalysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_CELL_RANGER);
-        expect(isAnalysisProtocolLinked).toEqual(false);
+        const analysisProtocolLinked = component.isAnalysisProtocolLinked(TEST_VALUE_CELL_RANGER);
+        expect(analysisProtocolLinked).toEqual(false);
+    });
+
+    /**
+     * Confirm list analysis protocols returns a concatenated string array when multiple workflow values.
+     */
+    it("should list analysis protocols returns a concatenated string array when multiple workflow values", () => {
+
+        component.workflow = INPUT_VALUE_WORKFLOW_MULTIPLE_MIXED_VALUES;
+        fixture.detectChanges();
+
+        // Confirm get analysis protocols returns a concatenated string array
+        const analysisProtocols = component.listAnalysisProtocols();
+        expect(analysisProtocols).toEqual(TEST_VALUE_ANALYSIS_PROTOCOLS_MULTIPLE_MIXED_VALUES);
+    });
+
+    /**
+     * Confirm list analysis protocols returns a string array when single workflow values.
+     */
+    it("should list analysis protocols returns a string array when single workflow values", () => {
+
+        component.workflow = INPUT_VALUE_WORKFLOW_SINGLE_OPTIMUS_VALUE;
+        fixture.detectChanges();
+
+        // Confirm get analysis protocols returns a string array
+        const analysisProtocols = component.listAnalysisProtocols();
+        expect(analysisProtocols).toEqual([TEST_VALUE_OPTIMUS]);
+    });
+
+    /**
+     * Confirm list analysis protocols returns an empty array when empty workflow values.
+     */
+    it("should list analysis protocols returns an empty array when empty workflow values", () => {
+
+        component.workflow = "";
+        fixture.detectChanges();
+
+        // Confirm get analysis protocols returns a concatenated string array
+        const analysisProtocols = component.listAnalysisProtocols();
+        expect(analysisProtocols).toEqual([]);
+    });
+
+    /**
+     * Confirm list analysis protocols returns a string array when single workflow values.
+     */
+    it("should list analysis protocols returns a string array when single workflow values", () => {
+
+        component.workflow = INPUT_VALUE_WORKFLOW_SINGLE_OPTIMUS_VALUE;
+        fixture.detectChanges();
+
+        // Confirm get analysis protocols returns a string array
+        const analysisProtocols = component.listAnalysisProtocols();
+        expect(analysisProtocols).toEqual([TEST_VALUE_OPTIMUS]);
+    });
+
+    /**
+     * Confirm find analysis protocol key returns "optimus" when analysis protocol includes "optimus".
+     */
+    it(`should find analysis protocol key return "optimus" when analysis protocol includes "optimus"`, () => {
+
+        // Confirm key returned is "optimus"
+        const analysisProtocolKey = component["findAnalysisProtocolKey"](LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY, TEST_VALUE_OPTIMUS);
+        expect(analysisProtocolKey).toEqual(Object.keys(LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY)[INDEX_OF_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY_OPTIMUS]);
+    });
+
+    /**
+     * Confirm find analysis protocol key returns "smartseq2" when analysis protocol includes "smartseq2".
+     */
+    it(`should find analysis protocol key return "smartseq2" when analysis protocol includes "smartseq2"`, () => {
+
+        // Confirm key returned is "smartseq2"
+        const analysisProtocolKey = component["findAnalysisProtocolKey"](LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY, TEST_VALUE_SMARTSEQ2);
+        expect(analysisProtocolKey).toEqual(Object.keys(LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY)[INDEX_OF_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY_SMARTSEQ2]);
+    });
+
+    /**
+     * Confirm find analysis protocol key returns undefined when analysis protocol is neither includes "smartseq2" nor "optimus".
+     */
+    it(`should find analysis protocol key return undefined when analysis protocol is neither includes "smartseq2" nor "optimus"`, () => {
+
+        // Confirm key returned is undefined
+        const analysisProtocolKey = component["findAnalysisProtocolKey"](LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY, TEST_VALUE_CELL_RANGER);
+        expect(analysisProtocolKey).toBeUndefined();
     });
 
     /**
@@ -206,30 +247,17 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     });
 
     /**
-     * Confirm all linked analysis protocols are displayed, when multiple mixed workflow.
+     * Confirm all analysis protocols are displayed, when multiple mixed workflow.
      */
-    it("should display all linked analysis protocols when multiple mixed workflow", () => {
+    it("should display all analysis protocols when multiple mixed workflow", () => {
 
         // Set up initial component state
         component.workflow = INPUT_VALUE_WORKFLOW_MULTIPLE_MIXED_VALUES;
 
         fixture.detectChanges();
 
-        // Confirm linked protocols are displayed
+        // Confirm all protocols are displayed
         expect(getAnalysisProtocolsDisplayed("a").length).toEqual(2);
-    });
-
-    /**
-     * Confirm all unlinked analysis protocols are displayed, when multiple mixed workflow.
-     */
-    it("should display all unlinked analysis protocols when multiple mixed workflow", () => {
-
-        // Set up initial component state
-        component.workflow = INPUT_VALUE_WORKFLOW_MULTIPLE_MIXED_VALUES;
-
-        fixture.detectChanges();
-
-        // Confirm unlinked protocols are displayed
         expect(getAnalysisProtocolsDisplayed("span").length).toEqual(1);
     });
 
@@ -261,7 +289,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
         const analysisPortalDEs = getAnalysisProtocolsDisplayed("a");
 
         // Confirm href link
-        expect(getHrefValue(analysisPortalDEs[0])).toEqual(testConfig.getPortalURL() + TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS);
+        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
     });
 
     /**
@@ -277,7 +305,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
         const analysisPortalDEs = getAnalysisProtocolsDisplayed("a");
 
         // Confirm href link
-        expect(getHrefValue(analysisPortalDEs[0])).toEqual(testConfig.getPortalURL() + TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2);
+        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
     });
 
     /**

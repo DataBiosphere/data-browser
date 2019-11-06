@@ -1,4 +1,4 @@
-<ng-container *ngFor="let analysisProtocol of getAnalysisProtocols(); last as lastAnalysisProtocol">
+<ng-container *ngFor="let analysisProtocol of listAnalysisProtocols(); last as lastAnalysisProtocol">
     <ng-container [ngSwitch]="isAnalysisProtocolLinked(analysisProtocol)">
         <a href="{{getPipelineLink(analysisProtocol)}}" rel="noopener noreferrer" target="_blank" *ngSwitchDefault>{{analysisProtocol}}<span class="comma" *ngIf="!lastAnalysisProtocol">, </span></a>
         <span *ngSwitchCase="false">{{analysisProtocol}}<span class="comma" *ngIf="!lastAnalysisProtocol">, </span></span>

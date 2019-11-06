@@ -425,8 +425,6 @@ describe("HCATableProjectsComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const columnRowDE = findColumnCells(COLUMN_NAME_WORKFLOW)[INDEX_TABLE_ROW_SINGLE_VALUES];
-
         // Confirm row with single values in column "Analysis Protocol" does display component
         expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
     });

@@ -100,7 +100,7 @@ describe("HCAProjectComponent", () => {
     ];
 
     // Test values
-    const TEST_VALUE_CITATION_URL = testConfig.getPortalURL() + "/explore/projects/" + PROJECT_DETAIL_SINGLE_VALUES.entryId;
+    const TEST_VALUE_CITATION_URL = `${testConfig.getPortalURL()}/explore/projects/${PROJECT_DETAIL_SINGLE_VALUES.entryId}`;
 
     beforeEach(async(() => {
 
@@ -215,7 +215,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm url is displayed
-        expect(getInnerHtmlText(CLASSNAME_CITATION_URL)).toEqual(TEST_VALUE_CITATION_URL);
+        expect(getDEInnerHtmlText(CLASSNAME_CITATION_URL)).toEqual(TEST_VALUE_CITATION_URL);
     });
 
     /**
@@ -234,7 +234,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm component is displayed
-        expect(getComponent(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)).not.toBe(null);
+        expect(getChildrenDEsByChildName(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)).not.toBe(null);
     });
 
     /**
@@ -252,7 +252,7 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        const copyToClipboard = getComponent(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)[0];
+        const copyToClipboard = getChildrenDEsByChildName(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)[0];
 
         // Confirm input property copy to clipboard link is citation url
         expect(getComponentInputPropertyValue(copyToClipboard, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(TEST_VALUE_CITATION_URL);
@@ -589,11 +589,11 @@ describe("HCAProjectComponent", () => {
     /**
      * Returns the debug elements, specified by parent class name and child tag name.
      *
-     * @param {string} tagName
+     * @param {string} childName
      * @param {string} componentName
      * @returns {DebugElement[]}
      */
-    function getComponent(className: string, tagName: string): DebugElement[] {
+    function getChildrenDEsByChildName(className: string, childName: string): DebugElement[] {
 
         const de = getDebugElement(className);
 
@@ -601,7 +601,7 @@ describe("HCAProjectComponent", () => {
             return;
         }
 
-        return de.children.filter(child => child.name === tagName);
+        return de.children.filter(child => child.name === childName);
     }
 
     /**
@@ -637,11 +637,12 @@ describe("HCAProjectComponent", () => {
      * @param {string} className
      * @returns {any}
      */
-    function getInnerHtmlText(className: string): any {
+    function getDEInnerHtmlText(className: string): any {
 
         const de = getDebugElement(className);
 
         if ( !de ) {
+
             return;
         }
 
@@ -658,8 +659,9 @@ describe("HCAProjectComponent", () => {
 
         const projectDetailValueEls = fixture.debugElement.queryAll(By.css(CLASSNAME_PROJECT_DETAILS_RHS));
 
-        if ( !projectDetailValueEls.length ) {
-            return null;
+        if ( !projectDetailValueEls ) {
+
+            return;
         }
 
         const projectDetailIndex = PROJECT_DETAIL_DISPLAY_ORDER.indexOf(projectDetailLabel);
@@ -678,6 +680,11 @@ describe("HCAProjectComponent", () => {
 
         const headingEls = fixture.debugElement.queryAll(By.css("h4"));
 
+        if ( !headingEls ) {
+
+            return false;
+        }
+
         return headingEls.some(headingEl => headingEl.nativeElement.innerText === heading);
     }
 
@@ -691,6 +698,11 @@ describe("HCAProjectComponent", () => {
     function isProjectDetailLabelDisplayed(label: string, queryString: string): boolean {
 
         const projectDetailLabelEls = fixture.debugElement.queryAll(By.css(queryString));
+
+        if ( !projectDetailLabelEls ) {
+
+            return false;
+        }
 
         return projectDetailLabelEls.some(projectDetailLabelEl => projectDetailLabelEl.nativeElement.innerText === label);
     }

@@ -261,7 +261,7 @@ export function getAge(age: string, ageUnit: string): string {
 
     if ( age && age !== "Unspecified" ) {
 
-        return age + " " + ageUnitTruncated;
+        return `${age} ${ageUnitTruncated}`;
     }
 
     return "Unspecified";

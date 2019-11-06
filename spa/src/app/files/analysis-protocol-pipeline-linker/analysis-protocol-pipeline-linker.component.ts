@@ -41,21 +41,6 @@ export class AnalysisProtocolPipelineLinkerComponent {
     }
 
     /**
-     * Returns concatenated string array of workflow values.
-     *
-     * @returns {string[]}
-     */
-    public getAnalysisProtocols(): string[] {
-
-        if ( !this.workflow ) {
-
-            return [];
-        }
-
-        return this.workflow.split(", ");
-    }
-
-    /**
      * Returns corresponding Data Portal pipeline link for the specified analysis protocol.
      *
      * @param {string} analysisProtocol
@@ -63,10 +48,7 @@ export class AnalysisProtocolPipelineLinkerComponent {
      */
     public getPipelineLink(analysisProtocol: string): string {
 
-        const analysisProtocolKey = Object.keys(this.pipelineLinksByAnalysisProtocolKey).filter(key => {
-
-            return analysisProtocol.includes(key);
-        }).toString();
+        const analysisProtocolKey = this.findAnalysisProtocolKey(this.pipelineLinksByAnalysisProtocolKey, analysisProtocol);
 
         if ( !analysisProtocolKey ) {
 
@@ -75,7 +57,7 @@ export class AnalysisProtocolPipelineLinkerComponent {
 
         const pipelineLink = this.pipelineLinksByAnalysisProtocolKey[analysisProtocolKey];
 
-        return this.portalURL + pipelineLink;
+        return `${this.portalURL}${pipelineLink}`;
     };
 
     /**
@@ -86,9 +68,36 @@ export class AnalysisProtocolPipelineLinkerComponent {
      */
     public isAnalysisProtocolLinked(analysisProtocol: string): boolean {
 
-        return Object.keys(this.pipelineLinksByAnalysisProtocolKey).some(key => {
+        return !!this.findAnalysisProtocolKey(this.pipelineLinksByAnalysisProtocolKey, analysisProtocol);
+    }
+
+    /**
+     * Returns concatenated string array of workflow values.
+     *
+     * @returns {string[]}
+     */
+    public listAnalysisProtocols(): string[] {
+
+        if ( !this.workflow ) {
+
+            return [];
+        }
+
+        return this.workflow.split(", ");
+    }
+
+    /**
+     * Returns the analysis protocol key for the specified analysis protocol.
+     *
+     * @param {Object} pipelineLinksByAnalysisProtocol
+     * @param {string} analysisProtocol
+     * @returns {string}
+     */
+    private findAnalysisProtocolKey(pipelineLinksByAnalysisProtocol: Object, analysisProtocol: string): string {
+
+        return Object.keys(pipelineLinksByAnalysisProtocol).find(key => {
 
             return analysisProtocol.includes(key);
-        })
+        });
     }
 }
