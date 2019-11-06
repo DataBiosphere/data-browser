@@ -491,8 +491,8 @@ export class FilesService {
         // the current data. We currently can not determine the association between a library construction
         // approach and a paired end, so we do this manually here.
 
-        // If there is anything other homo sapien or undefined selected for species, then we don't need to do any
-        // additional checks. We know at this point that the matrix partial query match is going to be partial. 
+        // If there is anything other homo sapiens, mouse or undefined selected for species, then we don't need to do
+        // any additional checks. We know at this point that the matrix partial query match is going to be partial. 
         if ( this.isGenusSpeciesPartialQueryMatch(matrixableFileFacets.genusSpecies) ) {
             return of(true);
         }
@@ -523,7 +523,7 @@ export class FilesService {
     }
 
     /**
-     * Returns true if there is a genus species value other than homo sapiens or unspecified.
+     * Returns true if there is a genus species value other than homo sapiens, mouse or unspecified.
      *
      * @param {FileFacet} genusSpecies
      * @returns {boolean}
@@ -531,7 +531,7 @@ export class FilesService {
     private isGenusSpeciesPartialQueryMatch(genusSpecies: FileFacet): boolean {
 
         return !genusSpecies.isOnlySelectedTerm(
-            GenusSpecies.HOMO_SAPIENS, GenusSpecies.homo_sapiens, GenusSpecies.UNSPECIFIED);
+            GenusSpecies.HOMO_SAPIENS, GenusSpecies.homo_sapiens, GenusSpecies.MUS_MUSCULUS, GenusSpecies.UNSPECIFIED);
     }
 
     /**

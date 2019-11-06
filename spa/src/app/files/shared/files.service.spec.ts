@@ -387,12 +387,13 @@ describe("FileService:", () => {
         /**
          * Genus species is considered partial match if it contains a value other than homo sapiens and unspecified
          */
-        it("should consider genus species a partial match if it contains a value other than homo sapiens and unspecified", () => {
+        it("should consider genus species a partial match if it contains a value other than homo sapiens, mouse and unspecified", () => {
 
             const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
                 new Term(GenusSpecies.HOMO_SAPIENS, 90, false),
                 new Term(GenusSpecies.UNSPECIFIED, 5, false),
-                new Term(GenusSpecies.MUS_MUSCULUS, 5, false)
+                new Term(GenusSpecies.MUS_MUSCULUS, 5, false),
+                new Term(GenusSpecies.DANIO_RERIO, 5, false)
             ]);
             expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(true)
         });
@@ -426,6 +427,17 @@ describe("FileService:", () => {
 
             const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
                 new Term(GenusSpecies.homo_sapiens, 90, false)
+            ]);
+            expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(false)
+        });
+
+        /**
+         * Genus species is not considered partial match if it contains mouse
+         */
+        it("should not consider genus species a partial match if it only contains mouse", () => {
+
+            const genusSpecies = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                new Term(GenusSpecies.MUS_MUSCULUS, 90, false)
             ]);
             expect(fileService["isGenusSpeciesPartialQueryMatch"](genusSpecies)).toEqual(false)
         });
@@ -571,7 +583,7 @@ describe("FileService:", () => {
         /**
          * Matrix is considered partial query match if genus species contains value other than homo sapiens
          */
-        it("should be considered partial match when genus species contains value other than homo sapiens", (done: DoneFn) => {
+        it("should be considered partial match when genus species contains value other than homo sapiens and mouse", (done: DoneFn) => {
 
             // Pass any search terms and any table params in because these values are not used to determine the partial
             // query match at this point. Build up matrixable file facet that we are expecting to be considered a partial
@@ -579,7 +591,8 @@ describe("FileService:", () => {
             const matrixableFileFacets = {
                 genusSpecies: new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
                     new Term(GenusSpecies.HOMO_SAPIENS, 90, false),
-                    new Term(GenusSpecies.MUS_MUSCULUS, 90, false)
+                    new Term(GenusSpecies.MUS_MUSCULUS, 90, false),
+                    new Term(GenusSpecies.DANIO_RERIO, 90, false)
                 ])
             } as MatrixableFileFacets;
             fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
