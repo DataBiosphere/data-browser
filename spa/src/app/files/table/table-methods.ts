@@ -43,7 +43,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Donor Count",
         alignment: ColumnAlignment.RIGHT,
         columnMinWidth: 88,
-        columnSort: false,
+        columnSort: true,
         countType: CountType.NONE
 
     },
@@ -576,7 +576,7 @@ export function isElementUnspecified(element: string): boolean {
  *   three: "3"
  * }
  *
- * Note, all flattened values - with the exception of totalCells - are cast to string values.
+ * Note, all flattened values - with the exception of totalCells and donorCount - are cast to string values.
  *
  * @param {any[]} array
  * @returns {any}
@@ -604,7 +604,7 @@ export function rollUpMetadata(array: any[]): any {
                 }
 
 
-                if ( key === "totalCells" ) {
+                if ( key === "totalCells" || key === "donorCount" ) {
 
                     if ( acc[key] ) {
                         acc[key] = acc[key] + value;

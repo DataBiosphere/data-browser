@@ -99,23 +99,24 @@ export const PROJECT_ROW_SINGLE_VALUES =
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": [
+                    "x"
+                ],
+                "donorCount": 15,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
                     "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
                 ]
             }
         ],
@@ -283,24 +284,28 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
         "cellLines": [],
         "donorOrganisms": [
             {
+                "biologicalSex": [
+                    "male",
+                    "female"
+                ],
+                "disease": ["H syndrome", "normal"],
+                "donorCount": 12,
+                "genusSpecies": [
+                    "Mus musculus",
+                    "Homo sapiens"
+                ],
                 "id": [
                     "420508",
                     "123456"
                 ],
-                "genusSpecies": [
-                    "Mus musculus"
-                ],
                 "organismAge": [
-                    "56"
+                    "56",
+                    "44"
                 ],
                 "organismAgeUnit": [
                     "day",
                     "week"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": null
+                ]
             }
         ],
         "organoids": [],
@@ -524,30 +529,39 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": ["normal"],
+                "donorCount": 8,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
-                    "day",
-                    "week"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": null
+                    "day"
+                ]
             },
             {
-                "id": [
+                "biologicalSex": [
                     "x",
                     "y"
                 ],
+                "disease": [
+                    "x",
+                    "y"
+                ],
+                "donorCount": 3,
                 "genusSpecies": [
+                    "x",
+                    "y"
+                ],
+                "id": [
                     "x",
                     "y"
                 ],
@@ -556,14 +570,6 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "y"
                 ],
                 "organismAgeUnit": [
-                    "x",
-                    "y"
-                ],
-                "biologicalSex": [
-                    "x",
-                    "y"
-                ],
-                "disease": [
                     "x",
                     "y"
                 ]
@@ -679,12 +685,13 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [],
-                "genusSpecies": [],
-                "organismAge": [],
-                "organismAgeUnit": [],
                 "biologicalSex": [],
-                "disease": []
+                "disease": [],
+                "genusSpecies": [],
+                "donorCount": 1,
+                "id": [],
+                "organismAge": [],
+                "organismAgeUnit": []
             }
         ],
         "organoids": [],
@@ -757,12 +764,13 @@ export const PROJECT_ROW_NULL_VALUES =
         ],
         "donorOrganisms": [
             {
-                "id": null,
+                "biologicalSex": null,
+                "disease": null,
+                "donorCount": null,
                 "genusSpecies": null,
+                "id": null,
                 "organismAge": null,
                 "organismAgeUnit": null,
-                "biologicalSex": null,
-                "disease": null
             }
         ],
         "organoids": null,

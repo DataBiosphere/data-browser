@@ -116,23 +116,24 @@ const PROJECTS_DATA = [
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": [
+                    "x"
+                ],
+                "donorCount": 1,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
                     "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
                 ]
             }
         ],
@@ -271,23 +272,24 @@ const PROJECTS_DATA = [
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": [
+                    "x"
+                ],
+                "donorCount": 12,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
                     "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
                 ]
             }
         ],
@@ -426,23 +428,24 @@ const PROJECTS_DATA = [
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": [
+                    "x"
+                ],
+                "donorCount": 13,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
                     "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
                 ]
             }
         ],
@@ -581,23 +584,24 @@ const PROJECTS_DATA = [
         "cellLines": [],
         "donorOrganisms": [
             {
-                "id": [
-                    "420508"
+                "biologicalSex": [
+                    "male"
                 ],
+                "disease": [
+                    "x"
+                ],
+                "donorCount": 10,
                 "genusSpecies": [
                     "Mus musculus"
+                ],
+                "id": [
+                    "420508"
                 ],
                 "organismAge": [
                     "56"
                 ],
                 "organismAgeUnit": [
                     "day"
-                ],
-                "biologicalSex": [
-                    "male"
-                ],
-                "disease": [
-                    "x"
                 ]
             }
         ],
