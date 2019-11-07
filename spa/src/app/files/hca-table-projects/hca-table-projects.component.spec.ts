@@ -61,10 +61,12 @@ describe("HCATableProjectsComponent", () => {
     const INDEX_TABLE_ROW_NULL_VALUES = 5;
 
     // Column titles
+    const COLUMN_TITLE_DONORCOUNT = "Donor Count";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
+    const COLUMN_NAME_DONORCOUNT = "donorCount";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
     const COLUMN_NAME_WORKFLOW = "workflow";
 
@@ -455,6 +457,36 @@ describe("HCATableProjectsComponent", () => {
 
         // Confirm row with single values in column "Analysis Protocol" does not display component
         expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
+    });
+
+    /**
+     * Confirm donorCount column labeled as "Donor Count" is displayed.
+     */
+    it(`should display column "Donor Count"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeader(COLUMN_NAME_DONORCOUNT);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONORCOUNT);
     });
 
     /**

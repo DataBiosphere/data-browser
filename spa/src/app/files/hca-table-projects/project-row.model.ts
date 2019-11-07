@@ -10,7 +10,6 @@ import { EntityRow } from "../table/entity-row.model";
 import { FileTypeSummariesRow } from "../table/file-type-summaries-row.model";
 
 export interface ProjectRow extends EntityRow, FileTypeSummariesRow {
-    donorCount: number;
     entryId: string;
     projectShortname: string;
 }

@@ -27,7 +27,6 @@ export class ProjectRowMapper extends FileTypeSummariesRowMapper {
     public mapRow(): EntityRow {
 
         return Object.assign({}, super.mapRow(), {
-            donorCount: (((this.row.donorOrganisms || [])[0] || {}).id || []).length, // Donor count is the number of IDs in the id field of donor organisms
             entryId: this.row.entryId,
             projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname)
         });

@@ -68,49 +68,6 @@ describe("ProjectRowMapper:", () => {
     });
 
     /**
-     * A null project summary should map donor count to "Unspecified".
-     */
-    it(`should map donor count of null project summary to "Unspecified"`, (done: DoneFn) => {
-
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
-        dataSource.connect().subscribe((rows) => {
-
-            const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual(0);
-            done();
-        })
-    });
-    
-    /**
-     * Donor count, when specified, should be mapped
-     */
-    it("should map donor count", (done: DoneFn) => {
-
-        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
-        dataSource.connect().subscribe((rows) => {
-
-            const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual(projectToMap.donorOrganisms[0].id.length);
-            done();
-        })
-    });
-
-    /**
-     * A null donor count should be mapped to "Unspecified"
-     */
-    it(`should map null donor count to "Unspecified"`, (done: DoneFn) => {
-
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
-        dataSource.connect().subscribe((rows) => {
-
-            const mappedProject = rows[0];
-            expect(mappedProject.donorCount).toEqual(0);
-            done();
-        })
-    });
-
-    /**
      * Entry ID should be mapped
      */
     it("should map entry ID", (done: DoneFn) => {
@@ -230,11 +187,11 @@ describe("ProjectRowMapper:", () => {
     });
 
     /**
-     * An age unit value that is an empty array should be mapped to "Unspecified"
+     * A null project short name should be mapped to "Unspecified"
      */
-    it(`should map an empty age unit array to "Unspecified"`, (done: DoneFn) => {
+    it(`should map null project short name to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -244,11 +201,56 @@ describe("ProjectRowMapper:", () => {
     });
 
     /**
-     * A null project short name should be mapped to "Unspecified"
+     * Donor count, when specified, should be included in mapping.
      */
-    it(`should map null project short name to "Unspecified"`, (done: DoneFn) => {
+    it("should map donor count", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.donorCount).toEqual(projectToMap.donorOrganisms[0].donorCount);
+            done();
+        })
+    });
+
+    /**
+     * Donor count across multiple projects should be rolled up and mapped
+     */
+    it("should roll up and map donor count values across multiple projects", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "donorCount");
+            expect(mappedProject.donorCount).toEqual(expectedValue);
+            done();
+        })
+    });
+
+    /**
+     * A null donor count should be mapped to "Unspecified"
+     */
+    it(`should map null donor count to "Unspecified"`, (done: DoneFn) => {
 
         dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.donorCount).toEqual("Unspecified");
+            done();
+        })
+    });
+
+    /**
+     * An age unit value that is an empty array should be mapped to "Unspecified"
+     */
+    it(`should map an empty age unit array to "Unspecified"`, (done: DoneFn) => {
+
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];

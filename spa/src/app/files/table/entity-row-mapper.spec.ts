@@ -255,7 +255,7 @@ describe("EntityRowMapper:", () => {
     });
 
     /**
-     * Mapper should handle null samples value (from which, age, sex, species, and age unit are pulled). Use
+     * Mapper should handle null samples value (from which, age, donor count, sex, species, and age unit are pulled). Use
      * disease as the check for this.
      */
     it(`should map disease to "Unspecified" when samples is null`, (done: DoneFn) => {
@@ -293,6 +293,52 @@ describe("EntityRowMapper:", () => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual("Unspecified");
+            done();
+        })
+    });
+
+    /**
+     * Single donor count value should be mapped.
+     */
+    it("should map donor count value", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.donorCount).toEqual(projectToMap.donorOrganisms[0].donorCount);
+            done();
+        })
+    });
+
+    /**
+     * Single donor count across multiple objects should be rolled up and mapped.
+     */
+    it("should map single donor count across multiple objects", (done: DoneFn) => {
+
+        const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "donorCount");
+
+            expect(mappedProject.donorCount).toEqual(expectedValue);
+            done();
+        })
+    });
+
+    /**
+     * A null donor count should be mapped to "Unspecified"
+     */
+    it(`should map null donor count to "Unspecified"`, (done: DoneFn) => {
+
+        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.donorCount).toEqual("Unspecified");
             done();
         })
     });
@@ -1100,7 +1146,7 @@ export function getFileTypeSummary(fileTypeSummaries: any, fileType: string): an
 }
 
 /**
- * Flatten values across multiple objects into a single, comma-delimited string.
+ * Flatten values - with the exception of totalCells and donorCount - across multiple objects into a single, comma-delimited string.
  */
 export function mapMultipleValues(arrayToMap: any[], valueToMap: string): string {
 
@@ -1117,7 +1163,7 @@ export function mapMultipleValues(arrayToMap: any[], valueToMap: string): string
         return accum;
     }, []);
 
-    if ( valueToMap === "totalCells" ) {
+    if ( valueToMap === "totalCells" || valueToMap === "donorCount" ) {
         return tokens.reduce((accum, token) => {
             accum += token;
             return accum;

@@ -10,6 +10,7 @@ export interface EntityRow {
     ageUnit: string;
     biologicalSex: string;
     disease: string;
+    donorCount: number;
     genusSpecies: string;
     libraryConstructionApproach?: string;
     organ: string;
