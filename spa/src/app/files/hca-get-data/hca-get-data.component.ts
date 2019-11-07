@@ -63,10 +63,6 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Public API
-     */
-
-    /**
      * Returns null value for EntitySpec, no need for an active tab.
      *
      * @returns {EntitySpec}
@@ -88,16 +84,37 @@ export class HCAGetDataComponent implements OnInit {
         return [{key: selectedEntity.key, displayName: displayName}];
     }
 
-    public getTitle(): string {
+    /**
+     * Find and return the species facet from the species set of facets.
+     * 
+     * @param {FileFacet[]} fileFacets
+     * @returns {FileFacet}
+     */
+    public getSpeciesFileFacet(fileFacets: FileFacet[]): FileFacet {
 
-        let downloadTitle = this.viewState === DownloadViewState.MANIFEST ?
-            "Request File Manifest" :
-            this.viewState === DownloadViewState.TERRA ?
-                "Export to Terra" :
-                this.viewState === DownloadViewState.MATRIX ?
-                    "Request Expression Matrix" :
-                    null;
-        return this.viewState !== DownloadViewState.NONE ? downloadTitle : "Export Data";
+        return fileFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES);
+    }
+
+    /**
+     * Returns the page title.
+     *
+     * @returns {string}
+     */
+    public getTitle(): string {
+        
+        if ( this.viewState === DownloadViewState.MANIFEST ) {
+            return "Request File Manifest";
+        }
+        
+        if ( this.viewState === DownloadViewState.TERRA ) {
+            return "Export to Terra";
+        }
+        
+        if ( this.viewState === DownloadViewState.MATRIX || DownloadViewState.MATRIX_SPECIES_SELECTION ) {
+            return "Request Expression Matrix";
+        }
+
+        return "Export Data";
     }
 
     /**
@@ -159,6 +176,40 @@ export class HCAGetDataComponent implements OnInit {
             this.store.dispatch(new EntitySelectAction(tab.key));
             this.router.navigate(["/" + tab.key]);
         }
+    }
+
+    /**
+     * Returns true if user must select the set of species to be included in a matrix download.
+     * 
+     * For the set of species present in the current data:
+     * 
+     * - one species, human, not selected, species selection required
+     * - one species, non-human, not selected, species selection required
+     * - one species, either human or non-human, selected, species selection not required
+     * - more than one species, none selected, species selection required
+     * - more than one species, at least one selected (either human or non-human), species selection not required 
+     * 
+     * @returns {boolean}
+     */
+    private isMatrixSpeciesSelectionRequired(fileFacets: FileFacet[]): boolean {
+
+        const speciesFileFacet = this.getSpeciesFileFacet(fileFacets);
+        if ( !speciesFileFacet ) {
+            return false;
+        }
+
+        const effectiveTerms = speciesFileFacet.getEffectiveTerms();
+
+        // There's only one species in our data set, species selection is required if the species is not currently
+        // selected
+        if ( effectiveTerms.length === 1 ) {
+            return !effectiveTerms[0].selected;
+        }
+
+        // There's more than one species in our data set, species selection is required if non species is currently
+        // selected
+        const selectedTerms = effectiveTerms.filter(term => term.selected);
+        return selectedTerms.length === 0;
     }
 
     /**
@@ -225,10 +276,13 @@ export class HCAGetDataComponent implements OnInit {
         )
             .pipe(
                 map(([selectedEntity, fileFacets, matrixSupported]) => {
+                    
+                    const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
 
                     return {
                         selectedEntity,
                         fileFacets,
+                        matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported)
                     };

@@ -61,7 +61,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm is matrix supported loading returns false when matrix is supported.
      */
-    it("should is matrix supported loading return false when matrix is supported", () => {
+    it("detects matrix supported loading is false when matrix is supported", () => {
 
         // Confirm is matrix supported loading returns false, when matrix is supported - first execute the
         // method and then confirm the returned value is false.
@@ -72,7 +72,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm is matrix supported loading returns false when matrix is not supported.
      */
-    it("should is matrix supported loading return false when matrix is not supported", () => {
+    it("detects matrix supported loading is false when matrix is not supported", () => {
 
         // Confirm is matrix supported loading returns false, when matrix is not supported - first execute the
         // method and then confirm the returned value is false.
@@ -83,7 +83,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm is matrix supported loading returns true when matrix is not yet determined.
      */
-    it("should is matrix supported loading return true when matrix is not yet determined", () => {
+    it("detects matrix supported as loading when matrix is not yet determined", () => {
 
         // Confirm is matrix supported loading returns true, when matrix is not yet determined - first execute the
         // method and then confirm the returned value is true.
@@ -94,7 +94,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Create Concatenated Expression Matrix" is displayed.
      */
-    it(`should display "Create Concatenated Expression Matrix"`, () => {
+    it(`displays "Create Concatenated Expression Matrix"`, () => {
 
         // Confirm "Create Concatenated Expression Matrix" is displayed
         expect(isPanelHeaderDisplayed("Create Concatenated Expression Matrix")).toEqual(true);
@@ -103,7 +103,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is displayed when matrix enabled is true.
      */
-    it(`should display "Request an expression matrix for the selected data from the HCA Matrix service." when matrix enabled is true`, () => {
+    it(`displays "Request an expression matrix for the selected data from the HCA Matrix service." when matrix enabled is true`, () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -115,7 +115,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm <warning> is not displayed when matrix enabled is true.
      */
-    it("should not display component warning when matrix enabled is true", () => {
+    it("hides component warning when matrix enabled is true", () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -129,7 +129,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm matrix start button is not disabled when matrix enabled is true.
      */
-    it("should matrix start button is not disabled when matrix enabled is true", () => {
+    it("enables matrix start button when matrix enabled is true", () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -144,7 +144,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed when matrix enabled is false.
      */
-    it(`should not display "Request an expression matrix for the selected data from the HCA Matrix service." when matrix enabled is false`, () => {
+    it(`hides "Request an expression matrix for the selected data from the HCA Matrix service." when matrix enabled is false`, () => {
 
         component.matrixEnabled = false;
         fixture.detectChanges();
@@ -156,7 +156,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm <warning> is displayed when matrix enabled is false.
      */
-    it("should display component warning when matrix enabled is false", () => {
+    it("displays component warning when matrix enabled is false", () => {
 
         component.matrixEnabled = false;
         fixture.detectChanges();
@@ -170,7 +170,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm matrix start button is disabled when matrix enabled is false.
      */
-    it("should matrix start button is not disabled when matrix enabled is false", () => {
+    it("disables matrix start button when matrix enabled is false", () => {
 
         component.matrixEnabled = false;
         fixture.detectChanges();
@@ -185,7 +185,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed.
      */
-    it(`should display "Request a File Manifest (for downloading files via the HCA CLI)"`, () => {
+    it(`displays "Request a File Manifest (for downloading files via the HCA CLI)"`, () => {
 
         // Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed
         expect(isPanelHeaderDisplayed("Request a File Manifest (for downloading files via the HCA CLI)")).toEqual(true);
@@ -194,7 +194,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Export to Terra" is displayed 
      */
-    it(`should display "Export to Terra"`, () => {
+    it(`displays "Export to Terra"`, () => {
 
         fixture.detectChanges();
 
@@ -205,7 +205,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm emit "MATRIX" on click of matrix start button.
      */
-    it(`should emit "MATRIX" on click of matrix start button`, () => {
+    it(`emits "MATRIX" on click of matrix start button`, () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -225,7 +225,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm emit "MANIFEST" on click of manifest start button.
      */
-    it(`should emit "MANIFEST" on click of manifest start button`, () => {
+    it(`emits "MANIFEST" on click of manifest start button`, () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -245,7 +245,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm emit "TERRA" on click of terra start button.
      */
-    it(`should emit "TERRA" on click of terra start button`, () => {
+    it(`emits "TERRA" on click of terra start button`, () => {
 
         component.matrixEnabled = true;
         fixture.detectChanges();
@@ -260,6 +260,48 @@ describe("HCAGetDataDownloadsComponent", () => {
 
         // Confirm emit "TERRA"
         expect(selectedDownload).toBe(DownloadViewState.TERRA);
+    });
+
+    /**
+     * Confirm emit "MATRIX_SPECIES_SELECTION" if matrix species selection is required.
+     */
+    it(`emits "MATRIX_SPECIES_SELECTION" on click of matrix start button when species selection is required`, () => {
+
+        component.matrixEnabled = true;
+        component.matrixSpeciesSelectionRequired = true;
+        fixture.detectChanges();
+
+        let selectedDownload: string;
+        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
+
+        const matrixStartButton = getButtonEl("MATRIX");
+
+        // Execute click on terra start button
+        matrixStartButton.triggerEventHandler("click", null);
+
+        // Confirm emit "TERRA"
+        expect(selectedDownload).toBe(DownloadViewState.MATRIX_SPECIES_SELECTION);
+    });
+
+    /**
+     * Confirm emit "MATRIX" if matrix species selection is not required.
+     */
+    it(`emits "MATRIX" on click of matrix start button when species selection is not required`, () => {
+
+        component.matrixEnabled = true;
+        component.matrixSpeciesSelectionRequired = false;
+        fixture.detectChanges();
+
+        let selectedDownload: string;
+        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
+
+        const matrixStartButton = getButtonEl("MATRIX");
+
+        // Execute click on terra start button
+        matrixStartButton.triggerEventHandler("click", null);
+
+        // Confirm emit "TERRA"
+        expect(selectedDownload).toBe(DownloadViewState.MATRIX);
     });
 
     /**

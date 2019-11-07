@@ -10,6 +10,7 @@ import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from 
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
+import { DownloadViewState } from "../download-view-state.model";
 
 @Component({
     selector: "hca-get-data-downloads",
@@ -25,6 +26,7 @@ export class HCAGetDataDownloadsComponent {
 
     // Inputs
     @Input() matrixEnabled: boolean;
+    @Input() matrixSpeciesSelectionRequired: boolean;
 
     // Outputs
     @Output() downloadSelected = new EventEmitter<string>();
@@ -34,6 +36,24 @@ export class HCAGetDataDownloadsComponent {
      */
     constructor(private configService: ConfigService) {
         this.portalURL = this.configService.getPortalURL();
+    }
+
+    /**
+     * Returns the download action for matrix - either MATRIX_SPECIES_SELECTION if species selection is required for
+     * the current data, or MATRIX if species selection is not required.
+     * 
+     * Note, this functionality will no longer be required once deep-linking to download related modes (matrix,
+     * manifest, terra) is added.
+     * 
+     * @returns {string}
+     */
+    public getMatrixDownloadAction(): string {
+
+        if ( this.matrixSpeciesSelectionRequired ) {
+            return DownloadViewState.MATRIX_SPECIES_SELECTION;
+        }
+
+        return DownloadViewState.MATRIX;
     }
 
     /**

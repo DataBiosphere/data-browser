@@ -13,6 +13,7 @@ import { FileFacet } from "../shared/file-facet.model";
 export interface HCAGetDataState {
 
     fileFacets: FileFacet[];
+    matrixSpeciesSelectionRequired: boolean;
     matrixSupported: boolean;
     matrixSupportedLoaded: boolean;
     selectedEntity: EntitySpec;

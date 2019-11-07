@@ -1,0 +1,51 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for selecting species prior to matrix download.
+ */
+
+@import "../../../site/theme/cgl.vars";
+
+.species {
+    margin: 24px 0 32px;
+}
+
+.hca-checkbox-group {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    padding: 6px 0;
+}
+
+.hca-checkbox {
+    border: 1px solid $hca-gray-light;
+    border-radius: 3px;
+    flex-shrink: 0;
+    height: 13px;
+    margin-right: 8px;
+    position: relative; /* Positions check */
+    width: 13px;
+    
+    &.selected {
+        border-color: #1F6B9A;
+        background-color: #1C7CC7;
+    }
+
+    /* Check */
+    mat-icon {
+        color: $hca-white;
+        font-size: 10px;
+        height: 10px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        width: 10px;
+    }
+}
+
+.hca-checkbox-label {
+    font-size: 13px;
+    line-height: 13px;
+}

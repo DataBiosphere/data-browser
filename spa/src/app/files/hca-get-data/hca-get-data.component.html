@@ -11,7 +11,8 @@
                     <ng-container *ngSwitchDefault>
                         <div *ngIf="state.matrixSupportedLoaded" [@fadeIn]>
                             <hca-get-data-downloads [matrixEnabled]="state.matrixSupported"
-                                                    (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
+                                                    [matrixSpeciesSelectionRequired]="state.matrixSpeciesSelectionRequired"
+                                                    (downloadSelected)="onDownloadSelected($event, state.fileFacets)"></hca-get-data-downloads>
                         </div>
                         <div class="spinner-container" *ngIf="!state.matrixSupportedLoaded">
                             <mat-spinner *ngIf="true"
@@ -19,6 +20,9 @@
                                          diameter="32"></mat-spinner>
                         </div>
                     </ng-container>
+                    <hca-get-matrix-species-selection *ngSwitchCase="'MATRIX_SPECIES_SELECTION'"
+                                                      [speciesFileFacet]="getSpeciesFileFacet(state.fileFacets)"
+                                                      (speciesSelected)="onDownloadSelected('MATRIX')"></hca-get-matrix-species-selection>
                     <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
                     <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>
                     <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
