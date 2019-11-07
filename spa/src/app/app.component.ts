@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Location } from "@angular/common";
-import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
+import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subscription, Subject } from "rxjs";
@@ -25,6 +25,8 @@ import { HealthRequestAction } from "./system/_ngrx/health/health-request.action
 import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
 import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
 import { SystemState } from "./system.state";
+import { FileFacetName } from "./files/shared/file-facet-name.model";
+import { GenusSpecies } from "./files/shared/genus-species.model";
 
 @Component({
     selector: "app-root",
@@ -49,15 +51,13 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Location} location
      * @param {Router} router
      * @param {Renderer2} renderer
-     * @param {Window} window
      */
     constructor(private deviceService: DeviceDetectorService,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
                 private location: Location,
                 private router: Router,
-                private renderer: Renderer2,
-                @Inject("Window") private window: Window) {
+                private renderer: Renderer2) {
     }
 
     /**
@@ -194,17 +194,31 @@ export class AppComponent implements OnInit, OnDestroy {
     private setAppStateFromURL() {
 
         // Using NavigationEnd here as subscribing to activatedRoute.queryParamsMap always emits an initial value,
-        // making it difficult to detect the difference between the initial value or an intentionally empty value. We
-        // are therefore unable to determine when app state setup is complete and can safely unsubscribe.
+        // making it difficult to detect the difference between the initial value or an intentionally empty value. Using
+        // activatedRoute.queryParamsMap would therefore make it difficult to determine when app state setup is complete,
+        // and when we can safely unsubscribe.
         this.routerEventsSubscription = this.router.events.subscribe((evt) => {
 
             if ( evt instanceof NavigationEnd ) {
 
                 const params = this.activatedRoute.snapshot.queryParams;
-                const filter = this.parseQueryStringFacets(params);
                 const tab = this.parseTab();
+
+                const filter = this.parseQueryStringFacets(params);
+
+                // Default app state to have human selected. This is only necessary if there is currently no filter
+                // applied.
+                if ( filter.length === 0 ) {
+                    const queryStringFacet =
+                        new QueryStringFacet(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS]);
+                    filter.push(queryStringFacet);
+                }
+                
                 this.store.dispatch(new SetViewStateAction(tab, filter));
-                this.routerEventsSubscription.unsubscribe();
+
+                if ( this.routerEventsSubscription ) {
+                    this.routerEventsSubscription.unsubscribe();
+                }
             }
         });
     }
