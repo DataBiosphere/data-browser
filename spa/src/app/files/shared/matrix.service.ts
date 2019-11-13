@@ -27,6 +27,7 @@ import { MatrixUrlRequestHttpResponse } from "./matrix-url-request-http-response
 import { MatrixUrlRequestSpecies } from "./matrix-url-request-species.model";
 import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { SpeciesMatrixUrls } from "./species-matrix-urls.model";
 
 @Injectable()
 export class MatrixService {
@@ -149,12 +150,26 @@ export class MatrixService {
 
         // Otherwise we don't have the matrix URLs for this project cached, request them from the server
         return forkJoin(
-            this.getProjectMatrixUrl(entityId, "csv.zip"),
-            this.getProjectMatrixUrl(entityId, "loom"),
-            this.getProjectMatrixUrl(entityId, "mtx.zip")
+            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "csv.zip"),
+            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "loom"),
+            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "mtx.zip"),
+            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "csv.zip"),
+            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "loom"),
+            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "mtx.zip")
         ).pipe(
-            map(([csvUrl, loomUrl, mtxUrl]) => {
-                return new ProjectMatrixUrls(entityId, csvUrl, loomUrl, mtxUrl);
+            map(([humanCSVUrl, humanLoomUrl, humanmMtxUrl, mouseCSVUrl, mouseLoomUrl, mouseMtxUrl]) => {
+
+                const humanSpeciesMatrixUrls =
+                    new SpeciesMatrixUrls(GenusSpecies.HOMO_SAPIENS, humanCSVUrl, humanLoomUrl, humanmMtxUrl);
+                
+                const mouseSpeciesMatrixUrls =
+                    new SpeciesMatrixUrls(GenusSpecies.MUS_MUSCULUS, mouseCSVUrl, mouseLoomUrl, mouseMtxUrl);
+                
+                const urlsBySpecies = new Map<GenusSpecies, SpeciesMatrixUrls>([
+                    [GenusSpecies.HOMO_SAPIENS, humanSpeciesMatrixUrls],
+                    [GenusSpecies.MUS_MUSCULUS, mouseSpeciesMatrixUrls]
+                ]);
+                return new ProjectMatrixUrls(entityId, urlsBySpecies);
             })
         );
     }
@@ -278,6 +293,17 @@ export class MatrixService {
     }
 
     /**
+     * Convert the specified species into a file name-appropriate slug.
+     * 
+     * @param {GenusSpecies} species
+     * @returns {string}
+     */
+    private buildSpeciesSlug(species: GenusSpecies): string {
+
+        return species.toLowerCase().replace(" ", "_");
+    }
+
+    /**
      * A client-side error occurred during request that we couldn't recover from - build up dummy FAILED matrix
      * response.
      *
@@ -300,12 +326,14 @@ export class MatrixService {
      * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
      *
      * @param {string} projectId
+     * @param {GenusSpecies} species
      * @param {string} matrixFormat
      * @returns {Observable<string>}
      */
-    private getProjectMatrixUrl(projectId: string, matrixFormat: string): Observable<string> {
+    private getProjectMatrixUrl(projectId: string, species: GenusSpecies, matrixFormat: string): Observable<string> {
 
-        const url = this.configService.getProjectPreparedMatrixDownloadURL(projectId, matrixFormat);
+        const speciesSlug = this.buildSpeciesSlug(species);
+        const url = this.configService.getProjectPreparedMatrixDownloadURL(`${projectId}.${speciesSlug}.${matrixFormat}`);
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null

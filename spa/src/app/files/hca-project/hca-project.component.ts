@@ -174,8 +174,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
             `<a href=${publication.publicationUrl} target="_blank" rel="noopener noreferrer">${publication.publicationTitle}</a>` :
             publication.publicationTitle;
     }
-
-
+    
     /**
      * Returns true if at least one data curator has been specified for this project.
      *

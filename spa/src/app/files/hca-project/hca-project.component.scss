@@ -227,7 +227,13 @@
     /* LHS container */
     .lhs {
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         width: 100%;
+        &.subhead {
+            color: #666666;
+        }
     }
 
     /* RHS container */

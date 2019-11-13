@@ -129,13 +129,12 @@ export class ConfigService {
     /**
      * Returns the complete URL for the download of the prepared matrix for the specified project.
      *
-     * @param {string} projectId
-     * @param {string} matrixFormat
+     * @param {string} fileName
      * @returns {string}
      */
-    public getProjectPreparedMatrixDownloadURL(projectId: string, matrixFormat: string): string {
+    public getProjectPreparedMatrixDownloadURL(fileName: string): string {
 
-        return `${this.getProjectMetaURL()}/project-assets/project-matrices/${projectId}.${matrixFormat}`;
+        return `${this.getProjectMetaURL()}/project-assets/project-matrices/${fileName}`;
     }
 
     /**

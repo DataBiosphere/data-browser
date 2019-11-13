@@ -34,6 +34,8 @@ import {
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
     PROJECT_DETAIL_UNSPECIFIED_VALUES, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "./hca-project-mapper.mock";
+import { GenusSpecies } from "../shared/genus-species.model";
+import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
 
 describe("HCAProjectComponent", () => {
 
@@ -64,7 +66,15 @@ describe("HCAProjectComponent", () => {
     const HEADING_CITATION = "Citation";
 
     // Project matrix urls
-    const PROJECT_DETAIL_PROJECT_MATRIX_URLS = new ProjectMatrixUrls("2cd14cf5-f8e0-4c97-91a2-9e8957f41ea8", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.csv.zip", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.loom", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.mtx.zip");
+    const SPECIES_URLS_HOMO_SAPIENS = new SpeciesMatrixUrls(
+        "1234",
+        "https://test.com/1234.homo_sapiens.csv.zip",
+        "https://test.com/1234.homo_sapiens.loom",
+        "https://test.com/1234.homo_sapiens.mtx.zip"
+    );
+    const PROJECT_MATRIX_URLS_SINGLE_SPECIES = new ProjectMatrixUrls("1234", new Map([
+        [GenusSpecies.HOMO_SAPIENS, SPECIES_URLS_HOMO_SAPIENS]
+    ]));
 
     // Project details
     const PROJECT_LABEL_DONOR_COUNT = "Donor Count";
@@ -188,7 +198,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -207,7 +217,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -226,7 +236,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -245,7 +255,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -266,7 +276,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -285,7 +295,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -304,7 +314,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -323,7 +333,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -342,7 +352,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_MULTIPLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -361,7 +371,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -380,7 +390,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SPECIFIC_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -399,7 +409,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -418,7 +428,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -437,7 +447,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -455,7 +465,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_MULTIPLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -474,7 +484,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -493,7 +503,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_UNSPECIFIED_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -512,7 +522,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -533,7 +543,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );
@@ -552,7 +562,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
         );
@@ -573,7 +583,7 @@ describe("HCAProjectComponent", () => {
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
-            of(PROJECT_DETAIL_PROJECT_MATRIX_URLS), // project matrix URLs
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
             of([]), // project ids
             of([]) // integrations
         );

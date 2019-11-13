@@ -41,10 +41,6 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
     }
 
     /**
-     * Public API
-     */
-
-    /**
      * Add click handler to close card.
      *
      */
@@ -94,14 +90,10 @@ export class ProjectPreparedMatrixDownloadsComponent implements AfterViewInit, A
             tableBottom = nativeElement.closest("mat-table").parentElement.getBoundingClientRect().bottom,
             cardPositionRelativeToTable = cardBottom - tableBottom;
 
-        // Ascertain if card projects below table, or if the value of projection has changed.
+        // Ascertain if card projects below table, or if the value of projection has changed. If so, let parents know
         if ( cardPositionRelativeToTable > 0 && this.cardProjection !== cardPositionRelativeToTable ) {
-
             this.cardProjection = cardPositionRelativeToTable;
             this.preparedMatrixDownloadsPositionBelowTable.emit(this.cardProjection);
-        }
-        else {
-            return; // do nothing
         }
     }
 

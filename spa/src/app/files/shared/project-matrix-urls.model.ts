@@ -2,56 +2,57 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Set of matrix URLs (one per format) for a given project.
+ * Set of matrix URLs (one per species) for a given project.
  */
+
+// App dependencies
+import { GenusSpecies } from "./genus-species.model";
+import { SpeciesMatrixUrls } from "./species-matrix-urls.model";
+import { MatrixUrl } from "../project-prepared-matrix-downloads/matrix-url.model";
 
 export class ProjectMatrixUrls {
 
     constructor(
         public readonly entityId: string,
-        public readonly csvUrl: string,
-        public readonly loomUrl: string,
-        public readonly mtxUrl: string) {}
+        public readonly urlsBySpecies: Map<GenusSpecies, SpeciesMatrixUrls>) {}
 
     /**
-     * Returns true if a project matrix, in any format, is available for download
+     * List the set of species that have associated matrix downloads, for this project.
+     *
+     * @returns {GenusSpecies[]}
+     */
+    public listSpeciesWithMatrixUrls(): GenusSpecies[] {
+
+        return Array.from(this.urlsBySpecies.keys()).filter(species => {
+            return this.urlsBySpecies.get(species).isAnyMatrixUrlAvailable();
+        });
+    }
+
+    /**
+     * List the set of matrix URLs for the specified species.
+     *
+     * @param {GenusSpecies} species
+     * @returns {GenusSpecies[]}
+     */
+    public listMatrixUrlsBySpecies(species: GenusSpecies): MatrixUrl[] {
+
+        return this.urlsBySpecies.get(species).listMatrixUrls();
+    }
+
+
+    /**
+     * Returns true if a project matrix, in any format, for any species, is available for download
      *
      * @returns {boolean}
      */
     public isAnyProjectMatrixUrlAvailable(): boolean {
 
-        return this.isProjectMatrixCSVAvailable() ||
-            this.isProjectMatrixLoomAvailable() ||
-            this.isProjectMatrixMtxAvailable();
-    }
+        if ( this.urlsBySpecies.size === 0 ) {
+            return false;
+        }
 
-    /**
-     * Returns true if matrix with CSV format is available for this project.
-     *
-     * @returns {boolean}
-     */
-    public isProjectMatrixCSVAvailable(): boolean {
-
-        return !!this.csvUrl;
-    }
-
-    /**
-     * Returns true if matrix with loom format is available for this project.
-     *
-     * @returns {boolean}
-     */
-    public isProjectMatrixLoomAvailable(): boolean {
-
-        return !!this.loomUrl;
-    }
-
-    /**
-     * Returns true if matrix with loom format is available for this project.
-     *
-     * @returns {boolean}
-     */
-    public isProjectMatrixMtxAvailable(): boolean {
-
-        return !!this.mtxUrl;
+        return Array.from(this.urlsBySpecies.keys()).some((species) => {
+            return this.urlsBySpecies.get(species).isAnyMatrixUrlAvailable();
+        });
     }
 }
