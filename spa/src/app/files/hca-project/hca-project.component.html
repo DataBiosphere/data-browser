@@ -120,7 +120,8 @@
                             </p>
                             <p class="fontsize-xs rhs" *ngIf="state.projectMatrixUrls && !state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">No expression matrix available</p>
                         </div>
-                        <div *ngFor="let species of state.projectMatrixUrls.listSpeciesWithMatrixUrls()">
+                        <div *ngFor="let species of state.projectMatrixUrls.listSpeciesWithMatrixUrls()"
+                             class="species-matrix-url">
                             <p class="fontsize-xs semi-bold subhead lhs">
                                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                                              [tooltipContent]="'Download expression matrix'"
