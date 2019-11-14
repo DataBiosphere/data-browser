@@ -4,27 +4,16 @@
         <h3 class="fontsize-l">Download Expression Matrix</h3>
         <h4 class="project-title fontsize-m">{{projectTitle}}</h4>
         <div class="file-format fontsize-s">
-            <div *ngIf="projectURLs.isProjectMatrixMtxAvailable()">
-                <a [href]="projectURLs.mtxUrl">
-                    <img src="assets/images/icon/hca-download-primary.png">
-                    <span>mtx</span>
-                </a>
-                <copy-to-clipboard [copyToClipboardLink]="projectURLs.mtxUrl"></copy-to-clipboard>
-            </div>
-            <div *ngIf="projectURLs.isProjectMatrixCSVAvailable()">
-                <a [href]="projectURLs.csvUrl">
-                    <img src="assets/images/icon/hca-download-primary.png">
-                    <span>csv</span>
-                </a>
-                <copy-to-clipboard [copyToClipboardLink]="projectURLs.csvUrl"></copy-to-clipboard>
-            </div>
-            <div *ngIf="projectURLs.isProjectMatrixLoomAvailable()">
-                <a [href]="projectURLs.loomUrl">
-                    <img src="assets/images/icon/hca-download-primary.png">
-                    <span>loom</span>
-                </a>
-                <copy-to-clipboard [copyToClipboardLink]="projectURLs.loomUrl"></copy-to-clipboard>
-            </div>
+            <ng-container *ngFor="let species of projectURLs.listSpeciesWithMatrixUrls()">
+                <h5>{{species}}</h5>
+                <div *ngFor="let matrixUrl of projectURLs.listMatrixUrlsBySpecies(species)">
+                    <a [href]="matrixUrl.url">
+                        <img src="assets/images/icon/hca-download-primary.png">
+                        <span>{{matrixUrl.fileType}}</span>
+                    </a>
+                    <copy-to-clipboard [copyToClipboardLink]="matrixUrl.url"></copy-to-clipboard>
+                </div>
+            </ng-container>
         </div>
     </div>
     <!--<span class="fontsize-xs">For instructions on how to use the expression matrix see the expression matrix userguide.</span>-->
