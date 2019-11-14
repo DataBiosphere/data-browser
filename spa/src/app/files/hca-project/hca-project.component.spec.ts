@@ -60,8 +60,8 @@ describe("HCAProjectComponent", () => {
     const COMPONENT_NAME_COPY_TO_CLIPBOARD = "copy-to-clipboard";
 
     // Heading labels
-    const HEADING_ANALYSIS_TOOLS = "Analysis Tools";
     const HEADING_CITATION = "Citation";
+    const HEADING_EXTERNAL_RESOURCES = "External Resources";
 
     // Project matrix urls
     const PROJECT_DETAIL_PROJECT_MATRIX_URLS = new ProjectMatrixUrls("2cd14cf5-f8e0-4c97-91a2-9e8957f41ea8", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.csv.zip", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.loom", "https://dev.data.humancellatlas.org/project-assets/project-matrices/537f5501-a964-4ade-91c8-7bd4a23b049d.mtx.zip");
@@ -526,9 +526,9 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
-     * Confirm "Analysis Tools" is displayed.
+     * Confirm "External Resources" is displayed.
      */
-    it(`should display "Analysis Tools"`, () => {
+    it(`should display "External Resources"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -540,8 +540,8 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm "Analysis Tools" is displayed
-        expect(isHeadingDisplayed(HEADING_ANALYSIS_TOOLS)).toEqual(true);
+        // Confirm "External Resources" is displayed
+        expect(isHeadingDisplayed(HEADING_EXTERNAL_RESOURCES)).toEqual(true);
     });
 
     /**

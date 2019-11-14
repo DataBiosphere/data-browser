@@ -138,12 +138,12 @@
                         </div>
                     </div>
                     <div class="project-integrations">
-                        <h4 class="fontsize-m semi-bold">Analysis Tools</h4>
+                        <h4 class="fontsize-m semi-bold">External Resources</h4>
                         <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
                             <ng-container *ngSwitchCase="true">
                                 <div class="stretch">
                                     <p class="fontsize-xs">This project's data can be viewed live in the following
-                                        analysis tools:</p>
+                                        external resources:</p>
                                 </div>
                                 <project-integrations [integrations]="state.integrations"></project-integrations>
                             </ng-container>
