@@ -29,7 +29,7 @@ import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-t
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";

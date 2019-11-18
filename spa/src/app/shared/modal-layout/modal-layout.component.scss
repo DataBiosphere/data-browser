@@ -1,0 +1,62 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying modal.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+    display: block;
+    position: relative;
+}
+
+/* Close button */
+.close {
+    height: 24px;
+    opacity: 0.3;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity 280ms cubic-bezier(.4,0,.2,1);
+    width: 24px;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &:before, &:after {
+        background-color: $hca-gray-darkest;
+        content: ' ';
+        height: 24px;
+        left: 11px;
+        position: absolute;
+        width: 2px;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+}
+
+/**
+ * Squash default margins between section header and project title
+ */
+hca-section-title {
+    display: block;
+    margin-bottom: -10px;
+}
+
+/**
+ * Subtitle
+ */
+h2 {
+    max-width: 550px;
+}
+

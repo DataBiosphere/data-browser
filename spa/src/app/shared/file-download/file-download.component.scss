@@ -1,0 +1,24 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for file download.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+    align-items: baseline;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+img {
+    height: 14px;
+}
+
+span {
+    color: #000000;
+    font-size: 14px;
+    margin-left: 8px;
+}

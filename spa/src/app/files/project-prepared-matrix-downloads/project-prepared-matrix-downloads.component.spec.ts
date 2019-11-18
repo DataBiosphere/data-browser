@@ -13,7 +13,7 @@ import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads.component";
 import { GenusSpecies } from "../shared/genus-species.model";

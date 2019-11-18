@@ -1,0 +1,9 @@
+<modal-layout (closed)="onModalClosed()" *ngIf="state$ | async as state">
+    <ng-container title>Download Project Expression Matrices</ng-container>
+    <ng-container *ngIf="state.loaded" subtitle>
+        {{state.project.projectTitle}}
+    </ng-container>
+    <ng-container *ngIf="state.loaded" content>
+        <project-download-matrix [projectMatrixUrls]="state.projectMatrixUrls"></project-download-matrix>
+    </ng-container>
+</modal-layout>

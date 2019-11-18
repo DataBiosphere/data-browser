@@ -28,7 +28,7 @@ import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pi
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";

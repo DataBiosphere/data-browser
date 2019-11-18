@@ -19,7 +19,7 @@ import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
 import { MatrixFormat } from "../../shared/matrix-format.model";
-import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixPartialQueryMatchWarningComponent } from "../matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
 import { MatrixUrlRequestFormComponent } from "./matrix-url-request-form.component";
