@@ -176,16 +176,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
     
     /**
-     * Returns true if at least one data curator has been specified for this project.
-     *
-     * @param {string[]} curators
-     * @returns {boolean}
-     */
-    public isAnyDataCuratorAssociated(curators: string[]): boolean {
-        return curators.length > 0;
-    }
-
-    /**
      * Returns true if project collaborating organizations exist.
      *
      * @param {CollaboratingOrganizationView[]} collaboratingOrganzations
@@ -196,6 +186,16 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if project contacts exist.
+     *
+     * @param {ContactView[]} contacts
+     * @returns {boolean}
+     */
+    public isAnyContactAssociated(contacts: ContactView[]): boolean {
+        return contacts.length > 0;
+    }
+
+    /**
      * Returns true if project contributors exist.
      *
      * @param {ContributorView[]} contributors
@@ -203,6 +203,16 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      */
     public isAnyContributorAssociated(contributors: ContributorView[]): boolean {
         return contributors.length > 0;
+    }
+
+    /**
+     * Returns true if at least one data curator has been specified for this project.
+     *
+     * @param {string[]} curators
+     * @returns {boolean}
+     */
+    public isAnyDataCuratorAssociated(curators: string[]): boolean {
+        return curators.length > 0;
     }
 
     /**
@@ -230,16 +240,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if project contacts exist.
-     *
-     * @param {ContactView[]} contacts
-     * @returns {boolean}
-     */
-    public isAnyContactAssociated(contacts: ContactView[]): boolean {
-        return contacts.length > 0;
-    }
-
-    /**
      * Returns true if project is a selected facet.
      *
      * @param {string[]} selectedProjectIds
@@ -260,6 +260,17 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     public isSampleEntityTypeSpecimens(sampleEntityType: string): boolean {
 
         return sampleEntityType === "specimens";
+    }
+
+    /**
+     * Returns true if short name is spaced.
+     *
+     * @param {string} shortName
+     * @returns {boolean}
+     */
+    public isShortNameSentence(shortName: string): boolean {
+
+        return shortName.includes(" ");
     }
 
     /**
