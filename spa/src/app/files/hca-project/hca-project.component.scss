@@ -240,8 +240,14 @@
     .rhs {
         box-sizing: border-box;
         width: 100%;
+
+        /* Break word */
+        &.break {
+            word-break: break-all;
+        }
     }
 
+    /* Species matrix url */
     .species-matrix-url {
         transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
         &:hover {
@@ -277,6 +283,7 @@
         .rhs {
             flex: 1;
             max-width: 400px;
+            min-width: 200px; /* Required for downloads */
             padding-left: 16px;
         }
 

@@ -50,6 +50,7 @@ describe("HCAProjectComponent", () => {
     testConfig.getPortalURL.and.returnValue("https://test.com");
 
     // Class names
+    const CLASSNAME_BREAK = "break";
     const CLASSNAME_CITATION = ".citation";
     const CLASSNAME_CITATION_URL = ".citation .url";
     const CLASSNAME_PROJECT_DETAILS_LHS = ".project-details .lhs";
@@ -191,6 +192,28 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
+     * Confirm is short name sentence returns true when project label is sentence case.
+     */
+    it("should is short name sentence returns true when project label is sentence case", () => {
+
+        const shortNameSentence = component.isShortNameSentence(PROJECT_DETAIL_SPECIFIC_VALUES.projectShortname);
+
+        // Confirm true is returned
+        expect(shortNameSentence).toEqual(true);
+    });
+
+    /**
+     * Confirm is short name sentence returns false when project label is not sentence case.
+     */
+    it("should is short name sentence returns false when project label is not sentence case", () => {
+
+        const shortNameSentence = component.isShortNameSentence(PROJECT_DETAIL_SINGLE_VALUES.projectShortname);
+
+        // Confirm false is returned
+        expect(shortNameSentence).toEqual(false);
+    });
+
+    /**
      * Confirm "Citation" is displayed.
      */
     it(`should display "Citation"`, () => {
@@ -266,6 +289,67 @@ describe("HCAProjectComponent", () => {
 
         // Confirm input property copy to clipboard link is citation url
         expect(getComponentInputPropertyValue(copyToClipboard, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(TEST_VALUE_CITATION_URL);
+    });
+
+    /**
+     * Confirm "Project Label" is displayed.
+     */
+    it(`should display "Project Label"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm "Project Label" is displayed
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_PROJECT_SHORTNAME, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
+    });
+
+    /**
+     * Confirm class "break" is not displayed when "projectShortname" is sentence case.
+     */
+    it(`should not display class "break" when "projectShortname" is sentence case`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SPECIFIC_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectDetailClasses = getProjectDetailClasses(PROJECT_LABEL_PROJECT_SHORTNAME);
+
+        // Confirm class is not displayed
+        expect(projectDetailClasses[CLASSNAME_BREAK]).toEqual(false);
+    });
+
+    /**
+     * Confirm class "break" is displayed when "projectShortname" is not sentence case.
+     */
+    it(`should display class "break" when "projectShortname" is not sentence case`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectDetailClasses = getProjectDetailClasses(PROJECT_LABEL_PROJECT_SHORTNAME);
+
+        // Confirm class is displayed
+        expect(projectDetailClasses[CLASSNAME_BREAK]).toEqual(true);
     });
 
     /**
@@ -660,12 +744,12 @@ describe("HCAProjectComponent", () => {
     }
 
     /**
-     * Returns the project detail value for the specified project detail.
+     * Returns the project detail for the specified project detail label.
      *
      * @param {string} projectDetailLabel
-     * @returns {any}
+     * @returns {DebugElement}
      */
-    function getProjectDetailValue(projectDetailLabel: string): any {
+    function getProjectDetail(projectDetailLabel: string): DebugElement {
 
         const projectDetailValueEls = fixture.debugElement.queryAll(By.css(CLASSNAME_PROJECT_DETAILS_RHS));
 
@@ -676,7 +760,43 @@ describe("HCAProjectComponent", () => {
 
         const projectDetailIndex = PROJECT_DETAIL_DISPLAY_ORDER.indexOf(projectDetailLabel);
 
-        return projectDetailValueEls[projectDetailIndex].nativeElement.innerText;
+        return projectDetailValueEls[projectDetailIndex];
+    }
+
+    /**
+     * Returns the project detail classes for the specified project detail.
+     *
+     * @param {string} projectDetailLabel
+     * @returns {Object}
+     */
+    function getProjectDetailClasses(projectDetailLabel: string): Object {
+
+        const projectDetail = getProjectDetail(projectDetailLabel);
+
+        if ( !projectDetail ) {
+
+            return;
+        }
+
+        return projectDetail.classes;
+    }
+
+    /**
+     * Returns the project detail value for the specified project detail.
+     *
+     * @param {string} projectDetailLabel
+     * @returns {any}
+     */
+    function getProjectDetailValue(projectDetailLabel: string): any {
+
+        const projectDetail = getProjectDetail(projectDetailLabel);
+
+        if ( !projectDetail ) {
+
+            return;
+        }
+
+        return projectDetail.nativeElement.innerText;
     }
 
 

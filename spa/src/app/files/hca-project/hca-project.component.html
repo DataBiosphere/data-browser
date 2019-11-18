@@ -161,7 +161,7 @@
                                     {{getColumnDisplayName('projectShortname')}}
                                 </hca-tooltip>
                             </p>
-                            <p class="fontsize-xs rhs">{{state.project.project.projectShortname}}</p>
+                            <p [ngClass]="{'fontsize-xxs rhs': true, 'break': !isShortNameSentence(state.project.project.projectShortname)}">{{state.project.project.projectShortname}}</p>
                         </div>
                         <div>
                             <p class="fontsize-xs semi-bold lhs">

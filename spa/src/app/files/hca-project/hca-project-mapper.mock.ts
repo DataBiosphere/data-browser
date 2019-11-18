@@ -239,6 +239,7 @@ export const PROJECT_DETAIL_NULL_VALUES = {
 // Example of project detail with specific values,
 // sample entity type as "specimens",
 // workflow as "Unspecified"
+// projectShortname as sentence case e.g. "Healthy and type 2 diabetes pancreas"
 export const PROJECT_DETAIL_SPECIFIC_VALUES = {
     "ageUnit": "month",
     "arrayExpressAccessions": "E-AAAA-00",
@@ -271,7 +272,7 @@ export const PROJECT_DETAIL_SPECIFIC_VALUES = {
     "otherCount": 16,
     "pairedEnd": "false",
     "projectDescription": "Contains a small file set from the dataset: 4k PBMCs from a Healthy Donor, a Single Cell Gene Expression Dataset by Cell Ranger 2.1.0. Peripheral blood mononuclear cells (PBMCs) were taken from a healthy donor (same donor as pbmc8k). PBMCs are primary cells with relatively small amounts of RNA (~1pg RNA/cell). Data/Analysis can be found here https://support.10xgenomics.com/single-cell-gene-expression/datasets/2.1.0/pbmc4k and all data is licensed under the creative commons attribution license (https://creativecommons.org/licenses/by/4.0/). This test also contains extensive metadata for browser testing. Metadata is fabricated.",
-    "projectShortname": "integration/optimus/2019-09-24T11:02:18Z",
+    "projectShortname": "Healthy and type 2 diabetes pancreas",
     "projectTitle": "Tabula Muris: Transcriptomic characterization of 20 organs and tissues from Mus musculus at single cell resolution",
     "publications": [
         {
