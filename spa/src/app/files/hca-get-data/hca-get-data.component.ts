@@ -140,6 +140,28 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
+     * Returns the effective terms for the organ facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedOrgans(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.ORGAN)
+    }
+
+    /**
+     * Returns the effective terms for the organ part facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedOrganParts(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.ORGAN_PART)
+    }
+
+    /**
      * Returns the effective terms for the paired end facet.
      *
      * @param {FileFacet[]} fileFacets

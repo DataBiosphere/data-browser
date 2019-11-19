@@ -26,18 +26,20 @@ describe("HCAGetDataFileSummaryComponent", () => {
     let component: HCAGetDataFileSummaryComponent;
     let fixture: ComponentFixture<HCAGetDataFileSummaryComponent>;
 
-    const SUMMARY_DISPLAY_ORDER = ["Projects", "Species", "Library Construction Method", "Paired End", "Donors", "Specimens", "Estimated Cells", "Files", "File Size"];
+    const SUMMARY_DISPLAY_ORDER = ["Projects", "Species", "Library Construction Method", "Organ", "Organ Part", "Paired End", "Donors", "Specimens", "Estimated Cells", "Files", "File Size"];
 
     // Summary order by index
-    const PROJECT_COUNT_INDEX = 0;
-    const SPECIES_COUNT_INDEX = 1;
-    const LIBRARY_CONSTRUCTION_METHOD_COUNT_INDEX = 2;
-    const PAIRED_END_COUNT_INDEX = 3;
-    const DONORS_COUNT_INDEX = 4;
-    const SPECIMENS_COUNT_INDEX = 5;
-    const ESTIMATED_CELLS_COUNT_INDEX = 6;
-    const FILES_COUNT_INDEX = 7;
-    const FILE_SIZE_COUNT_INDEX = 8;
+    const INDEX_PROJECT_COUNT = 0;
+    const INDEX_GENUS_SPECIES = 1;
+    const INDEX_LIBRARY_CONSTRUCTION_METHOD = 2;
+    const INDEX_ORGAN = 3;
+    const INDEX_ORGAN_PART = 4;
+    const INDEX_PAIRED_END = 5;
+    const INDEX_DONORS_COUNT = 6;
+    const INDEX_SPECIMENS_COUNT = 7;
+    const INDEX_ESTIMATED_CELLS_COUNT = 8;
+    const INDEX_FILES_COUNT = 9;
+    const INDEX_FILE_SIZE_COUNT = 10;
 
     beforeEach(async(() => {
 
@@ -216,8 +218,8 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // labels "Files" and "File Size".
         getSummaryEls().forEach((el, index) => {
             expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[index]));
-            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[FILES_COUNT_INDEX]);
-            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[FILE_SIZE_COUNT_INDEX]);
+            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILES_COUNT]);
+            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILE_SIZE_COUNT]);
         });
     });
 
@@ -235,7 +237,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm project count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Projects"
         // and confirm the value is equal to project count.
-        expect(getCountInnerHTML(PROJECT_COUNT_INDEX)).toEqual(component.summary.projectCount.toLocaleString());
+        expect(getCountInnerHTML(INDEX_PROJECT_COUNT)).toEqual(component.summary.projectCount.toLocaleString());
     });
 
     /**
@@ -252,7 +254,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm donor count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Donors"
         // and confirm the value is equal to donor count.
-        expect(getCountInnerHTML(DONORS_COUNT_INDEX)).toEqual(new CountSizePipe().transform(component.summary.donorCount));
+        expect(getCountInnerHTML(INDEX_DONORS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.donorCount));
     });
 
     /**
@@ -269,7 +271,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm specimen count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Specimens"
         // and confirm the value is equal to specimen count.
-        expect(getCountInnerHTML(SPECIMENS_COUNT_INDEX)).toEqual(new CountSizePipe().transform(component.summary.specimenCount));
+        expect(getCountInnerHTML(INDEX_SPECIMENS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.specimenCount));
     });
 
     /**
@@ -286,7 +288,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm total cell count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Estimated Cells"
         // and confirm the value is equal to total cell count.
-        expect(getCountInnerHTML(ESTIMATED_CELLS_COUNT_INDEX)).toEqual(new CountSizePipe().transform(component.summary.totalCellCount));
+        expect(getCountInnerHTML(INDEX_ESTIMATED_CELLS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.totalCellCount));
     });
 
     /**
@@ -303,7 +305,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm file count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Files"
         // and confirm the value is equal to file count.
-        expect(getCountInnerHTML(FILES_COUNT_INDEX)).toEqual(new CountSizePipe().transform(component.summary.fileCount));
+        expect(getCountInnerHTML(INDEX_FILES_COUNT)).toEqual(new CountSizePipe().transform(component.summary.fileCount));
     });
 
     /**
@@ -320,7 +322,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm file size count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "File Size"
         // and confirm the value is equal to file size count.
-        expect(getCountInnerHTML(FILE_SIZE_COUNT_INDEX)).toEqual(new FileSizePipe().transform(component.summary.totalFileSize));
+        expect(getCountInnerHTML(INDEX_FILE_SIZE_COUNT)).toEqual(new FileSizePipe().transform(component.summary.totalFileSize));
     });
 
     /**
@@ -343,7 +345,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected genus species is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Species"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(SPECIES_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_GENUS_SPECIES)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
@@ -367,7 +369,53 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected library construction approaches is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Library Construction Method"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(LIBRARY_CONSTRUCTION_METHOD_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_LIBRARY_CONSTRUCTION_METHOD)).toEqual(component.displayTerms(selectedTerms));
+    });
+
+    /**
+     * Confirm selected organs is displayed, when view mode is "NONE".
+     */
+    it(`should display selected organs when view mode is "NONE"`, () => {
+
+        const selectedTerms = [
+            new Term("blood", 22, true),
+            new Term("lung", 22, true)
+        ];
+
+        // Set up initial component state
+        component.viewState = DownloadViewState.NONE;
+        component.selectedOrgans = selectedTerms;
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm selected organs is displayed, when view mode is "NONE" - first execute a query
+        // to find the element with the class "terms" where the element with the class "label" is "Organ"
+        // and confirm the value is equal to the concatenated term names.
+        expect(getTermInnerHTML(INDEX_ORGAN)).toEqual(component.displayTerms(selectedTerms));
+    });
+
+    /**
+     * Confirm selected organ parts is displayed, when view mode is "NONE".
+     */
+    it(`should display selected organ parts when view mode is "NONE"`, () => {
+
+        const selectedTerms = [
+            new Term("amygdala", 22, true),
+            new Term("islet of Langerhans", 22, true)
+        ];
+
+        // Set up initial component state
+        component.viewState = DownloadViewState.NONE;
+        component.selectedOrganParts = selectedTerms;
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        // Confirm selected organ parts is displayed, when view mode is "NONE" - first execute a query
+        // to find the element with the class "terms" where the element with the class "label" is "Organ Parts"
+        // and confirm the value is equal to the concatenated term names.
+        expect(getTermInnerHTML(INDEX_ORGAN_PART)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
@@ -389,7 +437,7 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // Confirm selected paired Ends is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Paired End"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(PAIRED_END_COUNT_INDEX)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_PAIRED_END)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
