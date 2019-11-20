@@ -1,6 +1,6 @@
 /*
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Files component styles.
  */
@@ -11,7 +11,7 @@
     flex: 1; // Push footer to bottom of available space (inside snapper)
 
     .layout-column {
-        display: flex; // Required to display <project-prepared-matrix-downloads>
+        //display: flex; // Required to display <project-prepared-matrix-downloads>
         height: 100%; // Required for download banner hca-download-manifest
     }
 

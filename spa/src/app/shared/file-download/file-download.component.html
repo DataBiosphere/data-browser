@@ -1,5 +1,5 @@
-<a [href]="url" class="fontsize-s">
+<a [href]="link.url" class="fontsize-s">
     <img src="assets/images/icon/hca-download-primary.png">
-    <span *ngIf="!!label" class="fontsize-m">{{label}}</span>
+    <span *ngIf="!!link.name" class="fontsize-m">{{link.name}}</span>
 </a>
-<copy-to-clipboard *ngIf="!hideCopyToClipboard" [copyToClipboardLink]="url"></copy-to-clipboard>
+<copy-to-clipboard *ngIf="!hideCopyToClipboard" [copyToClipboardLink]="link.url"></copy-to-clipboard>

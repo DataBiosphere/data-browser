@@ -39,7 +39,6 @@ import {
     getColumnDisplayName,
     getColumnSortKey,
     getColumnStyle,
-    getRowClass,
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
@@ -67,7 +66,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     getColumnClass = getColumnClass;
     getColumnDisplayName = getColumnDisplayName;
     getColumnStyle = getColumnStyle;
-    getRowClass = getRowClass;
     isElementUnspecified = isElementUnspecified;
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;

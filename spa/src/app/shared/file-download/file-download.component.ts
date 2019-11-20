@@ -7,6 +7,7 @@
 
 // Core dependencies
 import { Component, Input } from "@angular/core";
+import { FileDownloadLink } from "./file-download.model";
 
 @Component({
     selector: "file-download",
@@ -16,7 +17,6 @@ import { Component, Input } from "@angular/core";
 export class FileDownloadComponent {
 
     // Inputs
-    @Input() url: string;
-    @Input() label: string;
+    @Input() link: FileDownloadLink;
     @Input() hideCopyToClipboard: boolean;
 }

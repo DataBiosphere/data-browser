@@ -40,10 +40,9 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
-import { ProjectDownloadsComponent } from "../project-downloads/project-downloads.component";
-import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
+import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
@@ -94,9 +93,8 @@ describe("HCATableProjectsComponent", () => {
                 HCATableProjectsComponent,
                 HCATableSortComponent,
                 HCATooltipComponent,
-                ProjectDownloadsComponent,
+                DownloadButtonComponent,
                 ProjectTSVDownloadComponent,
-                ProjectPreparedMatrixDownloadsComponent,
                 TableScroll
             ],
             imports: [

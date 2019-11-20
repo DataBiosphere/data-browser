@@ -22,6 +22,7 @@ import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal.state";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-download-matrix-modal",
@@ -49,12 +50,31 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Redirect to projects list on close of dialog.
+     * Close modal and redirect to projects list.
      */
-    public onModalClosed(): void {
+    public onClosedClicked(): void {
 
         this.dialogRef.close();
+        this.redirectToProjects();
+    }
+
+    /**
+     * Redirect to projects list.
+     */
+    public redirectToProjects(): void {
+
         this.router.navigateByUrl(`/${EntityName.PROJECTS}`, {replaceUrl: true});
+    }
+
+    /**
+     * Grab the selected project from the store.
+     */
+    private selectProject(projectId: string): Observable<Project> {
+
+        return this.store.pipe(
+            select(selectSelectedProject),
+            filter(project => !!project && project.entryId === projectId)
+        );
     }
 
     /**
@@ -86,24 +106,33 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Grab the prepared matrix URLs for the selected project.
+     * Grab the prepared matrix URLs for the selected project. Also listen for close events (click on backdrop or escape
+     * key) and redirect to projects list.
      */
     public ngOnInit(): void {
+        
+        this.dialogRef.beforeClosed().pipe(
+            takeUntil(this.ngDestroy$)
+        ).subscribe(() => {
+            this.redirectToProjects();
+        });
 
         const projectId = this.data.projectId;
-
-        // Determine which matrix formats, if any, are available for download for the current project
-        this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
 
         // Request project details so we can display the project title
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
+        // Determine which matrix formats, if any, are available for download for the current project
+        this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project
         combineLatest(
-            this.store.pipe(select(selectSelectedProject)),
-            this.selectProjectMatrixUrls((projectId))
+            this.selectProject(projectId),
+            this.selectProjectMatrixUrls(projectId)
+            
         ).pipe(
             map(([project, projectMatrixUrls]) => {
+
                 return {
                     loaded: !!project && !!projectMatrixUrls,
                     project,

@@ -13,9 +13,9 @@
     bottom: 0;
     max-width: 100vw !important; /** Override Material default that is added as inline style */
     min-width: 100vw;
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
     overflow: scroll;
-    top:0;
+    top:60px;
 }
 
 .panel-invisible .mat-dialog-container {

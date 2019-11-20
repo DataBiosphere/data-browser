@@ -1,7 +1,5 @@
 <p class="fontsize-m">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo diam, vel iaculis elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed rhoncus, ante vel scelerisque eleifend, tellus leo dapibus magna, ut finibus magna velit vel leo. </p>
 <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
     <h3 class="fontsize-s">{{species}}</h3>
-    <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
-                   [url]="matrixUrl.url"
-                   [label]="matrixUrl.fileType"></file-download>
+    <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)" [link]="matrixUrl"></file-download>
 </ng-container>

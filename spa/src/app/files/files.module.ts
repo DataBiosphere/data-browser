@@ -78,11 +78,9 @@ import { ProjectDeprecatedComponent } from "./project-deprecated/project-depreca
 import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
 import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
 import { ProjectDownloadMatrixComponent } from "./project-download-matrix/project-download-matrix.component";
-import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
-import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
@@ -148,12 +146,10 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         MatrixUrlRequestFormComponent,
         MatrixUrlRequestCompletedComponent,
         ProjectDeprecatedComponent,
-        ProjectDownloadsComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
         ProjectTSVDownloadComponent,
-        ProjectPreparedMatrixDownloadsComponent,
         ProjectDownloadMatrixComponent,
         ProjectDownloadMatrixModalComponent,
         ProjectDownloadMatrixModalContainerComponent,

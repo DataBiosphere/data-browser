@@ -177,65 +177,67 @@ describe("ProjectDownloadMatrixComponent", () => {
         expect(fileDownloadDEs.length).toBe(0);
     });
 
-    /**
-     * Confirm component <file-download> input property value for "url" for project matrix URLS for multi species.
-     */
-    it(`displays components file download input property value "url" for project that has prepared matrix for multiple species`, () => {
+    // /**
+    //  * Confirm component <file-download> input property value for "url" for project matrix URLS for multi species.
+    //  */
+    // it(`displays components file download input property value "url" for project that has prepared matrix for multiple species`, () => {
+    //
+    //     component.projectMatrixUrls = PROJECT_MATRIX_URLS_MULTI_SPECIES;
+    //     fixture.detectChanges();
+    //
+    //     // Get each species in the project matrix URLs
+    //     const species = Array.from(component.projectMatrixUrls.urlsBySpecies.keys());
+    //
+    
+    
+    //     // Get the urls for each species
+    //     const urlsBySpecies = species.map(s => {
+    //         return Array.from(component.projectMatrixUrls.listMatrixUrlsBySpecies(s)).map(matrix => matrix.url);
+    //     }).reduce((a, b) => a.concat(b), []);
+    //
+    //     // Grab the file download components
+    //     const fileDownloadDEs = getDEsBySelector(SELECTOR_COMPONENT_FILE_DOWNLOAD);
+    //
+    //     // Get all input property urls
+    //     const inputPropertyUrls = fileDownloadDEs.map(debugEl => {
+    //         return debugEl.componentInstance[INPUT_PROPERTY_URL];
+    //     });
+    //
+    //     // There should be an input property url for every species for each project matrix URL
+    //     urlsBySpecies.forEach(s => {
+    //         expect(inputPropertyUrls.indexOf(s)).not.toBe(-1);
+    //     });
+    // });
 
-        component.projectMatrixUrls = PROJECT_MATRIX_URLS_MULTI_SPECIES;
-        fixture.detectChanges();
-
-        // Get each species in the project matrix URLs
-        const species = Array.from(component.projectMatrixUrls.urlsBySpecies.keys());
-
-        // Get the urls for each species
-        const urlsBySpecies = species.map(s => {
-            return Array.from(component.projectMatrixUrls.listMatrixUrlsBySpecies(s)).map(matrix => matrix.url);
-        }).reduce((a, b) => a.concat(b), []);
-
-        // Grab the file download components
-        const fileDownloadDEs = getDEsBySelector(SELECTOR_COMPONENT_FILE_DOWNLOAD);
-
-        // Get all input property urls
-        const inputPropertyUrls = fileDownloadDEs.map(debugEl => {
-            return debugEl.componentInstance[INPUT_PROPERTY_URL];
-        });
-
-        // There should be an input property url for every species for each project matrix URL
-        urlsBySpecies.forEach(s => {
-            expect(inputPropertyUrls.indexOf(s)).not.toBe(-1);
-        });
-    });
-
-    /**
-     * Confirm component <file-download> input property value for "label" for project matrix URLS for multi species.
-     */
-    it(`displays components file download input property value "label" for project that has prepared matrix for multiple species`, () => {
-
-        component.projectMatrixUrls = PROJECT_MATRIX_URLS_MULTI_SPECIES;
-        fixture.detectChanges();
-
-        // Get each species in the project matrix URLs
-        const species = Array.from(component.projectMatrixUrls.urlsBySpecies.keys());
-
-        // Get the labels for each species
-        const labelsBySpecies = species.map(s => {
-            return Array.from(component.projectMatrixUrls.listMatrixUrlsBySpecies(s)).map(matrix => matrix.fileType);
-        }).reduce((a, b) => a.concat(b), []);
-
-        // Grab the file download components
-        const fileDownloadDEs = getDEsBySelector(SELECTOR_COMPONENT_FILE_DOWNLOAD);
-
-        // Get all input property labels
-        const inputPropertyLabels = fileDownloadDEs.map(debugEl => {
-            return debugEl.componentInstance[INPUT_PROPERTY_LABEL];
-        });
-
-        // There should be an input property label for every species for each project matrix URL
-        labelsBySpecies.forEach(s => {
-            expect(inputPropertyLabels.indexOf(s)).not.toBe(-1);
-        });
-    });
+    // /**
+    //  * Confirm component <file-download> input property value for "label" for project matrix URLS for multi species.
+    //  */
+    // it(`displays components file download input property value "label" for project that has prepared matrix for multiple species`, () => {
+    //
+    //     component.projectMatrixUrls = PROJECT_MATRIX_URLS_MULTI_SPECIES;
+    //     fixture.detectChanges();
+    //
+    //     // Get each species in the project matrix URLs
+    //     const species = Array.from(component.projectMatrixUrls.urlsBySpecies.keys());
+    //
+    //     // Get the labels for each species
+    //     const labelsBySpecies = species.map(s => {
+    //         return Array.from(component.projectMatrixUrls.listMatrixUrlsBySpecies(s)).map(matrix => matrix.fileType);
+    //     }).reduce((a, b) => a.concat(b), []);
+    //
+    //     // Grab the file download components
+    //     const fileDownloadDEs = getDEsBySelector(SELECTOR_COMPONENT_FILE_DOWNLOAD);
+    //
+    //     // Get all input property labels
+    //     const inputPropertyLabels = fileDownloadDEs.map(debugEl => {
+    //         return debugEl.componentInstance[INPUT_PROPERTY_LABEL];
+    //     });
+    //
+    //     // There should be an input property label for every species for each project matrix URL
+    //     labelsBySpecies.forEach(s => {
+    //         expect(inputPropertyLabels.indexOf(s)).not.toBe(-1);
+    //     });
+    // });
 
     /**
      * Returns all debug elements for the specified selector.

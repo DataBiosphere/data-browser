@@ -1,6 +1,5 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table projects': true, 'card-open': isAnyRowActive()}"
-         [ngStyle]="getTableStyle(tableMarginBottom)">
+    <div class="hca-table projects">
             <table-scroll [dataLoaded]="dataLoaded$">
                 <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                        matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
@@ -203,15 +202,13 @@
                             <hca-table-column-header-download columnSubTitle></hca-table-column-header-download>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let j=index;" [ngClass]="getColumnClass('getData')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('getData')"
                               [ngStyle]="getColumnStyle('getData')">
-                        <hca-table-cell>
-                            <project-downloads (preparedMatrixDownloadsOpened)="onPreparedMatrixDownloadsOpened($event, j)"
-                                               (preparedMatrixDownloadsPositionBelowTable)="onPreparedMatrixDownloadsPositionBelowTable($event)"
-                                               [matrixAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
-                                               [projectId]="element.entryId"
-                                               [projectTitle]="element.projectTitle"
-                                               [projectURLs]="getProjectMatrixUrls(projectsMatrixUrls$ | async, element.entryId)"></project-downloads>
+                        <hca-table-cell class="cell-split">
+                            <project-tsv-download [projectId]="element.entryId"
+                                                  [projectTitle]="element.projectTitle"></project-tsv-download>
+                            <download-button [downloadUnavailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                                                   (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
@@ -257,9 +254,8 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                         [ngClass]="getRowClass(i, activeRowIndex)"></mat-row>
+                <mat-header-row *matHeaderRowDef="listColumns()"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: listColumns();"></mat-row>
             </mat-table>
         </table-scroll>
         <hca-table-data-status-placeholder [loading]="loading$ | async"

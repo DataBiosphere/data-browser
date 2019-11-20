@@ -10,11 +10,14 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
 
 // App Dependencies
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
+import { DownloadButtonComponent } from "./download-button/download-button.component";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
 import { ModalLayoutComponent } from "./modal-layout/modal-layout.component";
@@ -29,14 +32,17 @@ import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.
 
 @NgModule({
     imports: [
+        BrowserAnimationsModule,
         ClipboardModule,
         CommonModule,
-        MatIconModule
+        MatIconModule,
+        MatProgressSpinnerModule
     ],
     declarations: [
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         CopyToClipboardComponent,
+        DownloadButtonComponent,
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
@@ -55,6 +61,7 @@ import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         CopyToClipboardComponent,
+        DownloadButtonComponent,
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,

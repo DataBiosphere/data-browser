@@ -140,13 +140,13 @@ describe("CopyToClipboardComponent", () => {
         // Confirm note text is not displayed when note is undefined - first execute a query to find the element with the
         // class "clipboard-copy" and then confirm note is not displayed.
         const noteEl = getElementByClassName(".clipboard-copy");
-        expect(noteEl.nativeElement.querySelector("span").textContent).toEqual("Copy link to clipboard. ");
+        expect(noteEl.nativeElement.querySelector("span").textContent).toEqual("Copy link ");
     });
 
     /**
-     * Confirm "Copy link to clipboard. " is displayed when copied is false.
+     * Confirm "Copy link " is displayed when copied is false.
      */
-    it(`should display "Copy link to clipboard. " when copied is false`, () => {
+    it(`should display "Copy link " when copied is false`, () => {
 
         // Set up initial component state
         component.copied.next(false);
@@ -157,7 +157,7 @@ describe("CopyToClipboardComponent", () => {
         // Confirm text is displayed - first execute a query to find the element with the
         // class "fontsize-xxs" and then confirm the content is displayed.
         const copyInstructionEl = getElementByClassName(".fontsize-xxs");
-        expect(copyInstructionEl.nativeElement.textContent).toEqual("Copy link to clipboard. ");
+        expect(copyInstructionEl.nativeElement.textContent).toEqual("Copy link ");
     });
 
     /**

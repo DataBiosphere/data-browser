@@ -7,6 +7,7 @@
 
 // Core dependencies
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
@@ -36,11 +37,12 @@ import {
     getColumnDisplayName,
     getColumnSortKey,
     getColumnStyle,
-    getRowClass,
-    getTableStyle,
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParamsModel } from "../table/table-params.model";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { EntityName } from "../shared/entity-name.model";
+
 
 @Component({
     selector: "hca-table-projects",
@@ -64,16 +66,12 @@ export class HCATableProjectsComponent implements OnInit {
     public getColumnClass = getColumnClass;
     public getColumnDisplayName = getColumnDisplayName;
     public getColumnStyle = getColumnStyle;
-    public getRowClass = getRowClass;
-    public getTableStyle = getTableStyle;
     public isElementUnspecified = isElementUnspecified;
     public loading$: Observable<boolean>;
     public pagination$: Observable<PaginationModel>;
-    public activeRowIndex = null;
     public selectFileSummary$: Observable<FileSummary>;
     public dataSource: EntitiesDataSource<ProjectRowMapper>;
     public projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
-    public tableMarginBottom: number;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -88,38 +86,15 @@ export class HCATableProjectsComponent implements OnInit {
 
     /**
      * @param {Store<AppState>} store
+     * @param {DeviceDetectorService} deviceService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
+                private deviceService: DeviceDetectorService,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef) {
-    }
-
-    /**
-     * Public API
-     */
-
-    /**
-     * Returns the matrix expression for the specified project.
-     *
-     * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
-     * @param {string} projectId
-     * @returns {ProjectMatrixUrls}
-     */
-    public getProjectMatrixUrls(projectsMatrixUrls: Map<string, ProjectMatrixUrls>, projectId: string): ProjectMatrixUrls {
-
-        return projectsMatrixUrls.get(projectId);
-    }
-
-    /**
-     * Returns true if any row is currently active. Currently only possible during prepared matrix download flow.
-     * 
-     * @returns {boolean}
-     */
-    public isAnyRowActive(): boolean {
-
-        return this.activeRowIndex !== null;
+                private elementRef: ElementRef,
+                private router: Router) {
     }
 
     /**
@@ -133,7 +108,7 @@ export class HCATableProjectsComponent implements OnInit {
 
         return projectsMatrixUrls.has(projectId) && projectsMatrixUrls.get(projectId).isAnyProjectMatrixUrlAvailable();
     }
-
+    
     /**
      * Returns true if project is in the current set of selected search terms.
      *
@@ -146,25 +121,27 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Handle the open/close event of project matrix download.
-     * Update local variables that will determine mat-row and mat-header-row styles.
+     * Return the list of columns to be displayed. Remove download columns if the user's device is hand-held.
      *
-     * @param {boolean} opened
-     * @param {number} selectedIndex
+     * @returns {string[]}
      */
-    public onPreparedMatrixDownloadsOpened(opened: boolean, selectedIndex: number) {
+    public listColumns(): string[] {
 
-        this.activeRowIndex = opened ? selectedIndex : null;
+        if ( this.deviceService.isMobile() || this.deviceService.isTablet() ) {
+            return this.displayedColumns.filter(columnName => columnName !== "getData");
+        }
+        return this.displayedColumns;
     }
 
     /**
-     * Provides a calculated table margin, if required, determined by the vertical positioning
-     * of <project-prepared-matrix-downloads>.
-     *
-     * @param event
+     * Display the prepared matrix downloads modal.
+     * 
+     * @param {string} projectId
      */
-    public onPreparedMatrixDownloadsPositionBelowTable(event) {
-        this.tableMarginBottom = event;
+    public onProjectDownloadMatrixClicked(projectId: string) {
+
+        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/prepared-expression-matrices`;
+        this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
     }
 
     /**

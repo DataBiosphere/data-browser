@@ -9,7 +9,7 @@
                 <div *ngFor="let matrixUrl of projectURLs.listMatrixUrlsBySpecies(species)">
                     <a [href]="matrixUrl.url">
                         <img src="assets/images/icon/hca-download-primary.png">
-                        <span>{{matrixUrl.fileType}}</span>
+                        <span>{{matrixUrl.name}}</span>
                     </a>
                     <copy-to-clipboard [copyToClipboardLink]="matrixUrl.url"></copy-to-clipboard>
                 </div>

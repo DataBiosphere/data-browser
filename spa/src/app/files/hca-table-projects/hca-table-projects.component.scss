@@ -7,7 +7,6 @@
 @import "../../site/theme/cgl.vars";
 
 :host {
-    flex: 1; // Required for <project-prepared-matrix-downloads>, and for table to take up remaining space - positions mobile download banner to bottom */
     position: relative; /* Positions fade on horizontal scroll */
 }
 
@@ -17,19 +16,9 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: 100%; /* Required for <project-prepared-matrix-downloads> */
 
     /* HCA table */
     .hca-table {
-
-        /* Project data matrix card open - opacity applied to unselected rows */
-        &.card-open {
-
-            /* Unselected rows */
-            mat-row:not(.active) {
-                opacity: 0.24;
-            }
-        }
 
         mat-table {
 
@@ -127,6 +116,14 @@
                         }
                     }
                 }
+            }
+
+            /** Cell containing more than one item, for example the downloads column that is shared by meta and matrix */ 
+            .cell-split {
+                align-items: center;
+                display: flex;
+                flex: 1;
+                justify-content: space-around;
             }
         }
     }

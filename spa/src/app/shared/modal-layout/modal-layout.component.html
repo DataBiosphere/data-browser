@@ -2,7 +2,9 @@
 <hca-section-title>
     <ng-content select="[title]"></ng-content>
 </hca-section-title>
-<status-panel>
-    <h2><ng-content select="[subtitle]"></ng-content></h2>
-</status-panel>
-<ng-content select="[content]"></ng-content>
+<div *ngIf="loaded" [@fadeIn]>
+    <status-panel>
+        <h2><ng-content select="[subtitle]"></ng-content></h2>
+    </status-panel>
+    <ng-content select="[content]"></ng-content>
+</div>
