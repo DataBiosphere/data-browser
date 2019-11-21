@@ -64,6 +64,14 @@
     }
 }
 
+/** Footer behind modal - hide when modal is open(ing) to prevent visible jump around of content */
+:host-context(.modal-open) {
+
+    footer {
+        display: none;
+    }
+}
+
 /**
  * Medium +
  */

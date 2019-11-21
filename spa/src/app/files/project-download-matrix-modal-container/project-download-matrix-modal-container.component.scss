@@ -11,14 +11,16 @@
 
 .panel-invisible {
     bottom: 0;
+    padding-top: 60px;
     max-width: 100vw !important; /** Override Material default that is added as inline style */
     min-width: 100vw;
     min-height: calc(100vh - 60px);
     overflow: scroll;
-    top:60px;
+    top: 0;
 }
 
 .panel-invisible .mat-dialog-container {
+    background-color: transparent;
     box-shadow: none;
 }
 
@@ -32,9 +34,6 @@
     .panel-invisible {
         max-width: 840px !important; /** Override Material default that is added as inline style */
         min-width: 840px;
-        min-height: calc(100vh - 120px);
-        top: 60px;
-        bottom: 60px;
     }
 }
 
