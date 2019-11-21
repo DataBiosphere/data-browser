@@ -18,7 +18,7 @@ import { ConfigService } from "../../../config/config.service";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
-import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixUrlRequestCompletedComponent } from "./matrix-url-request-completed.component";
 

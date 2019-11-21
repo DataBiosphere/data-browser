@@ -9,29 +9,46 @@
 // Core dependencies
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ClipboardModule } from "ngx-clipboard";
 
 // App Dependencies
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
+import { DownloadButtonComponent } from "./download-button/download-button.component";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
+import { ModalLayoutComponent } from "./modal-layout/modal-layout.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 import { ResponsiveService } from "./responsive/responsive.service";
+import { StatusPanelComponent } from "./status-panel/status-panel.component";
 import { WarningComponent } from "./warning/warning.component";
 import { WarningContentComponent } from "./warning/warning-content.component";
 import { WarningTitleComponent } from "./warning/warning-title.component";
-
+import { FileDownloadComponent } from "./file-download/file-download.component";
+import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.component";
 
 @NgModule({
     imports: [
+        BrowserAnimationsModule,
+        ClipboardModule,
         CommonModule,
+        MatIconModule,
+        MatProgressSpinnerModule
     ],
     declarations: [
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
+        CopyToClipboardComponent,
+        DownloadButtonComponent,
+        FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        ModalLayoutComponent,
         PopLayoutComponent,
+        StatusPanelComponent,
         WarningComponent,
         WarningContentComponent,
         WarningTitleComponent
@@ -43,9 +60,14 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         CommonModule,
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
+        CopyToClipboardComponent,
+        DownloadButtonComponent,
+        FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        ModalLayoutComponent,
         PopLayoutComponent,
+        StatusPanelComponent,
         WarningComponent,
         WarningContentComponent,
         WarningTitleComponent

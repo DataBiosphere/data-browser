@@ -4,7 +4,9 @@
  *
  * Set of matrix URLs (one per format) for a given species.
  */
-import { MatrixUrl } from "../project-prepared-matrix-downloads/matrix-url.model";
+
+// App dependencies
+import { FileDownloadLink } from "../../shared/file-download/file-download.model";
 
 export class SpeciesMatrixUrls {
 
@@ -59,28 +61,28 @@ export class SpeciesMatrixUrls {
     /**
      * List the set of URLs available for this species.
      * 
-     * @returns {MatrixUrl[]}
+     * @returns {FileDownloadLink[]}
      */
-    public listMatrixUrls(): MatrixUrl[] {
+    public listMatrixUrls(): FileDownloadLink[] {
 
         const matrixUrls = [];
         if ( this.isMatrixCSVAvailable() ) {
             matrixUrls.push({
-                fileType: "csv",
+                name: "csv",
                 url: this.csvUrl
             });
         }
 
         if ( this.isMatrixLoomAvailable() ) {
             matrixUrls.push({
-                fileType: "loom",
+                name: "loom",
                 url: this.loomUrl
             });
         }
 
         if ( this.isMatrixMtxAvailable() ) {
             matrixUrls.push({
-                fileType: "mtx",
+                name: "mtx",
                 url: this.mtxUrl
             });
         }

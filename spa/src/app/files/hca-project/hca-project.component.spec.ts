@@ -23,7 +23,7 @@ import { HCASectionTitleComponent } from "../../shared/hca-section-title/hca-sec
 import { HCATabComponent } from "../../shared/hca-tab/hca-tab";
 import { PopLayoutComponent } from "../../shared/pop-layout/pop-layout.component";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";

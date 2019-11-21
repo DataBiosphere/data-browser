@@ -83,6 +83,21 @@ mat-toolbar {
     }
 }
 
+/** Logo in modal */
+:host-context(.modal-open) {
+
+    mat-toolbar {
+
+        img {
+            left: 16px;
+            position: fixed;
+            top: 15px;
+            z-index: 1001;
+        }
+
+    }
+}
+
 // No overlay when menu closed
 .hca-toolbar-nav-overlay {
     display: none;
@@ -192,6 +207,18 @@ mat-toolbar {
             padding: 0 12px;
         }
     }
+
+    /** Logo in modal */
+    :host-context(.modal-open) {
+
+        mat-toolbar {
+
+            img {
+                top: 10px;
+            }
+
+        }
+    }
 }
 
 /**
@@ -203,6 +230,18 @@ mat-toolbar {
 
         mat-toolbar-row {
             padding: 0 30px; /* Gutter 30px */
+        }
+    }
+
+    /** Logo in modal */
+    :host-context(.modal-open) {
+
+        mat-toolbar {
+
+            img {
+                left: 30px;
+            }
+
         }
     }
 }

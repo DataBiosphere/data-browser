@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div [ngClass]="{'hca-table files': true}">
+    <div class="hca-table files">
         <table-scroll [dataLoaded]="dataLoaded$">
             <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                        matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
@@ -286,8 +286,7 @@
                     </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
-                         [ngClass]="getRowClass(i)"></mat-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
         </table-scroll>
         <hca-table-data-status-placeholder [loading]="loading$ | async"

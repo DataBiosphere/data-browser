@@ -21,7 +21,7 @@ import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
-import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetManifestComponent } from "./hca-get-manifest.component";
 import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";

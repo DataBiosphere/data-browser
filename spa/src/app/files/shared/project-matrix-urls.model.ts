@@ -8,7 +8,7 @@
 // App dependencies
 import { GenusSpecies } from "./genus-species.model";
 import { SpeciesMatrixUrls } from "./species-matrix-urls.model";
-import { MatrixUrl } from "../project-prepared-matrix-downloads/matrix-url.model";
+import { FileDownloadLink } from "../../shared/file-download/file-download.model";
 
 export class ProjectMatrixUrls {
 
@@ -32,9 +32,9 @@ export class ProjectMatrixUrls {
      * List the set of matrix URLs for the specified species.
      *
      * @param {GenusSpecies} species
-     * @returns {GenusSpecies[]}
+     * @returns {FileDownloadLink[]}
      */
-    public listMatrixUrlsBySpecies(species: GenusSpecies): MatrixUrl[] {
+    public listMatrixUrlsBySpecies(species: GenusSpecies): FileDownloadLink[] {
 
         return this.urlsBySpecies.get(species).listMatrixUrls();
     }

@@ -438,20 +438,6 @@ export function getFileTypeCounts(fileTypeSummaries: any[]) {
 }
 
 /**
- * Return the set of CSS class names that are currently applicable to table rows.
- *
- * @param {number} rowIndex
- * @param {boolean} projectMatrixOpen
- * @returns {{[p: string]: boolean}}
- */
-export function getRowClass(rowIndex: number, activeRowIndex: number): { [className: string]: boolean } {
-
-    return {
-        active: rowIndex === activeRowIndex
-    };
-}
-
-/**
  * Returns first value.
  *
  * @param value
@@ -466,21 +452,6 @@ export function getSelfOrFirst(value) {
 
     const vals = value.split(", ");
     return vals[0];
-}
-
-/**
- * Return the inline style configuration for the table.
- * Applied when the <project-prepared-matrix-downloads> card renders beyond the table bounds.
- * Used by <hca-table-projects>.
- *
- * @param {string} margin
- * @returns {any}
- */
-export function getTableStyle(margin: number): any {
-
-    return {
-        "margin-bottom": margin && margin > 0 ? margin + "px" : 0,
-    };
 }
 
 /**

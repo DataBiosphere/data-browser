@@ -26,7 +26,7 @@ import { SearchTermService } from "../../shared/search-term.service";
 import { TermResponseService } from "../../shared/term-response.service";
 import { TerraService } from "../../shared/terra.service";
 import { TermSortService } from "../../sort/term-sort.service";
-import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAExportToTerraComponent } from "./hca-export-to-terra.component";
 

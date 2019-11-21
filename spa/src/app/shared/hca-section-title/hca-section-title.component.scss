@@ -38,3 +38,14 @@
     }
 }
 
+/**
+ * Section title inside modal should have no padding as padding is handled by modal itself.
+ */
+:host-context(modal-layout) {
+
+    /* Wrapper */
+    .wrapper {
+        padding: 0;
+    }
+}
+

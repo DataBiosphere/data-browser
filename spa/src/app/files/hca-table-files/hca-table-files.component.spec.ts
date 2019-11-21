@@ -28,7 +28,7 @@ import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pi
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
-import { CopyToClipboardComponent } from "../hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
@@ -40,9 +40,8 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { ProjectDownloadsComponent } from "../project-downloads/project-downloads.component";
-import { ProjectPreparedMatrixDownloadsComponent } from "../project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { DownloadService } from "../shared/download.service";
+import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { TableScroll } from "../table-scroll/table-scroll.component";
 import { TableRendererService } from "../table/table-renderer.service";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
@@ -82,9 +81,8 @@ describe("HCATableFilesComponent", () => {
                 HCAContentUnspecifiedDashComponent,
                 HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
-                ProjectDownloadsComponent,
+                DownloadButtonComponent,
                 ProjectTSVDownloadComponent,
-                ProjectPreparedMatrixDownloadsComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,

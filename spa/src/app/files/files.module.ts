@@ -6,7 +6,6 @@
  */
 
 // Core dependencies
-import { ClipboardModule } from "ngx-clipboard";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
@@ -18,6 +17,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatDialogModule } from "@angular/material";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -50,7 +50,6 @@ import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.com
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
 import { HCAGetDataPanelComponent } from "./hca-get-data/hca-get-data-panel/hca-get-data-panel.component";
-import { CopyToClipboardComponent } from "./hca-get-data/copy-to-clipboard/copy-to-clipboard.component";
 import { HCAGetDataFileSummaryComponent } from "./hca-get-data/hca-get-data-file-summary/hca-get-data-file-summary.component";
 import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
@@ -76,11 +75,12 @@ import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ProjectService } from "./project/project.service";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
-import { ProjectDownloadsComponent } from "./project-downloads/project-downloads.component";
+import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
+import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
+import { ProjectDownloadMatrixComponent } from "./project-download-matrix/project-download-matrix.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
-import { ProjectPreparedMatrixDownloadsComponent } from "./project-prepared-matrix-downloads/project-prepared-matrix-downloads.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
@@ -100,13 +100,13 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
 @NgModule({
     imports: [
         BrowserAnimationsModule,
-        ClipboardModule,
         FormsModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
         MatChipsModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
@@ -127,7 +127,6 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         SharedModule
     ],
     declarations: [
-
         AnalysisProtocolPipelineLinkerComponent,
         FileTypeSummaryListComponent,
         FileManifestSummaryComponent,
@@ -147,16 +146,16 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         MatrixUrlRequestFormComponent,
         MatrixUrlRequestCompletedComponent,
         ProjectDeprecatedComponent,
-        ProjectDownloadsComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
         ProjectTSVDownloadComponent,
-        ProjectPreparedMatrixDownloadsComponent,
+        ProjectDownloadMatrixComponent,
+        ProjectDownloadMatrixModalComponent,
+        ProjectDownloadMatrixModalContainerComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,
         HCAGetDataPanelComponent,
-        CopyToClipboardComponent,
         HCAGetDataFileSummaryComponent,
         HCAGetDataSummaryComponent,
         HCAGetManifestComponent,
@@ -178,6 +177,9 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         HCATooltipComponent,
         HCAFileSummaryComponent,
         TableScroll
+    ],
+    entryComponents: [
+        ProjectDownloadMatrixModalComponent
     ],
     providers: [
         ConfigService,
