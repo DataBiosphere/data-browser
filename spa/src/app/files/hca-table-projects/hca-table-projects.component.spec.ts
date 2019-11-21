@@ -16,37 +16,38 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { RouterTestingModule } from "@angular/router/testing";
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 
 // App components
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
-import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-header-download/hca-table-column-header-download.component";
-import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
-import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
-import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
-import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
+import { HCATableProjectsComponent } from "./hca-table-projects.component";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -59,13 +60,21 @@ describe("HCATableProjectsComponent", () => {
     const INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES = 3;
     const INDEX_TABLE_ROW_NULL_VALUES = 5;
 
+    // Classnames
+    const CLASSNAME_CENTER = "center";
+    const CLASSNAME_FLEXCOLUMN = "flex-column";
+    const CLASSNAME_RIGHT = "right";
+    const CLASSNAME_SELECTED = "selected";
+
     // Column titles
     const COLUMN_TITLE_DONORCOUNT = "Donor Count";
+    const COLUMN_TITLE_PROJECTTITLE = "Project Title";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
     const COLUMN_NAME_DONORCOUNT = "donorCount";
+    const COLUMN_NAME_PROJECTTITLE = "projectTitle";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
     const COLUMN_NAME_WORKFLOW = "workflow";
 
@@ -73,6 +82,21 @@ describe("HCATableProjectsComponent", () => {
     const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
     const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
+    const COMPONENT_NAME_MAT_ICON = "mat-icon";
+
+    // Selectors
+    const SELECTOR_CELL_PROJECT_TITLE = "a.fontsize-xxs.semi-bold";
+    const SELECTOR_CHART_LEGEND_BAR = ".chart-legend-bar";
+
+    // Styles
+    const STYLE_FLEX = "flex";
+    const STYLE_MAX_WIDTH = "max-width";
+    const STYLE_MIN_WIDTH = "min-width";
+    const STYLE_OVERFLOW = "overflow";
+    const STYLE_POSITION = "position";
+
+    // Test values
+    const TEST_VALUE_ROUTER_LINK = "/projects/";
 
     beforeEach(async(() => {
 
@@ -202,7 +226,7 @@ describe("HCATableProjectsComponent", () => {
 
         // Find the sort header for the sample entity type column
         const columnName = "sampleEntityType";
-        const columnHeaderDE = findHeader(columnName);
+        const columnHeaderDE = findHeaderTitle(columnName);
         expect(columnHeaderDE).toBeTruthy();
         const sortHeaderDE = findSortHeader(columnHeaderDE);
         expect(sortHeaderDE).toBeTruthy();
@@ -239,7 +263,7 @@ describe("HCATableProjectsComponent", () => {
 
         // Mimic clear of sort order and confirm it is reset back to default - grab the sample entity type column header
         const columnName = "sampleEntityType";
-        const columnHeaderDE = findHeader(columnName);
+        const columnHeaderDE = findHeaderTitle(columnName);
         const sortHeaderDE = findSortHeader(columnHeaderDE);
 
         // Execute first click to sort by sample entity type sort header
@@ -257,6 +281,399 @@ describe("HCATableProjectsComponent", () => {
         fixture.detectChanges();
         expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
         expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+    });
+
+    /**
+     * Confirm store dispatch is called when on project selected.
+     */
+    it("dispatches action to store, to select project id action, when project selected", () => {
+
+        const projectId = PROJECTS_TABLE_MODEL.data[0].entryId;
+        const projectName = PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
+        const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true);
+
+        // Confirm store dispatch is called
+        component.onProjectSelected(projectId, projectName, false);
+        expect(testStore.dispatch).toHaveBeenCalledWith(selectProjectIdAction);
+    });
+
+    /**
+     * Confirm project title column labeled as "Project Title" is displayed.
+     */
+    it(`displays column "Project Title"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_PROJECTTITLE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_PROJECTTITLE);
+    });
+
+    /**
+     * Confirm ngClass "center", "flex-column" and "right" on project title mat header cell are false.
+     */
+    it(`returns false values for classes "center", "flex-column" and "right" on project title mat header cell`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECTTITLE);
+
+        // Confirm classes are false
+        expect(projectTitleHeaderDE.classes[CLASSNAME_CENTER]).toEqual(false);
+        expect(projectTitleHeaderDE.classes[CLASSNAME_FLEXCOLUMN]).toEqual(false);
+        expect(projectTitleHeaderDE.classes[CLASSNAME_RIGHT]).toEqual(false);
+    });
+
+    /**
+     * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat header cell return empty and "min-width" returns "300px".
+     */
+    it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat header cell`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECTTITLE);
+
+        // Confirm all styles are empty, except for min width which is "300px"
+        expect(projectTitleHeaderDE.styles[STYLE_FLEX]).toEqual(Object({}));
+        expect(projectTitleHeaderDE.styles[STYLE_MAX_WIDTH]).toEqual(Object({}));
+        expect(projectTitleHeaderDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
+        expect(projectTitleHeaderDE.styles[STYLE_OVERFLOW]).toEqual(Object({}));
+        expect(projectTitleHeaderDE.styles[STYLE_POSITION]).toEqual(Object({}));
+    });
+
+    /**
+     * Confirm ngClass "center", "flex-column" and "right" on project title mat cell are false.
+     */
+    it(`returns false values for classes "center", "flex-column" and "right" on project title mat cell`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECTTITLE)[0];
+
+        // Confirm classes are false
+        expect(projectTitleDE.classes[CLASSNAME_CENTER]).toEqual(false);
+        expect(projectTitleDE.classes[CLASSNAME_FLEXCOLUMN]).toEqual(false);
+        expect(projectTitleDE.classes[CLASSNAME_RIGHT]).toEqual(false);
+    });
+
+    /**
+     * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat cell return empty and "min-width" returns "300px".
+     */
+    it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat cell`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECTTITLE)[0];
+
+        // Confirm all styles are empty, except for min width which is "300px"
+        expect(projectTitleDE.styles[STYLE_FLEX]).toEqual(Object({}));
+        expect(projectTitleDE.styles[STYLE_MAX_WIDTH]).toEqual(Object({}));
+        expect(projectTitleDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
+        expect(projectTitleDE.styles[STYLE_OVERFLOW]).toEqual(Object({}));
+        expect(projectTitleDE.styles[STYLE_POSITION]).toEqual(Object({}));
+    });
+
+    /**
+     * Confirm project title cell class "selected" is true when project is selected.
+     */
+    it(`displays project title cell with class "selected" when project is selected`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+        // Confirm class is displayed
+        expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(true);
+    });
+
+    /**
+     * Confirm project title cell class "selected" is false when project is not selected.
+     */
+    it(`displays project title cell with class "selected" is false when project is not selected`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+        // Confirm class is not displayed
+        expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(false);
+    });
+
+    /**
+     * Confirm component <mat-icon> is displayed when project is selected.
+     */
+    it("displays component mat icon when project is selected", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+        const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+
+        // Confirm component is displayed
+        expect(matIconDE.name).toEqual(COMPONENT_NAME_MAT_ICON);
+    });
+
+    /**
+     * Confirm component <mat-icon> is not displayed when project is not selected.
+     */
+    it("should not display component mat icon when project is not selected", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+        const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+
+        // Confirm component is not displayed
+        expect(matIconDE).toBeUndefined();
+    });
+
+    /**
+     * Confirm on project selected is called on click of project title check box.
+     */
+    it("on project selected is called on click of project title check box", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+        const projectSelected = spyOn(component, "onProjectSelected");
+
+        // Execute click on check box
+        projectTitleCheckBoxDE.triggerEventHandler("click", null);
+        expect(projectSelected).toHaveBeenCalled();
+    });
+
+    /**
+     * Confirm cell text project title is displayed.
+     */
+    it("displays project title", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+
+        // Confirm cell text is displayed
+        expect(projectTitleDE.nativeElement.innerText).toEqual(PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle);
+    });
+
+    /**
+     * Confirm project title entry id is added to router link.
+     */
+    it("displays router link with project title entry id", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+            of({
+                status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectTSVDownloadComponent
+            })
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+
+        // Confirm project title entry id is added router link
+        expect(projectTitleDE.properties.href).toEqual(`${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}`);
     });
 
     /**
@@ -283,7 +700,7 @@ describe("HCATableProjectsComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_WORKFLOW);
 
         // Confirm column title is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
@@ -481,7 +898,7 @@ describe("HCATableProjectsComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const columnHeaderDE = findHeader(COLUMN_NAME_DONORCOUNT);
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONORCOUNT);
 
         // Confirm column title is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONORCOUNT);
@@ -511,7 +928,7 @@ describe("HCATableProjectsComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const columnHeaderDE = findHeader(COLUMN_NAME_TOTALCELLS);
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_TOTALCELLS);
 
         // Confirm column title is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
@@ -542,8 +959,38 @@ describe("HCATableProjectsComponent", () => {
         fixture.detectChanges();
 
         // Confirm column header displays component
-        expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+        expect(isComponentDisplayed(findHeaderTitle(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
     });
+
+    /**
+     * Returns child debug element of a parent for the specified child debug element name.
+     *
+     * @param {DebugElement} debugEl
+     * @param {string} name
+     * @returns {DebugElement}
+     */
+    function findChildDEByName(debugEl: DebugElement, name: string): DebugElement {
+
+        if ( !debugEl ) {
+
+            return;
+        }
+
+        return debugEl.children.find(c => c.name === name);
+    }
+
+    /**
+     * Returns the debug element for the specified selector.
+     *
+     * @param {string} selector
+     * @returns {DebugElement[]}
+     */
+    function findDEBySelector(selector: string): DebugElement {
+
+        return fixture.debugElement.query(
+            By.css(selector)
+        );
+    }
 
     /**
      * Returns the column cells for the specified name.
@@ -578,11 +1025,23 @@ describe("HCATableProjectsComponent", () => {
     }
 
     /**
-     * Return the column with the specified name.
+     * Return the mat header cell column with the specified name.
      *
      * @param {string} columnName
      */
     function findHeader(columnName: string): DebugElement {
+
+        return fixture.debugElement.query(
+            By.css(`.mat-header-cell.mat-column-${columnName}`)
+        );
+    }
+
+    /**
+     * Return the column header title debug element with the specified name.
+     *
+     * @param {string} columnName
+     */
+    function findHeaderTitle(columnName: string): DebugElement {
 
         return fixture.debugElement.query(
             By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
