@@ -23,9 +23,8 @@
                                  (click)="onProjectSelected(element.entryId, element.projectShortname, isProjectSelected(element))">
                                 <mat-icon *ngIf="isProjectSelected(element)">check</mat-icon>
                             </div>
-                            <div [routerLink]="['/projects', element.entryId]" class="fontsize-xxs semi-bold">
-                                {{element.projectTitle}}
-                            </div>
+                            <a [routerLink]="['/projects', element.entryId]"
+                               class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
                         </div>
                     </mat-cell>
                 </ng-container>

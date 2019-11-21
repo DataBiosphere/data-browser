@@ -703,7 +703,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
 export const PROJECT_ROW_NULL_TOP_LEVEL_VALUES =
     {
         "protocols": null,
-        "entryId": null,
+        "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
         "projects": null,
         "samples": null,
         "specimens": null,
@@ -726,7 +726,7 @@ export const PROJECT_ROW_NULL_VALUES =
                 "assayType": null
             }
         ],
-        "entryId": null,
+        "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
         "projects": [
             {
                 "projectTitle": null,
