@@ -31,6 +31,8 @@ export class HCAGetDataFileSummaryComponent {
     // Inputs
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
+    @Input() selectedOrgans: Term[];
+    @Input() selectedOrganParts: Term[];
     @Input() selectedPairedEnds: Term[];
     @Input() summary: FileSummary;
     @Input() viewState: DownloadViewState;
