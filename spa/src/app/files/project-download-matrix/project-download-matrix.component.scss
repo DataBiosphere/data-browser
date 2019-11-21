@@ -5,6 +5,8 @@
  * Styles for project prepared expression matrices download functionality.
  */
 
+@import "../../site/theme/cgl.vars";
+
 /* Initial paragraph */
 p:first-of-type {
     margin-top: 24px;
@@ -13,4 +15,28 @@ p:first-of-type {
 /* Species headings */
 h3 {
     margin-top: 24px;
+}
+
+.downloads {
+    display: flex;
+}
+
+.downloads > * {
+    flex: 1;
+}
+
+.downloads p {
+    border-left: 1px solid $hca-gray-lightest;
+    padding-left: 10px;
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    .downloads > *:nth-child(2) {
+        max-width: 33%;
+    }
 }

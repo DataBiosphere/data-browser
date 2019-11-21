@@ -87,14 +87,14 @@ mat-toolbar {
 :host-context(.modal-open) {
 
     mat-toolbar {
-
-        img {
-            left: 16px;
-            position: fixed;
-            top: 15px;
-            z-index: 1001;
-        }
-
+        background-color: $hca-white;
+        position: fixed;
+        top: 0;
+        z-index: 1001;
+    }
+    
+    mat-toolbar-row > *:not(a) {
+        display: none;
     }
 }
 
@@ -207,18 +207,6 @@ mat-toolbar {
             padding: 0 12px;
         }
     }
-
-    /** Logo in modal */
-    :host-context(.modal-open) {
-
-        mat-toolbar {
-
-            img {
-                top: 10px;
-            }
-
-        }
-    }
 }
 
 /**
@@ -230,18 +218,6 @@ mat-toolbar {
 
         mat-toolbar-row {
             padding: 0 30px; /* Gutter 30px */
-        }
-    }
-
-    /** Logo in modal */
-    :host-context(.modal-open) {
-
-        mat-toolbar {
-
-            img {
-                left: 30px;
-            }
-
         }
     }
 }

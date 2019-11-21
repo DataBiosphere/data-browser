@@ -1,10 +1,10 @@
 <span class="close" (click)="onCloseClicked()"></span>
-<hca-section-title>
-    <ng-content select="[title]"></ng-content>
-</hca-section-title>
 <div *ngIf="loaded" [@fadeIn]>
+    <h2><ng-content select="[title]"></ng-content></h2>
     <status-panel>
-        <h2><ng-content select="[subtitle]"></ng-content></h2>
+        <hca-section-title>
+            <ng-content select="[subtitle]"></ng-content>
+        </hca-section-title>
     </status-panel>
     <ng-content select="[content]"></ng-content>
 </div>

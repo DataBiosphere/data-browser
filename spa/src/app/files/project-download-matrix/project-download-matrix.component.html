@@ -1,5 +1,24 @@
-<p class="fontsize-m">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo diam, vel iaculis elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed rhoncus, ante vel scelerisque eleifend, tellus leo dapibus magna, ut finibus magna velit vel leo. </p>
-<ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
-    <h3 class="fontsize-s">{{species}}</h3>
-    <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)" [link]="matrixUrl"></file-download>
-</ng-container>
+<p class="fontsize-m">
+    Expression matrices for the specified project are available for download below in
+    <a href="https://math.nist.gov/MatrixMarket/formats.html" target="_blank">mtx</a>,
+    <a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">csv</a> and
+    <a href="http://loompy.org/" target="_blank">loom</a> formats.
+</p>
+<div class="downloads">
+    <div>
+        <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
+            <h3 class="fontsize-l">{{species}}</h3>
+            <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
+                           [link]="matrixUrl"></file-download>
+        </ng-container>
+    </div>
+    <div>
+        <p class="fontsize-xs">
+            Data downloaded from the HCA DCP is governed by the <a href="https://www.humancellatlas.org/data-release-policy/"
+                                                                   target="_blank">HCA Data Release Policy</a> and licensed
+            under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0
+            International License (CC BY 4.0)</a>. For more information please see our
+            <a href="https://staging.data.humancellatlas.org/about/data-use-agreement" target="_blank">Data Use Agreement</a>.
+        </p>
+    </div>
+</div>

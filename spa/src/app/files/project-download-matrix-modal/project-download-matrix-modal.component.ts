@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
@@ -47,6 +47,15 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
         private dialogRef: MatDialogRef<ProjectDownloadMatrixModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private router: Router) {
+    }
+
+    /**
+     * Close dialog on key up of escape key.
+     */
+    @HostListener("window:keyup.esc") onKeyUp() {
+
+        this.dialogRef.close();
+        this.redirectToProjects()
     }
 
     /**
@@ -110,12 +119,6 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
      * key) and redirect to projects list.
      */
     public ngOnInit(): void {
-        
-        this.dialogRef.beforeClosed().pipe(
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
-            this.redirectToProjects();
-        });
 
         const projectId = this.data.projectId;
 

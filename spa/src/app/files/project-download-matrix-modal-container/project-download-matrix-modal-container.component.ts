@@ -12,6 +12,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { Store } from "@ngrx/store";
+
 // App dependencies
 import { ProjectDownloadMatrixModalComponent } from "../project-download-matrix-modal/project-download-matrix-modal.component";
 import { AppState } from "../../_ngrx/app.state";
@@ -38,13 +39,14 @@ export class ProjectDownloadMatrixModalContainerComponent implements OnDestroy {
     constructor(dialog: MatDialog, route: ActivatedRoute, private store: Store<AppState>) {
 
         route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
-            
+
             dialog.open(ProjectDownloadMatrixModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {
                     projectId: params.id
                 },
+                disableClose: true,
                 panelClass: this.CSS_PANEL
             });
         });
