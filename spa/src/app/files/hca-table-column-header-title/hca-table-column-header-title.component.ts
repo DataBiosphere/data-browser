@@ -21,6 +21,7 @@ export class HCATableColumnHeaderTitleComponent {
 
     // Inputs
     @Input() columnName: string;
+    @Input() entityName: string;
 
     // Template variables
     public getColumnDescription = getColumnDescription;

@@ -236,7 +236,7 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')"
                                      [ngStyle]="getColumnStyle('totalCells')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'">
+                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'" [entityName]="'Projects'">
                                 {{getColumnDisplayName('totalCells')}}
                             </hca-table-column-header-title>
                             <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'"
