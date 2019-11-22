@@ -174,6 +174,15 @@ describe("HCATableProjectsComponent", () => {
     });
 
     /**
+     * Incomplete test
+     */
+    xit("TBD", () => {
+
+        // TODO - pending test
+        // TODO - test for column project title click event, RouterTestingModule
+    });
+
+    /**
      * Confirm sort functionality is set up in component.
      */
     it("should set up sort functionality on init", () => {
