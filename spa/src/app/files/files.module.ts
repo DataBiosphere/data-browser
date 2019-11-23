@@ -9,7 +9,6 @@
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -73,6 +72,7 @@ import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projec
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
+import { ModalModule } from "../modal/modal.module";
 import { ProjectService } from "./project/project.service";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
@@ -99,8 +99,8 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
 
 @NgModule({
     imports: [
-        BrowserAnimationsModule,
         FormsModule,
+        HttpClientModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
@@ -121,9 +121,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         RouterModule.forChild(routes),
 
         CcPipeModule,
-
-        HttpClientModule,
-
+        ModalModule,
         SharedModule
     ],
     declarations: [

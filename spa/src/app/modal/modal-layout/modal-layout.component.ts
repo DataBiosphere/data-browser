@@ -7,8 +7,7 @@
 
 // Core dependencies
 import { animate, style, transition, trigger } from "@angular/animations";
-import { DOCUMENT } from "@angular/common";
-import { Component, EventEmitter, Inject, Input, Output, Renderer2 } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: "modal-layout",
@@ -29,20 +28,10 @@ export class ModalLayoutComponent {
     @Output() closed = new EventEmitter<boolean>();
 
     /**
-     * @param {Document} document
-     * @param {Renderer2} renderer
-     */
-    constructor(@Inject(DOCUMENT) private document: Document, private renderer: Renderer2) {
-
-        this.renderer.addClass(this.document.body, "modal-open");
-    }
-
-    /**
      * Let parent component know modal is to be closed.
      */
     public onCloseClicked(): void {
 
-        this.renderer.removeClass(this.document.body, "modal-open");
         this.closed.emit(true);
     }
 }

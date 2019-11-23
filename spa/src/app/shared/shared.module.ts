@@ -20,7 +20,6 @@ import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-
 import { DownloadButtonComponent } from "./download-button/download-button.component";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab";
-import { ModalLayoutComponent } from "./modal-layout/modal-layout.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 import { ResponsiveService } from "./responsive/responsive.service";
 import { StatusPanelComponent } from "./status-panel/status-panel.component";
@@ -46,7 +45,6 @@ import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
-        ModalLayoutComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,
@@ -57,6 +55,7 @@ import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.
         ResponsiveService
     ],
     exports: [
+        BrowserAnimationsModule,
         CommonModule,
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
@@ -65,7 +64,6 @@ import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
-        ModalLayoutComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,
