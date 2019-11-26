@@ -120,21 +120,23 @@
                             </p>
                             <p class="fontsize-xs rhs" *ngIf="state.projectMatrixUrls && !state.projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">No expression matrix available</p>
                         </div>
-                        <div *ngFor="let species of state.projectMatrixUrls.listSpeciesWithMatrixUrls()"
-                             class="species-matrix-url">
-                            <p class="fontsize-xs semi-bold subhead lhs">
-                                <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                                             [tooltipContent]="'Download expression matrix'"
-                                             [tooltipDisabled]="false"
-                                             [tooltipPosition]="'above'">{{species}}
-                                </hca-tooltip>
-                            </p>
-                            <p class="fontsize-xs rhs downloads">
-                                <span *ngFor="let matrixUrl of state.projectMatrixUrls.listMatrixUrlsBySpecies(species)"><a
-                                        [href]="matrixUrl.url"><img
-                                        src="assets/images/icon/hca-download-primary.png"/><span>{{matrixUrl.name}}</span></a></span>
-                            </p>
-                        </div>
+                        <ng-container *ngIf="state.projectMatrixUrls">
+                            <div *ngFor="let species of state.projectMatrixUrls.listSpeciesWithMatrixUrls()"
+                                 class="species-matrix-url">
+                                <p class="fontsize-xs semi-bold subhead lhs">
+                                    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                                 [tooltipContent]="'Download expression matrix'"
+                                                 [tooltipDisabled]="false"
+                                                 [tooltipPosition]="'above'">{{species}}
+                                    </hca-tooltip>
+                                </p>
+                                <p class="fontsize-xs rhs downloads">
+                                    <span *ngFor="let matrixUrl of state.projectMatrixUrls.listMatrixUrlsBySpecies(species)"><a
+                                            [href]="matrixUrl.url"><img
+                                            src="assets/images/icon/hca-download-primary.png"/><span>{{matrixUrl.name}}</span></a></span>
+                                </p>
+                            </div>
+                        </ng-container>
                     </div>
                     <div class="project-integrations">
                         <h4 class="fontsize-m semi-bold">External Resources</h4>

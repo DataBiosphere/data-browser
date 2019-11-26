@@ -42,7 +42,7 @@ mat-toolbar {
     img {
         height: 30px;
     }
-
+    
     cc-toolbar-nav {
         padding: 12px 0;
         z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
@@ -81,20 +81,18 @@ mat-toolbar {
             text-transform: none;
         }
     }
-}
 
-/** Logo in modal */
-:host-context(.modal-open) {
+    /** Logo in modal */
+    &.modal-open {
 
-    mat-toolbar {
         background-color: $hca-white;
         position: fixed;
         top: 0;
         z-index: 1001;
-    }
-    
-    mat-toolbar-row > *:not(a) {
-        display: none;
+
+        mat-toolbar-row > *:not(a) {
+            display: none;
+        }
     }
 }
 

@@ -2,13 +2,18 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying project prepared expression matrices downloads inside modal. Displayed 
+ * Component for displaying project prepared expression matrices downloads inside modal. The modal closes automatically
+ * on NavigationStart event. The follow actions causes a redirect to the projects page (and therefore closes the modal):
+ * 
+ * 1. Hitting escape
+ * 2. Clicking the close icon
+ * 3. Clicking the HCA logo
  */
 
 // Core dependencies
 import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import { Router } from "@angular/router";
+import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, BehaviorSubject, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
@@ -23,6 +28,8 @@ import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { Project } from "../shared/project.model";
+import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
+import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 
 @Component({
     selector: "project-download-matrix-modal",
@@ -47,32 +54,33 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
         private dialogRef: MatDialogRef<ProjectDownloadMatrixModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private router: Router) {
+
+        this.store.dispatch(new ModalOpenedAction());
     }
 
     /**
-     * Close dialog on key up of escape key.
+     * Redirect to projects list - called from template on click of close icon, or on keyup of escape key. The resulting
+     * navigation event causes the modal to close. See initCloseOnNavigation.
      */
-    @HostListener("window:keyup.esc") onKeyUp() {
-
-        this.dialogRef.close();
-        this.redirectToProjects()
-    }
-
-    /**
-     * Close modal and redirect to projects list.
-     */
-    public onClosedClicked(): void {
-
-        this.dialogRef.close();
-        this.redirectToProjects();
-    }
-
-    /**
-     * Redirect to projects list.
-     */
+    @HostListener("window:keyup.esc")
     public redirectToProjects(): void {
 
         this.router.navigateByUrl(`/${EntityName.PROJECTS}`, {replaceUrl: true});
+    }
+
+    /**
+     * Close the modal on any navigation event.
+     */
+    private initCloseOnNavigation() {
+
+        this.router.events.pipe(
+            filter((event: RouterEvent) => event instanceof NavigationStart),
+            filter(() => !!this.dialogRef),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(() => {
+            this.store.dispatch(new ModalClosedAction());
+            this.dialogRef.close();
+        });
     }
 
     /**
@@ -115,11 +123,13 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Grab the prepared matrix URLs for the selected project. Also listen for close events (click on backdrop or escape
-     * key) and redirect to projects list.
+     * Grab the prepared matrix URLs for the selected project. Also listen for navigation events, in which case we must
+     * close the modal.
      */
     public ngOnInit(): void {
-
+        
+        this.initCloseOnNavigation();
+        
         const projectId = this.data.projectId;
 
         // Request project details so we can display the project title

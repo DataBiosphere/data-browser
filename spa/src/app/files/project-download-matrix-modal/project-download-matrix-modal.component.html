@@ -1,6 +1,6 @@
 <modal-layout *ngIf="state$ | async as state"
               [loaded]="state.loaded"
-              (closed)="onClosedClicked()">
+              (closed)="redirectToProjects()">
     <ng-container title *ngIf="state.loaded">
         Download Project Expression Matrices
     </ng-container>
