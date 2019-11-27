@@ -52,6 +52,7 @@ export const PROJECT_DETAIL_SINGLE_VALUES = {
     "rawCount": 199640,
     "sampleEntityType": "cellLines",
     "selectedCellType": "arcuate artery endothelial cell",
+    "supplementaryLinks": ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar"],
     "totalCells": 53755,
     "totalCount": 199640,
     "workflow": "optimus_v1.3.1"
@@ -112,6 +113,7 @@ export const PROJECT_DETAIL_MULTIPLE_VALUES = {
     "rawCount": 199640,
     "sampleEntityType": "cellLines, specimens",
     "selectedCellType": "arcuate artery endothelial cell, stromal cell",
+    "supplementaryLinks": ["https://github.com/czbiohub/tabula-muris", "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"],
     "totalCells": 53755,
     "totalCount": 199640,
     "workflow": "optimus_v1.3.1, optimus_v1.3.2"
@@ -147,6 +149,7 @@ export const PROJECT_DETAIL_EMPTY_VALUES = {
     "rawCount": "",
     "sampleEntityType": "",
     "selectedCellType": "",
+    "supplementaryLinks": [],
     "totalCells": "",
     "totalCount": "",
     "workflow": ""
@@ -196,6 +199,7 @@ export const PROJECT_DETAIL_UNSPECIFIED_VALUES = {
     "rawCount": "Unspecified",
     "sampleEntityType": "Unspecified",
     "selectedCellType": "Unspecified",
+    "supplementaryLinks": ["Unspecified"],
     "totalCells": "Unspecified",
     "totalCount": "Unspecified",
     "workflow": "Unspecified"
@@ -231,6 +235,7 @@ export const PROJECT_DETAIL_NULL_VALUES = {
     "rawCount": null,
     "sampleEntityType": null,
     "selectedCellType": null,
+    "supplementaryLinks": null,
     "totalCells": null,
     "totalCount": null,
     "workflow": null
@@ -240,6 +245,7 @@ export const PROJECT_DETAIL_NULL_VALUES = {
 // sample entity type as "specimens",
 // workflow as "Unspecified"
 // projectShortname as sentence case e.g. "Healthy and type 2 diabetes pancreas"
+// supplementaryLinks with link ending in "/", and invalid link
 export const PROJECT_DETAIL_SPECIFIC_VALUES = {
     "ageUnit": "month",
     "arrayExpressAccessions": "E-AAAA-00",
@@ -282,6 +288,7 @@ export const PROJECT_DETAIL_SPECIFIC_VALUES = {
     "rawCount": 199640,
     "sampleEntityType": "specimens",
     "selectedCellType": "arcuate artery endothelial cell",
+    "supplementaryLinks": ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar/", "GSE109774_Liver.tar.gz"],
     "totalCells": 53755,
     "totalCount": 199640,
     "workflow": "optimus_v1.3.1"

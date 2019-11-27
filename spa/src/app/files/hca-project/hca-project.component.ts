@@ -274,6 +274,22 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if there are supplementaryLinks.
+     *
+     * @param {string[]} supplementaryLinks
+     * @returns {boolean}
+     */
+    public isSupplementaryLinks(supplementaryLinks: string[]): boolean {
+
+        if ( !supplementaryLinks ) {
+
+            return false;
+        }
+
+        return supplementaryLinks.length > 0;
+    }
+
+    /**
      * Returns true if workflow is any value other than "Unspecified".
      *
      * @param {string} workflow
@@ -366,6 +382,7 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
      * @returns {ProjectView}
      */
     private buildProjectView(project: Project): ProjectView {
+
         return {
             collaboratingOrganizations: this.getCollaboratingOrganizations(project.contributors),
             contacts: this.getContacts(project.contributors),

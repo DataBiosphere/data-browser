@@ -46,6 +46,9 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 ],
                 "insdcStudyAccessions": [
                     "x"
+                ],
+                "supplementaryLinks": [
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"
                 ]
             }
         ],
@@ -218,6 +221,10 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                 "insdcStudyAccessions": [
                     "x",
                     "y"
+                ],
+                "supplementaryLinks": [
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz",
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz"
                 ]
             }
         ],
@@ -417,6 +424,9 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 ],
                 "insdcStudyAccessions": [
                     "a"
+                ],
+                "supplementaryLinks": [
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz"
                 ]
             },
             {
@@ -447,6 +457,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "insdcStudyAccessions": [
                     "x",
                     "y"
+                ],
+                "supplementaryLinks": [
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz",
+                    "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"
                 ]
             }
         ],
@@ -658,7 +672,8 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
                 "arrayExpressAccessions": [],
                 "geoSeriesAccessions": [],
                 "insdcProjectAccessions": [],
-                "insdcStudyAccessions": []
+                "insdcStudyAccessions": [],
+                "supplementaryLinks": []
             }
         ],
         "samples": [
@@ -735,7 +750,8 @@ export const PROJECT_ROW_NULL_VALUES =
                 "arrayExpressAccessions": null,
                 "geoSeriesAccessions": null,
                 "insdcProjectAccessions": null,
-                "insdcStudyAccessions": null
+                "insdcStudyAccessions": null,
+                "supplementaryLinks": null
             }
         ],
         "samples": [

@@ -23,7 +23,12 @@
         margin-bottom: 36px;
     }
 
-    /* Project title */
+    /* First column, second column, and inner containers */
+    .project-overview > div, .project-overview > div:last-of-type > div {
+        min-width: 0; /* Required to maintain flex with equal proportions, where flex child is an ellipsis (supplementary links) */
+    }
+
+        /* Project title */
     h2 {
         margin: 0;
         max-width: 500px;
@@ -147,6 +152,11 @@
         display: flex;
         flex-wrap: wrap;
 
+        /* Text to describe project */
+        .description {
+            max-width: 650px; /* Required for tablet */
+        }
+
         > div {
 
             /* Contacts, publications */
@@ -198,7 +208,7 @@
     }
 
     /* Project downloads, details, accessions, data release policy etc. */
-    .project-details, .project-downloads, .project-counts, .project-integrations, 
+    .project-details, .project-downloads, .project-counts, .project-integrations, .project-supplementary,
     .project-views, .project-workflows, .project-accessions, .data-release-policy {
 
         /* Row - excludes last row in each group */
@@ -288,8 +298,8 @@
         }
 
         /* Project downloads, details, accessions etc. */
-        .project-details, .project-accessions, .project-downloads, .project-counts, .project-views, .project-workflows, .data-release-policy {
-
+        .project-details, .project-accessions, .project-downloads, .project-supplementary,
+        .project-counts, .project-views, .project-workflows, .data-release-policy {
             /* Row */
             > div {
                 flex-direction: row;
@@ -416,7 +426,7 @@
             }
         }
 
-        /* First column */
+        /* First column, second column inner containers */
         .project-overview > div:first-of-type, .project-overview > div:last-of-type > div {
             max-width: 650px;
         }

@@ -17,7 +17,7 @@
             <div>
                 <div class="project-description">
                     <h4 class="fontsize-m semi-bold">Description</h4>
-                    <p class="fontsize-s">{{state.project.project.projectDescription}}</p>
+                    <p class="description fontsize-s">{{state.project.project.projectDescription}}</p>
                     <div class="stretch">
                         <h4 class="fontsize-m semi-bold">Contact</h4>
                         <ng-container [ngSwitch]="isAnyContactAssociated(state.project.contacts)">
@@ -295,6 +295,18 @@
                             </p>
                             <p class="fontsize-xs rhs">{{state.project.project.donorCount | countSize}}</p>
                         </div>
+                    </div>
+                    <div class="project-supplementary">
+                        <h4 class="fontsize-m semi-bold">Supplementary Links</h4>
+                        <ng-container [ngSwitch]="isSupplementaryLinks(state.project.project.supplementaryLinks)">
+                            <project-supplementary-links
+                                    *ngSwitchCase="true"
+                                    [supplementaryLinks]="state.project.project.supplementaryLinks">
+                            </project-supplementary-links>
+                            <p class="fontsize-xs"
+                               *ngSwitchDefault>There are currently no supplementary links for this project at this
+                                time.</p>
+                        </ng-container>
                     </div>
                 </div>
                 <div>
