@@ -225,6 +225,9 @@ let tableColumns: TableColumn[] = [
         key: "totalCells",
         userFriendly: "Cell Count Estimate",
         description: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
+        descriptionFiles: "Total estimated number of cells in biomaterial. May be 1 for well-based assays.",
+        descriptionProjects: "Total estimated number of cells in biomaterial.",
+        descriptionSamples: "Total estimated number of cells in biomaterial.",
         alignment: ColumnAlignment.RIGHT,
         columnSort: true,
         columnSortKey: "cellCount",
@@ -307,14 +310,18 @@ export function getColumnCountType(column: string): string {
 /**
  * Returns the column description.
  * Used by table header tooltip.
+ * EntityName used to distinguish different descriptions between table views (project, sample, file).
  *
  * @param {string} column
+ * @param {string} entityName
  * @returns {string}
  */
-export function getColumnDescription(column: string): string {
+export function getColumnDescription(column: string, entityName: string = ""): string {
 
-    return tableColumn.get(column).description ?
-        `${tableColumn.get(column).userFriendly}: ${tableColumn.get(column).description}` : `${tableColumn.get(column).userFriendly}.`;
+    const description = `description${entityName}`;
+
+    return tableColumn.get(column)[description] ?
+        `${tableColumn.get(column).userFriendly}: ${tableColumn.get(column)[description]}` : `${tableColumn.get(column).userFriendly}.`;
 }
 
 /**

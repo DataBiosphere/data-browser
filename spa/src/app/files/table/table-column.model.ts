@@ -19,6 +19,9 @@ export interface TableColumn {
     columnTitleWidth?: number;
     countType: CountType;
     description?: string;
+    descriptionFiles?: string;
+    descriptionProjects?: string;
+    descriptionSamples?: string;
     userFriendly: string;
 }
 

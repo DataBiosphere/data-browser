@@ -17,7 +17,7 @@
 </ng-template>
 <ng-template #headerTitle>
     <hca-tooltip
-            [tooltipContent]="getColumnDescription(columnName)"
+            [tooltipContent]="getColumnDescription(columnName, entityName)"
             [tooltipDisabled]="getColumnDescription(columnName) === null"
             [tooltipPosition]="'above'"
             [tooltipClass]="'hca-tooltip narrow'"

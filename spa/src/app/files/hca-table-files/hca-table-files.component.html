@@ -272,7 +272,7 @@
                 <ng-container matColumnDef="totalCells">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'">{{getColumnDisplayName('totalCells')}}
+                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'" [entityName]="'Files'">{{getColumnDisplayName('totalCells')}}
                             </hca-table-column-header-title>
                             <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).totalCellCount | countSize"></hca-table-column-header-count>
                         </hca-table-column-header>
