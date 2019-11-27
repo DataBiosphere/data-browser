@@ -19,23 +19,24 @@ import { of } from "rxjs";
 // App dependencies
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCASectionTitleComponent } from "../../shared/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "../../shared/hca-tab/hca-tab";
 import { PopLayoutComponent } from "../../shared/pop-layout/pop-layout.component";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
-import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
 import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
+import { GenusSpecies } from "../shared/genus-species.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
+import { ProjectSupplementaryLinksComponent } from "../project-supplementary-links/project-supplementary-links.component";
 import { HCAProjectComponent } from "./hca-project.component";
 import {
-    PROJECT_DETAIL_EMPTY_VALUES, PROJECT_DETAIL_MULTIPLE_VALUES,
+    PROJECT_DETAIL_EMPTY_VALUES, PROJECT_DETAIL_MULTIPLE_VALUES, PROJECT_DETAIL_NULL_VALUES,
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
     PROJECT_DETAIL_UNSPECIFIED_VALUES, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "./hca-project-mapper.mock";
-import { GenusSpecies } from "../shared/genus-species.model";
-import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
 
 describe("HCAProjectComponent", () => {
 
@@ -51,20 +52,11 @@ describe("HCAProjectComponent", () => {
 
     // Class names
     const CLASSNAME_BREAK = "break";
-    const CLASSNAME_CITATION = ".citation";
-    const CLASSNAME_CITATION_URL = ".citation .url";
-    const CLASSNAME_PROJECT_DETAILS_LHS = ".project-details .lhs";
-    const CLASSNAME_PROJECT_DETAILS_RHS = ".project-details .rhs";
-
-    // Component input property
-    const COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK = "copyToClipboardLink";
-
-    // Component names
-    const COMPONENT_NAME_COPY_TO_CLIPBOARD = "copy-to-clipboard";
 
     // Heading labels
     const HEADING_CITATION = "Citation";
     const HEADING_EXTERNAL_RESOURCES = "External Resources";
+    const HEADING_SUPPLEMENTARY_LINKS = "Supplementary Links";
 
     // Project matrix urls
     const SPECIES_URLS_HOMO_SAPIENS = new SpeciesMatrixUrls(
@@ -76,6 +68,10 @@ describe("HCAProjectComponent", () => {
     const PROJECT_MATRIX_URLS_SINGLE_SPECIES = new ProjectMatrixUrls("1234", new Map([
         [GenusSpecies.HOMO_SAPIENS, SPECIES_URLS_HOMO_SAPIENS]
     ]));
+
+    // Component input property
+    const INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK = "copyToClipboardLink";
+    const INPUT_PROPERTY_SUPPLEMENTARY_LINKS = "supplementaryLinks";
 
     // Project details
     const PROJECT_LABEL_DONOR_COUNT = "Donor Count";
@@ -110,6 +106,17 @@ describe("HCAProjectComponent", () => {
         PROJECT_LABEL_DONOR_COUNT
     ];
 
+    // Selectors
+    const SELECTOR_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
+    const SELECTOR_CITATION = ".citation";
+    const SELECTOR_CITATION_URL = ".citation .url";
+    const SELECTOR_COPY_TO_CLIPBOARD = "copy-to-clipboard";
+    const SELECTOR_PROJECT_DETAILS_LHS = ".project-details .lhs";
+    const SELECTOR_PROJECT_DETAILS_RHS = ".project-details .rhs";
+    const SELECTOR_PROJECT_INTEGRATIONS = "project-integrations";
+    const SELECTOR_PROJECT_SUPPLEMENTARY_LINKS = "project-supplementary-links";
+    const SELECTOR_PROJECT_SUPPLEMENTARY = ".project-supplementary";
+
     // Test values
     const TEST_VALUE_CITATION_URL = `${testConfig.getPortalURL()}/explore/projects/${PROJECT_DETAIL_SINGLE_VALUES.entryId}`;
 
@@ -125,6 +132,7 @@ describe("HCAProjectComponent", () => {
                 HCATooltipComponent,
                 PopLayoutComponent,
                 ProjectIntegrationsComponent,
+                ProjectSupplementaryLinksComponent,
                 ProjectTSVDownloadComponent
             ],
             imports: [
@@ -214,6 +222,39 @@ describe("HCAProjectComponent", () => {
     });
 
     /**
+     * Confirm is supplementary links returns true when supplementary links has string array.
+     */
+    it("is supplementary links returns true when supplementary links has string array", () => {
+
+        const supplementaryLinks = component.isSupplementaryLinks(PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks);
+
+        // Confirm true is returned
+        expect(supplementaryLinks).toEqual(true);
+    });
+
+    /**
+     * Confirm is supplementary links returns false when supplementary links has empty values.
+     */
+    it("is supplementary links returns false when supplementary links has empty values", () => {
+
+        const supplementaryLinks = component.isSupplementaryLinks(PROJECT_DETAIL_EMPTY_VALUES.supplementaryLinks);
+
+        // Confirm false is returned
+        expect(supplementaryLinks).toEqual(false);
+    });
+
+    /**
+     * Confirm is supplementary links returns false when supplementary links has null values.
+     */
+    it("is supplementary links returns false when supplementary links has null values", () => {
+
+        const supplementaryLinks = component.isSupplementaryLinks(PROJECT_DETAIL_NULL_VALUES.supplementaryLinks);
+
+        // Confirm false is returned
+        expect(supplementaryLinks).toEqual(false);
+    });
+
+    /**
      * Confirm "Citation" is displayed.
      */
     it(`should display "Citation"`, () => {
@@ -248,7 +289,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm url is displayed
-        expect(getDEInnerHtmlText(CLASSNAME_CITATION_URL)).toEqual(TEST_VALUE_CITATION_URL);
+        expect(getDEInnerText(SELECTOR_CITATION_URL)).toEqual(TEST_VALUE_CITATION_URL);
     });
 
     /**
@@ -267,13 +308,13 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm component is displayed
-        expect(getChildrenDEsByChildName(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)).not.toBe(null);
+        expect(getDEChildByName(SELECTOR_CITATION, SELECTOR_COPY_TO_CLIPBOARD)).not.toBeUndefined();
     });
 
     /**
      * Confirm component <copy-to-clipboard> input property copy to clipboard link is the citation url.
      */
-    it("should display component copy-to-clipboard input property copy to clipboard link is the citation url", () => {
+    it("builds component copy-to-clipboard input property copy to clipboard link with the citation url", () => {
 
         testStore.pipe
             .and.returnValues(
@@ -285,10 +326,10 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        const copyToClipboard = getChildrenDEsByChildName(CLASSNAME_CITATION, COMPONENT_NAME_COPY_TO_CLIPBOARD)[0];
+        const copyToClipboardDE = getDEChildByName(SELECTOR_CITATION, SELECTOR_COPY_TO_CLIPBOARD);
 
         // Confirm input property copy to clipboard link is citation url
-        expect(getComponentInputPropertyValue(copyToClipboard, COMPONENT_INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(TEST_VALUE_CITATION_URL);
+        expect(getDEInputPropertyValue(copyToClipboardDE, INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(TEST_VALUE_CITATION_URL);
     });
 
     /**
@@ -307,7 +348,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Project Label" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_PROJECT_SHORTNAME, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_PROJECT_SHORTNAME, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -368,7 +409,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Sample Type" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_SAMPLE_ENTITY_TYPE, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_SAMPLE_ENTITY_TYPE, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -463,7 +504,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Modal Organ" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -482,7 +523,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Modal Organ" is not displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(false);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_MODEL_ORGAN, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(false);
     });
 
     /**
@@ -576,7 +617,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Analysis Protocol" is displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(true);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(true);
     });
 
     /**
@@ -595,7 +636,7 @@ describe("HCAProjectComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Analysis Protocol" is not displayed
-        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, CLASSNAME_PROJECT_DETAILS_LHS)).toEqual(false);
+        expect(isProjectDetailLabelDisplayed(PROJECT_LABEL_WORKFLOW, SELECTOR_PROJECT_DETAILS_LHS)).toEqual(false);
     });
 
     /**
@@ -613,7 +654,7 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        const analysisProtocolPipelineLinkerEl = fixture.debugElement.nativeElement.querySelector("analysis-protocol-pipeline-linker");
+        const analysisProtocolPipelineLinkerEl = fixture.debugElement.nativeElement.querySelector(SELECTOR_ANALYSIS_PROTOCOL_PIPELINE_LINKER);
 
         // Confirm component analysis protocol pipeline linker is displayed when workflow is not "Unspecified"
         expect(analysisProtocolPipelineLinkerEl).not.toBe(null);
@@ -653,9 +694,9 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector(SELECTOR_PROJECT_INTEGRATIONS);
 
-        // Confirm component project-integrations is displayed when integrations is single value
+        // Confirm component is displayed
         expect(projectIntegrationsEl).not.toBe(null);
     });
 
@@ -674,66 +715,174 @@ describe("HCAProjectComponent", () => {
 
         fixture.detectChanges();
 
-        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector("project-integrations");
+        const projectIntegrationsEl = fixture.debugElement.nativeElement.querySelector(SELECTOR_PROJECT_INTEGRATIONS);
 
-        // Confirm component project-integrations is not displayed when integrations is empty
+        // Confirm component is not displayed
         expect(projectIntegrationsEl).toBe(null);
     });
 
     /**
-     * Returns the debug elements, specified by parent class name and child tag name.
-     *
-     * @param {string} childName
-     * @param {string} componentName
-     * @returns {DebugElement[]}
+     * Confirm "Supplementary Links" is displayed.
      */
-    function getChildrenDEsByChildName(className: string, childName: string): DebugElement[] {
+    it(`displays "Supplementary Links"`, () => {
 
-        const de = getDebugElement(className);
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        // Confirm "Supplementary Links" is displayed
+        expect(isHeadingDisplayed(HEADING_SUPPLEMENTARY_LINKS)).toEqual(true);
+    });
+
+    /**
+     * Confirm component <project-supplementary-links> is displayed when project supplementary links is single value.
+     */
+    it("displays component project supplementary links when project supplementary links is single value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectSuppLinksEl = fixture.debugElement.nativeElement.querySelector(SELECTOR_PROJECT_SUPPLEMENTARY_LINKS);
+
+        // Confirm component is displayed
+        expect(projectSuppLinksEl).not.toBe(null);
+    });
+
+    /**
+     * Confirm component <project-supplementary-links> is not displayed when project supplementary links is empty value.
+     */
+    it("does not display component project supplementary links when project supplementary links is empty value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectSuppLinksEl = fixture.debugElement.nativeElement.querySelector(SELECTOR_PROJECT_SUPPLEMENTARY_LINKS);
+
+        // Confirm component is not displayed
+        expect(projectSuppLinksEl).toBe(null);
+    });
+
+    /**
+     * Confirm component <project-supplementary-links> input property supplementary links is single supplementary links.
+     */
+    it("builds component project-supplementary-links input property supplementary links with single supplementary links", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of([]) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const projectSuppLinksDE = getDebugElementByCSS(SELECTOR_PROJECT_SUPPLEMENTARY_LINKS);
+
+        // Confirm input property supplementary links is supplementary single value
+        expect(getDEInputPropertyValue(projectSuppLinksDE, INPUT_PROPERTY_SUPPLEMENTARY_LINKS)).toEqual(PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks);
+    });
+
+    /**
+     * Confirm "no supplementary links" paragraph is displayed when project supplementary links is empty value.
+     */
+    it("displays no supplementary links paragraph when project supplementary links is empty value", () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_EMPTY_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const linksParagraphDE = getDEChildByName(SELECTOR_PROJECT_SUPPLEMENTARY, "p");
+
+        // Confirm paragraph is displayed
+        expect(linksParagraphDE).not.toBeUndefined();
+    });
+
+    /**
+     * Confirm "no supplementary links" paragraph is not displayed when project supplementary links is single value.
+     */
+    it(`does not display "no supplementary links" paragraph when project supplementary links is single value`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of(PROJECT_MATRIX_URLS_SINGLE_SPECIES), // project matrix URLs
+            of([]), // project ids
+            of(PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT) // integrations
+        );
+
+        fixture.detectChanges();
+
+        const linksParagraphDE = getDEChildByName(SELECTOR_PROJECT_SUPPLEMENTARY, "p");
+
+        // Confirm paragraph is not displayed
+        expect(linksParagraphDE).toBeUndefined();
+    });
+
+    /**
+     * Returns the debug element for the specified selector.
+     *
+     * @param {string} selector
+     * @returns {DebugElement}
+     */
+    function getDebugElementByCSS(selector: string): DebugElement {
+
+        return fixture.debugElement.query(By.css(selector));
+    }
+
+    /**
+     * Returns the debug element's child, specified by child name.
+     *
+     * @param {string} selector
+     * @param {string} childName
+     * @returns {DebugElement}
+     */
+    function getDEChildByName(selector: string, childName: string): DebugElement {
+
+        const de = getDebugElementByCSS(selector);
 
         if ( !de ) {
             return;
         }
 
-        return de.children.filter(child => child.name === childName);
+        return de.children.find(child => child.name === childName);
     }
 
     /**
-     * Returns the component input property value specified by input property.
+     * Returns the debug element's inner html text, specified by selector.
      *
-     * @param {DebugElement} component
-     * @param {string} inputProperty
-     * @returns {any}
+     * @param {string} selector
+     * @returns {string}
      */
-    function getComponentInputPropertyValue(component: DebugElement, inputProperty: string): any {
+    function getDEInnerText(selector: string): string {
 
-        if ( !component ) {
-            return;
-        }
-
-        return component.componentInstance[inputProperty];
-    }
-
-    /**
-     * Returns the debug element for the specified class name.
-     *
-     * @param {string} className
-     * @returns {DebugElement}
-     */
-    function getDebugElement(className: string): DebugElement {
-
-        return fixture.debugElement.query(By.css(className));
-    }
-
-    /**
-     * Returns the inner html text, specified by class name.
-     *
-     * @param {string} className
-     * @returns {any}
-     */
-    function getDEInnerHtmlText(className: string): any {
-
-        const de = getDebugElement(className);
+        const de = getDebugElementByCSS(selector);
 
         if ( !de ) {
 
@@ -744,6 +893,22 @@ describe("HCAProjectComponent", () => {
     }
 
     /**
+     * Returns the debug element's input property value specified by input property.
+     *
+     * @param {DebugElement} debugEl
+     * @param {string} inputProperty
+     * @returns {any}
+     */
+    function getDEInputPropertyValue(debugEl: DebugElement, inputProperty: string): any {
+
+        if ( !debugEl ) {
+            return;
+        }
+
+        return debugEl.componentInstance[inputProperty];
+    }
+
+    /**
      * Returns the project detail for the specified project detail label.
      *
      * @param {string} projectDetailLabel
@@ -751,7 +916,7 @@ describe("HCAProjectComponent", () => {
      */
     function getProjectDetail(projectDetailLabel: string): DebugElement {
 
-        const projectDetailValueEls = fixture.debugElement.queryAll(By.css(CLASSNAME_PROJECT_DETAILS_RHS));
+        const projectDetailValueEls = fixture.debugElement.queryAll(By.css(SELECTOR_PROJECT_DETAILS_RHS));
 
         if ( !projectDetailValueEls ) {
 

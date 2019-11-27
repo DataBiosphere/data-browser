@@ -449,5 +449,33 @@ describe("ProjectService:", () => {
                 return done();
             });
         });
+
+        /**
+         * Supplementary links, when specified, should be included in mapping.
+         */
+        it("should map supplementary links", (done: DoneFn) => {
+
+            const projectToMap = PROJECT_SINGLE_VALUES;
+            httpClientSpy.get.and.returnValue(of(projectToMap));
+            projectService.fetchProjectById("123abc").subscribe((mappedProject) => {
+
+                expect(mappedProject.supplementaryLinks.length).toEqual(projectToMap.projects[0].supplementaryLinks.length);
+                return done();
+            });
+        });
+
+        /**
+         * A null value for supplementary links should be mapped to empty array.
+         */
+        it("should map null supplementary links to empty array", (done: DoneFn) => {
+
+            const projectToMap = PROJECT_ROW_NULL_VALUES;
+            httpClientSpy.get.and.returnValue(of(projectToMap));
+            projectService.fetchProjectById("123abc").subscribe((mappedProject) => {
+
+                expect(mappedProject.supplementaryLinks).toEqual([]);
+                return done();
+            });
+        });
     });
 });

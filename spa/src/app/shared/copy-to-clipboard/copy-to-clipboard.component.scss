@@ -63,10 +63,23 @@
     }
 }
 
+/* HCAProjectComponent - .project-overview */
 :host-context(.project-overview) {
 
     /* Copy text */
     .clipboard-copy span {
         padding-left: 0;
+    }
+}
+
+/* HCAProjectComponent - .project-supplementary */
+:host-context(.project-supplementary) {
+
+    flex: none;
+    width: 76px; /* Required to placehold space for "link copied" text */
+
+    /* Clipboard container */
+    .clipboard-copy {
+        justify-content: flex-end;
     }
 }

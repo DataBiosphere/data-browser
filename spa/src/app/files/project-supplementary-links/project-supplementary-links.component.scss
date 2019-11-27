@@ -1,0 +1,26 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project supplementary links component.
+ */
+
+:host-context(.project-supplementary) {
+
+    /* Index */
+    span {
+        padding-right: 8px;
+    }
+
+    /* Link container */
+    p {
+        align-items: baseline;
+        display: flex;
+    }
+
+    /* Link */
+    a {
+        padding-right: 8px;
+        word-break: break-all;
+    }
+}

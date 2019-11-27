@@ -81,6 +81,7 @@ import { ProjectDownloadMatrixComponent } from "./project-download-matrix/projec
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
+import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
@@ -144,13 +145,14 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         MatrixUrlRequestFormComponent,
         MatrixUrlRequestCompletedComponent,
         ProjectDeprecatedComponent,
-        ProjectGuardComponent,
-        ProjectIngestInProgressComponent,
-        ProjectIntegrationsComponent,
-        ProjectTSVDownloadComponent,
         ProjectDownloadMatrixComponent,
         ProjectDownloadMatrixModalComponent,
         ProjectDownloadMatrixModalContainerComponent,
+        ProjectGuardComponent,
+        ProjectIngestInProgressComponent,
+        ProjectIntegrationsComponent,
+        ProjectSupplementaryLinksComponent,
+        ProjectTSVDownloadComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,
         HCAGetDataPanelComponent,

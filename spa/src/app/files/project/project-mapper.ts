@@ -33,7 +33,8 @@ export class ProjectMapper extends ProjectRowMapper {
             insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
             insdcStudyAccessions: getUnspecifiedIfNullValue(this.projects.insdcStudyAccessions),
             projectDescription: getUnspecifiedIfNullValue(this.projects.projectDescription),
-            publications: this.rollupArray(this.row.projects, "publications")
+            publications: this.rollupArray(this.row.projects, "publications"),
+            supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks")
         });
     }
 
