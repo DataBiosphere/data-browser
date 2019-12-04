@@ -4,3 +4,10 @@
  *
  * Styles for matrix partial query match warning.
  */
+
+:host {
+    
+    li {
+        margin-bottom: 0;
+    }
+}
