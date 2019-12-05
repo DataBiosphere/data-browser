@@ -3,5 +3,6 @@
 </hca-section-title>
 <hca-tab [tabs]="getTabs()" [activeTab]="getActiveTab()" (tabSelected)="onTabSelected($event)"></hca-tab>
 <div class="wrapper">
+    <ng-content select="[nav]"></ng-content>
     <ng-content select="[content]"></ng-content>
 </div>

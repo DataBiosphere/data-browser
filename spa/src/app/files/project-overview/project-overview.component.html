@@ -1,0 +1,97 @@
+<ng-container *ngIf="state$ | async as state">
+    <h2 class="fontsize-xl">Project Information</h2>
+    <div class="project-overview flex50 outer">
+        <div class="lhs max600">
+            <div>
+                <h4 class="fontsize-m semi-bold">Description</h4>
+                <p class="fontsize-s">{{state.project.projectDescription}}</p>
+            </div>
+            <div>
+                <h4 class="fontsize-m semi-bold">Contact</h4>
+                <ng-container [ngSwitch]="isAnyContactAssociated(state.project.contacts)">
+                    <ng-container *ngSwitchCase="true">
+                        <div *ngFor="let contact of state.project.contacts"
+                             class="stack">
+                            <p class="fontsize-xxs">{{contact.name}}</p>
+                            <p class="fontsize-xxs">{{contact.institution}}</p>
+                            <p class="fontsize-xxs">{{contact.email}}</p>
+                        </div>
+                    </ng-container>
+                    <p class="fontsize-xxs" *ngSwitchDefault>Unspecified</p>
+                </ng-container>
+            </div>
+            <div>
+                <h4 class="fontsize-m semi-bold">Publications</h4>
+                <ng-container [ngSwitch]="isAnyPublicationAssociated(state.project.publications)">
+                    <ng-container *ngSwitchCase="true">
+                        <ng-container *ngFor="let publication of state.project.publications">
+                            <p class="fontsize-xxs stack" [innerHTML]="getProjectPublication(publication)"></p>
+                        </ng-container>
+                    </ng-container>
+                    <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>
+                </ng-container>
+            </div>
+            <div class="flex50 inner">
+                <div class="lhs">
+                    <h4 class="fontsize-m semi-bold">Contributors</h4>
+                    <p class="contributors fontsize-xxs">
+                        <ng-container [ngSwitch]="isAnyContributorAssociated(state.project.contributors)">
+                            <ng-container *ngSwitchCase="true">
+                                    <span *ngFor="let contributor of state.project.contributors">
+                                        <span>{{contributor.name}}</span>
+                                        <span *ngIf="contributor.role"> ({{contributor.role | titlecase}})</span>
+                                        <sup>{{contributor.citation}}</sup>
+                                    </span>
+                            </ng-container>
+                            <span *ngSwitchDefault>Unspecified</span>
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="rhs">
+                    <h4 class="fontsize-m semi-bold">Collaborating Organizations</h4>
+                    <p class="organizations fontsize-xxs">
+                        <ng-container
+                                [ngSwitch]="isAnyCollaboratingOrganizationAssociated(state.project.collaboratingOrganizations)">
+                            <ng-container *ngSwitchCase="true">
+                                    <span *ngFor="let organization of state.project.collaboratingOrganizations">
+                                        <sup>{{organization.citation}} </sup><span>{{organization.name}}</span>
+                                    </span>
+                            </ng-container>
+                            <span *ngSwitchDefault>Unspecified</span>
+                        </ng-container>
+                    </p>
+                    <h4 class="fontsize-m semi-bold">Data Curators</h4>
+                    <p class="curators fontsize-xxs">
+                        <ng-container [ngSwitch]="isAnyDataCuratorAssociated(state.project.dataCurators)">
+                            <ng-container *ngSwitchCase="true">
+                                    <span *ngFor="let curator of state.project.dataCurators">
+                                        <span>{{curator}}</span>
+                                    </span>
+                            </ng-container>
+                            <span *ngSwitchDefault>Unspecified</span>
+                        </ng-container>
+                    </p>
+                    <h4 class="fontsize-m semi-bold">Citation</h4>
+                    <p class="fontsize-xxs">To reference this project, please use the following link:</p>
+                    <a class="citation break fontsize-xxs" [href]="state.project.citationLink">{{state.project.citationLink}}</a>
+                    <copy-to-clipboard [copyToClipboardLink]="state.project.citationLink"></copy-to-clipboard>
+                </div>
+            </div>
+        </div>
+        <div class="rhs max600">
+            <project-overview-data-summary
+                    [dataSummaries]="state.project.dataSummaries"></project-overview-data-summary>
+            <key-value-pair [title]="'File Counts'" [keyValuePairs]="state.project.fileCountSummaries"></key-value-pair>
+            <key-value-pair [title]="'Accessions'" [keyValuePairs]="state.project.projectAccessionsSummaries"></key-value-pair>
+            <div class="data-release-policy">
+                <h4 class="fontsize-m semi-bold">Data Release Policy</h4>
+                <div class="stretch">
+                    <p class="fontsize-xs">For information regarding data sharing and data use, please see our
+                        <a href="https://www.humancellatlas.org/data-release-policy/"
+                           target="_blank"
+                           rel="noopener noreferrer">Data Release Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

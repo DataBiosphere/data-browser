@@ -6,69 +6,38 @@
  */
 @import "../../site/theme/cgl.vars";
 
-/* Clipboard container */
-.download-url {
-    margin: 24px 0 32px;
+/* Copy to clipboard */
+.clipboard-copy {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
 
-    /* Link */
-    .link {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        /* autoprefixer: ignore next */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-all;
-    }
-
-    /* Copy to clipboard */
-    .clipboard-copy {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        margin: 8px 0;
-
-        /* Copy text */
-        span {
-            padding-left: 8px;
-            margin: 0;
-        }
-
-        /* Copy icon */
-        mat-icon {
-            color: $hca-gray-dark;
-        }
-    }
-}
-
-/* HCAProjectComponent - .project-overview */
-/* ProjectPreparedMatrixDownloadsComponent - .project-matrix */
-/* ProjectDownloadMatrix - .project-download-matrix */
-:host-context(.project-matrix), :host-context(.project-overview), :host-context(.project-download-matrix) {
-
-    /* Container, clipboard container */
-    .download-url, .clipboard-copy {
+    /* Copy text */
+    span {
         margin: 0;
     }
 
+    /* Copy icon */
+    mat-icon {
+        color: $hca-gray-dark;
+        padding-right: 8px;
+    }
+}
+
+/* HCAProjectComponent TODO remove */
+/* ProjectDownloadManifestComponent */
+/* ProjectDownloadMatrixComponent */
+:host-context(hca-project), :host-context(project-download-manifest), :host-context(project-download-matrix) {
+
     /* Display - none */
-    /* Link, copy icon */
-    .link, .clipboard-copy mat-icon {
+    /* Copy icon */
+    .clipboard-copy mat-icon {
         display: none;
     }
 
     /* Copy text */
     .clipboard-copy span {
         color: $hca-primary;
-    }
-}
-
-/* HCAProjectComponent - .project-overview */
-:host-context(.project-overview) {
-
-    /* Copy text */
-    .clipboard-copy span {
-        padding-left: 0;
     }
 }
 

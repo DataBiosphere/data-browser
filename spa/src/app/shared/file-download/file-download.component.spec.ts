@@ -89,7 +89,7 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const labelDE = getDEBySelector("span.fontsize-m");
+        const labelDE = getDEBySelector(".fontsize-s span");
 
         // Confirm label is displayed
         expect(getDETextContent(labelDE)).toEqual(component.link.name);
@@ -108,7 +108,7 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const labelDE = getDEBySelector("span.fontsize-m");
+        const labelDE = getDEBySelector(".fontsize-s span");
 
         // Confirm label is displayed
         expect(getDETextContent(labelDE)).toBeUndefined();

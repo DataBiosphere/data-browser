@@ -2,65 +2,50 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for handling project TSV download functionality and corresponding display.
+ * Component for displaying project prepared manifest downloads. Contains description of download, and the
+ * manifest download, for the given project.
  */
 
 // Core dependencies
 import { Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { Observable, Subject } from "rxjs";
+import { select, Store } from "@ngrx/store";
+import { Observable, Subject } from "rxjs/index";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { FetchProjectTSVUrlRequestAction } from "../_ngrx/project/fetch-project-tsv-url-request.action";
-import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
+import { ClearProjectTSVUrlAction } from "../_ngrx/project/clear-project-tsv-url.action";
+import { FetchProjectTSVUrlRequestAction } from "../_ngrx/project/fetch-project-tsv-url-request.action";
 import { selectProjectTSVUrlsByProjectId } from "../_ngrx/project/project.selectors";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { ProjectTSVUrlResponse } from "../project/project-tsv-url-response.model";
-import { ClearProjectTSVUrlAction } from "../_ngrx/project/clear-project-tsv-url.action";
-import { ProjectTSVDownloadState } from "./project-tsv-download.state";
+import { ProjectDownloadManifestState } from "./project-download-manifest.state";
 
 @Component({
-    selector: "project-tsv-download",
-    templateUrl: "./project-tsv-download.component.html",
-    styleUrls: ["./project-tsv-download.component.scss"]
+    selector: "project-download-manifest",
+    templateUrl: "./project-download-manifest.component.html",
+    styleUrls: ["./project-download-manifest.component.scss"]
 })
-export class ProjectTSVDownloadComponent implements OnDestroy {
+export class ProjectDownloadManifestComponent implements OnDestroy {
+
+    // Template variables
+    public state$: Observable<ProjectDownloadManifestState>;
+
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
 
     // Inputs
+    @Input('classFontName') classFontName: string;
     @Input() projectId: string;
     @Input() projectTitle: string;
 
     // View child/ren
     @ViewChild("download" , { static: false }) downloadEl: ElementRef;
 
-    // Template variables
-    public state$: Observable<ProjectTSVDownloadState>;
-
-    // Locals
-    private ngDestroy$ = new Subject<boolean>();
-
     /**
-     * @param {DeviceDetectorService} deviceService
-     * @param {ElementRef} elementRef
-     * @param {Store<AppStore>} store
+     * @param {Store<AppState>} store
      */
-    public constructor(
-        private deviceService: DeviceDetectorService, private elementRef: ElementRef, private store: Store<AppState>) {
-    }
-
-    /**
-     * Returns true if device is either mobile or tablet.
-     * @returns {boolean}
-     */
-    public isDeviceHandheld(): boolean {
-
-        const isMobile = this.deviceService.isMobile();
-        const isTablet = this.deviceService.isTablet();
-
-        return (isMobile || isTablet);
-    }
+    public constructor(private store: Store<AppState>) {}
 
     /**
      * Return the URL to the meta TSV for the specified project.
@@ -68,10 +53,6 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
      * @returns {string}
      */
     public onDownloadMetadata() {
-
-        if ( this.isDeviceHandheld() ) {
-            return; // do nothing
-        }
 
         this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle, this.ngDestroy$));
     }
@@ -91,9 +72,9 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
     /**
      * Build up "not started" state if there is currently no TSV URL response value in the store for this project.
      *
-     * @returns {ProjectTSVUrlResponse}
+     * @returns {ProjectDownloadManifestState}
      */
-    private buildNotStartedResponse(): ProjectTSVDownloadState {
+    private buildNotStartedResponse(): ProjectDownloadManifestState {
 
         return {
             projectTSVUrlCompleted: false,
@@ -108,9 +89,9 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
      * Build up state to back component, from the specified response.
      *
      * @param {ProjectTSVUrlResponse} response
-     * @returns {ProjectTsvDownloadState}
+     * @returns {ProjectDownloadManifestState}
      */
-    private parseStateFromResponse(response: ProjectTSVUrlResponse): ProjectTSVDownloadState {
+    private parseStateFromResponse(response: ProjectTSVUrlResponse): ProjectDownloadManifestState {
 
         return {
             projectTSVUrlResponse: response,
@@ -137,7 +118,7 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
      * Determine the current status of the download request, if any.
      */
     public ngOnInit() {
-        
+
         this.state$ = this.store.pipe(
             select(selectProjectTSVUrlsByProjectId, {projectId: this.projectId}),
             takeUntil(this.ngDestroy$),
@@ -151,7 +132,6 @@ export class ProjectTSVDownloadComponent implements OnDestroy {
         );
 
         // Check if we can trigger actual file download - this is true if TSV URL request is completed.
-        // TODO required for HCATableProjectsComponent spec "should set up sort functionality on init"
         if ( this.state$ ) {
             this.state$.pipe(
                 filter(state => state.projectTSVUrlCompleted),

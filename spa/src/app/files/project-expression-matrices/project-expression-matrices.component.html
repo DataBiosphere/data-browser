@@ -1,0 +1,7 @@
+<ng-container *ngIf="state$ | async as state">
+    <h2 class="fontsize-xl">Expression Matrices</h2>
+    <project-download-matrix
+            class="max600"
+            [classFontName]="'fontsize-s'"
+            [projectMatrixUrls]="state.projectMatrixUrls"></project-download-matrix>
+</ng-container>

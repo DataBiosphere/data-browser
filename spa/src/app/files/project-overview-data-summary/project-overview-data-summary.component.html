@@ -1,0 +1,23 @@
+<ng-container *ngIf="dataSummaries">
+    <h4 class="fontsize-m semi-bold">Project Details</h4>
+    <div class="data-summary" *ngFor="let dataSummary of dataSummaries">
+        <p class="fontsize-xs semi-bold lhs">
+            <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                         [tooltipContent]="getColumnDescription(dataSummary.key)"
+                         [tooltipDisabled]="false"
+                         [tooltipPosition]="'above'">
+                {{getColumnDisplayName(dataSummary.key)}}
+            </hca-tooltip>
+        </p>
+        <ng-container [ngSwitch]="dataSummary.key">
+            <p *ngSwitchCase="'libraryConstructionApproach'"
+               class="fontsize-xxs rhs"
+               innerHTML="{{linkifyValues(dataSummary.value)}}"></p>
+            <analysis-protocol-pipeline-linker *ngSwitchCase="'workflow'"
+                                               class="fontsize-xs rhs"
+                                               [workflow]="dataSummary.value"></analysis-protocol-pipeline-linker>
+            <p *ngSwitchDefault
+               [ngClass]="getValueClassName(dataSummary.key, dataSummary.value)">{{dataSummary.value}}</p>
+        </ng-container>
+    </div>
+</ng-container>

@@ -1,0 +1,6 @@
+<ng-container *ngFor="let navItem of navItems">
+    <a class="nav"
+       [routerLink]="navItem.routerLink"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
+</ng-container>

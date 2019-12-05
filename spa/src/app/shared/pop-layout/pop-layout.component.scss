@@ -18,6 +18,26 @@ hca-section-title + hca-tab {
     margin-top: -24px;
 }
 
+/* Project detail page */
+/* ProjectDetailComponent */
+:host-context(project-detail) .wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/**
+ * Small Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
+
+    /* Project detail page */
+    /* ProjectDetailComponent */
+    :host-context(project-detail) .wrapper {
+        flex-direction: row;
+    }
+}
+
 /**
  * HCA specific breakpoint
  */

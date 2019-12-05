@@ -1,0 +1,11 @@
+<modal-layout *ngIf="state$ | async as state"
+              [loaded]="state.loaded"
+              (closed)="onClosedClicked()">
+    <ng-container title *ngIf="state.loaded">Download Project Metadata</ng-container>
+    <ng-container subtitle *ngIf="state.loaded">{{state.projectTitle}}</ng-container>
+    <ng-container content *ngIf="state.loaded">
+        <project-download-manifest [classFontName]="'fontsize-m'"
+                                   [projectId]="state.projectId"
+                                   [projectTitle]="state.projectTitle"></project-download-manifest>
+    </ng-container>
+</modal-layout>

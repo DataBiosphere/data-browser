@@ -27,6 +27,7 @@ import { TermResponseService } from "../../shared/term-response.service";
 import { TerraService } from "../../shared/terra.service";
 import { TermSortService } from "../../sort/term-sort.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAExportToTerraComponent } from "./hca-export-to-terra.component";
 
@@ -65,6 +66,7 @@ describe("HCAExportToTerraComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
+                DisplayDataLinkComponent,
                 FileTypeSummaryListComponent,
                 HCAGetDataPanelComponent,
                 HCAExportToTerraComponent

@@ -24,8 +24,12 @@
         </hca-get-data-panel>
         <p class="fontsize-m">Select the link below to download your manifest.</p>
         <p class="fontsize-m">This link expires in 24 hours.</p>
-        <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"></copy-to-clipboard>
-        <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to download the files listed in your
+        <div class="download">
+            <display-data-link [link]="state.manifestResponse.fileUrl"></display-data-link>
+            <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"></copy-to-clipboard>
+        </div>
+        <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to
+            download the files listed in your
             manifest along with their associated metadata.</p>
         <p class="fontsize-m"><a target="_blank"
                                  href="{{portalURL}}/guides#downloading-a-data-manifest">View HCA CLI

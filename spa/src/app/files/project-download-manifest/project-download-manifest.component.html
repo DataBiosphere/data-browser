@@ -1,0 +1,23 @@
+<ng-container *ngIf="state$ | async as state">
+    <p class={{classFontName}}>Metadata for the specified project is available for download below.</p>
+    <div class="downloads">
+        <div class="manifest">
+            <div class="download-progress-indicator">
+                <div class="download-not-started" (click)="onDownloadMetadata()"
+                     *ngIf="state.projectTSVUrlNotStarted"></div>
+                <mat-spinner class="hca-spinner"
+                             diameter="14"
+                             *ngIf="state.projectTSVUrlInitiated || state.projectTSVUrlInProgress"></mat-spinner>
+                <div class="download-failed fontsize-xxs" *ngIf="state.projectTSVUrlFailed">x</div>
+                <div [ngClass]="{'download-completed': true, 'hidden': !state.projectTSVUrlCompleted}"></div>
+            </div>
+            <span class="fontsize-s">tsv</span>
+            <a class="hidden" #download></a>
+            <copy-to-clipboard *ngIf="state.projectTSVUrlCompleted"
+                               [copyToClipboardLink]="state.projectTSVUrlResponse.fileUrl"></copy-to-clipboard>
+        </div>
+        <left-bar>
+            <data-download-citation></data-download-citation>
+        </left-bar>
+    </div>
+</ng-container>

@@ -1,0 +1,7 @@
+<ng-container *ngIf="keyValuePairs">
+    <h4 class="fontsize-m semi-bold">{{title}}</h4>
+    <div class="key-value-pair" *ngFor="let keyValuePair of keyValuePairs">
+        <p class="fontsize-xs semi-bold lhs">{{keyValuePair.key}}</p>
+        <p class="fontsize-xxs rhs">{{keyValuePair.value}}</p>
+    </div>
+</ng-container>

@@ -19,7 +19,7 @@ import EntitySpec from "../../files/shared/entity-spec";
 @Component({
     selector: "hca-tab",
     templateUrl: "./hca-tab.component.html",
-    styleUrls: ["./hca-tab.scss"],
+    styleUrls: ["./hca-tab.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

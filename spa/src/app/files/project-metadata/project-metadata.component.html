@@ -1,0 +1,7 @@
+<ng-container *ngIf="state$ | async as state">
+    <h2 class="fontsize-xl">Project Metadata</h2>
+    <project-download-manifest class="max600"
+                               [classFontName]="'fontsize-s'"
+                               [projectId]="state.projectId"
+                               [projectTitle]="state.projectTitle"></project-download-manifest>
+</ng-container>

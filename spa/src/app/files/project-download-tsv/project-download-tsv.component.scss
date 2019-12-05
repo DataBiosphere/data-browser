@@ -14,8 +14,16 @@
     display: flex;
     justify-content: center;
 
+    /* TODO remove hca-project */
     :host-context(hca-project) {
         align-items: flex-start;
+    }
+
+    /* Inside project metadata component */
+    :host-context(project-metadata) {
+        align-items: flex-start;
+        flex: 1;
+        justify-content: flex-start;
     }
 
     /* Add component height and width inside project table to align with matrix download icon. Not required for project detail */
@@ -25,7 +33,9 @@
     }
 
     /* Slot for displaying download icon, spinner, done and error icons */
-    :host-context(hca-project) .download-progress-indicator {
+    /* Inside project metadata component */
+    /* TODO remove hca-project */
+    :host-context(hca-project) .download-progress-indicator, :host-context(project-metadata) .download-progress-indicator {
         align-items: flex-start;
         display: flex;
         justify-content: center;
@@ -46,8 +56,9 @@
         width: 48px;
     }
 
-    /* Download icon - inside project detail component */
-    :host-context(hca-project) .download-not-started {
+    /* Download icon - inside project detail component, project metadata component */
+    /* TODO remove hca-project */
+    :host-context(hca-project) .download-not-started, :host-context(project-metadata) .download-not-started {
         background-size: 16px 16px;
         height: 16px;
         width: 16px;
@@ -61,7 +72,9 @@
         width: 14px;
     }
 
-    :host-context(hca-project) .download-completed {
+    /* Download complete icon - inside project metadata component */
+    /* TODO remove hca-project */
+    :host-context(hca-project) .download-completed, :host-context(project-metadata) .download-completed {
         height: 16px;
         width: 16px;
     }

@@ -32,6 +32,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../config/config.service";
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
+import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
@@ -54,6 +56,7 @@ import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
 import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
 import { HCAGetMatrixSpeciesSelectionComponent } from "./hca-get-data/hca-get-matrix-species-selection/hca-get-matrix-species-selection.component";
+import { LeftBarComponent } from "./left-bar/left-bar.component";
 import { MatrixPartialQueryMatchWarningComponent } from "./hca-get-data/matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
 import { MatrixUrlRequestFormComponent } from "./hca-get-data/matrix-url-request-form/matrix-url-request-form.component";
 import { MatrixUrlRequestCompletedComponent } from "./hca-get-data/matrix-url-request-completed/matrix-url-request-completed.component";
@@ -74,15 +77,28 @@ import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ModalModule } from "../modal/modal.module";
 import { ProjectService } from "./project/project.service";
+import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
-import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
-import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
+import { ProjectDetailComponent } from "./project-detail/project-detail.component";
+import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
+import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
+import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadMatrixComponent } from "./project-download-matrix/project-download-matrix.component";
+import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
+import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
+import { ProjectDownloadTSVComponent } from "./project-download-tsv/project-download-tsv.component";
+import { ProjectExpressionMatricesComponent } from "./project-expression-matrices/project-expression-matrices.component";
+import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
-import { ProjectTSVDownloadComponent } from "./project-tsv-download/project-tsv-download.component";
+import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
+import { ProjectNavComponent } from "./project-nav/project-nav.component";
+import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
+import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
+import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
+import { ProjectViewFactory } from "./project-view/project-view.factory";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
@@ -127,9 +143,11 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
     ],
     declarations: [
         AnalysisProtocolPipelineLinkerComponent,
-        FileTypeSummaryListComponent,
+        DataDownloadCitationComponent,
+        DisplayDataLinkComponent,
         FileManifestSummaryComponent,
         FileNameShortenerPipe,
+        FileTypeSummaryListComponent,
         FilesComponent,
         HCAContentEllipsisComponent,
         HCAContentUnspecifiedDashComponent,
@@ -141,22 +159,11 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         HCAFileFilterComponent,
         HCAFileFilterResultComponent,
         HCAFileFilterWrapperComponent,
-        MatrixPartialQueryMatchWarningComponent,
-        MatrixUrlRequestFormComponent,
-        MatrixUrlRequestCompletedComponent,
-        ProjectDeprecatedComponent,
-        ProjectDownloadMatrixComponent,
-        ProjectDownloadMatrixModalComponent,
-        ProjectDownloadMatrixModalContainerComponent,
-        ProjectGuardComponent,
-        ProjectIngestInProgressComponent,
-        ProjectIntegrationsComponent,
-        ProjectSupplementaryLinksComponent,
-        ProjectTSVDownloadComponent,
+        HCAFileSummaryComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,
-        HCAGetDataPanelComponent,
         HCAGetDataFileSummaryComponent,
+        HCAGetDataPanelComponent,
         HCAGetDataSummaryComponent,
         HCAGetManifestComponent,
         HCAGetMatrixComponent,
@@ -175,22 +182,48 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         HCATableSamplesComponent,
         HCATableSortComponent,
         HCATooltipComponent,
-        HCAFileSummaryComponent,
+        LeftBarComponent,
+        MatrixPartialQueryMatchWarningComponent,
+        MatrixUrlRequestCompletedComponent,
+        MatrixUrlRequestFormComponent,
+        ProjectDataCitationComponent,
+        ProjectDeprecatedComponent,
+        ProjectDetailComponent,
+        ProjectDownloadManifestComponent,
+        ProjectDownloadManifestModalComponent,
+        ProjectDownloadManifestModalContainerComponent,
+        ProjectDownloadMatrixComponent,
+        ProjectDownloadMatrixModalComponent,
+        ProjectDownloadMatrixModalContainerComponent,
+        ProjectDownloadTSVComponent,
+        ProjectExpressionMatricesComponent,
+        ProjectExternalResourcesComponent,
+        ProjectGuardComponent,
+        ProjectIngestInProgressComponent,
+        ProjectIntegrationsComponent,
+        ProjectMetadataComponent,
+        ProjectNavComponent,
+        ProjectOverviewComponent,
+        ProjectOverviewDataSummaryComponent,
+        ProjectSummaryStatsComponent,
+        ProjectSupplementaryLinksComponent,
         TableScroll
     ],
     entryComponents: [
+        ProjectDownloadManifestModalComponent,
         ProjectDownloadMatrixModalComponent
     ],
     providers: [
         ConfigService,
         DownloadService,
-        SearchTermService,
         FileFacetDisplayService,
         FileManifestService,
         FilesService,
         IntegrationService,
         MatrixService,
         ProjectService,
+        ProjectViewFactory,
+        SearchTermService,
         TableRendererService,
         TermResponseService,
         TermSortService,

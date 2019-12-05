@@ -1,0 +1,28 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project nav component.
+ */
+
+/* Project nav - container */
+:host {
+    flex: none;
+    margin-right: 28px;
+    max-width: 148px;
+    padding-top: 30px;
+    width: 100%;
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1024px) {
+
+    /* Project nav - container */
+    :host {
+        margin-right: 32px;
+        max-width: 258px;
+    }
+}
