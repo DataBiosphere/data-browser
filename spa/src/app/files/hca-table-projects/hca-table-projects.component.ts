@@ -134,13 +134,24 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
+     * Display the prepared manifest downloads modal.
+     *
+     * @param {string} projectId
+     */
+    public onProjectDownloadManifestClicked(projectId: string) {
+
+        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/project-metadata`;
+        this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
+    }
+
+    /**
      * Display the prepared matrix downloads modal.
      * 
      * @param {string} projectId
      */
     public onProjectDownloadMatrixClicked(projectId: string) {
 
-        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/prepared-expression-matrices`;
+        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/expression-matrices`;
         this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
     }
 

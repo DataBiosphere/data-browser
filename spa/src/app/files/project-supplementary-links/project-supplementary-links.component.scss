@@ -5,22 +5,34 @@
  * Styles for project supplementary links component.
  */
 
-:host-context(.project-supplementary) {
+/* Heading */
+h2 {
+    margin: 14px 0 24px;
+}
 
-    /* Index */
-    span {
+p {
+    margin: 0;
+}
+
+/* Max width */
+.max600 {
+    max-width: 600px;
+}
+
+/* Link container */
+.supplementary-link {
+
+    align-items: baseline;
+    display: flex;
+    padding-bottom: 8px;
+
+    /* Index, link */
+    span, a {
         padding-right: 8px;
-    }
-
-    /* Link container */
-    p {
-        align-items: baseline;
-        display: flex;
     }
 
     /* Link */
     a {
-        padding-right: 8px;
         word-break: break-all;
     }
 }

@@ -6,9 +6,9 @@
  */
 
 // App dependencies
-import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
-import { ContactView } from "./contact-view.model";
-import { ContributorView } from "./contributor-view.model";
+import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
+import { ContactView } from "../project-view/contact-view.model";
+import { ContributorView } from "../project-view/contributor-view.model";
 import { Project } from "../shared/project.model";
 
 export interface ProjectView {

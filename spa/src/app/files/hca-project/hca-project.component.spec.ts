@@ -21,12 +21,12 @@ import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { HCASectionTitleComponent } from "../../shared/hca-section-title/hca-section-title.component";
-import { HCATabComponent } from "../../shared/hca-tab/hca-tab";
+import { HCATabComponent } from "../../shared/hca-tab/hca-tab.component";
 import { PopLayoutComponent } from "../../shared/pop-layout/pop-layout.component";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { ProjectDownloadTSVComponent } from "../project-download-tsv/project-download-tsv.component";
 import { ProjectIntegrationsComponent } from "../project-integrations/project-integrations.component";
-import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { GenusSpecies } from "../shared/genus-species.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
@@ -37,6 +37,7 @@ import {
     PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
     PROJECT_DETAIL_UNSPECIFIED_VALUES, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
 } from "./hca-project-mapper.mock";
+
 
 describe("HCAProjectComponent", () => {
 
@@ -133,7 +134,7 @@ describe("HCAProjectComponent", () => {
                 PopLayoutComponent,
                 ProjectIntegrationsComponent,
                 ProjectSupplementaryLinksComponent,
-                ProjectTSVDownloadComponent
+                ProjectDownloadTSVComponent
             ],
             imports: [
                 CcPipeModule,

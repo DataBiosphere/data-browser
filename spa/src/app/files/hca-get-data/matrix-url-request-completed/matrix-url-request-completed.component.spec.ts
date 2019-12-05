@@ -15,10 +15,11 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App components
 import { ConfigService } from "../../../config/config.service";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
-import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixUrlRequestCompletedComponent } from "./matrix-url-request-completed.component";
 
@@ -75,9 +76,10 @@ describe("MatrixUrlRequestCompleted", () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                MatrixUrlRequestCompletedComponent,
                 CopyToClipboardComponent,
-                HCAGetDataPanelComponent
+                DisplayDataLinkComponent,
+                HCAGetDataPanelComponent,
+                MatrixUrlRequestCompletedComponent
             ],
             imports: [
                 ClipboardModule,

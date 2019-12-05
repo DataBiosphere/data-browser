@@ -1,0 +1,13 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for left bar component.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Bar */
+:host {
+    border-left: 1px solid $hca-gray-lightest;
+    padding: 0 0 10px 10px;
+}

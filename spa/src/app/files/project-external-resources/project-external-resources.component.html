@@ -1,0 +1,13 @@
+<ng-container *ngIf="state$ | async as state">
+    <h2 class="fontsize-xl">External Resources</h2>
+    <div class="max600">
+        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
+            <ng-container *ngSwitchCase="true">
+                <p class="fontsize-xs">This project's data can be viewed live in the following external resources:</p>
+                <project-integrations [integrations]="state.integrations"></project-integrations>
+            </ng-container>
+            <p class="fontsize-xs" *ngSwitchDefault>There are currently no integrations for this project at this
+                time.</p>
+        </ng-container>
+    </div>
+</ng-container>

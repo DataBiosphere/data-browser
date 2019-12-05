@@ -1,9 +1,5 @@
-<div class="download-url">
-    <a class="fontsize-s link" href="{{copyToClipboardLink}}"
-       [attr.target]="targetBlank ? '_blank' : null">{{copyToClipboardLink}}</a>
-    <div class="clipboard-copy" ngxClipboard (click)="onCopy($event)" [cbContent]="copyToClipboardLink">
-        <mat-icon>assignment</mat-icon>
-        <span class="fontsize-xxs" *ngIf="!isCopied(copied | async)">Copy link {{note}}</span>
-        <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">Link copied.</span>
-    </div>
+<div class="clipboard-copy" ngxClipboard (click)="onCopy($event)" [cbContent]="copyToClipboardLink">
+    <mat-icon>assignment</mat-icon>
+    <span class="fontsize-xxs" *ngIf="!isCopied(copied | async)">Copy link</span>
+    <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">Link copied</span>
 </div>

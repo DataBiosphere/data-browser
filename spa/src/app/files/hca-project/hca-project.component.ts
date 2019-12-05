@@ -14,22 +14,20 @@ import { combineLatest, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 // App dependencies
-import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
-import { ContactView } from "./contact-view.model";
-import { ContributorView } from "./contributor-view.model";
-import { HCAProjectState } from "./hca-project.state";
-import { ProjectView } from "./project-view.model";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
-import { EntitySelectAction, FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
+import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
+import { ContactView } from "../project-view/contact-view.model";
+import { ContributorView } from "../project-view/contributor-view.model";
 import { Contributor } from "../shared/contributor.model";
 import EntitySpec from "../shared/entity-spec";
 import { Project } from "../shared/project.model";
@@ -40,6 +38,8 @@ import {
     getColumnDescription,
     getColumnDisplayName
 } from "../table/table-methods";
+import { HCAProjectState } from "./hca-project.state";
+import { ProjectView } from "./project-view.model";
 
 @Component({
     selector: "hca-project",
@@ -312,17 +312,6 @@ export class HCAProjectComponent implements OnDestroy, OnInit {
 
         const selected = this.isProjectSelected(selectedProjectIds, projectId);
         this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !selected));
-        this.router.navigate(["/projects"]);
-    }
-
-    /**
-     * Handle click on tab - update selected entity in state and return user back to project table.
-     *
-     * @param {EntitySpec} tab
-     */
-    public onTabSelected(tab: EntitySpec) {
-
-        this.store.dispatch(new EntitySelectAction(tab.key));
         this.router.navigate(["/projects"]);
     }
 

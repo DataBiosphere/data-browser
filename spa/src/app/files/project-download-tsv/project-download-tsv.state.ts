@@ -8,7 +8,7 @@
 // App dependencies
 import { ProjectTSVUrlResponse } from "../project/project-tsv-url-response.model";
 
-export interface ProjectTSVDownloadState {
+export interface ProjectDownloadTSVState {
 
     projectTSVUrlResponse?: ProjectTSVUrlResponse; // There may be no response yet if the request has not yet started
     projectTSVUrlCompleted: boolean;

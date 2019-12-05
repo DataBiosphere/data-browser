@@ -10,5 +10,8 @@
     <p class="fontsize-m">To save your expression matrix with a different name, right click the link below and choose
         “Save Link As...”.</p>
     <p class="fontsize-m">This link expires in 30 days.</p>
-    <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(matrixUrlRequest)"></copy-to-clipboard>
+    <div class="download">
+        <display-data-link [link]="getMatrixLink(matrixUrlRequest)"></display-data-link>
+        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(matrixUrlRequest)"></copy-to-clipboard>
+    </div>
 </ng-container>

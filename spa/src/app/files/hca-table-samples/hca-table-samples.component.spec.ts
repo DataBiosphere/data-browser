@@ -36,7 +36,6 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
-import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
@@ -88,7 +87,6 @@ describe("HCATableSamplesComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 DownloadButtonComponent,
-                ProjectTSVDownloadComponent,
                 TableScroll
             ],
             imports: [

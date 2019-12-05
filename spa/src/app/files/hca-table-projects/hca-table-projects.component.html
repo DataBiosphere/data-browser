@@ -204,9 +204,8 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('getData')"
                               [ngStyle]="getColumnStyle('getData')">
                         <hca-table-cell class="cell-split">
-                            <project-tsv-download [projectId]="element.entryId"
-                                                  [projectTitle]="element.projectTitle"></project-tsv-download>
-                            <download-button [downloadUnavailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                            <download-button [downloadAvailable]="true" (downloadClicked)="onProjectDownloadManifestClicked(element.entryId)"></download-button>
+                            <download-button [downloadAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
                                                    (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>
                         </hca-table-cell>
                     </mat-cell>

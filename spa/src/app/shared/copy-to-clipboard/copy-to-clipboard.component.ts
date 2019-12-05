@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component handling get data requested url.
+ * Component handling action of copy to clipboard.
  */
 
 // Core dependencies
@@ -22,8 +22,6 @@ export class CopyToClipboardComponent {
 
     // Inputs
     @Input() copyToClipboardLink: string;
-    @Input() note: string;
-    @Input() targetBlank: boolean;
 
     /**
      * Returns true, when copy to clipboard is successful.

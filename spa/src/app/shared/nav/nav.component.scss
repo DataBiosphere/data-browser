@@ -1,0 +1,28 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for nav component.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Navigation link */
+a.nav {
+    color: $hca-gray-dark;
+    display: block;
+    font-family: Montserrat,sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 8px 0;
+}
+
+/* Link - hover */
+a.nav:hover {
+    color: $hca-gray-darkest;
+}
+
+/* Link - active */
+a.nav.active {
+    color: $hca-primary;
+}

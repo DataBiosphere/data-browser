@@ -22,8 +22,11 @@
             <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
             <p class="fontsize-m">The workspace URL is referenced below.</p>
         </hca-get-data-panel>
-        <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                           [targetBlank]="true"></copy-to-clipboard>
+        <div class="download">
+            <display-data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
+                               [targetBlank]="true"></display-data-link>
+            <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"></copy-to-clipboard>
+        </div>
     </ng-container>
     <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
         <hca-get-data-panel [downloadError]="isRequestFailed(state.exportToTerraStatus)">

@@ -12,9 +12,26 @@ import { FileDownloadLink } from "../../shared/file-download/file-download.model
 
 export class ProjectMatrixUrls {
 
-    constructor(
-        public readonly entityId: string,
-        public readonly urlsBySpecies: Map<GenusSpecies, SpeciesMatrixUrls>) {}
+    constructor(public readonly entityId: string,
+                public readonly urlsBySpecies: Map<GenusSpecies, SpeciesMatrixUrls>) {
+    }
+
+    /**
+     * Returns the distinct set of available file formats, for this project.
+     *
+     * @returns {string[]}
+     */
+    public listAvailableMatrixFileFormats(): string[] {
+
+        const fileTypeSet = [...this.urlsBySpecies.values()].reduce((accum, urlsBySpecies) => {
+            urlsBySpecies.listMatrixUrls()
+                .map((fileDownloadLink: FileDownloadLink) => fileDownloadLink.name)
+                .forEach((fileType: string) => accum.add(fileType));
+            return accum;
+        }, new Set<string>());
+
+        return [...fileTypeSet];
+    }
 
     /**
      * List the set of species that have associated matrix downloads, for this project.

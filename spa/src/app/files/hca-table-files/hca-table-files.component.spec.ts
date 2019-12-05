@@ -38,7 +38,6 @@ import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
-import { ProjectTSVDownloadComponent } from "../project-tsv-download/project-tsv-download.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { DownloadService } from "../shared/download.service";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
@@ -46,6 +45,7 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { TableRendererService } from "../table/table-renderer.service";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { HCATableFilesComponent } from "./hca-table-files.component";
+import { ProjectDownloadTSVComponent } from "../project-download-tsv/project-download-tsv.component";
 
 describe("HCATableFilesComponent", () => {
 
@@ -82,7 +82,7 @@ describe("HCATableFilesComponent", () => {
                 HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
                 DownloadButtonComponent,
-                ProjectTSVDownloadComponent,
+                ProjectDownloadTSVComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,

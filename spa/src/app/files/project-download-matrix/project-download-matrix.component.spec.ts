@@ -10,11 +10,15 @@ import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material";
 import { By } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
+import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
+import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { GenusSpecies } from "../shared/genus-species.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
@@ -24,6 +28,8 @@ describe("ProjectDownloadMatrixComponent", () => {
 
     let component: ProjectDownloadMatrixComponent;
     let fixture: ComponentFixture<ProjectDownloadMatrixComponent>;
+
+    const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     // Example of project matrix urls with single values
     const SPECIES_URLS_HOMO_SAPIENS = new SpeciesMatrixUrls(
@@ -53,10 +59,6 @@ describe("ProjectDownloadMatrixComponent", () => {
     // Example of project matrix urls with no values
     const PROJECT_MATRIX_URLS_EMPTY = new ProjectMatrixUrls("1111", new Map());
 
-    // Input properties
-    const INPUT_PROPERTY_LABEL = "label";
-    const INPUT_PROPERTY_URL = "url";
-
     // Selectors
     const SELECTOR_COMPONENT_FILE_DOWNLOAD = "file-download";
     const SELECTOR_HEADING_H3 = "h3";
@@ -66,6 +68,8 @@ describe("ProjectDownloadMatrixComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
+                DataDownloadCitationComponent,
+                LeftBarComponent,
                 FileDownloadComponent,
                 ProjectDownloadMatrixComponent
             ],
@@ -73,11 +77,19 @@ describe("ProjectDownloadMatrixComponent", () => {
                 ClipboardModule,
                 MatIconModule
             ],
-            providers: []
+            providers: [
+                ConfigService,
+                {
+                    provide: Store,
+                    useValue: testStore
+                }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ProjectDownloadMatrixComponent);
         component = fixture.componentInstance;
+
+        component.classFontName = "fontsize-s";
     }));
 
     /**
@@ -188,8 +200,8 @@ describe("ProjectDownloadMatrixComponent", () => {
     //     // Get each species in the project matrix URLs
     //     const species = Array.from(component.projectMatrixUrls.urlsBySpecies.keys());
     //
-    
-    
+
+
     //     // Get the urls for each species
     //     const urlsBySpecies = species.map(s => {
     //         return Array.from(component.projectMatrixUrls.listMatrixUrlsBySpecies(s)).map(matrix => matrix.url);

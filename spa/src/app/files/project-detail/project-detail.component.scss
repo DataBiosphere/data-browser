@@ -1,0 +1,69 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project detail component.
+ */
+@import "../../site/theme/cgl.vars";
+
+:host {
+
+    /* Content container */
+    div[content] {
+        flex: 1;
+        padding: 30px 0 36px;
+    }
+}
+
+/* Project Title */
+.project-title {
+
+    /* Project title */
+    h2 {
+        display: inline-block;
+        margin-top: 0;
+        max-width: 600px; /* TODO re-use */
+    }
+
+    /* Select project */
+    .select-project {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+
+        /* Select box */
+        .box {
+            border: 1px solid $hca-gray-light;
+            border-radius: 3px;
+            flex-shrink: 0;
+            height: 13px;
+            margin-right: 8px;
+            position: relative; /* Positions check */
+            width: 13px;
+
+            /* Selected */
+            &.selected {
+                border-color: #1F6B9A;
+                background-color: $hca-primary;
+            }
+
+            /* Check */
+            mat-icon {
+                color: $hca-white;
+                font-size: 10px;
+                height: 10px;
+                left: 50%;
+                position: absolute;
+                top: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                width: 10px;
+            }
+        }
+
+        /* Select text */
+        span {
+            color: $hca-secondary;
+            margin: 0;
+        }
+    }
+}

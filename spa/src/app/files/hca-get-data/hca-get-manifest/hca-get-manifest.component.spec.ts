@@ -17,14 +17,15 @@ import { of } from "rxjs";
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../../config/config.service";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
-import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetManifestComponent } from "./hca-get-manifest.component";
-import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
 
 describe("HCAGetManifestComponent", () => {
 
@@ -60,6 +61,7 @@ describe("HCAGetManifestComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
+                DisplayDataLinkComponent,
                 FileTypeSummaryListComponent,
                 HCAGetDataPanelComponent,
                 HCAGetManifestComponent

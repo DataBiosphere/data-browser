@@ -1,24 +1,33 @@
-<p class="fontsize-m">
-    Expression matrices for the specified project are available for download below in
-    <a href="https://math.nist.gov/MatrixMarket/formats.html" target="_blank">mtx</a>,
-    <a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">csv</a> and
-    <a href="http://loompy.org/" target="_blank">loom</a> formats.
-</p>
-<div class="downloads">
-    <div>
-        <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
-            <h3 class="fontsize-l">{{species}}</h3>
-            <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
-                           [link]="matrixUrl"></file-download>
+<ng-container *ngIf="projectMatrixUrls">
+    <ng-container [ngSwitch]="projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
+        <ng-container *ngSwitchCase="true">
+            <p class={{classFontName}}>
+                <span>Expression matrices for the specified project are available for download below in </span>
+                <ng-container
+                        *ngFor="let fileFormat of projectMatrixUrls.listAvailableMatrixFileFormats(); last as lastFileFormat; first as firstFileFormat">
+                    <span *ngIf="isCommaDelimited(firstFileFormat, lastFileFormat)">, </span>
+                    <span *ngIf="isAndDelimited(firstFileFormat, lastFileFormat)"> and </span>
+                    <a href="{{getFileFormatLink(fileFormat)}}" target="_blank">{{fileFormat}}</a>
+                </ng-container>
+                <ng-container [ngPlural]="countOfFileFormats(projectMatrixUrls.listAvailableMatrixFileFormats())">
+                    <ng-template ngPluralCase="1"><span> format.</span></ng-template>
+                    <ng-template ngPluralCase="other"><span> formats.</span></ng-template>
+                </ng-container>
+            </p>
+            <div class="downloads">
+                <div>
+                    <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
+                        <h3 class="fontsize-l">{{species}}</h3>
+                        <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
+                                       [link]="matrixUrl"></file-download>
+                    </ng-container>
+                </div>
+                <left-bar>
+                    <data-download-citation></data-download-citation>
+                </left-bar>
+            </div>
         </ng-container>
-    </div>
-    <div>
-        <p class="fontsize-xs">
-            Data downloaded from the HCA DCP is governed by the <a href="https://www.humancellatlas.org/data-release-policy/"
-                                                                   target="_blank">HCA Data Release Policy</a> and licensed
-            under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0
-            International License (CC BY 4.0)</a>. For more information please see our
-            <a href="https://staging.data.humancellatlas.org/about/data-use-agreement" target="_blank">Data Use Agreement</a>.
-        </p>
-    </div>
-</div>
+        <p class="fontsize-s"
+           *ngSwitchDefault>There are no expression matrices for the specified project available for download.</p>
+    </ng-container>
+</ng-container>
