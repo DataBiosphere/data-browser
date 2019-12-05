@@ -11,7 +11,6 @@ import { Route } from "@angular/router";
 // App dependencies
 import { FilesComponent } from "./files.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
-import { HCAProjectComponent } from "./hca-project/hca-project.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
@@ -84,11 +83,7 @@ export const routes: Route[] = [
             {
                 path: ":id/m/expression-matrices",
                 component: ProjectDownloadMatrixModalContainerComponent
-            },
-            { // TODO remove once left nav functionality is complete
-                path: ":id/deprecated",
-                component: HCAProjectComponent
-            },
+            }
         ]
     }
 ];

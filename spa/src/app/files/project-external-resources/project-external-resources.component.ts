@@ -6,27 +6,31 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject } from "rxjs";
+import { filter } from "rxjs/operators";
 
 // App dependencies
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { ProjectExternalResourcesState } from "./project-external-resources.state";
+import { Subject } from "rxjs/index";
 
 @Component({
     selector: "project-external-resources",
     templateUrl: "./project-external-resources.component.html",
     styleUrls: ["./project-external-resources.component.scss"]
 })
-export class ProjectExternalResourcesComponent {
+export class ProjectExternalResourcesComponent implements OnDestroy {
 
     // Template variables
-    public state$: Observable<ProjectExternalResourcesState>;
+    private ngDestroy$ = new Subject();
+    public state$ = new BehaviorSubject<ProjectExternalResourcesState>({
+        loaded: false
+    });
 
     /**
      * @param {ActivatedRoute} activatedRoute
@@ -34,6 +38,16 @@ export class ProjectExternalResourcesComponent {
      */
     public constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {
     }
+
+    /**
+     * Kill subscriptions on destroy of component.
+     */
+    public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
 
     /**
      * Update state with selected project.
@@ -46,20 +60,15 @@ export class ProjectExternalResourcesComponent {
         // Request and grab the integrations for the current project
         this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
         const integrations$ = this.store.pipe(
-            select(selectProjectIntegrations, {projectId: projectId})
-        );
+            select(selectProjectIntegrations, {projectId: projectId}),
+            filter(integrations => !!integrations)
+        ).subscribe((integrations) => {
 
-        this.state$ = combineLatest(
-            integrations$
-        )
-            .pipe(
-                map(([integrations]) => {
-
-                    return {
-                        integrations: integrations,
-                        integratedWithTertiaryPortals: integrations.length > 0,
-                    };
-                })
-            );
+            this.state$.next({
+                loaded: true,
+                integrations: integrations,
+                integratedWithTertiaryPortals: integrations.length > 0,
+            });
+        });
     }
 }
