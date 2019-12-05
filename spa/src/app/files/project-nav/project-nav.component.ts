@@ -38,41 +38,40 @@ export class ProjectNavComponent {
 
             const projectId = params.id;
 
-            const projectInformation =
-                {
-                    display: "Project Information",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
-                };
+            const projectInformation = {
+                display: "Project Information",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
+            };
 
-            const projectMetadata =
-                {
-                    display: "Project Metadata",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
-                };
+            const projectMetadata = {
+                display: "Project Metadata",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
+            };
 
-            const expressionMatrices =
-                {
-                    display: "Expression Matrices",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
-                };
+            const expressionMatrices =  {
+                display: "Expression Matrices",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
+            };
 
-            const externalResources =
-                {
-                    display: "External Resources",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES)
-                };
+            const supplementaryLinks = {
+                display: "Supplementary Links",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUPPLEMENTARY_LINKS)
+            };
 
-            const summaryStats =
-                {
-                    display: "Summary Stats",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
-                };
+            const externalResources = {
+                display: "External Resources",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES)
+            };
 
-            const dataCitation =
-                {
-                    display: "Data Citation",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
-                };
+            const summaryStats = {
+                display: "Summary Stats",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
+            };
+
+            const dataCitation = {
+                display: "Data Citation",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
+            };
 
             let navItemList;
 
@@ -83,7 +82,8 @@ export class ProjectNavComponent {
             }
             else {
 
-                navItemList = [projectInformation, projectMetadata, expressionMatrices, externalResources];
+                navItemList =
+                    [projectInformation, projectMetadata, expressionMatrices, supplementaryLinks, externalResources];
             }
 
             this.navItems = navItemList;

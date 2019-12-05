@@ -21,6 +21,7 @@ import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
+import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 
 export const routes: Route[] = [
     {
@@ -58,6 +59,10 @@ export const routes: Route[] = [
                     {
                         path: "expression-matrices",
                         component: ProjectExpressionMatricesComponent
+                    },
+                    {
+                        path: "supplementary-links",
+                        component: ProjectSupplementaryLinksComponent
                     },
                     {
                         path: "external-resources",
