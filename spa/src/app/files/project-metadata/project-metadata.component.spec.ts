@@ -19,7 +19,7 @@ import { of } from "rxjs/index";
 import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
-import { PROJECT_DETAIL_SINGLE_VALUES } from "../hca-project/hca-project-mapper.mock";
+import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
 import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";

@@ -14,7 +14,7 @@ import { Portal } from "../_ngrx/integration/portal.model";
 import {
     PROJECT_PORTAL_NULL_VALUES,
     PROJECT_PORTAL_MULTIPLE_VALUES_SINGLE_INTEGRATION_OBJECT, PROJECT_PORTAL_SINGLE_VALUE_SINGLE_INTEGRATION_OBJECT
-} from "../hca-project/hca-project-mapper.mock";
+} from "../project/hca-project-mapper.mock";
 import { ProjectIntegrationsComponent } from "./project-integrations.component";
 
 

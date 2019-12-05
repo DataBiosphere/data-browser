@@ -26,4 +26,4 @@ export const selectIntegrationsByProjectId =
  * Returns the integrations for the specified project ID.
  */
 export const selectProjectIntegrations =
-    createSelector(selectIntegrations, (state, props) => state.integrationsByProjectId.get(props.projectId) || []);
+    createSelector(selectIntegrations, (state, props) => state.integrationsByProjectId.get(props.projectId));
