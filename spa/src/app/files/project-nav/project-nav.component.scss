@@ -9,9 +9,19 @@
 :host {
     flex: none;
     margin-right: 28px;
-    max-width: 148px;
     padding-top: 30px;
     width: 100%;
+}
+
+/**
+ * Small Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
+
+    :host {
+        max-width: 148px;
+    }
 }
 
 /**

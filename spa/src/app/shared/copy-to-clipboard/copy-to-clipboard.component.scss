@@ -28,7 +28,8 @@
 /* ProjectOverviewComponent */
 /* ProjectDownloadManifestComponent */
 /* ProjectDownloadMatrixComponent */
-:host-context(hca-project), :host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix) {
+/* ProjectSupplementaryLinksComponent */
+:host-context(hca-project), :host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix), :host-context(project-supplementary-links) {
 
     /* Display - none */
     /* Copy icon */
@@ -42,7 +43,7 @@
     }
 }
 
-/* HCAProjectComponent - .project-supplementary */
+/* HCAProjectComponent - .project-supplementary TODO remove */
 :host-context(.project-supplementary) {
 
     flex: none;
@@ -51,5 +52,16 @@
     /* Clipboard container */
     .clipboard-copy {
         justify-content: flex-end;
+    }
+}
+
+/* ProjectSupplementaryLinksComponent */
+:host-context(project-supplementary-links) {
+
+    /* Clipboard container */
+    .clipboard-copy {
+        flex: none;
+        justify-content: flex-end;
+        width: 76px; /* Required to placehold space for "link copied" text */
     }
 }
