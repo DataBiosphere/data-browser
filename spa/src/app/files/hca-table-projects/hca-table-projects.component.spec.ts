@@ -26,27 +26,30 @@ import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
+import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-header-download/hca-table-column-header-download.component";
-import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
-import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
-import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
+import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 
 describe("HCATableProjectsComponent", () => {
@@ -104,6 +107,9 @@ describe("HCATableProjectsComponent", () => {
             declarations: [
                 AnalysisProtocolPipelineLinkerComponent,
                 CopyToClipboardComponent,
+                DataDownloadCitationComponent,
+                DownloadButtonComponent,
+                FileDownloadComponent,
                 HCAContentEllipsisComponent,
                 HCAContentUnspecifiedDashComponent,
                 HCAEllipsisTextComponent,
@@ -117,7 +123,7 @@ describe("HCATableProjectsComponent", () => {
                 HCATableProjectsComponent,
                 HCATableSortComponent,
                 HCATooltipComponent,
-                DownloadButtonComponent,
+                LeftBarComponent,
                 ProjectDownloadMatrixComponent,
                 TableScroll
             ],

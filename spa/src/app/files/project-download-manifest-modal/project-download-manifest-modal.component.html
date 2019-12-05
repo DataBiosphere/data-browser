@@ -1,6 +1,6 @@
 <modal-layout *ngIf="state$ | async as state"
               [loaded]="state.loaded"
-              (closed)="onClosedClicked()">
+              (closed)="redirectToProjects()">
     <ng-container title *ngIf="state.loaded">Download Project Metadata</ng-container>
     <ng-container subtitle *ngIf="state.loaded">{{state.projectTitle}}</ng-container>
     <ng-container content *ngIf="state.loaded">

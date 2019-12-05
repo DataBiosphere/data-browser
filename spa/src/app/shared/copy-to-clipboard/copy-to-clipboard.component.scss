@@ -25,9 +25,10 @@
 }
 
 /* HCAProjectComponent TODO remove */
+/* ProjectOverviewComponent */
 /* ProjectDownloadManifestComponent */
 /* ProjectDownloadMatrixComponent */
-:host-context(hca-project), :host-context(project-download-manifest), :host-context(project-download-matrix) {
+:host-context(hca-project), :host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix) {
 
     /* Display - none */
     /* Copy icon */

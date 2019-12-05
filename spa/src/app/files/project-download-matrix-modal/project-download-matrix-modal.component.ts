@@ -20,16 +20,16 @@ import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
-import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
-import { EntityName } from "../shared/entity-name.model";
-import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
-import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal.state";
-import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { Project } from "../shared/project.model";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
+import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { EntityName } from "../shared/entity-name.model";
+import { Project } from "../shared/project.model";
+import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal.state";
 
 @Component({
     selector: "project-download-matrix-modal",
