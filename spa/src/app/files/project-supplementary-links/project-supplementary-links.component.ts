@@ -6,9 +6,17 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { select, Store } from "@ngrx/store";
+import { BehaviorSubject, Subject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ProjectSupplementaryLinksState } from "./project-supplementary-links.state";
 
 @Component({
     selector: "project-supplementary-links",
@@ -16,10 +24,22 @@ import { Component, Input } from "@angular/core";
     styleUrls: ["./project-supplementary-links.component.scss"]
 })
 
-export class ProjectSupplementaryLinksComponent {
+export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
+
+    // Locals
+    private ngDestroy$ = new Subject();
+    private state$ = new BehaviorSubject<ProjectSupplementaryLinksState>({
+        loaded: false
+    });
 
     // Inputs
     @Input() supplementaryLinks: string[];
+
+    /**
+     * @param {ActivatedRoute} activatedRoute
+     * @param {Store<AppState>} store
+     */
+    constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
     /**
      * Returns true if the link is a valid url.
@@ -36,5 +56,37 @@ export class ProjectSupplementaryLinksComponent {
         catch (_) {
             return false;
         }
+    }
+
+    /**
+     * Kill subscriptions on destroy of component.
+     */
+    public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
+    /**
+     * Update state with selected project.
+     */
+    public ngOnInit() {
+
+        // Add selected project to state - grab the project ID from the URL.
+        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
+
+        this.store.dispatch(new FetchProjectRequestAction(projectId));
+
+        // Grab reference to selected project
+        this.store.pipe(
+            select(selectSelectedProject),
+            filter(project => !!project),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(project => {
+            this.state$.next({
+                loaded: true,
+                project
+            })
+        });
     }
 }
