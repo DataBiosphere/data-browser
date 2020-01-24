@@ -53,7 +53,6 @@ export class FileTypeSummaryListComponent implements OnInit {
 
         // Return fileTypeSummary, excluding matrix file type
         const fileTypeSummaryViews = this.fileTypeSummaries
-            .filter(fileTypeSummary => fileTypeSummary.fileType !== "matrix")
             .map(fileTypeSummary => {
 
                 return new FileTypeSummaryView(

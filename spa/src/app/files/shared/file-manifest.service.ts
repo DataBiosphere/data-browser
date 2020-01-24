@@ -56,12 +56,9 @@ export class FileManifestService {
     public buildManifestSearchTerms(searchTerms: SearchTerm[], fileFormat: FileFacet): SearchTerm[] {
 
         // If there are currently no selected file format, add all file formats.
-        const searchTermsWithFileFormats = this.isAnyFileFormatSelected(searchTerms) ?
+        return this.isAnyFileFormatSelected(searchTerms) ?
             searchTerms :
             this.addAllFileFormatsToSearchTerms(searchTerms, fileFormat);
-
-        // Remove matrix file format
-        return this.removeMatrixFileFormat(searchTermsWithFileFormats);
     }
 
     /**
@@ -211,8 +208,7 @@ export class FileManifestService {
     private isAnyFileFormatSelected(searchTerms: SearchTerm[]): boolean {
 
         return searchTerms.some((searchTerm) =>
-            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
-            searchTerm.getSearchValue() !== FileFormat.MATRIX);
+            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT);
     }
 
     /**
