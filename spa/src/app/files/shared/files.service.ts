@@ -355,14 +355,15 @@ export class FilesService {
             paramMap["order"] = tableParams.order;
         }
 
-        // check if there is paging
-        if ( tableParams.search_after && tableParams.search_after_uid ) {
+        // check if there is paging - use search_after_uid and not search_after as null is a valid value for search_after
+        if ( tableParams.search_after_uid ) {
 
             paramMap["search_after"] = tableParams.search_after;
             paramMap["search_after_uid"] = tableParams.search_after_uid;
         }
 
-        if ( tableParams.search_before && tableParams.search_before_uid ) {
+        // Use search_before_uid and not search_before as null is a valid value for search_before
+        if ( tableParams.search_before_uid ) {
 
             paramMap["search_before"] = tableParams.search_before;
             paramMap["search_before_uid"] = tableParams.search_before_uid;
