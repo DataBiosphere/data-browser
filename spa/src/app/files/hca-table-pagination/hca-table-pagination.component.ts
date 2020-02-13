@@ -112,25 +112,25 @@ export class HCATablePaginationComponent implements OnInit {
     }
 
     /**
-     * Check if there is a next page.
+     * Check if there is a next page. Use search_after_uid and not search_after as null is a valid value for
+     * search_after.
      *
      * @param {PaginationModel} pm
      * @returns {boolean}
      */
     public hasNext(pm: PaginationModel): boolean {
-        // return (pm.from + pm.count) < pm.total;
-        return pm.search_after !== null;
+        return pm.search_after_uid !== null;
     }
 
     /**
-     * Check if there is a previous page.
+     * Check if there is a previous page. Use search_before_uid and not search_before as null is a valid value for
+     * search_before.
      *
      * @param {PaginationModel} pm
      * @returns {boolean}
      */
     public hasPrevious(pm: PaginationModel): boolean {
-        // return (pm.from > 1);
-        return pm.search_before !== null;
+        return pm.search_before_uid !== null;
     }
 
     /**
