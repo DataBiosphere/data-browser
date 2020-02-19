@@ -427,7 +427,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.organ).toEqual(projectToMap.samples[0].organ[0]);
+            expect(mappedProject.organ).toEqual(projectToMap.specimens[0].organ[0]);
             done();
         })
     });
@@ -442,7 +442,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.organ).toEqual(projectToMap.samples[0].organ.join(", "));
+            expect(mappedProject.organ).toEqual(projectToMap.specimens[0].organ.join(", "));
             done();
         })
     });
@@ -457,7 +457,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            const expectedValue = mapMultipleValues(projectToMap.samples, "organ");
+            const expectedValue = mapMultipleValues(projectToMap.specimens, "organ");
             expect(mappedProject.organ).toEqual(expectedValue);
             done();
         })
@@ -590,7 +590,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.organPart).toEqual(projectToMap.samples[0].organPart[0]);
+            expect(mappedProject.organPart).toEqual(projectToMap.specimens[0].organPart[0]);
             done();
         })
     });
@@ -605,7 +605,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.organPart).toEqual(projectToMap.samples[0].organPart.join(", "));
+            expect(mappedProject.organPart).toEqual(projectToMap.specimens[0].organPart.join(", "));
             done();
         })
     });
@@ -620,7 +620,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            const expectedValue = mapMultipleValues(projectToMap.samples, "organPart");
+            const expectedValue = mapMultipleValues(projectToMap.specimens, "organPart");
             expect(mappedProject.organPart).toEqual(expectedValue);
             done();
         })
