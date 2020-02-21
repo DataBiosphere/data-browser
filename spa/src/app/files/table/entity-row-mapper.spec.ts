@@ -218,7 +218,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.disease).toEqual(projectToMap.samples[0].disease[0]);
+            expect(mappedProject.disease).toEqual(projectToMap.specimens[0].disease[0]);
             done();
         })
     });
@@ -233,13 +233,13 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            expect(mappedProject.disease).toEqual(projectToMap.samples[0].disease.join(", "));
+            expect(mappedProject.disease).toEqual(projectToMap.specimens[0].disease.join(", "));
             done();
         })
     });
 
     /**
-     * Multiple disease values across multiple objects should be rolled up and mapped. TODO ************************************************************
+     * Multiple disease values across multiple objects should be rolled up and mapped.
      */
     it("should map multiple disease values across multiple objects", (done: DoneFn) => {
 
@@ -248,7 +248,7 @@ describe("EntityRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            const expectedValue = mapMultipleValues(projectToMap.samples, "disease");
+            const expectedValue = mapMultipleValues(projectToMap.specimens, "disease");
             expect(mappedProject.disease).toEqual(expectedValue);
             done();
         })

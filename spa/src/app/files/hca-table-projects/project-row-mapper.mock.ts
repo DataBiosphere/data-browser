@@ -531,7 +531,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "brain"
                 ],
                 "organPart": [],
-                "disease": [],
+                "disease": [
+                    "x",
+                    "y"
+                ],
                 "preservationMethod": [
                     "fresh"
                 ],

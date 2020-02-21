@@ -69,7 +69,7 @@ export class EntityRowMapper {
         return {
             ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
-            disease: getUnspecifiedIfNullValue(this.samples.disease),
+            disease: getUnspecifiedIfNullValue(this.specimens.disease),
             donorCount: getUnspecifiedIfNullValue(this.donorOrganisms.donorCount),
             genusSpecies: getUnspecifiedIfNullValue(this.donorOrganisms.genusSpecies),
             libraryConstructionApproach: mappedLibraryConstructionApproach,
