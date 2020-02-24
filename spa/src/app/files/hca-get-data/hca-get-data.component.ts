@@ -110,7 +110,7 @@ export class HCAGetDataComponent implements OnInit {
             return "Export to Terra";
         }
         
-        if ( this.viewState === DownloadViewState.MATRIX || DownloadViewState.MATRIX_SPECIES_SELECTION ) {
+        if ( this.viewState === DownloadViewState.MATRIX || this.viewState === DownloadViewState.MATRIX_SPECIES_SELECTION ) {
             return "Request Expression Matrix";
         }
 
