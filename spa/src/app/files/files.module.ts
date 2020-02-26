@@ -98,6 +98,7 @@ import { ProjectOverviewComponent } from "./project-overview/project-overview.co
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
+import { ReleaseComponent } from "./releases/release.component";
 import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
@@ -205,6 +206,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         ProjectOverviewDataSummaryComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
+        ReleaseComponent,
         TableScroll
     ],
     entryComponents: [

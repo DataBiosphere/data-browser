@@ -47,3 +47,29 @@
         background-color: $hca-orange;
     }
 }
+
+/* Component release */
+:host-context(release) {
+
+    .status-panel {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/**
+ * Small +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 720px) {
+
+    /* Component release */
+    :host-context(release) {
+
+        .status-panel {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+}
