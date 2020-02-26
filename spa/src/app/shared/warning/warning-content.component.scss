@@ -9,3 +9,8 @@
     display: block;
     margin-bottom: -18px; // Allow for (remove) margin of last child, either p or ol 
 }
+
+/* Component release */
+:host-context(release) {
+    margin-bottom: 0; // Remove negative margin, last child has no margin
+}

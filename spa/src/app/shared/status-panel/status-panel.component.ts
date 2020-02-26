@@ -6,13 +6,12 @@
  */
 
 // Core dependencies
-import { Component, Input, ViewEncapsulation } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: "status-panel",
     templateUrl: "./status-panel.component.html",
-    styleUrls: ["./status-panel.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ["./status-panel.component.scss"]
 })
 export class StatusPanelComponent {
 

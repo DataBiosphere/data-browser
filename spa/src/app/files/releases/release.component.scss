@@ -1,0 +1,84 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for release component.
+ */
+@import "../../site/theme/cgl.vars";
+
+:host {
+    flex: 1;
+
+    /* Content container */
+    div[content] {
+        flex: 1;
+        padding: 30px 0 36px;
+    }
+}
+
+/* Release */
+.release {
+
+    /* Highlights */
+    .highlights {
+        max-width: 720px;
+    }
+
+    /* Heading */
+    h2 {
+        margin: 0 0 24px;
+    }
+
+    /* Learn more */
+    a {
+        position: relative; /* Positions arrow */
+    }
+
+    /* Learn more arrow */
+    a:before, a:after {
+        background-color: $hca-primary;
+        content: "";
+        height: 7px;
+        position: absolute;
+        right: -8px;
+        width: 1px;
+    }
+
+    /* Arrow - upper */
+    a:before {
+        top: 4px;
+        transform: rotate(-45deg);
+    }
+
+    /* Arrow - lower */
+    a:after {
+        top: 9px;
+        transform: rotate(45deg);
+    }
+
+    /* Warning <h3> */
+    warning h3 {
+        margin: 0 0 12px;
+    }
+}
+
+/**
+ * Small +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 720px) {
+
+    .release {
+
+        /* Highlights */
+        .highlights {
+            margin-right: 30px;
+        }
+
+        /* Warning */
+        warning {
+            margin-left: 30px;
+        }
+    }
+}
+
