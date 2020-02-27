@@ -27,6 +27,7 @@ import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
+import { RReleaseComponent } from "./files/releases/r-release/r-release.component";
 import { AppReducers } from "./_ngrx/app.reducer";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
 import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
@@ -82,6 +83,7 @@ import { SystemService } from "./system/shared/system.service";
         DesktopFooterComponent,
         HCAFooterComponent,
         HCAToolbarComponent,
+        RReleaseComponent,
         StickyFooterComponent
     ],
     providers: [

@@ -7,19 +7,22 @@
 
 @import "../theme/cgl.vars";
 
-.wrapper {
+/* Policy */
+.policy {
     align-items: center;
-    background-color: $hca-off-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 14px 30px; /* Match left and right padding of site (eg data tables) */
-    text-align: center;
 }
 
 /* Text */
 p {
     margin: 0;
+}
+
+/* Link "HCA Data Release Policy" */
+a {
+    white-space: nowrap;
 }
 
 /* Button */
@@ -45,9 +48,9 @@ span {
  * Tablet +
  */
 @media screen and (min-width: 768px) {
-    
-    .wrapper {
-        align-items: center;
+
+    /* Policy */
+    .policy {
         flex-direction: row;
         justify-content: space-between;
     }
