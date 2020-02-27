@@ -103,6 +103,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Returns true when the url path is not "releases".
+     *
+     * @returns {boolean}
+     */
+    public showRRelease() {
+
+        return !this.router.url.includes("/releases/");
+    }
+
+    /**
      * Returns true if a filter state is encoded in the query params.
      *
      * @param {Params} params

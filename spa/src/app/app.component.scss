@@ -11,20 +11,20 @@
     flex-direction: column;
     height: 100%; // Required to force height to reach at least bottom of screen, before content is loaded
 
+    /* Status banner */
     .status {
-        align-items: center;
-        background-color: #000;
-        display: flex;
-        color: #fff;
-        justify-content: center;
-        padding: 14px 0;
 
-        &.persistent {
-            background-color: $hca-orange;
+        mat-icon {
+            align-self: center;
+            margin-right: 16px;
         }
+    }
+
+    /* Status, data re-ingestion banner */
+    .status, .data-re-ingestion {
 
         p {
-            margin: 0 16px;
+            margin: 0;
         }
 
         a {

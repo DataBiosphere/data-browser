@@ -1,17 +1,18 @@
-<div *ngIf="isMaintenanceModeWarningVisible((config$ | async)?.deployment)" class="status persistent">
+<announcement *ngIf="isMaintenanceModeWarningVisible((config$ | async)?.deployment)" class="data-re-ingestion">
     <p class="fontsize-s">Warning: in maintenance mode for data re-ingestion</p>
-</div>
+</announcement>
 <header>
     <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
 </header>
+<r-release *ngIf="showRRelease()"></r-release>
 <ng-container *ngIf="systemStatus$ | async as systemStatus">
-    <div *ngIf="!systemStatus.health.ok" class="status">
+    <announcement *ngIf="!systemStatus.health.ok" class="status" >
         <mat-icon>warning</mat-icon>
         <p class="fontsize-s">One or more of the systems composing the HCA DCP is currently unavailable. Please try again later, or monitor the full system status <a href="/system-status">here</a>.</p>
-    </div>
-    <div *ngIf="systemStatus.health.ok && systemStatus.index.indexing" class="status">
+    </announcement>
+    <announcement *ngIf="systemStatus.health.ok && systemStatus.index.indexing" class="status">
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>
-    </div>
+    </announcement>
 </ng-container>
 <router-outlet></router-outlet>
 <sticky-footer>
