@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
 
 // App Dependencies
+import { AnnouncementComponent } from "./announcement/announcement.component";
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { DownloadButtonComponent } from "./download-button/download-button.component";
@@ -42,6 +43,7 @@ import { NavComponent } from "./nav/nav.component";
         RouterModule
     ],
     declarations: [
+        AnnouncementComponent,
         CCToolbarNavComponent,
         CCToolbarNavItemComponent,
         CopyToClipboardComponent,
@@ -61,6 +63,7 @@ import { NavComponent } from "./nav/nav.component";
         ResponsiveService
     ],
     exports: [
+        AnnouncementComponent,
         BrowserAnimationsModule,
         CommonModule,
         CCToolbarNavComponent,

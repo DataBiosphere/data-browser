@@ -6,33 +6,12 @@
  */
 @import "../theme/cgl.vars";
 
-:host {
-    border-bottom: 1px solid $hca-gray-lightest; /* Create delimiter between desktop and data policy footer (not noticeable if data policy has been dismissed) */
-    display: block;
-}
-
-/* Download text - no download */
+/* No download */
 .no-download {
-    align-items: center;
-    background-color: $hca-off-white;
-    display: flex;
-    justify-content: center;
-    font-family: "Montserrat", sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 20px;
     margin-top: 16px;
-    padding: 16px 30px; /* Match left and right padding of site (eg data tables) */
-    text-align: center;
 }
 
-/**
- * Tablet +
- */
-@media screen and (min-width: 768px) {
-
-    .no-download {
-        justify-content: flex-start;
-        text-align: left;
-    }
+/* Text */
+.no-download span {
+    font-weight: 600;
 }
