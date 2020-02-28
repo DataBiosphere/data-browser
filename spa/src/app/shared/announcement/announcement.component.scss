@@ -11,8 +11,8 @@
     padding: 14px 16px; /* Site gutter */
 }
 
-/* Component r-release */
-:host-context(r-release) {
+/* Component release-banner */
+:host-context(release-banner) {
     background-color: $hca-blue-light;
 }
 
@@ -65,10 +65,10 @@
     }
 
     /* Center align content - for banners at the top of site */
-    /* Component r-release */
+    /* Component release-banner */
     /* Component app with class "status" */
     /* Component app with class "data-re-ingestion" */
-    :host-context(r-release), :host-context(.status), :host-context(.data-re-ingestion) {
+    :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
         display: flex;
         justify-content: center;
     }

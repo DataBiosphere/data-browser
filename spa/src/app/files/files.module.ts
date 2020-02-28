@@ -113,6 +113,7 @@ import { TermResponseService } from "./shared/term-response.service";
 import { TermSortService } from "./sort/term-sort.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
+import { ReleaseService } from "./shared/release.service";
 
 @NgModule({
     imports: [
@@ -223,6 +224,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
         MatrixService,
         ProjectService,
         ProjectViewFactory,
+        ReleaseService,
         SearchTermService,
         TableRendererService,
         TermResponseService,

@@ -4,7 +4,7 @@
 <header>
     <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
 </header>
-<r-release *ngIf="showRRelease()"></r-release>
+<release-banner *ngIf="showRRelease()"></release-banner>
 <ng-container *ngIf="systemStatus$ | async as systemStatus">
     <announcement *ngIf="!systemStatus.health.ok" class="status" >
         <mat-icon>warning</mat-icon>

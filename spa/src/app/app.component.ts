@@ -18,15 +18,16 @@ import { Config } from "./config/config.model";
 import { selectConfigConfig } from "./config/_ngrx/config.selectors";
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
 import { EntityName } from "./files/shared/entity-name.model";
+import { FileFacetName } from "./files/shared/file-facet-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
+import { GenusSpecies } from "./files/shared/genus-species.model";
+import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { AppState } from "./_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
 import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
 import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
 import { SystemState } from "./system.state";
-import { FileFacetName } from "./files/shared/file-facet-name.model";
-import { GenusSpecies } from "./files/shared/genus-species.model";
 
 @Component({
     selector: "app-root",
@@ -121,6 +122,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private isFilterParamSpecified(params: Params): boolean {
 
         return !!params["filter"];
+    }
+
+    /**
+     * Load release data from local JSON files.
+     */
+    private loadReleaseData(): void {
+
+        this.store.dispatch(new FetchReleasesRequestAction());
     }
 
     /**
@@ -258,6 +267,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.setAppStateFromURL();
         this.systemCheck();
+        this.loadReleaseData();
         
         this.config$ = this.store.pipe(
             select(selectConfigConfig),

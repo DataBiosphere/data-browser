@@ -6,7 +6,6 @@
  */
 
 // App dependencies
-import { Config } from "../../config/config.model";
 import EntitySpec from "../shared/entity-spec";
 import { FileFacet } from "../shared/file-facet.model";
 
