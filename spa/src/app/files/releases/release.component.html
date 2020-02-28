@@ -26,5 +26,13 @@
                 </warning-content>
             </warning>
         </status-panel>
+        <ng-container *ngIf="state$ | async as state"> 
+            <div *ngFor="let organView of state.releaseOrganViews">
+                {{organView.organ}}
+                <div *ngFor="let datasetView of organView.datasets">
+                    {{datasetView.entryId}}
+                </div>
+            </div>
+        </ng-container>
     </div>
 </pop-layout>

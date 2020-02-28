@@ -18,12 +18,14 @@ import { ReplaySubject } from "rxjs";
 import { AppComponent } from "./app.component";
 import { ConfigService } from "./config/config.service";
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
+import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { FileFacetName } from "./files/shared/file-facet-name.model";
 import { GenusSpecies } from "./files/shared/genus-species.model";
 import { LibraryConstructionApproach } from "./files/shared/library-construction-approach.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { EntityName } from "./files/shared/entity-name.model";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { AnnouncementComponent } from "./shared/announcement/announcement.component";
 import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
@@ -62,7 +64,9 @@ describe("AppComponent:", () => {
                 DesktopFooterComponent,
                 HCAFooterComponent,
                 HCAToolbarComponent,
-                StickyFooterComponent
+                StickyFooterComponent,
+                AnnouncementComponent,
+                ReleaseBannerComponent
             ],
             imports: [
                 RouterTestingModule,

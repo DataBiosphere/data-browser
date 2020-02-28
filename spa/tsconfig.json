@@ -18,6 +18,8 @@
       "es2016",
       "dom"
     ],
-    "module": "esnext"
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }
