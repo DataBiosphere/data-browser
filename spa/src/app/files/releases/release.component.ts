@@ -31,6 +31,7 @@ import { ReleaseDataset } from "./2020-march/release-dataset";
 export class ReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
+    public columnsToDisplay = ["projectTitle", "developmentalStage", "technology", "releaseFiles", "annotatedExpressionMatrix", "visualize"];
     private ngDestroy$ = new Subject();
     private state$ = new BehaviorSubject<ReleaseState>({
         loaded: false,
@@ -41,6 +42,30 @@ export class ReleaseComponent implements OnDestroy, OnInit {
      * @param {Store<AppState>} store
      */
     constructor(private store: Store<AppState>) {}
+
+    /**
+     * Returns the technology, based off libraryConstructionApproach. Any libraryConstructionApproach ending with
+     * "sequencing" shall have this removed to provide a shortened name for the technology column.
+     *
+     * @param {string} libraryConstructionApproach
+     * @returns {string}
+     */
+    public renderTechnologyShortName(libraryConstructionApproach: string): string {
+
+        let techShortName = libraryConstructionApproach;
+
+        let techShortNames = techShortName.split(",");
+
+        if ( techShortNames.length > 0 ) {
+
+            techShortName = techShortNames.map(shortName => {
+
+                return shortName.replace("sequencing", "").trim();
+            }).join(", ");
+        }
+
+        return techShortName;
+    }
 
     /**
      * Build view model of release. That is, project datasets grouped by organ.
@@ -83,7 +108,7 @@ export class ReleaseComponent implements OnDestroy, OnInit {
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
-    
+
     /**
      * Grab release data from store.
      */
