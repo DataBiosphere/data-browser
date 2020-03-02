@@ -1,6 +1,18 @@
 <ng-container *ngFor="let navItem of navItems">
-    <a class="nav"
-       [routerLink]="navItem.routerLink"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
+    <ng-container [ngSwitch]="isRouterLinkValid(navItem.routerLink)">
+        <a class="nav"
+           *ngSwitchCase="true"
+           [routerLink]="navItem.routerLink"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
+        <span *ngSwitchDefault [ngClass]="{nav:true, 'no-link': true, 'sub-nav': navItem.subNavItems}">{{navItem.display}}</span>
+        <ng-container *ngIf="navItem.subNavItems">
+            <ng-container *ngFor="let subNavItem of navItem.subNavItems">
+                <a class="nav sub-nav-item"
+                   [routerLink]="subNavItem.routerLink"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{exact: true}">{{subNavItem.display}}</a>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </ng-container>

@@ -6,8 +6,12 @@
  */
 @import "../../site/theme/cgl.vars";
 
+:host {
+    margin: 0 0 0 8px;
+}
+
 /* Navigation link */
-a.nav {
+.nav {
     color: $hca-gray-dark;
     display: block;
     font-family: Montserrat,sans-serif;
@@ -17,12 +21,53 @@ a.nav {
     padding: 8px 0;
 }
 
+/* Nav link - no associated router link */
+.no-link {
+    cursor: default;
+}
+
 /* Link - hover */
-a.nav:hover {
+.nav:not(.no-link):not(.active):hover {
     color: $hca-gray-darkest;
 }
 
 /* Link - active */
-a.nav.active {
+.nav.active {
     color: $hca-primary;
+}
+
+/* Nav with sub items */
+.sub-nav, .sub-nav-item {
+    position: relative; /* Positions line */
+}
+
+/* Sub nav item - nested */
+.sub-nav-item {
+    margin: 0 16px;
+}
+
+/* Line indicator */
+/* Nav with sub items line indicator */
+.sub-nav:before, .sub-nav-item:before {
+    background-color: $hca-gray-lightest;
+    content: "";
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 2px;
+}
+
+/* Nav with sub items line indicator */
+.sub-nav:before {
+    left: -8px;
+}
+
+/* Sub items line indicator */
+.sub-nav-item:before {
+    left: -24px;
+}
+
+/* Line indicator - active */
+.sub-nav-item.active:before {
+    background-color: $hca-primary;
 }
