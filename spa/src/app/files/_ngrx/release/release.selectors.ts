@@ -29,7 +29,20 @@ export const selectReleaseByName =
     createSelector(selectReleases, (state, props) => state.releasesByName.get(props.name));
 
 /**
+ * Returns the release with only the specified project, if project is a part of the release.
+ */
+export const selectReleaseByNameAndProjectId =
+    createSelector(selectReleases, (state, props) => {
+        const release = state.releasesByName.get(props.name);
+        const project = release.projects.find(project => project.entryId === props.projectId);
+        return Object.assign({}, release, {
+            projects: project ? [project] : []
+        });
+    });
+
+/**
  * Return the release referrer.
  */
 export const selectReleaseReferrer =
     createSelector(selectReleases, (state) => state.releaseReferrer);
+

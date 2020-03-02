@@ -25,7 +25,6 @@ export class ReleaseService {
      * @param {Release} release
      * @returns {ReleaseOrganView[]}
      */
-
     public buildReleaseView(release: Release): ReleaseOrganView[] {
 
         const releaseOrganViewsByOrgan = release.projects.reduce((accum, releaseProject: ReleaseProject) => {
