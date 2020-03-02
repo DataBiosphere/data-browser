@@ -104,13 +104,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true when the url path is not "releases".
+     * Returns true when the url path is not the releases or project detail pages.
      *
      * @returns {boolean}
      */
-    public showRRelease() {
+    public showRelease() {
 
-        return !this.router.url.includes("/releases/");
+        return !( this.router.url.includes("/releases/") || this.router.url.includes("/projects/") );
     }
 
     /**

@@ -21,6 +21,7 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
+import { ProjectReleaseComponent } from "./releases/project-release/project-release.component";
 import { ReleaseComponent } from "./releases/release.component";
 
 export const routes: Route[] = [
@@ -75,6 +76,10 @@ export const routes: Route[] = [
                     {
                         path: "data-citation",
                         component: ProjectDataCitationComponent
+                    },
+                    {
+                        path: "releases/2020-mar",
+                        component: ProjectReleaseComponent
                     }]
             },
             {
@@ -90,5 +95,5 @@ export const routes: Route[] = [
     {
         path: "releases/2020-mar",
         component: ReleaseComponent
-    },
+    }
 ];

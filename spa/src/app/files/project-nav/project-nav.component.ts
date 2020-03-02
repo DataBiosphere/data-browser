@@ -48,7 +48,7 @@ export class ProjectNavComponent {
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
             };
 
-            const expressionMatrices =  {
+            const expressionMatrices = {
                 display: "Expression Matrices",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
             };
@@ -73,6 +73,15 @@ export class ProjectNavComponent {
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
             };
 
+            const projectReleases = {
+                display: "Releases",
+                routerLink: "",
+                subNavItems: [{
+                    display: "2020 March Data Release",
+                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
+                }]
+            };
+
             let navItemList;
 
             // Check if device is handheld and set up nav accordingly
@@ -83,7 +92,7 @@ export class ProjectNavComponent {
             else {
 
                 navItemList =
-                    [projectInformation, projectMetadata, expressionMatrices, supplementaryLinks, externalResources];
+                    [projectInformation, projectMetadata, expressionMatrices, supplementaryLinks, externalResources, projectReleases];
             }
 
             this.navItems = navItemList;
@@ -101,7 +110,11 @@ export class ProjectNavComponent {
 
         const routerLink = [`/${EntityName.PROJECTS}`, projectId];
 
-        if ( sectionPath ) {
+        if ( sectionPath && sectionPath.includes("/") ) {
+
+            sectionPath.split("/").map(path => routerLink.push(path));
+        }
+        else if ( sectionPath ) {
 
             routerLink.push(sectionPath);
         }

@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { Release } from "../../releases/2020-march/release";
+import { Release } from "../../releases/2020-march/release.model";
 
 export interface Releases {
     releasesByName: Map<string, Release>;

@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { ReleaseProject } from "./release-project";
+import { ReleaseProject } from "./release-project.model";
 
 export interface Release {
 
