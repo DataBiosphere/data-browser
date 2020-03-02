@@ -27,3 +27,9 @@ export const selectReleasesByName =
  */
 export const selectReleaseByName =
     createSelector(selectReleases, (state, props) => state.releasesByName.get(props.name));
+
+/**
+ * Return the release referrer.
+ */
+export const selectReleaseReferrer =
+    createSelector(selectReleases, (state) => state.releaseReferrer);

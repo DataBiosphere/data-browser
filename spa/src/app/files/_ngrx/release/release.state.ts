@@ -11,18 +11,32 @@ import { FetchReleasesSuccessAction } from "./fetch-releases-success.action";
 import { Releases } from "./releases.model";
 
 const DEFAULT_RELEASE_STATE = {
-    releasesByName: new Map()
+    releasesByName: new Map(),
+    releaseReferrer: false
 };
 
 export class ReleaseState implements Releases {
 
     releasesByName: Map<string, Release>;
+    releaseReferrer: boolean;
 
     /**
      * @param {Releases} state
      */
     constructor(state: Releases = DEFAULT_RELEASE_STATE) {
         Object.assign(this, state);
+    }
+
+
+    /**
+     * Set release referrer to false.
+     */
+    public clearReleaseReferrer(): ReleaseState {
+
+        return new ReleaseState({
+            releasesByName: this.releasesByName,
+            releaseReferrer: false
+        });
     }
 
     /**
@@ -42,8 +56,22 @@ export class ReleaseState implements Releases {
             accum.set(release.name, release);
             return accum;
         }, new Map());
-        
-        return new ReleaseState({releasesByName});
+
+        return new ReleaseState({
+            releasesByName,
+            releaseReferrer: this.releaseReferrer
+        });
+    }
+
+    /**
+     * Set release referrer to true.
+     */
+    public setReleaseReferrer(): ReleaseState {
+
+        return new ReleaseState({
+            releasesByName: this.releasesByName,
+            releaseReferrer: true
+        });
     }
 
     /**

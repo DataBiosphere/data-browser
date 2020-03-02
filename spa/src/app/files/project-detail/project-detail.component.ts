@@ -12,18 +12,20 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
 import { combineLatest, Observable } from "rxjs/index";
-import { filter, map } from "rxjs/operators";
+import { filter, map, take } from "rxjs/operators";
 
 // App dependencies
-import { SearchTerm } from "../search/search-term.model";
-import { EntityName } from "../shared/entity-name.model";
-import EntitySpec from "../shared/entity-spec";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { ClearReleaseReferrerAction } from "../_ngrx/release/clear-release-referrer.action";
+import { selectReleaseReferrer } from "../_ngrx/release/release.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailState } from "./project-detail.state";
+import { SearchTerm } from "../search/search-term.model";
+import { EntityName } from "../shared/entity-name.model";
+import EntitySpec from "../shared/entity-spec";
 
 @Component({
     selector: "project-detail",
@@ -33,7 +35,8 @@ import { ProjectDetailState } from "./project-detail.state";
 export class ProjectDetailComponent {
 
     // Template variables
-    public state$: Observable<ProjectDetailState>;
+    private backUrl: string;
+    private state$: Observable<ProjectDetailState>;
 
     /**
      *
@@ -52,10 +55,10 @@ export class ProjectDetailComponent {
      */
     public getLegendClass(selected: boolean): { [className: string]: boolean } {
 
-            return {
-                "box": true,
-                "selected": selected
-            };
+        return {
+            "box": true,
+            "selected": selected
+        };
     }
 
     /**
@@ -65,7 +68,7 @@ export class ProjectDetailComponent {
      */
     public getProjectDetailTabs(): EntitySpec[] {
 
-        return [{key: EntityName.PROJECTS, displayName: "Back"}];
+        return [{key: this.backUrl, displayName: "Back"}];
     }
 
     /**
@@ -107,17 +110,37 @@ export class ProjectDetailComponent {
     }
 
     /**
-     * Clear out the selected project when the user navigates away from project detail page.
+     * Determine the back URL; either the release page if the user has come from there, otherwise the projects tab.
+     */
+    private setBackUrl() {
+
+        this.store
+            .pipe(
+                select(selectReleaseReferrer),
+                take(1)
+            )
+            .subscribe((releaseReferrer) => {
+                this.backUrl = releaseReferrer ? "releases/2020-mar" : EntityName.PROJECTS
+            });
+    }
+
+    /**
+     * Clear out the selected project when the user navigates away from project detail page. Also clear the flag
+     * indicating this project detail component should return the release page (if necessary).
      */
     public ngOnDestroy() {
 
         this.store.dispatch(new ClearSelectedProjectAction());
+        this.store.dispatch(new ClearReleaseReferrerAction());
     }
 
     /**
      * Update state with selected project.
      */
     public ngOnInit() {
+
+        // Determine where the back button should navigate to
+        this.setBackUrl();
 
         // Add selected project to state - grab the project ID from the URL.
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
