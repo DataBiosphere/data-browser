@@ -17,7 +17,10 @@ import { filter, map, take } from "rxjs/operators";
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { ClearReleaseReferrerAction } from "../_ngrx/release/clear-release-referrer.action";
-import { selectReleaseReferrer } from "../_ngrx/release/release.selectors";
+import {
+    selectReleaseByNameAndProjectId,
+    selectReleaseReferrer
+} from "../_ngrx/release/release.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
@@ -26,6 +29,7 @@ import { ProjectDetailState } from "./project-detail.state";
 import { SearchTerm } from "../search/search-term.model";
 import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
+import { ReleaseName } from "../releases/release-name.model";
 
 @Component({
     selector: "project-detail",
@@ -154,19 +158,26 @@ export class ProjectDetailComponent {
             select(selectSelectedProjectSearchTerms),
             map(this.mapSearchTermsToProjectIds)
         );
+        
+        const projectInRelease$ = this.store.pipe(
+            select(selectReleaseByNameAndProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
+            map(release => release.projects.length > 0)
+        );
 
         this.state$ = combineLatest(
             project$,
+            projectInRelease$,
             selectedProjectIds$,
         )
             .pipe(
                 filter(([project]) => !!project),
-                map(([project, selectedProjectIds]) => {
+                map(([project, projectInRelease, selectedProjectIds]) => {
 
                     const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
                     return {
                         project: project,
+                        projectInRelease,
                         projectSelected: projectSelected
                     };
                 })

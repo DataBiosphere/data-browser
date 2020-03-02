@@ -11,5 +11,6 @@ import { Project } from "../shared/project.model";
 export interface ProjectDetailState {
 
     project: Project;
+    projectInRelease: boolean;
     projectSelected: boolean;
 }
