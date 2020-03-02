@@ -6,9 +6,9 @@
  */
 
 // App dependencies
-import { Releases } from "./releases.model";
-import { Release } from "../../releases/2020-march/release";
+import { Release } from "../../releases/2020-march/release.model";
 import { FetchReleasesSuccessAction } from "./fetch-releases-success.action";
+import { Releases } from "./releases.model";
 
 const DEFAULT_RELEASE_STATE = {
     releasesByName: new Map()

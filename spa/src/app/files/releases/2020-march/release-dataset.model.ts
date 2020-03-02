@@ -7,8 +7,8 @@
 
 // App dependencies
 import { DevelopmentalStage } from "./developmental-stage.model";
-import { ReleaseFile } from "./release-file";
-import { ReleaseVisualization } from "./release-visualization";
+import { ReleaseFile } from "./release-file.model";
+import { ReleaseVisualization } from "./release-visualization.model";
 import { LibraryConstructionApproach } from "../../shared/library-construction-approach.model";
 
 export interface ReleaseDataset {

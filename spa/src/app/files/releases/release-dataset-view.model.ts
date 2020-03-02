@@ -7,8 +7,8 @@
  */
 
 // App dependencies
-import { ReleaseFile } from "./2020-march/release-file";
-import { ReleaseVisualization } from "./2020-march/release-visualization";
+import { ReleaseFile } from "./2020-march/release-file.model";
+import { ReleaseVisualization } from "./2020-march/release-visualization.model";
 import { LibraryConstructionApproach } from "../shared/library-construction-approach.model";
 import { DevelopmentalStage } from "./2020-march/developmental-stage.model";
 
