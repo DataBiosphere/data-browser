@@ -1,0 +1,59 @@
+<div class="release-tables">
+    <div *ngFor="let organView of releaseOrganViews">
+        <h2 class="fontsize-xl">{{organView.organ}}</h2>
+        <mat-table [dataSource]="organView.datasets">
+            <ng-container matColumnDef="projectTitle">
+                <mat-header-cell *matHeaderCellDef class="project-title fontsize-xxs bold">
+                    <span>Project Title</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="project-title fontsize-s">
+                    <a href="projects/{{element.entryId}}/releases/2020-mar">{{element.datasetId}}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="developmentalStage">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Developmental<span>Stage</span></span></mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-s">
+                    <span>{{element.developmentalStage}}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="technology">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Technology</span></mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-s">
+                    <span>{{renderTechnologyShortName(element.libraryConstructionApproach)}}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="releaseFiles">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Release Files</span></mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-s">
+                    <a href="/releases/2020-mar">View Files</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="annotatedExpressionMatrix">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Annotated<span>Expression Matrix</span></span></mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-s dot">
+                    <ng-container *ngFor="let file of element.files">
+                        <a href={{file.url}} target="_blank"
+                           rel="noopener noreferrer">{{file.extension}}</a>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="visualize">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Visualize</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-s dot">
+                    <ng-container *ngFor="let visualization of element.visualizations">
+                        <a href={{visualization.url}} target="_blank"
+                           rel="noopener noreferrer">{{visualization.title}}</a>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+        </mat-table>
+    </div>
+</div>

@@ -5,13 +5,13 @@
  * Release component for displaying release details.
  */
 
-// App dependencies
+// Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
-// Core dependencies
+// App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectReleaseByName } from "../_ngrx/release/release.selectors";
 import { ReleaseName } from "./release-name.model";
@@ -31,7 +31,6 @@ import { ReleaseDataset } from "./2020-march/release-dataset";
 export class ReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
-    public columnsToDisplay = ["projectTitle", "developmentalStage", "technology", "releaseFiles", "annotatedExpressionMatrix", "visualize"];
     private ngDestroy$ = new Subject();
     private state$ = new BehaviorSubject<ReleaseState>({
         loaded: false,
@@ -42,30 +41,6 @@ export class ReleaseComponent implements OnDestroy, OnInit {
      * @param {Store<AppState>} store
      */
     constructor(private store: Store<AppState>) {}
-
-    /**
-     * Returns the technology, based off libraryConstructionApproach. Any libraryConstructionApproach ending with
-     * "sequencing" shall have this removed to provide a shortened name for the technology column.
-     *
-     * @param {string} libraryConstructionApproach
-     * @returns {string}
-     */
-    public renderTechnologyShortName(libraryConstructionApproach: string): string {
-
-        let techShortName = libraryConstructionApproach;
-
-        let techShortNames = techShortName.split(",");
-
-        if ( techShortNames.length > 0 ) {
-
-            techShortName = techShortNames.map(shortName => {
-
-                return shortName.replace("sequencing", "").trim();
-            }).join(", ");
-        }
-
-        return techShortName;
-    }
 
     /**
      * Build view model of release. That is, project datasets grouped by organ.
