@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { ReleaseDataset } from "./release-dataset";
+import { ReleaseDataset } from "./release-dataset.model";
 
 export interface ReleaseProject {
 

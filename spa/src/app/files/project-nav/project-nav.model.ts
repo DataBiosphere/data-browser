@@ -12,5 +12,6 @@ export enum ProjectNav {
     "SUPPLEMENTARY_LINKS" = "supplementary-links",
     "EXPRESSION_MATRICES" = "expression-matrices",
     "SUMMARY_STATS" = "summary-stats",
-    "DATA_CITATION" = "data-citation"
+    "DATA_CITATION" = "data-citation",
+    "DATA_RELEASE_2020_MAR" = "releases/2020-mar"
 }
