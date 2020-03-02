@@ -9,6 +9,9 @@
 import { Component, Input } from "@angular/core";
 
 // App dependencies
+import { Store } from "@ngrx/store";
+import { AppState } from "../../../_ngrx/app.state";
+import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referrer.action";
 import { ReleaseOrganView } from "../release-organ-view.model";
 
 @Component({
@@ -22,7 +25,12 @@ export class ReleaseTableComponent {
     @Input() releaseOrganViews: ReleaseOrganView[];
 
     // Locals
-    public columnsToDisplay = ["projectTitle", "developmentalStage", "technology", "releaseFiles", "annotatedExpressionMatrix", "visualize"];
+    private columnsToDisplay = ["projectTitle", "developmentalStage", "technology", "releaseFiles", "annotatedExpressionMatrix", "visualize"];
+
+    /**
+     * @param {Store<AppState>} store
+     */
+    constructor(private store: Store<AppState>) {}
 
     /**
      * Returns the technology, based off libraryConstructionApproach. Any libraryConstructionApproach ending with
@@ -46,5 +54,17 @@ export class ReleaseTableComponent {
         }
 
         return techShortName;
+    }
+
+    /**
+     * Update state to indicate that any project-specific release components need to return to this release page (for
+     * example:
+     * 
+     * 1. project detail back button returns here (and not to projects tab)
+     * 2. release files modal close button returns here (and not to project detail release tab)
+     */
+    public setReleaseReferrer() {
+
+        this.store.dispatch(new SetReleaseReferrerAction());
     }
 }

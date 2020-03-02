@@ -7,7 +7,7 @@
                     <span>Project Title</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project-title fontsize-s">
-                    <a href="projects/{{element.entryId}}/releases/2020-mar">{{element.datasetId}}</a>
+                    <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.datasetId}}</a>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="developmentalStage">
