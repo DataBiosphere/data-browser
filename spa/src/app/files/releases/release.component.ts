@@ -14,6 +14,8 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectReleaseByName } from "../_ngrx/release/release.selectors";
+import { EntityName } from "../shared/entity-name.model";
+import EntitySpec from "../shared/entity-spec";
 import { ReleaseService } from "../shared/release.service";
 import { ReleaseState } from "./release.state";
 import { ReleaseName } from "./release-name.model";
@@ -39,6 +41,16 @@ export class ReleaseComponent implements OnDestroy, OnInit {
      */
     constructor(private store: Store<AppState>,
                 private releaseService: ReleaseService) {}
+
+    /**
+     * Tab provides opportunity to return back to project table.
+     *
+     * @returns {EntitySpec[]}
+     */
+    public getReleaseTabs(): EntitySpec[] {
+
+        return [{key: EntityName.PROJECTS, displayName: "Back"}];
+    }
 
     /**
      * Kill subscriptions on destroy of component.

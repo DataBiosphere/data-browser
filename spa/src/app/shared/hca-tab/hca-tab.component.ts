@@ -41,15 +41,13 @@ export class HCATabComponent {
      *
      * @param {string} selectedTab
      * @param {string} tabKey
-     * @param {string} tabDisplayName
      * @returns {{[p: string]: boolean}}
      */
-    public getTabClass(selectedTab: string, tabKey: string, tabDisplayName: string): { [className: string]: boolean } {
+    public getTabClass(selectedTab: string, tabKey: string): { [className: string]: boolean } {
 
         return {
-            "hca-tab": true,
             "active": selectedTab === tabKey,
-            "arrow": tabDisplayName === "Back" || tabDisplayName === "Export Data"
+            "hca-tab": true
         };
     }
 

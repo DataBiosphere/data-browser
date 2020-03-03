@@ -18,6 +18,7 @@ import { NavItem } from "./nav-item.model";
 })
 export class NavComponent {
 
+    // Inputs
     @Input() navItems: NavItem[];
 
     /**

@@ -40,6 +40,7 @@ export class ProjectDetailComponent {
 
     // Template variables
     private backUrl: string;
+    private releaseReferrer: boolean;
     private state$: Observable<ProjectDetailState>;
 
     /**
@@ -48,8 +49,7 @@ export class ProjectDetailComponent {
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    public constructor(private activatedRoute: ActivatedRoute, private router: Router, private store: Store<AppState>) {
-    }
+    public constructor(private activatedRoute: ActivatedRoute, private router: Router, private store: Store<AppState>) {}
 
     /**
      * Returns the class for the select box.
@@ -72,7 +72,18 @@ export class ProjectDetailComponent {
      */
     public getProjectDetailTabs(): EntitySpec[] {
 
-        return [{key: this.backUrl, displayName: "Back"}];
+        let tabName;
+
+        if ( this.releaseReferrer ) {
+
+            tabName = "2020 March Data Release";
+        }
+        else {
+
+            tabName = "Back";
+        }
+
+        return [{key: this.backUrl, displayName: tabName}];
     }
 
     /**
@@ -124,6 +135,7 @@ export class ProjectDetailComponent {
                 take(1)
             )
             .subscribe((releaseReferrer) => {
+                this.releaseReferrer = releaseReferrer;
                 this.backUrl = releaseReferrer ? "releases/2020-mar" : EntityName.PROJECTS
             });
     }
