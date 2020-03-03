@@ -49,7 +49,7 @@ export class ReleaseComponent implements OnDestroy, OnInit {
      */
     public getReleaseTabs(): EntitySpec[] {
 
-        return [{key: EntityName.PROJECTS, displayName: "Back"}];
+        return [];
     }
 
     /**

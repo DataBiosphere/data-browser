@@ -76,7 +76,7 @@
 /* ProjectDetailComponent */
 /* ReleaseComponent */
 /* HCAGetDataComponent */
-:host-context(project-detail), :host-context(release), :host-context(hca-get-data) {
+:host-context(project-detail), /*:host-context(release), */:host-context(hca-get-data) {
 
     /* Back arrow */
     .hca-tab {
