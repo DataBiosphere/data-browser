@@ -12,4 +12,5 @@ export interface ReleaseProject {
 
     entryId: string; // Matches naming convention of project UUID from Azul.
     datasets: ReleaseDataset[];
+    projectShortname: string;
 }

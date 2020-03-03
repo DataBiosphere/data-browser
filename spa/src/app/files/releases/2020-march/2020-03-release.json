@@ -3,23 +3,18 @@
     "projects": [
         {
             "entryId": "8185730f-4113-40d3-9cc3-929271784c2b",
+            "projectShortname": "A single-cell transcriptome atlas of the adult human retina",
             "datasets": [
                 {
                     "datasetId": "2020-Mar-Atlas-Adult-Retina-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "eye",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP752/2020-mar-atlas-adult-retina-10x"
                         }
                     ]
                 }
@@ -27,23 +22,164 @@
         },
         {
             "entryId": "005d611a-14d5-4fbf-846e-571a1f874f70",
+            "projectShortname": "Assessing the relevance of organoids to model inter-individual variation",
             "datasets": [
                 {
                     "datasetId": "2020-Mar-InterOrganoid-Adult-Brain-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "brain",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP759/2020-mar-interorganoid-adult-brain-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "2043c65a-1cf8-4828-a656-9e247d4e64f1",
+            "projectShortname": "Single-cell RNA-seq analysis throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types.",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Diff-Fetal-Neuron-SS2",
+                    "developmentalStage": "Fetal",
+                    "files": [],
+                    "libraryConstructionApproach": "Smart-seq2",
+                    "organ": "brain",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP753/2020-mar-diff-fetal-neuron-ss2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "abe1a013-af7a-45ed-8c26-f3793c24a1f4",
+            "projectShortname": "Spatio-temporal immune zonation of the human kidney",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x",
+                    "developmentalStage": "Fetal",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "kidney",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP760/2020-mar-spatiotemporal-fetal-kidney-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-SpatioTemporal-Adult-Kidney-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "kidney",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP761/2020-mar-spatiotemporal-adult-kidney-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "f8aa201c-4ff1-45a4-890e-840d63459ca2",
+            "projectShortname": "Structural Remodeling of the Human Colonic Mesenchyme in Inflammatory Bowel Disease",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-IBD-Adult-Colon-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "colon",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP762/2020-mar-ibd-adult-colon-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "116965f3-f094-4769-9d28-ae675c1b569c",
+            "projectShortname": "Single cell profiling of human induced dendritic cells generated by direct reprogramming of embryonic fibroblasts",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Reprogram-Embryo-Dendritic-10x",
+                    "developmentalStage": "",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "embryo",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP763/2020-mar-reprogram-embryo-dendritic-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "4d6f6c96-2a83-43d8-8fe1-0f53bffd4674",
+            "projectShortname": "Dissecting the human liver cellular landscape by single cell RNA-seq reveals novel intrahepatic monocyte/ macrophage populations",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Landscape-Adult-Liver-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "liver",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP765/2020-mar-landscape-adult-liver-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "091cf39b-01bc-42e5-9437-f419a66c8a45",
+            "projectShortname": "Profiling of CD34+ cells from human bone marrow to understand hematopoiesis",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Profiling-Adult-BoneMarrow-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "hematopoietic system",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP766/2020-mar-profiling-adult-bonemarrow-10x"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "cddab57b-6868-4be4-806f-395ed9dd635a",
+            "projectShortname": "Single cell transcriptome analysis of human pancreas reveals transcriptional signatures of aging and somatic mutation patterns.",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Somatic-Adult-Pancreas-SS2",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "Smart-seq2",
+                    "organ": "pancreas",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP794/2020-mar-somatic-adult-pancreas-ss2"
                         }
                     ]
                 }
@@ -51,104 +187,44 @@
         },
         {
             "entryId": "c4077b3c-5c98-4d26-a614-246d12c2e5d7",
+            "projectShortname": "Ischaemic sensitivity of human tissue by single cell RNA seq",
             "datasets": [
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Spleen-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "spleen",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP767/2020-mar-sensitivity-adult-spleen-10x"
                         }
                     ]
                 },
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Esophagus-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "esophagus",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP768/2020-mar-sensitivity-adult-esophagus-10x"
                         }
                     ]
                 },
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Lung-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "lung",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "entryId": "4a95101c-9ffc-4f30-a809-f04518a23803",
-            "datasets": [
-                {
-                    "datasetId": "2020-Mar-Tcell-Adult-Blood-10x",
-                    "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
-                    "libraryConstructionApproach": "10X 3' v2 sequencing",
-                    "organ": "blood",
-                    "visualizations": [
-                        {
-                            "title": "SCP",
-                            "url": "http://google.com"
-                        }
-                    ]
-                },
-                {
-                    "datasetId": "2020-Mar-Tcell-Adult-Lung-10x",
-                    "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
-                    "libraryConstructionApproach": "10X 3' v2 sequencing",
-                    "organ": "lung",
-                    "visualizations": [
-                        {
-                            "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP769/2020-mar-sensitivity-adult-lung-10x"
                         }
                     ]
                 }
@@ -156,47 +232,160 @@
         },
         {
             "entryId": "cc95ff89-2e68-4a08-a234-480eca21ce79",
+            "projectShortname": "Census of Immune Cells",
             "datasets": [
                 {
                     "datasetId": "2020-Mar-Census-Adult-Blood-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "blood",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP770/2020-mar-census-adult-blood-10x"
                         }
                     ]
                 },
                 {
                     "datasetId": "2020-Mar-Census-Adult-Immune-10x",
                     "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "loom",
-                            "url": "http://google.com"
-                        },
-                        {
-                            "type": "Annotated Expression Matrix",
-                            "extension": "h5ad",
-                            "url": "http://google.com"
-                        }
-                    ],
+                    "files": [],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "immune system",
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "http://google.com"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP771/2020-mar-census-adult-immune-10"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "f83165c5-e2ea-4d15-a5cf-33f3550bffde",
+            "projectShortname": "Reconstructing the human first trimester fetal-maternal interface using single cell transcriptomics",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-FetalMaternal-Adult-Blood-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "blood",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP773/2020-mar-fetalmaternal-adult-blood-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-FetalMaternal-Adult-Blood-SS2",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "Smart-seq2",
+                    "organ": "blood",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP757/2020-mar-fetalmaternal-adult-blood-ss2"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-FetalMaternal-Fetal-Placenta-10x",
+                    "developmentalStage": "Fetal",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "placenta",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP772/2020-mar-fetalmaternal-fetal-placenta-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-FetalMaternal-Adult-Decidua-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "decidua",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP788/2020-mar-fetalmaternal-adult-decidua-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-FetalMaternal-Adult-Decidua-SS2",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "Smart-seq2",
+                    "organ": "decidua",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP754/2020-mar-fetalmaternal-adult-decidua-ss2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entryId": "4a95101c-9ffc-4f30-a809-f04518a23803",
+            "projectShortname": "A single-cell reference map of transcriptional states for human blood and tissue T cell activation",
+            "datasets": [
+                {
+                    "datasetId": "2020-Mar-Tcell-Adult-LymphNode-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "mediastinal lymph node",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP790/2020-mar-tcell-adult-lymphnode-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-Tcell-Adult-BoneMarrow-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "hematopoietic system",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP791/2020-mar-tcell-adult-bonemarrow-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-Tcell-Adult-Lung-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "lung",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP792/2020-mar-tcell-adult-lung-10x"
+                        }
+                    ]
+                },
+                {
+                    "datasetId": "2020-Mar-Tcell-Adult-Blood-10x",
+                    "developmentalStage": "Adult",
+                    "files": [],
+                    "libraryConstructionApproach": "10X 3' v2 sequencing",
+                    "organ": "blood",
+                    "visualizations": [
+                        {
+                            "title": "SCP",
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP793/2020-mar-tcell-adult-blood-10x"
                         }
                     ]
                 }
