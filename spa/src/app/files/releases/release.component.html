@@ -15,7 +15,7 @@
                     mollit
                     anim
                     id est laborum.</p>
-                <a class="fontsize-s" href="" target="_blank" rel="noopener noreferrer">Learn More</a>
+                <learn-more></learn-more>
             </div>
             <warning>
                 <warning-title><h3 class="fontsize-l">Gene</h3></warning-title>
@@ -26,6 +26,6 @@
                 </warning-content>
             </warning>
         </status-panel>
-        <release-table *ngIf="state$ | async as state" [releaseOrganViews]="state.releaseOrganViews"></release-table>
+        <release-table *ngIf="state$ | async as state" [columnsToDisplay]="columnsToDisplay" [releaseOrganViews]="state.releaseOrganViews"></release-table>
     </div>
 </pop-layout>

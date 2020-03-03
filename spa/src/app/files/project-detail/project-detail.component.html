@@ -1,8 +1,9 @@
-<pop-layout [tabs]="getProjectDetailTabs()">
+<pop-layout [tabs]="getProjectDetailTabs()" *ngIf="state$ | async as state">
     <ng-container title>Explore Project</ng-container>
-    <project-nav nav></project-nav>
+    <project-nav nav [projectInRelease]="state.projectInRelease"></project-nav>
     <div content>
-        <status-panel class="project-title" *ngIf="state$ | async as state">
+        <status-panel class="project-title">
+            <release-title-overline *ngIf="state.projectInRelease"></release-title-overline>
             <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
             <div class="select-project"
                  (click)="onProjectSelected(state.projectSelected, state.project.entryId, state.project.projectShortname)">

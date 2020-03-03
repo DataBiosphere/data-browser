@@ -1,0 +1,34 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for the "learn more" link.
+ */
+@import "../../site/theme/cgl.vars";
+
+/* Learn more */
+a {
+    position: relative; /* Positions arrow */
+}
+
+/* Learn more arrow */
+a:before, a:after {
+    background-color: $hca-primary;
+    content: "";
+    height: 7px;
+    position: absolute;
+    right: -8px;
+    width: 1px;
+}
+
+/* Arrow - upper */
+a:before {
+    top: 4px;
+    transform: rotate(-45deg);
+}
+
+/* Arrow - lower */
+a:after {
+    top: 9px;
+    transform: rotate(45deg);
+}

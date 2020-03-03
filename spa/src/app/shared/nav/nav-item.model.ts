@@ -7,6 +7,6 @@
 
 export interface NavItem {
     display: string;
-    routerLink: string[];
+    routerLink?: string[];
     subNavItems?: NavItem[];
 }
