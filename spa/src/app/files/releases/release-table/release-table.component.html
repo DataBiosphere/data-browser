@@ -6,35 +6,43 @@
                 <mat-header-cell *matHeaderCellDef class="project-title fontsize-xxs bold">
                     <span>Project Title</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="project-title fontsize-s">
-                    <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.datasetId}}</a>
+                <mat-cell *matCellDef="let element" class="project-title fontsize-xxs">
+                    <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.projectShortname}}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="study">
+                <mat-header-cell *matHeaderCellDef class="study fontsize-xxs bold">
+                    <span>Study</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="study fontsize-xxs">
+                    <span>{{element.datasetId}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="developmentalStage">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Developmental<span>Stage</span></span></mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-s">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs">
                     <span>{{element.developmentalStage}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="technology">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Technology</span></mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-s">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs">
                     <span>{{renderTechnologyShortName(element.libraryConstructionApproach)}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="releaseFiles">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Release Files</span></mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-s">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs">
                     <a href="/releases/2020-mar">View Files</a>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="annotatedExpressionMatrix">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Annotated<span>Expression Matrix</span></span></mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-s dot">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
                     <ng-container *ngFor="let file of element.files">
                         <a href={{file.url}} target="_blank"
                            rel="noopener noreferrer">{{file.extension}}</a>
@@ -45,7 +53,7 @@
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Visualize</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-s dot">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
                     <ng-container *ngFor="let visualization of element.visualizations">
                         <a href={{visualization.url}} target="_blank"
                            rel="noopener noreferrer">{{visualization.title}}</a>

@@ -29,33 +29,6 @@
         margin: 0 0 24px;
     }
 
-    /* Learn more */
-    a {
-        position: relative; /* Positions arrow */
-    }
-
-    /* Learn more arrow */
-    a:before, a:after {
-        background-color: $hca-primary;
-        content: "";
-        height: 7px;
-        position: absolute;
-        right: -8px;
-        width: 1px;
-    }
-
-    /* Arrow - upper */
-    a:before {
-        top: 4px;
-        transform: rotate(-45deg);
-    }
-
-    /* Arrow - lower */
-    a:after {
-        top: 9px;
-        transform: rotate(45deg);
-    }
-
     /* Warning <h3> */
     warning h3 {
         margin: 0 0 12px;

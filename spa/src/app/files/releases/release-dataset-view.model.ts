@@ -18,6 +18,7 @@ export interface ReleaseDatasetView {
     developmentalStage: DevelopmentalStage;
     // files: ReleaseFile[]; TODO(mim)
     libraryConstructionApproach: LibraryConstructionApproach;
+    projectShortname: string; // Project short name, pulled from ReleaseProject
     // visualizations: ReleaseVisualization[]; TODO(mim)
 }
 

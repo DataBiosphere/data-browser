@@ -8,7 +8,7 @@
 
 .status-panel {
     padding: 0 0 24px;
-    position: relative; /* Positions separator */
+    position: relative; /* Positions separator and release title overline */
 
     /* Separator */
     &:before, &.loading:after {

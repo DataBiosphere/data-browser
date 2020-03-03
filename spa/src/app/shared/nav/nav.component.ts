@@ -18,16 +18,17 @@ import { NavItem } from "./nav-item.model";
 })
 export class NavComponent {
 
+    // Inputs
     @Input() navItems: NavItem[];
 
     /**
-     * Returns true if the router link is a non empty string array.
+     * Returns true if router link is specified.
      *
-     * @param {string[]} link
+     * @param {string[]} routerLink
      * @returns {boolean}
      */
-    public isRouterLinkValid(link: string[]): boolean {
+    public isRouterLink(routerLink: string[]): boolean {
 
-        return !!link
+        return !!routerLink
     }
 }

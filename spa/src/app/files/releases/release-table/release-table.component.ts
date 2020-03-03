@@ -22,10 +22,8 @@ import { ReleaseOrganView } from "../release-organ-view.model";
 export class ReleaseTableComponent {
 
     // Inputs
+    @Input() columnsToDisplay: string[];
     @Input() releaseOrganViews: ReleaseOrganView[];
-
-    // Locals
-    private columnsToDisplay = ["projectTitle", "developmentalStage", "technology", "releaseFiles", "annotatedExpressionMatrix", "visualize"];
 
     /**
      * @param {Store<AppState>} store

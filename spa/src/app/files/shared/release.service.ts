@@ -30,11 +30,14 @@ export class ReleaseService {
         const releaseOrganViewsByOrgan = release.projects.reduce((accum, releaseProject: ReleaseProject) => {
 
             const entryId = releaseProject.entryId;
+            const projectShortname = releaseProject.projectShortname;
+
             releaseProject.datasets.forEach((releaseDataset: ReleaseDataset) => {
 
                 const organ = releaseDataset.organ;
                 const datasetView = Object.assign({
                     entryId,
+                    projectShortname,
                 }, releaseDataset);
 
                 if ( accum.has(organ) ) {
