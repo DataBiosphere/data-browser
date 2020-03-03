@@ -14,7 +14,7 @@ import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectReleaseByNameAndProjectId } from "../_ngrx/release/release.selectors";
+import { selectReleaseByProjectId } from "../_ngrx/release/release.selectors";
 import { ReleaseState } from "../releases/release.state";
 import { ReleaseName } from "../releases/release-name.model";
 import { ReleaseOrganView } from "../releases/release-organ-view.model";
@@ -60,7 +60,7 @@ export class ProjectReleaseComponent implements OnDestroy, OnInit {
         const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
 
         this.store.pipe(
-            select(selectReleaseByNameAndProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId: projectId}),
+            select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId: projectId}),
             filter(release => !!release),
             map((release) =>
                 this.releaseService.buildReleaseView(release)),

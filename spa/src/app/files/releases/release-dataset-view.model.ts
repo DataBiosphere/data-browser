@@ -16,9 +16,9 @@ export interface ReleaseDatasetView {
     entryId: string; // Project UUID, pulled from ReleaseProject
     datasetId: string; // Short name, pulled from ReleaseDataset
     developmentalStage: DevelopmentalStage;
-    // files: ReleaseFile[]; TODO(mim)
+    files: ReleaseFile[];
     libraryConstructionApproach: LibraryConstructionApproach;
     projectShortname: string; // Project short name, pulled from ReleaseProject
-    // visualizations: ReleaseVisualization[]; TODO(mim)
+    visualizations: ReleaseVisualization[];
 }
 

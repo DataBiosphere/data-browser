@@ -18,7 +18,7 @@ import { filter, map, take } from "rxjs/operators";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { ClearReleaseReferrerAction } from "../_ngrx/release/clear-release-referrer.action";
 import {
-    selectReleaseByNameAndProjectId,
+    selectReleaseByProjectId,
     selectReleaseReferrer
 } from "../_ngrx/release/release.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
@@ -172,7 +172,7 @@ export class ProjectDetailComponent {
         );
         
         const projectInRelease$ = this.store.pipe(
-            select(selectReleaseByNameAndProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
+            select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
             map(release => release.projects.length > 0)
         );
 

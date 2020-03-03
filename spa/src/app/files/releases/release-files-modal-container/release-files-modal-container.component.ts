@@ -9,12 +9,11 @@
 import { Component, OnDestroy, ViewEncapsulation } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
-import { combineLatest, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ReleaseFilesModalComponent } from "../release-files-modal/release-files-modal.component";
-import { map } from "rxjs/internal/operators";
 
 
 @Component({
@@ -36,25 +35,16 @@ export class ReleaseFilesModalContainerComponent implements OnDestroy {
      */
     constructor(dialog: MatDialog, route: ActivatedRoute) {
 
-        /* TODO Mim - check concept - need datasetId */
-        combineLatest(route.queryParams, route.params)
-            .pipe(
-                map(([queryParams, params]) => {
-
-                    return {
-                        queryParams: queryParams,
-                        params: params
-                    }
-                }),
-                takeUntil(this.ngDestroy$)
-            ).subscribe(({queryParams, params}) => {
+        route.params.pipe(
+            takeUntil(this.ngDestroy$)
+        ).subscribe(params => {
 
             dialog.open(ReleaseFilesModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {
                     projectId: params.id,
-                    datasetId: queryParams.datasetId
+                    datasetId: params.datasetId
                 },
                 disableClose: true,
                 panelClass: this.CSS_PANEL

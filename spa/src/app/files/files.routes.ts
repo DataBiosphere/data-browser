@@ -92,7 +92,7 @@ export const routes: Route[] = [
                 component: ProjectDownloadMatrixModalContainerComponent
             },
             {
-                path: ":id/m/releases/2020-mar/release-files",
+                path: ":id/m/releases/2020-mar/datasets/:datasetId/release-files",
                 component: ReleaseFilesModalContainerComponent,
             }
         ]

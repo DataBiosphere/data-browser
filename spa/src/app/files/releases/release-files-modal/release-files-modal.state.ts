@@ -6,12 +6,12 @@
  */
 
 // App dependencies
-import { ReleaseDataset } from "../release-dataset.model";
-
-/* TODO Mim */
+import { ReleaseDataset } from "../2020-march/release-dataset.model";
+import { ReleaseProject } from "../2020-march/release-project.model";
 
 export interface ReleaseFilesModalState {
 
     loaded: boolean;
-    releaseDataset: ReleaseDataset
+    releaseProject?: ReleaseProject;
+    releaseDataset?: ReleaseDataset;
 }
