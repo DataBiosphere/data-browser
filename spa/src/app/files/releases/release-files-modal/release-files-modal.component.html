@@ -1,0 +1,25 @@
+<modal-layout *ngIf="state$ | async as state"
+              [loaded]="state.loaded"
+              (closed)="redirectToReleases()">
+    <release-title-overline overline></release-title-overline>
+    <ng-container title *ngIf="state.loaded">Release Files</ng-container>
+    <ng-container subtitle *ngIf="state.loaded">{{state.releaseDataset.projectShortname}}</ng-container>
+    <ng-container content *ngIf="state.loaded">
+        <h2>
+            <span>{{state.releaseDataset.projectData.organ}}, </span>
+            <span>{{state.releaseDataset.projectData.developmentalStage}}, </span>
+            <span>{{state.releaseDataset.projectData.libraryConstructionApproach}}</span>
+        </h2>
+        <p class="fontsize-s max550">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo diam, vel
+            iaculis elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+            Sed rhoncus, ante vel scelerisque eleifend, tellus leo dapibus magna, ut finibus magna velit vel leo.</p>
+        <warning class="max550">
+            <warning-content>
+                <!--TODO Mim I think we need another releaseReferrer here to return user back to releases page-->
+                <p class="fontsize-s">This project contains additional organs, developmental stages or technologies. <a
+                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar">View project release page</a>.
+                </p>
+            </warning-content>
+        </warning>
+    </ng-container>
+</modal-layout>

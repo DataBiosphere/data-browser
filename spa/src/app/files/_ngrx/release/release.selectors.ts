@@ -46,3 +46,17 @@ export const selectReleaseByNameAndProjectId =
 export const selectReleaseReferrer =
     createSelector(selectReleases, (state) => state.releaseReferrer);
 
+/**
+ * XXX TODO Mim
+ */
+export const selectDataset =
+    createSelector(selectReleases, (state, props) => {
+        const release = state.releasesByName.get(props.name);
+        const project = release.projects.find(project => project.entryId === props.projectId);
+        return {
+            entryId: project.entryId,
+            projectShortname: project.projectShortname,
+            projectData: project.datasets.find(dataset => dataset.datasetId === props.datasetId)
+        };
+    });
+

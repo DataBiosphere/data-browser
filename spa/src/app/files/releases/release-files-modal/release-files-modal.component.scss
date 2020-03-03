@@ -1,0 +1,22 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for release files modal.
+ */
+
+/* Subtitle */
+h2 span {
+    text-transform: capitalize;
+}
+
+/* Max widths */
+/* 550px */
+.max550 {
+    max-width: 550px;
+}
+
+/* Warning - content */
+warning-content .fontsize-s {
+    margin: 0;
+}

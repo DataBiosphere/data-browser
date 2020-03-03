@@ -23,6 +23,7 @@ import { ProjectReleaseComponent } from "./project-release/project-release.compo
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ReleaseComponent } from "./releases/release.component";
+import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 
 export const routes: Route[] = [
     {
@@ -89,6 +90,10 @@ export const routes: Route[] = [
             {
                 path: ":id/m/expression-matrices",
                 component: ProjectDownloadMatrixModalContainerComponent
+            },
+            {
+                path: ":id/m/releases/2020-mar/release-files",
+                component: ReleaseFilesModalContainerComponent,
             }
         ]
     },
