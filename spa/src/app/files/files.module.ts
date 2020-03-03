@@ -102,6 +102,7 @@ import { ProjectViewFactory } from "./project-view/project-view.factory";
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseTableComponent } from "./releases/release-table/release-table.component";
 import { ReleaseTitleOverlineComponent } from "./releases/release-title-overline/release-title-overline.component";
+import { SearchTermService } from "./shared/search-term.service";
 import { DownloadService } from "./shared/download.service";
 import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
@@ -109,13 +110,13 @@ import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
 import { IntegrationService } from "./shared/integration.service";
 import { MatrixService } from "./shared/matrix.service";
-import { ReleaseService } from "./shared/release.service";
-import { SearchTermService } from "./shared/search-term.service";
+import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermResponseService } from "./shared/term-response.service";
 import { TermSortService } from "./sort/term-sort.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
+import { ReleaseService } from "./shared/release.service";
 
 @NgModule({
     imports: [
