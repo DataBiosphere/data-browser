@@ -13,7 +13,7 @@
 
     /* Wrapper around table */
     > div {
-        min-width: 1056px; /* Required for horizontal scroll - 6 columns @ min width 176px */
+        min-width: 1220px; /* Required for horizontal scroll */
         padding-bottom: 24px;
     }
 
@@ -59,9 +59,9 @@
             padding: 0 12px;
         }
 
-        /* Title */
-        .project-title {
-            flex-basis: 20%;
+        /* Title, study */
+        .project-title, .study {
+            flex-basis: 15%;
         }
 
         /* Dot */
@@ -79,6 +79,19 @@
             height: 3px;
             margin: 0 4px;
             width: 3px;
+        }
+    }
+}
+
+/* ProjectReleaseComponent */
+:host-context(project-release) {
+
+    /* Releases table */
+    .release-tables {
+
+        /* Wrapper around table */
+        > div {
+            min-width: 930px; /* Required for horizontal scroll */
         }
     }
 }

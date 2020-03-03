@@ -23,6 +23,7 @@ import { DownloadButtonComponent } from "./download-button/download-button.compo
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
+import { LearnMoreComponent } from "./learn-more/learn-more.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
 import { ResponsiveService } from "./responsive/responsive.service";
 import { StatusPanelComponent } from "./status-panel/status-panel.component";
@@ -52,6 +53,7 @@ import { NavComponent } from "./nav/nav.component";
         HCASectionTitleComponent,
         HCATabComponent,
         KeyValuePairComponent,
+        LearnMoreComponent,
         NavComponent,
         PopLayoutComponent,
         StatusPanelComponent,
@@ -74,6 +76,7 @@ import { NavComponent } from "./nav/nav.component";
         HCASectionTitleComponent,
         HCATabComponent,
         KeyValuePairComponent,
+        LearnMoreComponent,
         NavComponent,
         PopLayoutComponent,
         StatusPanelComponent,

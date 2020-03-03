@@ -19,9 +19,9 @@ import { ProjectExternalResourcesComponent } from "./project-external-resources/
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
+import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
-import { ProjectReleaseComponent } from "./releases/project-release/project-release.component";
 import { ReleaseComponent } from "./releases/release.component";
 
 export const routes: Route[] = [

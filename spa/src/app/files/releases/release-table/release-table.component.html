@@ -7,7 +7,15 @@
                     <span>Project Title</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project-title fontsize-s">
-                    <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.datasetId}}</a>
+                    <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.projectShortname}}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="study">
+                <mat-header-cell *matHeaderCellDef class="study fontsize-xxs bold">
+                    <span>Study</span>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="study fontsize-s">
+                    <span>{{element.datasetId}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="developmentalStage">

@@ -11,6 +11,7 @@
     /* Content container */
     div[content] {
         flex: 1;
+        overflow: hidden; /* Required for project-release component */
         padding: 30px 0 36px;
     }
 }

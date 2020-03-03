@@ -96,9 +96,9 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
+import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
-import { ProjectReleaseComponent } from "./releases/project-release/project-release.component";
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseTableComponent } from "./releases/release-table/release-table.component";
 import { SearchTermService } from "./shared/search-term.service";
