@@ -6,15 +6,16 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ProjectNav } from "./project-nav.model";
+import { NavItem } from "../../shared/nav/nav-item.model";
 import { EntityName } from "../shared/entity-name.model";
+import { ProjectNav } from "./project-nav.model";
 
 @Component({
     selector: "project-nav",
@@ -23,10 +24,20 @@ import { EntityName } from "../shared/entity-name.model";
 })
 export class ProjectNavComponent {
 
+    // Inputs
+    @Input() projectInRelease: boolean;
+
     // Locals
-    private navItems;
-    private ngDestroy$ = new Subject();
+    private dataCitation: NavItem;
     private deviceInfo = null;
+    private expressionMatrices: NavItem;
+    private externalResources: NavItem;
+    private ngDestroy$ = new Subject();
+    private projectInformation: NavItem;
+    private projectMetadata: NavItem;
+    private projectReleases: NavItem;
+    private summaryStats: NavItem;
+    private supplementaryLinks: NavItem;
 
     /**
      * @param {ActivatedRoute} route
@@ -38,65 +49,86 @@ export class ProjectNavComponent {
 
             const projectId = params.id;
 
-            const projectInformation = {
+            this.projectInformation = {
                 display: "Project Information",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
             };
 
-            const projectMetadata = {
+            this.projectMetadata = {
                 display: "Project Metadata",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
             };
 
-            const expressionMatrices = {
+            this.expressionMatrices = {
                 display: "Expression Matrices",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
             };
 
-            const supplementaryLinks = {
+            this.supplementaryLinks = {
                 display: "Supplementary Links",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUPPLEMENTARY_LINKS)
             };
 
-            const externalResources = {
+            this.externalResources = {
                 display: "External Resources",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES)
             };
 
-            const summaryStats = {
+            this.summaryStats = {
                 display: "Summary Stats",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
             };
 
-            const dataCitation = {
+            this.dataCitation = {
                 display: "Data Citation",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
             };
 
-            const projectReleases = {
+            this.projectReleases = {
                 display: "Releases",
-                routerLink: "",
                 subNavItems: [{
                     display: "2020 March Data Release",
                     routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
                 }]
-            };
-
-            let navItemList;
-
-            // Check if device is handheld and set up nav accordingly
-            if ( this.isDeviceHandheld() ) {
-
-                navItemList = [projectInformation, externalResources];
             }
-            else {
-
-                navItemList =
-                    [projectInformation, projectMetadata, expressionMatrices, supplementaryLinks, externalResources, projectReleases];
-            }
-
-            this.navItems = navItemList;
         });
+    }
+
+    /**
+     * Build up list of navigation items for the project detail page.
+     *
+     * @returns {any}
+     */
+    public buildNavItems() {
+
+        let navItemList;
+
+        // Check if device is handheld and set up nav accordingly
+        if ( this.isDeviceHandheld() ) {
+
+            navItemList = [
+                this.projectInformation,
+                this.externalResources
+            ];
+        }
+        else {
+
+            navItemList = [
+                this.projectInformation,
+                this.projectMetadata,
+                this.expressionMatrices,
+                this.supplementaryLinks,
+                this.externalResources
+            ];
+
+            // Check if project is a part of the release and add "releases" to the nav accordingly
+            if ( this.projectInRelease ) {
+
+                navItemList.push(this.projectReleases);
+            }
+        }
+
+        return navItemList;
     }
 
     /**

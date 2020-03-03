@@ -1,0 +1,17 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for release table component.
+ */
+
+.fontsize-s {
+    margin: 0;
+}
+
+/* ProjectDetailComponent */
+:host-context(project-detail) {
+    left: 0;
+    position: absolute;
+    top: -24px;
+}
