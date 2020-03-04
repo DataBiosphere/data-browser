@@ -4,7 +4,7 @@
         <mat-table [dataSource]="organView.datasets">
             <ng-container matColumnDef="projectTitle">
                 <mat-header-cell *matHeaderCellDef class="project-title fontsize-xxs bold">
-                    <span>Project Title</span>
+                    <span>Project</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="project-title fontsize-xxs">
                     <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.projectShortname}}</a>
@@ -12,7 +12,7 @@
             </ng-container>
             <ng-container matColumnDef="study">
                 <mat-header-cell *matHeaderCellDef class="study fontsize-xxs bold">
-                    <span>Study</span>
+                    <span>Dataset</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="study fontsize-xxs">
                     <span>{{element.datasetId}}</span>
@@ -51,7 +51,7 @@
             </ng-container>
             <ng-container matColumnDef="visualize">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
-                    <span>Visualize</span>
+                    <span>Visualizations</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
                     <ng-container *ngFor="let visualization of element.visualizations">

@@ -20,6 +20,7 @@ import { ReleaseService } from "../shared/release.service";
 import { ReleaseState } from "./release.state";
 import { ReleaseName } from "./release-name.model";
 import { ReleaseOrganView } from "./release-organ-view.model";
+import { ConfigService } from "../../config/config.service";
 
 @Component({
     selector: "release",
@@ -31,6 +32,7 @@ export class ReleaseComponent implements OnDestroy, OnInit {
     // Locals
     public columnsToDisplay = ["projectTitle", "study", "developmentalStage", "technology", "releaseFiles", "visualize"];
     private ngDestroy$ = new Subject();
+    private portalUrl: string;
     private state$ = new BehaviorSubject<ReleaseState>({
         loaded: false,
         releaseOrganViews: []
@@ -40,7 +42,12 @@ export class ReleaseComponent implements OnDestroy, OnInit {
      * @param {Store<AppState>} store
      */
     constructor(private store: Store<AppState>,
-                private releaseService: ReleaseService) {}
+                private releaseService: ReleaseService,
+                private configService: ConfigService) {
+
+        this.portalUrl = this.configService.getPortalURL()
+
+    }
 
     /**
      * Tab provides opportunity to return back to project table.
