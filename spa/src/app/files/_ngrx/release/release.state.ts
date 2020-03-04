@@ -6,18 +6,20 @@
  */
 
 // App dependencies
-import { Release } from "../../releases/2020-march/release.model";
+import { Release } from "../../releases/release.model";
 import { FetchReleasesSuccessAction } from "./fetch-releases-success.action";
 import { Releases } from "./releases.model";
 
 const DEFAULT_RELEASE_STATE = {
     releasesByName: new Map(),
+    releaseFilesReferrer: false,
     releaseReferrer: false
 };
 
 export class ReleaseState implements Releases {
 
     releasesByName: Map<string, Release>;
+    releaseFilesReferrer: boolean;
     releaseReferrer: boolean;
 
     /**
@@ -27,6 +29,17 @@ export class ReleaseState implements Releases {
         Object.assign(this, state);
     }
 
+    /**
+     * Set release files referrer to false.
+     */
+    public clearReleaseFilesReferrer(): ReleaseState {
+
+        return new ReleaseState({
+            releasesByName: this.releasesByName,
+            releaseFilesReferrer: false,
+            releaseReferrer: this.releaseReferrer
+        });
+    }
 
     /**
      * Set release referrer to false.
@@ -35,6 +48,7 @@ export class ReleaseState implements Releases {
 
         return new ReleaseState({
             releasesByName: this.releasesByName,
+            releaseFilesReferrer: this.releaseFilesReferrer,
             releaseReferrer: false
         });
     }
@@ -59,7 +73,20 @@ export class ReleaseState implements Releases {
 
         return new ReleaseState({
             releasesByName,
+            releaseFilesReferrer: this.releaseFilesReferrer,
             releaseReferrer: this.releaseReferrer
+        });
+    }
+
+    /**
+     * Set release files referrer to true.
+     */
+    public setReleaseFilesReferrer(): ReleaseState {
+
+        return new ReleaseState({
+            releasesByName: this.releasesByName,
+            releaseReferrer: this.releaseReferrer,
+            releaseFilesReferrer: true
         });
     }
 
@@ -70,7 +97,8 @@ export class ReleaseState implements Releases {
 
         return new ReleaseState({
             releasesByName: this.releasesByName,
-            releaseReferrer: true
+            releaseReferrer: true,
+            releaseFilesReferrer: this.releaseFilesReferrer
         });
     }
 

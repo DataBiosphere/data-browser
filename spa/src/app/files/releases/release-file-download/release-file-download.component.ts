@@ -8,6 +8,9 @@
 // Core dependencies
 import { Component, Input } from "@angular/core";
 
+// App dependencies
+import { ReleaseFilesView } from "../release-files-view.model";
+
 @Component({
     selector: "release-file-download",
     templateUrl: "./release-file-download.component.html",
@@ -16,15 +19,5 @@ import { Component, Input } from "@angular/core";
 export class ReleaseFileDownloadComponent {
 
     // Inputs
-    @Input() releaseFiles: string[]; /* TODO Mim - change type */
-
-    /**
-     * Click event for download of file. TODO Mim
-     *
-     */
-    public onDownloadFile() {
-
-        // Insert
-        console.log("Download");
-    }
+    @Input() releaseFiles: ReleaseFilesView[];
 }

@@ -36,7 +36,8 @@
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Release Files</span></mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                    <a routerLink="/projects/{{element.entryId}}/m/releases/2020-mar/datasets/{{element.datasetId}}/release-files">View Files</a>
+                    <a routerLink="/projects/{{element.entryId}}/m/releases/2020-mar/datasets/{{element.datasetId}}/release-files"
+                       (click)="setReleaseFilesReferrer()">View Files</a>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="annotatedExpressionMatrix">

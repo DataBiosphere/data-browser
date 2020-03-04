@@ -1,11 +1,9 @@
 <ng-container *ngFor="let releaseFile of releaseFiles">
-    <div class="download-progress-indicator icon16">
-        <div class="download-not-started icon16" (click)="onDownloadFile()" *ngIf="true"></div>
-        <mat-spinner class="hca-spinner" diameter="14" *ngIf="false"></mat-spinner>
-        <div class="download-failed icon16 fontsize-xxs" *ngIf="false">x</div>
-        <div [ngClass]="{'download-completed': true, 'hidden': !false, 'icon16': true}"></div>
+    <div>
+        <div class="download-progress-indicator icon16">
+            <a [href]="releaseFile.url" class="download-not-started icon16"></a>
+        </div>
+        <span class="fontsize-s">{{releaseFile.extension}}</span>
+        <copy-to-clipboard [copyToClipboardLink]="releaseFile.url"></copy-to-clipboard>
     </div>
-    <span class="fontsize-s">{{releaseFile}}</span>
-    <a class="hidden" #download></a>
-    <copy-to-clipboard *ngIf="false" [copyToClipboardLink]="insert"></copy-to-clipboard>
 </ng-container>

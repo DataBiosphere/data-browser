@@ -8,6 +8,9 @@
 // Core dependencies
 import { Component, Input } from "@angular/core";
 
+// App dependencies
+import { ReleaseFilesView } from "../release-files-view.model";
+
 @Component({
     selector: "release-file",
     templateUrl: "./release-file.component.html",
@@ -16,7 +19,7 @@ import { Component, Input } from "@angular/core";
 export class ReleaseFileComponent {
 
     // Inputs
-    @Input() releaseFiles: string[]; /* TODO Mim <-- type likely to change */
+    @Input() releaseFiles: ReleaseFilesView[];
     @Input() releaseFileParagraph: string;
     @Input() releaseFileTitle: string;
 }

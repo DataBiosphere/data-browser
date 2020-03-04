@@ -50,6 +50,12 @@ export const selectReleaseReferrer =
     createSelector(selectReleases, (state) => state.releaseReferrer);
 
 /**
+ * Return the release files referrer.
+ */
+export const selectReleaseFilesReferrer =
+    createSelector(selectReleases, (state) => state.releaseFilesReferrer);
+
+/**
  * Return the dataset with the specified ID, for the specified project and release.
  */
 export const selectReleaseByDataset =

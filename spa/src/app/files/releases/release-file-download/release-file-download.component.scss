@@ -7,9 +7,13 @@
 @import "../../../site/theme/cgl.vars";
 
 /* File download */
-:host {
+:host > div {
     align-items: baseline;
     display: flex;
+}
+
+:host > div:not(:first-of-type) {
+    margin-top: 4px;
 }
 
 /* Download label */
@@ -40,30 +44,8 @@
     background: url("assets/images/icon/hca-download-primary.png") center no-repeat;
 }
 
-/* Mat spinner - download in progress */
-mat-spinner {
-    align-self: center;
-}
-
-/* Download complete image */
-.download-completed {
-    background: url("assets/images/icon/check-black.png") center no-repeat;
-    opacity: 0.4;
-}
-
 /* Icon slot - download not started, download completed */
-.download-not-started, .download-completed {
+.download-not-started {
     background-size: contain;
     cursor: pointer;
-}
-
-/* Error state on download */
-.download-failed {
-    color: red;
-    text-align: center;
-}
-
-/* Sneaky hidden anchor to facilitate standard browser download */
-.hidden {
-    display: none;
 }
