@@ -100,6 +100,8 @@ import { ProjectReleaseComponent } from "./project-release/project-release.compo
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
 import { ReleaseComponent } from "./releases/release.component";
+import { ReleaseFileComponent } from "./releases/release-file/release-file.component";
+import { ReleaseFileDownloadComponent } from "./releases/release-file-download/release-file-download.component";
 import { ReleaseFilesModalComponent } from "./releases/release-files-modal/release-files-modal.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseTableComponent } from "./releases/release-table/release-table.component";
@@ -214,6 +216,8 @@ import { ReleaseService } from "./shared/release.service";
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
         ReleaseComponent,
+        ReleaseFileComponent,
+        ReleaseFileDownloadComponent,
         ReleaseFilesModalComponent,
         ReleaseFilesModalContainerComponent,
         ReleaseTableComponent,

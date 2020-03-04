@@ -6,8 +6,8 @@
     <ng-container subtitle *ngIf="state.loaded">{{state.releaseProject.projectShortname}}</ng-container>
     <ng-container content *ngIf="state.loaded">
         <h2>
-            <span>{{state.releaseDataset.organ}}, </span>
             <span>{{state.releaseDataset.developmentalStage}}, </span>
+            <span>{{state.releaseDataset.organ}}, </span>
             <span>{{state.releaseDataset.libraryConstructionApproach}}</span>
         </h2>
         <p class="fontsize-s max550">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo diam, vel
@@ -16,9 +16,12 @@
         <warning class="max550">
             <warning-content>
                 <p class="fontsize-s">This project contains additional organs, developmental stages or technologies. <a
-                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar">View project release page</a>.
+                        routerLink="/projects/{{state.releaseProject.entryId}}/releases/2020-mar">View project release page</a>.
                 </p>
             </warning-content>
         </warning>
+        <release-file class="max550" [releaseFiles]="['csv']" [releaseFileParagraph]="getFileDownloadParagraph()" [releaseFileTitle]="'File Manifest'"></release-file>
+        <release-file class="max550" [releaseFiles]="['h5ad', 'loom']" [releaseFileParagraph]="getFileDownloadParagraph()" [releaseFileTitle]="'Annotated Expression Matrix'"></release-file>
+        <release-file class="max550" [releaseFiles]="['ext0', 'ext1']" [releaseFileParagraph]="getFileDownloadParagraph()" [releaseFileTitle]="'Other Type 0'"></release-file>
     </ng-container>
 </modal-layout>

@@ -1,0 +1,69 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying the release file download.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* File download */
+:host {
+    align-items: baseline;
+    display: flex;
+}
+
+/* Download label */
+.fontsize-s {
+    padding: 0 16px 0 8px;
+}
+
+/* Class "fontsize-..." */
+.fontsize-s, .fontsize-xxs {
+    margin: 0;
+}
+
+/* Slot for displaying progress icons */
+.download-progress-indicator {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Download progress container slot and inner status icons - excludes spinner icon */
+.icon16 {
+    height: 16px;
+    width: 16px;
+}
+
+/* Download not started image */
+.download-not-started {
+    background: url("assets/images/icon/hca-download-primary.png") center no-repeat;
+}
+
+/* Mat spinner - download in progress */
+mat-spinner {
+    align-self: center;
+}
+
+/* Download complete image */
+.download-completed {
+    background: url("assets/images/icon/check-black.png") center no-repeat;
+    opacity: 0.4;
+}
+
+/* Icon slot - download not started, download completed */
+.download-not-started, .download-completed {
+    background-size: contain;
+    cursor: pointer;
+}
+
+/* Error state on download */
+.download-failed {
+    color: red;
+    text-align: center;
+}
+
+/* Sneaky hidden anchor to facilitate standard browser download */
+.hidden {
+    display: none;
+}

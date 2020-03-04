@@ -69,6 +69,11 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
         this.router.navigateByUrl(`/releases/2020-mar`, {replaceUrl: true});
     }
 
+    public getFileDownloadParagraph() {
+
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo diam, vel iaculis elit."
+    }
+
     /**
      * Close the modal on any navigation event.
      */

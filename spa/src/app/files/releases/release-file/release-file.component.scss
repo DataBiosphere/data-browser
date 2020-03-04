@@ -1,0 +1,33 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying the release file.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* Release file - container */
+:host {
+    display: inline-block;
+
+    /* Last */
+    &:not(:last-of-type) {
+        margin-bottom: 24px;
+    }
+}
+
+/* Release file - heading */
+h5 {
+    font-family: "din-2014", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.97px;
+    line-height: 16px;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+/* Release file - last paragraph */
+p:last-of-type {
+    margin-bottom: 12px;
+}

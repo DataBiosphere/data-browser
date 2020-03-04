@@ -32,3 +32,19 @@ a:after {
     top: 9px;
     transform: rotate(45deg);
 }
+
+/* Class "fontsize-xs" */
+:host-context(.fontsize-xs) {
+
+    a {
+        font: inherit; // Override class "fontsize-s" on "learn more"
+    }
+
+    a:before {
+        top: 3px;
+    }
+
+    a:after {
+        top: 8px;
+    }
+}

@@ -10,11 +10,11 @@
                     <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.projectShortname}}</a>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="study">
-                <mat-header-cell *matHeaderCellDef class="study fontsize-xxs bold">
+            <ng-container matColumnDef="dataset">
+                <mat-header-cell *matHeaderCellDef class="dataset fontsize-xxs bold">
                     <span>Dataset</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="study fontsize-xxs">
+                <mat-cell *matCellDef="let element" class="dataset fontsize-xxs">
                     <span>{{element.datasetId}}</span>
                 </mat-cell>
             </ng-container>
