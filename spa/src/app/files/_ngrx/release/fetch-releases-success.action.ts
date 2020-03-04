@@ -9,7 +9,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { Release } from "../../releases/2020-march/release.model";
+import { Release } from "../../releases/release.model";
 
 export class FetchReleasesSuccessAction implements Action {
     public static ACTION_TYPE = "RELEASES.RELEASES_SUCCESS";

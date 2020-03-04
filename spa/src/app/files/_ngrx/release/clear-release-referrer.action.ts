@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when release referrer indicator should be cleared.
+ * Action triggered when release list page referrer indicator should be cleared.
  */
 
 // Core dependencies

@@ -2,11 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when project-specific pages should return to the release page, and not the natural app page.
- * Specifically:
- *
- * 1. Project detail back button returns to release page and not to projects tab
- * 2. Release files modal close button returns to release page and not to project detail release tab
+ * Action triggered when project-specific pages should return to the release list page, and not the natural app page.
+ * Specifically, project detail back button returns to release list page and not to projects tab.
  */
 
 // Core dependencies

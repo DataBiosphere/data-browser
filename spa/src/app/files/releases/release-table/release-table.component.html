@@ -10,11 +10,11 @@
                     <a routerLink="/projects/{{element.entryId}}/releases/2020-mar" (click)="setReleaseReferrer()">{{element.projectShortname}}</a>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="study">
-                <mat-header-cell *matHeaderCellDef class="study fontsize-xxs bold">
+            <ng-container matColumnDef="dataset">
+                <mat-header-cell *matHeaderCellDef class="dataset fontsize-xxs bold">
                     <span>Dataset</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="study fontsize-xxs">
+                <mat-cell *matCellDef="let element" class="dataset fontsize-xxs">
                     <span>{{element.datasetId}}</span>
                 </mat-cell>
             </ng-container>
@@ -36,7 +36,8 @@
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Release Files</span></mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                    <a href="/releases/2020-mar">View Files</a>
+                    <a routerLink="/projects/{{element.entryId}}/m/releases/2020-mar/datasets/{{element.datasetId}}/release-files"
+                       (click)="setReleaseFilesReferrer()">View Files</a>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="annotatedExpressionMatrix">

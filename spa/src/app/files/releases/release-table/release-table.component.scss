@@ -26,10 +26,6 @@
     /* Table */
     mat-table {
 
-        .fontsize-s, .fontsize-xs, .fontsize-xxs {
-            margin: 0; /* Overrides class "fontsize-..." margin */
-        }
-
         /* Header row */
         mat-header-row {
             border-bottom: 1px solid $hca-gray-light;
@@ -59,8 +55,13 @@
             padding: 0 12px;
         }
 
-        /* Title, study */
-        .project-title, .study {
+        /* Cell class "fontsize-..." */
+        mat-cell, mat-cell.fontsize-xxs {
+            margin: 4px 0; /* Overrides class "fontsize-..." margin */
+        }
+
+        /* Title, dataset */
+        .project-title, .dataset {
             flex-basis: 15%;
         }
 

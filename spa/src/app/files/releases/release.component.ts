@@ -30,7 +30,7 @@ import { ConfigService } from "../../config/config.service";
 export class ReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
-    public columnsToDisplay = ["projectTitle", "study", "developmentalStage", "technology", "releaseFiles", "visualize"];
+    public columnsToDisplay = ["projectTitle", "dataset", "developmentalStage", "technology", "releaseFiles", "visualize"];
     private ngDestroy$ = new Subject();
     private portalUrl: string;
     private state$ = new BehaviorSubject<ReleaseState>({

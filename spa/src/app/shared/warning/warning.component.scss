@@ -21,6 +21,11 @@
     max-width: 720px;
 }
 
+/* ReleaseFilesModalComponent */
+:host-context(release-files-modal) {
+    margin: 12px 0 32px;
+}
+
 /**
  * Small +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints

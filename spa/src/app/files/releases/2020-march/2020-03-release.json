@@ -8,7 +8,38 @@
                 {
                     "datasetId": "2020-Mar-Atlas-Adult-Retina-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Atlas-Adult-Retina-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "eye",
                     "visualizations": [
@@ -27,7 +58,38 @@
                 {
                     "datasetId": "2020-Mar-InterOrganoid-Adult-Brain-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "brain",
                     "visualizations": [
@@ -46,7 +108,38 @@
                 {
                     "datasetId": "2020-Mar-Diff-Fetal-Neuron-SS2",
                     "developmentalStage": "Fetal",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Diff-Fetal-Neuron-SS2.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "Smart-seq2",
                     "organ": "brain",
                     "visualizations": [
@@ -65,7 +158,38 @@
                 {
                     "datasetId": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x",
                     "developmentalStage": "Fetal",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-SpatioTemporal-Fetal-Kidney-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "kidney",
                     "visualizations": [
@@ -78,7 +202,38 @@
                 {
                     "datasetId": "2020-Mar-SpatioTemporal-Adult-Kidney-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-SpatioTemporal-Adult-Kidney-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "kidney",
                     "visualizations": [
@@ -97,7 +252,38 @@
                 {
                     "datasetId": "2020-Mar-IBD-Adult-Colon-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-IBD-Adult-Colon-10.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "colon",
                     "visualizations": [
@@ -116,7 +302,38 @@
                 {
                     "datasetId": "2020-Mar-Reprogram-Embryo-Dendritic-10x",
                     "developmentalStage": "",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Reprogram-Embryo-Dendritic-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "embryo",
                     "visualizations": [
@@ -135,7 +352,38 @@
                 {
                     "datasetId": "2020-Mar-Landscape-Adult-Liver-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Landscape-Adult-Liver-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "liver",
                     "visualizations": [
@@ -154,7 +402,38 @@
                 {
                     "datasetId": "2020-Mar-Profiling-Adult-BoneMarrow-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Profiling-Adult-BoneMarrow-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "hematopoietic system",
                     "visualizations": [
@@ -173,7 +452,38 @@
                 {
                     "datasetId": "2020-Mar-Somatic-Adult-Pancreas-SS2",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Somatic-Adult-Pancreas-SS2.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "Smart-seq2",
                     "organ": "pancreas",
                     "visualizations": [
@@ -192,7 +502,38 @@
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Spleen-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Spleen-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "spleen",
                     "visualizations": [
@@ -205,7 +546,38 @@
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Esophagus-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Esophagus-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "esophagus",
                     "visualizations": [
@@ -218,7 +590,38 @@
                 {
                     "datasetId": "2020-Mar-Sensitivity-Adult-Lung-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Sensitivity-Adult-Lung-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "lung",
                     "visualizations": [
@@ -237,7 +640,38 @@
                 {
                     "datasetId": "2020-Mar-Census-Adult-Blood-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Census-Adult-Blood-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "blood",
                     "visualizations": [
@@ -250,7 +684,38 @@
                 {
                     "datasetId": "2020-Mar-Census-Adult-Immune-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Census-Adult-Immune-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "immune system",
                     "visualizations": [
@@ -269,7 +734,38 @@
                 {
                     "datasetId": "2020-Mar-FetalMaternal-Adult-Blood-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "blood",
                     "visualizations": [
@@ -282,7 +778,38 @@
                 {
                     "datasetId": "2020-Mar-FetalMaternal-Adult-Blood-SS2",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Blood-SS2.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "Smart-seq2",
                     "organ": "blood",
                     "visualizations": [
@@ -295,7 +822,38 @@
                 {
                     "datasetId": "2020-Mar-FetalMaternal-Fetal-Placenta-10x",
                     "developmentalStage": "Fetal",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Fetal-Placenta-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "placenta",
                     "visualizations": [
@@ -308,7 +866,38 @@
                 {
                     "datasetId": "2020-Mar-FetalMaternal-Adult-Decidua-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "decidua",
                     "visualizations": [
@@ -321,7 +910,38 @@
                 {
                     "datasetId": "2020-Mar-FetalMaternal-Adult-Decidua-SS2",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-FetalMaternal-Adult-Decidua-SS2.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "Smart-seq2",
                     "organ": "decidua",
                     "visualizations": [
@@ -340,7 +960,38 @@
                 {
                     "datasetId": "2020-Mar-Tcell-Adult-LymphNode-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-LymphNode-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "mediastinal lymph node",
                     "visualizations": [
@@ -353,7 +1004,38 @@
                 {
                     "datasetId": "2020-Mar-Tcell-Adult-BoneMarrow-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-BoneMarrow-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "hematopoietic system",
                     "visualizations": [
@@ -366,7 +1048,38 @@
                 {
                     "datasetId": "2020-Mar-Tcell-Adult-Lung-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-Lung-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "lung",
                     "visualizations": [
@@ -379,7 +1092,38 @@
                 {
                     "datasetId": "2020-Mar-Tcell-Adult-Blood-10x",
                     "developmentalStage": "Adult",
-                    "files": [],
+                    "files": [
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "h5ad",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.seurat_annotated_v1.h5ad"
+                        },
+                        {
+                            "type": "ANNOTATED_CLUSTERS",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.annotated_v1.loom"
+                        },
+                        {
+                            "type": "DIFFERENTIAL_EXPRESSION",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.de.xlsx"
+                        },
+                        {
+                            "type": "FILTER",
+                            "extension": "xlsx",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.filt.xlsx"
+                        },
+                        {
+                            "type": "CSV",
+                            "extension": "csv",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.CSV.zip"
+                        },
+                        {
+                            "type": "PIPELINE_INPUT",
+                            "extension": "loom",
+                            "url": "2020-Mar-Tcell-Adult-Blood-10x.loom"
+                        }
+                    ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
                     "organ": "blood",
                     "visualizations": [

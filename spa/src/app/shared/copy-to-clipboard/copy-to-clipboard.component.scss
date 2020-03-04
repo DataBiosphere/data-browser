@@ -28,7 +28,8 @@
 /* ProjectDownloadManifestComponent */
 /* ProjectDownloadMatrixComponent */
 /* ProjectSupplementaryLinksComponent */
-:host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix), :host-context(project-supplementary-links) {
+/* ReleaseFileDownloadComponent */
+:host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix), :host-context(project-supplementary-links), :host-context(release-file-download) {
 
     /* Display - none */
     /* Copy icon */
