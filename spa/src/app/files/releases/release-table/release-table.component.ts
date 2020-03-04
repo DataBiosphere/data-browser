@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 import { AppState } from "../../../_ngrx/app.state";
 import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referrer.action";
 import { ReleaseOrganView } from "../release-organ-view.model";
+import { SetReleaseFilesReferrerAction } from "../../_ngrx/release/set-release-files-referrer.action";
 
 @Component({
     selector: "release-table",
@@ -24,6 +25,8 @@ export class ReleaseTableComponent {
     // Inputs
     @Input() columnsToDisplay: string[];
     @Input() releaseOrganViews: ReleaseOrganView[];
+    @Input() releaseReferrer: boolean;
+    @Input() releaseFilesReferrer: boolean[];
 
     /**
      * @param {Store<AppState>} store
@@ -55,14 +58,23 @@ export class ReleaseTableComponent {
     }
 
     /**
-     * Update state to indicate that any project-specific release components need to return to this release page (for
-     * example:
-     * 
-     * 1. project detail back button returns here (and not to projects tab)
-     * 2. release files modal close button returns here (and not to project detail release tab)
+     * Update state to indicate that the release files modal should return to the release page and not a project-specific
+     * release tab.
+     */
+    public setReleaseFilesReferrer() {
+
+        if ( this.releaseFilesReferrer ) {
+            this.store.dispatch(new SetReleaseFilesReferrerAction());
+        }
+    }
+    
+    /**
+     * Update state to indicate that any project-specific release components need to return to this release page.
      */
     public setReleaseReferrer() {
 
-        this.store.dispatch(new SetReleaseReferrerAction());
+        if ( this.releaseReferrer ) {
+            this.store.dispatch(new SetReleaseReferrerAction());
+        }
     }
 }

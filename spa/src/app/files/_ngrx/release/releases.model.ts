@@ -6,9 +6,10 @@
  */
 
 // App dependencies
-import { Release } from "../../releases/2020-march/release.model";
+import { Release } from "../../releases/release.model";
 
 export interface Releases {
     releasesByName: Map<string, Release>;
+    releaseFilesReferrer: boolean;
     releaseReferrer: boolean;
 }

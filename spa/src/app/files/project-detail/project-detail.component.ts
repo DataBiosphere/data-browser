@@ -18,7 +18,7 @@ import { filter, map, take } from "rxjs/operators";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { ClearReleaseReferrerAction } from "../_ngrx/release/clear-release-referrer.action";
 import {
-    selectReleaseByNameAndProjectId,
+    selectReleaseByProjectId,
     selectReleaseReferrer
 } from "../_ngrx/release/release.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
@@ -39,7 +39,6 @@ import { ReleaseName } from "../releases/release-name.model";
 export class ProjectDetailComponent {
 
     // Template variables
-    private backUrl: string;
     private releaseReferrer: boolean;
     private state$: Observable<ProjectDetailState>;
 
@@ -72,18 +71,12 @@ export class ProjectDetailComponent {
      */
     public getProjectDetailTabs(): EntitySpec[] {
 
-        let tabName;
-
         if ( this.releaseReferrer ) {
 
-            tabName = "2020 March Data Release";
-        }
-        else {
-
-            tabName = "Back";
+            return [{key: "releases/2020-mar", displayName: "2020 March Data Release"}];
         }
 
-        return [{key: this.backUrl, displayName: tabName}];
+        return [{key: EntityName.PROJECTS, displayName: "Back"}];
     }
 
     /**
@@ -125,9 +118,10 @@ export class ProjectDetailComponent {
     }
 
     /**
-     * Determine the back URL; either the release page if the user has come from there, otherwise the projects tab.
+     * Determine where the back link should navigate to; either the release page if the user has come from there,
+     * otherwise the projects tab.
      */
-    private setBackUrl() {
+    private setReleaseReferrer() {
 
         this.store
             .pipe(
@@ -136,7 +130,6 @@ export class ProjectDetailComponent {
             )
             .subscribe((releaseReferrer) => {
                 this.releaseReferrer = releaseReferrer;
-                this.backUrl = releaseReferrer ? "releases/2020-mar" : EntityName.PROJECTS
             });
     }
 
@@ -156,7 +149,7 @@ export class ProjectDetailComponent {
     public ngOnInit() {
 
         // Determine where the back button should navigate to
-        this.setBackUrl();
+        this.setReleaseReferrer();
 
         // Add selected project to state - grab the project ID from the URL.
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -172,7 +165,7 @@ export class ProjectDetailComponent {
         );
         
         const projectInRelease$ = this.store.pipe(
-            select(selectReleaseByNameAndProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
+            select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
             map(release => release.projects.length > 0)
         );
 
