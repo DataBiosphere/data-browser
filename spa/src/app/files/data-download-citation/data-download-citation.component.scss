@@ -4,8 +4,18 @@
  *
  * Styles for data download citation component.
  */
+@import "../../site/theme/cgl.vars";
 
 /* Text */
 p {
     margin: 0;
+}
+
+/* ReleaseFilesModalComponent */
+:host-context(release-files-modal) {
+
+    border-top: 1px solid $hca-gray-lightest;
+    display: inline-block;
+    margin-top: 32px;
+    padding-top: 12px;
 }
