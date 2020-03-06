@@ -69,7 +69,8 @@ export class ReleaseTableComponent {
     }
     
     /**
-     * Update state to indicate that any project-specific release components need to return to this release page.
+     * Update state to indicate that the back button the project detail page should navigate back to the release page,
+     * and not the project tab.
      */
     public setReleaseReferrer() {
 

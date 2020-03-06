@@ -6,9 +6,9 @@
  */
 
 export enum ReleaseFileType {
-    ANNOTATED_CLUSTERS = "Annotated Clusters",
-    DIFFERENTIAL_EXPRESSION = "Differential Expression",
-    FILTER = "Filter",
+    ANNOTATED_CLUSTERS = "ANNOTATED_CLUSTERS",
+    DIFFERENTIAL_EXPRESSION = "DIFFERENTIAL_EXPRESSION",
+    FILTER = "FILTER",
     CSV = "CSV",
-    PIPELINE_INPUT = "Pipeline Input"
+    PIPELINE_INPUT = "PIPELINE_INPUT"
 }
