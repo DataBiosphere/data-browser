@@ -1,6 +1,5 @@
 <h2 class="fontsize-xl">2020 March Data Release</h2>
-<p class="fontsize-s max600">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<learn-more></learn-more>
-<release-table *ngIf="state$ | async as state" 
-               [columnsToDisplay]="columnsToDisplay" 
+<p class="fontsize-s max600">Projects stratified by developmental stage, organ and library technology, and annotated with cell type, were processed with a common pipeline to produce the datasets and analyses listed below. Please see the <a href="{{portalUrl}}/releases/2020-mar">release docuementation</a> for details about this release.</p>
+<release-table *ngIf="state$ | async as state"
+               [columnsToDisplay]="columnsToDisplay"
                [releaseOrganViews]="state.releaseOrganViews"></release-table>
