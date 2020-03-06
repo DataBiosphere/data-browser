@@ -16,7 +16,6 @@ import { filter, map, take } from "rxjs/operators";
 
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { ClearReleaseReferrerAction } from "../_ngrx/release/clear-release-referrer.action";
 import {
     selectReleaseByProjectId,
     selectReleaseReferrer
@@ -138,9 +137,7 @@ export class ProjectDetailComponent {
      * indicating this project detail component should return the release page (if necessary).
      */
     public ngOnDestroy() {
-
         this.store.dispatch(new ClearSelectedProjectAction());
-        this.store.dispatch(new ClearReleaseReferrerAction());
     }
 
     /**

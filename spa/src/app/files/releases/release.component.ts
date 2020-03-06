@@ -14,7 +14,6 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectReleaseByName } from "../_ngrx/release/release.selectors";
-import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
 import { ReleaseService } from "../shared/release.service";
 import { ReleaseState } from "./release.state";
@@ -40,10 +39,12 @@ export class ReleaseComponent implements OnDestroy, OnInit {
 
     /**
      * @param {Store<AppState>} store
+     * @param {ConfigService} configService
+     * @param {ReleaseService} releaseService
      */
     constructor(private store: Store<AppState>,
-                private releaseService: ReleaseService,
-                private configService: ConfigService) {
+                private configService: ConfigService,
+                private releaseService: ReleaseService) {
 
         this.portalUrl = this.configService.getPortalURL()
 

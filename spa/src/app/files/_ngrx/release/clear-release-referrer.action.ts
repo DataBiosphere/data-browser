@@ -2,7 +2,9 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when release list page referrer indicator should be cleared.
+ * Action triggered when release list page referrer indicator should be cleared. The release list page referrer is used
+ * by the project detail page to determine where the back button should navigate to; the release page if the release
+ * referrer is set, otherwise the project detail tab.
  */
 
 // Core dependencies

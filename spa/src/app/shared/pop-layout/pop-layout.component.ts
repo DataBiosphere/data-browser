@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { EntitySelectAction } from "../../files/_ngrx/table/table.actions";
+import { EntityName } from "../../files/shared/entity-name.model";
 import EntitySpec from "../../files/shared/entity-spec";
 
 
@@ -76,7 +77,13 @@ export class PopLayoutComponent {
      */
     public onTabSelected(tab: EntitySpec) {
 
-        this.store.dispatch(new EntitySelectAction(tab.key));
+        // Only update state if we have a tab key that corresponds to an entity. There are cases, for example the "back
+        // to releases" tab key that does not correspond to an entity. In this case, we use projects as the default.
+        const tabKey = tab.key;
+        const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
+        this.store.dispatch(new EntitySelectAction(selectedEntity));
+        
+        // Navigate to specified tab key
         this.router.navigate(["/" + tab.key]);
     }
 }

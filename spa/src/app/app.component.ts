@@ -11,7 +11,7 @@ import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subscription, Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { Config } from "./config/config.model";
@@ -28,6 +28,7 @@ import { HealthRequestAction } from "./system/_ngrx/health/health-request.action
 import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
 import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
 import { SystemState } from "./system.state";
+import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 
 @Component({
     selector: "app-root",
@@ -130,6 +131,22 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadReleaseData(): void {
 
         this.store.dispatch(new FetchReleasesRequestAction());
+    }
+
+    /**
+     * Clear release referrer if the user is no longer in the context of viewing release information. This is used
+     * by the project detail to determine where the back button should navigate to; either the release page if the
+     * referrer flag is set, otherwise the project tab.
+     */
+    private initReleaseReferrerListener(): void {
+
+        this.router.events.pipe(
+            filter(evt => evt instanceof NavigationEnd),
+            filter(evt => (evt as NavigationEnd).url.indexOf("releases") === -1),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(() => {
+            this.store.dispatch(new ClearReleaseReferrerAction());
+        });
     }
 
     /**
@@ -268,6 +285,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.setAppStateFromURL();
         this.systemCheck();
         this.loadReleaseData();
+        this.initReleaseReferrerListener();
         
         this.config$ = this.store.pipe(
             select(selectConfigConfig),

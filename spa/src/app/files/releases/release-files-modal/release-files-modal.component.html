@@ -23,7 +23,7 @@
         <release-file class="max550"
                       *ngFor="let releaseFile of state.releaseDataset.files"
                       [releaseFiles]="releaseFile.files"
-                      [releaseFileParagraph]="getFileDownloadParagraph()" 
+                      [releaseFileParagraph]="getFileDownloadParagraph(releaseFile)" 
                       [releaseFileTitle]="getReleaseFileTypeDisplay(releaseFile.type)"></release-file>
         <data-download-citation class="max550"></data-download-citation>
     </ng-container>
