@@ -15,6 +15,7 @@
     /* Copy text */
     span {
         margin: 0;
+        white-space: nowrap;
     }
 
     /* Copy icon */
@@ -29,7 +30,11 @@
 /* ProjectDownloadMatrixComponent */
 /* ProjectSupplementaryLinksComponent */
 /* ReleaseFileDownloadComponent */
-:host-context(project-overview), :host-context(project-download-manifest), :host-context(project-download-matrix), :host-context(project-supplementary-links), :host-context(release-file-download) {
+:host-context(project-overview),
+:host-context(project-download-manifest),
+:host-context(project-download-matrix),
+:host-context(project-supplementary-links),
+:host-context(release-files-modal) {
 
     /* Display - none */
     /* Copy icon */

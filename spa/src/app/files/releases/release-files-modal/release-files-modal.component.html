@@ -1,27 +1,40 @@
 <modal-layout *ngIf="state$ | async as state"
               [loaded]="state.loaded"
               (closed)="redirectToReleases()">
-    <release-title-overline overline></release-title-overline>
-    <ng-container title *ngIf="state.loaded">Release Files</ng-container>
+    <ng-container title *ngIf="state.loaded">{{state.releaseDataset.datasetId}} Release Files</ng-container>
     <ng-container subtitle *ngIf="state.loaded">{{state.releaseDataset.projectShortname}}</ng-container>
     <ng-container content *ngIf="state.loaded">
-        <h2>
+        <h4 class="fontsize-l">
             <span>{{state.releaseDataset.developmentalStage}}, </span>
             <span>{{state.releaseDataset.organ}}, </span>
             <span>{{state.releaseDataset.libraryConstructionApproach}}</span>
-        </h2>
-        <warning class="max550">
+        </h4>
+        <warning>
             <warning-content>
-                <p class="fontsize-s">This project contains additional organs, developmental stages or technologies. <a
-                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar">View project release page</a>.
+                <p class="fontsize-xs">This project contains additional organs, developmental stages or technologies. <a
+                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar">View project release
+                    page</a>.
                 </p>
             </warning-content>
         </warning>
-        <release-file class="max550"
-                      *ngFor="let releaseFile of state.releaseDataset.files"
-                      [releaseFiles]="releaseFile.files"
-                      [releaseFileParagraph]="getFileDownloadParagraph(releaseFile)" 
-                      [releaseFileTitle]="getReleaseFileTypeDisplay(releaseFile.type)"></release-file>
-        <data-download-citation class="max550"></data-download-citation>
+        <mat-table [dataSource]="state.releaseDataset.files">
+            <ng-container matColumnDef="download">
+                <mat-cell *matCellDef="let element" class="download fontsize-xxs">
+                    <a [href]="getReleaseFileUrl(element.url)"></a> {{element.extension}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <mat-cell *matCellDef="let element" class="description fontsize-xxs">
+                    {{element.description}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="copyLink">
+                <mat-cell *matCellDef="let element" class="copy-to-clipboard fontsize-xxs">
+                    <copy-to-clipboard [copyToClipboardLink]="getReleaseFileUrl(element.url)"></copy-to-clipboard>
+                </mat-cell>
+            </ng-container>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+        </mat-table>
+        <data-download-citation></data-download-citation>
     </ng-container>
 </modal-layout>

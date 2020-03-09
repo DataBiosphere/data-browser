@@ -10,13 +10,13 @@
 import { ReleaseVisualization } from "./release-visualization.model";
 import { LibraryConstructionApproach } from "../shared/library-construction-approach.model";
 import { DevelopmentalStage } from "./developmental-stage.model";
-import { ReleaseFilesView } from "./release-files-view.model";
+import { ReleaseFileView } from "./release-file-view.model";
 
 export interface ReleaseDatasetView {
     entryId: string; // Project UUID, pulled from ReleaseProject
     datasetId: string; // Short name, pulled from ReleaseDataset
     developmentalStage: DevelopmentalStage;
-    files: ReleaseFilesView[];
+    files: ReleaseFileView[];
     libraryConstructionApproach: LibraryConstructionApproach;
     projectShortname: string; // Project short name, pulled from ReleaseProject
     visualizations: ReleaseVisualization[];

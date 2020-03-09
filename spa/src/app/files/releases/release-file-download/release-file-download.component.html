@@ -1,9 +1,0 @@
-<ng-container *ngFor="let releaseFile of releaseFiles">
-    <div>
-        <div class="download-progress-indicator icon16">
-            <a [href]="getReleaseFileUrl(releaseFile.url)" class="download-not-started icon16"></a>
-        </div>
-        <span class="fontsize-s">{{releaseFile.extension}}</span>
-        <copy-to-clipboard [copyToClipboardLink]="getReleaseFileUrl(releaseFile.url)"></copy-to-clipboard>
-    </div>
-</ng-container>
