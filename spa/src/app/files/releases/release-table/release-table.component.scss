@@ -92,7 +92,7 @@
 
         /* Wrapper around table */
         > div {
-            min-width: 930px; /* Required for horizontal scroll */
+            min-width: 1056px; /* Required for horizontal scroll - 6 columns at min width 152px + 24px padding */
         }
     }
 }
