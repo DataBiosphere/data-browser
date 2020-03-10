@@ -56,6 +56,7 @@ hca-section-title {
  * Subtitle
  */
 h2 {
+    margin-right: 32px; /* Prevents close icon from overlapping on smaller screens */
     margin-top: 0;
     max-width: 550px;
 }

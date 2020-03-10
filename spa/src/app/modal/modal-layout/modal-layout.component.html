@@ -1,6 +1,5 @@
 <div *ngIf="loaded" [@fadeIn]>
     <span class="close" (click)="onCloseClicked()"></span>
-    <ng-content select="[overline]"></ng-content>
     <h2 class="fontsize-xl"><ng-content select="[title]"></ng-content></h2>
     <status-panel>
         <hca-section-title>
