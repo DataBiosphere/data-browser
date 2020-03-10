@@ -30,11 +30,11 @@ export class EntityRowMapper {
         this.cellSuspensions = rollUpMetadata(row.cellSuspensions);
         this.donorOrganisms = rollUpMetadata(row.donorOrganisms);
         this.samples = rollUpMetadata(row.samples);
-        this.organs = this.samples.organ;
+        this.specimens = rollUpMetadata(row.specimens);
+        this.organs = this.specimens.organ;
         this.projects = rollUpMetadata(row.projects);
         this.protocols = rollUpMetadata(row.protocols);
         this.row = row;
-        this.specimens = rollUpMetadata(row.specimens);
     }
 
     /**
@@ -75,7 +75,7 @@ export class EntityRowMapper {
             libraryConstructionApproach: mappedLibraryConstructionApproach,
             organ: getUnspecifiedIfNullValue(this.organs),
             organismAge: getUnspecifiedIfNullValue(this.donorOrganisms.organismAge),
-            organPart: getUnspecifiedIfNullValue(this.samples.organPart),
+            organPart: getUnspecifiedIfNullValue(this.specimens.organPart),
             modelOrgan: modelOrgan,
             pairedEnd: getUnspecifiedIfNullValue(this.protocols.pairedEnd),
             projectTitle: getUnspecifiedIfNullValue(this.projects.projectTitle),

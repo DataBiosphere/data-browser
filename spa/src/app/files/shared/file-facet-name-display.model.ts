@@ -11,5 +11,7 @@ export enum FileFacetNameDisplay {
     "libraryConstructionApproach" = "Library Construction Method",
     "projectId" = "Project",
     "sampleEntityType" = "Sample Type",
+    "specimenOrgan" = "Organ",
+    "specimenOrganPart" = "Organ Part",
     "workflow" = "Analysis Protocol"
 }
