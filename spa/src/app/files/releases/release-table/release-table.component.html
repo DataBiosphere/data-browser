@@ -18,19 +18,19 @@
                     <span>{{element.datasetId}}</span>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="developmentalStage">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                    <span>Developmental<span>Stage</span></span></mat-header-cell>
+                <mat-cell *matCellDef="let element" class="fontsize-xxs">
+                    <span>{{element.developmentalStage}}</span>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="organ">
                 <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
                     <span>Organ</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs">
                     <span>{{element.organ}}</span>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="developmentalStage">
-                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
-                    <span>Developmental<span>Stage</span></span></mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                    <span>{{element.developmentalStage}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="technology">
