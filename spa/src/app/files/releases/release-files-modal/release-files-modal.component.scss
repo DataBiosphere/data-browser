@@ -12,9 +12,11 @@ h4 span {
     text-transform: capitalize;
 }
 
+/* Cell class "fontsize-..." */
 /* Warning - content */
-warning-content .fontsize-xs {
-    margin: 0;
+/* mat-cell */
+warning-content .fontsize-xs, mat-table mat-cell, mat-table mat-cell.fontsize-xxs {
+    margin: 0; /* Overrides class "fontsize-..." margin */
 }
 
 /* Table */
@@ -23,6 +25,9 @@ mat-table {
     /* Cell row */
     mat-row {
         border-bottom: 1px solid $hca-gray-lightest;
+        flex-wrap: wrap;
+        min-height: 32px;
+        padding: 8px 0;
     }
     
     mat-row:first-child {
@@ -32,38 +37,61 @@ mat-table {
     /* Cell */
     mat-cell {
         color: $hca-black;
-        min-width: 152px;
-        overflow: visible;
+        flex: 1;
         padding: 0 12px;
     }
 
-    /* Cell class "fontsize-..." */
-    mat-cell, mat-cell.fontsize-xxs {
-        margin: 0; /* Overrides class "fontsize-..." margin */
-    }
-    
+    /* Download */
     .download {
-        min-width: unset;
+        min-width: 60px; /* Required to maintain column alignments */
+
+        /* Icon */
+        > a {
+            background: url("assets/images/icon/hca-download-primary.png") center no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            flex: none;
+            height: 16px;
+            margin-bottom: 4px; /* Required to bottom align icon with file download text */
+            width: 16px;
+        }
+
+        /* File text */
+        > span {
+            margin-left: 8px;
+        }
     }
-    
+
+    /* Description */
+    .description {
+        flex-basis: 100%;
+    }
+
+    /* Copy to clipboard */
     .copy-to-clipboard {
         min-width: 72px; /* Copy Link and Link Copied */
     }
-    
-    .description {
-        flex-basis: 70%;
-    }
 }
 
+/**
+ * Small Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
 
-.download > a {
-    align-self: center;
-    background: url("assets/images/icon/hca-download-primary.png") center no-repeat;
-    background-size: contain;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    height: 16px;
-    margin-right: 4px;
-    width: 16px;
+    /* Table */
+    mat-table {
+
+        /* Cell row */
+        mat-row {
+            flex-wrap: nowrap;
+            min-height: 40px;
+            padding: 4px 0;
+        }
+
+        /* Description */
+        .description {
+            flex-basis: 70%;
+        }
+    }
 }

@@ -20,7 +20,8 @@
         <mat-table [dataSource]="state.releaseDataset.files">
             <ng-container matColumnDef="download">
                 <mat-cell *matCellDef="let element" class="download fontsize-xxs">
-                    <a [href]="getReleaseFileUrl(element.url)"></a> {{element.extension}}
+                    <a [href]="getReleaseFileUrl(element.url)"></a>
+                    <span>{{element.extension}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="description">
