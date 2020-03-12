@@ -64,8 +64,13 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
                     <ng-container *ngFor="let visualization of element.visualizations">
-                        <a href={{visualization.url}} target="_blank"
-                           rel="noopener noreferrer">{{visualization.title}}</a>
+                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                                     [tooltipContent]="visualization.description"
+                                     [tooltipDisabled]="false"
+                                     [tooltipPosition]="'above'">
+                            <a href={{visualization.url}} target="_blank"
+                               rel="noopener noreferrer">{{visualization.title}}</a>
+                        </hca-tooltip>
                     </ng-container>
                 </mat-cell>
             </ng-container>
