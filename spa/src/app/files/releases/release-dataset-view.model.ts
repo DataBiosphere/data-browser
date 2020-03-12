@@ -7,10 +7,10 @@
  */
 
 // App dependencies
-import { ReleaseVisualization } from "./release-visualization.model";
 import { LibraryConstructionApproach } from "../shared/library-construction-approach.model";
 import { DevelopmentalStage } from "./developmental-stage.model";
 import { ReleaseFileView } from "./release-file-view.model";
+import { ReleaseVisualizationView } from "./release-visualization-view.model";
 
 export interface ReleaseDatasetView {
     entryId: string; // Project UUID, pulled from ReleaseProject
@@ -19,6 +19,6 @@ export interface ReleaseDatasetView {
     files: ReleaseFileView[];
     libraryConstructionApproach: LibraryConstructionApproach;
     projectShortname: string; // Project short name, pulled from ReleaseProject
-    visualizations: ReleaseVisualization[];
+    visualizations: ReleaseVisualizationView[];
 }
 
