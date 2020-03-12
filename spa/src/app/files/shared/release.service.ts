@@ -18,12 +18,16 @@ import { ReleaseOrganView } from "../releases/release-organ-view.model";
 import { ReleaseDatasetView } from "../releases/release-dataset-view.model";
 import { ReleaseFileView } from "../releases/release-file-view.model";
 import { ReleaseFileType } from "../releases/release-file-type.model";
+import { ReleaseVisualizationView } from "../releases/release-visualization-view.model";
 
 @Injectable()
 export class ReleaseService {
 
     // Locals
-    private descriptionByFileType = new Map<string, string>([
+    private PORTAL_DESCRIPTIONS = new Map<string, string>([
+        ["SCP", "Single Cell Portal"]
+    ]);
+    private RELEASE_FILE_DESCRIPTIONS = new Map<string, string>([
         [`${ReleaseFileType.ANNOTATED_CLUSTERS}h5ad`, "Cumulus output expression matrix; contains clustering information, cell annotations, and log-transformed gene expression (Pegasus, Scanpy, and Seurat compatible)."],
         [`${ReleaseFileType.ANNOTATED_CLUSTERS}loom`, "Cumulus output expression matrix; contains clustering information, cell annotations, and log-transformed gene expression (Pegasus, Scanpy, and Seurat compatible)."],
         [`${ReleaseFileType.DIFFERENTIAL_EXPRESSION}xlsx`, "Cumulus output file containing differential expression with correction."],
@@ -89,11 +93,14 @@ export class ReleaseService {
         // Create view model of release files
         const files = this.createReleaseFileViews(releaseDataset);
 
+        // Create view model of release visualizations
+        const visualizations = this.createReleaseVisualizationViews(releaseDataset);
+
         const datasetView = Object.assign({
             entryId,
             projectShortname,
         }, releaseDataset, {
-            files
+            files, visualizations
         });
 
         return datasetView as ReleaseDatasetView;
@@ -121,7 +128,7 @@ export class ReleaseService {
 
             const type = releaseFile.type;
             const extension = releaseFile.extension;
-            const description = this.descriptionByFileType.get(`${type}${extension}`);
+            const description = this.RELEASE_FILE_DESCRIPTIONS.get(`${type}${extension}`);
             accum.push(Object.assign({}, releaseFile, {
                 description
             }));
@@ -129,6 +136,24 @@ export class ReleaseService {
             return accum;
         }, []);
 
+    }
+
+    /**
+     * Create view models for each release visualization in the specified dataset.
+     *
+     * @param {ReleaseDataset} releaseDataset
+     * @returns {ReleaseVisualizationView[]}
+     */
+    private createReleaseVisualizationViews(releaseDataset: ReleaseDataset): ReleaseVisualizationView[] {
+
+        return releaseDataset.visualizations.reduce((accum, releaseVisualization) => {
+
+            const title = releaseVisualization.title;
+            const description = this.PORTAL_DESCRIPTIONS.get(title);
+            accum.push(Object.assign({}, releaseVisualization, {description}));
+
+            return accum;
+        }, []);
     }
 
     /**
