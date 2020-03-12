@@ -46,6 +46,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP752/2020-mar-atlas-adult-retina-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-7316/results/tsne"
                         }
                     ]
                 }
@@ -96,6 +100,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP759/2020-mar-interorganoid-adult-brain-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-5/results/tsne"
                         }
                     ]
                 }
@@ -146,6 +154,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP753/2020-mar-diff-fetal-neuron-ss2#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-93593/results/tsne"
                         }
                     ]
                 }
@@ -196,6 +208,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP760/2020-mar-spatiotemporal-fetal-kidney-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
                         }
                     ]
                 },
@@ -240,6 +256,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP761/2020-mar-spatiotemporal-adult-kidney-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
                         }
                     ]
                 }
@@ -290,6 +310,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP762/2020-mar-ibd-adult-colon-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-11/results/tsne"
                         }
                     ]
                 }
@@ -340,6 +364,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP763/2020-mar-reprogram-embryo-dendritic-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-13/results/tsne"
                         }
                     ]
                 }
@@ -390,6 +418,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP765/2020-mar-landscape-adult-liver-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-9/results/tsne"
                         }
                     ]
                 }
@@ -440,6 +472,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP766/2020-mar-profiling-adult-bonemarrow-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-6/results/tsne"
                         }
                     ]
                 }
@@ -490,6 +526,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP794/2020-mar-somatic-adult-pancreas-ss2#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-81547/results/tsne"
                         }
                     ]
                 }
@@ -540,6 +580,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP767/2020-mar-sensitivity-adult-spleen-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         }
                     ]
                 },
@@ -584,6 +628,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP768/2020-mar-sensitivity-adult-esophagus-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         }
                     ]
                 },
@@ -628,6 +676,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP769/2020-mar-sensitivity-adult-lung-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         }
                     ]
                 }
@@ -678,6 +730,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP770/2020-mar-census-adult-blood-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
                         }
                     ]
                 },
@@ -722,6 +778,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP771/2020-mar-census-adult-immune-10#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
                         }
                     ]
                 }
@@ -772,6 +832,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP773/2020-mar-fetalmaternal-adult-blood-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         }
                     ]
                 },
@@ -816,6 +880,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP757/2020-mar-fetalmaternal-adult-blood-ss2#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
                         }
                     ]
                 },
@@ -860,6 +928,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP772/2020-mar-fetalmaternal-fetal-placenta-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         }
                     ]
                 },
@@ -904,6 +976,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP788/2020-mar-fetalmaternal-adult-decidua-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         }
                     ]
                 },
@@ -948,6 +1024,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP754/2020-mar-fetalmaternal-adult-decidua-ss2#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
                         }
                     ]
                 }
@@ -998,6 +1078,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP790/2020-mar-tcell-adult-lymphnode-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         }
                     ]
                 },
@@ -1042,6 +1126,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP791/2020-mar-tcell-adult-bonemarrow-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         }
                     ]
                 },
@@ -1086,6 +1174,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP792/2020-mar-tcell-adult-lung-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         }
                     ]
                 },
@@ -1130,6 +1222,10 @@
                         {
                             "title": "SCP",
                             "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP793/2020-mar-tcell-adult-blood-10x#study-visualize"
+                        },
+                        {
+                            "title": "SCEA",
+                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         }
                     ]
                 }
