@@ -64,7 +64,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
                     <ng-container *ngFor="let visualization of element.visualizations">
-                        <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                        <hca-tooltip [tooltipClass]="'hca-tooltip'"
                                      [tooltipContent]="visualization.description"
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'">
