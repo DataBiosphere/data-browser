@@ -25,7 +25,8 @@ export class ReleaseService {
 
     // Locals
     private PORTAL_DESCRIPTIONS = new Map<string, string>([
-        ["SCP", "Single Cell Portal"]
+        ["SCP", "Single Cell Portal"],
+        ["SCEA", "Single Cell Expression Atlas"]
     ]);
     private RELEASE_FILE_DESCRIPTIONS = new Map<string, string>([
         [`${ReleaseFileType.ANNOTATED_CLUSTERS}h5ad`, "Cumulus output expression matrix; contains clustering information, cell annotations, and log-transformed gene expression (Pegasus, Scanpy, and Seurat compatible)."],
