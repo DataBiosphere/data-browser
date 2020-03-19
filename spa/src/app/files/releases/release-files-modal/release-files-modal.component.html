@@ -4,15 +4,16 @@
     <ng-container title *ngIf="state.loaded">{{state.releaseDataset.datasetId}} Release Files</ng-container>
     <ng-container subtitle *ngIf="state.loaded">{{state.releaseDataset.projectShortname}}</ng-container>
     <ng-container content *ngIf="state.loaded">
-        <h4 class="fontsize-l">
+        <h4 class="fontsize-l" [ngClass]="{'singleDataset': state.singleDataset}">
             <span>{{state.releaseDataset.developmentalStage}}, </span>
             <span>{{state.releaseDataset.organ}}, </span>
             <span>{{state.releaseDataset.libraryConstructionApproach}}</span>
         </h4>
-        <warning>
+        <warning *ngIf="!state.singleDataset">
             <warning-content>
                 <p class="fontsize-xs">This project contains additional organs, developmental stages or technologies. <a
-                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar">View project release
+                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar"
+                        (click)="setReleaseReferrer()">View project release
                     page</a>.
                 </p>
             </warning-content>

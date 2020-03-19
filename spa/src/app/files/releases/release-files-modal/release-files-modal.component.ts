@@ -23,9 +23,14 @@ import { Release } from "../release.model";
 import { AppState } from "../../../_ngrx/app.state";
 import { ModalClosedAction } from "../../../modal/_ngrx/modal-closed.action";
 import { ModalOpenedAction } from "../../../modal/_ngrx/modal-opened.action";
-import { selectReleaseByDataset, selectReleaseFilesReferrer } from "../../_ngrx/release/release.selectors";
-import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
+import {
+    selectReleaseByDataset,
+    selectReleaseByProjectId,
+    selectReleaseFilesReferrer
+} from "../../_ngrx/release/release.selectors";
 import { ClearReleaseFilesReferrerAction } from "../../_ngrx/release/clear-release-files-referrer.action";
+import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referrer.action";
+import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
 import { ReleaseDatasetView } from "../release-dataset-view.model";
 import { ReleaseFilesModalState } from "./release-files-modal.state";
 import { ReleaseName } from "../release-name.model";
@@ -99,6 +104,15 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Update state to indicate that the back button the project detail page should navigate back to the release page,
+     * and not the project tab.
+     */
+    public setReleaseReferrer() {
+
+        this.store.dispatch(new SetReleaseReferrerAction());
+    }
+
+    /**
      * Create model of dataset to back modal. The specified release is expected to have a single project containing a
      * single dataset; the dataset we want to display.
      *
@@ -120,6 +134,26 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
         const projectId = releaseProject.entryId;
         const projectTitle = releaseProject.projectShortname;
         return this.releaseService.createReleaseDatasetView(projectId, projectTitle, releaseDataset);
+    }
+
+    /**
+     * Returns true if there is only a single dataset for the selected project
+     *
+     * @param {Release} release
+     */
+    private isOnlyProjectDataset(release: Release): boolean {
+
+        const releaseProject = release.projects[0];
+        if ( !releaseProject ) {
+            return true; // Error
+        }
+
+        const datasets = releaseProject.datasets || [];
+        if ( datasets.length === 0 ) {
+            return true; // Error
+        }
+        
+        return datasets.length === 1;
     }
 
     /**
@@ -161,6 +195,16 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
         // Request project details so we can display the project title
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
+        // Grab the selected project in the selected release - this is used to determine if the "other datasets" warning
+        // is displayed
+        const releaseByProjectId$ = this.store.pipe(
+            select(selectReleaseByProjectId, {
+                name: ReleaseName.RELEASE_2020_MAR,
+                projectId: projectId,
+            })
+        );
+        
+        // Grab the dataset from the store for selected project in the selected release
         const dataset$ = this.store.pipe(
             select(selectReleaseByDataset, {
                 name: ReleaseName.RELEASE_2020_MAR,
@@ -174,14 +218,15 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
             select(selectReleaseFilesReferrer)
         );
 
-        combineLatest(dataset$, releaseFilesReferrer$).pipe(
+        combineLatest(releaseByProjectId$, dataset$, releaseFilesReferrer$).pipe(
             takeUntil(this.ngDestroy$)
-        ).subscribe(([release, releaseFilesReferrer]) => {
+        ).subscribe(([fullRelease, datasetRelease, releaseFilesReferrer]) => {
 
             this.state$.next({
                 loaded: true,
                 releaseFilesReferrer,
-                releaseDataset: this.createReleaseDatasetView(release)
+                releaseDataset: this.createReleaseDatasetView(datasetRelease),
+                singleDataset: this.isOnlyProjectDataset(fullRelease)
             });
         });
     }
