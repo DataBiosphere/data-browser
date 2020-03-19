@@ -50,6 +50,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-7316/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Adult%20Retina%20(Wong)"
                         }
                     ]
                 }
@@ -104,6 +108,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-5/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20HPSI%20human%20cerebral%20organoids"
                         }
                     ]
                 }
@@ -158,6 +166,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-93593/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Interneuron%20Development"
                         }
                     ]
                 }
@@ -212,6 +224,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
                         }
                     ]
                 },
@@ -260,6 +276,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
                         }
                     ]
                 }
@@ -314,6 +334,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-11/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Colonic%20Mesenchyme%20IBD"
                         }
                     ]
                 }
@@ -368,6 +392,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-13/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Reprogram-Embryo-Dendritic"
                         }
                     ]
                 }
@@ -422,6 +450,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-9/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Single%20Cell%20Liver%20Landscape"
                         }
                     ]
                 }
@@ -476,6 +508,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-6/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Hematopoietic%20Profiling"
                         }
                     ]
                 }
@@ -530,6 +566,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-81547/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Pancreas"
                         }
                     ]
                 }
@@ -584,6 +624,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
                         }
                     ]
                 },
@@ -632,6 +676,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
                         }
                     ]
                 },
@@ -680,6 +728,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
                         }
                     ]
                 }
@@ -734,6 +786,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?hub=https://singlecellnew.xenahubs.net/"
                         }
                     ]
                 },
@@ -782,6 +838,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?hub=https://singlecellnew.xenahubs.net/"
                         }
                     ]
                 }
@@ -836,6 +896,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
                         }
                     ]
                 },
@@ -884,6 +948,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
                         }
                     ]
                 },
@@ -932,6 +1000,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
                         }
                     ]
                 },
@@ -980,6 +1052,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
                         }
                     ]
                 },
@@ -1028,6 +1104,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
                         }
                     ]
                 }
@@ -1082,6 +1162,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1130,6 +1214,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1178,6 +1266,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1226,6 +1318,10 @@
                         {
                             "title": "SCEA",
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
+                        },
+                        {
+                            "title": "Xena",
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 }
