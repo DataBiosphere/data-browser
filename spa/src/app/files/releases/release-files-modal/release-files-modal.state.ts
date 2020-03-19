@@ -13,4 +13,5 @@ export interface ReleaseFilesModalState {
     loaded: boolean;
     releaseFilesReferrer?: boolean;
     releaseDataset?: ReleaseDatasetView;
+    singleDataset?: boolean;
 }
