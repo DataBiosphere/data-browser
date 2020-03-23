@@ -238,32 +238,32 @@
                         {
                             "type": "ANNOTATED_CLUSTERS",
                             "extension": "h5ad",
-                            "url": "2020-Mar-IBD-Adult-Colon-10_annotated_v1.seurat.h5ad"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x_annotated_v1.seurat.h5ad"
                         },
                         {
                             "type": "ANNOTATED_CLUSTERS",
                             "extension": "loom",
-                            "url": "2020-Mar-IBD-Adult-Colon-10_annotated_v1.loom"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x_annotated_v1.loom"
                         },
                         {
                             "type": "DIFFERENTIAL_EXPRESSION",
                             "extension": "xlsx",
-                            "url": "2020-Mar-IBD-Adult-Colon-10.de.xlsx"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x.de.xlsx"
                         },
                         {
                             "type": "FILTER",
                             "extension": "xlsx",
-                            "url": "2020-Mar-IBD-Adult-Colon-10.filt.xlsx"
+                            "url": "2020-Mar-IBD-Adult-Colon-10xfilt.xlsx"
                         },
                         {
                             "type": "CSV",
                             "extension": "csv",
-                            "url": "2020-Mar-IBD-Adult-Colon-10.de.CSV.zip"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x.de.CSV.zip"
                         },
                         {
                             "type": "PIPELINE_INPUT",
                             "extension": "loom",
-                            "url": "2020-Mar-IBD-Adult-Colon-10.loom"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x.loom"
                         }
                     ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
