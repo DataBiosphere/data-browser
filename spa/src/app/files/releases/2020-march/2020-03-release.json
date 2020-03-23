@@ -60,64 +60,6 @@
             ]
         },
         {
-            "entryId": "005d611a-14d5-4fbf-846e-571a1f874f70",
-            "projectShortname": "Assessing the relevance of organoids to model inter-individual variation",
-            "datasets": [
-                {
-                    "datasetId": "2020-Mar-InterOrganoid-Adult-Brain-10x",
-                    "developmentalStage": "Adult",
-                    "files": [
-                        {
-                            "type": "ANNOTATED_CLUSTERS",
-                            "extension": "h5ad",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x_annotated_v1.seurat.h5ad"
-                        },
-                        {
-                            "type": "ANNOTATED_CLUSTERS",
-                            "extension": "loom",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x_annotated_v1.loom"
-                        },
-                        {
-                            "type": "DIFFERENTIAL_EXPRESSION",
-                            "extension": "xlsx",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.de.xlsx"
-                        },
-                        {
-                            "type": "FILTER",
-                            "extension": "xlsx",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.filt.xlsx"
-                        },
-                        {
-                            "type": "CSV",
-                            "extension": "csv",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.de.CSV.zip"
-                        },
-                        {
-                            "type": "PIPELINE_INPUT",
-                            "extension": "loom",
-                            "url": "2020-Mar-InterOrganoid-Adult-Brain-10x.loom"
-                        }
-                    ],
-                    "libraryConstructionApproach": "10X 3' v2 sequencing",
-                    "organ": "brain",
-                    "visualizations": [
-                        {
-                            "title": "SCP",
-                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP759/2020-mar-interorganoid-adult-brain-10x#study-visualize"
-                        },
-                        {
-                            "title": "SCEA",
-                            "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-5/results/tsne"
-                        },
-                        {
-                            "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20HPSI%20human%20cerebral%20organoids"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "entryId": "2043c65a-1cf8-4828-a656-9e247d4e64f1",
             "projectShortname": "Single-cell RNA-seq analysis throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types.",
             "datasets": [
