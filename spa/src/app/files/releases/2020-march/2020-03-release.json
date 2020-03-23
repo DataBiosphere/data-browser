@@ -253,7 +253,7 @@
                         {
                             "type": "FILTER",
                             "extension": "xlsx",
-                            "url": "2020-Mar-IBD-Adult-Colon-10xfilt.xlsx"
+                            "url": "2020-Mar-IBD-Adult-Colon-10x.filt.xlsx"
                         },
                         {
                             "type": "CSV",
