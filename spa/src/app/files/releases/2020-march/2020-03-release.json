@@ -569,7 +569,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 },
@@ -621,7 +621,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 },
@@ -673,7 +673,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20stability"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 }
@@ -731,7 +731,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?hub=https://singlecellnew.xenahubs.net/"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Cord%20Blood"
                         }
                     ]
                 },
@@ -783,7 +783,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?hub=https://singlecellnew.xenahubs.net/"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Bone%20Marrow"
                         }
                     ]
                 }
@@ -841,7 +841,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -893,7 +893,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -945,7 +945,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
                         }
                     ]
                 },
@@ -997,7 +997,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -1049,7 +1049,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
                         }
                     ]
                 }
