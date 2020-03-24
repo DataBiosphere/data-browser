@@ -893,7 +893,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
                         }
                     ]
                 },
@@ -945,7 +945,7 @@
                         },
                         {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
+                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
