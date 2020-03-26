@@ -732,38 +732,38 @@
             "projectShortname": "Census of Immune Cells",
             "datasets": [
                 {
-                    "datasetId": "2020-Mar-Census-Adult-Blood-10x",
-                    "developmentalStage": "Adult",
+                    "datasetId": "2020-Mar-Census-Newborn-Blood-10x",
+                    "developmentalStage": "Newborn",
                     "files": [
                         {
                             "type": "ANNOTATED_CLUSTERS",
                             "extension": "h5ad",
-                            "url": "2020-Mar-Census-Adult-Blood-10x_annotated_v1.seurat.h5ad"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x_annotated_v1.seurat.h5ad"
                         },
                         {
                             "type": "ANNOTATED_CLUSTERS",
                             "extension": "loom",
-                            "url": "2020-Mar-Census-Adult-Blood-10x_annotated_v1.loom"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x_annotated_v1.loom"
                         },
                         {
                             "type": "DIFFERENTIAL_EXPRESSION",
                             "extension": "xlsx",
-                            "url": "2020-Mar-Census-Adult-Blood-10x.de.xlsx"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x.de.xlsx"
                         },
                         {
                             "type": "FILTER",
                             "extension": "xlsx",
-                            "url": "2020-Mar-Census-Adult-Blood-10x.filt.xlsx"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x.filt.xlsx"
                         },
                         {
                             "type": "CSV",
                             "extension": "csv",
-                            "url": "2020-Mar-Census-Adult-Blood-10x.de.CSV.zip"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x.de.CSV.zip"
                         },
                         {
                             "type": "PIPELINE_INPUT",
                             "extension": "loom",
-                            "url": "2020-Mar-Census-Adult-Blood-10x.loom"
+                            "url": "2020-Mar-Census-Newborn-Blood-10x.loom"
                         }
                     ],
                     "libraryConstructionApproach": "10X 3' v2 sequencing",
@@ -771,7 +771,7 @@
                     "visualizations": [
                         {
                             "title": "SCP",
-                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP770/2020-mar-census-adult-blood-10x#study-visualize"
+                            "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP770/2020-mar-census-newborn-blood-10x#study-visualize"
                         },
                         {
                             "title": "SCEA",
@@ -779,7 +779,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-census-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-census-newborn-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
