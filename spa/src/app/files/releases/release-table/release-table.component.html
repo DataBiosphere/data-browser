@@ -59,10 +59,10 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="visualize">
-                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold">
+                <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold visualize">
                     <span>Visualizations</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="fontsize-xxs dot">
+                <mat-cell *matCellDef="let element" class="fontsize-xxs dot visualize">
                     <ng-container *ngFor="let visualization of element.visualizations">
                         <hca-tooltip [tooltipClass]="'hca-tooltip'"
                                      [tooltipContent]="visualization.description"

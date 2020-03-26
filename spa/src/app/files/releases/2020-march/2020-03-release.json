@@ -52,8 +52,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-7316/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-atlas-adult-retina-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Adult%20Retina%20(Wong)"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Adult%20Retina%20(Wong)"
                         }
                     ]
                 }
@@ -110,8 +114,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-93593/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-diff-fetal-neuron-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Interneuron%20Development"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Interneuron%20Development"
                         }
                     ]
                 }
@@ -168,8 +176,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-spatiotemporal-fetal-kidney-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
                         }
                     ]
                 },
@@ -220,8 +232,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-10/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-spatiotemporal-adult-kidney-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Kidney%20Single%20Cell%20Atlas"
                         }
                     ]
                 }
@@ -278,8 +294,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-11/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-ibd-adult-colon-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Colonic%20Mesenchyme%20IBD"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Colonic%20Mesenchyme%20IBD"
                         }
                     ]
                 }
@@ -336,8 +356,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-13/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-reprogram-embryo-dendritic-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Reprogram-Embryo-Dendritic"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Reprogram-Embryo-Dendritic"
                         }
                     ]
                 }
@@ -394,8 +418,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-9/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-landscape-adult-liver-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Single%20Cell%20Liver%20Landscape"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Single%20Cell%20Liver%20Landscape"
                         }
                     ]
                 }
@@ -452,8 +480,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-6/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-profiling-adult-bonemarrow-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Hematopoietic%20Profiling"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Hematopoietic%20Profiling"
                         }
                     ]
                 }
@@ -510,8 +542,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-GEOD-81547/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-somatic-adult-pancreas-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Pancreas"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Pancreas"
                         }
                     ]
                 }
@@ -568,8 +604,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-sensitivity-adult-spleen-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 },
@@ -620,8 +660,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-sensitivity-adult-esophagus-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 },
@@ -672,8 +716,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-1/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-sensitivity-adult-lung-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Tissue%20Stability"
                         }
                     ]
                 }
@@ -730,8 +778,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-census-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Cord%20Blood"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Cord%20Blood"
                         }
                     ]
                 },
@@ -782,8 +834,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-4/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-census-adult-immune-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Bone%20Marrow"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Census%20of%20Immune%20Cells%20Bone%20Marrow"
                         }
                     ]
                 }
@@ -840,8 +896,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-fetalmaternal-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -892,8 +952,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-fetalmaternal-adult-blood-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
                         }
                     ]
                 },
@@ -944,8 +1008,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-fetalmaternal-fetal-placenta-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -996,8 +1064,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6701/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-fetalmaternal-adult-decidua-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%2010x"
                         }
                     ]
                 },
@@ -1048,8 +1120,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-6678/results/tsne"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-fetalmaternal-adult-decidua-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Fetal%20Maternal%20Interface%20Smart-seq2"
                         }
                     ]
                 }
@@ -1106,8 +1182,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-tcell-adult-lymphnode-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1158,8 +1238,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-tcell-adult-bonemarrow-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1210,8 +1294,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-tcell-adult-lung-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 },
@@ -1262,8 +1350,12 @@
                             "url": "https://www.ebi.ac.uk/gxa/sc/experiments/E-HCAD-8/results"
                         },
                         {
+                            "title": "CellxGene",
+                            "url": "http://2020-mar-tcell-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                        },
+                        {
                             "title": "Xena",
-                            "url" : "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
+                            "url": "https://singlecell.xenabrowser.net/datapages/?cohort=HCA%20Human%20Tissue%20T%20cell%20Activation"
                         }
                     ]
                 }

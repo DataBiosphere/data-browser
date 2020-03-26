@@ -13,7 +13,7 @@
 
     /* Wrapper around table */
     > div {
-        min-width: 1220px; /* Required for horizontal scroll */
+        min-width: 1262px; /* Required for horizontal scroll */
         padding-bottom: 24px;
     }
 
@@ -65,6 +65,11 @@
             flex-basis: 15%;
         }
 
+        /* Visualizations */
+        .visualize {
+            min-width: 182px;
+        }
+
         /* Dot */
         .dot > * {
             display: inline-flex;
@@ -92,7 +97,7 @@
 
         /* Wrapper around table */
         > div {
-            min-width: 1056px; /* Required for horizontal scroll - 6 columns at min width 152px + 24px padding */
+            min-width: 1086px; /* Required for horizontal scroll - 5 columns at min width 152px, 1 at min width 182px + 24px padding */
         }
     }
 }
