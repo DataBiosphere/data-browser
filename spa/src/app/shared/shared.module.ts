@@ -20,6 +20,7 @@ import { AnnouncementComponent } from "./announcement/announcement.component";
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
 import { DownloadButtonComponent } from "./download-button/download-button.component";
+import { GTMService } from "./gtm/gtm.service";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
@@ -62,6 +63,7 @@ import { NavComponent } from "./nav/nav.component";
         WarningTitleComponent
     ],
     providers: [
+        GTMService,
         ResponsiveService
     ],
     exports: [

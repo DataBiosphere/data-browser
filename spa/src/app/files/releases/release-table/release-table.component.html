@@ -69,7 +69,7 @@
                                      [tooltipDisabled]="false"
                                      [tooltipPosition]="'above'">
                             <a href={{visualization.url}} target="_blank"
-                               rel="noopener noreferrer">{{visualization.title}}</a>
+                               rel="noopener noreferrer" (click)="trackExternalLink(visualization.url)">{{visualization.title}}</a>
                         </hca-tooltip>
                     </ng-container>
                 </mat-cell>
