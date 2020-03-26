@@ -14,6 +14,7 @@ import { AppState } from "../../../_ngrx/app.state";
 import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referrer.action";
 import { ReleaseOrganView } from "../release-organ-view.model";
 import { SetReleaseFilesReferrerAction } from "../../_ngrx/release/set-release-files-referrer.action";
+import { GTMService } from "../../../shared/gtm/gtm.service";
 
 @Component({
     selector: "release-table",
@@ -29,9 +30,10 @@ export class ReleaseTableComponent {
     @Input() releaseFilesReferrer: boolean[];
 
     /**
+     * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {}
+    constructor(private gtmService: GTMService, private store: Store<AppState>) {}
 
     /**
      * Returns the technology, based off libraryConstructionApproach. Any libraryConstructionApproach ending with
@@ -77,5 +79,16 @@ export class ReleaseTableComponent {
         if ( this.releaseReferrer ) {
             this.store.dispatch(new SetReleaseReferrerAction());
         }
+    }
+
+
+    /**
+     * Track click on link to external visualization tool.
+     *
+     * @param {string} url
+     */
+    public trackExternalLink(url: string): void {
+
+        this.gtmService.trackExternalLink(url);
     }
 }

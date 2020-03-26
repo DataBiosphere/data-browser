@@ -19,7 +19,7 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { Release } from "../release.model";
+import { ConfigService } from "../../../config/config.service";
 import { AppState } from "../../../_ngrx/app.state";
 import { ModalClosedAction } from "../../../modal/_ngrx/modal-closed.action";
 import { ModalOpenedAction } from "../../../modal/_ngrx/modal-opened.action";
@@ -33,9 +33,11 @@ import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referr
 import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
 import { ReleaseDatasetView } from "../release-dataset-view.model";
 import { ReleaseFilesModalState } from "./release-files-modal.state";
+import { Release } from "../release.model";
 import { ReleaseName } from "../release-name.model";
+import { ReleaseFileView } from "../release-file-view.model";
 import { ReleaseService } from "../../shared/release.service";
-import { ConfigService } from "../../../config/config.service";
+import { GTMService } from "../../../shared/gtm/gtm.service";
 
 @Component({
     selector: "release-files-modal",
@@ -55,6 +57,7 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
+     * @param {GTMService} gtmService
      * @param {ReleaseService} releaseService
      * @param {MatDialogRef<ProjectDownloadMatrixModalComponent>} dialogRef
      * @param {any} data
@@ -63,6 +66,7 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     constructor(
         private store: Store<AppState>,
         private configService: ConfigService,
+        private gtmService: GTMService,
         private releaseService: ReleaseService,
         private dialogRef: MatDialogRef<ReleaseFilesModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -110,6 +114,16 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     public setReleaseReferrer() {
 
         this.store.dispatch(new SetReleaseReferrerAction());
+    }
+
+    /**
+     * Track download of release file.
+     * 
+     * @param {ReleaseFileView} releaseFile
+     */
+    public trackDownload(releaseFile: ReleaseFileView): void {
+
+        this.gtmService.trackDownload(releaseFile.url);
     }
 
     /**
