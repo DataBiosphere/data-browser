@@ -11,45 +11,51 @@ import { Inject, Injectable } from "@angular/core";
 @Injectable()
 export class GTMService {
 
-    private EVENT_NAME_DOWNLOAD = "download";
-    private EVENT_NAME_EXTERNAL_LINK = "externalLink";
-    
-    private dataLayer;
+    private EVENT_NAME_DOWNLOAD = "Download";
+    private EVENT_NAME_VISUALIZE = "Visualize";
 
     /**
      * @param {Window} window
      */
     constructor(@Inject("Window") private window: Window) {
-
-        this.dataLayer = window["dataLayer"];
-    }
-
-    /**
-     * Send custom "download" GTM event.
-     * 
-     * @param {string} url
-     */
-    public trackDownload(url: string): void {
-
-        if ( !this.isTracking() ) {
-            return;
-        }
-        this.trackEvent(this.EVENT_NAME_DOWNLOAD, {url});
     }
 
     /**
      * Send custom "download" GTM event.
      *
-     * @param {string} url
+     * @param {string} action
+     * @param {string} label
      */
-    public trackExternalLink(url: string): void {
+    public trackDownload(action: string, label: string): void {
 
         if ( !this.isTracking() ) {
             return;
         }
-        this.trackEvent(this.EVENT_NAME_EXTERNAL_LINK, {url});
+        this.trackEvent(this.EVENT_NAME_DOWNLOAD, action, label);
     }
-    
+
+    /**
+     * Send custom "download" GTM event.
+     *
+     * @param {string} action
+     * @param {string} label
+     */
+    public trackExternalLink(action: string, label: string): void {
+
+        if ( !this.isTracking() ) {
+            return;
+        }
+        this.trackEvent(this.EVENT_NAME_VISUALIZE, action, label);
+    }
+
+    /**
+     * Return the GTM data layer.
+     */
+    private getDataLayer(): any[] {
+
+        return this.window["dataLayer"];
+    }
+
     /**
      * Returns true if GTM is enabled.
      * 
@@ -57,19 +63,22 @@ export class GTMService {
      */
     private isTracking(): boolean {
 
-        return !!this.dataLayer;
+        return !!this.getDataLayer();
     }
 
     /**
      * Track the specified event.
      * 
      * @param {string} eventName
-     * @param {any} eventVariables
+     * @param {string} label
      */
-    private trackEvent(eventName: string, eventVariables: any): void {
+    private trackEvent(eventName: string, action: string, label: string): void {
 
-        this.dataLayer.push(Object.assign({
-            "event": eventName
-        }, eventVariables));
+        const eventConfig = {
+            event: eventName,
+            eventAction: action,
+            eventLabel: label
+        };
+        this.getDataLayer().push(eventConfig);
     }
 }

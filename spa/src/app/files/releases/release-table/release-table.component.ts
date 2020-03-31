@@ -85,10 +85,11 @@ export class ReleaseTableComponent {
     /**
      * Track click on link to external visualization tool.
      *
+     * @param {string} projectShortname
      * @param {string} url
      */
-    public trackExternalLink(url: string): void {
+    public trackExternalLink(projectShortname: string, url: string): void {
 
-        this.gtmService.trackExternalLink(url);
+        this.gtmService.trackExternalLink(projectShortname, url);
     }
 }
