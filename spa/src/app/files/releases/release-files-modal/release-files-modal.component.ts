@@ -119,11 +119,12 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     /**
      * Track download of release file.
      * 
+     * @param {string} projectShortname
      * @param {ReleaseFileView} releaseFile
      */
-    public trackDownload(releaseFile: ReleaseFileView): void {
+    public trackDownload(projectShortname: string, releaseFile: ReleaseFileView): void {
 
-        this.gtmService.trackDownload(releaseFile.url);
+        this.gtmService.trackDownload(projectShortname, releaseFile.url);
     }
 
     /**
