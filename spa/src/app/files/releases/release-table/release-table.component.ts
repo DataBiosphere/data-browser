@@ -15,6 +15,11 @@ import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referr
 import { ReleaseOrganView } from "../release-organ-view.model";
 import { SetReleaseFilesReferrerAction } from "../../_ngrx/release/set-release-files-referrer.action";
 import { GTMService } from "../../../shared/gtm/gtm.service";
+import { ReleaseVisualization } from "../release-visualization.model";
+import { ReleaseDatasetView } from "../release-dataset-view.model";
+import { GACategory } from "../../../shared/gtm/ga-category.model";
+import { GAAction } from "../../../shared/gtm/ga-action.model";
+import { GADimension } from "../../../shared/gtm/ga-dimension.model";
 
 @Component({
     selector: "release-table",
@@ -61,7 +66,8 @@ export class ReleaseTableComponent {
 
     /**
      * Update state to indicate that the release files modal should return to the release page and not a project-specific
-     * release tab.
+     * release tab.release-files-modal.component.html
+
      */
     public setReleaseFilesReferrer() {
 
@@ -85,11 +91,14 @@ export class ReleaseTableComponent {
     /**
      * Track click on link to external visualization tool.
      *
-     * @param {string} projectShortname
-     * @param {string} url
+     * @param {ReleaseDatasetView} releaseDatasetView
+     * @param {ReleaseVisualization} visualization
      */
-    public trackExternalLink(projectShortname: string, url: string): void {
+    public trackExternalLink(releaseDatasetView: ReleaseDatasetView, visualization: ReleaseVisualization): void {
 
-        this.gtmService.trackExternalLink(projectShortname, url);
+        this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, visualization.url, {
+            [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
+            [GADimension.TOOL_NAME]: visualization.title
+        });
     }
 }
