@@ -36,8 +36,11 @@ import { ReleaseFilesModalState } from "./release-files-modal.state";
 import { Release } from "../release.model";
 import { ReleaseName } from "../release-name.model";
 import { ReleaseFileView } from "../release-file-view.model";
-import { ReleaseService } from "../../shared/release.service";
 import { GTMService } from "../../../shared/gtm/gtm.service";
+import { GACategory } from "../../../shared/gtm/ga-category.model";
+import { GADimension } from "../../../shared/gtm/ga-dimension.model";
+import { GAAction } from "../../../shared/gtm/ga-action.model";
+import { ReleaseService } from "../../shared/release.service";
 
 @Component({
     selector: "release-files-modal",
@@ -122,9 +125,14 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
      * @param {string} projectShortname
      * @param {ReleaseFileView} releaseFile
      */
-    public trackDownload(projectShortname: string, releaseFile: ReleaseFileView): void {
+    public trackDownload(releaseDatasetView: ReleaseDatasetView, releaseFile: ReleaseFileView): void {
 
-        this.gtmService.trackDownload(projectShortname, releaseFile.url);
+        this.gtmService.trackEvent(GACategory.DATASET, GAAction.DOWNLOAD, this.getReleaseFileUrl(releaseFile.url), {
+            [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
+            [GADimension.FILE_TYPE]: releaseFile.type,
+            [GADimension.FILE_EXTENSION]: releaseFile.extension,
+            [GADimension.FILE_NAME]: releaseFile.url
+        });
     }
 
     /**

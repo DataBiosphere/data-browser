@@ -8,11 +8,12 @@
 // Core dependencies
 import { Inject, Injectable } from "@angular/core";
 
+// App dependencies
+import { GACategory } from "./ga-category.model";
+import { GAAction } from "./ga-action.model";
+
 @Injectable()
 export class GTMService {
-
-    private EVENT_NAME_DOWNLOAD = "Download";
-    private EVENT_NAME_VISUALIZE = "Visualize";
 
     /**
      * @param {Window} window
@@ -23,29 +24,17 @@ export class GTMService {
     /**
      * Send custom "download" GTM event.
      *
-     * @param {string} action
+     * @param {GACategory} category
+     * @param {GAAction} action
      * @param {string} label
+     * @param {{}} dimensions
      */
-    public trackDownload(action: string, label: string): void {
+    public trackEvent(category: GACategory, action: GAAction, label: string, dimensions: {} = {}): void {
 
         if ( !this.isTracking() ) {
             return;
         }
-        this.trackEvent(this.EVENT_NAME_DOWNLOAD, action, label);
-    }
-
-    /**
-     * Send custom "download" GTM event.
-     *
-     * @param {string} action
-     * @param {string} label
-     */
-    public trackExternalLink(action: string, label: string): void {
-
-        if ( !this.isTracking() ) {
-            return;
-        }
-        this.trackEvent(this.EVENT_NAME_VISUALIZE, action, label);
+        this.sendToGA(category, action, label, dimensions);
     }
 
     /**
@@ -63,22 +52,25 @@ export class GTMService {
      */
     private isTracking(): boolean {
 
-        return !!this.getDataLayer();
+        // return !!this.getDataLayer();
+        return true;
     }
 
     /**
-     * Track the specified event.
+     * Add event to data layer, triggering the configured GTM tag (and in turn sending tracking event to GA).
      * 
-     * @param {string} eventName
-     * @param {string} label
+     * @param {GACategory} category - GTM "event" variable, used as "Category" value for GA
+     * @param {GAAction} action - used as "Action" value for GA
+     * @param {string} label - used as "Label" value for GA
+     * @param {{}} dimensions - additional variables that correspond to GTM variables and in turn, GA dimensions
      */
-    private trackEvent(eventName: string, action: string, label: string): void {
+    private sendToGA(category: GACategory, action: GAAction, label: string, dimensions: {} = {}): void {
 
-        const eventConfig = {
-            event: eventName,
+        const eventConfig = Object.assign({
+            event: category,
             eventAction: action,
             eventLabel: label
-        };
+        }, dimensions);
         this.getDataLayer().push(eventConfig);
     }
 }
