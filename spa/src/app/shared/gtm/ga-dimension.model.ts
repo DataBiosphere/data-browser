@@ -11,5 +11,6 @@ export enum GADimension {
     "FILE_NAME" = "fileName",
     "FILE_TYPE" = "fileType",
     "QUERY" = "query",
+    "RELEASE_NAME" = "releaseName",
     "TOOL_NAME" = "toolName"
 }
