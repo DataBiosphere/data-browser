@@ -131,7 +131,8 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
             [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
             [GADimension.FILE_TYPE]: releaseFile.type,
             [GADimension.FILE_EXTENSION]: releaseFile.extension,
-            [GADimension.FILE_NAME]: releaseFile.url
+            [GADimension.FILE_NAME]: releaseFile.url,
+            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
         });
     }
 

@@ -52,7 +52,8 @@ export class GTMService {
      */
     private isTracking(): boolean {
 
-        return !!this.getDataLayer();
+        // return !!this.getDataLayer();
+        return true;
     }
 
     /**
@@ -70,6 +71,7 @@ export class GTMService {
             eventAction: action,
             eventLabel: label
         }, dimensions);
-        this.getDataLayer().push(eventConfig);
+        // this.getDataLayer().push(eventConfig);
+        console.log(eventConfig);
     }
 }

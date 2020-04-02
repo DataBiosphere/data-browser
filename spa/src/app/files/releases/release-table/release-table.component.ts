@@ -17,6 +17,7 @@ import { SetReleaseFilesReferrerAction } from "../../_ngrx/release/set-release-f
 import { GTMService } from "../../../shared/gtm/gtm.service";
 import { ReleaseVisualization } from "../release-visualization.model";
 import { ReleaseDatasetView } from "../release-dataset-view.model";
+import { ReleaseName } from "../release-name.model";
 import { GACategory } from "../../../shared/gtm/ga-category.model";
 import { GAAction } from "../../../shared/gtm/ga-action.model";
 import { GADimension } from "../../../shared/gtm/ga-dimension.model";
@@ -98,7 +99,8 @@ export class ReleaseTableComponent {
 
         this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, visualization.url, {
             [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
-            [GADimension.TOOL_NAME]: visualization.title
+            [GADimension.TOOL_NAME]: visualization.title,
+            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
         });
     }
 }
