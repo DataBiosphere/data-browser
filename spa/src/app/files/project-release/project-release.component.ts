@@ -28,7 +28,7 @@ import { ReleaseService } from "../shared/release.service";
 export class ProjectReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
-    public columnsToDisplay = ["dataset", "organ", "developmentalStage", "technology", "releaseFiles", "visualize"];
+    public columnsToDisplay = ["dataset", "visualize", "releaseFiles", "organ", "developmentalStage", "technology"];
     private ngDestroy$ = new Subject();
     private state$ = new BehaviorSubject<ReleaseState>({
         loaded: false,
