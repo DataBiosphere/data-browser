@@ -52,8 +52,7 @@ export class GTMService {
      */
     private isTracking(): boolean {
 
-        // return !!this.getDataLayer();
-        return true;
+        return !!this.getDataLayer();
     }
 
     /**
