@@ -1,6 +1,6 @@
 <ng-container *ngIf="state$ | async as state">
     <h4 class="fontsize-m semi-bold">Supplementary Links</h4>
-    <p class="fontsize-xs">Supplementary Links are contributor provided links to additional information.</p>
+    <p class="fontsize-xs">Supplementary links are provided by contributors and represent items such as additional data which can’t be hosted here; code that was used to analyze this data; or tools and visualizations associated with this specific dataset.</p>
     <ng-container *ngIf="state.loaded">
         <ng-container [ngSwitch]="state.project.supplementaryLinks">
             <ng-container *ngSwitchCase="true">
@@ -12,7 +12,7 @@
                     </p>
                 </ng-container>
             </ng-container>
-            <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no Supplementary Links associated with this project.</p></no-hits>
+            <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no supplementary links associated with this project.</p></no-hits>
         </ng-container>
     </ng-container>
 </ng-container>
