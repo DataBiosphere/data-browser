@@ -1,14 +1,13 @@
 <ng-container *ngIf="state$ | async as state">
     <ng-container *ngIf="state.loaded">
         <h4 class="fontsize-m semi-bold">Analysis Portals</h4>
-        <p class="fontsize-xs">Analysis portals are external resources providing further analysis, such as
+        <p class="fontsize-xs">Analysis Portals are external resources providing further analysis, such as
             visualizations.</p>
         <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
             <ng-container *ngSwitchCase="true">
-                <p class="fontsize-xs">This project's data can be viewed live in the following external resources:</p>
                 <project-integrations [integrations]="state.integrations"></project-integrations>
             </ng-container>
-            <p class="fontsize-xs" *ngSwitchDefault>There are no analysis portals for this project at this time.</p>
+            <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no Analysis Portals associated with this project.</p></no-hits>
         </ng-container>
     </ng-container>
 </ng-container>

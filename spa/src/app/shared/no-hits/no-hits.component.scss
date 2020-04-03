@@ -1,0 +1,17 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying content in a no hits box.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+:host {
+    display: block;
+    margin: 16px 0 24px;
+    background-color: $hca-off-white;
+    border: 1px solid $hca-gray-lightest;
+    border-radius: 4px;
+    padding: 4px 8px;
+}

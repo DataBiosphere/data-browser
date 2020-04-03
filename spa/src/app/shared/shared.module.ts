@@ -35,6 +35,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
 import { FileDownloadComponent } from "./file-download/file-download.component";
 import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.component";
 import { NavComponent } from "./nav/nav.component";
+import { NoHitsComponent } from "./no-hits/no-hits.component";
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import { NavComponent } from "./nav/nav.component";
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
+        NoHitsComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,
@@ -84,6 +86,7 @@ import { NavComponent } from "./nav/nav.component";
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
+        NoHitsComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,

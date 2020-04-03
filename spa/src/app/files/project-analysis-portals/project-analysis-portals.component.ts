@@ -67,7 +67,7 @@ export class ProjectAnalysisPortalsComponent implements OnDestroy {
             this.state$.next({
                 loaded: true,
                 integrations: integrations,
-                integratedWithTertiaryPortals: integrations.length > 0,
+                integratedWithTertiaryPortals: integrations.length > 0
             });
         });
     }

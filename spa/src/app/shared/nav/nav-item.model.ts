@@ -6,7 +6,7 @@
  */
 
 export interface NavItem {
-    disabled: boolean;
+    disabled?: boolean;
     display: string;
     routerLink?: string[];
     subNavItems?: NavItem[];
