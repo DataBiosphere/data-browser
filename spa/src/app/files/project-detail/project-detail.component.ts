@@ -187,13 +187,13 @@ export class ProjectDetailComponent {
 
                     const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
-                    const externalResourcesExist = project.supplementaryLinks.length > 0 && projectIntegrations.length > 0;
+                    const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
 
                     return {
-                        externalResourcesExist: externalResourcesExist,
-                        project: project,
+                        externalResourcesExist,
+                        project,
                         projectInRelease,
-                        projectSelected: projectSelected
+                        projectSelected
                     };
                 })
             );
