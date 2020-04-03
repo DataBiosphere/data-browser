@@ -42,6 +42,17 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
     constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
     /**
+     * Returns true if project has at least on supplementary link associated with it.
+     *
+     * @param {string[]} supplementaryLinks
+     * @returns {boolean}
+     */
+    public isAnySupplementaryLinkAssociated(supplementaryLinks: string[]): boolean {
+
+        return supplementaryLinks && supplementaryLinks.length > 0;
+    }
+
+    /**
      * Returns true if the link is a valid url.
      *
      * @param {string} link
@@ -83,6 +94,7 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
             filter(project => !!project),
             takeUntil(this.ngDestroy$)
         ).subscribe(project => {
+            console.log(project.supplementaryLinks)
             this.state$.next({
                 loaded: true,
                 project

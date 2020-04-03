@@ -2,7 +2,7 @@
     <h4 class="fontsize-m semi-bold">Supplementary Links</h4>
     <p class="fontsize-xs">Supplementary links are provided by contributors and represent items such as additional data which can’t be hosted here; code that was used to analyze this data; or tools and visualizations associated with this specific dataset.</p>
     <ng-container *ngIf="state.loaded">
-        <ng-container [ngSwitch]="state.project.supplementaryLinks">
+        <ng-container [ngSwitch]="isAnySupplementaryLinkAssociated(state.project.supplementaryLinks)">
             <ng-container *ngSwitchCase="true">
                 <ng-container *ngFor="let supplementaryLink of state.project.supplementaryLinks; let i = index">
                     <p class="fontsize-xs max600 supplementary-link" *ngIf="isValidUrl(supplementaryLink)">
