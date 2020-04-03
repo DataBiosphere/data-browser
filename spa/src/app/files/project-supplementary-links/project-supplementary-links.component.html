@@ -1,7 +1,8 @@
 <ng-container *ngIf="state$ | async as state">
-    <h2 class="fontsize-xl">Supplementary Links</h2>    
+    <h4 class="fontsize-m semi-bold">Supplementary Links</h4>
+    <p class="fontsize-xs">Supplementary Links are contributor provided links to additional information.</p>
     <ng-container *ngIf="state.loaded">
-        <ng-container [ngSwitch]="state.project.supplementaryLinks.length > 0">
+        <ng-container [ngSwitch]="state.project.supplementaryLinks">
             <ng-container *ngSwitchCase="true">
                 <ng-container *ngFor="let supplementaryLink of state.project.supplementaryLinks; let i = index">
                     <p class="fontsize-xs max600 supplementary-link" *ngIf="isValidUrl(supplementaryLink)">
@@ -11,9 +12,7 @@
                     </p>
                 </ng-container>
             </ng-container>
-            <p class="fontsize-xs" *ngSwitchDefault>
-                There are currently no supplementary links for this project at this time.
-            </p>
+            <p class="fontsize-xs" *ngSwitchDefault>There are no supplementary links for this project at this time.</p>
         </ng-container>
     </ng-container>
 </ng-container>

@@ -5,26 +5,11 @@
  * Styles for project supplementary links component.
  */
 
-/* Heading */
-h2 {
-    margin: 14px 0 24px;
-}
-
-p {
-    margin: 0;
-}
-
-/* Max width */
-.max600 {
-    max-width: 600px;
-}
-
 /* Link container */
 .supplementary-link {
 
     align-items: baseline;
     display: flex;
-    padding-bottom: 8px;
 
     /* Index, link */
     span, a {

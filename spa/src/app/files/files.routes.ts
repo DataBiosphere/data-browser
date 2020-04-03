@@ -21,7 +21,6 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
-import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 
@@ -61,10 +60,6 @@ export const routes: Route[] = [
                     {
                         path: "expression-matrices",
                         component: ProjectExpressionMatricesComponent
-                    },
-                    {
-                        path: "supplementary-links",
-                        component: ProjectSupplementaryLinksComponent
                     },
                     {
                         path: "external-resources",

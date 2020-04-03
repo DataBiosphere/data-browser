@@ -6,7 +6,9 @@
  */
 
 export interface NavItem {
+    disabled: boolean;
     display: string;
     routerLink?: string[];
     subNavItems?: NavItem[];
+    tooltip?: string;
 }

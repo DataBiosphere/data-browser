@@ -10,7 +10,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
-import { MatProgressSpinnerModule } from "@angular/material";
+import { MatProgressSpinnerModule, MatTooltipModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
@@ -23,6 +23,7 @@ import { DownloadButtonComponent } from "./download-button/download-button.compo
 import { GTMService } from "./gtm/gtm.service";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
+import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
 import { LearnMoreComponent } from "./learn-more/learn-more.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
@@ -42,6 +43,7 @@ import { NavComponent } from "./nav/nav.component";
         CommonModule,
         MatIconModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
         RouterModule
     ],
     declarations: [
@@ -53,6 +55,7 @@ import { NavComponent } from "./nav/nav.component";
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
@@ -77,6 +80,7 @@ import { NavComponent } from "./nav/nav.component";
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
