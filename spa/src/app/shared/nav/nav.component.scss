@@ -26,8 +26,15 @@
     cursor: default;
 }
 
+/* Disabled */
+.nav.disabled {
+    color: $hca-gray-light;
+    cursor: default;
+    pointer-events: none; /* Disable router click event */
+}
+
 /* Link - hover */
-.nav:not(.no-link):not(.active):hover {
+.nav:not(.no-link):not(.active):not(.disabled):hover {
     color: $hca-gray-darkest;
 }
 

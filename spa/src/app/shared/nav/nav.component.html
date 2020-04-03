@@ -1,18 +1,20 @@
 <ng-container *ngFor="let navItem of navItems">
+    <hca-tooltip [tooltipDisabled]="isTooltipDisabled(navItem)" [tooltipContent]="getTooltipContent(navItem)" [tooltipPosition]="'above'" [tooltipClass]="'hca-tooltip narrow'">
     <ng-container [ngSwitch]="isRouterLink(navItem.routerLink)">
-        <a class="nav"
-           *ngSwitchCase="true"
-           [routerLink]="navItem.routerLink"
-           routerLinkActive="active"
-           [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
-        <span *ngSwitchDefault [ngClass]="{nav:true, 'no-link': true, 'sub-nav': navItem.subNavItems}">{{navItem.display}}</span>
-        <ng-container *ngIf="navItem.subNavItems">
-            <ng-container *ngFor="let subNavItem of navItem.subNavItems">
-                <a class="nav sub-nav-item"
-                   [routerLink]="subNavItem.routerLink"
-                   routerLinkActive="active"
-                   [routerLinkActiveOptions]="{exact: true}">{{subNavItem.display}}</a>
+            <a [ngClass]="{nav: true, disabled: navItem.disabled}"
+               *ngSwitchCase="true"
+               [routerLink]="navItem.routerLink"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
+            <span *ngSwitchDefault [ngClass]="{nav:true, 'no-link': true, 'sub-nav': navItem.subNavItems}">{{navItem.display}}</span>
+            <ng-container *ngIf="navItem.subNavItems">
+                <ng-container *ngFor="let subNavItem of navItem.subNavItems">
+                    <a [ngClass]="{nav: true, 'sub-nav-item': true, disabled: subNavItem.disabled}"
+                       [routerLink]="subNavItem.routerLink"
+                       routerLinkActive="active"
+                       [routerLinkActiveOptions]="{exact: true}">{{subNavItem.display}}</a>
+                </ng-container>
             </ng-container>
         </ng-container>
-    </ng-container>
+    </hca-tooltip>
 </ng-container>

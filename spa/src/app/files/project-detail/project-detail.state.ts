@@ -10,6 +10,7 @@ import { Project } from "../shared/project.model";
 
 export interface ProjectDetailState {
 
+    externalResourcesExist: boolean;
     project: Project;
     projectInRelease: boolean;
     projectSelected: boolean;

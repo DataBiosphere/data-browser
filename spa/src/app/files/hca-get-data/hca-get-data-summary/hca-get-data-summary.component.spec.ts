@@ -14,9 +14,9 @@ import { of } from "rxjs";
 
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
+import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 import { HCAFileFilterResultComponent } from "../../hca-file-filter-result/hca-file-filter-result.component";
 import { HCAGetDataFileSummaryComponent } from "../hca-get-data-file-summary/hca-get-data-file-summary.component";
-import { HCATooltipComponent } from "../../hca-tooltip/hca-tooltip.component";
 import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
 import { FileFacetDisplayService } from "../../shared/file-facet-display.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";

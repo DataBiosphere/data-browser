@@ -10,7 +10,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
-import { MatProgressSpinnerModule } from "@angular/material";
+import { MatProgressSpinnerModule, MatTooltipModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
@@ -23,6 +23,7 @@ import { DownloadButtonComponent } from "./download-button/download-button.compo
 import { GTMService } from "./gtm/gtm.service";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
+import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
 import { LearnMoreComponent } from "./learn-more/learn-more.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
@@ -34,6 +35,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
 import { FileDownloadComponent } from "./file-download/file-download.component";
 import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.component";
 import { NavComponent } from "./nav/nav.component";
+import { NoHitsComponent } from "./no-hits/no-hits.component";
 
 @NgModule({
     imports: [
@@ -42,6 +44,7 @@ import { NavComponent } from "./nav/nav.component";
         CommonModule,
         MatIconModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
         RouterModule
     ],
     declarations: [
@@ -53,9 +56,11 @@ import { NavComponent } from "./nav/nav.component";
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
+        NoHitsComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,
@@ -77,9 +82,11 @@ import { NavComponent } from "./nav/nav.component";
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
+        HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
         NavComponent,
+        NoHitsComponent,
         PopLayoutComponent,
         StatusPanelComponent,
         WarningComponent,

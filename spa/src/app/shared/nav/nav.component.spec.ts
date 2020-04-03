@@ -14,6 +14,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 // App dependencies
 import { NavComponent } from "./nav.component";
 import { DebugElement } from "@angular/core";
+import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 describe("NavComponent", () => {
 
@@ -58,9 +60,11 @@ describe("NavComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                NavComponent
+                NavComponent,
+                HCATooltipComponent
             ],
             imports: [
+                MatTooltipModule,
                 RouterModule,
                 RouterTestingModule
             ],
