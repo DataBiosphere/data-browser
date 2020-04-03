@@ -9,7 +9,7 @@
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 
 // App dependencies
-import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
+import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { HCAEllipsisTextComponent } from "./hca-ellipsis-text.component";
 
 @Component({

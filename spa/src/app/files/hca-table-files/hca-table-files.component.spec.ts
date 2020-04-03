@@ -24,6 +24,7 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../config/config.service";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
@@ -37,7 +38,6 @@ import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-t
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
-import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { DownloadService } from "../shared/download.service";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";

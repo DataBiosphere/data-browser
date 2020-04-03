@@ -73,9 +73,8 @@ import { HCATablePaginationComponent } from "./hca-table-pagination/hca-table-pa
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
-import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { ModalModule } from "../modal/modal.module";
-import { ProjectService } from "./project/project.service";
+import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
@@ -97,6 +96,7 @@ import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectReleaseComponent } from "./project-release/project-release.component";
+import { ProjectService } from "./project/project.service";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
 import { ReleaseComponent } from "./releases/release.component";
@@ -186,11 +186,11 @@ import { ReleaseService } from "./shared/release.service";
         HCATableProjectsComponent,
         HCATableSamplesComponent,
         HCATableSortComponent,
-        HCATooltipComponent,
         LeftBarComponent,
         MatrixPartialQueryMatchWarningComponent,
         MatrixUrlRequestCompletedComponent,
         MatrixUrlRequestFormComponent,
+        ProjectAnalysisPortalsComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,

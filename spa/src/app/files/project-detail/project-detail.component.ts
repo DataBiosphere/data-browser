@@ -20,15 +20,17 @@ import {
     selectReleaseByProjectId,
     selectReleaseReferrer
 } from "../_ngrx/release/release.selectors";
+import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
+import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { ProjectDetailState } from "./project-detail.state";
+import { ReleaseName } from "../releases/release-name.model";
 import { SearchTerm } from "../search/search-term.model";
 import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
-import { ReleaseName } from "../releases/release-name.model";
+import { ProjectDetailState } from "./project-detail.state";
 
 @Component({
     selector: "project-detail",
@@ -166,18 +168,29 @@ export class ProjectDetailComponent {
             map(release => release.projects.length > 0)
         );
 
+        // Request and grab the integrations for the current project
+        this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
+        const projectIntegrations$ = this.store.pipe(
+            select(selectProjectIntegrations, {projectId: projectId}),
+            filter(integrations => !!integrations)
+        );
+
         this.state$ = combineLatest(
             project$,
             projectInRelease$,
+            projectIntegrations$,
             selectedProjectIds$,
         )
             .pipe(
                 filter(([project]) => !!project),
-                map(([project, projectInRelease, selectedProjectIds]) => {
+                map(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
 
                     const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
+                    const externalResourcesExist = project.supplementaryLinks.length > 0 && projectIntegrations.length > 0;
+
                     return {
+                        externalResourcesExist: externalResourcesExist,
                         project: project,
                         projectInRelease,
                         projectSelected: projectSelected

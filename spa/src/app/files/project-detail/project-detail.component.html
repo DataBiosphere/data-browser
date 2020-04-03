@@ -1,6 +1,6 @@
 <pop-layout [tabs]="getProjectDetailTabs()" *ngIf="state$ | async as state">
     <ng-container title>Explore Project</ng-container>
-    <project-nav nav [projectInRelease]="state.projectInRelease"></project-nav>
+    <project-nav nav [externalResourcesExist]="state.externalResourcesExist" [projectInRelease]="state.projectInRelease"></project-nav>
     <div content>
         <status-panel class="project-title">
             <release-title-overline *ngIf="state.projectInRelease"></release-title-overline>

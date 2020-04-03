@@ -28,6 +28,7 @@ import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
@@ -42,7 +43,6 @@ import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-t
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
-import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";

@@ -25,6 +25,7 @@ import { ProjectNav } from "./project-nav.model";
 export class ProjectNavComponent {
 
     // Inputs
+    @Input() externalResourcesExist: boolean;
     @Input() projectInRelease: boolean;
 
     // Locals
@@ -37,61 +38,12 @@ export class ProjectNavComponent {
     private projectMetadata: NavItem;
     private projectReleases: NavItem;
     private summaryStats: NavItem;
-    private supplementaryLinks: NavItem;
 
     /**
      * @param {ActivatedRoute} route
      * @param {DeviceDetectorService} deviceService
      */
-    constructor(route: ActivatedRoute, private deviceService: DeviceDetectorService) {
-
-        route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
-
-            const projectId = params.id;
-
-            this.projectInformation = {
-                display: "Project Information",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
-            };
-
-            this.projectMetadata = {
-                display: "Project Metadata",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
-            };
-
-            this.expressionMatrices = {
-                display: "Expression Matrices",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
-            };
-
-            this.supplementaryLinks = {
-                display: "Supplementary Links",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUPPLEMENTARY_LINKS)
-            };
-
-            this.externalResources = {
-                display: "External Resources",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES)
-            };
-
-            this.summaryStats = {
-                display: "Summary Stats",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
-            };
-
-            this.dataCitation = {
-                display: "Data Citation",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
-            };
-
-            this.projectReleases = {
-                display: "Releases",
-                subNavItems: [{
-                    display: "2020 March Data Release",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
-                }]
-            }
-        });
+    constructor(private route: ActivatedRoute, private deviceService: DeviceDetectorService) {
     }
 
     /**
@@ -117,7 +69,6 @@ export class ProjectNavComponent {
                 this.projectInformation,
                 this.projectMetadata,
                 this.expressionMatrices,
-                this.supplementaryLinks,
                 this.externalResources
             ];
 
@@ -175,5 +126,63 @@ export class ProjectNavComponent {
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
+    }
+
+    /**
+     * Update state with selected project.
+     */
+    public ngOnInit() {
+
+        this.route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
+
+            const projectId = params.id;
+
+            this.projectInformation = {
+                disabled: false,
+                display: "Project Information",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
+            };
+
+            this.projectMetadata = {
+                disabled: false,
+                display: "Project Metadata",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
+            };
+
+            this.expressionMatrices = {
+                disabled: false,
+                display: "Expression Matrices",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
+            };
+
+            this.externalResources = {
+                disabled: !this.externalResourcesExist,
+                display: "External Resources",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES),
+                tooltip: "There are no external resources associated with this project."
+            };
+
+            this.summaryStats = {
+                disabled: false,
+                display: "Summary Stats",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
+            };
+
+            this.dataCitation = {
+                disabled: false,
+                display: "Data Citation",
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
+            };
+
+            this.projectReleases = {
+                disabled: false,
+                display: "Releases",
+                subNavItems: [{
+                    disabled: false,
+                    display: "2020 March Data Release",
+                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
+                }]
+            }
+        });
     }
 }
