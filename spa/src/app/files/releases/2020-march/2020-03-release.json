@@ -53,7 +53,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-atlas-adult-retina-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-atlas-adult-retina-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -115,7 +115,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-diff-fetal-neuron-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-diff-fetal-neuron-ss2.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -177,7 +177,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-spatiotemporal-fetal-kidney-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-spatiotemporal-fetal-kidney-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -233,7 +233,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-spatiotemporal-adult-kidney-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-spatiotemporal-adult-kidney-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -295,7 +295,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-ibd-adult-colon-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-ibd-adult-colon-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -357,7 +357,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-reprogram-embryo-dendritic-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-reprogram-embryo-dendritic-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -419,7 +419,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-landscape-adult-liver-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-landscape-adult-liver-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -481,7 +481,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-profiling-adult-bonemarrow-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-profiling-adult-bonemarrow-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -543,7 +543,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-somatic-adult-pancreas-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-somatic-adult-pancreas-ss2.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -605,7 +605,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-sensitivity-adult-spleen-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-sensitivity-adult-spleen-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -661,7 +661,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-sensitivity-adult-esophagus-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-sensitivity-adult-esophagus-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -717,7 +717,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-sensitivity-adult-lung-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-sensitivity-adult-lung-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -779,7 +779,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-census-newborn-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-census-newborn-blood-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -835,7 +835,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-census-adult-immune-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-census-adult-immune-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -897,7 +897,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-fetalmaternal-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-fetalmaternal-adult-blood-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -953,7 +953,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-fetalmaternal-adult-blood-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-fetalmaternal-adult-blood-ss2.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1009,7 +1009,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-fetalmaternal-fetal-placenta-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-fetalmaternal-fetal-placenta-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1065,7 +1065,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-fetalmaternal-adult-decidua-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-fetalmaternal-adult-decidua-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1121,7 +1121,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-fetalmaternal-adult-decidua-ss2.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-fetalmaternal-adult-decidua-ss2.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1183,7 +1183,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-tcell-adult-lymphnode-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-tcell-adult-lymphnode-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1239,7 +1239,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-tcell-adult-bonemarrow-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-tcell-adult-bonemarrow-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1295,7 +1295,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-tcell-adult-lung-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-tcell-adult-lung-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
@@ -1351,7 +1351,7 @@
                         },
                         {
                             "title": "CellxGene",
-                            "url": "http://2020-mar-tcell-adult-blood-10x.cellxgene.dev.explore.data.humancellatlas.org/"
+                            "url": "http://2020-mar-tcell-adult-blood-10x.cellxgene.explore.data.humancellatlas.org/"
                         },
                         {
                             "title": "Xena",
