@@ -1,0 +1,30 @@
+<modal-layout *ngIf="state$ | async as state"
+              [loaded]="state.loaded"
+              (closed)="redirectToReleases()">
+    <ng-container title *ngIf="state.loaded">{{state.releaseDataset.datasetId}} Visualizations</ng-container>
+    <ng-container subtitle *ngIf="state.loaded">{{state.releaseDataset.projectShortname}}</ng-container>
+    <ng-container content *ngIf="state.loaded">
+        <h4 class="fontsize-l" [ngClass]="{'singleDataset': state.singleDataset}">
+            <span>{{state.releaseDataset.developmentalStage}}, </span>
+            <span>{{state.releaseDataset.organ}}, </span>
+            <span>{{state.releaseDataset.libraryConstructionApproach}}</span>
+        </h4>
+        <warning *ngIf="!state.singleDataset">
+            <warning-content>
+                <p class="fontsize-xs">This project contains additional organs, developmental stages or technologies. <a
+                        routerLink="/projects/{{state.releaseDataset.entryId}}/releases/2020-mar"
+                        (click)="setReleaseReferrer()">View project release
+                    page</a>.
+                </p>
+            </warning-content>
+        </warning>
+        <ng-container *ngFor="let visualization of state.releaseDataset.visualizations">
+            <div class="fontsize-xs">
+                <a href={{visualization.url}}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   (click)="trackExternalLink(state.releaseDataset, visualization)">{{visualization.title}}</a><ng-container *ngIf="!!visualization.description"> - {{visualization.description}}</ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</modal-layout>

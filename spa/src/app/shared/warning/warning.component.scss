@@ -18,11 +18,11 @@
 
 /* Component release */
 :host-context(release) {
-    max-width: 720px;
+    max-width: 688px; /* 720 - 16 - 16 */
 }
 
 /* ReleaseFilesModalComponent */
-:host-context(release-files-modal) {
+:host-context(release-files-modal), :host-context(release-visualizations-modal) {
     margin: 0 0 24px;
 }
 

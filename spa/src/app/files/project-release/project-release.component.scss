@@ -6,6 +6,11 @@
  */
 @import "../../site/theme/cgl.vars";
 
+:host {
+    display: block;
+    max-width: 1090px; /* Snap table at max width */
+}
+
 /* Title */
 h2 {
     margin: 14px 0 24px;

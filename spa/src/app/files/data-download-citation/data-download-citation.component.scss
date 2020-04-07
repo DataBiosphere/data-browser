@@ -14,8 +14,6 @@ p {
 /* ReleaseFilesModalComponent */
 :host-context(release-files-modal) {
 
-    border-top: 1px solid $hca-gray-lightest;
     display: inline-block;
-    margin-top: 32px;
-    padding-top: 12px;
+    padding-top: 16px;
 }

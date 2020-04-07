@@ -9,11 +9,9 @@
 /* Release table */
 .release-tables {
     overflow: auto;
-    width: 100%; /* Required for horizontal scroll */
-
+    
     /* Wrapper around table */
     > div {
-        min-width: 1262px; /* Required for horizontal scroll */
         padding-bottom: 24px;
     }
 
@@ -26,15 +24,32 @@
     /* Table */
     mat-table {
 
+        max-width: 720px; /* Match max width of table to max width of content above table */
+
         /* Header row */
         mat-header-row {
-            border-bottom: 1px solid $hca-gray-light;
-            min-height: 42px;
+            display: none;
         }
 
         /* Cell row */
         mat-row {
+            align-items: flex-start;
             border-bottom: 1px solid $hca-gray-lightest;
+            flex-direction: column;
+            min-height: unset;
+            padding: 12px 0;
+
+            &:first-of-type {
+                border-top: 1px solid $hca-gray-lightest;
+            }
+
+            mat-cell {
+                min-height: unset;
+            }
+
+            .project-title {
+                font-size: 14px;
+            }
         }
 
         /* Header cell */
@@ -50,7 +65,6 @@
         /* Header cell, cell */
         mat-header-cell, mat-cell {
             color: $hca-black;
-            min-width: 152px;
             overflow: visible;
             padding: 0 12px;
         }
@@ -60,14 +74,35 @@
             margin: 4px 0; /* Overrides class "fontsize-..." margin */
         }
 
-        /* Title, dataset */
-        .project-title, .dataset {
-            flex-basis: 15%;
+        /* Hide desktop-specific columns */
+        .desktop-only {
+            display: none;
         }
 
-        /* Visualizations */
-        .visualize {
-            min-width: 182px;
+        /* Display mobile-specific columns */
+        .mobile-only {
+            display: flex;
+        }
+        
+        /** Cap width of project title to force wrapping of longer titles (mobile first) */
+        .project-title {
+            max-width: 425px;
+        }
+
+        /* Never let release files and visualizations columns expand, we want to keep them snug on the right hand side
+           of the table */
+        .release-files, .visualizations {
+            flex-grow: 0;
+        }
+
+        /** Ensure release files header and cells line up */
+        .release-files {
+            min-width: 97px; /* Matches width of button, forces header text to align correctly with button */
+        }
+
+        /** Ensure visualizations header and cells line up */
+        .visualizations {
+            min-width: 113px; /* Matches width of button, forces header text to align correctly with button */
         }
 
         /* Dot */
@@ -79,7 +114,7 @@
         /* Dot - excludes last */
         .dot > *:not(:last-of-type):after {
             align-self: center;
-            background-color: $hca-gray-lightest;
+            background-color: $hca-gray-light;
             border-radius: 50%;
             content: "";
             height: 3px;
@@ -89,15 +124,131 @@
     }
 }
 
-/* ProjectReleaseComponent */
-:host-context(project-release) {
+/**
+ * Large tablet landscape +, medium window + (> 1024)
+ */
+@media screen and (min-width: 1024px) {
 
-    /* Releases table */
     .release-tables {
 
-        /* Wrapper around table */
-        > div {
-            min-width: 1086px; /* Required for horizontal scroll - 5 columns at min width 152px, 1 at min width 182px + 24px padding */
+        mat-table {
+            max-width: 1440px; /* Snap width at large window width */
+
+            mat-header-row {
+                border-bottom: 1px solid $hca-gray-light;
+                display: flex; /* 1024+ is in table format - display header row */
+                min-height: 42px;
+            }
+
+            mat-row {
+                align-items: center;
+                flex-direction: row;
+                padding: 4px 0;
+
+                &:first-of-type {
+                    border-top: none;
+                }
+
+                .project-title {
+                    font-size: 12px; /** Set back to xxs (set to 14px for mobile first) */
+                }
+            }
+
+            /* Display desktop-specific columns */
+            .desktop-only {
+                display: flex;
+            }
+
+            /* Hide mobile-specific columns */
+            .mobile-only {
+                display: none;
+            }
+
+            .project-title {
+                font-size: unset;
+                min-width: 225px;
+                max-width: unset;
+            }
+
+            .dataset {
+                min-width: 183px;
+            }
+
+            .organ {
+                white-space: pre-wrap;
+            }
+        }
+    }
+}
+
+/**
+ * Custom range to handle case where long organ values overflow into development stage; reduce size of project title and
+ * dataset to accommodate.
+ */
+@media screen and (min-width: 1024px) and (max-width: 1108px) {
+
+    .release-tables {
+        mat-table {
+            .project-title {
+                min-width: 200px;
+            }
+
+            .dataset {
+                min-width: 160px;
+            }
+        }
+    }
+    
+    /** Reduce dataset width further on project release page */
+    :host-context(project-release) {
+        .release-tables {
+            mat-table {
+                .dataset {
+                    min-width: 100px;
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ * Large tablet, medium window + (> 1280)
+ */
+@media screen and (min-width: 1280px) {
+
+    .release-tables {
+        mat-table {
+            .project-title {
+                min-width: 315px; 
+            }
+
+            .dataset {
+                min-width: 240px;
+            }
+
+            .organ {
+                white-space: unset;
+            }
+        }
+    }
+}
+
+
+/**
+ * Large window + (> 1440)
+ */
+@media screen and (min-width: 1440px) {
+
+    .release-tables {
+        mat-table {
+            .project-title {
+                min-width: 360px; /* Matches half width of text above table */
+            }
+
+            .dataset {
+                min-width: 270px; /* Width of widest dataset name, prevents wrap on any dataset */
+            }
         }
     }
 }

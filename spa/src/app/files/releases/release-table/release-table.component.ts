@@ -14,13 +14,6 @@ import { AppState } from "../../../_ngrx/app.state";
 import { SetReleaseReferrerAction } from "../../_ngrx/release/set-release-referrer.action";
 import { ReleaseOrganView } from "../release-organ-view.model";
 import { SetReleaseFilesReferrerAction } from "../../_ngrx/release/set-release-files-referrer.action";
-import { GTMService } from "../../../shared/gtm/gtm.service";
-import { ReleaseVisualization } from "../release-visualization.model";
-import { ReleaseDatasetView } from "../release-dataset-view.model";
-import { ReleaseName } from "../release-name.model";
-import { GACategory } from "../../../shared/gtm/ga-category.model";
-import { GAAction } from "../../../shared/gtm/ga-action.model";
-import { GADimension } from "../../../shared/gtm/ga-dimension.model";
 
 @Component({
     selector: "release-table",
@@ -36,10 +29,33 @@ export class ReleaseTableComponent {
     @Input() releaseFilesReferrer: boolean[];
 
     /**
-     * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      */
-    constructor(private gtmService: GTMService, private store: Store<AppState>) {}
+    constructor(private store: Store<AppState>) {}
+
+    /**
+     * Return the URL to view the release files modal for the selected dataset.
+     *
+     * @param {string} entryId - project ID
+     * @param {string} datasetId
+     * @returns {string}
+     */
+    public getDatasetReleaseFilesUrl(entryId: string, datasetId: string): string {
+
+        return `/projects/${entryId}/m/releases/2020-mar/datasets/${datasetId}/release-files`;
+    }
+    
+    /**
+     * Return the URL to view the visualizations modal for the selected dataset.
+     * 
+     * @param {string} entryId - project ID
+     * @param {string} datasetId
+     * @returns {string}
+     */
+    public getDatasetVisualizationsUrl(entryId: string, datasetId: string): string {
+
+        return `/projects/${entryId}/m/releases/2020-mar/datasets/${datasetId}/visualizations`;
+    }
 
     /**
      * Returns the technology, based off libraryConstructionApproach. Any libraryConstructionApproach ending with
@@ -67,8 +83,7 @@ export class ReleaseTableComponent {
 
     /**
      * Update state to indicate that the release files modal should return to the release page and not a project-specific
-     * release tab.release-files-modal.component.html
-
+     * release tab.
      */
     public setReleaseFilesReferrer() {
 
@@ -78,7 +93,7 @@ export class ReleaseTableComponent {
     }
     
     /**
-     * Update state to indicate that the back button the project detail page should navigate back to the release page,
+     * Update state to indicate that the back button on the project detail page should navigate back to the release page,
      * and not the project tab.
      */
     public setReleaseReferrer() {
@@ -86,21 +101,5 @@ export class ReleaseTableComponent {
         if ( this.releaseReferrer ) {
             this.store.dispatch(new SetReleaseReferrerAction());
         }
-    }
-
-
-    /**
-     * Track click on link to external visualization tool.
-     *
-     * @param {ReleaseDatasetView} releaseDatasetView
-     * @param {ReleaseVisualization} visualization
-     */
-    public trackExternalLink(releaseDatasetView: ReleaseDatasetView, visualization: ReleaseVisualization): void {
-
-        this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, visualization.url, {
-            [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
-            [GADimension.TOOL_NAME]: visualization.title,
-            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
-        });
     }
 }
