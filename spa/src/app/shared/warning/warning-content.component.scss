@@ -12,6 +12,6 @@
 
 /* ReleaseComponent */
 /* ReleaseFilesModalComponent */
-:host-context(release), :host-context(release-files-modal) {
+:host-context(release), :host-context(release-files-modal), :host-context(release-visualizations-modal) {
     margin-bottom: 0; // Remove negative margin, last child has no margin
 }

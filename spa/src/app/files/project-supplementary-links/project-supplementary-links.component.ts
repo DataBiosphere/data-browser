@@ -94,7 +94,6 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
             filter(project => !!project),
             takeUntil(this.ngDestroy$)
         ).subscribe(project => {
-            console.log(project.supplementaryLinks)
             this.state$.next({
                 loaded: true,
                 project

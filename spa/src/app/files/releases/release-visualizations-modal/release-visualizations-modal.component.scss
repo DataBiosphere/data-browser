@@ -1,0 +1,30 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for release files modal.
+ */
+
+@import "../../../site/theme/cgl.vars";
+
+/* Title */
+h4 {
+    margin-bottom: 12px;
+}
+
+.singleDataset h4 {
+    margin-bottom: 24px;
+}
+
+/* Subtitle */
+h4 span {
+    text-transform: capitalize;
+}
+
+/* Cell class "fontsize-..." */
+/* Warning - content */
+/* mat-cell */
+warning-content .fontsize-xs, mat-table mat-cell, mat-table mat-cell.fontsize-xxs {
+    margin: 0; /* Overrides class "fontsize-..." margin */
+}
+
