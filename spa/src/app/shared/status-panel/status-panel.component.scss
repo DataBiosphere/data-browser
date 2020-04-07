@@ -59,10 +59,10 @@
 }
 
 /**
- * Small +
+ * Large tablet +, small window +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 1024px) {
 
     /* Component release */
     :host-context(release) {

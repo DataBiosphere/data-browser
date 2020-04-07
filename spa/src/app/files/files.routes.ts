@@ -23,6 +23,7 @@ import { ProjectReleaseComponent } from "./project-release/project-release.compo
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
+import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
 
 export const routes: Route[] = [
     {
@@ -89,6 +90,10 @@ export const routes: Route[] = [
             {
                 path: ":id/m/releases/2020-mar/datasets/:datasetId/release-files",
                 component: ReleaseFilesModalContainerComponent,
+            },
+            {
+                path: ":id/m/releases/2020-mar/datasets/:datasetId/visualizations",
+                component: ReleaseVisualizationsModalContainerComponent,
             }
         ]
     },

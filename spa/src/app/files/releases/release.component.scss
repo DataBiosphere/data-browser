@@ -13,6 +13,7 @@
     div[content] {
         flex: 1;
         padding: 30px 0 36px;
+        max-width: 1440px; /** Snap at < large window (< 1440px) */
     }
 }
 
@@ -41,10 +42,10 @@
 }
 
 /**
- * Small +
+ * Large tablet +, small window +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 1024px) {
 
     .release {
 

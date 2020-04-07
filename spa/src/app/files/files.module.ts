@@ -119,6 +119,8 @@ import { TermSortService } from "./sort/term-sort.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
 import { ReleaseService } from "./shared/release.service";
+import { ReleaseVisualizationsModalComponent } from "./releases/release-visualizations-modal/release-visualizations-modal.component";
+import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
 
 @NgModule({
     imports: [
@@ -216,6 +218,8 @@ import { ReleaseService } from "./shared/release.service";
         ReleaseComponent,
         ReleaseFilesModalComponent,
         ReleaseFilesModalContainerComponent,
+        ReleaseVisualizationsModalComponent,
+        ReleaseVisualizationsModalContainerComponent,
         ReleaseTableComponent,
         ReleaseTitleOverlineComponent,
         TableScroll
@@ -223,7 +227,8 @@ import { ReleaseService } from "./shared/release.service";
     entryComponents: [
         ProjectDownloadManifestModalComponent,
         ProjectDownloadMatrixModalComponent,
-        ReleaseFilesModalComponent
+        ReleaseFilesModalComponent,
+        ReleaseVisualizationsModalComponent
     ],
     providers: [
         ConfigService,

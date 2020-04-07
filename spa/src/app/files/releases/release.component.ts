@@ -29,7 +29,8 @@ import { ConfigService } from "../../config/config.service";
 export class ReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
-    public columnsToDisplay = ["projectTitle", "dataset", "visualize", "releaseFiles", "developmentalStage", "organ", "technology"];
+    public columnsToDisplay = ["projectTitle", "dataset", "organ", "developmentalStage", "technology", 
+        "releaseFiles", "visualize", "attributes", "actions"]; // attributes and actions are mobile-only columns, to group values into a single column 
     private ngDestroy$ = new Subject();
     private portalUrl: string;
     private state$ = new BehaviorSubject<ReleaseState>({

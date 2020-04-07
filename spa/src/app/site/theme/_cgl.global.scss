@@ -220,6 +220,11 @@ button {
             }
         }
 
+        &.size-s {
+            font-size: 12px;
+            height: 28px;
+        }
+
         /* HCA Outline Button */
         &.outline {
             background-color: transparent;
