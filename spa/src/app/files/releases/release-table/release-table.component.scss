@@ -24,8 +24,6 @@
     /* Table */
     mat-table {
 
-        max-width: 720px; /* Match max width of table to max width of content above table */
-
         /* Header row */
         mat-header-row {
             display: none;
@@ -84,7 +82,8 @@
             display: flex;
         }
         
-        /** Cap width of project title to force wrapping of longer titles (mobile first) */
+        /** Cap width of project title to force wrapping of longer titles (mobile first ie this is modified for larger
+            devices) */
         .project-title {
             max-width: 425px;
         }
@@ -124,15 +123,70 @@
     }
 }
 
+:host-context(release) {
+
+    .release-tables {
+
+        mat-table {
+            max-width: 720px; /* Match max width of table to max width of content above table - smaller devices only,
+            this is modified by media queries for larger devices */
+        }
+    }
+}
+
+:host-context(project-release) {
+
+    .release-tables {
+
+        mat-table {
+            max-width: 600px; /* Match max width of table to max width of content above table - smaller devices only,
+            this is modified by media queries for larger devices */
+        }
+    }
+}
+
+/**
+ * Small tablet +, medium handset +, small window + and, large table - and medium window - (special case to allow action
+ * buttons to sit to the right of dataset details - for main release table only, and not project detail release table)
+ */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+
+    :host-context(release) {
+        
+        .release-tables {
+
+            mat-table {
+
+                max-width: unset;
+
+                mat-row {
+                    position: relative;
+                }
+
+                .project-title {
+                    max-width: unset;
+                    padding-right: 250px;
+                }
+
+                .actions {
+                    position: absolute;
+                    align-self: flex-end;
+                }
+            }
+        }
+    }
+}
+
 /**
  * Large tablet landscape +, medium window + (> 1024)
  */
 @media screen and (min-width: 1024px) {
 
     .release-tables {
-
+        
         mat-table {
-            max-width: 1440px; /* Snap width at large window width */
+            max-width: 1440px !important; /* Snap width at large window width, override (!important) host context specific
+                                             max-widths set on smaller breakpoints */
 
             mat-header-row {
                 border-bottom: 1px solid $hca-gray-light;
@@ -150,7 +204,7 @@
                 }
 
                 .project-title {
-                    font-size: 12px; /** Set back to xxs (set to 14px for mobile first) */
+                    font-size: 12px; /** Set back to correct xxs sizing (default is overridden to 14px for mobile first) */
                 }
             }
 
@@ -187,24 +241,43 @@
  */
 @media screen and (min-width: 1024px) and (max-width: 1108px) {
 
-    .release-tables {
-        mat-table {
-            .project-title {
-                min-width: 200px;
-            }
+    :host-context(release) {
+        
+        .release-tables {
+            
+            mat-table {
+                
+                .project-title {
+                    min-width: 185px;
+                }
 
-            .dataset {
-                min-width: 160px;
+                .dataset {
+                    min-width: 140px;
+                }
             }
         }
     }
-    
+}
+
+/**
+ * Custom range to handle case where long organ values overflow into development stage; reduce size of project title and
+ * dataset to accommodate.
+ */
+@media screen and (min-width: 1024px) and (max-width: 1146px) {
+
     /** Reduce dataset width further on project release page */
     :host-context(project-release) {
+
         .release-tables {
+
             mat-table {
+
                 .dataset {
                     min-width: 100px;
+                }
+
+                mat-header-cell, mat-cell {
+                    padding: 0 8px;
                 }
             }
         }
