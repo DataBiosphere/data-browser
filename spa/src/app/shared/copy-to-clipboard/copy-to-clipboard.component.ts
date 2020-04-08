@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { BehaviorSubject, interval } from "rxjs";
 import { take } from "rxjs/internal/operators";
 
@@ -22,6 +22,9 @@ export class CopyToClipboardComponent {
 
     // Inputs
     @Input() copyToClipboardLink: string;
+    
+    // Outputs 
+    @Output() copyClicked = new EventEmitter<any>();
 
     /**
      * Returns true, when copy to clipboard is successful.
@@ -41,6 +44,10 @@ export class CopyToClipboardComponent {
      */
     public onCopy(event: MouseEvent) {
 
+        // Let parent components know link has been copied
+        this.copyClicked.emit(event);
+        
+        // Update UI to indicate link has been copied
         this.copied.next(true);
         this.resetCopied();
         event.stopPropagation();
