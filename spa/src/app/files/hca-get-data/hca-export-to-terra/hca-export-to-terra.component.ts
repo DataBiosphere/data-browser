@@ -26,6 +26,13 @@ import { SearchTerm } from "../../search/search-term.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
 import { HCAExportToTerraState } from "./hca-export-to-terra.state";
+import { SearchTermService } from "../../shared/search-term.service";
+import { GTMService } from "../../../shared/gtm/gtm.service";
+import { GACategory } from "../../../shared/gtm/ga-category.model";
+import { GAAction } from "../../../shared/gtm/ga-action.model";
+import { GADimension } from "../../../shared/gtm/ga-dimension.model";
+import { ReleaseName } from "../../releases/release-name.model";
+import { ToolName } from "../../shared/tool-name.model";
 
 @Component({
     selector: "hca-export-to-terra",
@@ -44,11 +51,15 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
     /**
      *
      * @param {ConfigService} configService
+     * @param {GTMService} gtmService
+     * @param {SearchTermService} searchTermService
      * @param {TerraService} terraService
      * @param {Store<AppState>} store
      * @param {Window} window
      */
     constructor(private configService: ConfigService,
+                private gtmService: GTMService,
+                private searchTermService: SearchTermService,
                 private terraService: TerraService,
                 private store: Store<AppState>,
                 @Inject("Window") window: Window) {
@@ -136,9 +147,40 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Dispatch action to export to Terra.
+     * Track click on Terra data link.
+     *
+     * @param {string} exportToTerraUrl
      */
-    public onExportToTerra() {
+    public onDataLinkClicked(exportToTerraUrl: string) {
+
+        this.gtmService.trackEvent(GACategory.RESULT_SET, GAAction.DATA_LINK, exportToTerraUrl, {
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
+    }
+
+    /**
+     * Track click on copy of Terra data link.
+     *
+     * @param {string} exportToTerraUrl
+     */
+    public onDataLinkCopied(exportToTerraUrl: string) {
+        
+        this.gtmService.trackEvent(GACategory.RESULT_SET, GAAction.COPY_TO_CLIPBOARD, exportToTerraUrl, {
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
+    }
+
+    /**
+     * Dispatch action to export to Terra.
+     * 
+     * @param {SearchTerm[]} selectedSearchTerms
+     */
+    public onExportToTerra(selectedSearchTerms: SearchTerm[]) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.RESULT_SET, GAAction.EXPORT, query, {
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
         this.store.dispatch(new ExportToTerraRequestAction());
     }
 

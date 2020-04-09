@@ -6,7 +6,9 @@
  */
 
 export enum GAAction {
+    "DATA_LINK" = "Data Link",
     "DOWNLOAD" = "Download",
     "EXPORT" = "Export",
+    "COPY_TO_CLIPBOARD" = "Copy to Clipboard",
     "VISUALIZE" = "Visualize"
 }

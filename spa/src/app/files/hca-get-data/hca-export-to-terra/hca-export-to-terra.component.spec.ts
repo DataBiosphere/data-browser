@@ -30,6 +30,7 @@ import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy
 import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAExportToTerraComponent } from "./hca-export-to-terra.component";
+import { GTMService } from "../../../shared/gtm/gtm.service";
 
 describe("HCAExportToTerraComponent", () => {
 
@@ -86,6 +87,12 @@ describe("HCAExportToTerraComponent", () => {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
                         "requestFileManifestUrl"
+                    ])
+                },
+                {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
                     ])
                 },
                 {
