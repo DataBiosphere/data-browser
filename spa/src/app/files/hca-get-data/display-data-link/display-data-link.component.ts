@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: "display-data-link",
@@ -18,4 +18,17 @@ export class DisplayDataLinkComponent {
     // Inputs
     @Input() link: string;
     @Input() targetBlank: boolean;
+    
+    // Outputs 
+    @Output() dataLinkClicked = new EventEmitter<MouseEvent>();
+
+    /**
+     * Emit click event on click of anchor tag.
+     * 
+     * @param {MouseEvent} event
+     */
+    public onClick(event: MouseEvent) {
+
+        this.dataLinkClicked.emit(event);
+    }
 }
