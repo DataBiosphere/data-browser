@@ -1,0 +1,26 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Toolbar nav sub menu styles.
+ * ViewEncapsulation is disabled - required in order to style <ng-content>.
+ */
+
+/* Nav sub menu */
+.toolbar-nav-sub-menu {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0;
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    /* Nav sub menu - hide */
+    :host {
+        display: none;
+    }
+}

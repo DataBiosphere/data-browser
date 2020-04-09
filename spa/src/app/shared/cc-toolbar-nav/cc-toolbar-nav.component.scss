@@ -42,7 +42,8 @@
         :host, cc-toolbar-nav {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            height: calc(100vh - 60px);
+            overflow: auto;
         }
     }
 }

@@ -1,0 +1,36 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Toolbar nav drop down styles.
+ */
+
+@import "../../site/theme/cgl.vars";
+
+/* Nav drop down - hide */
+:host {
+    display: none;
+}
+
+.toolbar-nav-drop-down {
+    background-color: $hca-white;
+    border: 1px solid $hca-gray-lightest;
+    border-radius: 4px;
+    left: 0;
+    padding: 8px 0;
+    position: absolute;
+    top: 46px;
+    width: 100%;
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    /* Nav drop down - show */
+    :host {
+        display: block;
+    }
+}
