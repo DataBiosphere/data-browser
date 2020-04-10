@@ -9,21 +9,30 @@
 // App dependencies
 import { EntityRow } from "../table/entity-row.model";
 import { ProjectRowMapper } from "../hca-table-projects/project-row-mapper";
+import { Project } from "../shared/project.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 
 export class ProjectMapper extends ProjectRowMapper {
 
     /**
      * @param {any} row - data modelling row in current selected table.
+     * @param {Project} updatedProject
      */
-    constructor(row: any) {
+    constructor(row: any, private updatedProject: Project) {
         super(row);
     }
 
     /**
-     * Return the version of the row, optimized for display in the data table.
+     * Return the version of the row, optimized for display in the data table. Check project edits data for updated
+     * versions of publications and contributors, and override server data if specified.
      */
     public mapRow(): EntityRow {
+
+        // If there publications listed in the updated project (from projects edits JSON), use the updated project's
+        // publications. Otherwise, use the publication data returned from the server.
+        const publications = this.updatedProject.publications && this.updatedProject.publications.length > 0 ?
+            this.updatedProject.publications :
+            this.rollupArray(this.row.projects, "publications");
 
         return Object.assign({}, super.mapRow(), {
             arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
@@ -33,7 +42,7 @@ export class ProjectMapper extends ProjectRowMapper {
             insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
             insdcStudyAccessions: getUnspecifiedIfNullValue(this.projects.insdcStudyAccessions),
             projectDescription: getUnspecifiedIfNullValue(this.projects.projectDescription),
-            publications: this.rollupArray(this.row.projects, "publications"),
+            publications: publications,
             supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks")
         });
     }
