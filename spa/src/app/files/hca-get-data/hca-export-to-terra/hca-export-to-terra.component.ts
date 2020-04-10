@@ -31,7 +31,6 @@ import { GTMService } from "../../../shared/gtm/gtm.service";
 import { GACategory } from "../../../shared/gtm/ga-category.model";
 import { GAAction } from "../../../shared/gtm/ga-action.model";
 import { GADimension } from "../../../shared/gtm/ga-dimension.model";
-import { ReleaseName } from "../../releases/release-name.model";
 import { ToolName } from "../../shared/tool-name.model";
 
 @Component({

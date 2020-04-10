@@ -9,7 +9,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { BehaviorSubject, interval, Observable, of, Subject } from "rxjs";
-import { catchError, map, retry, startWith, switchMap, take, takeUntil } from "rxjs/operators";
+import { catchError, map, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -17,6 +17,7 @@ import { ProjectMapper } from "./project-mapper";
 import { ProjectTSVUrlHttpResponse } from "./project-tsv-url-http-response.model";
 import { ProjectTSVUrlResponse } from "./project-tsv-url-response.model";
 import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
+import { ReleaseProject } from "../releases/release-project.model";
 import { SearchEntity } from "../search/search-entity.model";
 import { FileFacetName } from "../shared/file-facet-name.model";
 import { ICGCQuery } from "../shared/icgc-query";
@@ -36,15 +37,22 @@ export class ProjectService {
     }
 
     /**
-     * Fetch project with the specified ID.
+     * Fetch project with the specified ID. Mix project data return from server with project edits data (as publications
+     * and contributor data from the server are overriden by project edits publication and contributor data for certain
+     * projects. See DB#1135 and DB#1139).
      *
      * @param {string} projectId
+     * @param {Project} updatedProject
      * @returns {Observable<Project>}
      */
-    public fetchProjectById(projectId: string): Observable<Project> {
+    public fetchProjectById(projectId: string, updatedProject: Project): Observable<Project> {
 
         const url = this.configService.buildApiUrl(`/repository/projects/${projectId}`);
-        return this.httpClient.get<Project>(url).pipe(map(this.bindProject.bind(this)));
+        return this.httpClient.get<Project>(url).pipe(
+            map((response) => {
+                return this.bindProject(response, updatedProject);
+            })
+        );
     }
 
     /**
@@ -78,11 +86,12 @@ export class ProjectService {
      * Bind the raw response to Project object.
      *
      * @param {any} response
+     * @param {ReleaseProject} updatedProject
      * @returns {Project}
      */
-    private bindProject(response: any): Project {
+    private bindProject(response: any, updatedProject: Project): Project {
 
-        const mapper = new ProjectMapper(response);
+        const mapper = new ProjectMapper(response, updatedProject);
         return mapper.mapRow() as Project;
     }
 

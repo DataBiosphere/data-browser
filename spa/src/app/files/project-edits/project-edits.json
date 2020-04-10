@@ -1,0 +1,47 @@
+[
+    {
+        "entryId": "f8aa201c-4ff1-45a4-890e-840d63459ca2",
+        "publications": [
+            {
+                "publicationTitle": "Structural Remodeling of the Human Colonic Mesenchyme in Inflammatory Bowel Disease",
+                "publicationUrl": "https://www.sciencedirect.com/science/article/pii/S0092867418311681?via%3Dihub"
+            }
+        ]
+    },
+    {
+        "entryId": "091cf39b-01bc-42e5-9437-f419a66c8a45",
+        "publications": [
+            {
+                "publicationTitle": "Characterization of cell fate probabilities in single-cell data with Palantir",
+                "publicationUrl": "https://www.nature.com/articles/s41587-019-0068-4"
+            }
+        ]
+    },
+    {
+        "entryId": "c4077b3c-5c98-4d26-a614-246d12c2e5d7",
+        "publications": [
+            {
+                "publicationTitle": "scRNA-seq assessment of the human lung, spleen, and esophagus tissue stability after cold preservation",
+                "publicationUrl": "https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1906-x"
+            }
+        ]
+    },
+    {
+        "entryId": "f83165c5-e2ea-4d15-a5cf-33f3550bffde",
+        "publications": [
+            {
+                "publicationTitle": "Single-cell reconstruction of the early maternal–fetal interface in humans",
+                "publicationUrl": "https://www.nature.com/articles/s41586-018-0698-6"
+            }
+        ]
+    },
+    {
+        "entryId": "4a95101c-9ffc-4f30-a809-f04518a23803",
+        "publications": [
+            {
+                "publicationTitle": "Single-cell transcriptomics of human T cells reveals tissue and activation signatures in health and disease",
+                "publicationUrl": "https://www.nature.com/articles/s41467-019-12464-3"
+            }
+        ]
+    }
+]

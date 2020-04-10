@@ -19,6 +19,7 @@ import { EntityName } from "../shared/entity-name.model";
 import * as searchStateMock from "./search/search.state.mock";
 import { IntegrationState } from "./integration/integration.state";
 import { ReleaseState } from "./release/release.state";
+import { ProjectEditsState } from "./project-edits/project-edits.state";
 
 /**
  * Default project state - current tab is projects, no selected search terms
@@ -30,6 +31,7 @@ export const DEFAULT_PROJECTS_STATE = {
     integration: IntegrationState.getDefaultState(),
     matrix: MatrixState.getDefaultState(),
     project: ProjectState.getDefaultState(),
+    projectEdits: ProjectEditsState.getDefaultState(),
     release: ReleaseState.getDefaultState(),
     search: SearchState.getDefaultState(),
     tableState: getDefaultTableState(),

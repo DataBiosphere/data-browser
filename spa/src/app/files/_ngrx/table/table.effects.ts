@@ -22,14 +22,15 @@ import {
     FetchProjectSuccessAction,
 } from "./table.actions";
 import { FetchFileFacetsRequestAction } from "../file-facet-list/file-facet-list.actions";
+import { selectTableQueryParams } from "../file.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import { FetchTableModelRequestAction } from "./fetch-table-model-request.action";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
+import { selectProjectById } from "../project-edits/project-edits.selectors";
 import { EntityName } from "../../shared/entity-name.model";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
-import { selectTableQueryParams } from "../file.selectors";
 import { EntitySearchResults } from "../../shared/entity-search-results.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
 import { FilesService } from "../../shared/files.service";
@@ -114,13 +115,26 @@ export class TableEffects {
         );
 
     /**
-     * Trigger fetch and display of project, when selected from the project table.
+     * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from
+     * the store to update publication and contributor details, where specifed.
      */
     @Effect()
     fetchProject: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchProjectRequestAction.ACTION_TYPE),
-            switchMap((action: FetchProjectRequestAction) => this.projectService.fetchProjectById(action.projectId)),
+            switchMap((action: FetchProjectRequestAction) => {
+                
+                return this.store.pipe(
+                    select(selectProjectById, {id: action.projectId}),
+                    map((updatedProject: Project) => {
+                        
+                        // Grab the project from the release
+                        return {action, updatedProject};
+                    })
+                );
+            }),
+            switchMap(({action, updatedProject}) => 
+                this.projectService.fetchProjectById(action.projectId, updatedProject)),
             map((project: Project) => new FetchProjectSuccessAction(project))
         );
 
