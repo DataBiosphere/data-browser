@@ -96,6 +96,7 @@ import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectReleaseComponent } from "./project-release/project-release.component";
+import { ProjectEditsService } from "./shared/project-edits.service";
 import { ProjectService } from "./project/project.service";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
@@ -239,6 +240,7 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
         IntegrationService,
         MatrixService,
         ProjectService,
+        ProjectEditsService,
         ProjectViewFactory,
         ReleaseService,
         SearchTermService,

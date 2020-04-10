@@ -17,6 +17,8 @@ import { filter, map, takeUntil } from "rxjs/operators";
 import { Config } from "./config/config.model";
 import { selectConfigConfig } from "./config/_ngrx/config.selectors";
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
+import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
+import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
 import { EntityName } from "./files/shared/entity-name.model";
 import { FileFacetName } from "./files/shared/file-facet-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
@@ -28,7 +30,6 @@ import { HealthRequestAction } from "./system/_ngrx/health/health-request.action
 import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
 import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
 import { SystemState } from "./system.state";
-import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 
 @Component({
     selector: "app-root",
@@ -125,6 +126,14 @@ export class AppComponent implements OnInit, OnDestroy {
         return !!params["filter"];
     }
 
+    /**
+     * Load project edits data from local JSON files.
+     */
+    private loadProjectEditsData(): void {
+
+        this.store.dispatch(new FetchProjectEditsRequestAction());
+    }
+    
     /**
      * Load release data from local JSON files.
      */
@@ -285,6 +294,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.setAppStateFromURL();
         this.systemCheck();
         this.loadReleaseData();
+        this.loadProjectEditsData();
         this.initReleaseReferrerListener();
         
         this.config$ = this.store.pipe(

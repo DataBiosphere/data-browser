@@ -13,6 +13,7 @@ import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
 import { MatrixEffects } from "../files/_ngrx/matrix/matrix.effects";
 import { ProjectEffects } from "../files/_ngrx/project/project.effects";
+import { ProjectEditsEffects } from "../files/_ngrx/project-edits/project-edits.effects";
 import { ReleaseEffects } from "../files/_ngrx/release/release.effects";
 import { SystemEffects } from "../system/_ngrx/system.effects";
 import { TableEffects } from "../files/_ngrx/table/table.effects";
@@ -26,6 +27,7 @@ export const AppEffects = [
     IntegrationEffects,
     MatrixEffects,
     ProjectEffects,
+    ProjectEditsEffects,
     ReleaseEffects,
     SystemEffects,
     TableEffects,
