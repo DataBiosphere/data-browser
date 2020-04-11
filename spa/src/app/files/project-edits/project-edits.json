@@ -19,6 +19,12 @@
     },
     {
         "entryId": "c4077b3c-5c98-4d26-a614-246d12c2e5d7",
+        "contributors": [
+            {
+                "contactName": "Sarah,A,Teichmann",
+                "projectRole": "Co-investigator"
+            }
+        ],
         "publications": [
             {
                 "publicationTitle": "scRNA-seq assessment of the human lung, spleen, and esophagus tissue stability after cold preservation",
@@ -41,6 +47,19 @@
             {
                 "publicationTitle": "Single-cell transcriptomics of human T cells reveals tissue and activation signatures in health and disease",
                 "publicationUrl": "https://www.nature.com/articles/s41467-019-12464-3"
+            }
+        ]
+    },
+    {
+        "entryId": "4d6f6c96-2a83-43d8-8fe1-0f53bffd4674",
+        "contributors": [
+            {
+                "contactName": "Jeff,C,Liu",
+                "projectRole": "Computational Scientist"
+            },
+            {
+                "contactName": "Brendan,T,Innes",
+                "projectRole": "Computational Scientist"
             }
         ]
     }
