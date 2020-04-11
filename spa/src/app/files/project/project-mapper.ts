@@ -77,7 +77,6 @@ export class ProjectMapper extends ProjectRowMapper {
         }, new Map<string, Contributor>());
 
         return projectContributors.reduce((accum, contributor) => {
-            console.log(contributor.contactName);
             const updatedContributor = updatedContributorsByName.get(contributor.contactName) || {};
             accum.push(Object.assign({}, contributor, updatedContributor));
             return accum;
