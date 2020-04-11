@@ -11,6 +11,8 @@ import { EntityRow } from "../table/entity-row.model";
 import { ProjectRowMapper } from "../hca-table-projects/project-row-mapper";
 import { Project } from "../shared/project.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
+import { Contributor } from "../shared/contributor.model";
+import { Publication } from "../shared/publication.model";
 
 export class ProjectMapper extends ProjectRowMapper {
 
@@ -28,15 +30,19 @@ export class ProjectMapper extends ProjectRowMapper {
      */
     public mapRow(): EntityRow {
 
-        // If there publications listed in the updated project (from projects edits JSON), use the updated project's
-        // publications. Otherwise, use the publication data returned from the server.
-        const publications = this.updatedProject.publications && this.updatedProject.publications.length > 0 ?
-            this.updatedProject.publications :
-            this.rollupArray(this.row.projects, "publications");
+        // If there publications listed in the updated project (loaded from the projects edits JSON), use the updated
+        // project's publications. That is, replace the entire publications array returned from the server with the 
+        // publications array specified in the project edits JSON. 
+        // Otherwise, use the publication data returned from the server. 
+        const publications = this.mapPublications(this.row.projects, this.updatedProject);
+        
+        // If there are contributors listed in the updated project (loaded from the project edits JSON), use it to
+        // update the project's contributors. Otherwise, use the publication data return from server.
+        const contributors = this.mapContributors(this.row.projects, this.updatedProject);
 
         return Object.assign({}, super.mapRow(), {
             arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
-            contributors: this.rollupArray(this.row.projects, "contributors"),
+            contributors: contributors,
             fileType: (this.row.fileTypeSummaries || []).map(fileType => fileType.fileType),
             geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
             insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
@@ -45,6 +51,55 @@ export class ProjectMapper extends ProjectRowMapper {
             publications: publications,
             supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks")
         });
+    }
+
+    /**
+     * Determine the set of contributors for the project being mapped. If there are project edits for this project, we
+     * must overwrite contributor data as specified in the project edits. For contributor edits, we only overwrite the
+     * values of the contributors that are specified in the project edits JSON (and not the entire contributor list).
+     * 
+     * @param {any[]} projects
+     * @param {Project} updatedProject
+     * @returns {Contributor[]}
+     */
+    private mapContributors(projects: any[], updatedProject: Project): Contributor[] {
+        
+        const projectContributors = this.rollupArray(this.row.projects, "contributors");
+        if ( !updatedProject.contributors || updatedProject.contributors.length === 0 ) {
+            return projectContributors;
+        }
+        
+        // Updates have been specified for this project's contributors list; update according to the project edits.
+        const updatedContributorsByName = updatedProject.contributors.reduce((accum, contributor) => {
+
+            accum.set(contributor.contactName, contributor);
+            return accum;
+        }, new Map<string, Contributor>());
+
+        return projectContributors.reduce((accum, contributor) => {
+            console.log(contributor.contactName);
+            const updatedContributor = updatedContributorsByName.get(contributor.contactName) || {};
+            accum.push(Object.assign({}, contributor, updatedContributor));
+            return accum;
+        }, []);
+    }
+
+    /**
+     * Determine the set of publications for the project being mapped. If there are project edits for this project, we
+     * must overwrite publication data as specified in the project edits. For publication edits, we overwrite the entire
+     * set of publications, using only the publications set in the JSON.
+     *
+     * @param {any[]} projects
+     * @param {Project} updatedProject
+     * @returns {Contributor[]}
+     */
+    private mapPublications(projects: any[], updatedProject: Project): Publication[] {
+
+        if ( updatedProject.publications && updatedProject.publications.length > 0 ) {
+            return updatedProject.publications;
+        }
+
+        return this.rollupArray(this.row.projects, "publications");
     }
 
     /**
