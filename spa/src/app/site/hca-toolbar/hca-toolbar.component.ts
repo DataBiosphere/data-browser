@@ -7,9 +7,10 @@
 
 // Core dependencies
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -26,6 +27,9 @@ import { Subject } from "rxjs/index";
 
 export class HCAToolbarComponent implements OnDestroy, OnInit {
 
+    // Template variables
+    public dropDownMenuOpen = false;
+    private currentUrl: string;
     private ngDestroy$ = new Subject();
     private portalUrl: string;
     private state$ = new BehaviorSubject<HCAToolbarState>({
@@ -38,10 +42,39 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
+     * @param {Router} router
      */
     constructor(private store: Store<AppState>,
-                private configService: ConfigService) {
+                private configService: ConfigService,
+                private router: Router) {
         this.portalUrl = this.configService.getPortalURL();
+    }
+
+    /**
+     * Return the data portal release documentation url.
+     *
+     * @returns {string}
+     */
+    public getReleasesDocumentationUrl(): string {
+
+        return `${this.portalUrl}/releases/2020-mar`;
+    }
+
+    /**
+     * Returns true if the current navigation is "Explore".
+     *
+     * @returns {boolean}
+     */
+    public isExploreActiveUrl(): boolean {
+
+        if ( this.currentUrl ) {
+
+            const explorePaths = ["projects", "samples", "files"];
+            const explorePathExists = explorePaths.some(explorePath => this.currentUrl.includes(explorePath));
+            const homePathExists = this.currentUrl === "/";
+
+            return explorePathExists || homePathExists;
+        }
     }
 
     /**
@@ -50,6 +83,51 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     public isMenuOpen(value) {
 
         this.menuOpen.emit(value);
+    }
+
+    /**
+     * Returns true if the current navigation is "March 2020 Release".
+     *
+     * @returns {boolean}
+     */
+    public isReleasesActiveUrl(): boolean {
+
+        return this.currentUrl && this.currentUrl.includes("releases");
+    }
+
+    /**
+     * Event registering the opening or closing of the toolbar nav drop down menu.
+     *
+     * @param event
+     */
+    public onDropDownMenuOpened(event) {
+
+        this.dropDownMenuOpen = event;
+    }
+
+    /**
+     * Toggles open / closed the toolbar nav drop down menu.
+     *
+     * @param {MouseEvent} event
+     */
+    public toggleDropDownMenu(event: MouseEvent) {
+
+        event.stopPropagation();
+        this.dropDownMenuOpen = !this.dropDownMenuOpen;
+    }
+
+    /**
+     * Listens for the current url.
+     */
+    private initCurrentUrl() {
+
+        this.router.events.pipe(
+            filter(evt => evt instanceof NavigationEnd),
+            takeUntil(this.ngDestroy$)
+        ).subscribe((evt: NavigationEnd) => {
+
+                this.currentUrl = evt.url;
+        });
     }
 
     /**
@@ -65,6 +143,9 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
      * Listen for changes in modal opened/closed state and update header UI accordingly.
      */
     public ngOnInit() {
+
+        // Sets up the current url
+        this.initCurrentUrl();
 
         this.store.pipe(
             select(selectModalOpen),

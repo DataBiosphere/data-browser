@@ -18,7 +18,10 @@ import { ClipboardModule } from "ngx-clipboard";
 // App Dependencies
 import { AnnouncementComponent } from "./announcement/announcement.component";
 import { CCToolbarNavComponent } from "./cc-toolbar-nav/cc-toolbar-nav.component";
+import { CCToolbarNavDropDownComponent } from "./cc-toolbar-nav-drop-down/cc-toolbar-nav-drop-down.component";
 import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-item.component";
+import { CCToolbarNavSubMenuComponent} from "./cc-toolbar-nav-sub-menu/cc-toolbar-nav-sub-menu.component";
+import { CCToolbarNavSubMenuItemComponent } from "./cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
 import { DownloadButtonComponent } from "./download-button/download-button.component";
 import { GTMService } from "./gtm/gtm.service";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
@@ -50,7 +53,10 @@ import { NoHitsComponent } from "./no-hits/no-hits.component";
     declarations: [
         AnnouncementComponent,
         CCToolbarNavComponent,
+        CCToolbarNavDropDownComponent,
         CCToolbarNavItemComponent,
+        CCToolbarNavSubMenuComponent,
+        CCToolbarNavSubMenuItemComponent,
         CopyToClipboardComponent,
         DownloadButtonComponent,
         FileDownloadComponent,
@@ -76,7 +82,10 @@ import { NoHitsComponent } from "./no-hits/no-hits.component";
         BrowserAnimationsModule,
         CommonModule,
         CCToolbarNavComponent,
+        CCToolbarNavDropDownComponent,
         CCToolbarNavItemComponent,
+        CCToolbarNavSubMenuComponent,
+        CCToolbarNavSubMenuItemComponent,
         CopyToClipboardComponent,
         DownloadButtonComponent,
         FileDownloadComponent,
