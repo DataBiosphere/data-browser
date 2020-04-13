@@ -48,18 +48,25 @@ mat-toolbar {
         z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
     }
 
-    /* Active navigation - "Explore" */
-    cc-toolbar-nav-item.active a {
+    /* Drop down menu */
+    .drop-down-menu {
+        flex-direction: column;
+        position: relative; /* Positions drop down */
+    }
+
+    /* Active navigation */
+    cc-toolbar-nav-item.active .link {
         color: $hca-black;
         text-decoration: none;
     }
 
     /* Nav link - wrapper */
-    cc-toolbar-nav-item a {
+    cc-toolbar-nav-item .link {
         align-items: flex-start;
         color: $hca-black;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         margin: 0 24px;
         text-transform: capitalize;
 
@@ -69,17 +76,28 @@ mat-toolbar {
         }
 
         /* Title */
-        span:first-of-type {
+        .fontsize-xs {
             font-weight: 600;
             margin: 0 0 4px;
         }
 
         /* Sub title */
-        span:nth-of-type(2) {
+        .fontsize-xxs {
             letter-spacing: 1.2px;
             margin: 0;
+            text-align: left;
             text-transform: none;
+            white-space: pre-wrap;
         }
+    }
+
+    /* Nav drop down button */
+    cc-toolbar-nav-item button.link {
+        background-color: transparent;
+        border: none;
+        cursor: default;
+        padding: 0;
+        pointer-events: none;
     }
 
     /** Logo in modal */
@@ -167,13 +185,13 @@ mat-toolbar {
             padding: 0 10px;
 
             /* Link */
-            a {
+            .link {
                 color: $hca-gray-dark;
                 text-transform: capitalize;
                 margin: 0;
 
                 /* Title */
-                span:first-of-type {
+                .fontsize-xs {
                     font-size: 14px;
                     line-height: 60px;
                     margin: 0;
@@ -181,10 +199,16 @@ mat-toolbar {
                 }
 
                 /* Sub title - hide */
-                span:nth-of-type(2) {
+                .fontsize-xxs {
                     display: none;
                 }
             }
+        }
+
+        /* Nav drop down button */
+        cc-toolbar-nav-item button.link {
+            cursor: pointer;
+            pointer-events: auto;
         }
     }
 }
