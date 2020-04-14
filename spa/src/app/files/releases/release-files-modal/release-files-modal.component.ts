@@ -122,15 +122,15 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     /**
      * Track download of release file.
      * 
-     * @param {string} projectShortname
-     * @param {ReleaseFileView} releaseFile
+     * @param {string} releaseDatasetView
+     * @param {ReleaseDatasetView} releaseFile
      */
     public trackDownload(releaseDatasetView: ReleaseDatasetView, releaseFile: ReleaseFileView): void {
 
         this.gtmService.trackEvent(GACategory.DATASET, GAAction.DOWNLOAD, releaseDatasetView.datasetId, {
             [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
             [GADimension.FILE_TYPE]: releaseFile.type,
-            [GADimension.FILE_EXTENSION]: releaseFile.extension,
+            [GADimension.FILE_FORMAT]: releaseFile.extension,
             [GADimension.FILE_NAME]: releaseFile.url,
             [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
         });

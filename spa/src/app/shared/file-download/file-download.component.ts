@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FileDownloadLink } from "./file-download.model";
 
 @Component({
@@ -16,7 +16,29 @@ import { FileDownloadLink } from "./file-download.model";
 })
 export class FileDownloadComponent {
 
-    // Inputs
+    // Inputs/outputs
     @Input() link: FileDownloadLink;
     @Input() hideCopyToClipboard: boolean;
+    @Output() linkClicked = new EventEmitter<FileDownloadLink>();
+    @Output() linkCopiedToClipboard = new EventEmitter<FileDownloadLink>();
+
+    /**
+     * Let parent components know download link has been clicked.
+     * 
+     * @param {FileDownloadLink} link
+     */
+    public onLinkClicked(link: FileDownloadLink) {
+        
+        this.linkClicked.emit(link)
+    }
+
+    /**
+     * Let parent components know download link has been copied to clipboard.
+     *
+     * @param {FileDownloadLink} url
+     */
+    public onLinkCopiedToClipboard(link: FileDownloadLink) {
+
+        this.linkCopiedToClipboard.emit(link)
+    }
 }

@@ -19,7 +19,9 @@
                     <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
                         <h3 class="fontsize-l">{{species}}</h3>
                         <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
-                                       [link]="matrixUrl"></file-download>
+                                       [link]="matrixUrl"
+                                       (linkClicked)="onMatrixDownloadUrlClicked(projectTitle, $event)"
+                                       (linkCopiedToClipboard)="onMatrixDownloadUrlCopiedToClipboard(projectTitle, $event)"></file-download>
                     </ng-container>
                 </div>
                 <left-bar>

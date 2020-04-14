@@ -5,7 +5,7 @@
             <matrix-url-request-form [fileFormats]="getFileFormats(state.matrixFileFormats)"
                                      [matrixPartialQueryMatch]="state.matrixPartialQueryMatch"
                                      [matrixPartialQueryMatchCompleted]="state.matrixPartialQueryMatchCompleted"
-                                     (matrixUrlRequested)="onMatrixUrlRequested($event)"></matrix-url-request-form>
+                                     (matrixUrlRequested)="onMatrixUrlRequested(state.selectedSearchTerms, $event)"></matrix-url-request-form>
         </ng-container>
         <!-- Matrix manifest in progress/in progress -->
         <ng-container
@@ -31,7 +31,9 @@
                 </ng-container>
             </ng-container>
             <ng-container *ngFor="let matrixUrlRequest of state.matrixUrlRequests">
-                <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest">
+                <matrix-url-request-completed [matrixUrlRequest]="matrixUrlRequest"
+                                              (matrixDownloadUrlClicked)="onMatrixDownloadUrlClicked(state.selectedSearchTerms, $event)"
+                                              (matrixDownloadUrlCopiedToClipboard)="onMatrixDownloadUrlCopiedToClipboard(state.selectedSearchTerms, $event)">
                     <p class="fontsize-m semi-bold" *ngIf="isDisplayMultipleMatrixUrlRequests(state.matrixUrlRequests)">{{matrixUrlRequest.species}}</p>
                 </matrix-url-request-completed>
             </ng-container>

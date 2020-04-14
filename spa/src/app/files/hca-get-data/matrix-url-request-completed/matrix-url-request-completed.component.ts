@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
 import { MatrixService } from "../../shared/matrix.service";
@@ -21,7 +21,9 @@ export class MatrixUrlRequestCompletedComponent {
 
     // Input/output
     @Input() matrixUrlRequest: MatrixUrlRequest;
-
+    @Output() matrixDownloadUrlClicked = new EventEmitter<string>();
+    @Output() matrixDownloadUrlCopiedToClipboard = new EventEmitter<string>();
+    
     /**
      * @param {MatrixService} matrixService
      */
@@ -70,5 +72,22 @@ export class MatrixUrlRequestCompletedComponent {
     public isMatrixUrlRequestFailed(request: MatrixUrlRequest): boolean {
 
         return this.matrixService.isMatrixUrlRequestFailed(request);
+    }
+
+    /**
+     * Let parent components know download link has been clicked.
+     */
+    public onDataLinkClicked(matrixUrl: string) {
+        
+        this.matrixDownloadUrlClicked.emit(matrixUrl);
+    }
+
+
+    /**
+     * Let parent components know download link has been copied to clipboard.
+     */
+    public onDataLinkCopied(matrixUrl: string) {
+
+        this.matrixDownloadUrlCopiedToClipboard.emit(matrixUrl);
     }
 }

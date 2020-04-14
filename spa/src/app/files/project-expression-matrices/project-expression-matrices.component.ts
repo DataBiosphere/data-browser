@@ -18,6 +18,7 @@ import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-proje
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectExpressionMatricesState } from "./project-expression-matrices.state";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
 
 @Component({
     selector: "project-expression-matrices",
@@ -49,6 +50,9 @@ export class ProjectExpressionMatricesComponent {
         // Determine which matrix formats, if any, are available for download for this project
         this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
 
+        // Grab reference to selected project
+        const project$ = this.store.pipe(select(selectSelectedProject));
+
         // Grab the project matrix URLs, if any, for this project
         const projectMatrixUrls$ = this.store.pipe(
             select(selectProjectMatrixUrlsByProjectId),
@@ -56,13 +60,15 @@ export class ProjectExpressionMatricesComponent {
         );
 
         this.state$ = combineLatest(
+            project$,
             projectMatrixUrls$,
         )
             .pipe(
-                map(([projectMatrixUrls]) => {
+                map(([project, projectMatrixUrls]) => {
 
                     return {
-                        projectMatrixUrls: projectMatrixUrls,
+                        project,
+                        projectMatrixUrls
                     };
                 })
             );

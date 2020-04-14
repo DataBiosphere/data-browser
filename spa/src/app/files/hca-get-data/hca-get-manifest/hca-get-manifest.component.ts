@@ -26,7 +26,6 @@ import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { HCAGetManifestState } from "./hca-get-manifest.state";
 import { SearchTerm } from "../../search/search-term.model";
 import { FileManifestService } from "../../shared/file-manifest.service";
-import { GTMService } from "../../../shared/gtm/gtm.service";
 import { ManifestResponse } from "../../shared/manifest-response.model";
 import { ManifestStatus } from "../../shared/manifest-status.model";
 
@@ -47,12 +46,10 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
-     * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      */
     constructor(
         private configService: ConfigService,
-        private gtmService: GTMService,
         private fileManifestService: FileManifestService,
         private store: Store<AppState>) {
 
@@ -127,7 +124,7 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * Track click on manifest data link.
      *
-     * @param {SearchTerms[]} selectedSearchTerms
+     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
     public onDataLinkClicked(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
@@ -138,7 +135,7 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * Track click on copy of manifest data link.
      *
-     * @param {SearchTerms[]} selectedSearchTerms
+     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
     public onDataLinkCopied(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
@@ -148,6 +145,8 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
 
     /**
      * Dispatch action to generate manifest summary URL.  Also track export action with GA.
+     * 
+     * @param {SearchTerm[]} selectedSearchTerms
      */
     public onRequestManifest(selectedSearchTerms: SearchTerm[]) {
 

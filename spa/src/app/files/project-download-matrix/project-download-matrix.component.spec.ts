@@ -19,10 +19,12 @@ import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
 import { LeftBarComponent } from "../left-bar/left-bar.component";
+import { ProjectDownloadMatrixComponent } from "./project-download-matrix.component";
 import { GenusSpecies } from "../shared/genus-species.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
-import { ProjectDownloadMatrixComponent } from "./project-download-matrix.component";
+import { GTMService } from "../../shared/gtm/gtm.service";
+import { MatrixService } from "../shared/matrix.service";
 
 describe("ProjectDownloadMatrixComponent", () => {
 
@@ -79,6 +81,21 @@ describe("ProjectDownloadMatrixComponent", () => {
             ],
             providers: [
                 ConfigService,
+                {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
+                    ])
+                },
+                {
+                    provide: MatrixService,
+                    useValue: jasmine.createSpyObj("MatrixService", [
+                        "trackRequestCohortMatrix",
+                        "trackDownloadCohortMatrix",
+                        "trackCopyToClipboardCohortMatrixLink",
+                        
+                    ])
+                },
                 {
                     provide: Store,
                     useValue: testStore
