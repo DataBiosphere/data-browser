@@ -116,8 +116,8 @@ export class ReleaseVisualizationsModalComponent implements OnDestroy, OnInit {
      */
     public trackExternalLink(releaseDatasetView: ReleaseDatasetView, visualization: ReleaseVisualization): void {
 
-        this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, visualization.url, {
-            [GADimension.DATASET_NAME]: releaseDatasetView.datasetId,
+        this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, releaseDatasetView.datasetId, {
+            [GADimension.ENTITY_URL]: visualization.url,
             [GADimension.TOOL_NAME]: visualization.title,
             [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
         });

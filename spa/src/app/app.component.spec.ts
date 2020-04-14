@@ -35,6 +35,9 @@ import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
 import { ActivatedRouteStub } from "./test/activated-route.stub";
+import { CCToolbarNavSubMenuComponent } from "./shared/cc-toolbar-nav-sub-menu/cc-toolbar-nav-sub-menu.component";
+import { CCToolbarNavSubMenuItemComponent } from "./shared/cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
+import { CCToolbarNavDropDownComponent } from "./shared/cc-toolbar-nav-drop-down/cc-toolbar-nav-drop-down.component";
 
 
 describe("AppComponent:", () => {
@@ -60,6 +63,9 @@ describe("AppComponent:", () => {
                 AppComponent,
                 CCToolbarNavComponent,
                 CCToolbarNavItemComponent,
+                CCToolbarNavSubMenuComponent,
+                CCToolbarNavSubMenuItemComponent,
+                CCToolbarNavDropDownComponent,
                 DataPolicyFooterComponent,
                 DesktopFooterComponent,
                 HCAFooterComponent,

@@ -6,11 +6,11 @@
  */
 
 export enum GADimension {
-    "DATASET_NAME" = "datasetName",
-    "FILE_EXTENSION" = "fileExtension",
+    "ENTITY_TYPE" = "entityType",
+    "ENTITY_URL" = "entityUrl",
     "FILE_NAME" = "fileName",
+    "FILE_EXTENSION" = "fileExtension",
     "FILE_TYPE" = "fileType",
-    "QUERY" = "query",
-    "RELEASE_NAME" = "releaseName",
-    "TOOL_NAME" = "toolName"
+    "TOOL_NAME" = "toolName",
+    "RELEASE_NAME" = "releaseName"
 }
