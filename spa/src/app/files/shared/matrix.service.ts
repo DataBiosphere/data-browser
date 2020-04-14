@@ -27,6 +27,12 @@ import { MatrixUrlRequestHttpResponse } from "./matrix-url-request-http-response
 import { MatrixUrlRequestSpecies } from "./matrix-url-request-species.model";
 import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { SearchTermService } from "./search-term.service";
+import { GTMService } from "../../shared/gtm/gtm.service";
+import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
+import { GACategory } from "../../shared/gtm/ga-category.model";
+import { GADimension } from "../../shared/gtm/ga-dimension.model";
+import { GAAction } from "../../shared/gtm/ga-action.model";
 import { SpeciesMatrixUrls } from "./species-matrix-urls.model";
 
 @Injectable()
@@ -34,11 +40,15 @@ export class MatrixService {
 
     /**
      * @param {ConfigService} configService
+     * @param {GTMService} gtmService
      * @param {FileManifestService} manifestService
+     * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
+                private gtmService: GTMService,
                 private manifestService: FileManifestService,
+                private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -275,6 +285,51 @@ export class MatrixService {
     }
 
     /**
+     * Build up and send GTM event to track a matrix request from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {MatrixFormat} fileFormat
+     */
+    public trackRequestCohortMatrix(selectedSearchTerms: SearchTerm[], fileFormat: MatrixFormat) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.REQUEST, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX,
+            [GADimension.FILE_FORMAT]: fileFormat
+        });
+    }
+
+    /**
+     * Track click on matrix download link from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} matrixUrl
+     */
+    public trackDownloadCohortMatrix(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.DOWNLOAD, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
+            [GADimension.ENTITY_URL]: matrixUrl
+        });
+    }
+
+    /**
+     * Track click on copy to clipboard of the generated matrix download link from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} matrixUrl
+     */
+    public trackCopyToClipboardCohortMatrixLink(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.COPY_TO_CLIPBOARD, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
+            [GADimension.ENTITY_URL]: matrixUrl
+        });
+    }
+    
+    /**
      * Normalize matrix URL response to FE-friendly format.
      *
      * @param {MatrixUrlRequestHttpResponse} httpResponse
@@ -290,6 +345,38 @@ export class MatrixService {
             species,
             status: this.translateMatrixStatus(httpResponse.status)
         } as MatrixUrlRequest;
+    }
+
+    /**
+     * Track click on the pre-generated, project-specific matrix download link.
+     *
+     * @param {string} projectTitle
+     * @param {string} matrixUrl
+     * @param {MatrixFileFormat} fileFormat
+     */
+    public trackDownloadProjectMatrix(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
+
+        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.DOWNLOAD, projectTitle, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
+            [GADimension.ENTITY_URL]: matrixUrl,
+            [GADimension.FILE_FORMAT]: fileFormat
+        });
+    }
+
+    /**
+     * Track click on copy to clipboard of the pre-generated, project-specific matrix download link.
+     *
+     * @param {string} projectTitle
+     * @param {string} matrixUrl
+     * @param {MatrixFileFormat} fileFormat
+     */
+    public trackCopyToClipboardProjectMatrixtLink(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
+
+        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.COPY_TO_CLIPBOARD, projectTitle, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
+            [GADimension.ENTITY_URL]: matrixUrl,
+            [GADimension.FILE_FORMAT]: fileFormat
+        });
     }
 
     /**

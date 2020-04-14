@@ -24,11 +24,12 @@ import {
     selectMatrixUrlRequestsBySpecies
 } from "../../_ngrx/matrix/matrix.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
+import { FetchMatrixPartialQueryMatchRequestAction } from "../../_ngrx/matrix/fetch-matrix-partial-query-match-request.action";
+import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-matrix-partial-query-match.action";
+import { SearchTerm } from "../../search/search-term.model";
 import { MatrixFormat } from "../../shared/matrix-format.model";
 import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixService } from "../../shared/matrix.service";
-import { FetchMatrixPartialQueryMatchRequestAction } from "../../_ngrx/matrix/fetch-matrix-partial-query-match-request.action";
-import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-matrix-partial-query-match.action";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
 
 @Component({
@@ -132,13 +133,37 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Request matrix.
+     * Request matrix, and also track request.
      *
+     * @param {SearchTerm[]} selectedSearchTerms
      * @param {MatrixFormat} fileFormat
      */
-    public onMatrixUrlRequested(fileFormat: MatrixFormat) {
+    public onMatrixUrlRequested(selectedSearchTerms: SearchTerm[], fileFormat: MatrixFormat) {
 
+        this.matrixService.trackRequestCohortMatrix(selectedSearchTerms, fileFormat);
         this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat, this.ngDestroy$));
+    }
+
+    /**
+     * Track click on matrix download URL. 
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} matrixDownloadUrl
+     */
+    public onMatrixDownloadUrlClicked(selectedSearchTerms: SearchTerm[], matrixDownloadUrl: string) {
+
+        this.matrixService.trackDownloadCohortMatrix(selectedSearchTerms, matrixDownloadUrl);
+    }
+
+    /**
+     * Track click on matrix download URL.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} matrixDownloadUrl
+     */
+    public onMatrixDownloadUrlCopiedToClipboard(selectedSearchTerms: SearchTerm[], matrixDownloadUrl: string) {
+
+        this.matrixService.trackCopyToClipboardCohortMatrixLink(selectedSearchTerms, matrixDownloadUrl);
     }
 
     /**

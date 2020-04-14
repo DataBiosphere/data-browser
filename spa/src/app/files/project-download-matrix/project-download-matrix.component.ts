@@ -11,6 +11,9 @@ import { Component, Input } from "@angular/core";
 
 // App dependencies
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { MatrixService } from "../shared/matrix.service";
+import { MatrixFormat } from "../shared/matrix-format.model";
+import { FileDownloadLink } from "../../shared/file-download/file-download.model";
 
 @Component({
     selector: "project-download-matrix",
@@ -27,9 +30,15 @@ export class ProjectDownloadMatrixComponent {
     };
 
     // Inputs
+    @Input() projectTitle: string;
     @Input('classFontName') classFontName: string;
     @Input() projectMatrixUrls: ProjectMatrixUrls;
 
+    /**
+     * @param {MatrixService} matrixService
+     */
+    constructor(private matrixService: MatrixService) {}
+    
     /**
      * Returns the count of available file formats.
      *
@@ -74,5 +83,27 @@ export class ProjectDownloadMatrixComponent {
     public isCommaDelimited(first: boolean, last:boolean): boolean {
 
         return !first && !last
+    }
+
+    /**
+     * Track click on download matrix URL.
+     *
+     * @param {string} projectTitle 
+     * @param {FileDownloadLink} link
+     */
+    public onMatrixDownloadUrlClicked(projectTitle: string, link: FileDownloadLink) {
+
+        this.matrixService.trackDownloadProjectMatrix(projectTitle, link.url, MatrixFormat[link.name]);
+    }
+
+    /**
+     * Track matrix URL copied to clipboard.
+     *
+     * @param {string} projectTitle
+     * @param {FileDownloadLink} link
+     */
+    public onMatrixDownloadUrlCopiedToClipboard(projectTitle: string, link: FileDownloadLink) {
+
+        this.matrixService.trackCopyToClipboardProjectMatrixtLink(projectTitle, link.url, MatrixFormat[link.name]);
     }
 }

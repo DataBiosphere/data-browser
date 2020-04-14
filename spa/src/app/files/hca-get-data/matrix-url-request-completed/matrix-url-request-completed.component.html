@@ -11,7 +11,9 @@
         “Save Link As...”.</p>
     <p class="fontsize-m">This link expires in 30 days.</p>
     <div class="download">
-        <display-data-link [link]="getMatrixLink(matrixUrlRequest)"></display-data-link>
-        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(matrixUrlRequest)"></copy-to-clipboard>
+        <display-data-link [link]="getMatrixLink(matrixUrlRequest)"
+                           (dataLinkClicked)="onDataLinkClicked(getMatrixLink(matrixUrlRequest))"></display-data-link>
+        <copy-to-clipboard [copyToClipboardLink]="getMatrixLink(matrixUrlRequest)"
+                           (copyClicked)="onDataLinkCopied(getMatrixLink(matrixUrlRequest))"></copy-to-clipboard>
     </div>
 </ng-container>
