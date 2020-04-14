@@ -28,6 +28,11 @@ import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { SearchTermService } from "./search-term.service";
+import { GAAction } from "../../shared/gtm/ga-action.model";
+import { GACategory } from "../../shared/gtm/ga-category.model";
+import { GADimension } from "../../shared/gtm/ga-dimension.model";
+import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
+import { GTMService } from "../../shared/gtm/gtm.service";
 
 @Injectable()
 export class FileManifestService {
@@ -35,12 +40,14 @@ export class FileManifestService {
     /**
      * @param {ConfigService} configService
      * @param {FilesService} filesService
+     * @param {GTMService} gtmService
      * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      *
      */
     constructor(private configService: ConfigService,
                 private filesService: FilesService,
+                private gtmService: GTMService,
                 private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
@@ -134,6 +141,75 @@ export class FileManifestService {
         return this.filesService.fetchFileSummary(searchTermsExceptFileTypes);
     }
 
+    /**
+     * Build up and send GTM event to track a manifest request from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     */
+    public trackRequestCohortManifest(selectedSearchTerms: SearchTerm[]) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.REQUEST, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
+        });
+    }
+
+    /**
+     * Track click on manifest download link from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} manifestUrl
+     */
+    public trackDownloadCohortManifest(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.DOWNLOAD, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
+            [GADimension.ENTITY_URL]: manifestUrl
+        });
+    }
+
+    /**
+     * Track click on copy to clipboard of the generated manifest download link from "get data" flow.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} manifestUrl
+     */
+    public trackCopyToClipboardCohortManifestLink(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.COPY_TO_CLIPBOARD, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
+            [GADimension.ENTITY_URL]: manifestUrl
+        });
+    }
+
+    /**
+     * Track click on the pre-generated, project-specific manifest download link.
+     *
+     * @param {string} projectTitle
+     */
+    public trackDownloadProjectManifest(projectTitle: string) {
+
+        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.DOWNLOAD, projectTitle, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK
+        });
+    }
+
+    /**
+     * Track click on copy to clipboard of the pre-generated, project-specific manifest download link.
+     *
+     * @param {string} projectTitle
+     * @param {string} manifestUrl
+     */
+    public trackCopyToClipboardProjectManifestLink(projectTitle: string, manifestUrl: string) {
+
+        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.COPY_TO_CLIPBOARD, projectTitle, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK,
+            [GADimension.ENTITY_URL]: manifestUrl
+        });
+    }
+    
     /**
      * Add all file formats to the set of search terms. When no file formats are currently selected in the set of
      * search terms, we must convert this to all file formats.

@@ -22,6 +22,12 @@ import { ICGCQuery } from "./icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchTermService } from "./search-term.service";
+import { ToolName } from "./tool-name.model";
+import { GACategory } from "../../shared/gtm/ga-category.model";
+import { GADimension } from "../../shared/gtm/ga-dimension.model";
+import { GAAction } from "../../shared/gtm/ga-action.model";
+import { GTMService } from "../../shared/gtm/gtm.service";
+import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
 
 @Injectable()
 export class TerraService {
@@ -29,11 +35,13 @@ export class TerraService {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
+     * @param {GTMService} gtmService
      * @param {SearchTermService} searchTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private fileManifestService: FileManifestService,
+                private gtmService: GTMService,
                 private searchTermService: SearchTermService,
                 private httpClient: HttpClient) {
     }
@@ -136,6 +144,52 @@ export class TerraService {
         this.requestExportToTerra(getRequest, exportResponse$);
 
         return exportResponse$.asObservable();
+    }
+
+    /**
+     * Build up and send GTM event to track a export to Terra request.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     */
+    public trackRequestExportToTerra(selectedSearchTerms: SearchTerm[]) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.REQUEST, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
+    }
+
+    /**
+     * Track click on generated Terra link (that opens the Terra workspace).
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} exportToTerraUrl
+     */
+    public trackLaunchTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.LAUNCH, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
+            [GADimension.ENTITY_URL]: exportToTerraUrl,
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
+    }
+
+    /**
+     * Track click on copy to clipboard of the generated Terra link (that opens the Terra workspace).
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {string} exportToTerraUrl
+     */
+    public trackCopyToClipboardTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
+
+        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.COPY_TO_CLIPBOARD, query, {
+            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
+            [GADimension.ENTITY_URL]: exportToTerraUrl,
+            [GADimension.TOOL_NAME]: ToolName.TERRA
+        });
     }
 
     /**

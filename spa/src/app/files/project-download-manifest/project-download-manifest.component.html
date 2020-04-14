@@ -3,7 +3,7 @@
     <div class="downloads">
         <div class="manifest">
             <div class="download-progress-indicator">
-                <div class="download-not-started" (click)="onDownloadMetadata()"
+                <div class="download-not-started" (click)="onDownloadMetadata(projectTitle)"
                      *ngIf="state.projectTSVUrlNotStarted"></div>
                 <mat-spinner class="hca-spinner"
                              diameter="14"
@@ -14,7 +14,8 @@
             <span class="fontsize-s">tsv</span>
             <a class="hidden" #download></a>
             <copy-to-clipboard *ngIf="state.projectTSVUrlCompleted"
-                               [copyToClipboardLink]="state.projectTSVUrlResponse.fileUrl"></copy-to-clipboard>
+                               [copyToClipboardLink]="state.projectTSVUrlResponse.fileUrl"
+                               (copyClicked)="onDataLinkCopied(projectTitle, state.projectTSVUrlResponse.fileUrl)"></copy-to-clipboard>
         </div>
         <left-bar>
             <data-download-citation></data-download-citation>

@@ -20,6 +20,8 @@ import { selectProjectTSVUrlsByProjectId } from "../_ngrx/project/project.select
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { ProjectTSVUrlResponse } from "../project/project-tsv-url-response.model";
 import { ProjectDownloadManifestState } from "./project-download-manifest.state";
+import { SearchTerm } from "../search/search-term.model";
+import { FileManifestService } from "../shared/file-manifest.service";
 
 @Component({
     selector: "project-download-manifest",
@@ -43,17 +45,31 @@ export class ProjectDownloadManifestComponent implements OnDestroy {
     @ViewChild("download" , { static: false }) downloadEl: ElementRef;
 
     /**
+     * @param {FileManifestService} fileManifestService
      * @param {Store<AppState>} store
      */
-    public constructor(private store: Store<AppState>) {}
+    public constructor(private fileManifestService: FileManifestService, private store: Store<AppState>) {}
+
+    /**
+     * Track click on copy of manifest data link.
+     *
+     * @param {string} projectTitle
+     * @param {string} manifestUrl
+     */
+    public onDataLinkCopied(projectTitle: string, manifestUrl: string) {
+
+        this.fileManifestService.trackCopyToClipboardProjectManifestLink(projectTitle, manifestUrl);
+    }
 
     /**
      * Return the URL to the meta TSV for the specified project.
      *
+     * @param {string} projectTitle
      * @returns {string}
      */
-    public onDownloadMetadata() {
+    public onDownloadMetadata(projectTitle: string) {
 
+        this.fileManifestService.trackDownloadProjectManifest(projectTitle);
         this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle, this.ngDestroy$));
     }
 
