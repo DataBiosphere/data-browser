@@ -1,5 +1,7 @@
-<a [href]="link.url" class="fontsize-s">
+<a [href]="link.url" (click)="onLinkClicked(link)" class="fontsize-s">
     <img src="assets/images/icon/hca-download-primary.png">
     <span *ngIf="!!link.name">{{link.name}}</span>
 </a>
-<copy-to-clipboard *ngIf="!hideCopyToClipboard" [copyToClipboardLink]="link.url"></copy-to-clipboard>
+<copy-to-clipboard *ngIf="!hideCopyToClipboard"
+                   [copyToClipboardLink]="link.url"
+                   (copyClicked)="onLinkCopiedToClipboard(link)"></copy-to-clipboard>

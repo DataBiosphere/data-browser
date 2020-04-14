@@ -10,5 +10,8 @@ export enum GAEntityType {
     "COHORT_EXPORT_LINK" = "Cohort Export Link", // eg Click on generated Terra link, click on copy to clipboard for generated Terra link
     "COHORT_MANIFEST" = "Cohort Manifest",
     "COHORT_MANIFEST_LINK" = "Cohort Manifest Link",
-    "PROJECT_MANIFEST_LINK" = "Project Manifest Link"
+    "COHORT_MATRIX" = "Cohort Matrix",
+    "COHORT_MATRIX_LINK" = "Cohort Matrix Link",
+    "PROJECT_MANIFEST_LINK" = "Project Manifest Link",
+    "PROJECT_MATRIX_LINK" = "Project Matrix Link"
 }

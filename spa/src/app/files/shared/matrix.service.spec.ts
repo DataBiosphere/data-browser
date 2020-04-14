@@ -13,6 +13,9 @@ import { of } from "rxjs";
 // App dependencies
 import { FileManifestService } from "./file-manifest.service";
 import { MatrixService } from "./matrix.service";
+import { GTMService } from "../../shared/gtm/gtm.service";
+import { SearchTermService } from "./search-term.service";
+import { TermResponseService } from "./term-response.service";
 
 describe("MatrixService:", () => {
 
@@ -27,9 +30,9 @@ describe("MatrixService:", () => {
             imports: [
             ],
             providers: [{
-                provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["buildApiUrl"])
-            },
+                    provide: ConfigService,
+                    useValue: jasmine.createSpyObj("ConfigService", ["buildApiUrl"])
+                },
                 {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
@@ -39,13 +42,24 @@ describe("MatrixService:", () => {
                         "fetchFileManifestSummary",
                         "fetchFileManifestFileSummary"
                     ])
+                },
+                {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
+                    ])
                 }]
         });
 
         const configService = TestBed.get(ConfigService);
         const fileManifestService = TestBed.get(FileManifestService);
+        const gtmService = TestBed.get(GTMService);
+
+        const termResponseService = new TermResponseService();
+        const searchTermService = new SearchTermService(termResponseService);
+        
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
-        matrixService = new MatrixService(configService, fileManifestService, <any>httpClientSpy);
+        matrixService = new MatrixService(configService, gtmService, fileManifestService, searchTermService, <any>httpClientSpy);
     }));
 
     /**

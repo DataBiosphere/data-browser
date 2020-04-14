@@ -15,13 +15,15 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App components
 import { ConfigService } from "../../../config/config.service";
-import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { FileManifestService } from "../../shared/file-manifest.service";
-import { MatrixService } from "../../shared/matrix.service";
-import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
 import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixUrlRequestCompletedComponent } from "./matrix-url-request-completed.component";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { GTMService } from "../../../shared/gtm/gtm.service";
+import { FileManifestService } from "../../shared/file-manifest.service";
+import { MatrixService } from "../../shared/matrix.service";
+import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
+import { SearchTermService } from "../../shared/search-term.service";
 
 describe("MatrixUrlRequestCompleted", () => {
 
@@ -43,7 +45,7 @@ describe("MatrixUrlRequestCompleted", () => {
 
     // Text values
     const SPECIES_HOMO = "Homo sapiens";
-    const SPECIES_MUS = "Mus musculus";
+    const SPECIES_MUS = "Mus musdisplays no species label when multiple matrix url requests are completed but only one request has datculus";
     const URL_DATA = "https://test.com";
     const URL_DATA_NULL = "";
 
@@ -94,9 +96,20 @@ describe("MatrixUrlRequestCompleted", () => {
                         "get", "head", "post"
                     ])
                 }, {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
+                    ])
+                }, {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
                         "requestMatrixFileManifestUrl"
+                    ])
+                }, {
+                    provide: SearchTermService,
+                    useValue: jasmine.createSpyObj("SearchTermService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms"
                     ])
                 }, {
                     provide: Store,
