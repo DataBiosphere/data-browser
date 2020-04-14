@@ -32,7 +32,8 @@
             </ng-container>
             <ng-container matColumnDef="copyLink">
                 <mat-cell *matCellDef="let element" class="copy-to-clipboard fontsize-xxs">
-                    <copy-to-clipboard [copyToClipboardLink]="getReleaseFileUrl(element.url)"></copy-to-clipboard>
+                    <copy-to-clipboard [copyToClipboardLink]="getReleaseFileUrl(element.url)"
+                                       (copyClicked)="trackReleaseFileUrlCopied(state.releaseDataset, element)"></copy-to-clipboard>
                 </mat-cell>
             </ng-container>
             <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
