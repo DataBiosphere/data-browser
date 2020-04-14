@@ -137,6 +137,23 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Track copy to clipboard of release file URL.
+     *
+     * @param {string} releaseDatasetView
+     * @param {ReleaseDatasetView} releaseFile
+     */
+    public trackReleaseFileUrlCopied(releaseDatasetView: ReleaseDatasetView, releaseFile: ReleaseFileView): void {
+
+        this.gtmService.trackEvent(GACategory.DATASET, GAAction.COPY_TO_CLIPBOARD, releaseDatasetView.datasetId, {
+            [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
+            [GADimension.FILE_TYPE]: releaseFile.type,
+            [GADimension.FILE_FORMAT]: releaseFile.extension,
+            [GADimension.FILE_NAME]: releaseFile.url,
+            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
+        });
+    }
+
+    /**
      * Create model of dataset to back modal. The specified release is expected to have a single project containing a
      * single dataset; the dataset we want to display.
      *
