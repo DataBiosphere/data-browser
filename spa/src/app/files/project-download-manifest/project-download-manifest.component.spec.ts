@@ -17,6 +17,7 @@ import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
 import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest.component";
+import { FileManifestService } from "../shared/file-manifest.service";
 
 describe("ProjectDownloadManifestComponent", () => {
 
@@ -44,6 +45,16 @@ describe("ProjectDownloadManifestComponent", () => {
                 {
                     provide: Store,
                     useValue: testStore
+                },
+                {
+                    provide: FileManifestService,
+                    useValue: jasmine.createSpyObj("FileManifestService", [
+                        "trackRequestCohortManifest",
+                        "trackDownloadCohortManifest",
+                        "trackCopyToClipboardCohortManifestLink",
+                        "trackDownloadProjectManifest",
+                        "trackCopyToClipboardProjectManifestLink"
+                    ])
                 }
             ]
         }).compileComponents();

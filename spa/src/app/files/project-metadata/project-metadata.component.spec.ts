@@ -23,6 +23,7 @@ import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock
 import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";
+import { FileManifestService } from "../shared/file-manifest.service";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -72,6 +73,16 @@ describe("ProjectMetadataComponent", () => {
                 {
                     provide: Store,
                     useValue: testStore
+                },
+                {
+                    provide: FileManifestService,
+                    useValue: jasmine.createSpyObj("FileManifestService", [
+                        "trackRequestCohortManifest",
+                        "trackDownloadCohortManifest",
+                        "trackCopyToClipboardCohortManifestLink",
+                        "trackDownloadProjectManifest",
+                        "trackCopyToClipboardProjectManifestLink"
+                    ])
                 }
             ]
         }).compileComponents();

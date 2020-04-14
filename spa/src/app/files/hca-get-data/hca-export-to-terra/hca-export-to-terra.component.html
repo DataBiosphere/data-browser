@@ -7,7 +7,11 @@
         <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"></file-type-summary-list>
-            <button class="button primary" type="button" (click)="onExportToTerra(state.selectedSearchTerms)" [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export</button>
+            <button class="button primary"
+                    type="button"
+                    (click)="onExportToTerra(state.selectedSearchTerms)"
+                    [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
+            </button>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
@@ -24,10 +28,10 @@
         </hca-get-data-panel>
         <div class="download">
             <display-data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               [targetBlank]="true" 
-                               (dataLinkClicked)="onDataLinkClicked(getTerraServiceUrl(state.exportToTerraUrl))"></display-data-link>
+                               [targetBlank]="true"
+                               (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></display-data-link>
             <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               (copyClicked)="onDataLinkCopied(getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+                               (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
         </div>
     </ng-container>
     <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">

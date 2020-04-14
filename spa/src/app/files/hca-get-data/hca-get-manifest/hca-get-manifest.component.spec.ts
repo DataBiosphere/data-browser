@@ -26,6 +26,8 @@ import { TermSortService } from "../../sort/term-sort.service";
 import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetManifestComponent } from "./hca-get-manifest.component";
+import { GTMService } from "../../../shared/gtm/gtm.service";
+import { FileManifestService } from "../../shared/file-manifest.service";
 
 describe("HCAGetManifestComponent", () => {
 
@@ -76,6 +78,22 @@ describe("HCAGetManifestComponent", () => {
                 {
                     provide: ConfigService,
                     useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                },
+                {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
+                    ])
+                },
+                {
+                    provide: FileManifestService,
+                    useValue: jasmine.createSpyObj("FileManifestService", [
+                        "trackRequestCohortManifest",
+                        "trackDownloadCohortManifest",
+                        "trackCopyToClipboardCohortManifestLink",
+                        "trackDownloadProjectManifest",
+                        "trackCopyToClipboardProjectManifestLink"
+                    ])
                 },
                 {
                     provide: Store,
