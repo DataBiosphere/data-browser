@@ -51,7 +51,8 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </cc-toolbar-nav-item>
-            <cc-toolbar-nav-item [ngClass]="{'active': isReleasesActiveUrl(), 'drop-down-menu': true}">
+            <cc-toolbar-nav-item *ngIf="isReleaseVisible()"
+                                 [ngClass]="{'active': isReleasesActiveUrl(), 'drop-down-menu': true}">
                 <button class="link" (click)="toggleDropDownMenu($event)">
                     <span class="fontsize-xs">March 2020 Release</span>
                     <span class="fontsize-xxs">Explore, visualize, and interact with 24 annotated datasets</span>

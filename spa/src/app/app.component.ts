@@ -19,6 +19,7 @@ import { selectConfigConfig } from "./config/_ngrx/config.selectors";
 import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
+import { ReleaseService } from "./files/shared/release.service";
 import { EntityName } from "./files/shared/entity-name.model";
 import { FileFacetName } from "./files/shared/file-facet-name.model";
 import { QueryStringFacet } from "./files/shared/query-string-facet.model";
@@ -49,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     /**
      * @param {DeviceDetectorService} deviceService
+     * @param {ReleaseService} releaseService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Location} location
@@ -56,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Renderer2} renderer
      */
     constructor(private deviceService: DeviceDetectorService,
+                private releaseService: ReleaseService,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
                 private location: Location,
@@ -106,11 +109,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true when the url path is not the releases or project detail pages.
+     * Returns true when the url path is not the releases or project detail pages, and if we're currently on an
+     * environment where release is visible.
      *
      * @returns {boolean}
      */
     public showRelease() {
+        
+        if ( !this.releaseService.isReleaseVisible() ) {
+            return false;
+        }
 
         return !( this.router.url.includes("/releases/") || this.router.url.includes("/projects/") );
     }

@@ -152,6 +152,26 @@ export class ConfigService {
     }
 
     /**
+     * Returns true if the current environment is local.
+     *
+     * @returns {boolean}
+     */
+    public isEnvLocal(): boolean {
+
+        return this.deployment === "local";
+    }
+
+    /**
+     * Returns true if the current environment is ux-dev.
+     *
+     * @returns {boolean}
+     */
+    public isEnvUxDev(): boolean {
+
+        return this.deployment === "ux-dev";
+    }
+
+    /**
      * Save the data URL as a local variable ogetAPIURLn this instance, and update the corresponding config value in the store.
      *
      * @param config {Config}
