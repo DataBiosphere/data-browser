@@ -35,6 +35,7 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 88,
         columnSort: true,
+        countName: "specimenDisease",
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -151,6 +152,7 @@ let tableColumns: TableColumn[] = [
         columnFlexDirection: ColumnFlexDirection.COLUMN,
         columnMinWidth: 100,
         columnSort: true,
+        countName: "specimenOrgan",
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -159,6 +161,7 @@ let tableColumns: TableColumn[] = [
         description: "A term for a specific part of the organ that the biomaterial came from.",
         alignment: ColumnAlignment.LEFT,
         columnSort: true,
+        countName: "specimenOrganPart",
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -305,6 +308,17 @@ export function getColumnClass(column: string): { [className: string]: boolean }
 export function getColumnCountType(column: string): string {
 
     return CountType[tableColumn.get(column).countType];
+}
+
+/**
+ * Returns count name for specified column if specified, otherwise returns the column name.
+ *
+ * @param {string} columnName
+ * @returns {string}
+ */
+export function getColumnCountName(columnName: string): string {
+
+    return tableColumn.get(columnName).countName || columnName;
 }
 
 /**

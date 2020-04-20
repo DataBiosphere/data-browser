@@ -18,6 +18,7 @@ export interface TableColumn {
     columnSortKey?: string;
     columnTitleWidth?: number;
     countType: CountType;
+    countName?: string;
     description?: string;
     descriptionFiles?: string;
     descriptionProjects?: string;
