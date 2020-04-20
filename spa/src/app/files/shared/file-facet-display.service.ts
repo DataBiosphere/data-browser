@@ -29,7 +29,7 @@ export class FileFacetDisplayService {
         },
         {
             facetGroupName: "Specimen",
-            facetNames: ["disease"]
+            facetNames: ["specimenDisease"]
         },
         {
             facetGroupName: "Method",
