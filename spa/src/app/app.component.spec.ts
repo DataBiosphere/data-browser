@@ -38,6 +38,7 @@ import { ActivatedRouteStub } from "./test/activated-route.stub";
 import { CCToolbarNavSubMenuComponent } from "./shared/cc-toolbar-nav-sub-menu/cc-toolbar-nav-sub-menu.component";
 import { CCToolbarNavSubMenuItemComponent } from "./shared/cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
 import { CCToolbarNavDropDownComponent } from "./shared/cc-toolbar-nav-drop-down/cc-toolbar-nav-drop-down.component";
+import { ReleaseService } from "./files/shared/release.service";
 
 
 describe("AppComponent:", () => {
@@ -101,6 +102,9 @@ describe("AppComponent:", () => {
             }, {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
+            }, {
+                provide: ReleaseService,
+                useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseVisible"])
             }]
         });
 

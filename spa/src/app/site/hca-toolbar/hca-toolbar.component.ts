@@ -14,6 +14,7 @@ import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { ReleaseService } from "../../files/shared/release.service";
 import { HCAToolbarState } from "./hca-toolbar.state";
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../_ngrx/app.state";
@@ -42,10 +43,12 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
+     * @param {ReleaseService} releaseService
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private configService: ConfigService,
+                private releaseService: ReleaseService,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalURL();
     }
@@ -93,6 +96,16 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     public isReleasesActiveUrl(): boolean {
 
         return this.currentUrl && this.currentUrl.includes("releases");
+    }
+
+    /**
+     * Returns true if release functionality is available on the current environment.
+     * 
+     * @returns {boolean}
+     */
+    public isReleaseVisible(): boolean {
+        
+        return this.releaseService.isReleaseVisible();
     }
 
     /**

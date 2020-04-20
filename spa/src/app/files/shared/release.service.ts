@@ -19,6 +19,7 @@ import { ReleaseDatasetView } from "../releases/release-dataset-view.model";
 import { ReleaseFileView } from "../releases/release-file-view.model";
 import { ReleaseFileType } from "../releases/release-file-type.model";
 import { ReleaseVisualizationView } from "../releases/release-visualization-view.model";
+import { ConfigService } from "../../config/config.service";
 
 @Injectable()
 export class ReleaseService {
@@ -37,6 +38,11 @@ export class ReleaseService {
         [`${ReleaseFileType.CSV}csv`, "A CSV version of the Cumulus output differential expression with correction; can be visualized in R or Python."],
         [`${ReleaseFileType.PIPELINE_INPUT}loom`, "Gene matrix file generated with DCP standardized pipelines (Optimus and Smart-seq2) and used as Cumulus input."]
     ]);
+
+    /**
+     * @param {ConfigService} configService
+     */
+    constructor(private configService: ConfigService) {}
 
     /**
      * Build view model of release. That is, project datasets grouped by organ.
@@ -116,6 +122,17 @@ export class ReleaseService {
     public fetch2020MarchRelease(): Observable<Release> {
 
         return of(release2020March as Release);
+    }
+
+    /**
+     * Returns true if release functionality is visible for the current environment - currently only visible on local
+     * and ux-dev.
+     * 
+     * @returns {boolean}
+     */
+    public isReleaseVisible(): boolean {
+
+        return this.configService.isEnvLocal() || this.configService.isEnvUxDev();
     }
 
     /**

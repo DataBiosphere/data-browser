@@ -13,9 +13,10 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { NavItem } from "../../shared/nav/nav-item.model";
-import { EntityName } from "../shared/entity-name.model";
 import { ProjectNav } from "./project-nav.model";
+import { EntityName } from "../shared/entity-name.model";
+import { NavItem } from "../../shared/nav/nav-item.model";
+import { ReleaseService } from "../shared/release.service";
 
 @Component({
     selector: "project-nav",
@@ -42,8 +43,11 @@ export class ProjectNavComponent {
     /**
      * @param {ActivatedRoute} route
      * @param {DeviceDetectorService} deviceService
+     * @param {ReleaseService} releaseService
      */
-    constructor(private route: ActivatedRoute, private deviceService: DeviceDetectorService) {
+    constructor(private route: ActivatedRoute,
+                private deviceService: DeviceDetectorService,
+                private releaseService: ReleaseService) {
     }
 
     /**
@@ -73,7 +77,7 @@ export class ProjectNavComponent {
             ];
 
             // Check if project is a part of the release and add "releases" to the nav accordingly
-            if ( this.projectInRelease ) {
+            if ( this.releaseService.isReleaseVisible() && this.projectInRelease ) {
 
                 navItemList.push(this.projectReleases);
             }
@@ -174,14 +178,16 @@ export class ProjectNavComponent {
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
             };
 
-            this.projectReleases = {
-                disabled: false,
-                display: "Releases",
-                subNavItems: [{
+            if ( this.releaseService.isReleaseVisible() ) {
+                this.projectReleases = {
                     disabled: false,
-                    display: "2020 March Data Release",
-                    routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
-                }]
+                    display: "Releases",
+                    subNavItems: [{
+                        disabled: false,
+                        display: "2020 March Data Release",
+                        routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
+                    }]
+                }
             }
         });
     }
