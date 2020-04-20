@@ -1,53 +1,209 @@
 ### Google Analytics
 
-#### Events
+#### Custom Dimensions
 
-There are currently two release-related events captured by Google Analytics: `Download` and `Visualize`. Both events send core event data (Category, Action and Label) as well as additional event-related data as dimensions (eg Dataset Name, Release Name, Tool Name) every time they are fired.
+The following custom dimensions are configured in Google Analytics, allowing additional data (in addition to Category, Action and Label) to be included in each data layer event fired from the front end.
 
-These two events are fired by the front end according to the Google Tag Manager configuration.
+- `entityType`
+- `entityUrl`
+- `fileType`
+- `fileFormat`
+- `fileName`
+- `releaseName`
+- `toolName`
 
-##### Download Events
+#### Tracked Events
 
-Download events are configured as:
+##### Manifest Events
+
+###### Cohort Manifest Request
+
+- Category: "Manifest"
+- Action: "Request"
+- Label: `query`
+
+
+- Entity Type: "Cohort Manifest"
+
+###### Cohort Manifest Download
+
+- Category: "Manifest"
+- Action: "Download"
+- Label: `query`
+
+
+- Entity Type: "Cohort Manifest Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Manifest Download Link Copy to Clipboard
+
+- Category: "Manifest"
+- Action: "Copy to Clipboard"
+- Label: `query`
+
+
+- Entity Type: "Cohort Manifest Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Manifest Download
+
+- Category: "Manifest"
+- Action: "Download"
+- Label: `projectTitle`
+
+
+- Entity Type: "Project Manifest Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Manifest Download Link Copy to Clipboard
+
+- Category: "Manifest"
+- Action: "Copy to Clipboard"
+- Label: `projectTitle`
+
+
+- Entity Type: "Project Manifest Link"
+- Entity URL: `http://path/to/download`
+
+##### Matrix Events
+
+###### Cohort Matrix Request
+
+- Category: "Matrix"
+- Action: "Request"
+- Label: `query`
+
+
+- Entity Type: "Cohort Matrix"
+- File Format: `fileFormat`
+
+###### Cohort Matrix Download
+
+- Category: "Matrix"
+- Action: "Download"
+- Label: `query`
+
+
+- Entity Type: "Cohort Matrix Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Matrix Download Link Copy to Clipboard
+
+- Category: "Matrix"
+- Action: "Copy to Clipboard"
+- Label: `query`
+
+
+- Entity Type: "Cohort Matrix Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Matrix Download
+
+- Category: "Matrix"
+- Action: "Download"
+- Label: `projectTitle`
+
+
+- Entity Type: "Project Matrix Link"
+- Entity URL: `http://path/to/download`
+
+###### Cohort Matrix Download Link Copy to Clipboard
+
+- Category: "Matrix"
+- Action: "Copy to Clipboard"
+- Label: `projectTitle`
+
+
+- Entity Type: "Project Matrix Link"
+- Entity URL: `http://path/to/download`
+
+##### Terra Events
+
+###### Export Request
+
+- Category: "Export"
+- Action: "Request"
+- Label: `query`
+
+
+- Entity Type: "Cohort Export"
+- Tool Name: "Terra"
+
+###### Export Launch
+
+- Category: "Export"
+- Action: "Launch"
+- Label: `query`
+
+
+- Entity Type: "Cohort Export Link"
+- Entity URL: `http://path/to/terra`
+- Tool Name: "Terra"
+
+###### Export Link Copy to Clipboard
+
+- Category: "Export"
+- Action: "Copy to Clipboard"
+- Label: `query`
+
+
+- Entity Type: "Cohort Export Link"
+- Entity URL: `http://path/to/terra`
+- Tool Name: "Terra"
+
+##### Release Events
+
+###### Dataset Download
 
 - Category: "Dataset"
 - Action: "Download"
-- Label: `http://path/to/download`
+- Label: `datasetName`
 
-- Dataset Name: `datasetName`
-- File Extension: `fileExtension`
+
+- Entity URL: `http://path/to/download`
+- File Format: `fileFormat`
 - File Name: `fileName`
 - File Type: `fileType`
 - Release Name: `releaseName`
 
-##### Visualize Events
+###### Dataset Copy to Clipboard
+
+Copy to Clipboard events are configured as:
+
+- Category: "Dataset"
+- Action: "Copy to Clipboard"
+- Label: `datasetName`
+
+
+- Entity URL: `http://path/to/download`
+- File Format: `fileFormat`
+- File Name: `fileName`
+- File Type: `fileType`
+- Release Name: `releaseName`
+
+###### Dataset Visualize
 
 Visualize events are configured as:
 
 - Category: "Dataset"
 - Action: "Visualize"
-- Label: `http://path/to/visualization-tool`
+- Label: `datasetName`
 
-- Dataset Name: `datasetName`
+
+- Entity URL: `http://path/to/visualization-tool`
 - Release Name: `releaseName`
 - Tool Name: `toolName`
 
-#### Custom Dimensions
-
-The following custom dimensions are configured in Google Analytics, allowing additional data (beyond Category, Action and Label) to be included in each data layer event fired from the front end.
-
-- `datasetName`
-- `fileType`
-- `fileExtension`
-- `fileName`
-- `releaseName`
-- `toolName`
 
 ### GTM "Data Layer" Variables
 
-##### Dataset Name
-- Used to capture `datasetName` dimension from front end data layer.
-- Corresponds to `datasetName` custom dimension in Google Analytics.
+##### Entity Type Name
+- Used to capture `entityType` dimension from front end data layer.
+- Corresponds to `entityType` custom dimension in Google Analytics.
+
+##### Entity URL Name
+- Used to capture `entityUrl` dimension from front end data layer.
+- Corresponds to `entityUrl` custom dimension in Google Analytics.
 
 ##### Event Action
 - Used to capture `eventAction` dimension from front end data layer.
@@ -57,9 +213,9 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Used to capture `eventLabel` dimension from front end data layer.
 - Corresponds to the Label value in a Google Analytics event.
 
-##### File Extension
-- Used to capture `fileExtension` dimension from front end data layer.
-- Corresponds to `fileExtension` custom dimension in Google Analytics.
+##### File Format
+- Used to capture `fileFormat` dimension from front end data layer.
+- Corresponds to `fileFormat` custom dimension in Google Analytics.
 
 ##### File Name
 - Used to capture `fileName` dimension from front end data layer.
@@ -85,21 +241,61 @@ The following custom dimensions are configured in Google Analytics, allowing add
 #### Visualize
 - Custom event, listens for events where event name is "Dataset" and event action is "Visualize".
 
-### GTM Tags
+### GTM Tags and Triggers
 
-#### Download
-- Sends "Download" event to Google Analytics when Download trigger is fired.
-- Event data includes Category, Action and Label as well as Dataset Name, File Extension, File Name, File Type and Release Name dimensions.
+#### Cohort Manifest Request
+- Sends "Cohort Manifest Request" event to Google Analytics when `Cohort Manifest Request` trigger is fired.
+- Event data includes Category, Action and Label as well as the Entity Type dimension.
 
-#### Visualize
-- Sends "Visualize" event to Google Analytics when Download trigger is fired.
-- Event data includes Category, Action and Label as well as Dataset Name, Release Name and Tool Name dimensions.
+#### Cohort Manifest Download
+- Sends "Cohort Manifest Download" event to Google Analytics when `Cohort Manifest Download` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Cohort Manifest Download Link Copy to Clipboard
+- Sends "Cohort Manifest Copy to Clipboard" event to Google Analytics when `Cohort Manifest Copy to Clipboard` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Cohort Matrix Request
+- Sends "Cohort Matrix Request" event to Google Analytics when `Cohort Matrix Request` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and File Format dimensions.
+
+#### Cohort Matrix Download
+- Sends "Cohort Matrix Download" event to Google Analytics when `Cohort Matrix Download` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Cohort Matrix Download Link Copy to Clipboard
+- Sends "Cohort Matrix Copy to Clipboard" event to Google Analytics when `Cohort Matrix Copy to Clipboard` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Export Request
+- Sends "Export Request" event to Google Analytics when `Export Request` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Tool Name dimensions.
+
+#### Export Launch
+- Sends "Export Launch" event to Google Analytics when `Export Launch` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type, Entity URL and Tool Name dimensions.
+
+#### Export Copy to Clipboard
+- Sends "Export Copy to Clipboard" event to Google Analytics when `Export Copy to Clipboard` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type, Entity URL and Tool Name dimensions.
+
+#### Dataset Download
+- Sends "Download" event to Google Analytics when `Dataset Download` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
+
+#### Dataset Copy to Clipboard
+- Sends "Copy to Clipboard" event to Google Analytics when `Dataset Copy to Clipboard` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
+
+#### Dataset Visualize
+- Sends "Visualize" event to Google Analytics when `Dataset Visualize` trigger is fired.
+- Event data includes Category, Action and Label as well as Release Name and Tool Name dimensions.
 
 ### Front End Data Layer Event Configuration
 
 ```
 {
-	event: "eventName"
+    event: "eventName"
     eventAction: "eventAction",
     eventLabel: "eventLabel",
     dimension0: "dimension0Value",
@@ -115,4 +311,4 @@ where:
 
 ### Deployment
 
-Currently published to develop, ux-dev, integration, staging.
+Currently published to develop, ux-dev, integration, staging and production.
