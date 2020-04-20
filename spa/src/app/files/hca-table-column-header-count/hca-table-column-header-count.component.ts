@@ -10,6 +10,7 @@ import { Component, Input } from "@angular/core";
 
 // App dependencies
 import { getColumnCountType } from "../table/table-methods";
+import { getColumnCountName } from "../table/table-methods";
 
 @Component({
     selector: "hca-table-column-header-count",
@@ -28,10 +29,6 @@ export class HCATableColumnHeaderCountComponent {
     tooltipContentForCount = "Count of distinct values for this facet in the current search result set.";
 
     /**
-     * Public API
-     */
-
-    /**
      * Return a count of the set of values for the specified column.
      *
      * @param {string} columnName
@@ -39,7 +36,8 @@ export class HCATableColumnHeaderCountComponent {
      */
     public getDomainCount(columnName: string): number {
 
-        return this.domainCountsByColumnName.get(columnName);
+        const columnCountName = getColumnCountName(columnName);
+        return this.domainCountsByColumnName.get(columnCountName);
     }
 
     /**
