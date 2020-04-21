@@ -9,6 +9,7 @@
 import { Route } from "@angular/router";
 
 // App dependencies
+import { BrowserSupportedGuard } from "./browser-supported.guard";
 import { FilesComponent } from "./files.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
@@ -28,6 +29,7 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
 export const routes: Route[] = [
     {
         path: "files",
+        canActivate: [BrowserSupportedGuard],
         component: FilesComponent
     },
     {
@@ -36,10 +38,12 @@ export const routes: Route[] = [
     },
     {
         path: "samples",
+        canActivate: [BrowserSupportedGuard],
         component: FilesComponent
     },
     {
         path: "projects",
+        canActivate: [BrowserSupportedGuard],
         children: [
             {
                 path: "",
@@ -56,7 +60,7 @@ export const routes: Route[] = [
                 },
                     {
                         path: "project-metadata",
-                        component: ProjectMetadataComponent
+                        component: ProjectMetadataComponent,
                     },
                     {
                         path: "expression-matrices",

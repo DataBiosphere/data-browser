@@ -1,8 +1,8 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Set of top-level routes used by Boardwalk.
+ * Set of top-level routes used by HCA Data Portal.
  */
 
 // Core dependencies
