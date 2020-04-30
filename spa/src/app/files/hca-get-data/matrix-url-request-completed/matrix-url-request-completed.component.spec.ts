@@ -18,12 +18,12 @@ import { ConfigService } from "../../../config/config.service";
 import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { MatrixUrlRequestCompletedComponent } from "./matrix-url-request-completed.component";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { GTMService } from "../../../shared/gtm/gtm.service";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
-import { SearchTermService } from "../../shared/search-term.service";
 
 describe("MatrixUrlRequestCompleted", () => {
 
@@ -106,7 +106,7 @@ describe("MatrixUrlRequestCompleted", () => {
                         "requestMatrixFileManifestUrl"
                     ])
                 }, {
-                    provide: SearchTermService,
+                    provide: SearchTermHttpService,
                     useValue: jasmine.createSpyObj("SearchTermService", [
                         "bindSearchTerms",
                         "marshallSearchTerms"

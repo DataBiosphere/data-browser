@@ -1,0 +1,150 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for facet age range component.
+ */
+@import "../../../../site/theme/cgl.vars";
+
+
+:host {
+    display: block;
+    width: 282px; /* Min width */
+}
+
+/* Facet double width of a standard facet */
+:host-context(.facet-double-wide) {
+    :host {
+        width: 396px;
+    }
+}
+
+
+/* Facet age range form */
+form {
+    
+    &.min-max-error {
+        input {
+            border-color: $hca-orange;
+        }
+    }
+
+    /* Error message */
+    .error-message {
+        color: $hca-orange;
+        font-weight: 600;
+        margin: 0;
+        visibility: hidden;
+
+        &.show {
+            transition: visibility 0.5s ease;
+            visibility: visible;
+        }
+    }
+
+    /* Form control */
+    label, mat-radio-group {
+        display: flex;
+        flex: none;
+    }
+
+    /* Form control - container */
+    label {
+
+        /* Inputs - container */
+        &:nth-of-type(n+2) {
+            margin-top: 8px;
+        }
+
+        /* Label */
+        span.fontsize-xs {
+            color: $hca-black;
+            line-height: 27px;
+            margin: 0;
+            width: 70px;
+        }
+    }
+
+    /* Radio group */
+    mat-radio-group {
+        align-items: center;
+
+        /* Radio button - margin between second and third */
+        mat-radio-button:nth-of-type(n+2) {
+            margin-left: 10px;
+        }
+    }
+
+    /* Input - box */
+    input {
+        border: 1px solid $hca-gray-light;
+        border-radius: 3px;
+        box-sizing: border-box;
+        height: 28px;
+        padding: 0 8px;
+        width: 100px;
+
+        &:focus {
+            border-color: $hca-primary;
+            outline: none;
+        }
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Actions */
+    .actions {
+        display: flex;
+        margin-top: 24px;
+
+        /* Action - button */
+        button {
+            border: 1px solid $hca-gray-light;
+            border-radius: 3px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            height: 28px;
+            letter-spacing: 0.2px;
+            line-height: 28px;
+            padding: 0 12px;
+            text-transform: capitalize;
+
+            /* Apply - valid */
+            &.apply:not([disabled]) {
+                border-color: rgba(28, 124, 199, 0.12);
+                background-color: rgba(28, 124, 199, 0.06);
+                color: $hca-primary;
+            }
+
+            /* Apply - invalid */
+            &.apply[disabled] {
+                background-color: rgba(0, 0, 0, 0.03);
+                color: $hca-gray-medium;
+            }
+
+            /* Apply - valid - hover */
+            &.apply:not([disabled]):hover {
+                background-color: rgba(28, 124, 199, 0.12);
+            }
+
+            /* Clear */
+            &.clear {
+                border-color: transparent;
+                color: $hca-primary;
+                font-weight: 400;
+                margin: 0 0 0 8px;
+                transition: all 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            
+            &.clear:hover {
+                border-color: rgba(0, 0, 0, 0.03);
+                background-color: rgba(0, 0, 0, 0.03);
+            }
+        }
+    }
+}

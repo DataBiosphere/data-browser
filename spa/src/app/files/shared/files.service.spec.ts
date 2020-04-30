@@ -12,20 +12,20 @@ import { of } from "rxjs";
 
 // App dependencies
 import { FileFormat } from "./file-format.model";
-import { FileFacetName } from "./file-facet-name.model";
-import { FileFacet } from "./file-facet.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FilesService } from "./files.service";
 import { GenusSpecies } from "./genus-species.model";
 import { FILE_SINGLE_VALUES } from "../hca-table-files/file-row-mapper.mock";
+import { ResponseTermService } from "../http/response-term.service";
 import { LibraryConstructionApproach } from "./library-construction-approach.model";
 import { MatrixableFileFacets } from "./matrixable-file-facets.model";
 import { PairedEnd } from "./paired-end.model";
 import { SearchTerm } from "../search/search-term.model";
+import { SearchFacetTerm } from "../search/search-facet-term.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { DEFAULT_TABLE_PARAMS, TableParamsModel } from "../table/table-params.model";
-import { SearchTermService } from "./search-term.service";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
 import { Term } from "./term.model";
-import { TermResponseService } from "./term-response.service";
 
 describe("FileService:", () => {
 
@@ -45,8 +45,8 @@ describe("FileService:", () => {
         const configService = jasmine.createSpyObj("ConfigService", ["buildApiUrl"]);
         configService.buildApiUrl.and.returnValue("");
 
-        const termResponseService = new TermResponseService();
-        const searchTermService = new SearchTermService(termResponseService);
+        const termResponseService = new ResponseTermService();
+        const searchTermService = new SearchTermHttpService(termResponseService);
 
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
@@ -94,8 +94,8 @@ describe("FileService:", () => {
             // Set up search terms - add file formats other than matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -123,7 +123,7 @@ describe("FileService:", () => {
             // Set up search terms - add file formats other than matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -151,8 +151,8 @@ describe("FileService:", () => {
             // Set up search terms - add file formats other than matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -175,19 +175,19 @@ describe("FileService:", () => {
         /**
          * Facets other than file format should remain unchanged
          */
-        it("should retain facets other than file format in query params", () => {
+        it("should retain fileFacets other than file format in query params", () => {
 
             // Set up search terms - add file formats other than matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
             ]));
             searchTerms.set(FileFacetName.GENUS_SPECIES, new Set([
-                new SearchFileFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)
+                new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)
             ]));
             searchTerms.set(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, new Set([
-                new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
+                new SearchFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -270,7 +270,7 @@ describe("FileService:", () => {
             // Set up search terms - add matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -298,8 +298,8 @@ describe("FileService:", () => {
             // Set up search terms - add matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -327,8 +327,8 @@ describe("FileService:", () => {
             // Set up search terms - add matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -348,14 +348,14 @@ describe("FileService:", () => {
             // Set up search terms - add matrix
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
-                new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM)
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAI),
+                new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM)
             ]));
             searchTerms.set(FileFacetName.GENUS_SPECIES, new Set([
-                new SearchFileFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)
+                new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)
             ]));
             searchTerms.set(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, new Set([
-                new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
+                new SearchFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method
@@ -796,8 +796,8 @@ describe("FileService:", () => {
             // Set up search terms - add library construction approaches
             const searchTerms = new Map<string, Set<SearchTerm>>();
             searchTerms.set(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, new Set([
-                new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.TENX_V2),
-                new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2),
+                new SearchFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.TENX_V2),
+                new SearchFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2),
             ]));
 
             // Using square bracket notation here to do a sneaky call of a private method

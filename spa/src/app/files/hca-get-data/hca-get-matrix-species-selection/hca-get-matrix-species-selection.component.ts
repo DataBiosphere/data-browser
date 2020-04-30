@@ -13,7 +13,7 @@ import { Store } from "@ngrx/store";
 import { CheckboxOption } from "./checkbox-option.model";
 import { AppState } from "../../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
-import { FileFacet } from "../../shared/file-facet.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { Term } from "../../shared/term.model";
 

@@ -6,8 +6,7 @@
  */
 
 // App dependencies
-import { getDefaultTableState } from "./table/table.state";
-import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
+import { FacetState } from "./facet/facet.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileState } from "./file.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
@@ -20,13 +19,14 @@ import * as searchStateMock from "./search/search.state.mock";
 import { IntegrationState } from "./integration/integration.state";
 import { ReleaseState } from "./release/release.state";
 import { ProjectEditsState } from "./project-edits/project-edits.state";
+import { getDefaultTableState } from "./table/table.state";
 
 /**
  * Default project state - current tab is projects, no selected search terms
  */
 export const DEFAULT_PROJECTS_STATE = {
     fileSummary: FileSummaryState.getDefaultState(),
-    fileFacetList: FileFacetListState.getDefaultState(),
+    facet: FacetState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
     integration: IntegrationState.getDefaultState(),
     matrix: MatrixState.getDefaultState(),

@@ -1,20 +1,18 @@
-<div class="layout-column">
-    <hca-section-title id="hcaExplore">Explore Data</hca-section-title>
-    <hca-file-filter-wrapper id="hcaFilterWrapper"
-                             [fileFacets]="fileFacets$ | async"
-                             [searchTerms]="searchTerms$ | async"
-                             [selectedEntity]="selectedEntity$ | async"
-                             [selectedSearchTerms]="selectedSearchTerms$ | async"
-                             (menuOpen)="onMenuOpen($event)">
-    </hca-file-filter-wrapper>
-    <hca-file-summary id="hcaFileSummary"
-                      [showDownload]="!isDeviceHandheld()"
-                      [summary]="selectFileSummary$ | async">
+<div class="layout-column" *ngIf="state$ | async as state">
+    <hca-section-title>Explore Data</hca-section-title>
+    <facet-toolbar-wrapper [facets]="state.facets" 
+                           [searchTerms]="state.searchTerms" 
+                           [selectedEntity]="state.selectedEntity" 
+                           [selectedSearchTerms]="state.selectedSearchTerms" 
+                           (menuOpen)="onMenuOpen($event)">
+    </facet-toolbar-wrapper>
+    <hca-file-summary [showDownload]="!isDeviceHandheld()"
+                      [summary]="state.fileSummary">
     </hca-file-summary>
-    <hca-tab id="hcaTab" [tabs]="entities$ | async" [activeTab]="selectedEntity$ | async"
+    <hca-tab [tabs]="state.entities" [activeTab]="state.selectedEntity"
              (tabSelected)="onTabSelected($event)"></hca-tab>
-    <hca-table-samples *ngIf="(selectedEntity$ | async).key == 'samples'"></hca-table-samples>
-    <hca-table-files *ngIf="(selectedEntity$ | async).key == 'files'"></hca-table-files>
-    <hca-table-projects *ngIf="(selectedEntity$ | async).key == 'projects'"
-                        [selectedProjectIds]="selectedProjectIds | async"></hca-table-projects>
+    <hca-table-samples *ngIf="(state.selectedEntity).key == 'samples'"></hca-table-samples>
+    <hca-table-files *ngIf="(state.selectedEntity).key == 'files'"></hca-table-files>
+    <hca-table-projects *ngIf="(state.selectedEntity).key == 'projects'"
+                        [selectedProjectIds]="state.selectedProjectIds"></hca-table-projects>
 </div>

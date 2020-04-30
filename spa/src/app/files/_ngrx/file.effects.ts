@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
+ * File-related effects, including fetching file summary (eg total counts), file fileFacets, terms etc.
  */
 
 // Core dependencies
@@ -13,15 +13,15 @@ import { Observable, of } from "rxjs";
 import { map, mergeMap, switchMap, take } from "rxjs/operators";
 
 // App dependencies
-import { FetchIsMatrixSupportedRequestAction } from "./file-facet-list/fetch-is-matrix-supported-request.action";
-import { FetchIsMatrixSupportedSuccessAction } from "./file-facet-list/fetch-is-matrix-supported-success.action";
-import { SetViewStateAction } from "./file-facet-list/set-view-state.action";
+import { FetchIsMatrixSupportedRequestAction } from "./facet/fetch-is-matrix-supported-request.action";
+import { FetchIsMatrixSupportedSuccessAction } from "./facet/fetch-is-matrix-supported-success.action";
+import { SetViewStateAction } from "./facet/set-view-state.action";
 import { FileSummary } from "../file-summary/file-summary";
 import {
     FetchFileFacetsRequestAction,
-    FetchFileFacetsSuccessAction, InitEntityStateAction,
+    InitEntityStateAction,
     NoOpAction
-} from "./file-facet-list/file-facet-list.actions";
+} from "./facet/file-facet-list.actions";
 import {
     FetchFileSummaryRequestAction,
     FetchFileSummarySuccessAction
@@ -36,7 +36,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { selectSelectedSearchTerms } from "./search/search.selectors";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
 import { EntityName } from "../shared/entity-name.model";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FilesService } from "../shared/files.service";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
@@ -44,6 +44,9 @@ import { EntitySelectAction } from "./table/table.actions";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import { getSelectedTable } from "./table/table.state";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
+import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
+import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
+import { ClearSelectedAgeRangeAction } from "./search/clear-selected-age-range.action";
 
 @Injectable()
 export class FileEffects {
@@ -69,10 +72,12 @@ export class FileEffects {
     fetchFacetsAndSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(
+                ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
+                ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
+                InitEntityStateAction.ACTION_TYPE,
                 SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
                 SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
-                ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
-                InitEntityStateAction.ACTION_TYPE
+                SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
             ),
             mergeMap(() => {
 
@@ -126,8 +131,7 @@ export class FileEffects {
             mergeMap(({action, tableQueryParams, entitySearchResults}) => {
 
                 // Set up fetch success action
-                const fileFacets = entitySearchResults.fileFacets;
-                const fetchSuccessAction = new FetchFileFacetsSuccessAction(fileFacets);
+                const fetchSuccessAction = new FetchFacetsSuccessAction(entitySearchResults.facets);
 
                 // Set up search term action
                 const searchTermUpdatedAction = new SearchTermsUpdatedAction(entitySearchResults.searchTerms);

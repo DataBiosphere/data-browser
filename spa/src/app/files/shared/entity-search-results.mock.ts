@@ -9,10 +9,10 @@
 
 // App dependencies
 import { EntitySearchResults } from "./entity-search-results.model";
-import { FileFacet } from "./file-facet.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { Term } from "./term.model";
 
-// Entity search results for projects tab where no facets have been selected
+// Entity search results for projects tab where no fileFacets have been selected
 const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
     "fileFacets": [
         {
@@ -4560,7 +4560,7 @@ function buildDefaultProjectsEntitySearchResults(json): EntitySearchResults {
     }); 
 
     return {
-        fileFacets: fileFacets,
+        facets: fileFacets as any,
         searchTerms: [],
         tableModel: json.tableModel
     };

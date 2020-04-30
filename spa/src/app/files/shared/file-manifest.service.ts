@@ -14,8 +14,8 @@ import { catchError, retry, switchMap, take, takeUntil } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { Dictionary } from "../../dictionary";
-import { FileFacet } from "./file-facet.model";
-import { FileFacetName } from "./file-facet-name.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileFormat } from "./file-format.model";
 import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileSummary } from "../file-summary/file-summary";
@@ -26,8 +26,8 @@ import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { SearchTermService } from "./search-term.service";
+import { SearchFacetTerm } from "../search/search-facet-term.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GAAction } from "../../shared/gtm/ga-action.model";
 import { GACategory } from "../../shared/gtm/ga-category.model";
 import { GADimension } from "../../shared/gtm/ga-dimension.model";
@@ -41,14 +41,14 @@ export class FileManifestService {
      * @param {ConfigService} configService
      * @param {FilesService} filesService
      * @param {GTMService} gtmService
-     * @param {SearchTermService} searchTermService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      *
      */
     constructor(private configService: ConfigService,
                 private filesService: FilesService,
                 private gtmService: GTMService,
-                private searchTermService: SearchTermService,
+                private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
 
@@ -104,7 +104,7 @@ export class FileManifestService {
      */
     public fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms));
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms));
 
         const filters = JSON.parse(query.filters);
         let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
@@ -148,7 +148,7 @@ export class FileManifestService {
      */
     public trackRequestCohortManifest(selectedSearchTerms: SearchTerm[]) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.REQUEST, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
         });
@@ -162,7 +162,7 @@ export class FileManifestService {
      */
     public trackDownloadCohortManifest(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.DOWNLOAD, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
             [GADimension.ENTITY_URL]: manifestUrl
@@ -177,7 +177,7 @@ export class FileManifestService {
      */
     public trackCopyToClipboardCohortManifestLink(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.COPY_TO_CLIPBOARD, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
             [GADimension.ENTITY_URL]: manifestUrl
@@ -222,7 +222,7 @@ export class FileManifestService {
 
         const searchTermsClone = [...searchTerms];
         fileFormat.terms.forEach((term) =>
-            searchTermsClone.push(new SearchFileFacetTerm(fileFormat.name, term.name)));
+            searchTermsClone.push(new SearchFacetTerm(fileFormat.name, term.name)));
         return searchTermsClone;
     }
 
@@ -266,7 +266,7 @@ export class FileManifestService {
 
         const manifestResponse$ = new Subject<ManifestResponse>();
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
         this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);

@@ -16,14 +16,12 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { Config } from "./config/config.model";
 import { selectConfigConfig } from "./config/_ngrx/config.selectors";
-import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
+import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
+import { SetViewStateAction } from "./files/_ngrx/facet/set-view-state.action";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
 import { ReleaseService } from "./files/shared/release.service";
 import { EntityName } from "./files/shared/entity-name.model";
-import { FileFacetName } from "./files/shared/file-facet-name.model";
-import { QueryStringFacet } from "./files/shared/query-string-facet.model";
-import { GenusSpecies } from "./files/shared/genus-species.model";
 import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { AppState } from "./_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -51,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
     /**
      * @param {DeviceDetectorService} deviceService
      * @param {ReleaseService} releaseService
+     * @param {SearchTermUrlService} searchUrlService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Location} location
@@ -59,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     constructor(private deviceService: DeviceDetectorService,
                 private releaseService: ReleaseService,
+                private searchUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute,
                 private location: Location,
@@ -124,17 +124,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true if a filter state is encoded in the query params.
-     *
-     * @param {Params} params
-     * @returns {boolean}
-     */
-    private isFilterParamSpecified(params: Params): boolean {
-
-        return !!params["filter"];
-    }
-
-    /**
      * Load project edits data from local JSON files.
      */
     private loadProjectEditsData(): void {
@@ -186,39 +175,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Parse the "filter" query string param, if specified.
-     *
-     * @param {Params} params
-     * @returns {QueryStringFacet[]}
-     */
-    private parseQueryStringFacets(params: Params): QueryStringFacet[] {
-
-        if ( this.isFilterParamSpecified(params) ) {
-
-            // We have a filter, let's extract it.
-            let filter;
-            const filterParam = params["filter"];
-            try {
-                filter = JSON.parse(filterParam);
-            }
-            catch (error) {
-                console.log(error);
-            }
-
-            let queryStringFacets = [];
-            if ( filter && filter.length && filter[0].facetName ) {
-                queryStringFacets = filter.map((selectedFacet) => {
-                    return new QueryStringFacet(selectedFacet["facetName"], selectedFacet["terms"]);
-                });
-            }
-
-            return queryStringFacets;
-        }
-
-        return [];
-    }
-
-    /**
      * Fetch current status of system, and current status of index, and display information banners, if necessary.
      */
     private systemCheck() {
@@ -257,14 +213,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 const params = this.activatedRoute.snapshot.queryParams;
                 const tab = this.parseTab();
 
-                const filter = this.parseQueryStringFacets(params);
+                const filter = this.searchUrlService.parseQueryStringSearchTerms(params);
 
                 // Default app state to have human selected. This is only necessary if there is currently no filter
                 // applied.
                 if ( filter.length === 0 ) {
-                    const queryStringFacet =
-                        new QueryStringFacet(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS]);
-                    filter.push(queryStringFacet);
+                    filter.push(this.searchUrlService.getDefaultSearchState());
                 }
                 
                 this.store.dispatch(new SetViewStateAction(tab, filter));
@@ -275,10 +229,6 @@ export class AppComponent implements OnInit, OnDestroy {
             }
         });
     }
-
-    /**
-     * Life cycle hooks
-     */
 
     /**
      * Kill subscriptions on destroy of component.

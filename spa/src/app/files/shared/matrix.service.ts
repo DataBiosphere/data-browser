@@ -18,7 +18,7 @@ import { MatrixFormat } from "./matrix-format.model";
 import { MatrixUrlRequest } from "./matrix-url-request.model";
 import { MatrixUrlRequestStatus } from "./matrix-url-request-status.model";
 import { SearchTerm } from "../search/search-term.model";
-import { FileFacetName } from "./file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileFormat } from "./file-format.model";
 import { FileManifestService } from "./file-manifest.service";
 import { ManifestResponse } from "./manifest-response.model";
@@ -26,8 +26,8 @@ import { ManifestStatus } from "./manifest-status.model";
 import { MatrixUrlRequestHttpResponse } from "./matrix-url-request-http-response.model";
 import { MatrixUrlRequestSpecies } from "./matrix-url-request-species.model";
 import { ProjectMatrixUrls } from "./project-matrix-urls.model";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
-import { SearchTermService } from "./search-term.service";
+import { SearchFacetTerm } from "../search/search-facet-term.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GTMService } from "../../shared/gtm/gtm.service";
 import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
 import { GACategory } from "../../shared/gtm/ga-category.model";
@@ -42,13 +42,13 @@ export class MatrixService {
      * @param {ConfigService} configService
      * @param {GTMService} gtmService
      * @param {FileManifestService} manifestService
-     * @param {SearchTermService} searchTermService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private gtmService: GTMService,
                 private manifestService: FileManifestService,
-                private searchTermService: SearchTermService,
+                private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
 
@@ -128,7 +128,7 @@ export class MatrixService {
 
         // If matrix wasn't in the set of selected terms, add it now
         if ( !matrixAdded ) {
-            matrixSearchTerms.push(new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
+            matrixSearchTerms.push(new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX));
         }
 
         return matrixSearchTerms;
@@ -292,7 +292,7 @@ export class MatrixService {
      */
     public trackRequestCohortMatrix(selectedSearchTerms: SearchTerm[], fileFormat: MatrixFormat) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MATRIX, GAAction.REQUEST, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX,
             [GADimension.FILE_FORMAT]: fileFormat
@@ -307,7 +307,7 @@ export class MatrixService {
      */
     public trackDownloadCohortMatrix(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MATRIX, GAAction.DOWNLOAD, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
             [GADimension.ENTITY_URL]: matrixUrl
@@ -322,7 +322,7 @@ export class MatrixService {
      */
     public trackCopyToClipboardCohortMatrixLink(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.MATRIX, GAAction.COPY_TO_CLIPBOARD, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
             [GADimension.ENTITY_URL]: matrixUrl

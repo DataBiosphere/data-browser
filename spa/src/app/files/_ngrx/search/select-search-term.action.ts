@@ -6,18 +6,11 @@
  */
 
 // App dependencies
-import { SearchTerm } from "../../search/search-term.model";
+import { SearchTermAction } from "./search-term.action";
 
-export interface SelectSearchTermAction {
+export interface SelectSearchTermAction extends SearchTermAction {
 
     selected: boolean;
-
-    /**
-     * Return action in the format of a search term.
-     *
-     * @returns {string}
-     */
-    asSearchTerm(): SearchTerm;
 
     /**
      * Return value to be used as a key when finding and updating file facet terms.

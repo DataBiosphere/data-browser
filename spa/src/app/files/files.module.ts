@@ -33,20 +33,24 @@ import { CcPipeModule } from "../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../config/config.service";
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
-import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
 import { FilesComponent } from "./files.component";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { routes } from "./files.routes";
+import { FacetAgeRangeFormComponent } from "./facet/facet-age-range/facet-age-range-form/facet-age-range-form.component";
+import { FacetDisplayService } from "./facet/facet-display.service";
+import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
+import { FacetMenuContentComponent } from "./facet/facet-menu-content/facet-menu-content.component";
+import { FacetMenuTitleComponent } from "./facet/facet-menu-title/facet-menu-title.component";
+import { FacetToolbarWrapperComponent } from "./facet/facet-toolbar-wrapper/facet-toolbar-wrapper.component";
+import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";
+import { FileFacetComponent } from "./facet/file-facet/file-facet.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
+import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
 import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
-import { HCAFacetTermListComponent } from "./hca-facet-term-list/hca-facet-term-list.component";
-import { HCAFileFacetComponent } from "./hca-file-facet/hca-file-facet.component";
-import { HCAFileFilterComponent } from "./hca-file-filter/hca-file-filter.component";
-import { HCAFileFilterResultComponent } from "./hca-file-filter-result/hca-file-filter-result.component";
-import { HCAFileFilterWrapperComponent } from "./hca-file-filter-wrapper/hca-file-filter-wrapper.component";
+import { FacetTermListComponent } from "./facet/facet-term-list/facet-term-list.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
@@ -105,9 +109,8 @@ import { ReleaseFilesModalComponent } from "./releases/release-files-modal/relea
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseTableComponent } from "./releases/release-table/release-table.component";
 import { ReleaseTitleOverlineComponent } from "./releases/release-title-overline/release-title-overline.component";
-import { SearchTermService } from "./shared/search-term.service";
+import { SearchTermHttpService } from "./search/http/search-term-http.service";
 import { DownloadService } from "./shared/download.service";
-import { FileFacetDisplayService } from "./shared/file-facet-display.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
@@ -115,13 +118,15 @@ import { IntegrationService } from "./shared/integration.service";
 import { MatrixService } from "./shared/matrix.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
-import { TermResponseService } from "./shared/term-response.service";
+import { ResponseTermService } from "./http/response-term.service";
 import { TermSortService } from "./sort/term-sort.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
 import { ReleaseService } from "./shared/release.service";
 import { ReleaseVisualizationsModalComponent } from "./releases/release-visualizations-modal/release-visualizations-modal.component";
 import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
+import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
+import { SearchTermUrlService } from "./search/url/search-term-url.service";
 
 @NgModule({
     imports: [
@@ -154,6 +159,13 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
         AnalysisProtocolPipelineLinkerComponent,
         DataDownloadCitationComponent,
         DisplayDataLinkComponent,
+        FacetAgeRangeFormComponent,
+        FacetMenuComponent,
+        FacetMenuContentComponent,
+        FacetMenuTitleComponent,
+        FacetToolbarComponent,
+        FacetToolbarWrapperComponent,
+        FileFacetComponent,
         FileManifestSummaryComponent,
         FileNameShortenerPipe,
         FileTypeSummaryListComponent,
@@ -163,11 +175,7 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
         HCADownloadFileComponent,
         HCAEllipsisTextComponent,
         HCAExportToTerraComponent,
-        HCAFacetTermListComponent,
-        HCAFileFacetComponent,
-        HCAFileFilterComponent,
-        HCAFileFilterResultComponent,
-        HCAFileFilterWrapperComponent,
+        FacetTermListComponent,
         HCAFileSummaryComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,
@@ -223,6 +231,7 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
         ReleaseVisualizationsModalContainerComponent,
         ReleaseTableComponent,
         ReleaseTitleOverlineComponent,
+        SelectedSearchTermsComponent,
         TableScroll
     ],
     entryComponents: [
@@ -234,18 +243,19 @@ import { ReleaseVisualizationsModalContainerComponent } from "./releases/visuali
     providers: [
         ConfigService,
         DownloadService,
-        FileFacetDisplayService,
+        FacetDisplayService,
         FileManifestService,
         FilesService,
         IntegrationService,
+        SearchTermUrlService,
         MatrixService,
         ProjectService,
         ProjectEditsService,
         ProjectViewFactory,
         ReleaseService,
-        SearchTermService,
+        SearchTermHttpService,
         TableRendererService,
-        TermResponseService,
+        ResponseTermService,
         TermSortService,
         TerraService,
         {provide: "Window", useValue: window} // Required for hamburger functionality

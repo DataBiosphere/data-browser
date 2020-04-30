@@ -1,8 +1,15 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * Model of file type summary, and the selected status of the corresponding facet term.
+ * Model of file type summary, and the selected status of the corresponding facet term. Used when selecting files type
+ * for manifest generation or export to Terra. Displayed in format:
+ * 
+ *     Name                File Count     File Size
+ * [ ] bai                 289            547 MB
+ * [ ] bam                 758            2.40 TB
+ * [ ] csv                 2.2K           2.96 GB
+ * etc
  */
 
 // App dependencies
@@ -22,7 +29,7 @@ export class FileTypeSummaryView implements TermSortable {
                 public readonly selected: boolean) {}
 
     /**
-     * The sort value of a file type summary view is its term name;
+     * The sort value of a file type summary view is its term name.
      *
      * @returns {string}
      */

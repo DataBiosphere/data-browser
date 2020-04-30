@@ -323,7 +323,7 @@ button {
 
     /** Force minimum height of menu content, to match card height */
     .edit-menu-card-content {
-        max-height: 294px; /* Force vertical scroll - fix for menu overflow off bottom of browser for facets with many terms. 294px creates last term to be visually "chopped", indicated there are more terms below. */
+        max-height: 294px; /* Force vertical scroll - fix for menu overflow off bottom of browser for fileFacets with many terms. 294px creates last term to be visually "chopped", indicated there are more terms below. */
         min-height: 203px; /* Card height 352px - 72px header - 61px close action bar - 16px chart */
         overflow-y: scroll;
 

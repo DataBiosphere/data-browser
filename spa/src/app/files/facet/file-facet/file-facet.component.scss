@@ -1,0 +1,15 @@
+/*!
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for facet containing a set of selectable terms.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* Facet count label for the active table */
+.label-active-table {
+    color: $hca-gray-dark;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+}

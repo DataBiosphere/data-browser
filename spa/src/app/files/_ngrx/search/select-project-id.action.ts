@@ -11,7 +11,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { FileFacetName } from "../../shared/file-facet-name.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SearchEntity } from "../../search/search-entity.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
@@ -48,6 +48,6 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction {
      */
     public getTermKey(): string {
 
-        throw `No facet found for ${this.facetName}`;
+        throw `No term key for ${this.facetName}`;
     }
 }

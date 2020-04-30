@@ -1,0 +1,368 @@
+/*!
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * HCA File filter styles.
+ */
+@import "../../../site/theme/cgl.vars";
+
+/* Wrapper */
+.wrapper {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    padding: 0 16px; /* Gutter 16px */
+
+    /* Filter container */
+    .filter {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        margin: 8px 0 8px -4px;
+        width: 100%;
+
+        /* Small screen only - filter drop down */
+        &.small {
+            flex-direction: row;
+
+            .view-all-options {
+                margin-top: 0;
+            }
+        }
+
+        /* Filter options group - organ, method, donor etc */
+        .view-all-options {
+            align-items: center;
+            display: flex;
+            margin-top: 8px;
+        }
+    }
+
+    /* Search and facet group menu */
+    .hca-input, .facet-group-menu {
+        align-items: center;
+        border: 1px solid $hca-gray-light;
+        border-radius: 3px;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: flex;
+        flex: none;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
+        font-size: 13px; /* TODO typography */
+        height: 38px;
+        letter-spacing: 0.4px; /* TODO typography */
+        margin: 0 4px;
+        padding: 0 16px;
+        z-index: 14; /* Positions above overlay - to allow for direct change of menu selection */
+
+        /* Mobile view filter select */
+        &.view-options {
+            padding: 0 8px;
+            width: 78px;
+        }
+
+        /* Field is on focus */
+        &:focus, &.active {
+            border: 1px solid $hca-primary;
+            outline: none;
+        }
+    }
+
+    /* Search input field */
+    .hca-input {
+        width: 258px;
+
+        /* Input placeholder */
+        &::placeholder {
+            color: $hca-black; /* TODO review input field colour */
+        }
+    }
+
+    /* Facet group menu */
+    .facet-group-menu {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        position: relative; /* Positions options */
+        width: 128px;
+
+        /* Text */
+        > span {
+            flex: 1; // Required for IE
+        }
+
+        /* Drop down icon */
+        mat-icon {
+            font-size: 16px;
+            height: 16px;
+            margin-right: -4px; /* For appearance of equal margins on facet-group-menu */
+            width: 16px;
+        }
+
+        /* Select options */
+        .hca-options {
+            background-color: $hca-white;
+            border: 1px solid $hca-gray-light;
+            border-radius: 1px;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            -ms-overflow-style: none; // IE 10+, scrollbar hidden
+            overflow-y: auto; // Firefox, scrollbar hidden unless actively scrolling
+            padding: 6px;
+            position: absolute;
+            top: 44px; /* 38px for select field + 6px below select field */
+            z-index: 11;
+
+            // Safari and Chrome, scrollbar hidden
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            &.hide {
+                display: none;
+            }
+        }
+    }
+
+    /* Mobile view select field */
+    .hca-options-small {
+        background-color: $hca-white;
+        bottom: 0;
+        left: 0;
+        padding: 0 16px;
+        position: fixed;
+        right: 0;
+        top: calc(60px + 76px + 54px); /* Header, heading, filters */
+        z-index: 40;
+
+        > div {
+            height: calc(100% - 60px); /* Apply button 60px */
+            margin: 0 -16px;
+            overflow-y: auto;
+            overflow-x: hidden; /* Firefox */
+            padding: 0 16px;
+            position: relative;
+        }
+
+        /* Facet Group */
+        .facet-group {
+            border-bottom: 1px solid $hca-gray-light;
+            font-family: "din-2014", sans-serif; /* TODO typography */
+            font-size: 16px; /* TODO typography */
+            font-weight: 500; /* TODO typography */
+            letter-spacing: 0.49px; /* TODO typography */
+            padding: 32px 4px 8px;
+
+            &:first-of-type {
+                margin-top: -20px;
+            }
+        }
+
+        /* Facets and Terms */
+        .facet {
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-family: "Montserrat", sans-serif; /* TODO typography */
+            font-size: 13px; /* TODO typography */
+            font-weight: 400; /* TODO typography */
+            letter-spacing: 0.4px; /* TODO typography */
+            padding: 16px 4px;
+
+            /* Drop down icon */
+            mat-icon {
+                font-size: 16px;
+                height: 16px;
+                margin-right: -4px; /* For appearance of equal margins on facet-group-menu */
+                width: 16px;
+            }
+        }
+
+        /* Wrapper around terms */
+        .facet-term-list {
+            max-height: 229.5px; /* For display of 8.5 terms at 229.5px total */
+            -ms-overflow-style: -ms-autohiding-scrollbar; // Hide scrollbar in IE unless actively scrolling.
+            overflow-y: auto; // Hide webkit scrollbar unless actively scrolling.
+            padding: 2px 20px 0;
+            margin: 0 -16px;
+
+            /* Facet count label */
+            span {
+                color: $hca-gray-dark;
+                display: flex;
+                justify-content: flex-end;
+                margin: 0;
+            }
+        }
+
+        /* Styles applied when Facet is open */
+        .open {
+            border-bottom: 1px solid $hca-gray-light;
+            padding-bottom: 18px;
+        }
+
+        /* Styles applied when Facet is closed */
+        .closed {
+            .facet {
+                border-bottom: 1px solid $hca-gray-light;
+            }
+
+            /* Hide term list */
+            .facet-term-list {
+                display: none;
+            }
+        }
+
+        /* Apply button - mobile */
+        .apply {
+            align-items: center;
+            background-color: $hca-off-white;
+            bottom: 0;
+            display: flex;
+            height: 60px;
+            justify-content: center;
+            left: 0;
+            position: fixed;
+            right: 0;
+            z-index: 40;
+        }
+    }
+}
+
+/* Facet group menu overlay */
+.facet-group-menu-overlay {
+    bottom: 0;
+    height: 100vh;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    z-index: 12; /* z-index < hca-options */
+}
+
+/* mat-option panel */
+::ng-deep .mat-autocomplete-panel {
+    border: 1px solid $hca-gray-light;
+    box-shadow: 0 2px 4px 0 $hca-gray-light !important;
+    margin: 6px 0; /* Panel to take up full width + opens below search box */
+    padding: 8px 16px 12px; /* Override MD spec */
+}
+
+/* mat-optgroup-label */
+::ng-deep .hca-optgroup .mat-optgroup-label {
+    color: $hca-gray-medium;
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 10px; /* TODO typography */
+    font-weight: 600; /* TODO typography */
+    height: unset; /* Override MD spec */
+    letter-spacing: 0.83px; /* TODO typography */
+    line-height: 20px; /* Override MD spec */
+    padding: 4px 0; /* Override MD spec */
+}
+
+/* mat-option list */
+::ng-deep .mat-option.hca-option {
+    font-family: "Montserrat", sans-serif; /* TODO typography */
+    font-size: 14px; /* TODO typography */
+    height: unset; /* Override MD spec */
+    letter-spacing: 0.43px; /* TODO typography */
+    line-height: 18px; /* Override MD spec */
+    min-height: 26px;
+    padding: 4px 0 !important; /* Override MD spec */
+
+    &.error {
+        background-color: $hca-gray-lightest;
+        cursor: default;
+        letter-spacing: unset;
+        margin: -8px -16px 0;
+        max-width: calc(100% + 32px);
+        padding: 8px 16px !important;
+        white-space: pre-wrap;
+    }
+
+    /* mat-option flex between term and count */
+    > span {
+        align-items: flex-start;
+        display: flex;
+        justify-content: space-between;
+
+        /* Wrap of term name if required */
+        > span:first-of-type {
+            flex: 1;
+            padding-right: 4px;
+            white-space: pre-wrap;
+        }
+
+        /** Truncate long term names - where term names are not spaced */
+        .truncate {
+            word-break: break-all;
+        }
+
+        /* Count */
+        > span:nth-of-type(2) {
+            flex-basis: 36px; /* approx. 4 digit number */
+            flex-shrink: 0;
+            text-align: right;
+        }
+    }
+}
+
+/**
+ * XSmall - iphone 5/SE
+ */
+@media screen and (max-width: 374px) {
+
+    /* Input on x-small device */
+    .wrapper .hca-input {
+        width: 200px;
+    }
+}
+
+/**
+ * Small Tablet - landscape
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 960px) {
+
+    /* Wrapper */
+    .wrapper {
+
+        /* Filter container */
+        .filter {
+            align-items: center;
+            flex-direction: row;
+
+            /* Filter options group - organ, method, donor etc */
+            .view-all-options {
+                margin-top: 0;
+            }
+        }
+    }
+
+}
+
+/**
+ * HCA specific breakpoint
+ */
+@media screen and (min-width: 1200px) {
+
+    /* Wrapper */
+    .wrapper {
+        padding: 0 30px;
+
+        /* Search input field */
+        .hca-input {
+            width: 350px;
+        }
+
+        /* Facet group menu */
+        .facet-group-menu {
+            width: 150px;
+        }
+    }
+}
+

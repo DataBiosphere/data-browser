@@ -18,12 +18,12 @@ import { of } from "rxjs";
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../../config/config.service";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
-import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
+import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { SearchTermService } from "../../shared/search-term.service";
-import { TermResponseService } from "../../shared/term-response.service";
+import { ResponseTermService } from "../../http/response-term.service";
 import { TerraService } from "../../shared/terra.service";
 import { TermSortService } from "../../sort/term-sort.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
@@ -42,9 +42,9 @@ describe("HCAExportToTerraComponent", () => {
 
     // Search terms with file format selected
     const SEARCH_TERMS_WITH_FILE_FORMAT = [
-        new SearchFileFacetTerm("fileFormat", "fastq", 123),
-        new SearchFileFacetTerm("disease", "ESRD", 8),
-        new SearchFileFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("fileFormat", "fastq", 123),
+        new SearchFacetTerm("disease", "ESRD", 8),
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
     ];
 
     // Empty file summary
@@ -101,12 +101,12 @@ describe("HCAExportToTerraComponent", () => {
                         "get"
                     ])
                 },
-                SearchTermService,
+                SearchTermHttpService,
                 {
                     provide: Store,
                     useValue: testStore
                 },
-                TermResponseService,
+                ResponseTermService,
                 {
                     provide: TermSortService,
                     useValue: jasmine.createSpyObj("TermSortService", ["sortTerms"])

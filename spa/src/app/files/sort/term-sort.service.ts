@@ -7,10 +7,10 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { TermNameSortType } from "./term-name-sort-type.model";
 import { TermSortable } from "./term-sortable.model";
-import { AgeUnit } from "../shared/age-unit.model";
+import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
 
 // App dependencies
 

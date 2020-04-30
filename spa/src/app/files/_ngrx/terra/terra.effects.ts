@@ -17,9 +17,9 @@ import { AppState } from "../../../_ngrx/app.state";
 import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.action";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
-import { selectFileFormatsFileFacet } from "../file.selectors";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { TerraService } from "../../shared/terra.service";
+import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 
 @Injectable()
 export class TerraEffects {

@@ -21,7 +21,7 @@ import {
     FetchProjectRequestAction,
     FetchProjectSuccessAction,
 } from "./table.actions";
-import { FetchFileFacetsRequestAction } from "../file-facet-list/file-facet-list.actions";
+import { FetchFileFacetsRequestAction } from "../facet/file-facet-list.actions";
 import { selectTableQueryParams } from "../file.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";

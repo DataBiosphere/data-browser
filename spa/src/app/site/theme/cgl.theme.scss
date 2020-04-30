@@ -47,7 +47,21 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     background-color: $hca-secondary;
 }
 
+.hca-radio.term .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle, .hca-radio.term .mat-radio-outer-circle {
+    border-color: $hca-gray-light;
+}
+
+/* Overrides styles for Angular Radio Button (mat-radio-button) */
+.hca-radio.term .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: $hca-primary;
+}
+
 .hca-radio .mat-radio-label {
     font-family: "Montserrat", sans-serif; /* TODO typography */
     font-size: 12px;
+}
+
+/* Term radio button label */
+.hca-radio.term .mat-radio-label {
+    font-size: 13px;
 }

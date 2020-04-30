@@ -19,7 +19,7 @@ import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../../config/config.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
-import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
+import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
@@ -38,9 +38,9 @@ describe("HCAGetManifestComponent", () => {
 
     // Search terms with file format selected
     const SEARCH_TERMS_WITH_FILE_FORMAT = [
-        new SearchFileFacetTerm("fileFormat", "fastq", 123),
-        new SearchFileFacetTerm("disease", "ESRD", 8),
-        new SearchFileFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("fileFormat", "fastq", 123),
+        new SearchFacetTerm("disease", "ESRD", 8),
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
     ];
     
     // Empty file summary

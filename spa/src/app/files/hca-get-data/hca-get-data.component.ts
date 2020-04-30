@@ -16,19 +16,18 @@ import { map } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import {
-    selectFileFacetsFileFacets,
-    selectMatrixSupported,
     selectSelectedEntity
 } from "../_ngrx/file.selectors";
-import { ClearIsMatrixSupportedAction } from "../_ngrx/file-facet-list/clear-is-matrix-supported.action";
-import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/file-facet-list/fetch-is-matrix-supported-request.action";
+import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
+import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
 import { EntitySelectAction } from "../_ngrx/table/table.actions";
 import EntitySpec from "../shared/entity-spec";
-import { FileFacet } from "../shared/file-facet.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { DownloadViewState } from "./download-view-state.model";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { Term } from "../shared/term.model";
 import { HCAGetDataState } from "./hca-get-data.state";
+import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
 
 @Component({
     selector: "hca-get-data",
@@ -284,8 +283,8 @@ export class HCAGetDataComponent implements OnInit {
         // Determine the current selected tab (from table)
         const selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
 
-        // Get the list of facets to display
-        const fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
+        // Get the list of fileFacets to display
+        const fileFacets$ = this.store.pipe(select(selectFacetFileFacets));
 
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());

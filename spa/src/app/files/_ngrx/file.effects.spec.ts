@@ -22,7 +22,7 @@ import {
     DEFAULT_SAMPLES_STATE, FILES_STATE_WITH_SEARCH_TERM,
     PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM, SAMPLES_STATE_WITH_SEARCH_TERM
 } from "./file.state.mock";
-import { FetchFileFacetsRequestAction, FetchFileFacetsSuccessAction } from "./file-facet-list/file-facet-list.actions";
+import { FetchFileFacetsRequestAction } from "./facet/file-facet-list.actions";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
 import { FilesService } from "../shared/files.service";
@@ -30,6 +30,7 @@ import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
+import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 
 describe("File Effects", () => {
 
@@ -78,7 +79,7 @@ describe("File Effects", () => {
         });
         
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new TermCountsUpdatedAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
         });
@@ -99,7 +100,7 @@ describe("File Effects", () => {
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
@@ -122,7 +123,7 @@ describe("File Effects", () => {
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
         });
@@ -139,13 +140,13 @@ describe("File Effects", () => {
         // Update selected tab to be samples
         store.setState(DEFAULT_SAMPLES_STATE);
 
-        // Dispatch the fetch file facets action
+        // Dispatch the fetch file fileFacets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
@@ -162,13 +163,13 @@ describe("File Effects", () => {
         // Update search state to include a selected project search term
         store.setState(SAMPLES_STATE_WITH_SEARCH_TERM);
 
-        // Dispatch the fetch file facets action
+        // Dispatch the fetch file fileFacets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
@@ -185,13 +186,13 @@ describe("File Effects", () => {
         // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
-        // Dispatch the fetch file facets action
+        // Dispatch the fetch file fileFacets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
@@ -214,7 +215,7 @@ describe("File Effects", () => {
         });
 
         const expected = cold("--(bcd)", {
-            b: new FetchFileFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.fileFacets),
+            b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
