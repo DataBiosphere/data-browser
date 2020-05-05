@@ -10,37 +10,10 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 // App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
-import { FileFacetListState } from "./file-facet-list/file-facet-list.state";
-import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
 import { PaginationModel } from "../table/pagination.model";
-
-/**
- * Return facet list-related slices. 
- */
-export const selectFileFacets = createFeatureSelector<FileFacetListState>("fileFacetList");
-
-/**
- * Return the list of file facets from the store.
- */
-export const selectFileFacetsFileFacets = createSelector(selectFileFacets, (state) => {
-    return state.fileFacets;
-});
-
-/**
- * Return the file format facet from the store.
- */
-export const selectFileFormatsFileFacet = createSelector(selectFileFacets, (state) => {
-    return state.fileFacets.find((facet) => facet.name === FileFacetName.FILE_FORMAT);
-});
-
-/**
- * Returns true if current search terms yield matrixable data.
- */
-export const selectMatrixSupported = createSelector(selectFileFacets, (state) => {
-    return state.matrixSupported;
-});
+import { selectFacetFacets } from "./facet/facet.selectors";
 
 /**
  * Return the file summary from the store.
@@ -73,8 +46,8 @@ export const selectTermCountsByFacetName =
  * @returns {boolean}
  */
 export const selectTableLoading = createSelector(selectTableState, (tableState: TableState) => {
-        return getSelectedTable(tableState).loading;
-    });
+    return getSelectedTable(tableState).loading;
+});
 
 /**
  * Returns pagination state of the current selected entity.
@@ -117,10 +90,13 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
  *
  * @returns {Map<string, FileFacet> & PaginationModel & TableState}
  */
-export const selectTableQueryParams = createSelector(selectSelectedSearchTermsBySearchKey, selectPagination, selectTableState,
+export const selectTableQueryParams = createSelector(
+    selectSelectedSearchTermsBySearchKey,
+    selectPagination,
+    selectTableState,
     (selectedSearchTermsBySearchKey, pagination, tableState) => {
-    return { selectedSearchTermsBySearchKey, pagination, tableState };
-});
+        return {selectedSearchTermsBySearchKey, pagination, tableState};
+    });
 
 /**
  * Return the selected entry (ie the selected row in the table).
@@ -128,14 +104,4 @@ export const selectTableQueryParams = createSelector(selectSelectedSearchTermsBy
 export const selectSelectedProject = createSelector(selectTableState, (tableState: TableState) => {
 
     return tableState.selectedProject;
-});
-
-/**
- * Return the selected view state - both the selected entity and the current set of search terms
- */
-export const selectSelectedViewState = createSelector(selectSelectedSearchTermsBySearchKey, selectSelectedEntity, (selectedSearchTermsBySearchKey, selectedEntity) => {
-    return {
-        selectedSearchTermsBySearchKey,
-        selectedEntity
-    };
 });

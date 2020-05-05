@@ -16,18 +16,18 @@ import { ConfigService } from "../../config/config.service";
 import { ExportToTerraResponse } from "./export-to-terra-response.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { ExportToTerraHttpResponse } from "./export-to-terra-http-response.model";
-import { FileFacet } from "./file-facet.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileManifestService } from "./file-manifest.service";
 import { ICGCQuery } from "./icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { SearchTerm } from "../search/search-term.model";
-import { SearchTermService } from "./search-term.service";
 import { ToolName } from "./tool-name.model";
 import { GACategory } from "../../shared/gtm/ga-category.model";
 import { GADimension } from "../../shared/gtm/ga-dimension.model";
 import { GAAction } from "../../shared/gtm/ga-action.model";
 import { GTMService } from "../../shared/gtm/gtm.service";
 import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
 export class TerraService {
@@ -36,13 +36,13 @@ export class TerraService {
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
      * @param {GTMService} gtmService
-     * @param {SearchTermService} searchTermService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private fileManifestService: FileManifestService,
                 private gtmService: GTMService,
-                private searchTermService: SearchTermService,
+                private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
 
@@ -136,7 +136,7 @@ export class TerraService {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
         let params = new HttpParams({fromObject: query} as any);
 
         const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
@@ -153,7 +153,7 @@ export class TerraService {
      */
     public trackRequestExportToTerra(selectedSearchTerms: SearchTerm[]) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.EXPORT, GAAction.REQUEST, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
             [GADimension.TOOL_NAME]: ToolName.TERRA
@@ -168,7 +168,7 @@ export class TerraService {
      */
     public trackLaunchTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.EXPORT, GAAction.LAUNCH, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
             [GADimension.ENTITY_URL]: exportToTerraUrl,
@@ -184,7 +184,7 @@ export class TerraService {
      */
     public trackCopyToClipboardTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
-        const query = this.searchTermService.marshallSearchTerms(selectedSearchTerms);
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         this.gtmService.trackEvent(GACategory.EXPORT, GAAction.COPY_TO_CLIPBOARD, query, {
             [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
             [GADimension.ENTITY_URL]: exportToTerraUrl,

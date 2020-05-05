@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of counts, file sizes and other summary values of the current selection of facets.
+ * Model of counts, file sizes and other summary values of the current selection of fileFacets.
  */
 import { FileTypeSummary } from "./file-type-summary";
 

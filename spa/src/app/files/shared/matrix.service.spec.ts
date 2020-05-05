@@ -12,10 +12,10 @@ import { of } from "rxjs";
 
 // App dependencies
 import { FileManifestService } from "./file-manifest.service";
+import { ResponseTermService } from "../http/response-term.service";
 import { MatrixService } from "./matrix.service";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GTMService } from "../../shared/gtm/gtm.service";
-import { SearchTermService } from "./search-term.service";
-import { TermResponseService } from "./term-response.service";
 
 describe("MatrixService:", () => {
 
@@ -55,8 +55,8 @@ describe("MatrixService:", () => {
         const fileManifestService = TestBed.get(FileManifestService);
         const gtmService = TestBed.get(GTMService);
 
-        const termResponseService = new TermResponseService();
-        const searchTermService = new SearchTermService(termResponseService);
+        const termResponseService = new ResponseTermService();
+        const searchTermService = new SearchTermHttpService(termResponseService);
         
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
         matrixService = new MatrixService(configService, gtmService, fileManifestService, searchTermService, <any>httpClientSpy);

@@ -1,8 +1,8 @@
 <div class="data-snapshot">
     <div class="data-query" *ngIf="selectedSearchTerms$ | async as selectedSearchTerms">
         <h4 class="fontsize-m semi-bold">Query</h4>
-        <hca-file-filter-result [removable]="false"
-                                [selectedSearchTerms]="selectedSearchTerms"></hca-file-filter-result>
+        <selected-search-terms [removable]="false"
+                                [selectedSearchTerms]="selectedSearchTerms"></selected-search-terms>
         <p class="fontsize-xs" *ngIf="selectedSearchTerms && selectedSearchTerms.length === 0">No query applied to
             data</p>
     </div>

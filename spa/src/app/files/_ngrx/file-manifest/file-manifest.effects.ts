@@ -17,11 +17,11 @@ import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-request.action";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
-import { selectFileFormatsFileFacet } from "../file.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { FileManifestService } from "../../shared/file-manifest.service";
+import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 
 @Injectable()
 export class FileManifestEffects {

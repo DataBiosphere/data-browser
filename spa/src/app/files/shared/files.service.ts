@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Service for coordinating file-related functionality.
+ * Service for coordinating entity-related functionality, including matrix-specific requests to entity end points.
  */
 
 // Core dependencies
@@ -14,38 +14,43 @@ import { map, switchMap } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { Dictionary } from "../../dictionary";
+import { EntityAPIResponse } from "../http/entity-api-response.model";
 import { EntityName } from "./entity-name.model";
 import { EntitySearchResults } from "./entity-search-results.model";
-import { FilesAPIResponse } from "./files-api-response.model";
 import { FileFormat } from "./file-format.model";
-import { FacetTermsResponse } from "./facet-terms-response.model";
-import { FileFacet } from "./file-facet.model";
-import { FileFacetName } from "./file-facet-name.model";
+import { ResponseFacet } from "../http/response-facet.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { GenusSpecies } from "./genus-species.model";
 import { LibraryConstructionApproach } from "./library-construction-approach.model";
 import { MatrixableFileFacets } from "./matrixable-file-facets.model";
 import { PairedEnd } from "./paired-end.model";
-import { SearchTermService } from "./search-term.service";
 import { SearchTerm } from "../search/search-term.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { TableParamsModel } from "../table/table-params.model";
 import { Term } from "./term.model";
-import { TermResponse } from "./term-response.model";
-import { TermResponseService } from "./term-response.service";
-import { SearchFileFacetTerm } from "../search/search-file-facet-term.model";
+import { ResponseTerm } from "../http/response-term.model";
+import { ResponseTermService } from "../http/response-term.service";
+import { SearchFacetTerm } from "../search/search-facet-term.model";
+import { FacetAgeRange } from "../facet/facet-age-range/facet-age-range.model";
+import { FacetAgeRangeName } from "../facet/facet-age-range/facet-age-range-name.model";
+import { SearchAgeRange } from "../search/search-age-range.model";
+import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
+import { Facet } from "../facet/facet.model";
 
 @Injectable()
 export class FilesService {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermService} searchTermService
-     * @param {TermResponseService} termResponseService
+     * @param {SearchTermHttpService} searchTermHttpService
+     * @param {ResponseTermService} responseTermService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
-                private searchTermService: SearchTermService,
-                private termResponseService: TermResponseService,
+                private searchTermHttpService: SearchTermHttpService,
+                private responseTermService: ResponseTermService,
                 private httpClient: HttpClient) {
     }
 
@@ -53,7 +58,7 @@ export class FilesService {
      * Fetch data to populate rows in table, depending on the current selected tab (eg samples, files), as
      * well as facet terms and their corresponding counts. See fetchProjectSearchResults for projects tab.
      *
-     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey - set of currently selected search terms
      * @param {TableParamsModel} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
@@ -78,9 +83,9 @@ export class FilesService {
         }
 
         return this.httpClient
-            .get<FilesAPIResponse>(url, {params: paramMap})
+            .get<EntityAPIResponse>(url, {params: paramMap})
             .pipe(
-                map((apiResponse: FilesAPIResponse) =>
+                map((apiResponse: EntityAPIResponse) =>
                     this.bindEntitySearchResultsResponse(apiResponse, searchTermsBySearchKey, selectedEntity))
             );
     }
@@ -97,7 +102,7 @@ export class FilesService {
         const url = this.configService.buildApiUrl(`/repository/summary`);
 
         // Build up the query params
-        const filters = this.searchTermService.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
 
         return this.httpClient.get<FileSummary>(url, {
             params: {
@@ -114,13 +119,13 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<boolean>}
      */
     public fetchIsMatrixSupported(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                   tableParams: TableParamsModel): Observable<boolean> {
 
         return this.fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-            map((apiResponse: FilesAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
+            map((apiResponse: EntityAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
         );
     }
 
@@ -138,7 +143,7 @@ export class FilesService {
 
 
         return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-            map((apiResponse: FilesAPIResponse) =>
+            map((apiResponse: EntityAPIResponse) =>
                 this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
             switchMap((matrixableFileFacets: MatrixableFileFacets) =>
                 this.isMatrixPartialQueryMatch(searchTermsBySearchKey, tableParams, matrixableFileFacets))
@@ -164,9 +169,9 @@ export class FilesService {
         const paramMap = this.buildFetchSearchResultsQueryParams(ss2SearchTerms, tableParams);
 
         return this.httpClient
-            .get<FilesAPIResponse>(url, {params: paramMap})
+            .get<EntityAPIResponse>(url, {params: paramMap})
             .pipe(
-                map((apiResponse: FilesAPIResponse) =>
+                map((apiResponse: EntityAPIResponse) =>
                     this.bindIsPairedEndFalseResponse(apiResponse, searchTermsBySearchKey))
             );
     }
@@ -187,19 +192,20 @@ export class FilesService {
     /**
      * Parse the API response and build up entity search results.
      *
-     * @param {FilesAPIResponse} apiResponse
-     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {EntityAPIResponse} apiResponse
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey - set of currently selected search terms
      * @param {string} selectedEntity
      * @returns {EntitySearchResults}
      */
-    private bindEntitySearchResultsResponse(apiResponse: FilesAPIResponse,
+    private bindEntitySearchResultsResponse(apiResponse: EntityAPIResponse,
                                             searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                             selectedEntity: string): EntitySearchResults {
 
-        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
-        const termCountsByFacetName = this.mapTermCountsByFacetName(fileFacets);
-        const searchTerms = this.searchTermService.bindSearchTerms(apiResponse.termFacets);
-
+        // Build up term facets
+        const facets = this.bindFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const termCountsByFacetName = this.mapTermCountsByFacetName(facets);
+        const searchTerms = this.searchTermHttpService.bindSearchTerms(apiResponse.termFacets);
+        
         const tableModel = {
             data: apiResponse.hits,
             pagination: apiResponse.pagination,
@@ -208,36 +214,34 @@ export class FilesService {
         };
 
         return {
-            fileFacets,
+            facets,
             searchTerms,
             tableModel
         };
     }
 
     /**
-     * Map files API response into FileFacet objects, maintaining selected state of terms.
+     * Map files API response into FileFacet objects, maintaining selected state of terms. This is specifically for
+     * facets returned from the backend (which are facets with a corresponding list of terms) and not other types of
+     * facets, for example, facets with a selected range.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
-     * @param {Dictionary<FacetTermsResponse>} termFacets
-     * @returns {FileFacet[]}
+     * @param {Dictionary<ResponseFacet>} responseFacetsByName
+     * @returns {Facet[]}
      */
-    private bindFileFacets(
+    private bindFacets(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>,
-        termFacets: Dictionary<FacetTermsResponse>): FileFacet[] {
+        responseFacetsByName: Dictionary<ResponseFacet>): Facet[] {
 
-        return Object.keys(termFacets).map((facetName) => {
+        const facets: Facet[] = Object.keys(responseFacetsByName).map((facetName) => {
 
-            const responseFileFacet = termFacets[facetName];
-
-            // Determine the set of currently selected search term names for this facet
-            const searchTermNames = this.listFacetSearchTermNames(facetName, searchTermsByFacetName);
-
-            // Build up the list of terms from the facet response
-            const responseTerms = this.bindFileFacetTerms(facetName, responseFileFacet.terms, searchTermNames);
-
-            // Create file facet from newly built terms and newly calculated total
-            return new FileFacet(facetName, (responseFileFacet.total || 0), responseTerms);
+            return this.buildFileFacet(facetName, searchTermsByFacetName, responseFacetsByName[facetName]);
         });
+
+        // Add age range facet
+        facets.push(this.buildFacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, searchTermsByFacetName));
+        
+        return facets;
     }
 
     /**
@@ -245,22 +249,22 @@ export class FilesService {
      * of search terms.
      *
      * @param {string} facetName
-     * @param {TermResponse[]} termResponses
+     * @param {ResponseTerm[]} responseTerms
      * @param {string[]} searchTermNames
      * @returns {Term[]}
      */
-    private bindFileFacetTerms(facetName: string, termResponses: TermResponse[], searchTermNames: string[]): Term[] {
+    private bindFacetTerms(facetName: string, responseTerms: ResponseTerm[], searchTermNames: string[]): Term[] {
 
-        return termResponses.reduce((accum, termResponse: TermResponse) => {
+        return responseTerms.reduce((accum, responseTerm: ResponseTerm) => {
 
             // Default term name to "Unspecified" if term name is null
-            const termName = this.termResponseService.bindTermName(termResponse);
+            const termName = this.responseTermService.bindTermName(responseTerm);
 
             // Determine if term is currently selected as a search term
             let selected = searchTermNames.indexOf(termName) >= 0;
 
             // Create new term - default name to "Unspecified" if no value is returned
-            const term = new Term(termName, termResponse.count, selected);
+            const term = new Term(termName, responseTerm.count, selected);
             accum.push(term);
 
             return accum;
@@ -270,52 +274,53 @@ export class FilesService {
     /**
      * Returns true if there are no hits in the specified API response.
      *
-     * @param {FilesAPIResponse} apiResponse
+     * @param {EntityAPIResponse} apiResponse
      * @returns {boolean}
      */
-    private bindIsEmptySetResponse(apiResponse: FilesAPIResponse): boolean {
+    private bindIsEmptySetResponse(apiResponse: EntityAPIResponse): boolean {
 
         return apiResponse.hits.length === 0;
     }
 
     /**
-     * Returns the set of file facets that are applicable to determining the matrix partial query status. The status is
+     * Returns the set of file fileFacets that are applicable to determining the matrix partial query status. The status is
      * either partial (ie there is data that wont be included in the matrix), or complete (ie all data is included in the
      * matrix).
      *
-     * @param {FilesAPIResponse} apiResponse
+     * @param {EntityAPIResponse} apiResponse
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * searchTermsBySearchKey: Map<string, Set<SearchTerm>>
      * @returns {MatrixableFileFacets}
      */
-    private bindMatrixableFileFacetsResponse(apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): MatrixableFileFacets {
+    private bindMatrixableFileFacetsResponse(
+        apiResponse: EntityAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): MatrixableFileFacets {
 
-        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
-        const fileFacetsByName = fileFacets.reduce((accum, fileFacet) => {
-            accum.set(fileFacet.name, fileFacet);
+        const facets = this.bindFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const facetByName = facets.reduce((accum, facet) => {
+            accum.set(facet.name, facet as FileFacet);
             return accum;
         }, new Map<string, FileFacet>());
 
         return {
-            genusSpecies: fileFacetsByName.get(FileFacetName.GENUS_SPECIES),
-            libraryConstructionApproaches: fileFacetsByName.get(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH),
-            pairedEnds: fileFacetsByName.get(FileFacetName.PAIRED_END)
+            genusSpecies: facetByName.get(FileFacetName.GENUS_SPECIES),
+            libraryConstructionApproaches: facetByName.get(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH),
+            pairedEnds: facetByName.get(FileFacetName.PAIRED_END)
         };
     }
 
     /**
      * Returns true if the only paired end returned is TRUE.
      *
-     * @param {FilesAPIResponse} apiResponse
+     * @param {EntityAPIResponse} apiResponse
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * searchTermsBySearchKey: Map<string, Set<SearchTerm>>
      * @returns {MatrixableFileFacets}
      */
-    private bindIsPairedEndFalseResponse(apiResponse: FilesAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): boolean {
+    private bindIsPairedEndFalseResponse(apiResponse: EntityAPIResponse, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): boolean {
 
-        const fileFacets = this.bindFileFacets(searchTermsBySearchKey, apiResponse.termFacets);
-        const pairedEnd = fileFacets.find(facet => facet.name === FileFacetName.PAIRED_END);
-        return !pairedEnd.isOnlySelectedTerm(PairedEnd.TRUE);
+        const facets = this.bindFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const pairedEndFacet = facets.find(facet => facet.name === FileFacetName.PAIRED_END) as FileFacet;
+        return !pairedEndFacet.isOnlySelectedTerm(PairedEnd.TRUE);
     }
 
     /**
@@ -327,6 +332,49 @@ export class FilesService {
     private buildEntitySearchResultsUrl(entity: string): string {
 
         return this.configService.buildApiUrl(`/repository/${entity}`);
+    }
+
+    /**
+     * Build up age range facet from response facet values.
+     * 
+     * @param {string} facetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     */
+    private buildFacetAgeRange(facetName: string,
+                               searchTermsByFacetName: Map<string, Set<SearchTerm>>): FacetAgeRange {
+
+        // Build up range range facet
+        const ageRangeSearchTerms = searchTermsByFacetName.get(FacetAgeRangeName.ORGANISM_AGE_RANGE) as Set<SearchAgeRange>;
+        if ( !ageRangeSearchTerms || ageRangeSearchTerms.size === 0 ) {
+            return new FacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, {
+                ageUnit: AgeUnit.year
+            });
+        }
+
+        // There is currently only a single value for age range
+        const ageRangeSearchTerm = Array.from(ageRangeSearchTerms.values())[0];
+        return new FacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, ageRangeSearchTerm.ageRange);
+    }
+
+    /**
+     * Build up file facet from response facet values, matching with current selected state of terms.
+     * 
+     * @param {string} facetName
+     * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
+     * @param {ResponseFacet} responseFacet
+     */
+    private buildFileFacet(facetName: string,
+                           searchTermsByFacetName: Map<string, Set<SearchTerm>>,
+                           responseFacet: ResponseFacet): FileFacet {
+
+        // Determine the set of currently selected search term names for this facet
+        const searchTermNames = this.listFacetSearchTermNames(facetName, searchTermsByFacetName);
+
+        // Build up the list of terms from the facet response
+        const responseTerms = this.bindFacetTerms(facetName, responseFacet.terms, searchTermNames);
+
+        // Create facet from newly built terms and newly calculated total
+        return new FileFacet(facetName, (responseFacet.total || 0), responseTerms);
     }
 
     /**
@@ -343,7 +391,7 @@ export class FilesService {
         const searchTerms = Array.from(searchTermSets).reduce((accum, searchTermSet) => {
             return accum.concat(Array.from(searchTermSet));
         }, []);
-        const filters = this.searchTermService.marshallSearchTerms(searchTerms);
+        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
 
         const paramMap = {
             filters,
@@ -409,7 +457,7 @@ export class FilesService {
 
         const searchTerms = new Map(searchTermsByFacetName);
         searchTerms.set(FileFacetName.FILE_FORMAT, new Set([
-            new SearchFileFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
+            new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.MATRIX)
         ]));
         return searchTerms;
     }
@@ -425,7 +473,7 @@ export class FilesService {
 
         const ss2SearchTerms = new Map(searchTermsByFacetName);
         ss2SearchTerms.set(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, new Set([
-            new SearchFileFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
+            new SearchFacetTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, LibraryConstructionApproach.SMART_SEQ2)
         ]));
         return ss2SearchTerms;
     }
@@ -436,10 +484,10 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<EntityAPIResponse>}
      */
     private fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                                           tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                           tableParams: TableParamsModel): Observable<EntityAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -449,7 +497,7 @@ export class FilesService {
         const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
 
         return this.httpClient
-            .get<FilesAPIResponse>(url, {params: paramMap});
+            .get<EntityAPIResponse>(url, {params: paramMap});
     }
 
     /**
@@ -458,10 +506,10 @@ export class FilesService {
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParamsModel} tableParams
-     * @returns {Observable<MatrixableSearchResults>}
+     * @returns {Observable<EntityAPIResponse>}
      */
     private fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                                   tableParams: TableParamsModel): Observable<FilesAPIResponse> {
+                                                   tableParams: TableParamsModel): Observable<EntityAPIResponse> {
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(EntityName.FILES);
@@ -471,7 +519,7 @@ export class FilesService {
         const paramMap = this.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
 
         return this.httpClient
-            .get<FilesAPIResponse>(url, {params: paramMap});
+            .get<EntityAPIResponse>(url, {params: paramMap});
     }
 
     /**
@@ -517,7 +565,7 @@ export class FilesService {
         if ( !this.isPairedEndPartialQueryMatchForSmartSeq2(matrixableFileFacets.pairedEnds) ) {
             return of(false);
         }
-        
+
         // We could potentially have a partial query match and therefore need to execute the additional
         // query to determine if there are any smart seq 2 / paired end false combinations in the data.
         return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
@@ -575,23 +623,24 @@ export class FilesService {
 
         const searchTermSet: Set<SearchTerm> = searchTermsBySearchKey.get(facetName);
         return searchTermSet ?
-            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getName()) :
+            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getSearchValue()) :
             [];
     }
 
     /**
      * Create map of terms counts for each file facet, keyed by the file facet name.
      *
-     * @param {FileFacet[]} fileFacets
+     * @param {Facet[]} facets
      */
-    private mapTermCountsByFacetName(fileFacets: FileFacet[]): Map<string, number> {
+    private mapTermCountsByFacetName(facets: Facet[]): Map<string, number> {
 
-        return Array.from(fileFacets).reduce((accum, fileFacet: FileFacet) => {
+        return facets
+            .reduce((accum, facet: FileFacet) => {
 
-            const termCount = fileFacet.selectedTermCount > 0 ? fileFacet.selectedTermCount : fileFacet.termCount;
-            accum.set(fileFacet.name, termCount);
-            return accum;
-        }, new Map<string, number>());
+                const termCount = facet.selectedTermCount > 0 ? facet.selectedTermCount : facet.termCount;
+                accum.set(facet.name, termCount);
+                return accum;
+            }, new Map<string, number>());
     }
 
     /**

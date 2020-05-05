@@ -1,8 +1,0 @@
-<div class="facet-title">
-    <span>{{getFacetName(fileFacet.name)}}</span>
-</div>
-<div class="facet-term-list">
-    <span class="fontsize-xxs">{{getLabelName(selectedEntity$ | async)}}</span>
-    <hca-facet-term-list [fileFacetName]="fileFacet.name" [terms]="getSortedTerms(fileFacet.name, fileFacet.terms)"
-                     (facetTermSelected)="onFacetTermSelected($event)"></hca-facet-term-list>
-</div>

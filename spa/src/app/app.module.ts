@@ -25,7 +25,6 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
-import { UserService } from "./data/user/user.service";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { AppReducers } from "./_ngrx/app.reducer";
@@ -89,7 +88,6 @@ import { SystemService } from "./system/shared/system.service";
     providers: [
         LocalStorageService,
         SystemService,
-        UserService,
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.
         {

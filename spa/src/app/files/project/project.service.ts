@@ -19,21 +19,23 @@ import { ProjectTSVUrlResponse } from "./project-tsv-url-response.model";
 import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
 import { ReleaseProject } from "../releases/release-project.model";
 import { SearchEntity } from "../search/search-entity.model";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { ICGCQuery } from "../shared/icgc-query";
 import { ManifestDownloadFormat } from "../shared/manifest-download-format.model";
 import { Project } from "../shared/project.model";
-import { SearchTermService } from "../shared/search-term.service";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
 export class ProjectService {
 
     /**
      * @param {ConfigService} configService
-     * @param {SearchTermService} searchTermService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService, private searchTermService: SearchTermService, private httpClient: HttpClient) {
+    constructor(private configService: ConfigService, 
+                private searchTermHttpService: SearchTermHttpService,
+                private httpClient: HttpClient) {
     }
 
     /**
@@ -74,7 +76,7 @@ export class ProjectService {
         const searchTerms = [
             new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectName)
         ];
-        const query = new ICGCQuery(this.searchTermService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
+        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
         this.pollRequestProjectTSVUrl(projectId, url, params, 0, response$, killSwitch$);

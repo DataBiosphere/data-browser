@@ -2,37 +2,36 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Core files component, displays results summary as well as facets.
+ * Core files component, displays results summary as well as fileFacets.
  */
 
 // Core dependencies
-import { Component, Inject, OnDestroy, OnInit, Renderer2 } from "@angular/core";
+import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { Location } from "@angular/common";
 import * as _ from "lodash";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subject, Subscription } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { combineLatest, Observable, Subject } from "rxjs";
+import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { FileSummary } from "./file-summary/file-summary";
+import { FilesState } from "./files.state";
+import { AppState } from "../_ngrx/app.state";
+import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
-    selectFileFacetsFileFacets,
     selectFileSummary,
     selectEntities,
-    selectSelectedEntity,
-    selectSelectedViewState
+    selectSelectedEntity
 } from "./_ngrx/file.selectors";
 import {
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
-    selectSelectedSearchTerms
+    selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey
 } from "./_ngrx/search/search.selectors";
-import { AppState } from "../_ngrx/app.state";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import { SearchTerm } from "./search/search-term.model";
+import { SearchTermUrlService } from "./search/url/search-term-url.service";
 import EntitySpec from "./shared/entity-spec";
-import { FileFacet } from "./shared/file-facet.model";
 
 @Component({
     selector: "bw-files",
@@ -42,35 +41,24 @@ import { FileFacet } from "./shared/file-facet.model";
 export class FilesComponent implements OnInit, OnDestroy {
 
     // Public/template variables
-    public entities$: Observable<EntitySpec[]>;
-    public fileFacets$: Observable<FileFacet[]>;
-    public selectedEntity$: Observable<EntitySpec>;
-    public selectFileSummary$: Observable<FileSummary>;
-    public selectedProjectIds: Observable<string[]>;
-    public searchTerms$: Observable<SearchTerm[]>;
-    public selectedSearchTerms$: Observable<SearchTerm[]>;
+    public state$: Observable<FilesState>;
 
     // Locals
     private ngDestroy$ = new Subject();
-    private urlUpdater: Subscription;
 
     /**
      * @param {DeviceDetectorService} deviceService
-     * @param {Store<AppState>} store
+     * @param {SearchTermUrlService} locationService
      * @param {Location} location
+     * @param {Store<AppState>} store
      * @param {Renderer2} renderer
-     * @param {Window} window
      */
     constructor(private deviceService: DeviceDetectorService,
-                private store: Store<AppState>,
+                private locationService: SearchTermUrlService,
                 private location: Location,
-                private renderer: Renderer2,
-                @Inject("Window") private window: Window) {
+                private store: Store<AppState>,
+                private renderer: Renderer2) {
     }
-
-    /**
-     * Public API
-     */
 
     /**
      * Returns true if device is either mobile or tablet.
@@ -112,8 +100,74 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * PRIVATE
+     * Update URL on change of selected facets.
      */
+    private initOnStateChanges() {
+
+        // Set up the URL state management - write the browser address bar when the selected facets change.
+        combineLatest(
+            this.store.pipe(select(selectFacetFacets)),
+            this.store.pipe(select(selectSelectedEntity)),
+            this.store.pipe(select(selectSelectedSearchTermsBySearchKey))
+        )
+        .pipe(
+            takeUntil(this.ngDestroy$),
+            distinctUntilChanged((previous, current) => {
+                return _.isEqual(previous, current);
+            })
+        )
+        .subscribe(([facets, selectedEntity, selectedSearchTermsBySearchKey]) => {
+
+            const filterQueryString = this.locationService.stringifySearchTerms(facets, selectedSearchTermsBySearchKey);
+            
+            const path = selectedEntity.key;
+            const params = new URLSearchParams();
+            if ( !!filterQueryString ) {
+                params.set("filter", filterQueryString);
+            }
+            this.location.replaceState(path, params.toString());
+        });
+    }
+
+    /**
+     * Setup initial component state from store.
+     */
+    private initState() {
+
+        this.state$ = combineLatest(
+            this.store.pipe(select(selectFileSummary)), // Counts
+            this.store.pipe(select(selectFacetFacets)), // Complete list of facets to display - both file facets (facets with term lists) as well as range facets
+            this.store.pipe(select(selectEntities)), // Set of tabs to be displayed
+            this.store.pipe(select(selectSelectedEntity)), // Current selected tab
+            this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
+            this.store.pipe(select(selectSearchTerms)),
+            this.store.pipe( // Current set of selected projects, if any
+                select(selectSelectedProjectSearchTerms),
+                map(this.mapSearchTermsToProjectIds)
+            )
+        )
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                map(([
+                         fileSummary,
+                         facets,
+                         entities,
+                         selectedEntity,
+                         selectedSearchTerms,
+                         searchTerms,
+                         selectedProjectIds]) => {
+
+                    return {
+                        entities,
+                        facets,
+                        fileSummary,
+                        searchTerms,
+                        selectedEntity,
+                        selectedProjectIds,
+                        selectedSearchTerms
+                    };
+                }));
+    }
 
     /**
      * Transform selected project search term set into set of selected project IDs.
@@ -129,17 +183,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Life cycle hooks
-     */
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
-        if ( this.urlUpdater ) {
-            this.urlUpdater.unsubscribe();
-        }
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
@@ -150,57 +196,7 @@ export class FilesComponent implements OnInit, OnDestroy {
      */
     public ngOnInit() {
 
-        // Grab the counts etc
-        this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
-
-        // Get the list of facets to display
-        this.fileFacets$ = this.store.pipe(select(selectFileFacetsFileFacets));
-
-        // Grab the set of tabs to be displayed
-        this.entities$ = this.store.pipe(select(selectEntities));
-
-        // Determine the current selected tab
-        this.selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
-
-        // Grab the set of current selected search terms
-        this.selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-
-        // Grab the set of possible search terms, we'll use this to populate the search autosuggest.
-        this.searchTerms$ = this.store.pipe(select(selectSearchTerms));
-
-        // Grab the current set of selected projects, if any
-        this.selectedProjectIds = this.store.pipe(
-            select(selectSelectedProjectSearchTerms),
-            map(this.mapSearchTermsToProjectIds)
-        );
-
-        // Set up the URL state management - write the browser address bar when the selected facets change.
-        this.store.pipe(
-            select(selectSelectedViewState),
-            distinctUntilChanged((previous, current) => {
-                return _.isEqual(previous, current);
-            })
-        )
-        .subscribe(({selectedSearchTermsBySearchKey, selectedEntity}) => {
-
-            // Convert search terms to query string state
-            const queryStringSearchTerms = Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {
-
-                const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
-                accum.add({
-                    facetName: facetName,
-                    terms: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchValue())
-                });
-                return accum;
-            }, new Set<any>());
-
-            const path = selectedEntity.key;
-            const params = new URLSearchParams();
-            if ( queryStringSearchTerms.size > 0 ) {
-                params.set("filter", JSON.stringify(Array.from(queryStringSearchTerms)));
-            }
-
-            this.location.replaceState(path, params.toString());
-        });
+        this.initState();
+        this.initOnStateChanges();
     }
 }

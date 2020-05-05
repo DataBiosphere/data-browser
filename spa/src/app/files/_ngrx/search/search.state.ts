@@ -6,16 +6,22 @@
  * complete set of search terms that are selectable.
  */
 
+// Core dependencies
+import * as _ from "lodash";
+
 // App dependencies
-import { FileFacetListState } from "../file-facet-list/file-facet-list.state";
-import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
+import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { SetViewStateAction } from "../facet/set-view-state.action";
+import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
-import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
-import { QueryStringFacet } from "../../shared/query-string-facet.model";
 import { SearchEntity } from "../../search/search-entity.model";
 import { SearchTermsUpdatedAction } from "./search-terms-updated-action.action";
-import { FileFacetName } from "../../shared/file-facet-name.model";
+import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
+import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-name.model";
+import { SearchAgeRange } from "../../search/search-age-range.model";
+import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 
 export class SearchState {
 
@@ -43,10 +49,38 @@ export class SearchState {
     }
 
     /**
+     * Handle clear of age range - remove age range from the set of selected search terms.
+     *
+     * @param {SelectFacetAgeRangeAction} action
+     * @returns {SearchState}
+     */
+    public clearAgeRange(action: ClearSelectedAgeRangeAction): SearchState {
+
+        const searchTerm = action.asSearchTerm();
+        const updatedSearchTermsByFacetName =
+            this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+    }
+
+    /**
+     * Handle select of age range - add age range to the set of selected search terms.
+     * 
+     * @param {SelectFacetAgeRangeAction} action
+     * @returns {SearchState}
+     */
+    public selectAgeRange(action: SelectFacetAgeRangeAction): SearchState {
+
+        const searchTerm = action.asSearchTerm();
+        const updatedSearchTermsByFacetName = 
+            this.replaceSearchTermInSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+    }
+
+    /**
      * Handle select/deselect of file facet term. Create new search state based on selected file facet term action.
      *
      * @param {SelectSearchTermAction} action
-     * @returns {FileFacetListState}
+     * @returns {FacetState}
      */
     public selectSearchTerm(action: SelectSearchTermAction): SearchState {
 
@@ -72,7 +106,7 @@ export class SearchState {
     public setSelectedSearchTermsFromViewState(action: SetViewStateAction): SearchState {
 
         // Update new state with selected terms
-        const searchTermsByFacetName = action.selectedFacets.reduce((accum, queryStringFacet) => {
+        const searchTermsByFacetName = action.selectedSearchTerms.reduce((accum, queryStringFacet) => {
 
             const facetName = queryStringFacet.facetName;
             const searchTerms = this.translateQueryStringToSearchTerms(queryStringFacet);
@@ -155,7 +189,7 @@ export class SearchState {
         // Remove the selected term for the current set of selected term
         let updatedSearchTerms = Array.from(currentSearchTerms).reduce((accum, currentSearchTerm) => {
 
-            if ( currentSearchTerm.getSearchValue() !== selectedTerm.getSearchValue() ) {
+            if ( !_.isEqual(currentSearchTerm, selectedTerm) ) {
                 accum.add(currentSearchTerm);
             }
 
@@ -178,21 +212,46 @@ export class SearchState {
     }
 
     /**
-     * Translate query string filters to set of search terms.
+     * Replace specified search term in set of selected search terms.
      *
-     * @param {QueryStringFacet} queryStringFacet
+     * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
+     * @param {SearchTerm} selectedTerm
+     * @returns {Map<string, Set<SearchTerm>>}
+     */
+    private replaceSearchTermInSelectedSet(
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>, selectedTerm: SearchTerm): Map<string, Set<SearchTerm>> {
+
+        const searchKey = selectedTerm.getSearchKey();
+
+        // Replace the newly selected search term in the set
+        const updatedSearchTerms = new Set<SearchTerm>();
+        updatedSearchTerms.add(selectedTerm);
+
+        // Clone selected map for immutability and add updated set of selected terms for the specified facet
+        const clonedTermsBySearchKey = new Map(searchTermsBySearchKey);
+        clonedTermsBySearchKey.set(searchKey, updatedSearchTerms);
+        return clonedTermsBySearchKey;
+    }
+
+    /**
+     * Translate query string search terms to set of selected search terms.
+     *
+     * @param {QueryStringSearchTerm} queryStringSearchTerm
      * @returns {Set<SearchTerm>}
      */
-    private translateQueryStringToSearchTerms(queryStringFacet: QueryStringFacet): Set<SearchTerm> {
+    private translateQueryStringToSearchTerms(queryStringSearchTerm: QueryStringSearchTerm): Set<SearchTerm> {
 
-        const searchKey = queryStringFacet.facetName;
-        return queryStringFacet.selectedTermNames.reduce((accum, searchValue) => {
+        const searchKey = queryStringSearchTerm.facetName;
+        return queryStringSearchTerm.value.reduce((accum, searchValue) => {
 
             if ( searchKey === FileFacetName.PROJECT_ID ) {
                 accum.add(new SearchEntity(searchKey, searchValue, ""));
             }
+            else if (searchKey === FacetAgeRangeName.ORGANISM_AGE_RANGE) {
+                accum.add(new SearchAgeRange(searchKey, searchValue));
+            }
             else {
-                accum.add(new SearchFileFacetTerm(searchKey, searchValue));
+                accum.add(new SearchFacetTerm(searchKey, searchValue));
             }
 
             return accum;

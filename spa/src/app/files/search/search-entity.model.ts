@@ -23,7 +23,8 @@ export class SearchEntity implements SearchTerm {
         private readonly count?: number) {}
 
     /**
-     * Return the count.
+     * Return the count. Only required when setting up search terms options for select from search box (and not when
+     * when setting up search terms from selected facets.
      *
      * @returns {number}
      */
@@ -43,7 +44,8 @@ export class SearchEntity implements SearchTerm {
     }
 
     /**
-     * Return a unique value to identify this search term by.
+     * Return a unique value to identify this search term by - convenience method, used when iterating through sets of
+     * search terms that are grouped by facet name or entity name.
      *
      * @returns {string}
      */
@@ -53,17 +55,8 @@ export class SearchEntity implements SearchTerm {
     }
 
     /**
-     * Return the entity name.
-     *
-     * @returns {string}
-     */
-    public getName(): string {
-
-        return this.entityName;
-    }
-
-    /**
-     * The search key of an entity is its entity type name.
+     * The search key of an entity is its entity type name. This value is used when building the filter query string
+     * parameter.
      *
      * @returns {string}
      */
@@ -73,21 +66,25 @@ export class SearchEntity implements SearchTerm {
     }
 
     /**
-     * The search value of an entity is its ID.
+     * The search value of an entity is its ID. This value is used internally to check equality, as well as when
+     * updating the filter query string parameter on facet selection.
      *
      * @returns {string}
      */
-    public getSearchValue(): string {
+    public getSearchValue(): any {
 
         return this.entityId;
     }
 
     /**
-     * Use the entity ID as the filter parameter value when building up search URLs.
+     * Use the entity ID as the filter query string parameter. This value is not used when updating the location
+     * according to the set of selected facets. The location is updated with the front-end representation of the
+     * selected set of facets whereas this method translates the front-end representation when facets are marshalled
+     * for request functionality.
      *
      * @returns {any}
      */
-    public getSearchParameterValue(): any {
+    public getFilterParameterValue(): any {
 
         return this.entityId;
     }

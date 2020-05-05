@@ -2,13 +2,13 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Selected term from facet menu.
+ * Model of an individual facet value. For example, the term "Homo Sapiens" contained in the facet "Species".
  */
 
 // App dependencies
 import { TermSortable } from "../sort/term-sortable.model";
 
-export class Term implements TermSortable{
+export class Term implements TermSortable {
 
     public readonly name: string;
     public readonly count: number;

@@ -13,8 +13,8 @@ import { Store } from "@ngrx/store";
 // App components
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetMatrixSpeciesSelectionComponent } from "./hca-get-matrix-species-selection.component";
-import { FileFacet } from "../../shared/file-facet.model";
-import { FileFacetName } from "../../shared/file-facet-name.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { Term } from "../../shared/term.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";

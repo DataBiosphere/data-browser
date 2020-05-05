@@ -15,12 +15,12 @@ import { of } from "rxjs";
 // App dependencies
 import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
 import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
-import { HCAFileFilterResultComponent } from "../../hca-file-filter-result/hca-file-filter-result.component";
 import { HCAGetDataFileSummaryComponent } from "../hca-get-data-file-summary/hca-get-data-file-summary.component";
-import { SearchFileFacetTerm } from "../../search/search-file-facet-term.model";
-import { FileFacetDisplayService } from "../../shared/file-facet-display.service";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { HCAGetDataSummaryComponent } from "./hca-get-data-summary.component";
+import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
+import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FacetDisplayService } from "../../facet/facet-display.service";
 
 // App components
 
@@ -33,16 +33,16 @@ describe("HCAGetDataSummaryComponent", () => {
 
     // Search terms with file format selected
     const SEARCH_TERMS = [
-        new SearchFileFacetTerm("fileFormat", "fastq", 123),
-        new SearchFileFacetTerm("disease", "ESRD", 8),
-        new SearchFileFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("fileFormat", "fastq", 123),
+        new SearchFacetTerm("disease", "ESRD", 8),
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
     ];
 
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
             declarations: [
-                HCAFileFilterResultComponent,
+                SelectedSearchTermsComponent,
                 HCAGetDataFileSummaryComponent,
                 HCAGetDataSummaryComponent,
                 HCATooltipComponent
@@ -57,8 +57,8 @@ describe("HCAGetDataSummaryComponent", () => {
                     useValue: testStore
                 },
                 {
-                    provide: FileFacetDisplayService,
-                    useValue: jasmine.createSpyObj("FileFacetDisplayService", ["getFileFacetDisplayName"])
+                    provide: FacetDisplayService,
+                    useValue: jasmine.createSpyObj("FacetDisplayService", ["getFacetDisplayName"])
                 }
             ]
         }).compileComponents();
@@ -89,7 +89,7 @@ describe("HCAGetDataSummaryComponent", () => {
 
         fixture.detectChanges();
 
-        expect(fixture.debugElement.nativeElement.querySelector("hca-file-filter-result")).not.toBe(null);
+        expect(fixture.debugElement.nativeElement.querySelector("selected-search-terms")).not.toBe(null);
     });
 
     /**

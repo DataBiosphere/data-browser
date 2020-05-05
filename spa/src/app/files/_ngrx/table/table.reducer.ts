@@ -10,8 +10,8 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ClearSelectedProjectAction } from "./clear-selected-project.action";
-import { FetchFileFacetsSuccessAction } from "../file-facet-list/file-facet-list.actions";
-import { SetViewStateAction } from "../file-facet-list/set-view-state.action";
+import { FetchFacetsSuccessAction } from "../facet/fetch-facets-success-action.action";
+import { SetViewStateAction } from "../facet/set-view-state.action";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import * as tableStateService from "./table.state";
@@ -24,7 +24,6 @@ import { TableModel } from "../../table/table.model";
 import { TermCountsUpdatedAction } from "./term-counts-updated.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
-
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
@@ -44,7 +43,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             return nextState;
 
         // On fetch success of file facets, reset the table models of all entities except the current selected entity
-        case FetchFileFacetsSuccessAction.ACTION_TYPE:
+        case FetchFacetsSuccessAction.ACTION_TYPE:
 
             nextState = {
                 ...state,

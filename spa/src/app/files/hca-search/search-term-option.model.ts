@@ -2,8 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of a search term option that can be included in the set of possible search terms to select from, in the search
- * autosuggest
+ * Model of a dropdown option that can be included in the set of possible search terms to select from, in the search
+ * autosuggest.
  */
 
 // App dependencies

@@ -15,7 +15,7 @@ import { Observable, of } from "rxjs";
 
 // App dependencies
 import { FileState } from "../file.state";
-import { FetchFileFacetsRequestAction } from "../file-facet-list/file-facet-list.actions";
+import { FetchFileFacetsRequestAction } from "../facet/file-facet-list.actions";
 import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../file.state.mock";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";

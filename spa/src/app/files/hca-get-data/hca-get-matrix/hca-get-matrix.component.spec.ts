@@ -28,6 +28,7 @@ import { MatrixUrlRequestFormComponent } from "../matrix-url-request-form/matrix
 import { CancelFetchMatrixUrlRequestAction } from "../../_ngrx/matrix/cancel-fetch-matrix-url-request.action";
 import { ClearMatrixPartialQueryMatchAction } from "../../_ngrx/matrix/clear-matrix-partial-query-match.action";
 import { FetchMatrixUrlRequestAction } from "../../_ngrx/matrix/fetch-matrix-url-request.action";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { FileManifestService } from "../../shared/file-manifest.service";
@@ -36,7 +37,6 @@ import { GTMService } from "../../../shared/gtm/gtm.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixFormat } from "../../shared/matrix-format.model";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
-import { SearchTermService } from "../../shared/search-term.service";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
@@ -211,7 +211,7 @@ describe("HCAGetMatrixComponent", () => {
                         "trackEvent"
                     ])
                 }, {
-                    provide: SearchTermService,
+                    provide: SearchTermHttpService,
                     useValue: jasmine.createSpyObj("SearchTermService", [
                         "bindSearchTerms",
                         "marshallSearchTerms"

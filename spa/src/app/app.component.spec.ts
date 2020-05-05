@@ -17,12 +17,11 @@ import { ReplaySubject } from "rxjs";
 // App dependencies
 import { AppComponent } from "./app.component";
 import { ConfigService } from "./config/config.service";
-import { SetViewStateAction } from "./files/_ngrx/file-facet-list/set-view-state.action";
+import { SetViewStateAction } from "./files/_ngrx/facet/set-view-state.action";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
-import { FileFacetName } from "./files/shared/file-facet-name.model";
+import { FileFacetName } from "./files/facet/file-facet/file-facet-name.model";
 import { GenusSpecies } from "./files/shared/genus-species.model";
 import { LibraryConstructionApproach } from "./files/shared/library-construction-approach.model";
-import { QueryStringFacet } from "./files/shared/query-string-facet.model";
 import { EntityName } from "./files/shared/entity-name.model";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AnnouncementComponent } from "./shared/announcement/announcement.component";
@@ -39,18 +38,22 @@ import { CCToolbarNavSubMenuComponent } from "./shared/cc-toolbar-nav-sub-menu/c
 import { CCToolbarNavSubMenuItemComponent } from "./shared/cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
 import { CCToolbarNavDropDownComponent } from "./shared/cc-toolbar-nav-drop-down/cc-toolbar-nav-drop-down.component";
 import { ReleaseService } from "./files/shared/release.service";
+import { QueryStringSearchTerm } from "./files/search/url/query-string-search-term.model";
+import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
 
 
 describe("AppComponent:", () => {
 
     const PROJECTS_PATH = "/projects";
-    const PROJECTS_PATH_WITH_FILTERS = "/projects?filter=%5B%7B%22facetName%22:%22libraryConstructionApproach%22,%22terms%22:%5B%22Smart-seq2%22%5D%7D%5D";
+    const PROJECTS_PATH_WITH_FILTERS = "/projects?filter=%5B%7B%22facetName%22:%22libraryConstructionApproach%22,%value%22:%5B%22Smart-seq2%22%5D%7D%5D";
 
     let component: AppComponent;
     let fixture: ComponentFixture<AppComponent>;
 
     const locationSpy = jasmine.createSpyObj("Location", ["path"]);
     const storeSpy = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
+    
+    const searchTermUrlService = new SearchTermUrlService();
 
     const navigation$ = new ReplaySubject<RouterEvent>(1);
     const routerMock = {
@@ -105,6 +108,9 @@ describe("AppComponent:", () => {
             }, {
                 provide: ReleaseService,
                 useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseVisible"])
+            }, {
+                provide: SearchTermUrlService,
+                useValue: searchTermUrlService
             }]
         });
 
@@ -135,7 +141,7 @@ describe("AppComponent:", () => {
         component["setAppStateFromURL"]();
 
         const filters = [
-            new QueryStringFacet(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS])
+            new QueryStringSearchTerm(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS])
         ];
         const setViewAction = new SetViewStateAction(EntityName.PROJECTS, filters);
         expect(storeSpy.dispatch).toHaveBeenCalledWith(setViewAction);
@@ -149,7 +155,7 @@ describe("AppComponent:", () => {
         const activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
         spyOnProperty(activatedRoute, "snapshot").and.returnValue({
             queryParams: {
-                filter: `[{"facetName": "libraryConstructionApproach", "terms": ["Smart-seq2"]}]`
+                filter: `[{"facetName": "libraryConstructionApproach", "value": ["Smart-seq2"]}]`
             }
         });
         locationSpy.path.and.returnValue(PROJECTS_PATH_WITH_FILTERS);
@@ -158,7 +164,7 @@ describe("AppComponent:", () => {
         component["setAppStateFromURL"]();
 
         const filters = [
-            new QueryStringFacet(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, [LibraryConstructionApproach.SMART_SEQ2])
+            new QueryStringSearchTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, [LibraryConstructionApproach.SMART_SEQ2])
         ];
         const setViewAction = new SetViewStateAction(EntityName.PROJECTS, filters);
         expect(storeSpy.dispatch).toHaveBeenCalledWith(setViewAction);

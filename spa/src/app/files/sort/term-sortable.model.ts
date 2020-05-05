@@ -2,7 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Interface of terms (search terms, facet terms, file summary views) that are sortable.
+ * Interface indicating terms are sortable. Used by search terms, facet terms, file type summary views (for manifest
+ * generation/Terra export).
  */
 
 export interface TermSortable {

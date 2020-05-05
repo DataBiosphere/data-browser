@@ -18,12 +18,12 @@ import { AppState } from "../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { SearchTerm } from "../search/search-term.model";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SearchTermOptionGroup } from "./search-term-option-group.model";
-import { FileFacetDisplayService } from "../shared/file-facet-display.service";
 import { SearchTermOption } from "./search-term-option.model";
 import { SelectedSearchTermOption } from "./selected-search-term-option.model";
 import { TermSortService } from "../sort/term-sort.service";
+import { FacetDisplayService } from "../facet/facet-display.service";
 
 @Component({
     selector: "hca-search",
@@ -46,10 +46,10 @@ export class HCASearchComponent implements OnInit, OnChanges {
     @ViewChild("filterInput", { static: true }) filterInput: ElementRef; // Static true: filter input available on init
 
     /**
-     * @param {FileFacetDisplayService} fileFacetDisplayService
+     * @param {FacetDisplayService} facetDisplayService
      * @param {Store<AppState>} store
      */
-    constructor(private fileFacetDisplayService: FileFacetDisplayService,
+    constructor(private facetDisplayService: FacetDisplayService,
                 private termSortService: TermSortService,
                 private store: Store<AppState>) {}
 
@@ -147,7 +147,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
             return accum;
         }, []);
 
-        // Return new list of searchable facets, unless the list is empty
+        // Return new list of searchable fileFacets, unless the list is empty
         if ( filteredSearchTermGroupOptions.length > 0 ) {
             this.searchReturnsEmpty = false;
             return filteredSearchTermGroupOptions;
@@ -175,7 +175,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
             let searchTermGroup = accum.get(searchKey);
             if ( !searchTermGroup ) {
                searchTermGroup = {
-                   displayValue: this.fileFacetDisplayService.getFileFacetDisplayName(searchKey),
+                   displayValue: this.facetDisplayService.getFacetDisplayName(searchKey),
                    searchKey: searchKey,
                    options: []
                } as SearchTermOptionGroup;

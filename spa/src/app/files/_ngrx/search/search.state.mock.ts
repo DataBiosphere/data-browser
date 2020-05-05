@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { FileFacetName } from "../../shared/file-facet-name.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SearchEntity } from "../../search/search-entity.model";
 import { SearchState } from "./search.state";
 

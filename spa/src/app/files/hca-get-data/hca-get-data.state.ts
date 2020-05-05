@@ -7,7 +7,7 @@
 
 // App dependencies
 import EntitySpec from "../shared/entity-spec";
-import { FileFacet } from "../shared/file-facet.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
 
 export interface HCAGetDataState {
 

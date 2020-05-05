@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Displays list file type summaries, and checkbox indicating if the corresponding file format facet term is currently
- * in set of selected search terms.
+ * in set of selected search terms. Used when selecting files type for manifest generation or export to Terra.  
  */
 
 // Core dependencies
@@ -15,7 +15,7 @@ import { FileTypeSummary } from "../file-summary/file-type-summary";
 import { FileTypeSummaryView } from "./file-type-summary-view.model";
 import { AppState } from "../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
-import { FileFacetName } from "../shared/file-facet-name.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { TermSortService } from "../sort/term-sort.service";
 
 @Component({

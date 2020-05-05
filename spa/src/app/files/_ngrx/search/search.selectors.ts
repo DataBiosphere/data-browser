@@ -11,7 +11,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 // App dependencies
 import { SearchState } from "./search.state";
 import { SearchTerm } from "../../search/search-term.model";
-import { FileFacetName } from "../../shared/file-facet-name.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 
 // Search slice
 export const selectSearch = createFeatureSelector<SearchState>("search");
