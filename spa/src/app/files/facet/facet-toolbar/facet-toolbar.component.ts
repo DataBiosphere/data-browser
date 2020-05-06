@@ -130,15 +130,17 @@ export class FacetToolbarComponent implements OnChanges {
     }
 
     /**
-     * Returns options container positioning.
+     * Returns facet group container positioning.
      *
-     * @param {number} i
-     * @param {number} numberOfFacets
-     * @param {number} facetGroupCount
-     * @param {string[]} facetNames
-     * @returns {{[key: string]: string}}
+     * @param {FacetGroup} facetGroup
+     * @param {number} indexOfFacetGroupMenu
+     * @returns {{[p: string]: string}}
      */
-    public getFacetStyles(i: number, numberOfFacets: number, facetGroupCount: number, facetNames: string[]): { [key: string]: string } {
+    public getFacetGroupStyles(facetGroup: FacetGroup, indexOfFacetGroupMenu: number): { [key: string]: string } {
+
+        const facetGroupFacetNames = facetGroup.facetNames;
+        const numberOfFacets = facetGroupFacetNames.length;
+        const numberOfFacetGroups = this.fileFacetGroups.length;
 
         /* Width of standard facet - either 216px or 256px */
         const widthOfFacet = this.getFacetWidth();
@@ -148,22 +150,22 @@ export class FacetToolbarComponent implements OnChanges {
          * If it doesn't, we will use double the standard facet width */
         this.facetDoubleWideOrganismAge = false;
         /* Facet group includes ORGANISM_AGE_RANGE facet */
-        const facetGroupHasOrganismAge = facetNames.includes(FacetAgeRangeName.ORGANISM_AGE_RANGE);
+        const facetGroupHasOrganismAge = facetGroupFacetNames.includes(FacetAgeRangeName.ORGANISM_AGE_RANGE);
         const widthOfInputBox = document.getElementsByClassName("hca-input")[0].getBoundingClientRect().width;
-        /* Width of select box - inclusive of margin 8px on the select box - 158px or 128px */
-        const widthOfSelectBox = document.getElementsByClassName("facet-group-menu")[0].getBoundingClientRect().width + 8;
-        /* Width of select boxes - (excludes first and last margin - 8px) - 782px or 632px */
-        const widthOfSelectBoxes = document.getElementById("select").getBoundingClientRect().width - 8;
+        /* Width of facet group menu - inclusive of margin 8px on the menu - 158px or 128px */
+        const widthOfFacetGroupMenu = document.getElementsByClassName("facet-group-menu")[0].getBoundingClientRect().width + 8;
+        /* Width of facet group menus - (excludes first and last margin - 8px) - 782px or 632px */
+        const widthOfFacetGroupMenus = document.getElementById("facet-group-menus").getBoundingClientRect().width - 8;
 
-        /* AllowableWidth determines whether the fileFacets are able to be left aligned with its select box.
-         * Calculated using width of select boxes, i is position of select box, 158px is width inclusive of margin on the select box */
-        const allowableWidthIfLeftAligned = (widthOfSelectBoxes - (widthOfSelectBox * i));
+        /* AllowableWidth determines whether the fileFacets are able to be left aligned with its menu.
+         * Calculated using width of menus, and the position of menu e.g. box number 1, 2, 3 etc..., 158px is width inclusive of margin on the menu */
+        const allowableWidthIfLeftAligned = (widthOfFacetGroupMenus - (widthOfFacetGroupMenu * indexOfFacetGroupMenu));
         /* Position right - if right aligned */
-        const right = (widthOfSelectBox * (facetGroupCount - 1 - i));
+        const right = (widthOfFacetGroupMenu * (numberOfFacetGroups - 1 - indexOfFacetGroupMenu));
         /* Position left - if left aligned */
-        const left = this.isWindowWidthSmallTablet() ? (widthOfSelectBox * i) : (widthOfInputBox + (widthOfSelectBox * i) + 8);
-        /* Left position of select box - assists with check if fileFacets can be left aligned with screen */
-        const leftPosOfSelectBox = this.isWindowWidthSmallTablet() ? ((widthOfSelectBox * (i + 1)) - 8) : ((widthOfSelectBox * (i + 1)) + widthOfInputBox);
+        const left = this.isWindowWidthSmallTablet() ? (widthOfFacetGroupMenu * indexOfFacetGroupMenu) : (widthOfInputBox + (widthOfFacetGroupMenu * indexOfFacetGroupMenu) + 8);
+        /* Left position of menu - assists with check if fileFacets can be left aligned with screen */
+        const leftPosOfSelectBox = this.isWindowWidthSmallTablet() ? ((widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1)) - 8) : ((widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1)) + widthOfInputBox);
         /* Maximum allowable width for facet display */
         const maxAllowableWidth = document.getElementById("filter").offsetWidth;
 
@@ -172,9 +174,9 @@ export class FacetToolbarComponent implements OnChanges {
         let maxHeight;
 
         /* Calculate max allowable height of hca-options - scrolls if extends beyond page bounds */
-        if ( this.selectIndex === i ) {
+        if ( this.selectIndex === indexOfFacetGroupMenu ) {
 
-            maxHeight = (document.body.getBoundingClientRect().height - document.getElementById("options").getBoundingClientRect().top) + "px";
+            maxHeight = (document.body.getBoundingClientRect().height - document.getElementById("facet-group").getBoundingClientRect().top) + "px";
         }
 
         /* Wrap fileFacets if the widthRequired is greater than the maximum allowable width.
@@ -190,13 +192,13 @@ export class FacetToolbarComponent implements OnChanges {
         }
 
         /* Rules of alignment:
-         * Facets will be left aligned with own select box if it can be contained between itself and last select box.
-         * Facets will be left aligned with screen if the widthRequired is greater than the position of the facet's select box.
-         * Facets will be right aligned with last select box. */
+         * Facets will be left aligned with own menu if it can be contained between itself and last facet menu.
+         * Facets will be left aligned with screen if the widthRequired is greater than the position of the facet's menu.
+         * Facets will be right aligned with last facet menu. */
         let leftPos = widthRequired < allowableWidthIfLeftAligned ? "0" : widthRequired < leftPosOfSelectBox ? "unset" : (-left + "px");
         let rightPos = widthRequired < allowableWidthIfLeftAligned ? "unset" : widthRequired < leftPosOfSelectBox ? (-right + "px") : "unset";
         let minWidth = (widthRequired + "px");
-        let maxWidth = widthRequired < allowableWidthIfLeftAligned ? (allowableWidthIfLeftAligned + "px") : (widthOfSelectBoxes + "px");
+        let maxWidth = widthRequired < allowableWidthIfLeftAligned ? (allowableWidthIfLeftAligned + "px") : (widthOfFacetGroupMenus + "px");
 
         return {
             "left": leftPos,
@@ -215,16 +217,6 @@ export class FacetToolbarComponent implements OnChanges {
     public getFacetWidth(): number {
 
         return (this.isWindowWidthHCAMedium() ? 216 : 256);
-    }
-
-    /**
-     * Returns the width of organism age facet, determined by screen size.
-     *
-     * @returns {number}
-     */
-    public getFacetWidthOrganismAge(): number {
-
-        return (this.isWindowWidthHCAMedium() ? 432 : 318);
     }
 
     /**
@@ -263,20 +255,6 @@ export class FacetToolbarComponent implements OnChanges {
     }
 
     /**
-     * @param i
-     * @returns {string}
-     */
-    public getOptionsClass(i) {
-
-        if ( this.selectIndex == i ) {
-            return "hca-options";
-        }
-        else {
-            return "hca-options hide";
-        }
-    }
-
-    /**
      * @returns {string}
      */
     public getOptionsSmallClass() {
@@ -310,6 +288,17 @@ export class FacetToolbarComponent implements OnChanges {
     public isDeviceMobile(): boolean {
 
         return this.deviceService.isMobile();
+    }
+
+    /**
+     * Returns true if the facet group is active (its corresponding facet group menu is active).
+     *
+     * @param activePosition
+     * @returns {number | boolean}
+     */
+    public isFacetGroupActive(activePosition) {
+
+        return this.facets.length && this.selectIndex === activePosition;
     }
 
     /**
@@ -408,24 +397,34 @@ export class FacetToolbarComponent implements OnChanges {
     }
 
     /**
-     * Update state to indicate facet menu is now open.
-     * 
-     * @param {number} index - Index of facet group
+     * Update state to indicate facet menu is now closed (due to click event outside of menu or click on "apply" events).
+     *
+     * @param event
      */
-    public onFacetMenuOpened(index) {
+    public onFacetMenuOpen(event) {
 
-        this.menuOpen.emit(true);
-        this.selectIndex = index;
+        this.menuOpen.emit(event);
+        this.selectIndex = null;
+        this.openIndex = null;
     }
 
     /**
-     * Update state to indicate facet menu is now closed (due to mouseout from menu or click on "apply" events).
+     * Update state to indicate facet menu is either open or closed.
+     *
+     * @param {number} index
      */
-    public onFacetMenuClosed() {
+    public onToggleFacetMenu(index: number) {
 
-        this.menuOpen.emit(false);
-        this.selectIndex = null;
-        this.openIndex = null;
+        if ( index === this.selectIndex ) {
+
+            this.menuOpen.emit(false);
+            this.selectIndex = null;
+        }
+        else {
+
+            this.menuOpen.emit(true);
+            this.selectIndex = index;
+        }
     }
 
     /**

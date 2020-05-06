@@ -98,31 +98,6 @@
             margin-right: -4px; /* For appearance of equal margins on facet-group-menu */
             width: 16px;
         }
-
-        /* Select options */
-        .hca-options {
-            background-color: $hca-white;
-            border: 1px solid $hca-gray-light;
-            border-radius: 1px;
-            box-sizing: border-box;
-            display: flex;
-            flex-wrap: wrap;
-            -ms-overflow-style: none; // IE 10+, scrollbar hidden
-            overflow-y: auto; // Firefox, scrollbar hidden unless actively scrolling
-            padding: 6px;
-            position: absolute;
-            top: 44px; /* 38px for select field + 6px below select field */
-            z-index: 11;
-
-            // Safari and Chrome, scrollbar hidden
-            &::-webkit-scrollbar {
-                display: none;
-            }
-
-            &.hide {
-                display: none;
-            }
-        }
     }
 
     /* Mobile view select field */

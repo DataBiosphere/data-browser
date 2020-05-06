@@ -38,6 +38,7 @@ import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manif
 import { routes } from "./files.routes";
 import { FacetAgeRangeFormComponent } from "./facet/facet-age-range/facet-age-range-form/facet-age-range-form.component";
 import { FacetDisplayService } from "./facet/facet-display.service";
+import { FacetGroupComponent } from "./facet/facet-group/facet-group.component";
 import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
 import { FacetMenuContentComponent } from "./facet/facet-menu-content/facet-menu-content.component";
 import { FacetMenuTitleComponent } from "./facet/facet-menu-title/facet-menu-title.component";
@@ -160,6 +161,7 @@ import { SearchTermUrlService } from "./search/url/search-term-url.service";
         DataDownloadCitationComponent,
         DisplayDataLinkComponent,
         FacetAgeRangeFormComponent,
+        FacetGroupComponent,
         FacetMenuComponent,
         FacetMenuContentComponent,
         FacetMenuTitleComponent,

@@ -2,17 +2,17 @@
     <div id="filter" [ngClass]="{'filter': true, 'small': (isDeviceMobile() || isWindowWidthSmall())}">
         <hca-search [searchTerms]="searchTerms" [selectedSearchTerms]="selectedSearchTerms"></hca-search>
         <ng-container [ngSwitch]="isDeviceMobile() || isWindowWidthSmall()">
-            <div id="select" class="view-all-options" *ngSwitchDefault>
+            <div id="facet-group-menus" class="view-all-options" *ngSwitchDefault>
                 <ng-container *ngFor="let fileFacetGroup of fileFacetGroups; let i = index; trackBy: trackFileFacetGroupsByFn">
                     <div class="facet-group-menu"
                          [ngClass]="{'active': selectIndex === i}"
-                         (click)="onFacetMenuOpened(i)">
+                         (click)="onToggleFacetMenu(i)">
                         <span>{{fileFacetGroup.facetGroupName}}</span>
                         <mat-icon>keyboard_arrow_down</mat-icon>
-                        <ng-container *ngIf="facets.length && selectIndex === i">
-                            <div id="options" [ngClass]="getOptionsClass(i)"
-                                 [ngStyle]="getFacetStyles(i, fileFacetGroup.facetNames.length, fileFacetGroups.length, fileFacetGroup.facetNames)"
-                                 (mouseleave)="onFacetMenuClosed()">
+                        <facet-group *ngIf="isFacetGroupActive(i)"
+                                     id="facet-group"
+                                     [ngStyle]="getFacetGroupStyles(fileFacetGroup, i)"
+                                     (menuOpen)="onFacetMenuOpen($event)">
                                 <ng-container *ngFor="let facetName of fileFacetGroup.facetNames; trackBy: trackFileFacetByFn">
                                     <ng-container [ngSwitch]="isFacetOrganismAge(facetName)">
                                         <facet-menu *ngSwitchCase="true"
@@ -36,15 +36,14 @@
                                         </facet-menu>
                                     </ng-container>
                                 </ng-container>
-                            </div>
-                        </ng-container>
+                        </facet-group>
                     </div>
                 </ng-container>
             </div>
             <ng-container *ngSwitchCase="true">
                 <div class="facet-group-menu view-options"
                      [ngClass]="{'active': selectIndex === 1}"
-                     (click)="onFacetMenuOpened(1)">
+                     (click)="onToggleFacetMenu(1)">
                     <span>Filter</span>
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </div>
@@ -77,7 +76,7 @@
                             </ng-container>
                         </ng-container>
                         <div class="apply">
-                            <button class="button secondary" (click)="onFacetMenuClosed()">Apply</button>
+                            <button class="button secondary" (click)="onFacetMenuOpen(false)">Apply</button>
                         </div>
                     </div>
                 </div>
@@ -85,4 +84,4 @@
         </ng-container>
     </div>
 </div>
-<div *ngIf="selectIndex != null" class="facet-group-menu-overlay" (click)="onFacetMenuClosed()"></div>
+<div *ngIf="selectIndex != null" class="facet-group-menu-overlay" (click)="onFacetMenuOpen(false)"></div>
