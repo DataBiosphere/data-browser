@@ -8,6 +8,7 @@
 // Core dependencies
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Subject } from "rxjs";
 
 // App dependencies
 import { AgeRange } from "../age-range.model";
@@ -16,7 +17,6 @@ import { AgeInAgeUnit } from "./age-in-age-unit.pipe";
 import { AgeUnitInAgeUnit } from "./age-unit-in-age-unit.pipe";
 import { AgeUnitInSeconds } from "./age-unit-in-seconds.pipe";
 import { MinMaxValidator } from "./min-max.validator";
-import { Subject } from "rxjs/index";
 
 @Component({
     selector: "facet-age-range-form",
@@ -26,6 +26,8 @@ import { Subject } from "rxjs/index";
 export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
 
     // Locals
+    private pristine: boolean = true; // True if user has not yet submitted the form since form was first displayed on menu open
+    private ageRangeGroup: FormGroup;
     private ngDestroy$ = new Subject();
 
     // Inputs
@@ -35,14 +37,41 @@ export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
     @Output() applyFacet = new EventEmitter<AgeRange>();
     @Output() clearFacet = new EventEmitter<AgeRange>();
 
-    // Template variables
-    public ageRangeGroup = new FormGroup({
-        ageMax: new FormControl("", Validators.required),
-        ageMin: new FormControl("", Validators.required),
-        ageUnit: new FormControl(AgeUnit.year),
-    }, {
-        validators: MinMaxValidator()
-    });
+    /**
+     * Set up form group and form control backing age range form.
+     */
+    constructor() {
+
+        this.ageRangeGroup = new FormGroup({
+            ageMax: new FormControl("", Validators.required),
+            ageMin: new FormControl("", Validators.required),
+            ageUnit: new FormControl(AgeUnit.year),
+        }, {
+            validators: MinMaxValidator()
+        });
+    }
+
+    /**
+     * Returns true if an age range is currently applied and can therefore be cleared.
+     *
+     * @param {AgeRange} appliedAgeRange
+     * @returns {boolean}
+     */
+    public isClearable(appliedAgeRange: AgeRange): boolean {
+
+        return this.isAgeRangeApplied(appliedAgeRange);
+    }
+
+    /**
+     * Returns true if form is valid, and has been updated in the case of an edit, and can be submitted.
+     * 
+     * @param {FormGroup} formGroup
+     * @returns {boolean}
+     */
+    public isSubmittable(formGroup: FormGroup): boolean {
+
+        return formGroup.dirty && formGroup.valid;
+    }
 
     /**
      * Returns true if required error messages should be displayed.
@@ -56,30 +85,41 @@ export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Let parent components know that an age range has been selected and facet selection can now be updated.
+     * Let parent components know that an age range has been selected and facet selection can now be updated. Reset
+     * form flags (dirty, touched etc) so that we can toggle enabled state of Apply button.
+     * 
      * 
      * @param {FormGroup} formGroup
      */
     public onApply(formGroup: FormGroup) {
-        
+
+        // Form is no longer pristine for this menu session
+        this.pristine = false;
+
+        // Let parent component know age range is to be applied
         const ageRangeInSeconds = this.buildAgeRangeInSeconds(formGroup.value);
         this.applyFacet.emit(ageRangeInSeconds);
+        
+        // Reset form flags
+        formGroup.reset(formGroup.value);
     }
 
     /**
      * Let parent know the age range has been cleared.
      * 
      * @param {FormGroup} formGroup
-     * @param {AgeRange} originalAgeRange
+     * @param {AgeRange} appliedAgeRange
      */
-    public onClearAgeRange(formGroup: FormGroup, initialAgeRange: AgeRange) {
+    public onClearAgeRange(formGroup: FormGroup, appliedAgeRange: AgeRange) {
+
+        // Reset pristine for this session
+        this.pristine = true;
 
         const ageRangeInSeconds = this.buildAgeRangeInSeconds(formGroup.value);
         this.clearAgeRange(formGroup);
         
         // If an age range is specified and saved in the store, clear it
-        if ( (!!initialAgeRange.ageMin || initialAgeRange.ageMin === 0) &&
-            (!!initialAgeRange.ageMax || initialAgeRange.ageMax === 0) ) {
+        if ( this.isAgeRangeApplied(appliedAgeRange) ) {
 
             this.clearFacet.emit(ageRangeInSeconds);
         }
@@ -104,7 +144,7 @@ export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
     /**
      * Clear age range.
      * 
-     * @param {FormGroup} FormGroup
+     * @param {FormGroup} formGroup
      */
     private clearAgeRange(formGroup: FormGroup) {
 
@@ -113,6 +153,36 @@ export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
             ageMax: null,
             ageUnit: AgeUnit.year
         });
+    }
+
+    /**
+     * Update age range with current state, from seconds to unit.
+     *
+     * @param {AgeRange} ageRange
+     */
+    private initFormControlValues(ageRange: AgeRange) {
+
+        const ageUnit = ageRange.ageUnit;
+        const ageInAgeUnit = new AgeInAgeUnit();
+
+        this.ageRangeGroup.patchValue({
+            ageMax: ageInAgeUnit.transform(ageRange.ageMax, ageUnit),
+            ageMin: ageInAgeUnit.transform(ageRange.ageMin, ageUnit),
+            ageUnit: ageUnit
+        });
+    }
+
+    /**
+     * Returns true if there is currently an age range applied - checks the AgeRange input value to determine if there
+     * is currently a value.
+     * 
+     * @param {AgeRange} appliedAgeRange
+     * @returns {boolean}
+     */
+    private isAgeRangeApplied(appliedAgeRange: AgeRange): boolean {
+
+        return (!!appliedAgeRange.ageMin || appliedAgeRange.ageMin === 0) && 
+            (!!appliedAgeRange.ageMax || appliedAgeRange.ageMax === 0)
     }
 
     /**
@@ -132,23 +202,6 @@ export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
             ageMax: ageUnitInAgeUnit.transform(ageMax, prevUnit, nextUnit),
             ageMin: ageUnitInAgeUnit.transform(ageMin, prevUnit, nextUnit)
         })
-    }
-
-    /**
-     * Update age range with current state, from seconds to unit.
-     * 
-     * @param {AgeRange} ageRange
-     */
-    private initFormControlValues(ageRange: AgeRange) {
-
-        const ageUnit = ageRange.ageUnit;
-        const ageInAgeUnit = new AgeInAgeUnit();
-
-        this.ageRangeGroup.patchValue({
-            ageMax: ageInAgeUnit.transform(ageRange.ageMax, ageUnit),
-            ageMin: ageInAgeUnit.transform(ageRange.ageMin, ageUnit),
-            ageUnit: ageUnit
-        });
     }
 
     /**

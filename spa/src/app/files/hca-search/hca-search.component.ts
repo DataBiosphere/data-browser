@@ -147,7 +147,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
             return accum;
         }, []);
 
-        // Return new list of searchable fileFacets, unless the list is empty
+        // Return new list of searchable facets, unless the list is empty
         if ( filteredSearchTermGroupOptions.length > 0 ) {
             this.searchReturnsEmpty = false;
             return filteredSearchTermGroupOptions;

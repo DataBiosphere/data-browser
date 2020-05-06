@@ -12,7 +12,7 @@ import { EntitySearchResults } from "./entity-search-results.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { Term } from "./term.model";
 
-// Entity search results for projects tab where no fileFacets have been selected
+// Entity search results for projects tab where no facets have been selected
 const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
     "fileFacets": [
         {

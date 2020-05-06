@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * File-related effects, including fetching file summary (eg total counts), file fileFacets, terms etc.
+ * File-related effects, including fetching file summary (eg total counts), file facets, terms etc.
  */
 
 // Core dependencies

@@ -283,7 +283,7 @@ export class FilesService {
     }
 
     /**
-     * Returns the set of file fileFacets that are applicable to determining the matrix partial query status. The status is
+     * Returns the set of file facets that are applicable to determining the matrix partial query status. The status is
      * either partial (ie there is data that wont be included in the matrix), or complete (ie all data is included in the
      * matrix).
      *
