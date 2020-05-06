@@ -39,8 +39,9 @@ import { routes } from "./files.routes";
 import { FacetAgeRangeFormComponent } from "./facet/facet-age-range/facet-age-range-form/facet-age-range-form.component";
 import { FacetDisplayService } from "./facet/facet-display.service";
 import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
-import { FacetMenuContentComponent } from "./facet/facet-menu-content/facet-menu-content.component";
-import { FacetMenuTitleComponent } from "./facet/facet-menu-title/facet-menu-title.component";
+import { FacetMenuOptionComponent } from "./facet/facet-menu-option/facet-menu-option.component";
+import { FacetMenuOptionContentComponent } from "./facet/facet-menu-option-content/facet-menu-option-content.component";
+import { FacetMenuOptionTitleComponent } from "./facet/facet-menu-option-title/facet-menu-option-title.component";
 import { FacetToolbarWrapperComponent } from "./facet/facet-toolbar-wrapper/facet-toolbar-wrapper.component";
 import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";
 import { FileFacetComponent } from "./facet/file-facet/file-facet.component";
@@ -161,8 +162,9 @@ import { SearchTermUrlService } from "./search/url/search-term-url.service";
         DisplayDataLinkComponent,
         FacetAgeRangeFormComponent,
         FacetMenuComponent,
-        FacetMenuContentComponent,
-        FacetMenuTitleComponent,
+        FacetMenuOptionComponent,
+        FacetMenuOptionContentComponent,
+        FacetMenuOptionTitleComponent,
         FacetToolbarComponent,
         FacetToolbarWrapperComponent,
         FileFacetComponent,

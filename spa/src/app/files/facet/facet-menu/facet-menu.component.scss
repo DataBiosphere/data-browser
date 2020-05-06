@@ -2,33 +2,43 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles or displaying a facet's title and widget (term selector, age range selector) when contained
- * inside a menu.
+ * Styles for displaying a group of facets when contained inside a menu.
  */
+@import "../../../site/theme/cgl.vars";
 
+/* Facet group */
 :host {
-    display: flex; /* Scroll content */
-    flex-direction: column; /* Scroll content */
-    padding: 18px;
-    width: 180px;
+    background-color: $hca-white;
+    border: 1px solid $hca-gray-light;
+    border-radius: 1px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    -ms-overflow-style: none; // IE 10+, scrollbar hidden
+    overflow-y: auto; // Firefox, scrollbar hidden unless actively scrolling
+    padding: 6px;
+    position: absolute;
+    top: 44px; /* 38px for select field + 6px below select field */
+    z-index: 11;
 }
 
-/* Facet - organism age range */
-:host-context(.organism-age-range) {
-    width: 282px; /* Min width for facet organism age range */
+// Safari and Chrome, scrollbar hidden
+:host::-webkit-scrollbar {
+    display: none;
 }
 
-/* Double wide facet */
-:host-context(.facet-double-wide) {
-    width: 396px;
+/* Close icon */
+:host mat-icon {
+    font-size: 16px;
+    height: 16px;
+    opacity: 0.5;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    transition: opacity 280ms cubic-bezier(.4, 0, .2, 1);
+    width: 16px;
 }
 
-/**
- * HCA specific breakpoint
- */
-@media screen and (min-width: 1200px) {
-
-    :host {
-        width: 220px;
-    }
+:host mat-icon:hover {
+    opacity: 1;
 }

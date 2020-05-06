@@ -1,0 +1,34 @@
+/*!
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles or displaying a facet's title and widget (term selector, age range selector) when contained
+ * inside a menu.
+ */
+
+:host {
+    display: flex; /* Scroll content */
+    flex-direction: column; /* Scroll content */
+    padding: 18px;
+    width: 180px;
+}
+
+/* Facet - organism age range */
+:host-context(.organism-age-range) {
+    width: 282px; /* Min width for facet organism age range */
+}
+
+/* Double wide facet */
+:host-context(.facet-double-wide) {
+    width: 396px;
+}
+
+/**
+ * HCA specific breakpoint
+ */
+@media screen and (min-width: 1200px) {
+
+    :host {
+        width: 220px;
+    }
+}
