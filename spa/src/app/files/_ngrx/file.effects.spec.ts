@@ -140,7 +140,7 @@ describe("File Effects", () => {
         // Update selected tab to be samples
         store.setState(DEFAULT_SAMPLES_STATE);
 
-        // Dispatch the fetch file fileFacets action
+        // Dispatch the fetch file facets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });
@@ -163,7 +163,7 @@ describe("File Effects", () => {
         // Update search state to include a selected project search term
         store.setState(SAMPLES_STATE_WITH_SEARCH_TERM);
 
-        // Dispatch the fetch file fileFacets action
+        // Dispatch the fetch file facets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });
@@ -186,7 +186,7 @@ describe("File Effects", () => {
         // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
-        // Dispatch the fetch file fileFacets action
+        // Dispatch the fetch file facets action
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(true)
         });

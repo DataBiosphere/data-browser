@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Validator for facet age range.
+ * Validator for facet age range. Returns true if max value is greater than min value.
  */
 
 // Core dependencies

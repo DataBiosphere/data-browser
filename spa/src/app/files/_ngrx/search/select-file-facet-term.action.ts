@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Action that is triggered when file facet term is selected. Select can be dispatched from facet card itself or from
- * corresponding term menu displayed over facet card (this includes search fileFacets and their menus).
+ * corresponding term menu displayed over facet card (this includes search facets and their menus).
  */
 
 // Core dependencies

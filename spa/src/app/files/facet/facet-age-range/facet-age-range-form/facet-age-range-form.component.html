@@ -17,7 +17,13 @@
         <input type="number" placeholder="e.g. 2" formControlName="ageMax">
     </label>
     <div class="actions">
-        <button class="apply" type="submit" [disabled]="!ageRangeGroup.valid">Apply</button>
-        <button class="clear" type="button" (click)="onClearAgeRange(ageRangeGroup, ageRange)">Clear</button>
+            <button class="apply"
+                    type="submit"
+                    [ngClass]="{'pristine': pristine}"
+                    [disabled]="!isSubmittable(ageRangeGroup)">Apply</button>
+        <button class="clear"
+                type="button"
+                [disabled]="!isClearable(ageRange)"
+                (click)="onClearAgeRange(ageRangeGroup, ageRange)">Clear</button>
     </div>
 </form>

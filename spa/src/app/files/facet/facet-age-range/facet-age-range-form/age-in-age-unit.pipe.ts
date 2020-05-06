@@ -1,4 +1,7 @@
 /**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ * 
  * Pipe for formatting age in seconds to age unit.
  */
 
@@ -7,6 +10,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 // App dependencies
 import { AgeUnit } from "../age-unit.model";
+import { TimeUnitInSeconds } from "../time-unit-in-seconds.model";
 
 @Pipe({
     name: "ageInAgeUnit"
@@ -19,12 +23,6 @@ export class AgeInAgeUnit implements PipeTransform {
             return;
         }
 
-        const timeUnitInSeconds = {
-            "week": 604800,
-            "month": 2628000,
-            "year": 31536000
-        };
-
-        return age / timeUnitInSeconds[ageUnit];
+        return age / TimeUnitInSeconds[ageUnit.toUpperCase()];
     }
 }

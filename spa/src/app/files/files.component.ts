@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Core files component, displays results summary as well as fileFacets.
+ * Core files component, displays results summary as well as facets.
  */
 
 // Core dependencies

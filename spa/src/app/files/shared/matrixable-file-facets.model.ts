@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of set of selected fileFacets that are specific to determining the matrix partial query status of the current
+ * Model of set of selected facets that are specific to determining the matrix partial query status of the current
  * search terms.
  */
 
