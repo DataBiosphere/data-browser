@@ -7,7 +7,7 @@
 @import "../../../site/theme/cgl.vars";
 
 /* Facet menu title */
-.facet-menu-title {
+:host {
     align-items: flex-start;
     border-bottom: 1px solid $hca-gray-lightest;
     display: flex;

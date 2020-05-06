@@ -8,7 +8,8 @@
 @import "../../../site/theme/cgl.vars";
 
 /* Facet widget wrapper */
-.facet-content {
+:host {
+    display: block;
     margin: 8px -8px 0;
     max-height: 229.5px; /* For display of 8.5 terms at 229.5px total */
     -ms-overflow-style: none; // IE 10+, scrollbar hidden

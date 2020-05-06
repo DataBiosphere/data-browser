@@ -10,9 +10,9 @@
 import { Component } from "@angular/core";
 
 @Component({
-    selector: "facet-menu-content",
-    templateUrl: "./facet-menu-content.component.html",
-    styleUrls: ["./facet-menu-content.component.scss"],
+    selector: "facet-menu-option-content",
+    templateUrl: "./facet-menu-option-content.component.html",
+    styleUrls: ["./facet-menu-option-content.component.scss"],
 })
-export class FacetMenuContentComponent {
+export class FacetMenuOptionContentComponent {
 }

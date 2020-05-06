@@ -9,34 +9,34 @@
                          (click)="onToggleFacetMenu(i)">
                         <span>{{fileFacetGroup.facetGroupName}}</span>
                         <mat-icon>keyboard_arrow_down</mat-icon>
-                        <facet-group *ngIf="isFacetGroupActive(i)"
+                        <facet-menu *ngIf="isFacetGroupActive(i)"
                                      id="facet-group"
                                      [ngStyle]="getFacetGroupStyles(fileFacetGroup, i)"
                                      (menuOpen)="onFacetMenuOpen($event)">
                                 <ng-container *ngFor="let facetName of fileFacetGroup.facetNames; trackBy: trackFileFacetByFn">
                                     <ng-container [ngSwitch]="isFacetOrganismAge(facetName)">
-                                        <facet-menu *ngSwitchCase="true"
+                                        <facet-menu-option *ngSwitchCase="true"
                                                     [ngClass]="{'facet-double-wide': facetDoubleWideOrganismAge, 'organism-age-range': true}">
-                                            <facet-menu-title>{{getFacetDisplayName(facetName)}}</facet-menu-title>
-                                            <facet-menu-content>
+                                            <facet-menu-option-title>{{getFacetDisplayName(facetName)}}</facet-menu-option-title>
+                                            <facet-menu-option-content>
                                                 <facet-age-range-form *ngSwitchCase="true"
                                                                       [ageRange]="getFacet(facetName).ageRange"
                                                                       (applyFacet)="onAgeRangeSelected(facetName, $event)"
                                                                       (clearFacet)="onAgeRangeCleared(facetName, $event)"></facet-age-range-form>
-                                            </facet-menu-content>
-                                        </facet-menu>
-                                        <facet-menu *ngSwitchDefault>
-                                            <facet-menu-title>{{getFacetDisplayName(facetName)}}</facet-menu-title>
-                                            <facet-menu-content>
+                                            </facet-menu-option-content>
+                                        </facet-menu-option>
+                                        <facet-menu-option *ngSwitchDefault>
+                                            <facet-menu-option-title>{{getFacetDisplayName(facetName)}}</facet-menu-option-title>
+                                            <facet-menu-option-content>
                                                 <file-facet [fileFacet]="getFacet(facetName)"
                                                             [facetName]="facetName"
                                                             [selectedEntity]="selectedEntity"
                                                             (facetTermSelected)="onFacetTermSelected($event)"></file-facet>
-                                            </facet-menu-content>
-                                        </facet-menu>
+                                            </facet-menu-option-content>
+                                        </facet-menu-option>
                                     </ng-container>
                                 </ng-container>
-                        </facet-group>
+                        </facet-menu>
                     </div>
                 </ng-container>
             </div>
