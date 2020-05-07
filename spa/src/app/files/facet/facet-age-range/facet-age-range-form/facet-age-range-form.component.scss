@@ -6,20 +6,6 @@
  */
 @import "../../../../site/theme/cgl.vars";
 
-
-:host {
-    display: block;
-    width: 282px; /* Min width */
-}
-
-/* Facet double width of a standard facet */
-:host-context(.facet-double-wide) {
-    :host {
-        width: 396px;
-    }
-}
-
-
 /* Facet age range form */
 form {
     
@@ -90,10 +76,16 @@ form {
         }
     }
 
+    /* Input - hide spinner - chrome, safari */
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    /* Input - hide spinner - firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
     }
 
     /* Actions */
