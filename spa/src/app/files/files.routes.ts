@@ -24,22 +24,27 @@ import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
+import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 
 export const routes: Route[] = [
     {
         path: "files",
+        canActivate: [BrowserCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "get-data",
+        canActivate: [BrowserCanActivateGuard],
         component: HCAGetDataComponent
     },
     {
         path: "samples",
+        canActivate: [BrowserCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "projects",
+        canActivate: [BrowserCanActivateGuard],
         children: [
             {
                 path: "",
@@ -56,7 +61,7 @@ export const routes: Route[] = [
                 },
                     {
                         path: "project-metadata",
-                        component: ProjectMetadataComponent
+                        component: ProjectMetadataComponent,
                     },
                     {
                         path: "expression-matrices",
@@ -99,6 +104,7 @@ export const routes: Route[] = [
     },
     {
         path: "releases/2020-mar",
+        canActivate: [BrowserCanActivateGuard],
         component: ReleaseComponent
     }
 ];

@@ -39,6 +39,7 @@ import { FileDownloadComponent } from "./file-download/file-download.component";
 import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.component";
 import { NavComponent } from "./nav/nav.component";
 import { NoHitsComponent } from "./no-hits/no-hits.component";
+import { BrowserCanActivateGuard } from "./routing/browser.can-activate.guard";
 
 @NgModule({
     imports: [
@@ -74,6 +75,7 @@ import { NoHitsComponent } from "./no-hits/no-hits.component";
         WarningTitleComponent
     ],
     providers: [
+        BrowserCanActivateGuard,
         GTMService,
         ResponsiveService
     ],
