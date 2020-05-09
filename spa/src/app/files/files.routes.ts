@@ -9,7 +9,6 @@
 import { Route } from "@angular/router";
 
 // App dependencies
-import { BrowserSupportedGuard } from "./browser-supported.guard";
 import { FilesComponent } from "./files.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
@@ -25,25 +24,27 @@ import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
+import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 
 export const routes: Route[] = [
     {
         path: "files",
-        canActivate: [BrowserSupportedGuard],
+        canActivate: [BrowserCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "get-data",
+        canActivate: [BrowserCanActivateGuard],
         component: HCAGetDataComponent
     },
     {
         path: "samples",
-        canActivate: [BrowserSupportedGuard],
+        canActivate: [BrowserCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "projects",
-        canActivate: [BrowserSupportedGuard],
+        canActivate: [BrowserCanActivateGuard],
         children: [
             {
                 path: "",
@@ -103,6 +104,7 @@ export const routes: Route[] = [
     },
     {
         path: "releases/2020-mar",
+        canActivate: [BrowserCanActivateGuard],
         component: ReleaseComponent
     }
 ];

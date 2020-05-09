@@ -2,7 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Browser supported guard.
+ * Determines if current browser is supported and if so, allows navigation to continue. If browser is not supported,
+ * exits out of Angular and loads BNS page by updating the address bar.
  */
 
 // Core dependencies
@@ -11,13 +12,20 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angul
 import { DeviceDetectorService } from "ngx-device-detector";
 
 @Injectable()
-export class BrowserSupportedGuard implements CanActivate {
+export class BrowserCanActivateGuard implements CanActivate {
 
     /**
      * @param {DeviceDetectorService} deviceService
      */
     constructor(private deviceService: DeviceDetectorService) {}
 
+    /**
+     * Returns true if browser is supported and navigation can continue.
+     *
+     * @param {ActivatedRouteSnapshot} route
+     * @param {RouterStateSnapshot} state
+     * @returns {boolean}
+     */
     canActivate(route: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): boolean {
 
