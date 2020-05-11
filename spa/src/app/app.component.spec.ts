@@ -40,6 +40,7 @@ import { CCToolbarNavDropDownComponent } from "./shared/cc-toolbar-nav-drop-down
 import { ReleaseService } from "./files/shared/release.service";
 import { QueryStringSearchTerm } from "./files/search/url/query-string-search-term.model";
 import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
+import { SearchTermUrl } from "./files/search/url/search-term-url.model";
 
 
 describe("AppComponent:", () => {
@@ -155,7 +156,7 @@ describe("AppComponent:", () => {
         const activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
         spyOnProperty(activatedRoute, "snapshot").and.returnValue({
             queryParams: {
-                filter: `[{"facetName": "libraryConstructionApproach", "value": ["Smart-seq2"]}]`
+                filter: `[{"${SearchTermUrl.FACET_NAME}": "libraryConstructionApproach", "${SearchTermUrl.VALUE}": ["Smart-seq2"]}]`
             }
         });
         locationSpy.path.and.returnValue(PROJECTS_PATH_WITH_FILTERS);
