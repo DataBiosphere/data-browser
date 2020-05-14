@@ -21,8 +21,7 @@ import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { FacetDisplayService } from "../../facet/facet-display.service";
-
-// App components
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 describe("HCAGetDataSummaryComponent", () => {
 
@@ -59,6 +58,10 @@ describe("HCAGetDataSummaryComponent", () => {
                 {
                     provide: FacetDisplayService,
                     useValue: jasmine.createSpyObj("FacetDisplayService", ["getFacetDisplayName"])
+                },
+                {
+                    provide: SearchTermHttpService,
+                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
                 }
             ]
         }).compileComponents();

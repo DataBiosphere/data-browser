@@ -13,7 +13,7 @@ import { SearchState } from "./search.state";
 import { SelectFileFacetTermAction } from "./select-file-facet-term.action";
 import { ClearSelectedTermsAction } from "./clear-selected-terms.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
-import { SearchTermsUpdatedAction } from "./search-terms-updated-action.action";
+import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
 import { SelectProjectIdAction } from "./select-project-id.action";
 import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 import { SelectSearchTermAction } from "./select-search-term.action";

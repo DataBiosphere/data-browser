@@ -18,6 +18,8 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { Term } from "../../shared/term.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
+import { GASource } from "../../../shared/analytics/ga-source.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 describe("HCAGetMatrixSpeciesSelectionComponent", () => {
 
@@ -42,6 +44,10 @@ describe("HCAGetMatrixSpeciesSelectionComponent", () => {
         new Term(GenusSpecies.MUS_MUSCULUS, 100, false)
     ]);
 
+    const testSearchTermHttpService =
+        jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"]);
+    testSearchTermHttpService.marshallSearchTerms.and.returnValue("");
+
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
@@ -53,6 +59,10 @@ describe("HCAGetMatrixSpeciesSelectionComponent", () => {
                 MatIconModule
             ],
             providers: [
+                {
+                    provide: SearchTermHttpService,
+                    useValue: testSearchTermHttpService
+                },
                 {
                     provide: Store,
                     useValue: testStore
@@ -291,8 +301,10 @@ describe("HCAGetMatrixSpeciesSelectionComponent", () => {
         
         const facetName = FACET_SINGLE_SPECIES_HUMAN.name;
         const termName = FACET_SINGLE_SPECIES_HUMAN.terms[0].name;
-        component["dispatchSelectedSpeciesAction"](facetName, termName);
-        expect(testStore.dispatch).toHaveBeenCalledWith(new SelectFileFacetTermAction(facetName, termName, true))
+        component["dispatchSelectedSpeciesAction"](facetName, termName, []);
+        const actionToHaveBeenCalled =
+            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX, "");
+        expect(testStore.dispatch).toHaveBeenCalledWith(actionToHaveBeenCalled)
     });
 
     /**

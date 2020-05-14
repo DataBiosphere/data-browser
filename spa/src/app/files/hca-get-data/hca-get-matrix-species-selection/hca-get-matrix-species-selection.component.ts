@@ -11,10 +11,13 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { CheckboxOption } from "./checkbox-option.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { AppState } from "../../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
-import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
+import { SearchTerm } from "../../search/search-term.model";
 import { Term } from "../../shared/term.model";
 
 
@@ -30,12 +33,14 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
 
     // Inputs/outputs
     @Input() speciesFileFacet: FileFacet;
+    @Input() selectedSearchTerms: SearchTerm[];
     @Output() speciesSelected = new EventEmitter<boolean>();
 
     /**
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {}
+    constructor(private searchTermHttpService: SearchTermHttpService, private store: Store<AppState>) {}
 
     /**
      * Returns true if at least one species has been selected.
@@ -66,8 +71,9 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
      * 
      * @param {FileFacet} speciesFileFacet
      * @param {CheckboxOption[]} speciesCheckboxOptions
+     *  @param {SearchTerm[]} selectedSearchTerms
      */
-    public onSpeciesSelected(speciesFileFacet: FileFacet, speciesCheckboxOptions: CheckboxOption[]) {
+    public onSpeciesSelected(speciesFileFacet: FileFacet, speciesCheckboxOptions: CheckboxOption[], selectedSearchTerms: SearchTerm[]) {
 
         // Determine the set of selected species and update state
         const selectedSpeciesOptions = speciesCheckboxOptions.filter(option => {
@@ -75,7 +81,7 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
         });
 
         selectedSpeciesOptions.forEach(option => {
-            this.dispatchSelectedSpeciesAction(speciesFileFacet.name, option.value);
+            this.dispatchSelectedSpeciesAction(speciesFileFacet.name, option.value, selectedSearchTerms);
         });
         
         // Let parents know species have been selected, and exit component
@@ -87,11 +93,13 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
      *
      * @param {string} facetName ("Genus Species")
      * @param {string} termName (species)
+     * @param {SearchTerm[]} selectedSearchTerms
      */
-    private dispatchSelectedSpeciesAction(facetName: string, termName: string): void {
+    private dispatchSelectedSpeciesAction(facetName: string, termName: string, selectedSearchTerms: SearchTerm[]): void {
 
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const selectTermAction =
-            new SelectFileFacetTermAction(facetName, termName, true);
+            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX, query);
         this.store.dispatch(selectTermAction);
     }
 
@@ -139,13 +147,13 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges): void {
-
+        
         // If there's only one species, and that species is homo sapiens, auto-select it and let parent know species
         // selection can be skipped
         const speciesTerms = this.speciesFileFacet.terms;
         if ( speciesTerms.length === 1 && this.isTermHomoSapiens(speciesTerms[0].name) ) {
-            
-            this.dispatchSelectedSpeciesAction(this.speciesFileFacet.name, speciesTerms[0].name);
+
+            this.dispatchSelectedSpeciesAction(this.speciesFileFacet.name, speciesTerms[0].name, this.selectedSearchTerms);
 
             // Species selection can be skipped - exit component
             this.speciesSelected.emit(true);

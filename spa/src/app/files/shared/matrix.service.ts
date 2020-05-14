@@ -28,11 +28,11 @@ import { MatrixUrlRequestSpecies } from "./matrix-url-request-species.model";
 import { ProjectMatrixUrls } from "./project-matrix-urls.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GTMService } from "../../shared/gtm/gtm.service";
-import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
-import { GACategory } from "../../shared/gtm/ga-category.model";
-import { GADimension } from "../../shared/gtm/ga-dimension.model";
-import { GAAction } from "../../shared/gtm/ga-action.model";
+import { GTMService } from "../../shared/analytics/gtm.service";
+import { GAEntityType } from "../../shared/analytics/ga-entity-type.model";
+import { GACategory } from "../../shared/analytics/ga-category.model";
+import { GADimension } from "../../shared/analytics/ga-dimension.model";
+import { GAAction } from "../../shared/analytics/ga-action.model";
 import { SpeciesMatrixUrls } from "./species-matrix-urls.model";
 
 @Injectable()
@@ -293,10 +293,17 @@ export class MatrixService {
     public trackRequestCohortMatrix(selectedSearchTerms: SearchTerm[], fileFormat: MatrixFormat) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.REQUEST, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX,
-            [GADimension.FILE_FORMAT]: fileFormat
-        });
+        const event = {
+            category: GACategory.MATRIX,
+            action: GAAction.REQUEST,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX,
+                [GADimension.FILE_FORMAT]: fileFormat
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -308,10 +315,17 @@ export class MatrixService {
     public trackDownloadCohortMatrix(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.DOWNLOAD, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
-            [GADimension.ENTITY_URL]: matrixUrl
-        });
+        const event = {
+            category: GACategory.MATRIX,
+            action: GAAction.DOWNLOAD,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
+                [GADimension.ENTITY_URL]: matrixUrl
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -323,10 +337,17 @@ export class MatrixService {
     public trackCopyToClipboardCohortMatrixLink(selectedSearchTerms: SearchTerm[], matrixUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.COPY_TO_CLIPBOARD, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
-            [GADimension.ENTITY_URL]: matrixUrl
-        });
+        const event = {
+            category: GACategory.MATRIX,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX_LINK,
+                [GADimension.ENTITY_URL]: matrixUrl
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
     
     /**
@@ -356,11 +377,18 @@ export class MatrixService {
      */
     public trackDownloadProjectMatrix(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
 
-        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.DOWNLOAD, projectTitle, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
-            [GADimension.ENTITY_URL]: matrixUrl,
-            [GADimension.FILE_FORMAT]: fileFormat
-        });
+        const event = {
+            category: GACategory.MATRIX,
+            action: GAAction.DOWNLOAD,
+            label: projectTitle,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
+                [GADimension.ENTITY_URL]: matrixUrl,
+                [GADimension.FILE_FORMAT]: fileFormat
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -372,11 +400,18 @@ export class MatrixService {
      */
     public trackCopyToClipboardProjectMatrixtLink(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
 
-        this.gtmService.trackEvent(GACategory.MATRIX, GAAction.COPY_TO_CLIPBOARD, projectTitle, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
-            [GADimension.ENTITY_URL]: matrixUrl,
-            [GADimension.FILE_FORMAT]: fileFormat
-        });
+        const event = {
+            category: GACategory.MATRIX,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: projectTitle,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
+                [GADimension.ENTITY_URL]: matrixUrl,
+                [GADimension.FILE_FORMAT]: fileFormat
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**

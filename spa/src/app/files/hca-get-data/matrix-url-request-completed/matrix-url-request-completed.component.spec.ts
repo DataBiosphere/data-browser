@@ -20,7 +20,7 @@ import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-pan
 import { MatrixUrlRequestCompletedComponent } from "./matrix-url-request-completed.component";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { GTMService } from "../../../shared/gtm/gtm.service";
+import { GTMService } from "../../../shared/analytics/gtm.service";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";

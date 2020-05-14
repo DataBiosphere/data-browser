@@ -34,10 +34,10 @@ import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
 import { ReleaseDatasetView } from "../release-dataset-view.model";
 import { Release } from "../release.model";
 import { ReleaseName } from "../release-name.model";
-import { GTMService } from "../../../shared/gtm/gtm.service";
-import { GACategory } from "../../../shared/gtm/ga-category.model";
-import { GADimension } from "../../../shared/gtm/ga-dimension.model";
-import { GAAction } from "../../../shared/gtm/ga-action.model";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { ReleaseService } from "../../shared/release.service";
 import { ReleaseVisualizationsModalState } from "./release-visualizations-modal.state";
 import { ReleaseVisualization } from "../release-visualization.model";
@@ -116,11 +116,17 @@ export class ReleaseVisualizationsModalComponent implements OnDestroy, OnInit {
      */
     public trackExternalLink(releaseDatasetView: ReleaseDatasetView, visualization: ReleaseVisualization): void {
 
-        this.gtmService.trackEvent(GACategory.DATASET, GAAction.VISUALIZE, releaseDatasetView.datasetId, {
-            [GADimension.ENTITY_URL]: visualization.url,
-            [GADimension.TOOL_NAME]: visualization.title,
-            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
-        });
+        const event = {
+            category: GACategory.DATASET,
+            action: GAAction.VISUALIZE,
+            label: releaseDatasetView.datasetId, 
+            dimensions: {
+                [GADimension.ENTITY_URL]: visualization.url,
+                [GADimension.TOOL_NAME]: visualization.title,
+                [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
+            }
+        };
+        this.gtmService.trackEvent(event);
     }
 
     /**

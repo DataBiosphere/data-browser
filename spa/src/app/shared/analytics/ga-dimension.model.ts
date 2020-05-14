@@ -6,11 +6,17 @@
  */
 
 export enum GADimension {
+    "CURRENT_QUERY" = "currentQuery",
     "ENTITY_TYPE" = "entityType",
     "ENTITY_URL" = "entityUrl",
+    "FACET" = "facet",
     "FILE_NAME" = "fileName",
     "FILE_FORMAT" = "fileFormat",
     "FILE_TYPE" = "fileType",
-    "TOOL_NAME" = "toolName",
-    "RELEASE_NAME" = "releaseName"
+    "MAX" = "max",
+    "MIN" = "min",
+    "RELEASE_NAME" = "releaseName",
+    "SOURCE" = "source",
+    "TERM" = "term",
+    "TOOL_NAME" = "toolName"
 }

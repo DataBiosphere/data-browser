@@ -23,7 +23,7 @@ import { ProjectDownloadMatrixComponent } from "./project-download-matrix.compon
 import { GenusSpecies } from "../shared/genus-species.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
-import { GTMService } from "../../shared/gtm/gtm.service";
+import { GTMService } from "../../shared/analytics/gtm.service";
 import { MatrixService } from "../shared/matrix.service";
 
 describe("ProjectDownloadMatrixComponent", () => {

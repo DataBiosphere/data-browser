@@ -1,11 +1,17 @@
 <div class="layout-column" *ngIf="state$ | async as state">
     <hca-section-title>Explore Data</hca-section-title>
-    <facet-toolbar-wrapper [facets]="state.facets" 
-                           [searchTerms]="state.searchTerms" 
-                           [selectedEntity]="state.selectedEntity" 
-                           [selectedSearchTerms]="state.selectedSearchTerms" 
-                           (menuOpen)="onMenuOpen($event)">
-    </facet-toolbar-wrapper>
+    <facet-toolbar
+            [facets]="state.facets"
+            [searchTerms]="state.searchTerms"
+            [selectedEntity]="state.selectedEntity"
+            [selectedSearchTerms]="state.selectedSearchTerms"
+            (menuOpen)="onMenuOpen($event)">
+    </facet-toolbar>
+    <selected-search-terms
+            [tableFilter]="true"
+            [removable]="true"
+            [selectedSearchTerms]="state.selectedSearchTerms">
+    </selected-search-terms>
     <hca-file-summary [showDownload]="!isDeviceHandheld()"
                       [summary]="state.fileSummary">
     </hca-file-summary>

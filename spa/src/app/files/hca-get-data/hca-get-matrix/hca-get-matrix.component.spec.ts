@@ -33,7 +33,7 @@ import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { GenusSpecies } from "../../shared/genus-species.model";
-import { GTMService } from "../../../shared/gtm/gtm.service";
+import { GTMService } from "../../../shared/analytics/gtm.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixFormat } from "../../shared/matrix-format.model";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";

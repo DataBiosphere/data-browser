@@ -2,14 +2,48 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action that is triggered when all selected file facet terms are to be removed and default state is restored.
+ * Action that is triggered when all selected facet terms are to be removed and default state is restored.
  */
 
 // Core dependencies
 import { Action } from "@ngrx/store";
 
-export class ClearSelectedTermsAction implements Action {
+// App dependencies
+import { TrackingAction } from "../analytics/tracking.action";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
+import { GAEvent } from "../../../shared/analytics/ga-event.model";
+import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GASource } from "../../../shared/analytics/ga-source.model";
+
+export class ClearSelectedTermsAction implements Action, TrackingAction {
+    
     public static ACTION_TYPE = "FILE.SEARCH.CLEAR_SELECTED_TERMS";
     public readonly type = ClearSelectedTermsAction.ACTION_TYPE;
-    constructor() {}
+
+    /**
+     * @param {GASource} source
+     * @param {string} currentQuery
+     */
+    constructor(public source: GASource, public currentQuery: string) {}
+
+    /**
+     * Return the clear action as a GA event.
+     *
+     * @returns {GAEvent}
+     */
+    public asEvent(): GAEvent {
+
+        return {
+            category: GACategory.SEARCH,
+            action: GAAction.CLEAR,
+            label: "Clear All",
+            dimensions: {
+                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
+                [GADimension.SOURCE]: this.source
+            }
+        };
+    }
 }

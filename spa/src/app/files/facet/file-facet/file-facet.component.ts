@@ -12,7 +12,6 @@ import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from 
 // App dependencies
 import { FacetTermSelectedEvent } from "./facet-term-selected.event";
 import { FileFacet } from "./file-facet.model";
-import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
 import EntitySpec from "../../shared/entity-spec";
 import { Term } from "../../shared/term.model";
 import { TermSortService } from "../../sort/term-sort.service";
@@ -65,15 +64,12 @@ export class FileFacetComponent {
     }
 
     /**
-     * Handle click on term in list of terms - update store to toggle selected value of term.
+     * Handle click on term in list of terms - let parent componentds know that selected value of term is to be toggled.
      *
      * @param fileFacetSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(fileFacetSelectedEvent: FacetTermSelectedEvent) {
 
-        const facetName = fileFacetSelectedEvent.facetName;
-        const termName = fileFacetSelectedEvent.termName;
-        const termSelected = fileFacetSelectedEvent.selected;
-        this.facetTermSelected.emit(new SelectFileFacetTermAction(facetName, termName, termSelected));
+        this.facetTermSelected.emit(fileFacetSelectedEvent);
     }
 }

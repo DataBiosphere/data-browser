@@ -12,20 +12,24 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../../_ngrx/app.state";
 import { ConfigService } from "../../../config/config.service";
+import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { FileSummary } from "../../file-summary/file-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { HCAExportToTerraState } from "./hca-export-to-terra.state";
+import { AppState } from "../../../_ngrx/app.state";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
+import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
 import { ExportToTerraRequestAction } from "../../_ngrx/terra/export-to-terra-request.action";
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
-import { FileSummary } from "../../file-summary/file-summary";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { SearchTerm } from "../../search/search-term.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
-import { HCAExportToTerraState } from "./hca-export-to-terra.state";
 
 @Component({
     selector: "hca-export-to-terra",
@@ -45,11 +49,13 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
      *
      * @param {ConfigService} configService
      * @param {TerraService} terraService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      * @param {Window} window
      */
     constructor(private configService: ConfigService,
                 private terraService: TerraService,
+                private searchTermHttpService: SearchTermHttpService,
                 private store: Store<AppState>,
                 @Inject("Window") window: Window) {
 
@@ -74,19 +80,23 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
 
     /**
      * Returns the terra workspace URL.
+     *
      * @param exportToTerraUrl
      * @returns {string}
      */
     public getTerraServiceUrl(exportToTerraUrl): string {
+
         return this.terraService.buildExportToTerraWorkspaceUrl(exportToTerraUrl);
     }
 
     /**
      * Returns true if any "fileFormat" facet terms are selected.
+     *
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
     public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
+
         return selectedSearchTerms.some(selectedSearchTerm => selectedSearchTerm.getSearchKey() === "fileFormat");
     }
 
@@ -166,6 +176,24 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
 
         this.terraService.trackRequestExportToTerra(selectedSearchTerms);
         this.store.dispatch(new ExportToTerraRequestAction());
+    }
+
+    /**
+     * Handle click on term in list of terms - update store to toggle selected value of term.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param facetTermSelectedEvent {FacetTermSelectedEvent}
+     */
+    public onFacetTermSelected(selectedSearchTerms: SearchTerm[], facetTermSelectedEvent: FacetTermSelectedEvent) {
+
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        const action = new SelectFileFacetTermAction(
+            facetTermSelectedEvent.facetName,
+            facetTermSelectedEvent.termName,
+            facetTermSelectedEvent.selected,
+            GASource.COHORT_EXPORT,
+            query);
+        this.store.dispatch(action);
     }
 
     /**

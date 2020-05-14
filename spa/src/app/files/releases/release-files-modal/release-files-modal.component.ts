@@ -36,10 +36,10 @@ import { ReleaseFilesModalState } from "./release-files-modal.state";
 import { Release } from "../release.model";
 import { ReleaseName } from "../release-name.model";
 import { ReleaseFileView } from "../release-file-view.model";
-import { GTMService } from "../../../shared/gtm/gtm.service";
-import { GACategory } from "../../../shared/gtm/ga-category.model";
-import { GADimension } from "../../../shared/gtm/ga-dimension.model";
-import { GAAction } from "../../../shared/gtm/ga-action.model";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { ReleaseService } from "../../shared/release.service";
 
 @Component({
@@ -127,13 +127,19 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
      */
     public trackDownload(releaseDatasetView: ReleaseDatasetView, releaseFile: ReleaseFileView): void {
 
-        this.gtmService.trackEvent(GACategory.DATASET, GAAction.DOWNLOAD, releaseDatasetView.datasetId, {
-            [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
-            [GADimension.FILE_TYPE]: releaseFile.type,
-            [GADimension.FILE_FORMAT]: releaseFile.extension,
-            [GADimension.FILE_NAME]: releaseFile.url,
-            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
-        });
+        const event = {
+            category: GACategory.DATASET,
+            action: GAAction.DOWNLOAD,
+            label: releaseDatasetView.datasetId,
+            dimensions: {
+                [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
+                [GADimension.FILE_TYPE]: releaseFile.type,
+                [GADimension.FILE_FORMAT]: releaseFile.extension,
+                [GADimension.FILE_NAME]: releaseFile.url,
+                [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
+            }
+        };
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -144,13 +150,19 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
      */
     public trackReleaseFileUrlCopied(releaseDatasetView: ReleaseDatasetView, releaseFile: ReleaseFileView): void {
 
-        this.gtmService.trackEvent(GACategory.DATASET, GAAction.COPY_TO_CLIPBOARD, releaseDatasetView.datasetId, {
-            [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
-            [GADimension.FILE_TYPE]: releaseFile.type,
-            [GADimension.FILE_FORMAT]: releaseFile.extension,
-            [GADimension.FILE_NAME]: releaseFile.url,
-            [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
-        });
+        const event = {
+            category: GACategory.DATASET,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: releaseDatasetView.datasetId,
+            dimensions: {
+                [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
+                [GADimension.FILE_TYPE]: releaseFile.type,
+                [GADimension.FILE_FORMAT]: releaseFile.extension,
+                [GADimension.FILE_NAME]: releaseFile.url,
+                [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
+            }
+        };
+        this.gtmService.trackEvent(event);
     }
 
     /**

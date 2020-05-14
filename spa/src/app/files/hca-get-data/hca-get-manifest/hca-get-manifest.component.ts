@@ -13,18 +13,20 @@ import { map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
-import { AppState } from "../../../_ngrx/app.state";
-import { ClearManifestDownloadFileSummaryAction } from "../../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
-import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
-import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
-import {
-    selectFileManifestFileSummary, selectFileManifestManifestResponse
-} from "../../_ngrx/file-manifest/file-manifest.selectors";
-import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
+import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
 import { FileSummary } from "../../file-summary/file-summary";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { HCAGetManifestState } from "./hca-get-manifest.state";
+import { AppState } from "../../../_ngrx/app.state";
+import { ClearManifestDownloadFileSummaryAction } from "../../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
+import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
+import { selectFileManifestFileSummary, selectFileManifestManifestResponse } from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
+import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
+import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SearchTerm } from "../../search/search-term.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { ManifestResponse } from "../../shared/manifest-response.model";
 import { ManifestStatus } from "../../shared/manifest-status.model";
@@ -46,11 +48,13 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      */
     constructor(
         private configService: ConfigService,
         private fileManifestService: FileManifestService,
+        private searchTermHttpService: SearchTermHttpService,
         private store: Store<AppState>) {
 
         this.portalURL = this.configService.getPortalURL();
@@ -141,6 +145,24 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     public onDataLinkCopied(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
         this.fileManifestService.trackCopyToClipboardCohortManifestLink(selectedSearchTerms, manifestUrl);
+    }
+
+    /**
+     * Handle click on term in list of terms - update store to toggle selected value of term.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param facetTermSelectedEvent {FacetTermSelectedEvent}
+     */
+    public onFacetTermSelected(selectedSearchTerms: SearchTerm[], facetTermSelectedEvent: FacetTermSelectedEvent) {
+
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        const action = new SelectFileFacetTermAction(
+            facetTermSelectedEvent.facetName,
+            facetTermSelectedEvent.termName,
+            facetTermSelectedEvent.selected,
+            GASource.COHORT_MANIFEST,
+            query);
+        this.store.dispatch(action);
     }
 
     /**

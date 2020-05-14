@@ -2,7 +2,7 @@
     <div [ngClass]="{'filter-result':true, 'inactive': !removable}">
         <ng-container *ngTemplateOutlet="filterResult"></ng-container>
         <button class="clear-all" mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()"
-                (click)="removeAllSearchTerms()">Clear All
+                (click)="removeAllSearchTerms(selectedSearchTerms)">Clear All
         </button>
     </div>
 </div>
@@ -11,12 +11,12 @@
             <span class="selected-facets">
                 <div class="selected-facet">
                     <span class="fontsize-xxs facet-name"
-                          (click)="removeAllSelectedTermsInFacet(selectedSearchFacet)">{{getFacetName(selectedSearchFacet)}}</span>
+                          (click)="removeAllSelectedTermsInFacet(selectedSearchTerms, selectedSearchFacet)">{{getFacetName(selectedSearchFacet)}}</span>
                 </div>
                 <div class="selected-terms">
                     <ng-container
                             *ngFor="let selectedSearchTerm of getSelectedSearchTerms(selectedSearchFacet); last as lastTerm; first as firstTerm">
-                    <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerm)">
+                    <div class="selected-term" (click)="removeSearchTerm(selectedSearchTerms, selectedSearchTerm)">
                         <span class="parenthesis open" *ngIf="firstTerm && firstTerm !== lastTerm && tableFilter">(</span>
                         <span class="fontsize-xxs term-name">{{selectedSearchTerm.getDisplayValue()}}</span>
                         <span class="parenthesis close" *ngIf="lastTerm && firstTerm !== lastTerm && tableFilter">)</span>

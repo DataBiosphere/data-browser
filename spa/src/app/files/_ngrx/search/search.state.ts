@@ -17,7 +17,7 @@ import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
 import { SearchEntity } from "../../search/search-entity.model";
-import { SearchTermsUpdatedAction } from "./search-terms-updated-action.action";
+import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
 import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-name.model";
 import { SearchAgeRange } from "../../search/search-age-range.model";

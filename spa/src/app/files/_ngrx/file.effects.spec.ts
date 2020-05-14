@@ -23,14 +23,15 @@ import {
     PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM, SAMPLES_STATE_WITH_SEARCH_TERM
 } from "./file.state.mock";
 import { FetchFileFacetsRequestAction } from "./facet/file-facet-list.actions";
-import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
+import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
+import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
+import { GTMService } from "../../shared/analytics/gtm.service";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
 import { FilesService } from "../shared/files.service";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
-import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 
 describe("File Effects", () => {
 
@@ -58,7 +59,13 @@ describe("File Effects", () => {
                     provide: FilesService,
                     useValue: filesService
                 },
-                provideMockStore({initialState: DEFAULT_PROJECTS_STATE})
+                provideMockStore({initialState: DEFAULT_PROJECTS_STATE}),
+                {
+                    provide: GTMService,
+                    useValue: jasmine.createSpyObj("GTMService", [
+                        "trackEvent"
+                    ])
+                }
             ]
         });
 
