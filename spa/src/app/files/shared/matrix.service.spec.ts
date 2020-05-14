@@ -15,7 +15,7 @@ import { FileManifestService } from "./file-manifest.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { MatrixService } from "./matrix.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GTMService } from "../../shared/gtm/gtm.service";
+import { GTMService } from "../../shared/analytics/gtm.service";
 
 describe("MatrixService:", () => {
 

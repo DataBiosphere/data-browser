@@ -6,7 +6,8 @@
         </hca-get-data-panel>
         <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                    [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"></file-type-summary-list>
+                                    [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
+                                    (facetTermSelected)="onFacetTermSelected(state.selectedSearchTerms, $event)"></file-type-summary-list>
             <button class="button primary"
                     type="button"
                     (click)="onExportToTerra(state.selectedSearchTerms)"

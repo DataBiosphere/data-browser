@@ -14,8 +14,15 @@ import { AgeRange } from "../../facet/facet-age-range/age-range.model";
 import { SearchAgeRange } from "../../search/search-age-range.model";
 import { SearchTermAction } from "./search-term.action";
 import { SearchTerm } from "../../search/search-term.model";
+import { TrackingAction } from "../analytics/tracking.action";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
+import { GAEvent } from "../../../shared/analytics/ga-event.model";
+import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectFacetAgeRangeAction implements Action, SearchTermAction {
+export class SelectFacetAgeRangeAction implements Action, SearchTermAction, TrackingAction {
 
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_AGE_RANGE";
     public readonly type = SelectFacetAgeRangeAction.ACTION_TYPE;
@@ -23,9 +30,37 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction {
     /**
      * @param {string} facetName
      * @param {AgeRange} ageRange
+     * @param {GASource} source
+     * @param {string} currentQuery
      */
     constructor(public readonly facetName: string,
-                public readonly ageRange: AgeRange) {}
+                public readonly ageRange: AgeRange,
+                public source: GASource,
+                public currentQuery: string) {}
+
+    /**
+     * Return the de/selected term as a GA event.
+     *
+     * @returns {GAEvent}
+     */
+    public asEvent(): GAEvent {
+
+        const term = this.asSearchTerm().getDisplayValue();
+        return {
+            category: GACategory.SEARCH,
+            action: GAAction.SELECT, // Always SELECT for this action (see ClearSelectedAgeRangeAction for DESELECT
+            label: term,
+            dimensions: {
+                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
+                [GADimension.FACET]: this.facetName,
+                [GADimension.MAX]: `${this.ageRange.ageMax}`,
+                [GADimension.MIN]: `${this.ageRange.ageMin}`,
+                [GADimension.SOURCE]: this.source,
+                [GADimension.TERM]: term
+            }
+        };
+    }
 
     /**
      * Returns selected file facet term in search term format.

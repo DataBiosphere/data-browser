@@ -26,8 +26,9 @@ import { TermSortService } from "../../sort/term-sort.service";
 import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetManifestComponent } from "./hca-get-manifest.component";
-import { GTMService } from "../../../shared/gtm/gtm.service";
 import { FileManifestService } from "../../shared/file-manifest.service";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 describe("HCAGetManifestComponent", () => {
 
@@ -94,6 +95,10 @@ describe("HCAGetManifestComponent", () => {
                         "trackDownloadProjectManifest",
                         "trackCopyToClipboardProjectManifestLink"
                     ])
+                },
+                {
+                    provide: SearchTermHttpService,
+                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
                 },
                 {
                     provide: Store,

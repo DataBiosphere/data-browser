@@ -19,6 +19,8 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SelectProjectIdAction } from "../../_ngrx/search/select-project-id.action";
 import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-name.model";
+import { GASource } from "../../../shared/analytics/ga-source.model";
+import { SearchTermHttpService } from "../http/search-term-http.service";
 
 @Component({
     selector: "selected-search-terms",
@@ -35,9 +37,12 @@ export class SelectedSearchTermsComponent {
 
     /**
      * @param {FacetDisplayService} facetDisplayService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      */
-    constructor(private facetDisplayService: FacetDisplayService, private store: Store<AppState>) {
+    constructor(private facetDisplayService: FacetDisplayService,
+                private searchTermHttpService: SearchTermHttpService,
+                private store: Store<AppState>) {
     }
 
     /**
@@ -85,45 +90,65 @@ export class SelectedSearchTermsComponent {
     /**
      * Removes all selected search terms for a given selected search facet.
      *
+     * @param {SearchTerm[]} selectedSearchTerms
      * @param selectedSearchFacet
      */
-    public removeAllSelectedTermsInFacet(selectedSearchFacet) {
+    public removeAllSelectedTermsInFacet(selectedSearchTerms: SearchTerm[], selectedSearchFacet) {
 
         if ( this.removable ) {
-            this.getSelectedSearchTerms(selectedSearchFacet).forEach(selectedSearchTerm => this.removeSearchTerm(selectedSearchTerm));
+            this.getSelectedSearchTerms(selectedSearchFacet).forEach(
+                selectedSearchTerm => this.removeSearchTerm(selectedSearchTerms, selectedSearchTerm)
+            );
         }
     }
 
     /**
      * Dispatch event to remove a single selected search term.
      *
+     * @param {SearchTerm[]} selectedSearchTerms
      * @param {SearchTerm} searchTerm
      */
-    public removeSearchTerm(searchTerm: SearchTerm) {
+    public removeSearchTerm(selectedSearchTerms: SearchTerm[], searchTerm: SearchTerm) {
 
-        if ( this.removable ) {
-
-            let action;
-            if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
-                action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
-            }
-            else if ( searchTerm.getSearchKey() === FacetAgeRangeName.ORGANISM_AGE_RANGE) {
-                action = new ClearSelectedAgeRangeAction(searchTerm.getSearchKey(), searchTerm.getSearchValue());
-            }
-            else {
-                action = new SelectFileFacetTermAction(searchTerm.getSearchKey(), searchTerm.getSearchValue(), false);
-            }
-
-            this.store.dispatch(action);
+        if ( !this.removable ) {
+            return;
         }
-        else return;
+
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        let action;
+        if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
+            
+            action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
+        }
+        else if ( searchTerm.getSearchKey() === FacetAgeRangeName.ORGANISM_AGE_RANGE) {
+            
+            action = new ClearSelectedAgeRangeAction(
+                searchTerm.getSearchKey(),
+                searchTerm.getSearchValue(),
+                GASource.SELECTED_TERMS,
+                query);
+        }
+        else {
+            
+            action = new SelectFileFacetTermAction(
+                searchTerm.getSearchKey(),
+                searchTerm.getSearchValue(),
+                false,
+                GASource.SELECTED_TERMS,
+                query);
+        }
+
+        this.store.dispatch(action);
     }
 
     /**
      * Dispatch event to remove all selected search terms, across all selected facets.
+     * 
+     * @param {SearchTerm[]} selectedSearchTerms
      */
-    public removeAllSearchTerms() {
+    public removeAllSearchTerms(selectedSearchTerms: SearchTerm[]) {
 
-        this.store.dispatch(new ClearSelectedTermsAction());
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        this.store.dispatch(new ClearSelectedTermsAction(GASource.SELECTED_TERMS, query));
     }
 }

@@ -9,5 +9,6 @@ export enum GACategory {
     "DATASET" = "Dataset",
     "EXPORT" = "Export",
     "MANIFEST" = "Manifest",
-    "MATRIX" = "Matrix"
+    "MATRIX" = "Matrix",
+    "SEARCH" = "Search"
 }

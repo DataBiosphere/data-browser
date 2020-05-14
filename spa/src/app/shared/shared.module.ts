@@ -23,7 +23,7 @@ import { CCToolbarNavItemComponent } from "./cc-toolbar-nav-item/cc-toolbar-nav-
 import { CCToolbarNavSubMenuComponent} from "./cc-toolbar-nav-sub-menu/cc-toolbar-nav-sub-menu.component";
 import { CCToolbarNavSubMenuItemComponent } from "./cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
 import { DownloadButtonComponent } from "./download-button/download-button.component";
-import { GTMService } from "./gtm/gtm.service";
+import { GTMService } from "./analytics/gtm.service";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";

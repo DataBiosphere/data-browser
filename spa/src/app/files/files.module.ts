@@ -42,7 +42,6 @@ import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
 import { FacetMenuOptionComponent } from "./facet/facet-menu-option/facet-menu-option.component";
 import { FacetMenuOptionContentComponent } from "./facet/facet-menu-option-content/facet-menu-option-content.component";
 import { FacetMenuOptionTitleComponent } from "./facet/facet-menu-option-title/facet-menu-option-title.component";
-import { FacetToolbarWrapperComponent } from "./facet/facet-toolbar-wrapper/facet-toolbar-wrapper.component";
 import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";
 import { FileFacetComponent } from "./facet/file-facet/file-facet.component";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
@@ -51,7 +50,6 @@ import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-ba
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
 import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
-import { FacetTermListComponent } from "./facet/facet-term-list/facet-term-list.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
@@ -128,6 +126,7 @@ import { ReleaseVisualizationsModalComponent } from "./releases/release-visualiz
 import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
 import { SearchTermUrlService } from "./search/url/search-term-url.service";
+import { FacetTermListComponent } from "./facet/facet-term-list/facet-term-list.component";
 
 @NgModule({
     imports: [
@@ -165,8 +164,8 @@ import { SearchTermUrlService } from "./search/url/search-term-url.service";
         FacetMenuOptionComponent,
         FacetMenuOptionContentComponent,
         FacetMenuOptionTitleComponent,
+        FacetTermListComponent,
         FacetToolbarComponent,
-        FacetToolbarWrapperComponent,
         FileFacetComponent,
         FileManifestSummaryComponent,
         FileNameShortenerPipe,
@@ -177,7 +176,6 @@ import { SearchTermUrlService } from "./search/url/search-term-url.service";
         HCADownloadFileComponent,
         HCAEllipsisTextComponent,
         HCAExportToTerraComponent,
-        FacetTermListComponent,
         HCAFileSummaryComponent,
         HCAGetDataComponent,
         HCAGetDataDownloadsComponent,

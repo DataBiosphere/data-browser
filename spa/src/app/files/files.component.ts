@@ -104,9 +104,8 @@ export class FilesComponent implements OnInit, OnDestroy {
      */
     private initOnStateChanges() {
 
-        // Set up the URL state management - write the browser address bar when the selected facets change.
+        // Set up the URL state management - write to the browser address bar when the selected facets change.
         combineLatest(
-            this.store.pipe(select(selectFacetFacets)),
             this.store.pipe(select(selectSelectedEntity)),
             this.store.pipe(select(selectSelectedSearchTermsBySearchKey))
         )
@@ -116,9 +115,9 @@ export class FilesComponent implements OnInit, OnDestroy {
                 return _.isEqual(previous, current);
             })
         )
-        .subscribe(([facets, selectedEntity, selectedSearchTermsBySearchKey]) => {
+        .subscribe(([selectedEntity, selectedSearchTermsBySearchKey]) => {
 
-            const filterQueryString = this.locationService.stringifySearchTerms(facets, selectedSearchTermsBySearchKey);
+            const filterQueryString = this.locationService.stringifySearchTerms(selectedSearchTermsBySearchKey);
             
             const path = selectedEntity.key;
             const params = new URLSearchParams();

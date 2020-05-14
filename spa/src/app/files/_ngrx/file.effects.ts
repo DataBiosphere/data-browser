@@ -13,30 +13,26 @@ import { Observable, of } from "rxjs";
 import { map, mergeMap, switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { TrackingAction } from "./analytics/tracking.action";
+import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchIsMatrixSupportedRequestAction } from "./facet/fetch-is-matrix-supported-request.action";
 import { FetchIsMatrixSupportedSuccessAction } from "./facet/fetch-is-matrix-supported-success.action";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
+import { FetchFileFacetsRequestAction, InitEntityStateAction, NoOpAction } from "./facet/file-facet-list.actions";
+import { selectTableQueryParams } from "./file.selectors";
 import { FileSummary } from "../file-summary/file-summary";
-import {
-    FetchFileFacetsRequestAction,
-    InitEntityStateAction,
-    NoOpAction
-} from "./facet/file-facet-list.actions";
-import {
-    FetchFileSummaryRequestAction,
-    FetchFileSummarySuccessAction
-} from "./file-summary/file-summary.actions";
-import {
-    selectTableQueryParams
-} from "app/files/_ngrx/file.selectors";
+import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
-import { SearchTerm } from "../search/search-term.model";
 import { selectSelectedSearchTerms } from "./search/search.selectors";
-import { SearchTermsUpdatedAction } from "./search/search-terms-updated-action.action";
+import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
+import { SearchTerm } from "../search/search-term.model";
+import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
+import { ClearSelectedAgeRangeAction } from "./search/clear-selected-age-range.action";
+import { GTMService } from "../../shared/analytics/gtm.service";
 import { EntityName } from "../shared/entity-name.model";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FilesService } from "../shared/files.service";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
@@ -44,9 +40,6 @@ import { EntitySelectAction } from "./table/table.actions";
 import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
 import { getSelectedTable } from "./table/table.state";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
-import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
-import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
-import { ClearSelectedAgeRangeAction } from "./search/clear-selected-age-range.action";
 
 @Injectable()
 export class FileEffects {
@@ -55,10 +48,12 @@ export class FileEffects {
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      * @param {FilesService} fileService
+     * @param {GTMService} gtmService
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                private fileService: FilesService) {
+                private fileService: FilesService,
+                private gtmService: GTMService) {
     }
 
     /**
@@ -79,7 +74,12 @@ export class FileEffects {
                 SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
                 SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
             ),
-            mergeMap(() => {
+            mergeMap((action) => {
+
+                // If this action is a tracking action, send tracking event.
+                if ( (action as TrackingAction).asEvent ) {
+                    this.gtmService.trackEvent((action as TrackingAction).asEvent());
+                }
 
                 // Return an array of actions that need to be dispatched - we need to (re-)request summary and facet
                 // (including table) data.

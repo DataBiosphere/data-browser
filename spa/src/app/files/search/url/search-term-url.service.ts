@@ -68,11 +68,10 @@ export class SearchTermUrlService {
     /**
      * Convert specified set of search terms into a URL-friendly string.
      * 
-     * @param {Facet[]} facets
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      * @returns {string}
      */
-    public stringifySearchTerms(facets: Facet[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>): string {
+    public stringifySearchTerms(selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>): string {
 
         // Convert search terms to query string state
         const queryStringSearchTerms = Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {

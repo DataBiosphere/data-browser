@@ -28,11 +28,11 @@ import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GAAction } from "../../shared/gtm/ga-action.model";
-import { GACategory } from "../../shared/gtm/ga-category.model";
-import { GADimension } from "../../shared/gtm/ga-dimension.model";
-import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
-import { GTMService } from "../../shared/gtm/gtm.service";
+import { GAAction } from "../../shared/analytics/ga-action.model";
+import { GACategory } from "../../shared/analytics/ga-category.model";
+import { GADimension } from "../../shared/analytics/ga-dimension.model";
+import { GAEntityType } from "../../shared/analytics/ga-entity-type.model";
+import { GTMService } from "../../shared/analytics/gtm.service";
 
 @Injectable()
 export class FileManifestService {
@@ -149,9 +149,16 @@ export class FileManifestService {
     public trackRequestCohortManifest(selectedSearchTerms: SearchTerm[]) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.REQUEST, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
-        });
+        const event = {
+            category: GACategory.MANIFEST,
+            action: GAAction.REQUEST,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
+            }
+        };
+
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -163,10 +170,17 @@ export class FileManifestService {
     public trackDownloadCohortManifest(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.DOWNLOAD, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-            [GADimension.ENTITY_URL]: manifestUrl
-        });
+        const event = {
+            category: GACategory.MANIFEST,
+            action: GAAction.DOWNLOAD,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
+                [GADimension.ENTITY_URL]: manifestUrl
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -178,10 +192,17 @@ export class FileManifestService {
     public trackCopyToClipboardCohortManifestLink(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.COPY_TO_CLIPBOARD, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-            [GADimension.ENTITY_URL]: manifestUrl
-        });
+        const event = {
+            category: GACategory.MANIFEST,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
+                [GADimension.ENTITY_URL]: manifestUrl
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -191,9 +212,16 @@ export class FileManifestService {
      */
     public trackDownloadProjectManifest(projectTitle: string) {
 
-        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.DOWNLOAD, projectTitle, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK
-        });
+        const event = {
+            category: GACategory.MANIFEST,
+            action: GAAction.DOWNLOAD,
+            label: projectTitle,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -204,12 +232,18 @@ export class FileManifestService {
      */
     public trackCopyToClipboardProjectManifestLink(projectTitle: string, manifestUrl: string) {
 
-        this.gtmService.trackEvent(GACategory.MANIFEST, GAAction.COPY_TO_CLIPBOARD, projectTitle, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK,
-            [GADimension.ENTITY_URL]: manifestUrl
-        });
+        const event = {
+            category: GACategory.MANIFEST,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: projectTitle,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK,
+                [GADimension.ENTITY_URL]: manifestUrl
+            }
+        };
+        this.gtmService.trackEvent(event);
     }
-    
+
     /**
      * Add all file formats to the set of search terms. When no file formats are currently selected in the set of
      * search terms, we must convert this to all file formats.
@@ -308,7 +342,7 @@ export class FileManifestService {
     /**
      * Poll file manifest status until no longer in progress, updating the manifest response on each poll. Kill polling
      * if indicated by kill switch.
-     * 
+     *
      * @param {string} url
      * @param {HttpParams} params
      * @param {number} delay
@@ -318,7 +352,7 @@ export class FileManifestService {
     private pollRequestFileManifest(
         url: string, params: HttpParams, delay: number, manifestResponse$: Subject<ManifestResponse>, killSwitch$: Observable<boolean>) {
 
-         const subscription = interval(delay * 1000)
+        const subscription = interval(delay * 1000)
             .pipe(
                 take(1),
                 switchMap(() => {

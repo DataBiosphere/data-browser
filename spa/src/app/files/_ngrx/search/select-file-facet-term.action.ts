@@ -10,11 +10,18 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { TrackingAction } from "../analytics/tracking.action";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
+import { GAEvent } from "../../../shared/analytics/ga-event.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectFileFacetTermAction implements Action, SelectSearchTermAction {
+export class SelectFileFacetTermAction implements Action, SelectSearchTermAction, TrackingAction {
 
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_FACET_TERM";
     public readonly type = SelectFileFacetTermAction.ACTION_TYPE;
@@ -23,10 +30,35 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @param {string} facetName
      * @param {string} termName
      * @param {boolean} selected
+     * @param {GASource} source
+     * @param {string} currentQuery
      */
     constructor(public readonly facetName: string,
                 public readonly termName: string,
-                public readonly selected = true) {}
+                public readonly selected = true,
+                public source: GASource,
+                public currentQuery: string) {}
+
+    /**
+     * Return the selected age range as a GA event.
+     * 
+     * @returns {GAEvent}
+     */
+    public asEvent(): GAEvent {
+        
+        return {
+            category: GACategory.SEARCH,
+            action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
+            label: this.termName,
+            dimensions: {
+                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
+                [GADimension.FACET]: this.facetName,
+                [GADimension.SOURCE]: this.source,
+                [GADimension.TERM]: this.termName
+            }
+        };
+    }
 
     /**
      * Returns selected file facet term in search term format.

@@ -3,19 +3,20 @@
  * https://www.humancellatlas.org/
  *
  * Displays list file type summaries, and checkbox indicating if the corresponding file format facet term is currently
- * in set of selected search terms. Used when selecting files type for manifest generation or export to Terra.  
+ * in set of selected search terms. Used when selecting files type for manifest generation or export to Terra. Populated
+ * from fileTypeSummaries value in summary API call.
  */
 
 // Core dependencies
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
+import { FacetTermSelectedEvent } from "../facet/file-facet/facet-term-selected.event";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
 import { FileTypeSummaryView } from "./file-type-summary-view.model";
-import { AppState } from "../../_ngrx/app.state";
-import { SelectFileFacetTermAction } from "../_ngrx/search/select-file-facet-term.action";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
@@ -29,6 +30,9 @@ export class FileTypeSummaryListComponent implements OnInit {
     @Input() selectedSearchTermNames: string[];
     @Input() fileTypeSummaries: FileTypeSummary[];
 
+    // Outputs
+    @Output() facetTermSelected = new EventEmitter<FacetTermSelectedEvent>();
+
     // Locals
     private selectAll = true;
 
@@ -38,10 +42,6 @@ export class FileTypeSummaryListComponent implements OnInit {
      */
     constructor(private termSortService: TermSortService, private store: Store<AppState>) {
     }
-
-    /**
-     * Public API
-     */
 
     /**
      * Return the list of file types to display, including a "selected" indicator if the corresponding file format
@@ -110,13 +110,13 @@ export class FileTypeSummaryListComponent implements OnInit {
     /**
      * Handle click on individual facet file type summary - emit event to parent.
      *
-     * @param facetFileTypeSummary {FacetFileTypeSummary}
+     * @param facetFileTypeSummary {FileTypeSummaryView}
      */
     public onClickFacetTerm(facetFileTypeSummary: FileTypeSummaryView): void {
 
         const termName = facetFileTypeSummary.termName;
         const selected = facetFileTypeSummary.selected;
-        this.store.dispatch(new SelectFileFacetTermAction(FileFacetName.FILE_FORMAT, termName, !selected));
+        this.facetTermSelected.emit(new FacetTermSelectedEvent(FileFacetName.FILE_FORMAT, termName, !selected));
     }
 
     /**
@@ -136,10 +136,6 @@ export class FileTypeSummaryListComponent implements OnInit {
             }
         });
     }
-
-    /**
-     * Life cycle hooks
-     */
 
     /**
      * Set up state of "Select All" text.

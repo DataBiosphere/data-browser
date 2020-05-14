@@ -28,6 +28,7 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { Term } from "../shared/term.model";
 import { HCAGetDataState } from "./hca-get-data.state";
 import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 
 @Component({
     selector: "hca-get-data",
@@ -276,7 +277,7 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Update state.
+     * Set up state.
      */
     public ngOnInit() {
 
@@ -286,6 +287,9 @@ export class HCAGetDataComponent implements OnInit {
         // Get the list of fileFacets to display
         const fileFacets$ = this.store.pipe(select(selectFacetFileFacets));
 
+        // Grab the current set of selected search terms
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
         const matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
@@ -293,10 +297,11 @@ export class HCAGetDataComponent implements OnInit {
         this.state$ = combineLatest(
             selectedEntity$,
             fileFacets$,
-            matrixSupported$
+            matrixSupported$,
+            selectedSearchTerms$,
         )
             .pipe(
-                map(([selectedEntity, fileFacets, matrixSupported]) => {
+                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms]) => {
                     
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
 
@@ -305,7 +310,8 @@ export class HCAGetDataComponent implements OnInit {
                         fileFacets,
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
-                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported)
+                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
+                        selectedSearchTerms
                     };
                 })
             );

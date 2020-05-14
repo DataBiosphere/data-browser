@@ -22,11 +22,11 @@ import { ICGCQuery } from "./icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { SearchTerm } from "../search/search-term.model";
 import { ToolName } from "./tool-name.model";
-import { GACategory } from "../../shared/gtm/ga-category.model";
-import { GADimension } from "../../shared/gtm/ga-dimension.model";
-import { GAAction } from "../../shared/gtm/ga-action.model";
-import { GTMService } from "../../shared/gtm/gtm.service";
-import { GAEntityType } from "../../shared/gtm/ga-entity-type.model";
+import { GACategory } from "../../shared/analytics/ga-category.model";
+import { GADimension } from "../../shared/analytics/ga-dimension.model";
+import { GAAction } from "../../shared/analytics/ga-action.model";
+import { GTMService } from "../../shared/analytics/gtm.service";
+import { GAEntityType } from "../../shared/analytics/ga-entity-type.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
@@ -154,10 +154,17 @@ export class TerraService {
     public trackRequestExportToTerra(selectedSearchTerms: SearchTerm[]) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.REQUEST, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
-            [GADimension.TOOL_NAME]: ToolName.TERRA
-        });
+        const event = {
+            category: GACategory.EXPORT,
+            action: GAAction.REQUEST,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
+                [GADimension.TOOL_NAME]: ToolName.TERRA
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -169,11 +176,18 @@ export class TerraService {
     public trackLaunchTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.LAUNCH, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
-            [GADimension.ENTITY_URL]: exportToTerraUrl,
-            [GADimension.TOOL_NAME]: ToolName.TERRA
-        });
+        const event = {
+            category: GACategory.EXPORT,
+            action: GAAction.LAUNCH,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
+                [GADimension.ENTITY_URL]: exportToTerraUrl,
+                [GADimension.TOOL_NAME]: ToolName.TERRA
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
@@ -185,11 +199,18 @@ export class TerraService {
     public trackCopyToClipboardTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        this.gtmService.trackEvent(GACategory.EXPORT, GAAction.COPY_TO_CLIPBOARD, query, {
-            [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
-            [GADimension.ENTITY_URL]: exportToTerraUrl,
-            [GADimension.TOOL_NAME]: ToolName.TERRA
-        });
+        const event = {
+            category: GACategory.EXPORT,
+            action: GAAction.COPY_TO_CLIPBOARD,
+            label: query,
+            dimensions: {
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
+                [GADimension.ENTITY_URL]: exportToTerraUrl,
+                [GADimension.TOOL_NAME]: ToolName.TERRA
+            }
+        };
+        
+        this.gtmService.trackEvent(event);
     }
 
     /**
