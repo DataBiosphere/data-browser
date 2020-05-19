@@ -13,20 +13,24 @@ export class Config {
     public readonly portalURL: string;
     public readonly deployment: string;
     public readonly projectMetaURL: string;
+    public readonly version: string;
 
     /**
      * @param {string} dataURL
      * @param {string} dcpHealthCheckUrl
+     * @param {string} deployment
      * @param {string} matrixURL
      * @param {string} portalURL
      * @param {string} projectMetaURL
+     * @param {string} version
      */
     constructor(dataURL: string,
                 dcpHealthCheckUrl: string,
+                deployment: string,
                 matrixURL: string,
                 portalURL: string,
                 projectMetaURL: string,
-                deployment: string) {
+                version: string) {
 
         this.dataURL = dataURL;
         this.dcpHealthCheckUrl = dcpHealthCheckUrl;
@@ -34,5 +38,6 @@ export class Config {
         this.deployment = deployment;
         this.portalURL = portalURL;
         this.projectMetaURL = projectMetaURL;
+        this.version = version;
     }
 }

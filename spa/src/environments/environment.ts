@@ -10,5 +10,6 @@ export const environment = {
     matrixURL: "https://matrix.staging.data.humancellatlas.org/v0/matrix",
     portalURL: "https://dev.data.humancellatlas.org",
     projectMetaURL: "https://dev.data.humancellatlas.org",
-    deployment: "local"
+    deployment: "local",
+    version: "1.0"
 };
