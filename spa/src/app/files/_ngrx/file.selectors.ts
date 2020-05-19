@@ -12,8 +12,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
 import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
-import { PaginationModel } from "../table/pagination.model";
-import { selectFacetFacets } from "./facet/facet.selectors";
+import { Pagination } from "../table/pagination/pagination.model";
 
 /**
  * Return the file summary from the store.
@@ -52,7 +51,7 @@ export const selectTableLoading = createSelector(selectTableState, (tableState: 
 /**
  * Returns pagination state of the current selected entity.
  *
- * @returns {PaginationModel}
+ * @returns {Pagination}
  */
 export const selectPagination = createSelector(selectTableState, (tableState: TableState) => {
     return getSelectedTable(tableState).pagination;
@@ -88,7 +87,7 @@ export const selectSelectedEntity = createSelector(selectTableState, (tableState
 /**
  * Returns a combination of selected entity facets, the current pagination state and the over all table state.
  *
- * @returns {Map<string, FileFacet> & PaginationModel & TableState}
+ * @returns {Map<string, FileFacet> & Pagination & TableState}
  */
 export const selectTableQueryParams = createSelector(
     selectSelectedSearchTermsBySearchKey,

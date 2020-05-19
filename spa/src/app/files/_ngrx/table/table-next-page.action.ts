@@ -7,10 +7,10 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
-import { TableParamsModel } from "../../table/table-params.model";
+import { TableParams } from "../../table/pagination/table-params.model";
 
 export class TableNextPageAction implements Action {
     public static ACTION_TYPE = "TABLE.NEXT_PAGE";
     public readonly type = TableNextPageAction.ACTION_TYPE;
-    constructor(public tableParams: TableParamsModel) {}
+    constructor(public tableParams: TableParams) {}
 }

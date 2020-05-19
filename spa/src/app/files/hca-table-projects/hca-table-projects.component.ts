@@ -31,7 +31,7 @@ import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selec
 import { ProjectRowMapper } from "./project-row-mapper";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 import {
     getColumnClass,
     getColumnDisplayName,
@@ -39,7 +39,7 @@ import {
     getColumnStyle,
     isElementUnspecified
 } from "../table/table-methods";
-import { TableParamsModel } from "../table/table-params.model";
+import { TableParams } from "../table/pagination/table-params.model";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { EntityName } from "../shared/entity-name.model";
 
@@ -68,7 +68,7 @@ export class HCATableProjectsComponent implements OnInit {
     public getColumnStyle = getColumnStyle;
     public isElementUnspecified = isElementUnspecified;
     public loading$: Observable<boolean>;
-    public pagination$: Observable<PaginationModel>;
+    public pagination$: Observable<Pagination>;
     public selectFileSummary$: Observable<FileSummary>;
     public dataSource: EntitiesDataSource<ProjectRowMapper>;
     public projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
@@ -170,10 +170,10 @@ export class HCATableProjectsComponent implements OnInit {
     /**
      * Sort the table given the sort param and the order.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pm
      * @param {Sort} sort
      */
-    public sortTable(pm: PaginationModel, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -195,7 +195,7 @@ export class HCATableProjectsComponent implements OnInit {
             return;
         }
 
-        let tableParamsModel: TableParamsModel = {
+        let tableParamsModel: TableParams = {
             size: pm.size,
             sort: sort.active,
             order: sort.direction

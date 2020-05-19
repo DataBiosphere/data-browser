@@ -32,7 +32,7 @@ import { selectProjectById } from "../project-edits/project-edits.selectors";
 import { EntityName } from "../../shared/entity-name.model";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
 import { EntitySearchResults } from "../../shared/entity-search-results.model";
-import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 import { FilesService } from "../../shared/files.service";
 import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
@@ -116,7 +116,7 @@ export class TableEffects {
 
     /**
      * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from
-     * the store to update publication and contributor details, where specifed.
+     * the store to update publication and contributor details, where specified.
      */
     @Effect()
     fetchProject: Observable<Action> = this.actions$
@@ -243,7 +243,8 @@ export class TableEffects {
      * Fetch the paged/sorted table data and map to appropriate format for FE.
      *
      * @param {[FetchPagedOrSortedTableDataRequestAction | TableNextPageAction | TablePreviousPageAction,
-     * Map<string, FileFacet> & PaginationModel & TableState]} [action, tableQueryParams]
+     * Map<string, FileFacet> & Pagination & TableState]} [action, tableQueryParams]
+     * @param {any} tableQueryParams
      * @returns {Observable<EntitySearchResults>}
      */
     private fetchPagedOrSortedTableModel([action , tableQueryParams]): Observable<EntitySearchResults> {

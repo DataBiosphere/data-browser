@@ -7,7 +7,7 @@
 
 
 // Core dependencies
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Inject, Input, OnInit } from "@angular/core";
 import { Sort } from "@angular/material/sort";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -15,13 +15,12 @@ import { Observable } from "rxjs";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination } from "../_ngrx/file.selectors";
-import {
-    FetchPagedOrSortedTableDataRequestAction
-} from "../_ngrx/table/table.actions";
+import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { TableNextPageAction } from "../_ngrx/table/table-next-page.action";
 import { TablePreviousPageAction } from "../_ngrx/table/table-previous-page.action";
-import { PaginationModel } from "../table/pagination.model";
-import { TableParamsModel } from "../table/table-params.model";
+import { Pagination } from "../table/pagination/pagination.model";
+import { TableParams } from "../table/pagination/table-params.model";
+import { PaginationService } from "../table/pagination/pagination.service";
 
 @Component({
     selector: "hca-table-pagination",
@@ -32,77 +31,57 @@ import { TableParamsModel } from "../table/table-params.model";
 export class HCATablePaginationComponent implements OnInit {
 
     // Template variables
-    pagination$: Observable<PaginationModel>;
+    pagination$: Observable<Pagination>;
 
     // Inputs
     @Input() tableData: any[];
 
     /**
+     * @param {PaginationService} paginationService
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {
-    }
-
-    /**
-     * Public API
-     */
+    constructor(@Inject("PAGINATION_SERVICE") private paginationService: PaginationService,
+                private store: Store<AppState>) {}
 
     /**
      * Called when table next page selected.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pagination
      */
-    public nextPageSelected(pm: PaginationModel) {
+    public nextPageSelected(pagination: Pagination) {
 
-        if ( !this.hasNext(pm) ) {
+        if ( !this.hasNext(pagination) ) {
             return;
         }
-
-        let tableParamsModel = {
-
-            search_after: pm.search_after,
-            search_after_uid: pm.search_after_uid,
-            size: pm.size,
-            sort: pm.sort,
-            order: pm.order
-        };
-
-        this.store.dispatch(new TableNextPageAction(tableParamsModel));
+        
+        const tableParams = this.paginationService.buildNextPageTableParams(pagination);
+        this.store.dispatch(new TableNextPageAction(tableParams));
     }
 
     /**
      * Called when table previous page selected.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pagination
      */
-    public previousPageSelected(pm: PaginationModel) {
+    public previousPageSelected(pagination: Pagination) {
 
-
-        if ( !this.hasPrevious(pm) ) {
+        if ( !this.hasPrevious(pagination) ) {
             return;
         }
-
-        let tableParamsModel = {
-
-            search_before: pm.search_before,
-            search_before_uid: pm.search_before_uid,
-            size: pm.size,
-            sort: pm.sort,
-            order: pm.order
-        };
-
-        this.store.dispatch(new TablePreviousPageAction(tableParamsModel));
+        
+        const tableParams = this.paginationService.buildPreviousPageTableParams(pagination);
+        this.store.dispatch(new TablePreviousPageAction(tableParams));
     }
 
     /**
      * Sort the table given the sort param and the order.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pm
      * @param {Sort} sort
      */
-    public sortTable(pm: PaginationModel, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort) {
 
-        let tableParamsModel: TableParamsModel = {
+        let tableParamsModel: TableParams = {
             size: pm.size,
             sort: sort.active,
             order: sort.direction
@@ -115,35 +94,37 @@ export class HCATablePaginationComponent implements OnInit {
      * Check if there is a next page. Use search_after_uid and not search_after as null is a valid value for
      * search_after.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pagination
      * @returns {boolean}
      */
-    public hasNext(pm: PaginationModel): boolean {
-        return pm.search_after_uid !== null;
+    public hasNext(pagination: Pagination): boolean {
+        
+        return !this.paginationService.isLastPage(pagination);
     }
 
     /**
      * Check if there is a previous page. Use search_before_uid and not search_before as null is a valid value for
      * search_before.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pagination
      * @returns {boolean}
      */
-    public hasPrevious(pm: PaginationModel): boolean {
-        return pm.search_before_uid !== null;
+    public hasPrevious(pagination: Pagination): boolean {
+        
+        return!this.paginationService.isFirstPage(pagination);
     }
 
     /**
      * Return the total number of pages.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pm
      * @returns {number}
      */
-    getPageCount(pm: PaginationModel) {
+    getPageCount(pm: Pagination) {
         return Math.ceil(pm.total / pm.size);
     }
 
-    getPages(pm: PaginationModel): number[] {
+    getPages(pm: Pagination): number[] {
 
         let pages = [];
         let pageCount = this.getPageCount(pm);
@@ -158,12 +139,12 @@ export class HCATablePaginationComponent implements OnInit {
     /**
      * Sets the number of rows per page.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pm
      * @returns {number} pageSize
      */
-    public setPageSize(pm: PaginationModel, pageSize: number) {
+    public setPageSize(pm: Pagination, pageSize: number) {
 
-        let tableParamsModel: TableParamsModel = {
+        let tableParamsModel: TableParams = {
             size: pageSize,
             sort: pm.sort,
             order: pm.order
@@ -171,10 +152,6 @@ export class HCATablePaginationComponent implements OnInit {
 
         this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
     }
-
-    /**
-     * Lifecycle hooks
-     */
 
     /**
      *  Set up pagination

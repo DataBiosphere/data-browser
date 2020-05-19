@@ -7,7 +7,7 @@
 
 // App dependencies
 import { TableModel } from "../table/table.model";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 import { EntityName } from "../shared/entity-name.model";
 import {
     SAMPLE_EMPTY_ARRAY_VALUES, SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT, SAMPLE_NULL_TOP_LEVEL_VALUES, SAMPLE_NULL_VALUES,
@@ -777,7 +777,7 @@ const DEFAULT_SAMPLES_PAGINATION_MODEL = {
     "sort": "sampleId",
     "order": "asc",
     "current_page": 1
-} as PaginationModel;
+} as Pagination;
 
 /**
  * Model of sample table model that is saved in store.

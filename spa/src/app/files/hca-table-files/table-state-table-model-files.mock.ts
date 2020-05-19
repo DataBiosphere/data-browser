@@ -8,7 +8,7 @@
 // App dependencies
 import { EntityName } from "../shared/entity-name.model";
 import { TableModel } from "../table/table.model";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 import {
     FILE_EMPTY_ARRAY_VALUES,
     FILE_MULTIPLE_VALUES_SINGLE_OBJECT, FILE_NULL_TOP_LEVEL_VALUES, FILE_NULL_VALUES, FILE_SINGLE_VALUES,
@@ -691,7 +691,7 @@ const DEFAULT_FILES_PAGINATION_MODEL = {
     "sort": "fileName",
     "order": "asc",
     "current_page": 1
-} as PaginationModel;
+} as Pagination;
 
 /**
  * Model of file table model that is saved in store.

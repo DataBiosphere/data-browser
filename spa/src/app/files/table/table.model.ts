@@ -7,11 +7,11 @@
  */
 
 // App dependencies
-import { PaginationModel } from "./pagination.model";
+import { Pagination } from "./pagination/pagination.model";
 
 export interface TableModel {
 
-    pagination: PaginationModel;
+    pagination: Pagination;
     data: any[];
     loading?: boolean;
     tableName: string;

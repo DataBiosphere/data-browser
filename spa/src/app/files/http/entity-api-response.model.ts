@@ -8,10 +8,10 @@
 // App dependencies
 import { ResponseFacet } from "./response-facet.model";
 import { Dictionary } from "../../dictionary";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 
 export interface EntityAPIResponse {
     termFacets: Dictionary<ResponseFacet>;
-    pagination: PaginationModel;
+    pagination: Pagination;
     hits: any[];
 }

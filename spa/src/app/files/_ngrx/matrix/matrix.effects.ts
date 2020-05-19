@@ -27,7 +27,7 @@ import { selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../search/search.selectors";
 import { FilesService } from "../../shared/files.service";
-import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixUrlRequestSpecies } from "../../shared/matrix-url-request-species.model";

@@ -12,7 +12,7 @@ import { SelectFileFacetTermAction } from "../search/select-file-facet-term.acti
 import { SetViewStateAction } from "./set-view-state.action";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { Term } from "../../shared/term.model";
-import { PaginationModel } from "../../table/pagination.model";
+import { Pagination } from "../../table/pagination/pagination.model";
 import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { Facet } from "../../facet/facet.model";
@@ -29,7 +29,7 @@ export class FacetState {
     public readonly fileFacets: FileFacet[]; // Subset of facets, containing only facets of type file facet
     public readonly selectedFacet: Facet; // Facet currently being edited.
     public readonly matrixSupported: boolean;
-    public readonly paginationModel: PaginationModel;
+    public readonly paginationModel: Pagination;
 
     private readonly facetNames: string[];
     private readonly facetsByName: Map<string, Facet>;
@@ -38,13 +38,13 @@ export class FacetState {
      * @param {string[]} facetNames
      * @param {Map<string, Facet>} facetsByName
      * @param {Facet} selectedFacet
-     * @param {PaginationModel} paginationModel
+     * @param {Pagination} paginationModel
      * @param {matrixSupported} matrixSupported
      */
     constructor(facetNames: string[],
                 facetsByName: Map<string, Facet>,
                 selectedFacet: Facet,
-                paginationModel: PaginationModel,
+                paginationModel: Pagination,
                 matrixSupported: boolean) {
 
         this.facetNames = facetNames;

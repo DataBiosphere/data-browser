@@ -43,6 +43,8 @@ import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { TableRendererService } from "../table/table-renderer.service";
+import { EntityRequestService } from "../entity/entity-request.service";
+import { PaginationService } from "../table/pagination/pagination.service";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -101,29 +103,43 @@ describe("HCATableSamplesComponent", () => {
                 RouterTestingModule
             ],
             providers: [{
-                provide: Store,
-                useValue: testStore
-            }, {
-                provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL", "getProjectMetaURL"])
-            }, {
-                provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
-                useValue: () => new Promise(() => {
-                })
-            }, {
-                provide: ResponsiveService,
-                useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
-            }, {
-                provide: TableRendererService,
-                useValue: jasmine.createSpyObj("TableRendererService", {
-                    "onRenderCompleted": of(true)
-                })
-            }, {
-                provide: "Window",
-                useFactory: (() => {
-                    return window;
-                })
-            }]
+                    provide: Store,
+                    useValue: testStore
+                },
+                {
+                    provide: ConfigService,
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL", "getProjectMetaURL"])
+                },
+                {
+                    provide: "ENTITY_REQUEST_SERVICE",
+                    useClass: EntityRequestService
+                },
+                {
+                    provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
+                    useValue: () => new Promise(() => {
+                    })
+                },
+                {
+                    provide: "PAGINATION_SERVICE",
+                    useClass: PaginationService
+                },
+                {
+                    provide: ResponsiveService,
+                    useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                },
+                {
+                    provide: TableRendererService,
+                    useValue: jasmine.createSpyObj("TableRendererService", {
+                        "onRenderCompleted": of(true)
+                    })
+                },
+                {
+                    provide: "Window",
+                    useFactory: (() => {
+                        return window;
+                    })
+                }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCATableSamplesComponent);

@@ -37,7 +37,7 @@ import { FilesService } from "../shared/files.service";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { EntitySelectAction } from "./table/table.actions";
-import { DEFAULT_TABLE_PARAMS } from "../table/table-params.model";
+import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
 import { getSelectedTable } from "./table/table.state";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 

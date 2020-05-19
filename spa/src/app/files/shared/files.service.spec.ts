@@ -24,8 +24,10 @@ import { PairedEnd } from "./paired-end.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { DEFAULT_TABLE_PARAMS, TableParamsModel } from "../table/table-params.model";
+import { DEFAULT_TABLE_PARAMS, TableParams } from "../table/pagination/table-params.model";
 import { Term } from "./term.model";
+import { PaginationService } from "../table/pagination/pagination.service";
+import { EntityRequestService } from "../entity/entity-request.service";
 
 describe("FileService:", () => {
 
@@ -46,12 +48,20 @@ describe("FileService:", () => {
         configService.buildApiUrl.and.returnValue("");
 
         const termResponseService = new ResponseTermService();
-        const searchTermService = new SearchTermHttpService(termResponseService);
+        const searchTermHttpService = new SearchTermHttpService(termResponseService);
 
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
 
-        fileService = new FilesService(configService, searchTermService, termResponseService, <any>httpClientSpy);
+        const paginationService = new PaginationService();
+        const entityRequestService = new EntityRequestService(configService, searchTermHttpService, paginationService);
+
+        fileService = new FilesService(
+            configService,
+            entityRequestService,
+            searchTermHttpService,
+            termResponseService,
+            <any>httpClientSpy);
     }));
 
     /**
@@ -543,7 +553,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.TRUE, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -573,7 +583,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -595,7 +605,7 @@ describe("FileService:", () => {
                     new Term(GenusSpecies.DANIO_RERIO, 90, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(true);
                     done();
@@ -619,7 +629,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.INDROP, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(true);
                     done();
@@ -643,7 +653,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.TENX_V2, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -667,7 +677,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.TENX_3PRIME_V2, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -691,7 +701,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -718,7 +728,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.TRUE, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -746,7 +756,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -781,7 +791,7 @@ describe("FileService:", () => {
             const fetchIsSmartSeq2False = 
                 spyOn<any>(fileService, "fetchIsSmartSeq2False").and.returnValue(of(true));
 
-            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParamsModel, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"](new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(() => {
                     expect(fetchIsSmartSeq2False).toHaveBeenCalled();
                     done();
