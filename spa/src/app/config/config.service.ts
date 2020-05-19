@@ -26,6 +26,7 @@ export class ConfigService {
     private deployment: string;
     private projectMetaURL: string;
     private store: Store<AppState>;
+    private version: string;
 
     /**
      * @param store {Store<AppState>}
@@ -172,6 +173,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns true if the current environment is a version 2.0 environment.
+     * 
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+        
+        return this.version === "2.0";
+    }
+
+    /**
      * Save the data URL as a local variable ogetAPIURLn this instance, and update the corresponding config value in the store.
      *
      * @param config {Config}
@@ -184,6 +195,7 @@ export class ConfigService {
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
+        this.version = config.version;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }
 }
