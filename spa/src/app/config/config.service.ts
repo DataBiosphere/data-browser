@@ -178,7 +178,7 @@ export class ConfigService {
      * @returns {boolean}
      */
     public isV2(): boolean {
-        
+
         return this.version === "2.0";
     }
 

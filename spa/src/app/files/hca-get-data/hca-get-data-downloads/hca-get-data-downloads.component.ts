@@ -25,6 +25,7 @@ export class HCAGetDataDownloadsComponent {
     public portalURL: string;
 
     // Inputs
+    @Input() disableFeature: boolean;
     @Input() matrixEnabled: boolean;
     @Input() matrixSpeciesSelectionRequired: boolean;
 

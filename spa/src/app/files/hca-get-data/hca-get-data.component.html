@@ -10,7 +10,8 @@
                 <ng-container [ngSwitch]="viewState">
                     <ng-container *ngSwitchDefault>
                         <div *ngIf="state.matrixSupportedLoaded" [@fadeIn]>
-                            <hca-get-data-downloads [matrixEnabled]="state.matrixSupported"
+                            <hca-get-data-downloads [disableFeature]="state.disableFeature"
+                                                    [matrixEnabled]="state.matrixSupported"
                                                     [matrixSpeciesSelectionRequired]="state.matrixSpeciesSelectionRequired"
                                                     (downloadSelected)="onDownloadSelected($event, state.fileFacets)"></hca-get-data-downloads>
                         </div>

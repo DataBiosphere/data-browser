@@ -1,4 +1,4 @@
-<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)">
+<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)" *ngIf="!disableFeature">
     <h4 class="fontsize-m semi-bold">Create Concatenated Expression Matrix</h4>
     <ng-container *ngIf="!isMatrixSupportedLoading(matrixEnabled)">
         <ng-container [ngSwitch]="matrixEnabled">
