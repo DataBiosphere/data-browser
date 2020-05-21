@@ -1,0 +1,82 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Custom, HCA-specific overrides of Material Design toolbar nav. Mobile first.
+ */
+
+@import "../../site/theme/hca.vars";
+
+/**
+ * HCA toolbar nav
+ */
+
+:host, toolbar-nav {
+    display: none;
+}
+
+/**
+ * Extra small, small
+ */
+@media (max-width: 839px) {
+
+    /**
+     * Default state
+     */
+    :host, toolbar-nav {
+        background-color: $hca-white;
+        border-bottom: 1px solid $hca-gray-light;
+        left: 0;
+        padding-bottom: 12px;
+        position: fixed;
+        right: 0;
+        text-align: center;
+        top: 60px;
+        z-index: 100;
+    }
+
+    /**
+     * Open menu state - display nav
+     */
+    .toolbar-menu-open {
+
+        :host, toolbar-nav {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 60px);
+            overflow: auto;
+        }
+    }
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    // Nav - show
+    :host, toolbar-nav {
+        display: flex;
+        flex-direction: row;
+        left: 182px;
+        position: absolute;
+    }
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1024px) {
+
+    /* Nav - centered */
+    :host, toolbar-nav {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+}

@@ -1,13 +1,13 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
- * CSS reset file, to be included in all pages. In an attempt to keep reset effective but un-opnionated, reset rules
+ * CSS reset file, to be included in all pages. In an attempt to keep reset effective but un-opinionated, reset rules
  * have been picked from a combination of three sources:
  *
- * 1.Eric Meyers reset
+ * 1. Eric Meyers reset
  * 2. Angular Material 1.1.1
- * 3. Custom, UCSC Boardwalk-specific reset rules
+ * 3. Custom, HCA specific reset rules
  */
 
 /**
@@ -124,7 +124,7 @@ button,html,input,select,textarea {
 }
 
 /**
- * Reset 3: UCSC Boardwalk-specific reset
+ * Reset 3: HCA specific reset
  */
 html {
     font-size: 62.5%;

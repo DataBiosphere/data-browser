@@ -12,35 +12,35 @@ import { MatIconModule, MatToolbarModule } from "@angular/material";
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent, RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";
+import { DeviceDetectorService } from "ngx-device-detector";
 import { ReplaySubject } from "rxjs";
 
 // App dependencies
 import { AppComponent } from "./app.component";
 import { ConfigService } from "./config/config.service";
+import { FileFacetName } from "./files/facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./files/_ngrx/facet/set-view-state.action";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
-import { FileFacetName } from "./files/facet/file-facet/file-facet-name.model";
+import { QueryStringSearchTerm } from "./files/search/url/query-string-search-term.model";
+import { SearchTermUrl } from "./files/search/url/search-term-url.model";
+import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
+import { EntityName } from "./files/shared/entity-name.model";
 import { GenusSpecies } from "./files/shared/genus-species.model";
 import { LibraryConstructionApproach } from "./files/shared/library-construction-approach.model";
-import { EntityName } from "./files/shared/entity-name.model";
-import { DeviceDetectorService } from "ngx-device-detector";
+import { ReleaseService } from "./files/shared/release.service";
 import { AnnouncementComponent } from "./shared/announcement/announcement.component";
-import { CCToolbarNavComponent } from "./shared/cc-toolbar-nav/cc-toolbar-nav.component";
-import { CCToolbarNavItemComponent } from "./shared/cc-toolbar-nav-item/cc-toolbar-nav-item.component";
-import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
+import { ToolbarNavComponent } from "./shared/toolbar-nav/toolbar-nav.component";
+import { ToolbarNavDropDownComponent } from "./shared/toolbar-nav-drop-down/toolbar-nav-drop-down.component";
+import { ToolbarNavItemComponent } from "./shared/toolbar-nav-item/toolbar-nav-item.component";
+import { ToolbarNavSubMenuItemComponent } from "./shared/toolbar-nav-sub-menu-item/toolbar-nav-sub-menu-item.component";
+import { ToolbarNavSubMenuComponent } from "./shared/toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
+import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
 import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
 import { ActivatedRouteStub } from "./test/activated-route.stub";
-import { CCToolbarNavSubMenuComponent } from "./shared/cc-toolbar-nav-sub-menu/cc-toolbar-nav-sub-menu.component";
-import { CCToolbarNavSubMenuItemComponent } from "./shared/cc-toolbar-nav-sub-menu-item/cc-toolbar-nav-sub-menu-item.component";
-import { CCToolbarNavDropDownComponent } from "./shared/cc-toolbar-nav-drop-down/cc-toolbar-nav-drop-down.component";
-import { ReleaseService } from "./files/shared/release.service";
-import { QueryStringSearchTerm } from "./files/search/url/query-string-search-term.model";
-import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
-import { SearchTermUrl } from "./files/search/url/search-term-url.model";
 
 
 describe("AppComponent:", () => {
@@ -65,18 +65,18 @@ describe("AppComponent:", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                AnnouncementComponent,
                 AppComponent,
-                CCToolbarNavComponent,
-                CCToolbarNavItemComponent,
-                CCToolbarNavSubMenuComponent,
-                CCToolbarNavSubMenuItemComponent,
-                CCToolbarNavDropDownComponent,
                 DataPolicyFooterComponent,
                 DesktopFooterComponent,
                 HCAFooterComponent,
                 HCAToolbarComponent,
                 StickyFooterComponent,
-                AnnouncementComponent,
+                ToolbarNavComponent,
+                ToolbarNavDropDownComponent,
+                ToolbarNavItemComponent,
+                ToolbarNavSubMenuComponent,
+                ToolbarNavSubMenuItemComponent,
                 ReleaseBannerComponent
             ],
             imports: [

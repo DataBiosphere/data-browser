@@ -75,7 +75,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     /**
      * Remove scroll on body when menu is open.
      * Adds class no-scroll to body tag.
-     * Class defined in _cgl.global.scss.
+     * Class defined in hca.global.scss.
      *
      * @param opened: boolean
      */

@@ -27,7 +27,7 @@ export class ResponsiveService {
     }
 
     /**
-     * Returns true if window width is less than 960px, which is a standard Material Design breakpoint (see _cgl.vars
+     * Returns true if window width is less than 960px, which is a standard Material Design breakpoint (see hca.vars
      * for matching responsive value).
      *
      * @returns {boolean}

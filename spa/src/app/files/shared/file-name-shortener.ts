@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Pipe to convert file ID from 5fe1b2e0-7fad-589c-849b-010449569587 to 5fe1b2e0....010449569587
  */

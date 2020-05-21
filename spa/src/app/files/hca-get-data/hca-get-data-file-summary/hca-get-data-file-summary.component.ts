@@ -6,18 +6,14 @@
  */
 
 // Core dependencies
-import {
-    Component,
-    Input,
-    ChangeDetectionStrategy
-} from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 // App dependencies
-import { CountSizePipe } from "../../../cc-pipe/count-size/count-size.pipe";
-import { LocaleStringPipe } from "../../../cc-pipe/locale-string/locale-string.pipe";
-import { FileSummary } from "../../file-summary/file-summary";
-import { Term } from "../../shared/term.model";
 import { DownloadViewState } from "../download-view-state.model";
+import { FileSummary } from "../../file-summary/file-summary";
+import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
+import { LocaleStringPipe } from "../../../pipe/locale-string/locale-string.pipe";
+import { Term } from "../../shared/term.model";
 
 @Component({
     selector: "hca-get-data-file-summary",

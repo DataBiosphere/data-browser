@@ -1,6 +1,6 @@
 /**
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * Model of raw HTTP file download response, before it is parsed into FE-friendly format (ie FileDownloadResponse).
  */

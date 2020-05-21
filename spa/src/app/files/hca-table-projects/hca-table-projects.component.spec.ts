@@ -22,15 +22,8 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { of } from "rxjs";
 
 // App components
-import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
-import { ConfigService } from "../../config/config.service";
-import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
-import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
-import { ResponsiveService } from "../../shared/responsive/responsive.service";
-import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
-import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { ConfigService } from "../../config/config.service";
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
@@ -42,15 +35,22 @@ import { HCATableColumnHeaderDownloadComponent } from "../hca-table-column-heade
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
+import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { LeftBarComponent } from "../left-bar/left-bar.component";
+import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
+import { PipeModule } from "../../pipe/pipe.module";
 import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { TableRendererService } from "../table/table-renderer.service";
+import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
+import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
-import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
+import { TableRendererService } from "../table/table-renderer.service";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -129,13 +129,13 @@ describe("HCATableProjectsComponent", () => {
             ],
             imports: [
                 BrowserAnimationsModule,
-                CcPipeModule,
                 ClipboardModule,
                 MatIconModule,
                 MatSortModule,
                 MatProgressSpinnerModule,
                 MatTableModule,
                 MatTooltipModule,
+                PipeModule,
                 RouterTestingModule
             ],
             providers: [{

@@ -21,28 +21,28 @@ import { ClipboardModule } from "ngx-clipboard";
 import { of } from "rxjs";
 
 // App components
-import { CcPipeModule } from "../../cc-pipe/cc-pipe.module";
-import { ConfigService } from "../../config/config.service";
-import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
-import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
-import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { ConfigService } from "../../config/config.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
+import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
 import { HCATableColumnHeaderTitleComponent } from "../hca-table-column-header-title/hca-table-column-header-title.component";
 import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status-placeholder/hca-table-data-status-placeholder.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
-import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
-import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
-import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
-import { TableScroll } from "../table-scroll/table-scroll.component";
-import { TableRendererService } from "../table/table-renderer.service";
-import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { HCATableSamplesComponent } from "./hca-table-samples.component";
+import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
+import { PipeModule } from "../../pipe/pipe.module";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
+import { ResponsiveService } from "../../shared/responsive/responsive.service";
+import { TableScroll } from "../table-scroll/table-scroll.component";
+import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
+import { TableRendererService } from "../table/table-renderer.service";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -91,13 +91,13 @@ describe("HCATableSamplesComponent", () => {
             ],
             imports: [
                 BrowserAnimationsModule,
-                CcPipeModule,
                 ClipboardModule,
                 MatIconModule,
                 MatSortModule,
                 MatProgressSpinnerModule,
                 MatTableModule,
                 MatTooltipModule,
+                PipeModule,
                 RouterTestingModule
             ],
             providers: [{

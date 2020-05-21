@@ -13,15 +13,15 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 
 // App dependencies
-import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
-import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
+import { FacetDisplayService } from "../../facet/facet-display.service";
 import { HCAGetDataFileSummaryComponent } from "../hca-get-data-file-summary/hca-get-data-file-summary.component";
 import { HCAGetDataSummaryComponent } from "./hca-get-data-summary.component";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { FacetDisplayService } from "../../facet/facet-display.service";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 
 describe("HCAGetDataSummaryComponent", () => {
 
@@ -47,8 +47,8 @@ describe("HCAGetDataSummaryComponent", () => {
                 HCATooltipComponent
             ],
             imports: [
-                CcPipeModule,
-                MatTooltipModule
+                MatTooltipModule,
+                PipeModule
             ],
             providers: [
                 {

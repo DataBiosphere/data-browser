@@ -1,0 +1,33 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Toolbar nav item styles.
+ */
+
+@import "../../site/theme/hca.vars";
+@import "../../site/theme/hca.global";
+
+:host, toolbar-nav-item {
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex; // Force child anchor elements to be full height (for click area)
+    color: $hca-black;
+    padding: 12px 0;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/**
+ * Large +
+ */
+@media (min-width: 1200px) {
+
+    :host, toolbar-nav-item {
+        color: $hca-gray-medium;
+        flex-direction: row;
+        padding: 0 12px;
+    }
+}
+

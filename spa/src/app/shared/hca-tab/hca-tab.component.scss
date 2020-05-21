@@ -4,7 +4,8 @@
  *
  * HCA tab styles.
  */
-@import "../../site/theme/cgl.vars";
+
+@import "../../site/theme/hca.vars";
 
 :host {
     border-bottom: 1px solid $hca-gray-light; /* Tab line */
