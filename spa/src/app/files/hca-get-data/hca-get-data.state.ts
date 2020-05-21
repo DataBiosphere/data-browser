@@ -12,6 +12,7 @@ import EntitySpec from "../shared/entity-spec";
 
 export interface HCAGetDataState {
 
+    disableFeature: boolean;
     fileFacets: FileFacet[];
     matrixSpeciesSelectionRequired: boolean;
     matrixSupported: boolean;

@@ -14,21 +14,20 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
+import { DownloadViewState } from "./download-view-state.model";
+import { FileFacet } from "../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { HCAGetDataState } from "./hca-get-data.state";
 import { AppState } from "../../_ngrx/app.state";
-import {
-    selectSelectedEntity
-} from "../_ngrx/file.selectors";
 import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
+import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
 import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
+import { selectSelectedEntity } from "../_ngrx/file.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { EntitySelectAction } from "../_ngrx/table/table.actions";
 import EntitySpec from "../shared/entity-spec";
-import { FileFacet } from "../facet/file-facet/file-facet.model";
-import { DownloadViewState } from "./download-view-state.model";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { Term } from "../shared/term.model";
-import { HCAGetDataState } from "./hca-get-data.state";
-import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
-import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 
 @Component({
     selector: "hca-get-data",
@@ -55,10 +54,12 @@ export class HCAGetDataComponent implements OnInit {
     private viewState = DownloadViewState.NONE;
 
     /**
+     * @param {ConfigService} configService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    public constructor(private router: Router,
+    public constructor(private configService: ConfigService,
+                       private router: Router,
                        private store: Store<AppState>) {
     }
 
@@ -302,11 +303,13 @@ export class HCAGetDataComponent implements OnInit {
         )
             .pipe(
                 map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms]) => {
-                    
+
+                    const disableFeature = this.configService.isV2();
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
 
                     return {
                         selectedEntity,
+                        disableFeature,
                         fileFacets,
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
