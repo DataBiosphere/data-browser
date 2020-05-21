@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * State containing information (config) required for setting up this instance of Boardwalk.
+ * State containing information (config) required for setting up this instance of HCA.
  */
 
 // App dependencies

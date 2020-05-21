@@ -27,20 +27,20 @@ import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
-import { AppReducers } from "./_ngrx/app.reducer";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
 import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
 import { AppEffects } from "./_ngrx/app.effects";
+import { AppReducers } from "./_ngrx/app.reducer";
 import { SharedModule } from "./shared/shared.module";
-import { CCHamburgerDirective } from "./site/cc-hamburger/cc-hamburger.directive";
 import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
 import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
+import { HamburgerDirective } from "./site/hamburger/hamburger.directive";
 import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
-import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { ErrorComponent } from "./system/error/error.component";
+import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { SystemService } from "./system/shared/system.service";
 
 @NgModule({
@@ -77,9 +77,9 @@ import { SystemService } from "./system/shared/system.service";
         NotFoundComponent,
 
         // Site components
-        CCHamburgerDirective,
         DataPolicyFooterComponent,
         DesktopFooterComponent,
+        HamburgerDirective,
         HCAFooterComponent,
         HCAToolbarComponent,
         ReleaseBannerComponent,

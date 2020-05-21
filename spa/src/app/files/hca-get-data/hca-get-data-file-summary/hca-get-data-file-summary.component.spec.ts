@@ -6,20 +6,20 @@
  */
 
 // Core dependencies
+import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By, HAMMER_LOADER } from "@angular/platform-browser";
 
 // App dependencies
-import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
-import { CountSizePipe } from "../../../cc-pipe/count-size/count-size.pipe";
-import { FileSizePipe } from "../../../cc-pipe/file-size/file-size.pipe";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 import { DownloadViewState } from "../download-view-state.model";
 import { HCAGetDataFileSummaryComponent } from "./hca-get-data-file-summary.component";
+import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
+import { FileSizePipe } from "../../../pipe/file-size/file-size.pipe";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 import { Term } from "../../shared/term.model";
-import { DebugElement } from "@angular/core";
 
 describe("HCAGetDataFileSummaryComponent", () => {
 
@@ -49,8 +49,8 @@ describe("HCAGetDataFileSummaryComponent", () => {
                 HCATooltipComponent
             ],
             imports: [
-                CcPipeModule,
-                MatTooltipModule
+                MatTooltipModule,
+                PipeModule
             ],
             providers: [{
                 provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862

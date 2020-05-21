@@ -49,7 +49,7 @@ export class ConfigService {
     }
 
     /**
-     * Hit API end point to retrieve configuration information for this Boardwalk instance. Must return promise here
+     * Hit API end point to retrieve configuration information for this HCA instance. Must return promise here
      * as this method is called during Angular's app initialization and we need to resolve the config details (eg
      * data URL) before any components are instantiated. The config details returned from the server are saved on
      * this config service as local state (for easy access from calling classes where we don't want to handle
@@ -139,7 +139,7 @@ export class ConfigService {
     }
 
     /**
-     * Return the full data API URL for this Boardwalk instance.
+     * Return the full data API URL for this HCA instance.
      *
      * @returns {string}
      */

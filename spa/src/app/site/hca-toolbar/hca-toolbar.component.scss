@@ -1,13 +1,14 @@
-/*!
- * UCSC Genomics Institute - CGL
- * https://cgl.genomics.ucsc.edu/
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
  *
  * HCA-specific overrides of Material Design toolbar.
  */
-@import "../theme/cgl.vars";
+
+@import "../theme/hca.vars";
 
 /**
- * Custom CGL-specific overrides of MD toolbar.
+ * Custom HCA-specific overrides of MD toolbar.
  */
 
 :host {
@@ -17,7 +18,7 @@
 mat-toolbar {
     background-color: $hca-off-white;
     min-height: 60px !important; /* HCA specific */
-    position: relative; /* Positions overlay, cc-nav-toolbar */
+    position: relative; /* Positions overlay, nav-toolbar */
 
     mat-toolbar-row {
         align-items: center;
@@ -43,7 +44,7 @@ mat-toolbar {
         height: 30px;
     }
     
-    cc-toolbar-nav {
+    toolbar-nav {
         padding: 12px 0;
         z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
     }
@@ -55,13 +56,13 @@ mat-toolbar {
     }
 
     /* Active navigation */
-    cc-toolbar-nav-item.active .link {
+    toolbar-nav-item.active .link {
         color: $hca-black;
         text-decoration: none;
     }
 
     /* Nav link - wrapper */
-    cc-toolbar-nav-item .link {
+    toolbar-nav-item .link {
         align-items: flex-start;
         color: $hca-black;
         display: flex;
@@ -92,7 +93,7 @@ mat-toolbar {
     }
 
     /* Nav drop down button */
-    cc-toolbar-nav-item button.link {
+    toolbar-nav-item button.link {
         background-color: transparent;
         border: none;
         cursor: default;
@@ -176,12 +177,12 @@ mat-toolbar {
             display: none;
         }
 
-        cc-toolbar-nav {
+        toolbar-nav {
             padding: 0;
         }
 
         /* Link wrapper */
-        cc-toolbar-nav-item {
+        toolbar-nav-item {
             padding: 0 10px;
 
             /* Link */
@@ -206,7 +207,7 @@ mat-toolbar {
         }
 
         /* Nav drop down button */
-        cc-toolbar-nav-item button.link {
+        toolbar-nav-item button.link {
             cursor: pointer;
             pointer-events: auto;
         }
@@ -225,7 +226,7 @@ mat-toolbar {
             height: 40px;
         }
 
-        cc-toolbar-nav-item {
+        toolbar-nav-item {
             padding: 0 12px;
         }
     }

@@ -1,11 +1,11 @@
 <ng-container [ngSwitch]="file.fileFormat === 'matrix'">
     <ng-container *ngSwitchCase="true">
-        <img class="no-download" src="assets/images/icon/no-result-dark.png">
+        <img class="no-download" src="assets/images/icon/no-result.png">
     </ng-container>
     <ng-container *ngSwitchDefault>
         <ng-container *ngIf="(observeFileDownloadStatus() | async) as downloadResponse">
             <img *ngIf="isDownloadNotStarted(downloadResponse)"
-                 src="assets/images/icon/hca-download-black.png" (click)="onRequestFile()">
+                 src="assets/images/icon/download-black.png" (click)="onRequestFile()">
             <mat-spinner *ngIf="showSpinner(downloadResponse)"
                          class="hca-spinner"
                          diameter="14">

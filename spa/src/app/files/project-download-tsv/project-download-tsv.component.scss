@@ -6,7 +6,7 @@
  * the project detail page.
  */
 
-@import "../../site/theme/cgl.vars";
+@import "../../site/theme/hca.vars";
 
 :host {
 
@@ -45,7 +45,7 @@
 
     /* Download icon */
     .download-not-started {
-        background: url("assets/images/icon/hca-download-primary.png") center no-repeat;
+        background: url("assets/images/icon/download-primary.png") center no-repeat;
         cursor: pointer;
     }
 

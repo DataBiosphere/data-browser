@@ -1,0 +1,19 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Mixins, use by including this file into individual component style sheets.
+ */
+
+@import "hca.vars";
+
+/**
+ * Anchor elements, as well as clickable elements styled as anchors.
+ */
+
+@mixin a-primary() {
+    color: $hca-primary;
+    &:hover {
+        color: $hca-primary-hover;
+    }
+}

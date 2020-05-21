@@ -9,9 +9,9 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
-import { CamelToSpacePipe } from "../../cc-pipe/camel-to-space/camel-to-space.pipe";
 import { FacetGroup } from "./facet-group.model";
 import { FileFacetNameDisplay } from "./file-facet/file-facet-name-display.model";
+import { CamelToSpacePipe } from "../../pipe/camel-to-space/camel-to-space.pipe";
 
 @Injectable()
 export class FacetDisplayService {

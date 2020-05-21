@@ -10,9 +10,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, QueryList, Output, Renderer2, ViewChildren } from "@angular/core";
 
 // App dependencies
-import { CountSizePipe } from "../../../cc-pipe/count-size/count-size.pipe";
-import { LocaleStringPipe } from "../../../cc-pipe/locale-string/locale-string.pipe";
 import { FacetTermSelectedEvent } from "../file-facet/facet-term-selected.event";
+import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
+import { LocaleStringPipe } from "../../../pipe/locale-string/locale-string.pipe";
 import { Term } from "../../shared/term.model";
 
 @Component({

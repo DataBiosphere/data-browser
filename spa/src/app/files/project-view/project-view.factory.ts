@@ -9,16 +9,16 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
-import { CountSizePipe } from "../../cc-pipe/count-size/count-size.pipe";
-import { LocaleStringPipe } from "../../cc-pipe/locale-string/locale-string.pipe";
-import { ConfigService } from "../../config/config.service";
-import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
-import { Contributor } from "../shared/contributor.model";
-import { Project } from "../shared/project.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
+import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
 import { ContributorView } from "./contributor-view.model";
+import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
+import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
 import { ProjectView } from "./project-view.model";
+import { Contributor } from "../shared/contributor.model";
+import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
+import { Project } from "../shared/project.model";
 
 @Injectable()
 export class ProjectViewFactory {

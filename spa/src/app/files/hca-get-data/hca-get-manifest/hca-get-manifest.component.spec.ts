@@ -15,20 +15,20 @@ import { ClipboardModule } from "ngx-clipboard";
 import { of } from "rxjs";
 
 // App dependencies
-import { CcPipeModule } from "../../../cc-pipe/cc-pipe.module";
 import { ConfigService } from "../../../config/config.service";
-import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
+import { HCAGetManifestComponent } from "./hca-get-manifest.component";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { FileManifestService } from "../../shared/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
-import { DisplayDataLinkComponent } from "../display-data-link/display-data-link.component";
-import { HCAGetDataPanelComponent } from "../hca-get-data-panel/hca-get-data-panel.component";
-import { HCAGetManifestComponent } from "./hca-get-manifest.component";
-import { FileManifestService } from "../../shared/file-manifest.service";
-import { GTMService } from "../../../shared/analytics/gtm.service";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 describe("HCAGetManifestComponent", () => {
 
@@ -70,10 +70,10 @@ describe("HCAGetManifestComponent", () => {
                 HCAGetManifestComponent
             ],
             imports: [
-                CcPipeModule,
                 ClipboardModule,
                 MatIconModule,
-                MatTooltipModule
+                MatTooltipModule,
+                PipeModule
             ],
             providers: [
                 {
