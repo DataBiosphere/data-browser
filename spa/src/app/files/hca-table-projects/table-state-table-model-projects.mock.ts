@@ -7,7 +7,7 @@
 
 // App dependencies
 import { TableModel } from "../table/table.model";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 import { EntityName } from "../shared/entity-name.model";
 import {
     PROJECT_ROW_EMPTY_ARRAY_VALUES, PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT, PROJECT_ROW_NULL_TOP_LEVEL_VALUES,
@@ -662,7 +662,7 @@ const DEFAULT_PROJECTS_PAGINATION_MODEL = {
     "sort": "projectTitle",
     "order": "asc",
     "current_page": 1
-} as PaginationModel;
+} as Pagination;
 
 /**
  * Model of project table model that is saved in store.

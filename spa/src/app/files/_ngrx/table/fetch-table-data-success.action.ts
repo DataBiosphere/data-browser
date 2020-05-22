@@ -8,13 +8,13 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
-import { PaginationModel } from "../../table/pagination.model";
+import { Pagination } from "../../table/pagination/pagination.model";
 
 export class FetchTableDataSuccessAction implements Action {
     public static ACTION_TYPE = "TABLE.FETCH_TABLE_DATA_SUCCESS";
     public readonly type = FetchTableDataSuccessAction.ACTION_TYPE;
     constructor(
         public readonly data: any[],
-        public readonly pagination: PaginationModel,
+        public readonly pagination: Pagination,
         public readonly termCountsByFacetName: Map<string, number>) {}
 }

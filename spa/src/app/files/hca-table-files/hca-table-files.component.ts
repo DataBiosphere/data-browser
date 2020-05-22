@@ -24,7 +24,7 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { FileSummary } from "../file-summary/file-summary";
-import { PaginationModel } from "../table/pagination.model";
+import { Pagination } from "../table/pagination/pagination.model";
 import {
     getAge,
     getColumnClass,
@@ -33,7 +33,7 @@ import {
     getColumnStyle,
     isElementUnspecified
 } from "../table/table-methods";
-import { TableParamsModel } from "../table/table-params.model";
+import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
 
@@ -63,7 +63,7 @@ export class HCATableFilesComponent implements OnInit {
     loading$: Observable<boolean>;
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<FileRowMapper>;
-    pagination$: Observable<PaginationModel>;
+    pagination$: Observable<Pagination>;
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -105,10 +105,10 @@ export class HCATableFilesComponent implements OnInit {
     /**
      * Sort the table given the sort param and the order.
      *
-     * @param {PaginationModel} pm
+     * @param {Pagination} pm
      * @param {Sort} sort
      */
-    public sortTable(pm: PaginationModel, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -130,7 +130,7 @@ export class HCATableFilesComponent implements OnInit {
             return;
         }
 
-        let tableParamsModel: TableParamsModel = {
+        let tableParamsModel: TableParams = {
             size: pm.size,
             sort: sort.active,
             order: sort.direction

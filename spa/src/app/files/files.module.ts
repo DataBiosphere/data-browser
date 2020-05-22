@@ -31,6 +31,7 @@ import { RouterModule } from "@angular/router";
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { ConfigService } from "../config/config.service";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
+import { environment } from "../../environments/environment";
 import { FacetAgeRangeFormComponent } from "./facet/facet-age-range/facet-age-range-form/facet-age-range-form.component";
 import { FacetDisplayService } from "./facet/facet-display.service";
 import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
@@ -122,10 +123,14 @@ import { MatrixService } from "./shared/matrix.service";
 import { ProjectEditsService } from "./shared/project-edits.service";
 import { ReleaseService } from "./shared/release.service";
 import { SharedModule } from "../shared/shared.module";
-import { TermSortService } from "./sort/term-sort.service";
 import { TerraService } from "./shared/terra.service";
-import { TableScroll } from "./table-scroll/table-scroll.component";
+import { TermSortService } from "./sort/term-sort.service";
+import { PaginationService } from "./table/pagination/pagination.service";
+import { PaginationService20 } from "./table/pagination/pagination.2.0.service";
 import { TableRendererService } from "./table/table-renderer.service";
+import { TableScroll } from "./table-scroll/table-scroll.component";
+import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
+import { EntityRequestService } from "./entity/entity-request.service";
 
 @NgModule({
     imports: [
@@ -242,12 +247,20 @@ import { TableRendererService } from "./table/table-renderer.service";
     providers: [
         ConfigService,
         DownloadService,
+        {
+            provide: "ENTITY_REQUEST_SERVICE",
+            useClass: environment.version === "2.0" ? EntityRequestService20 : EntityRequestService
+        },
         FacetDisplayService,
         FileManifestService,
         FilesService,
         IntegrationService,
         SearchTermUrlService,
         MatrixService,
+        {
+          provide: "PAGINATION_SERVICE",
+          useClass: environment.version === "2.0" ? PaginationService20 : PaginationService
+        },
         ProjectService,
         ProjectEditsService,
         ProjectViewFactory,

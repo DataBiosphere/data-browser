@@ -9,9 +9,9 @@
 import { EntityName } from "../../shared/entity-name.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
-import { PaginationModel } from "../../table/pagination.model";
+import { Pagination } from "../../table/pagination/pagination.model";
 import { TableModel } from "../../table/table.model";
-import { DEFAULT_TABLE_PARAMS } from "../../table/table-params.model";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 
 export interface TableState {
     selectedProject: Project; // Current selected project in table
@@ -47,7 +47,7 @@ function createEmptyTableModel(entityName: string): TableModel {
     return {
         data: [],
         loading: true,
-        pagination: DEFAULT_TABLE_PARAMS as PaginationModel,
+        pagination: DEFAULT_TABLE_PARAMS as Pagination,
         termCountsByFacetName: new Map<string, number>(),
         tableName: entityName
     };
@@ -118,13 +118,13 @@ export function updateSelectedTableModel(tableState: TableState, tableModel: Tab
  *
  * @param {TableState} tableState
  * @param {any[]} data
- * @param {PaginationModel} pagination
+ * @param {Pagination} pagination
  * @param {Map<string, number>} termCountsByFacetName
  * @returns {TableModel[]}
  */
 export function updateSelectedTableModelData(
     tableState: TableState, data: any[],
-    pagination: PaginationModel,
+    pagination: Pagination,
     termCountsByFacetName: Map<string, number>): TableModel[] {
 
     return tableState.tableModels.map((tm) => {

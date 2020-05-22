@@ -2,10 +2,10 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Defaults for table that displays file facet data.
+ * Base interface, models updates to be applied to a data table (eg update to sort order, size, page). 
  */
 
-export interface TableParamsModel {
+export interface TableParams {
     size: number;  // Number of results to return
     sort?: string;  // Facet to sort on.
     order?: string; // Sort order asc or desc
@@ -15,6 +15,6 @@ export interface TableParamsModel {
     search_before_uid?: string;
 }
 
-export const DEFAULT_TABLE_PARAMS: TableParamsModel = {
+export const DEFAULT_TABLE_PARAMS: TableParams = {
     size: 15
 };
