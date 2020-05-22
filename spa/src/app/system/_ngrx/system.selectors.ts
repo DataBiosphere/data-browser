@@ -6,15 +6,22 @@
  */
 
 // Core dependencies
-import { createFeatureSelector } from "@ngrx/store";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 // App dependencies
-import { HealthState } from "./health/health.state";
-import { IndexState } from "./index/index.state";
+import { SystemState } from "./system.state";
 
-// Health status slice
-export const selectHealth = createFeatureSelector<HealthState>("health");
+// Returns system slice from store
+export const selectSystem = createFeatureSelector<SystemState>("system");
+
+/**
+ * Returns current system status
+ *
+ * @returns {SystemStatus}
+ */
+export const selectSystemStatus = createSelector(selectSystem, (systemState: SystemState) => {
+
+    return systemState.systemStatus;
+});
 
 
-// Index status slice
-export const selectIndex = createFeatureSelector<IndexState>("index");

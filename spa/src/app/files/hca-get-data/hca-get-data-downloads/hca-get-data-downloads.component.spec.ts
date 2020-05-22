@@ -94,10 +94,10 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Create Concatenated Expression Matrix" is displayed.
      */
-    it(`displays "Create Concatenated Expression Matrix"`, () => {
+    it(`hides "Create Concatenated Expression Matrix" in pre v2.0 environment`, () => {
 
         // Confirm "Create Concatenated Expression Matrix" is displayed
-        expect(isPanelHeaderDisplayed("Create Concatenated Expression Matrix")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Create Concatenated Expression Matrix")).toEqual(false);
     });
 
     /**

@@ -14,8 +14,8 @@ import { combineLatest, Observable, Subscription, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { Config } from "./config/config.model";
-import { selectConfigConfig } from "./config/_ngrx/config.selectors";
+import { AppComponentState } from "./app.component.state";
+import { ConfigService } from "./config/config.service";
 import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
 import { SetViewStateAction } from "./files/_ngrx/facet/set-view-state.action";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
@@ -23,12 +23,10 @@ import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetc
 import { ReleaseService } from "./files/shared/release.service";
 import { EntityName } from "./files/shared/entity-name.model";
 import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
-import { AppState } from "./_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { HealthRequestAction } from "./system/_ngrx/health/health-request.action";
-import { selectHealth, selectIndex } from "./system/_ngrx/system.selectors";
-import { IndexRequestAction } from "./system/_ngrx/index/index-request.action";
-import { SystemState } from "./system.state";
+import { AppState } from "./_ngrx/app.state";
+import { selectSystemStatus } from "./system/_ngrx/system.selectors";
+import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.action";
 
 @Component({
     selector: "app-root",
@@ -39,14 +37,14 @@ import { SystemState } from "./system.state";
 export class AppComponent implements OnInit, OnDestroy {
 
     // Template/public variables
-    public systemStatus$: Observable<SystemState>;
-    public config$: Observable<Config>;
+    public state$: Observable<AppComponentState>;
 
     // Locals
     private ngDestroy$ = new Subject();
     private routerEventsSubscription: Subscription;
 
     /**
+     * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      * @param {ReleaseService} releaseService
      * @param {SearchTermUrlService} searchUrlService
@@ -56,7 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Router} router
      * @param {Renderer2} renderer
      */
-    constructor(private deviceService: DeviceDetectorService,
+    constructor(private configService: ConfigService,
+                private deviceService: DeviceDetectorService,
                 private releaseService: ReleaseService,
                 private searchUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
@@ -81,13 +80,11 @@ export class AppComponent implements OnInit, OnDestroy {
     /**
      * Returns true if the maintenance mode warning is visible.
      * 
-     * @param {string} environmentName
      * @returns {boolean}
      */
-    public isMaintenanceModeWarningVisible(environmentName: string): boolean {
+    public isMaintenanceModeWarningVisible(): boolean {
 
-        // Maintenance mode warning is currently disabled. To re-enable, uncomment line below.
-        // return environmentName === "prod";
+        // Maintenance mode warning is currently disabled.
         return false;
     }
 
@@ -121,6 +118,16 @@ export class AppComponent implements OnInit, OnDestroy {
         }
 
         return !( this.router.url.includes("/releases/") || this.router.url.includes("/projects/") );
+    }
+
+    /**
+     * Returns true if this isn't a v2.0 environment (DCP-wide system status is only available in pre v2.0 environments).
+     * 
+     * @returns {boolean}
+     */
+    public isStatusPageFeatureEnabled(): boolean {
+
+        return !this.configService.isV2();
     }
 
     /**
@@ -175,23 +182,19 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Fetch current status of system, and current status of index, and display information banners, if necessary.
+     * Fetch current status of system, and current status of index, and display information banners, if necessary. Also
+     * check for changes in config.
      */
-    private systemCheck() {
-
-        this.store.dispatch(new HealthRequestAction());
-        const health$ = this.store.pipe(select(selectHealth));
-
-        this.store.dispatch(new IndexRequestAction());
-        const index$ = this.store.pipe(select(selectIndex));
+    private initState() {
         
-        this.systemStatus$ = combineLatest(health$, index$).pipe(
+        this.store.dispatch(new SystemStatusRequestAction());
+        this.state$ = this.store.pipe(
+            select(selectSystemStatus),
             takeUntil(this.ngDestroy$),
-            map(([health, index]) => {
+            map((systemStatus) => {
 
                 return {
-                    health,
-                    index
+                    systemStatus
                 }
             })
         );
@@ -250,15 +253,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public ngOnInit() {
 
         this.setAppStateFromURL();
-        this.systemCheck();
+        this.initState();
         this.loadReleaseData();
         this.loadProjectEditsData();
         this.initReleaseReferrerListener();
-        
-        this.config$ = this.store.pipe(
-            select(selectConfigConfig),
-            takeUntil(this.ngDestroy$)
-        );
     }
 }
 
