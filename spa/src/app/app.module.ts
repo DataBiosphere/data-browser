@@ -25,6 +25,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
+import { environment } from "../environments/environment";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
@@ -42,6 +43,7 @@ import { LocalStorageService } from "./storage/local-storage.service";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { SystemService } from "./system/shared/system.service";
+import { SystemService20 } from "./system/shared/system.2.0.service";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -87,7 +89,10 @@ import { SystemService } from "./system/shared/system.service";
     ],
     providers: [
         LocalStorageService,
-        SystemService,
+        {
+            provide: "SYSTEM_SERVICE",
+            useClass: environment.version === "2.0" ? SystemService20 : SystemService
+        },
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.
         {
