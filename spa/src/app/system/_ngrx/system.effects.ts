@@ -14,6 +14,7 @@ import { map, switchMap } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { AbstractSystemService } from "../shared/abstract.system.service";
 import { SystemService } from "../shared/system.service";
 import { SystemStatusResponse } from "../shared/system-status-response.model";
 import { SystemStatusRequestAction } from "./system-status-request.action";
@@ -29,7 +30,7 @@ export class SystemEffects {
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                @Inject("SYSTEM_SERVICE") private systemService: SystemService) {
+                @Inject("SYSTEM_SERVICE") private systemService: AbstractSystemService) {
     }
 
     /**

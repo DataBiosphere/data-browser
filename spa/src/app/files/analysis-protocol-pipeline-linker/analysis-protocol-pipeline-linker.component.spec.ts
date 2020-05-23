@@ -19,10 +19,10 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     let component: AnalysisProtocolPipelineLinkerComponent;
     let fixture: ComponentFixture<AnalysisProtocolPipelineLinkerComponent>;
 
-    const testConfig = jasmine.createSpyObj("ConfigService", ["getPortalURL"]);
+    const testConfig = jasmine.createSpyObj("ConfigService", ["getPortalUrl"]);
 
     // Create response for testConfig.getPortalUrl()
-    testConfig.getPortalURL.and.returnValue("https://test.com");
+    testConfig.getPortalUrl.and.returnValue("https://test.com");
 
     // Local values
     const LOCAL_VALUE_PIPELINE_LINKS_BY_ANALYSIS_PROTOCOL_KEY = {
@@ -83,7 +83,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
 
         // Confirm link is for data portal optimus
         const pipelineLink = component.getPipelineLink(TEST_VALUE_OPTIMUS);
-        expect(pipelineLink).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
+        expect(pipelineLink).toEqual(`${testConfig.getPortalUrl()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
     });
 
     /**
@@ -93,7 +93,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
 
         // Confirm link is for data portal smartseq2
         const pipelineLink = component.getPipelineLink(TEST_VALUE_SMARTSEQ2);
-        expect(pipelineLink).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
+        expect(pipelineLink).toEqual(`${testConfig.getPortalUrl()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
     });
 
     /**
@@ -283,7 +283,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
         const analysisPortalDEs = getAnalysisProtocolsDisplayed("a");
 
         // Confirm href link
-        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
+        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalUrl()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_OPTIMUS}`);
     });
 
     /**
@@ -299,7 +299,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
         const analysisPortalDEs = getAnalysisProtocolsDisplayed("a");
 
         // Confirm href link
-        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalURL()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
+        expect(getHrefValue(analysisPortalDEs[0])).toEqual(`${testConfig.getPortalUrl()}${TEMPLATE_VALUE_DATA_PORTAL_LINK_SMARTSEQ2}`);
     });
 
     /**

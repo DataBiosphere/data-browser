@@ -146,7 +146,7 @@ describe("HCATableProjectsComponent", () => {
                 },
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL", "getProjectMetaURL", "getProjectMetaDownloadURL"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "getProjectMetaDownloadUrl"])
                 }, {
                     provide: DeviceDetectorService,
                     useValue: jasmine.createSpyObj("DeviceDetectorService", ["getDeviceInfo", "isMobile", "isTablet", "isDesktop"])

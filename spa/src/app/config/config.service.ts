@@ -14,19 +14,20 @@ import { Config } from "./config.model";
 import { environment } from "../../environments/environment";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
+import { APIEndpoints } from "./api-endpoints.model";
 
 @Injectable()
 export class ConfigService {
 
     // Locals
-    private dataURL: string; // Pulled from config store, saved as local state here on service
-    private dcpHealthCheckUrl: string;
-    private matrixURL: string;
-    private portalURL: string;
-    private deployment: string;
-    private projectMetaURL: string;
-    private store: Store<AppState>;
-    private version: string;
+    protected dataURL: string; // Pulled from config store, saved as local state here on service
+    protected dcpHealthCheckUrl: string;
+    protected matrixURL: string;
+    protected portalURL: string;
+    protected deployment: string;
+    protected projectMetaURL: string;
+    protected store: Store<AppState>;
+    protected version: string;
 
     /**
      * @param store {Store<AppState>}
@@ -37,15 +38,176 @@ export class ConfigService {
     }
 
     /**
-     * Build full end point URL, from API URL and specified path.
-     *
-     * @param path
+     * Returns the URL for an entities end point (projects, files, samples).
+     * 
+     * @param {string} entityName
      * @returns {string}
      */
-    public buildApiUrl(path: string) {
+    public getEntitiesUrl(entityName: string): string {
 
-        const domain = this.getAPIURL();
-        return `${domain}${path}`;
+        const pathBase = this.getIndexBasePath();
+        return `${this.dataURL}${pathBase}/${entityName}`;
+    }
+
+    /**
+     * Returns the URL for the integrations end point.
+     *
+     * @returns {string}
+     */
+    public getFileManifestUrl(): string {
+
+        const fileManifestSummaryPath = APIEndpoints.FILE_MANIFEST_SUMMARY;
+        return `${this.dataURL}${fileManifestSummaryPath}`;
+    }
+
+    /**
+     * Returns the URL for checking the system status and indexing status of Azul.
+     * 
+     * @returns {string}
+     */
+    public getIndexStatusUrl(): string {
+        
+        return `${this.dataURL}${APIEndpoints.INDEX_STATUS}`;
+    }
+
+    /**
+     * Returns the URL for the integrations end point.
+     *
+     * @returns {string}
+     */
+    public getIntegrationsUrl(): string {
+
+        const integrationsPath = APIEndpoints.INTEGRATIONS;
+        return `${this.dataURL}${integrationsPath}`;
+    }
+
+    /**
+     * Return the data URL.
+     *
+     * @returns {string}
+     */
+    public getDataUrl(): string {
+
+        return this.dataURL;
+    }
+
+    /**
+     * Return the DCP health check path.
+     *
+     * @returns {string}
+     */
+    public getDCPHealthCheckUrl(): string {
+
+        return this.dcpHealthCheckUrl;
+    }
+
+    /**
+     * Returns the matrix URL.
+     *
+     * @returns {string}
+     */
+    public getMatrixUrl(): string {
+
+        return this.matrixURL;
+    }
+
+    /**
+     * Returns the matrix formats URL.
+     *
+     * @returns {string}
+     */
+    public getMatrixFormatsUrl(): string {
+
+        return `${this.matrixURL}${APIEndpoints.MATRIX_FORMATS}`;
+    }
+
+    /**
+     * Returns the matrix request URL.
+     *
+     * @param {string} requestId
+     * @returns {string}
+     */
+    public getMatrixRequestUrl(requestId: string): string {
+
+        return `${this.matrixURL}/${requestId}`;
+    }
+
+    /**
+     * Returns the portal URL.
+     *
+     * @returns {string}
+     */
+    public getPortalUrl(): string {
+
+        return this.portalURL;
+    }
+
+    /**
+     * Returns the project meta URL.
+     *
+     * @returns {string}
+     */
+    public getProjectMetaUrl(): string {
+
+        return this.projectMetaURL;
+    }
+
+    /**
+     * Returns the complete URL for the meta download for the specified project.
+     * 
+     * @param {string} projectId
+     * @returns {string}
+     */
+    public getProjectMetaDownloadUrl(projectId: string): string {
+
+        return `${this.getProjectMetaUrl()}${APIEndpoints.PROJECT_METADATA}/${projectId}.tsv`;
+    }
+
+    /**
+     * Returns the complete URL for the download of the prepared matrix for the specified project.
+     *
+     * @param {string} fileName
+     * @returns {string}
+     */
+    public getProjectPreparedMatrixDownloadUrl(fileName: string): string {
+
+        return `${this.getProjectMetaUrl()}${APIEndpoints.PROJECT_MATRICES}/${fileName}`;
+    }
+
+    /**
+     * Returns the URL for the project end point.
+     *
+     * @param {string} projectId
+     * @returns {string}
+     */
+    public getProjectUrl(projectId: string): string {
+
+        const pathBase = this.getIndexBasePath();
+        const projectsPath = APIEndpoints.PROJECTS;
+        return `${this.dataURL}${pathBase}${projectsPath}/${projectId}`;
+    }
+
+    /**
+     * Return the full URL for the specified release file URL.
+     * 
+     * @param {string} releaseFileUrl
+     * @returns {string}
+     */
+    public getReleaseFileUrl(releaseFileUrl: string): string {
+
+        return `${this.getProjectMetaUrl()}${APIEndpoints.RELEASES}/${releaseFileUrl}`;
+    }
+
+    /**
+     * Returns the URL for the summary end point.
+     *
+     * @returns {string}
+     */
+    public getSummaryUrl(): string {
+
+        const pathBase = this.getIndexBasePath();
+        const summaryPath = APIEndpoints.SUMMARY;
+        return `${this.dataURL}${pathBase}${summaryPath}`;
     }
 
     /**
@@ -64,92 +226,6 @@ export class ConfigService {
 
         this.storeConfig(environment as Config);
         return Promise.resolve(environment as Config);
-    }
-
-    /**
-     * Return the data URL.
-     *
-     * @returns {string}
-     */
-    public getDataURL(): string {
-
-        return this.dataURL;
-    }
-
-    /**
-     * Return the DCP health check path.
-     *
-     * @returns {string}
-     */
-    public getDCPHealthCheckURL(): string {
-
-        return this.dcpHealthCheckUrl;
-    }
-
-    /**
-     * Returns the matrix URL.
-     *
-     * @returns {string}
-     */
-    public getMatrixURL(): string {
-
-        return this.matrixURL;
-    }
-
-    /**
-     * Returns the portal URL.
-     *
-     * @returns {string}
-     */
-    public getPortalURL(): string {
-
-        return this.portalURL;
-    }
-
-    /**
-     * Returns the project meta URL.
-     *
-     * @returns {string}
-     */
-    public getProjectMetaURL(): string {
-
-        return this.projectMetaURL;
-    }
-
-    /**
-     * Returns the complete URL for the meta download for the specified project.
-     * 
-     * @param {string} projectId
-     * @returns {string}
-     */
-    public getProjectMetaDownloadURL(projectId: string): string {
-
-        return `${this.getProjectMetaURL()}/project-assets/project-metadata/${projectId}.tsv`;
-    }
-
-    /**
-     * Returns the complete URL for the download of the prepared matrix for the specified project.
-     *
-     * @param {string} fileName
-     * @returns {string}
-     */
-    public getProjectPreparedMatrixDownloadURL(fileName: string): string {
-
-        return `${this.getProjectMetaURL()}/project-assets/project-matrices/${fileName}`;
-    }
-
-    /**
-     * Return the full data API URL for this HCA instance.
-     *
-     * @returns {string}
-     */
-    public getAPIURL(): string {
-
-        if ( this.dataURL ) {
-            return this.dataURL;
-        }
-        
-        return "";
     }
 
     /**
@@ -180,6 +256,18 @@ export class ConfigService {
     public isV2(): boolean {
 
         return this.version === "2.0";
+    }
+
+    /**
+     * Returns the "base path" for index/repository API calls.
+     */
+    private getIndexBasePath(): string {
+
+        if ( this.isV2() ){
+            return "/index";
+        }
+        
+        return "/repository";
     }
 
     /**

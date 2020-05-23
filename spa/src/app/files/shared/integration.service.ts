@@ -36,7 +36,7 @@ export class IntegrationService {
      */
     public fetchIntegrationsByProjectId(projectId: string): Observable<Portal[]> {
 
-        const url = this.configService.buildApiUrl("/integrations");
+        const url = this.configService.getIntegrationsUrl();
 
         const paramMap = {
             "integration_type": IntegrationType.GET,

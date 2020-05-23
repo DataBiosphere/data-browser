@@ -60,7 +60,7 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
                 @Inject("Window") window: Window) {
 
         this.store = store;
-        this.portalURL = this.configService.getPortalURL();
+        this.portalURL = this.configService.getPortalUrl();
     }
 
     /**

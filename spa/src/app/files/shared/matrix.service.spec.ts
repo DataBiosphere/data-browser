@@ -31,7 +31,7 @@ describe("MatrixService:", () => {
             ],
             providers: [{
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["buildApiUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getMatrixUrl", "getProjectPreparedMatrixDownloadUrl"])
                 },
                 {
                     provide: FileManifestService,
@@ -39,7 +39,6 @@ describe("MatrixService:", () => {
                         "buildManifestSearchTerms",
                         "requestFileManifestUrl",
                         "requestMatrixFileManifestUrl",
-                        "fetchFileManifestSummary",
                         "fetchFileManifestFileSummary"
                     ])
                 },

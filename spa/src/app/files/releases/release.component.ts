@@ -47,7 +47,7 @@ export class ReleaseComponent implements OnDestroy, OnInit {
                 private configService: ConfigService,
                 private releaseService: ReleaseService) {
 
-        this.portalUrl = this.configService.getPortalURL()
+        this.portalUrl = this.configService.getPortalUrl()
 
     }
 

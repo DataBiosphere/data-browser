@@ -49,7 +49,7 @@ export class ProjectService {
      */
     public fetchProjectById(projectId: string, updatedProject: Project): Observable<Project> {
 
-        const url = this.configService.buildApiUrl(`/repository/projects/${projectId}`);
+        const url = this.configService.getProjectUrl(projectId);
         return this.httpClient.get<Project>(url).pipe(
             map((response) => {
                 return this.bindProject(response, updatedProject);
@@ -78,7 +78,7 @@ export class ProjectService {
         ];
         const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
         let params = new HttpParams({fromObject: query} as any);
-        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
+        const url = this.configService.getFileManifestUrl();
         this.pollRequestProjectTSVUrl(projectId, url, params, 0, response$, killSwitch$);
 
         return response$.asObservable();

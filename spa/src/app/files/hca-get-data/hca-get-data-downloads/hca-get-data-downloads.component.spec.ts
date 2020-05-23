@@ -41,7 +41,7 @@ describe("HCAGetDataDownloadsComponent", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
                 },
             ]
         }).compileComponents();

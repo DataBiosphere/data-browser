@@ -139,7 +139,7 @@ export class TerraService {
         const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
         let params = new HttpParams({fromObject: query} as any);
 
-        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
+        const url = this.configService.getFileManifestUrl();
         const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
         this.requestExportToTerra(getRequest, exportResponse$);
 

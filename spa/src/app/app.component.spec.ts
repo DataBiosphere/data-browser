@@ -102,7 +102,7 @@ describe("AppComponent:", () => {
                 useValue: routerMock
             }, {
                 provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                useValue: jasmine.createSpyObj("ConfigService", ["isV2", "isEnvLocal", "isEnvUxDev", "getPortalUrl"])
             }, {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])

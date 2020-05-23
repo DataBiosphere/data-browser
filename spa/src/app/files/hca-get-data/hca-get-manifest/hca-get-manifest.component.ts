@@ -57,7 +57,7 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
         private searchTermHttpService: SearchTermHttpService,
         private store: Store<AppState>) {
 
-        this.portalURL = this.configService.getPortalURL();
+        this.portalURL = this.configService.getPortalUrl();
     }
 
     /**

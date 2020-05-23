@@ -60,7 +60,7 @@ export class ProjectOverviewDataSummaryComponent {
 
         if ( values.includes(linkedValue) ) {
 
-            const portalURL = this.configService.getPortalURL();
+            const portalURL = this.configService.getPortalUrl();
             const hrefOfValue = `${portalURL}/pipelines/smart-seq2-workflow`;
             const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener noreferrer">${linkedValue}</a>`;
 

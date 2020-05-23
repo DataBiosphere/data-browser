@@ -27,7 +27,7 @@ export class DataDownloadCitationComponent {
      */
     public constructor(private configService: ConfigService) {
 
-        this.portalURL = this.configService.getPortalURL();
+        this.portalURL = this.configService.getPortalUrl();
     }
 
 }

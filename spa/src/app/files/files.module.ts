@@ -132,6 +132,9 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
 import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
 import { EntityRequestService } from "./entity/entity-request.service";
 
+// True if current environment is running v2.0 code.
+const v2 = environment.version === "2.0";
+
 @NgModule({
     imports: [
         FormsModule,
@@ -249,7 +252,7 @@ import { EntityRequestService } from "./entity/entity-request.service";
         DownloadService,
         {
             provide: "ENTITY_REQUEST_SERVICE",
-            useClass: environment.version === "2.0" ? EntityRequestService20 : EntityRequestService
+            useClass: v2 ? EntityRequestService20 : EntityRequestService
         },
         FacetDisplayService,
         FileManifestService,
@@ -259,7 +262,7 @@ import { EntityRequestService } from "./entity/entity-request.service";
         MatrixService,
         {
           provide: "PAGINATION_SERVICE",
-          useClass: environment.version === "2.0" ? PaginationService20 : PaginationService
+          useClass: v2 ? PaginationService20 : PaginationService
         },
         ProjectService,
         ProjectEditsService,

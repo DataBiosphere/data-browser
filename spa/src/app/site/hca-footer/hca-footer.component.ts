@@ -12,6 +12,8 @@ import { BehaviorSubject, Subject } from "rxjs/index";
 import { AppState } from "../../_ngrx/app.state";
 import { takeUntil } from "rxjs/operators";
 import { select, Store } from "@ngrx/store";
+
+// App dependencies
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { HCAFooterState } from "./hca-footer.state";
 
@@ -35,7 +37,7 @@ export class HCAFooterComponent {
      */
     constructor(private store: Store<AppState>,
                 private configService: ConfigService) {
-        this.portalUrl = this.configService.getPortalURL();
+        this.portalUrl = this.configService.getPortalUrl();
     }
 
     /**

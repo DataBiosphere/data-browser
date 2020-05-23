@@ -85,7 +85,7 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
      */
     public getReleaseFileUrl(url: string): string {
 
-        return  `${this.configService.getProjectMetaURL()}/release-files/releases/2020-mar/${url}`;
+        return  this.configService.getReleaseFileUrl(url);
     }
 
     /**

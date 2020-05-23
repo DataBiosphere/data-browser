@@ -36,7 +36,7 @@ export class HCAGetDataDownloadsComponent {
      * @param {ConfigService} configService
      */
     constructor(private configService: ConfigService) {
-        this.portalURL = this.configService.getPortalURL();
+        this.portalURL = this.configService.getPortalUrl();
     }
 
     /**

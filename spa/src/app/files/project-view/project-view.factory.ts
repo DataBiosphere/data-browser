@@ -94,7 +94,7 @@ export class ProjectViewFactory {
     private buildCitationUrl(projectId: string): string {
 
         // Add selected project to state - grab the project ID from the URL.
-        const portalURL = this.configService.getPortalURL();
+        const portalURL = this.configService.getPortalUrl();
 
         return `${portalURL}/explore/projects/${projectId}`;
     }
