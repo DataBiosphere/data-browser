@@ -53,7 +53,7 @@ export class ReleaseComponent implements OnDestroy, OnInit {
 
     /**
      * Tab provides opportunity to return back to project table.
-     *ch terms to human if no filters set on load of app
+     *
      * @returns {EntitySpec[]}
      */
     public getReleaseTabs(): EntitySpec[] {
