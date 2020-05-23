@@ -50,7 +50,7 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
                 private configService: ConfigService,
                 private releaseService: ReleaseService,
                 private router: Router) {
-        this.portalUrl = this.configService.getPortalURL();
+        this.portalUrl = this.configService.getPortalUrl();
     }
 
     /**

@@ -78,7 +78,7 @@ describe("HCAGetManifestComponent", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
                 },
                 {
                     provide: GTMService,

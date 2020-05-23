@@ -81,7 +81,7 @@ describe("HCAExportToTerraComponent", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalURL"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getFileManifestUrl", "getPortalUrl"])
                 },
                 {
                     provide: FileManifestService,

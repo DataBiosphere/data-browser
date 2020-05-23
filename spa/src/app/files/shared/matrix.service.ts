@@ -141,7 +141,8 @@ export class MatrixService {
      */
     public fetchFileFormats(): Observable<string[]> {
 
-        return this.httpClient.get<any>(`${this.configService.getMatrixURL()}/formats`);
+        const url = this.configService.getMatrixFormatsUrl();
+        return this.httpClient.get<any>(url);
     }
 
     /**
@@ -455,7 +456,7 @@ export class MatrixService {
     private getProjectMatrixUrl(projectId: string, species: GenusSpecies, matrixFormat: string): Observable<string> {
 
         const speciesSlug = this.buildSpeciesSlug(species);
-        const url = this.configService.getProjectPreparedMatrixDownloadURL(`${projectId}.${speciesSlug}.${matrixFormat}`);
+        const url = this.configService.getProjectPreparedMatrixDownloadUrl(`${projectId}.${speciesSlug}.${matrixFormat}`);
         return this.httpClient.head<any>(url).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
@@ -514,7 +515,7 @@ export class MatrixService {
             format: MatrixFormat[matrixFormat] || matrixFormat // Allow for file formats that have not yet been added to enum
         };
 
-        this.httpClient.post<MatrixUrlRequestHttpResponse>(this.configService.getMatrixURL(), body).pipe(
+        this.httpClient.post<MatrixUrlRequestHttpResponse>(this.configService.getMatrixUrl(), body).pipe(
             retry(2),
             catchError(this.handleMatrixUrlRequestStatusError.bind(this)),
             map((response: MatrixUrlRequestHttpResponse) => {
@@ -577,7 +578,8 @@ export class MatrixService {
                 take(1),
                 switchMap(() => {
 
-                    return this.httpClient.get<MatrixUrlRequestHttpResponse>(`${this.configService.getMatrixURL()}/${requestId}`)
+                    const url = this.configService.getMatrixRequestUrl(requestId);
+                    return this.httpClient.get<MatrixUrlRequestHttpResponse>(url)
                         .pipe(
                             retry(2),
                             catchError(this.handleMatrixUrlRequestStatusError.bind(this, requestId)),

@@ -95,7 +95,7 @@ export class FilesService {
     public fetchFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
 
         // Build up API URL
-        const url = this.configService.buildApiUrl(`/repository/summary`);
+        const url = this.configService.getSummaryUrl();
 
         // Build up the query params
         const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);

@@ -13,11 +13,9 @@ import { catchError, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { Dictionary } from "../../dictionary";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileFormat } from "./file-format.model";
-import { FileManifestSummary } from "../file-manifest-summary/file-manifest-summary";
 import { FileSummary } from "../file-summary/file-summary";
 import { FilesService } from "./files.service";
 import { ICGCQuery } from "./icgc-query";
@@ -94,36 +92,6 @@ export class FileManifestService {
     public requestMatrixFileManifestUrl(searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         return this.sendFileManifestUrlRequest(searchTerms, killSwitch$);
-    }
-
-    /**
-     * Fetch File Manifest Summary Observable
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {Observable<Dictionary<FileManifestSummary>>}
-     */
-    public fetchFileManifestSummary(searchTerms: SearchTerm[]): Observable<Dictionary<FileManifestSummary>> {
-
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms));
-
-        const filters = JSON.parse(query.filters);
-        let repoNames = []; // TODO empty array default throws an error. There needs to be something in the repoNames
-
-        if ( filters.file && filters.file.repoName ) {
-            repoNames = filters.file.repoName.is;
-        }
-
-        // convert query from string back to object for post
-        const form = Object.assign({}, {
-            query: {
-                filters: JSON.parse(query.filters)
-            },
-            repoNames: repoNames
-        });
-
-        const url = this.configService.buildApiUrl("/repository/files/summary/manifest");
-
-        return this.httpClient.post<Dictionary<FileManifestSummary>>(url, form);
     }
 
     /**
@@ -302,7 +270,7 @@ export class FileManifestService {
 
         const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
         let params = new HttpParams({fromObject: query} as any);
-        const url = this.configService.buildApiUrl(`/fetch/manifest/files`);
+        const url = this.configService.getFileManifestUrl();
         this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);
 
         return manifestResponse$.asObservable();

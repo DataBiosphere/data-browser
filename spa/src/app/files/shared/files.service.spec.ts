@@ -42,10 +42,7 @@ describe("FileService:", () => {
             providers: []
         });
 
-        // Set return value of buildApiUrl to "", to avoid undefined httpClient.get being called with undefined; we want
-        // to confirm httpClient.get is called with a string value for url.
-        const configService = jasmine.createSpyObj("ConfigService", ["buildApiUrl"]);
-        configService.buildApiUrl.and.returnValue("");
+        const configService = jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl"]);
 
         const termResponseService = new ResponseTermService();
         const searchTermHttpService = new SearchTermHttpService(termResponseService);

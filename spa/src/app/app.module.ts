@@ -45,6 +45,9 @@ import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { SystemService } from "./system/shared/system.service";
 import { SystemService20 } from "./system/shared/system.2.0.service";
 
+// True if current environment is running v2.0 code.
+const v2 = environment.version === "2.0";
+
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
@@ -91,7 +94,7 @@ import { SystemService20 } from "./system/shared/system.2.0.service";
         LocalStorageService,
         {
             provide: "SYSTEM_SERVICE",
-            useClass: environment.version === "2.0" ? SystemService20 : SystemService
+            useClass: v2 ? SystemService20 : SystemService
         },
         // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
         // must return promise to ensure Angular "pauses" until config is resolved from API end point.

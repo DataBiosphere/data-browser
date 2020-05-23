@@ -87,12 +87,12 @@ export class EntityRequestService {
     /**
      * Build the entity search results end point URL.
      *
-     * @param {string} entity
+     * @param {string} entityName
      * @returns {string}
      */
-    public buildEntitySearchResultsUrl(entity: string): string {
+    public buildEntitySearchResultsUrl(entityName: string): string {
 
-        return this.configService.buildApiUrl(`/repository/${entity}`);
+        return this.configService.getEntitiesUrl(entityName);
     }
 
     /**

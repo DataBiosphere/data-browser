@@ -39,7 +39,7 @@ export abstract class AbstractSystemService {
      */
     protected checkHealth(): Observable<HealthResponse> {
 
-        const url = this.configService.getDCPHealthCheckURL();
+        const url = this.configService.getDCPHealthCheckUrl();
         return this.httpClient
             .get<HealthHttpResponse>(url)
             .pipe(
@@ -55,7 +55,7 @@ export abstract class AbstractSystemService {
      */
     protected checkIndexStatus(): Observable<IndexResponse> {
 
-        const url = this.configService.buildApiUrl("/health/progress");
+        const url = this.configService.getIndexStatusUrl();
         return this.httpClient
             .get<IndexHttpResponse>(url)
             .pipe(

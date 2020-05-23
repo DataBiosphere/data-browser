@@ -37,7 +37,7 @@ export class AnalysisProtocolPipelineLinkerComponent {
      */
     constructor(private configService: ConfigService) {
 
-        this.portalURL = this.configService.getPortalURL();
+        this.portalURL = this.configService.getPortalUrl();
     }
 
     /**

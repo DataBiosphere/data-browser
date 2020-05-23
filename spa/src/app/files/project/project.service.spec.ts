@@ -39,10 +39,11 @@ describe("ProjectService:", () => {
             ],
             imports: [
             ],
-            providers: [{
-                provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["buildApiUrl"])
-            }]
+            providers: [
+                {
+                    provide: ConfigService,
+                    useValue: jasmine.createSpyObj("ConfigService", ["getProjectUrl", "getFileManifestUrl"])
+                }]
         });
 
         const termResponseService = new ResponseTermService();
