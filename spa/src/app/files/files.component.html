@@ -17,8 +17,11 @@
     </hca-file-summary>
     <hca-tab [tabs]="state.entities" [activeTab]="state.selectedEntity"
              (tabSelected)="onTabSelected($event)"></hca-tab>
-    <hca-table-samples *ngIf="(state.selectedEntity).key == 'samples'"></hca-table-samples>
-    <hca-table-files *ngIf="(state.selectedEntity).key == 'files'"></hca-table-files>
+    <hca-table-samples *ngIf="(state.selectedEntity).key == 'samples'"
+                       [selectedSearchTerms]="state.selectedSearchTerms"></hca-table-samples>
+    <hca-table-files *ngIf="(state.selectedEntity).key == 'files'"
+                     [selectedSearchTerms]="state.selectedSearchTerms"></hca-table-files>
     <hca-table-projects *ngIf="(state.selectedEntity).key == 'projects'"
-                        [selectedProjectIds]="state.selectedProjectIds"></hca-table-projects>
+                        [selectedProjectIds]="state.selectedProjectIds"
+                        [selectedSearchTerms]="state.selectedSearchTerms"></hca-table-projects>
 </div>

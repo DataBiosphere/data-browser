@@ -16,6 +16,8 @@ import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { FileSummary } from "../file-summary/file-summary";
+import { DeviceDetectorService } from "ngx-device-detector";
 import {
     selectFileSummary,
     selectPagination,
@@ -24,12 +26,15 @@ import {
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
-import { FileSummary } from "../file-summary/file-summary";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { ProjectRowMapper } from "./project-row-mapper";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
+import { SearchTerm } from "../search/search-term.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
+import { GASource } from "../../shared/analytics/ga-source.model";
+import { EntityName } from "../shared/entity-name.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
@@ -40,8 +45,6 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { EntityName } from "../shared/entity-name.model";
 
 
 @Component({
@@ -79,19 +82,22 @@ export class HCATableProjectsComponent implements OnInit {
 
     // Inputs
     @Input() selectedProjectIds: string[];
+    @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
-    @ViewChild(MatSort, { static: false }) matSort: MatSort;
+    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
+    @ViewChild(MatSort, {static: false}) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store
      * @param {DeviceDetectorService} deviceService
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
                 private deviceService: DeviceDetectorService,
+                private searchTermHttpService: SearchTermHttpService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 private router: Router) {
@@ -108,7 +114,7 @@ export class HCATableProjectsComponent implements OnInit {
 
         return projectsMatrixUrls.has(projectId) && projectsMatrixUrls.get(projectId).isAnyProjectMatrixUrlAvailable();
     }
-    
+
     /**
      * Returns true if project is in the current set of selected search terms.
      *
@@ -146,7 +152,7 @@ export class HCATableProjectsComponent implements OnInit {
 
     /**
      * Display the prepared matrix downloads modal.
-     * 
+     *
      * @param {string} projectId
      */
     public onProjectDownloadMatrixClicked(projectId: string) {
@@ -172,8 +178,9 @@ export class HCATableProjectsComponent implements OnInit {
      *
      * @param {Pagination} pm
      * @param {Sort} sort
+     * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -201,12 +208,11 @@ export class HCATableProjectsComponent implements OnInit {
             order: sort.direction
         };
 
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        const action =
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.PROJECTS, GASource.SEARCH_RESULTS, query);
+        this.store.dispatch(action);
     }
-
-    /**
-     * Lifecycle hooks
-     */
 
     ngAfterContentChecked() {
 

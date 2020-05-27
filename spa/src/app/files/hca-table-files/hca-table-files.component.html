@@ -3,7 +3,7 @@
         <table-scroll [dataLoaded]="dataLoaded$">
             <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                        matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
-                       (matSortChange)="sortTable(pagination, $event)">
+                       (matSortChange)="sortTable(pagination, $event, selectedSearchTerms)">
                 <ng-container matColumnDef="fileName">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('fileName')"
                                      [ngStyle]="getColumnStyle('fileName')">

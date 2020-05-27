@@ -9,7 +9,7 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef,
+    ElementRef, Input,
     OnDestroy,
     OnInit,
     ViewChild
@@ -22,6 +22,7 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
+import { FileSummary } from "../file-summary/file-summary";
 import {
     selectFileSummary,
     selectPagination,
@@ -29,9 +30,13 @@ import {
     selectTableLoading,
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
-import { FileSummary } from "../file-summary/file-summary";
+import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { SampleRowMapper } from "./sample-row-mapper";
+import { GASource } from "../../shared/analytics/ga-source.model";
+import { EntityName } from "../shared/entity-name.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
+import { SearchTerm } from "../search/search-term.model";
+import { EntitiesDataSource } from "../table/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
     getAge,
@@ -42,7 +47,6 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { EntitiesDataSource } from "../table/entities.data-source";
 
 @Component({
     selector: "hca-table-samples",
@@ -76,28 +80,33 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     private ngDestroy$ = new Subject();
     private dataLoaded$: Observable<boolean>;
 
+    // Inputs
+    @Input() selectedSearchTerms: SearchTerm[];
+
     // View child/ren
-    @ViewChild(MatSort, { static: false }) matSort: MatSort;
-    @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
+    @ViewChild(MatSort, {static: false}) matSort: MatSort;
+    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
 
     /**
      * @param {Store<AppState>} store
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
+                private searchTermHttpService: SearchTermHttpService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
-
 
     /**
      * Sort the table given the sort param and the order.
      *
      * @param {Pagination} pm
      * @param {Sort} sort
+     * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -125,7 +134,10 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
             order: sort.direction
         };
 
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        const action =
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.SAMPLES, GASource.SEARCH_RESULTS, query);
+        this.store.dispatch(action);
     }
 
     /**

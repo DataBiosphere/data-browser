@@ -10,5 +10,6 @@ export enum GACategory {
     "EXPORT" = "Export",
     "MANIFEST" = "Manifest",
     "MATRIX" = "Matrix",
-    "SEARCH" = "Search"
+    "SEARCH" = "Search",
+    "SEARCH_RESULTS" = "Search Results",
 }

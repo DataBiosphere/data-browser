@@ -13,5 +13,6 @@ export enum GAAction {
     "LAUNCH" = "Launch",
     "REQUEST" = "Request",
     "SELECT" = "Select",
+    "SORT" = "Sort",
     "VISUALIZE" = "Visualize"
 }

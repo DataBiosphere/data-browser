@@ -11,5 +11,6 @@ export enum GASource {
     "COHORT_MATRIX" = "Cohort Matrix",
     "FACET_BROWSER" = "Facet Browser",
     "SEARCH" = "Search",
+    "SEARCH_RESULTS" = "Search Results",
     "SELECTED_TERMS" = "Selected Terms"
 }

@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
@@ -14,6 +14,7 @@ import { Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 // App dependencies
+import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
 import {
     selectFileSummary,
@@ -22,8 +23,7 @@ import {
     selectTableLoading,
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
-import { FileSummary } from "../file-summary/file-summary";
+import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
     getAge,
@@ -36,6 +36,10 @@ import {
 import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
+import { SearchTerm } from "../search/search-term.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
+import { EntityName } from "../shared/entity-name.model";
+import { GASource } from "../../shared/analytics/ga-source.model";
 
 @Component({
     selector: "hca-table-files",
@@ -68,17 +72,23 @@ export class HCATableFilesComponent implements OnInit {
     // Locals
     private ngDestroy$ = new Subject();
     public dataLoaded$: Observable<boolean>;
+    
+    // Inputs
+    @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatSort, { static: false }) matSort: MatSort;
-    @ViewChild(MatTable, { read: ElementRef, static: false }) matTableElementRef: ElementRef;
+    @ViewChild(MatSort, {static: false}) matSort: MatSort;
+    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
 
     /**
+     * 
      * @param {Store<AppState>} store
+     * @param {SearchTermHttpService} searchTermHttpService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
+                private searchTermHttpService: SearchTermHttpService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
@@ -107,8 +117,9 @@ export class HCATableFilesComponent implements OnInit {
      *
      * @param {Pagination} pm
      * @param {Sort} sort
+     * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort) {
+    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -135,8 +146,11 @@ export class HCATableFilesComponent implements OnInit {
             sort: sort.active,
             order: sort.direction
         };
-
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
+        
+        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
+        const action =
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.FILES, GASource.SEARCH_RESULTS, query);
+        this.store.dispatch(action);
     }
 
     /**

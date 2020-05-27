@@ -15,11 +15,9 @@ import { Observable } from "rxjs";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectPagination } from "../_ngrx/file.selectors";
-import { FetchPagedOrSortedTableDataRequestAction } from "../_ngrx/table/table.actions";
 import { TableNextPageAction } from "../_ngrx/table/table-next-page.action";
 import { TablePreviousPageAction } from "../_ngrx/table/table-previous-page.action";
 import { Pagination } from "../table/pagination/pagination.model";
-import { TableParams } from "../table/pagination/table-params.model";
 import { PaginationService } from "../table/pagination/pagination.service";
 
 @Component({
@@ -74,23 +72,6 @@ export class HCATablePaginationComponent implements OnInit {
     }
 
     /**
-     * Sort the table given the sort param and the order.
-     *
-     * @param {Pagination} pm
-     * @param {Sort} sort
-     */
-    public sortTable(pm: Pagination, sort: Sort) {
-
-        let tableParamsModel: TableParams = {
-            size: pm.size,
-            sort: sort.active,
-            order: sort.direction
-        };
-
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
-    }
-
-    /**
      * Check if there is a next page. Use search_after_uid and not search_after as null is a valid value for
      * search_after.
      *
@@ -134,23 +115,6 @@ export class HCATablePaginationComponent implements OnInit {
         }
 
         return pages;
-    }
-
-    /**
-     * Sets the number of rows per page.
-     *
-     * @param {Pagination} pm
-     * @returns {number} pageSize
-     */
-    public setPageSize(pm: Pagination, pageSize: number) {
-
-        let tableParamsModel: TableParams = {
-            size: pageSize,
-            sort: pm.sort,
-            order: pm.order
-        };
-
-        this.store.dispatch(new FetchPagedOrSortedTableDataRequestAction(tableParamsModel));
     }
 
     /**
