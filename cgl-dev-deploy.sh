@@ -3,6 +3,12 @@
 echo \"Deleting ./dist/\"
 rm -rf ./dist
 cd spa
+
+
+export GATSBY_GTM_ID=GTM-M2J5NTJ
+export GATSBY_GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
+export GATSBY_ENV_NAME=env-83
+
 npm run build-cgl-dev
 export BUCKET=s3://dev.explore.singlecell.gi.ucsc.edu/
 export SRCDIR=dist/
