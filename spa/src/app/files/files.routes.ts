@@ -54,11 +54,12 @@ export const routes: Route[] = [
             {
                 path: ":id",
                 component: ProjectGuardComponent,
-                children: [{
-                    path: "",
-                    pathMatch: "full",
-                    component: ProjectOverviewComponent
-                },
+                children: [
+                    {
+                        path: "",
+                        pathMatch: "full",
+                        component: ProjectOverviewComponent
+                    },
                     {
                         path: "project-metadata",
                         component: ProjectMetadataComponent,
@@ -82,7 +83,8 @@ export const routes: Route[] = [
                     {
                         path: "releases/2020-mar",
                         component: ProjectReleaseComponent
-                    }]
+                    }
+                ]
             },
             {
                 path: ":id/m/project-metadata",

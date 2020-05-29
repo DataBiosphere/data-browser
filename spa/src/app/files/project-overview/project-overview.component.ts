@@ -6,42 +6,47 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { combineLatest, Observable, Subject } from "rxjs";
+import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
+import { ProjectOverviewComponentState } from "./project-overview.component.state";
+import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
 import { ContactView } from "../project-view/contact-view.model";
 import { ContributorView } from "../project-view/contributor-view.model";
 import { ProjectViewFactory } from "../project-view/project-view.factory";
+import { GAAction } from "../../shared/analytics/ga-action.model";
 import { Publication } from "../shared/publication.model";
-import { ProjectOverviewState } from "./project-overview.state";
 
 @Component({
     selector: "project-overview",
     templateUrl: "./project-overview.component.html",
     styleUrls: ["./project-overview.component.scss"]
 })
-export class ProjectOverviewComponent {
+export class ProjectOverviewComponent implements OnDestroy {
 
     // Template variables
-    public state$: Observable<ProjectOverviewState>;
+    private ngDestroy$ = new Subject();
+    public state$: Observable<ProjectOverviewComponentState>;
 
     /**
-     * @param {ActivatedRoute} activatedRoute
+     * @param {ProjectAnalyticsService} projectAnalyticsService
      * @param {ProjectViewFactory} projectFactory
      * @param {Store<AppState>} store
+     * @param {ActivatedRoute} activatedRoute
      */
-    public constructor(private activatedRoute: ActivatedRoute,
-                       private projectFactory: ProjectViewFactory,
-                       private store: Store<AppState>) {
-    }
+    constructor(private projectAnalyticsService: ProjectAnalyticsService, 
+                private projectFactory: ProjectViewFactory, 
+                private store: Store<AppState>, 
+                private activatedRoute: ActivatedRoute) {}
 
     /**
      * Returns publication title with a link to the publication URL, if it exists.
@@ -118,31 +123,58 @@ export class ProjectOverviewComponent {
     }
 
     /**
+     * Set up tracking of tab.
+     */
+    private initTracking() {
+
+        // Grab the current set of selected terms 
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+
+        combineLatest(this.state$, selectedSearchTerms$).pipe(
+            take(1)
+        ).subscribe(([state, selectedSearchTerms]) => {
+
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectShortname, selectedSearchTerms);
+        });
+    }
+
+    /**
+     * Kill subscriptions on destroy of component.
+     */
+    public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
+    /**
      * Update state with selected project.
      */
     public ngOnInit() {
 
         // Add selected project to state - grab the project ID from the URL.
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
-
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
 
-        this.state$ = combineLatest(
-            project$,
-        )
+        this.state$ = project$
             .pipe(
-                filter(([project]) => !!project),
-                map(([project]) => {
+                takeUntil(this.ngDestroy$),
+                filter(project => !!project),
+                map((project) => {
 
                     const projectView = this.projectFactory.getProjectView(project);
 
                     return {
-                        project: projectView,
+                        projectShortname: project.projectShortname,
+                        project: projectView
                     };
                 })
             );
+
+        // Set up tracking of project tab
+        this.initTracking();
     }
 }

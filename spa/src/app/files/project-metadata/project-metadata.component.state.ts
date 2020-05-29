@@ -5,8 +5,9 @@
  * State backing project metadata component.
  */
 
-export interface ProjectMetadataState {
+export interface ProjectMetadataComponentState {
 
     projectId: string,
+    projectShortname: string;
     projectTitle: string;
 }

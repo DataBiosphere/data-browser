@@ -7,6 +7,16 @@
 
 // Core dependencies
 import { Component } from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import { combineLatest } from "rxjs";
+import { take } from "rxjs/operators";
+
+// App dependencies
+import { AppState } from "../../_ngrx/app.state";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
+import { ProjectAnalyticsService } from "../project/project-analytics.service";
+import { GAAction } from "../../shared/analytics/ga-action.model";
 
 @Component({
     selector: "project-external-resources",
@@ -14,4 +24,38 @@ import { Component } from "@angular/core";
     styleUrls: ["./project-external-resources.component.scss"]
 })
 export class ProjectExternalResourcesComponent {
+
+    /**
+     * @param {ProjectAnalyticsService} projectAnalyticsService
+     * @param {Store<AppState>} store
+     */
+    constructor(private projectAnalyticsService: ProjectAnalyticsService, private store: Store<AppState>) {}
+
+    /**
+     * Set up tracking of tab.
+     */
+    private initTracking() {
+
+        // Grab reference to selected project
+        const project$ = this.store.pipe(select(selectSelectedProject));
+
+        // Grab the current set of selected terms 
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+
+        combineLatest(project$, selectedSearchTerms$).pipe(
+            take(1)
+        ).subscribe(([project, selectedSearchTerms]) => {
+
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_EXTERNAL_RESOURCES, project.projectShortname, selectedSearchTerms);
+        });
+    }
+
+    /**
+     * Set up component.
+     */
+    public ngOnInit() {
+
+        // Set up tracking of project tab
+        this.initTracking();
+    }
 }

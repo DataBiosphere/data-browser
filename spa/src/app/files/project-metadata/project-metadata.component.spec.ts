@@ -24,6 +24,7 @@ import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";
 import { FileManifestService } from "../shared/file-manifest.service";
+import { ProjectAnalyticsService } from "../project/project-analytics.service";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -71,10 +72,6 @@ describe("ProjectMetadataComponent", () => {
                 },
                 ConfigService,
                 {
-                    provide: Store,
-                    useValue: testStore
-                },
-                {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
                         "trackRequestCohortManifest",
@@ -83,6 +80,16 @@ describe("ProjectMetadataComponent", () => {
                         "trackDownloadProjectManifest",
                         "trackCopyToClipboardProjectManifestLink"
                     ])
+                },
+                {
+                    provide: ProjectAnalyticsService,
+                    useValue: jasmine.createSpyObj("ProjectAnalyticsService", [
+                        "trackTabView"
+                    ])
+                },
+                {
+                    provide: Store,
+                    useValue: testStore
                 }
             ]
         }).compileComponents();

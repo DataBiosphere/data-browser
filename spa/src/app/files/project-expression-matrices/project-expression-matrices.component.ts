@@ -11,14 +11,17 @@ import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
 import { combineLatest, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, take } from "rxjs/operators";
 
 // App dependencies
+import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { ProjectExpressionMatricesState } from "./project-expression-matrices.state";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { ProjectAnalyticsService } from "../project/project-analytics.service";
+import { ProjectExpressionMatricesComponentState } from "./project-expression-matrices.component.state";
+import { GAAction } from "../../shared/analytics/ga-action.model";
 
 @Component({
     selector: "project-expression-matrices",
@@ -28,14 +31,31 @@ import { selectSelectedProject } from "../_ngrx/file.selectors";
 export class ProjectExpressionMatricesComponent {
 
     // Template variables
-    public state$: Observable<ProjectExpressionMatricesState>;
+    public state$: Observable<ProjectExpressionMatricesComponentState>;
 
     /**
-     *
-     * @param {ActivatedRoute} activatedRoute
+     * @param {ProjectAnalyticsService} projectAnalyticsService
      * @param {Store<AppState>} store
+     * @param {ActivatedRoute} activatedRoute
      */
-    public constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {
+    constructor(private projectAnalyticsService: ProjectAnalyticsService,
+                private store: Store<AppState>,
+                private activatedRoute: ActivatedRoute) {}
+
+    /**
+     * Set up tracking of tab.
+     */
+    private initTracking() {
+
+        // Grab the current set of selected terms 
+        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+
+        combineLatest(this.state$, selectedSearchTerms$).pipe(
+            take(1)
+        ).subscribe(([state, selectedSearchTerms]) => {
+
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_MATRICES, state.project.projectShortname, selectedSearchTerms);
+        });
     }
 
     /**
@@ -72,5 +92,8 @@ export class ProjectExpressionMatricesComponent {
                     };
                 })
             );
+
+        // Set up tracking of project tab
+        this.initTracking();
     }
 }

@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of project view, included in JSON response returned from project API.
+ * View-specific model of project-related information.
  */
 
 // App dependencies

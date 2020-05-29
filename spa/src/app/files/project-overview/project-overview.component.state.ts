@@ -8,7 +8,8 @@
 // App dependencies
 import { ProjectView } from "../project-view/project-view.model";
 
-export interface ProjectOverviewState {
+export interface ProjectOverviewComponentState {
 
+    projectShortname: string;
     project: ProjectView;
 }
