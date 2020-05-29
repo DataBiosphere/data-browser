@@ -16,7 +16,6 @@ import { takeUntil } from "rxjs/operators";
 import { ProjectNav } from "./project-nav.model";
 import { EntityName } from "../shared/entity-name.model";
 import { NavItem } from "../../shared/nav/nav-item.model";
-import { ReleaseService } from "../shared/release.service";
 
 @Component({
     selector: "project-nav",
@@ -28,6 +27,7 @@ export class ProjectNavComponent {
     // Inputs
     @Input() externalResourcesExist: boolean;
     @Input() projectInRelease: boolean;
+    @Input() releaseFeatureEnabled: boolean;
 
     // Locals
     private dataCitation: NavItem;
@@ -43,11 +43,9 @@ export class ProjectNavComponent {
     /**
      * @param {ActivatedRoute} route
      * @param {DeviceDetectorService} deviceService
-     * @param {ReleaseService} releaseService
      */
     constructor(private route: ActivatedRoute,
-                private deviceService: DeviceDetectorService,
-                private releaseService: ReleaseService) {
+                private deviceService: DeviceDetectorService) {
     }
 
     /**
@@ -77,7 +75,7 @@ export class ProjectNavComponent {
             ];
 
             // Check if project is a part of the release and add "releases" to the nav accordingly
-            if ( this.releaseService.isReleaseVisible() && this.projectInRelease ) {
+            if ( this.releaseFeatureEnabled && this.projectInRelease ) {
 
                 navItemList.push(this.projectReleases);
             }
@@ -178,7 +176,7 @@ export class ProjectNavComponent {
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
             };
 
-            if ( this.releaseService.isReleaseVisible() ) {
+            if ( this.releaseFeatureEnabled ) {
                 this.projectReleases = {
                     disabled: false,
                     display: "Releases",

@@ -51,7 +51,7 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </toolbar-nav-item>
-            <toolbar-nav-item *ngIf="isReleaseVisible()"
+            <toolbar-nav-item *ngIf="isReleaseFeatureEnabled()"
                               [ngClass]="{'active': isReleasesActiveUrl(), 'drop-down-menu': true}">
                 <button class="link" (click)="toggleDropDownMenu($event)">
                     <span class="fontsize-xs">March 2020 Release</span>

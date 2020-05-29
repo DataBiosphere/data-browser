@@ -103,9 +103,9 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
      * 
      * @returns {boolean}
      */
-    public isReleaseVisible(): boolean {
+    public isReleaseFeatureEnabled(): boolean {
         
-        return this.releaseService.isReleaseVisible();
+        return this.releaseService.isReleaseFeatureEnabled();
     }
 
     /**
