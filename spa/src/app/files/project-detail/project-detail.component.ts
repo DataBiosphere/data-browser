@@ -11,8 +11,8 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable } from "rxjs/index";
-import { filter, map, take } from "rxjs/operators";
+import { combineLatest, Observable, Subject } from "rxjs/index";
+import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/file.selectors";
@@ -41,6 +41,7 @@ export class ProjectDetailComponent {
 
     // Template variables
     private releaseReferrer: boolean;
+    private ngDestroy$ = new Subject();
     private state$: Observable<ProjectDetailState>;
 
     /**
@@ -139,6 +140,10 @@ export class ProjectDetailComponent {
      * indicating this project detail component should return the release page (if necessary).
      */
     public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+
         this.store.dispatch(new ClearSelectedProjectAction());
     }
 
@@ -149,7 +154,7 @@ export class ProjectDetailComponent {
 
         // Determine where the back button should navigate to
         this.setReleaseReferrer();
-
+        
         // Add selected project to state - grab the project ID from the URL.
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
@@ -175,27 +180,29 @@ export class ProjectDetailComponent {
             filter(integrations => !!integrations)
         );
 
+        // Set up component state
         this.state$ = combineLatest(
             project$,
             projectInRelease$,
             projectIntegrations$,
             selectedProjectIds$,
         )
-            .pipe(
-                filter(([project]) => !!project),
-                map(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
+        .pipe(
+            takeUntil(this.ngDestroy$),
+            filter(([project]) => !!project),
+            map(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
 
-                    const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
+                const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
-                    const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
+                const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
 
-                    return {
-                        externalResourcesExist,
-                        project,
-                        projectInRelease,
-                        projectSelected
-                    };
-                })
-            );
+                return {
+                    externalResourcesExist,
+                    project,
+                    projectInRelease,
+                    projectSelected
+                };
+            })
+        );
     }
 }

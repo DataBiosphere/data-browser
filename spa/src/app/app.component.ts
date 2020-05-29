@@ -8,9 +8,9 @@
 // Core dependencies
 import { Location } from "@angular/common";
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Params, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
