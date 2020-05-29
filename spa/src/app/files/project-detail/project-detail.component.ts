@@ -31,6 +31,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
 import { ProjectDetailState } from "./project-detail.state";
+import { ReleaseService } from "../shared/release.service";
 
 @Component({
     selector: "project-detail",
@@ -45,12 +46,15 @@ export class ProjectDetailComponent {
     private state$: Observable<ProjectDetailState>;
 
     /**
-     *
+     * @param {ReleaseService} releaseService
+     * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
-     * @param {Store<AppState>} store
      */
-    public constructor(private activatedRoute: ActivatedRoute, private router: Router, private store: Store<AppState>) {}
+    public constructor(private releaseService: ReleaseService,
+                       private store: Store<AppState>,
+                       private activatedRoute: ActivatedRoute,
+                       private router: Router) {}
 
     /**
      * Returns the class for the select box.
@@ -79,6 +83,16 @@ export class ProjectDetailComponent {
         }
 
         return [{key: EntityName.PROJECTS, displayName: "Back"}];
+    }
+
+    /**
+     * Returns true if release feature is enabled.
+     * 
+     * @returns {boolean}
+     */
+    private isReleaseFeatureEnabled(): boolean {
+
+        return this.releaseService.isReleaseFeatureEnabled();
     }
 
     /**

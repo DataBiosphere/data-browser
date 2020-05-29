@@ -108,7 +108,7 @@ describe("AppComponent:", () => {
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
             }, {
                 provide: ReleaseService,
-                useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseVisible"])
+                useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseFeatureEnabled"])
             }, {
                 provide: SearchTermUrlService,
                 useValue: searchTermUrlService

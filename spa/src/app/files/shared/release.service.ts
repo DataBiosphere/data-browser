@@ -130,7 +130,7 @@ export class ReleaseService {
      * 
      * @returns {boolean}
      */
-    public isReleaseVisible(): boolean {
+    public isReleaseFeatureEnabled(): boolean {
 
         return this.configService.isEnvLocal() || this.configService.isEnvUxDev();
     }

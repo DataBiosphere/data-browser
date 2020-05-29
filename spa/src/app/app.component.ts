@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     public showRelease() {
         
-        if ( !this.releaseService.isReleaseVisible() ) {
+        if ( !this.releaseService.isReleaseFeatureEnabled() ) {
             return false;
         }
 
