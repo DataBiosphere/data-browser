@@ -58,7 +58,19 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Label: `sortBy`
 
 - Entity Type: "Projects", "Samples" or "Files"
+- Current Query: `currentQuery`
 - Direction: "Asc" or "Desc"
+
+##### Project Events
+
+###### View Project
+
+- Category: "Project"
+- Action: "View Overview", "View Metadata", "View Matrices", "View External Resources"
+- Label: `projectShortname`
+
+
+- Entity URL: `http:/path/to/project`
 - Current Query: `currentQuery`
 
 ##### Manifest Events
