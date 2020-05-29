@@ -4,15 +4,62 @@
 
 The following custom dimensions are configured in Google Analytics, allowing additional data (in addition to Category, Action and Label) to be included in each data layer event fired from the front end.
 
+- `currentQuery`
 - `entityType`
 - `entityUrl`
-- `fileType`
+- `facet`
 - `fileFormat`
 - `fileName`
+- `fileType`
+- `min`
+- `max`
 - `releaseName`
+- `source`
+- `term`
 - `toolName`
 
 #### Tracked Events
+
+##### Search Events
+
+###### De/Select Search Value
+
+- Category: "Search"
+- Action: "Select" or "Deselect"
+- Label: `termName` or `between 0 and 100 years`
+
+
+- Entity Type: "Facet"
+- Current Query: `currentQuery`
+- Facet: `facetName`
+- Term: `termName` or `between 0 and 100 years`
+- Source: "Cohort Export", "Manifest Export", "Cohort Matrix", "Facet Browser", "Search" or "Selected Terms"
+- Min: `min`
+- Max: `max`
+
+###### Clear Search Terms
+
+- Category: "Search"
+- Action: "Clear"
+- Label: "Clear All"
+
+
+- Entity Type: "Facet"
+- Current Query: `currentQuery`
+- Source: "Selected Terms"
+
+
+##### Sort Events
+
+###### Sort Data Table
+
+- Category: "Search Results"
+- Action: "Sort"
+- Label: `sortBy`
+
+- Entity Type: "Projects", "Samples" or "Files"
+- Direction: "Asc" or "Desc"
+- Current Query: `currentQuery`
 
 ##### Manifest Events
 

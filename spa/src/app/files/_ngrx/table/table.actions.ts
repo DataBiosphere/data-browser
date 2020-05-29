@@ -17,13 +17,6 @@ export class TableOrderByAction implements Action {
     constructor(public field: string, public dir: string) {}
 }
 
-export class FetchPagedOrSortedTableDataRequestAction implements Action {
-    public static ACTION_TYPE = "TABLE.PAGED_OR_SORTED_DATA_REQUEST";
-    public readonly type = FetchPagedOrSortedTableDataRequestAction.ACTION_TYPE;
-
-    constructor(public tableParams: TableParams) {}
-}
-
 /**
  * Action dispatched when tab is selected (eg Files or Samples).
  */

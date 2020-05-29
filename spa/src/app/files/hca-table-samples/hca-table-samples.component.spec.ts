@@ -23,6 +23,7 @@ import { of } from "rxjs";
 // App components
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { ConfigService } from "../../config/config.service";
+import { EntityRequestService } from "../entity/entity-request.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
@@ -35,6 +36,7 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSamplesComponent } from "./hca-table-samples.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
@@ -43,7 +45,6 @@ import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { TableRendererService } from "../table/table-renderer.service";
-import { EntityRequestService } from "../entity/entity-request.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 
 describe("HCATableSamplesComponent", () => {
@@ -126,6 +127,12 @@ describe("HCATableSamplesComponent", () => {
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                }, {
+                    provide: SearchTermHttpService,
+                    useValue: jasmine.createSpyObj("SearchTermService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms"
+                    ])
                 },
                 {
                     provide: TableRendererService,

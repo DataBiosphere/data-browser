@@ -7,6 +7,7 @@
 
 export enum GADimension {
     "CURRENT_QUERY" = "currentQuery",
+    "DIRECTION" = "direction",
     "ENTITY_TYPE" = "entityType",
     "ENTITY_URL" = "entityUrl",
     "FACET" = "facet",

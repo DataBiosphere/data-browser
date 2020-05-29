@@ -25,6 +25,7 @@ import { of } from "rxjs";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { ConfigService } from "../../config/config.service";
 import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
+import { EntityRequestService } from "../entity/entity-request.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
@@ -42,6 +43,7 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { PipeModule } from "../../pipe/pipe.module";
 import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
+import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
@@ -52,7 +54,6 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { EntityRequestService } from "../entity/entity-request.service";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -167,6 +168,12 @@ describe("HCATableProjectsComponent", () => {
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                }, {
+                    provide: SearchTermHttpService,
+                    useValue: jasmine.createSpyObj("SearchTermService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms"
+                    ])
                 }, {
                     provide: TableRendererService,
                     useValue: jasmine.createSpyObj("TableRendererService", {
