@@ -1,0 +1,90 @@
+
+stages:
+  - test
+  - build
+  - deploy
+
+# Build Jobs
+# Build Job Template
+.build_template: &build_template
+  image: node:10.16.0
+  stage: build
+  before_script:
+    - npm -v
+    - npm install npm@6.9.0 -g
+    - npm -v
+    - cd spa
+    - npm install
+    - cd ..
+
+  artifacts:
+      paths:
+        - dist
+        - maintenance
+
+
+# Test with Trufflehog
+test_trufflehog:
+  stage: test
+  image: python:3.5
+  before_script:
+    - pip install trufflehog
+  script:
+    - trufflehog --regex --rules trufflehog-rules.json --branch develop --max_depth 30 --entropy=False https://github.com/HumanCellAtlas/data-browser.git
+  except:
+    - master
+
+# Test with karma
+test_karma:
+  image: trion/ng-cli-karma
+  stage: test
+  script:
+    - cd spa
+    - npm install
+    - ng test --watch=false
+  except:
+    - master
+
+# Develop Build
+build_cgl-dev:
+  <<: *build_template
+  environment:
+    name: cgl-dev
+  script:
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
+    - export GTM_ENV=env-83
+    - pwd
+    - ./insert-gtm-snippet.sh
+    - cd spa
+    - npm run build-develop
+  only:
+    - develop
+
+
+########################################
+# Deploy Jobs
+########################################
+
+
+# Deploy Job Template
+.deploy_template: &deploy_template
+  stage: deploy
+  image: python:3.5
+  before_script:
+    - pip install awscli
+
+# Dev Deploy
+deploy_cgl-dev:
+  <<: *deploy_template
+  environment:
+    name: cgl-dev
+  script:
+    - export BUCKET=s3://dev.explore.singlecell.gi.ucsc.edu
+    - if [ "$MAINTENANCE" = "true" ];then export SRCDIR=maintenance/; else export SRCDIR=dist/; fi
+    - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
+    - aws s3 cp $BUCKET/explore/index.html $BUCKET/explore/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read
+    - aws cloudfront create-invalidation --distribution-id E3562WJBOLN8W8 --paths "/*"
+  only:
+    - develop
+
