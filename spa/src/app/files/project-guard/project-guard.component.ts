@@ -28,6 +28,10 @@ export class ProjectGuardComponent implements OnInit {
         // "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944, https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/948
     ];
 
+    private PROJECT_IDS_WITHDRAWN = [
+        "008e40e8-66ae-43bb-951c-c073a2fa6774" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/1209
+    ];
+
     public projectId$: Observable<string>;
 
     /**
@@ -50,7 +54,10 @@ export class ProjectGuardComponent implements OnInit {
         else if ( this.isProjectIngestInProgress(projectId) ) {
             return ProjectStatus.INGEST_IN_PROGRESS;
         }
-        
+        else if ( this.isProjectWithdrawn(projectId) ) {
+            return ProjectStatus.WITHDRAWN;
+        }
+
         return ProjectStatus.LIVE;
     }
 
@@ -87,6 +94,17 @@ export class ProjectGuardComponent implements OnInit {
         return this.PROJECT_IDS_INGEST_IN_PROGRESS.indexOf(projectIdToCheck) >= 0;
     }
 
+    /**
+     * Returns true if project has been withdrawn.
+     *
+     * @param {string} projectIdToCheck
+     * @returns {boolean}
+     */
+    public isProjectWithdrawn(projectIdToCheck: string): boolean {
+
+        return this.PROJECT_IDS_WITHDRAWN.indexOf(projectIdToCheck) >= 0;
+    }
+    
     /**
      *
      */

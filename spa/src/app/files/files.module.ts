@@ -105,6 +105,7 @@ import { ProjectReleaseComponent } from "./project-release/project-release.compo
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
+import { ProjectWithdrawnComponent } from "./project-withdrawn/project-withdrawn.component";
 import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseFilesModalComponent } from "./releases/release-files-modal/release-files-modal.component";
@@ -224,6 +225,7 @@ const v2 = environment.version === "2.0";
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
+        ProjectWithdrawnComponent,
         ProjectIntegrationsComponent,
         ProjectMetadataComponent,
         ProjectNavComponent,

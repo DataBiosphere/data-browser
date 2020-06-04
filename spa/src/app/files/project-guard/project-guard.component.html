@@ -2,6 +2,7 @@
     <ng-container [ngSwitch]="getProjectViewMode(projectId)">
         <project-deprecated *ngSwitchCase="'DEPRECATED'" [updatedProjectId]="getUpdatedProjectId(projectId)"></project-deprecated>
         <project-ingest-in-progress *ngSwitchCase="'INGEST_IN_PROGRESS'"></project-ingest-in-progress>
+        <project-withdrawn *ngSwitchCase="'WITHDRAWN'"></project-withdrawn>
         <project-detail *ngSwitchDefault></project-detail>
     </ng-container>
 </ng-container>
