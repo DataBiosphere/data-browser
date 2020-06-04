@@ -90,7 +90,7 @@ export function getSelectedTable(tableState: TableState): TableModel {
  * @param {TableState} tableState
  * @returns {EntitySpec}
  */
-export function getSelectedEntity(tableState: TableState): EntitySpec {
+export function getSelectedEntitySpec(tableState: TableState): EntitySpec {
     return tableState.entitySpecs.find(entity => entity.key === tableState.selectedEntity);
 }
 

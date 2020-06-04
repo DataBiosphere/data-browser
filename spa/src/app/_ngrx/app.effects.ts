@@ -17,6 +17,7 @@ import { ReleaseEffects } from "../files/_ngrx/release/release.effects";
 import { SystemEffects } from "../system/_ngrx/system.effects";
 import { TableEffects } from "../files/_ngrx/table/table.effects";
 import { TerraEffects } from "../files/_ngrx/terra/terra.effects";
+import { UrlEffects } from "../files/_ngrx/url/url.effects";
 
 export const AppEffects = [
     ConfigEffects,
@@ -29,5 +30,6 @@ export const AppEffects = [
     ReleaseEffects,
     SystemEffects,
     TableEffects,
-    TerraEffects
+    TerraEffects,
+    UrlEffects
 ];

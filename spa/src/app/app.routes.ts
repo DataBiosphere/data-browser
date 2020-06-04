@@ -9,14 +9,13 @@
 import { Route } from "@angular/router";
 
 // App components
+import { BrowserCanActivateGuard } from "./shared/routing/browser.can-activate.guard";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
-import { BrowserCanActivateGuard } from "./shared/routing/browser.can-activate.guard";
 
 export const AppRoutes: Route[] = [
     {
         path: "",
-        canActivate: [BrowserCanActivateGuard],
         children: [
             {
                 path: "",
@@ -24,9 +23,11 @@ export const AppRoutes: Route[] = [
                 pathMatch: "full"
             }, {
                 path: "error",
+                canActivate: [BrowserCanActivateGuard],
                 component: ErrorComponent
             }, {
                 path: "not-found",
+                canActivate: [BrowserCanActivateGuard],
                 component: NotFoundComponent
             },
             {

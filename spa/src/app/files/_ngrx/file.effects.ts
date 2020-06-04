@@ -69,7 +69,7 @@ export class FileEffects {
             ofType(
                 ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
                 ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
-                InitEntityStateAction.ACTION_TYPE,
+                InitEntityStateAction.ACTION_TYPE, // Init table data for newly selected tab, if table data isn't cached
                 SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
                 SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
                 SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range

@@ -5,6 +5,6 @@
  * State backing core HCA toolbar component.
  */
 
-export interface HCAToolbarState {
+export interface HCAToolbarComponentState {
     modalOpen: boolean;
 }
