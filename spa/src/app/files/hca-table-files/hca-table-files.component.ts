@@ -14,6 +14,7 @@ import { Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 // App dependencies
+import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
 import {
@@ -40,6 +41,9 @@ import { SearchTerm } from "../search/search-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { EntityName } from "../shared/entity-name.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
+import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
+import { SearchTermUrlService } from "../search/url/search-term-url.service";
+import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 
 @Component({
     selector: "hca-table-files",
@@ -68,11 +72,12 @@ export class HCATableFilesComponent implements OnInit {
     selectFileSummary$: Observable<FileSummary>;
     dataSource: EntitiesDataSource<FileRowMapper>;
     pagination$: Observable<Pagination>;
+    public dataLoaded$: Observable<boolean>;
 
     // Locals
     private ngDestroy$ = new Subject();
-    public dataLoaded$: Observable<boolean>;
-    
+    private selectedSearchTermsBySearchKey$: Observable<Map<string, Set<SearchTerm>>>;
+
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
 
@@ -81,14 +86,15 @@ export class HCATableFilesComponent implements OnInit {
     @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
 
     /**
-     * 
      * @param {Store<AppState>} store
      * @param {SearchTermHttpService} searchTermHttpService
+     * @param {SearchTermUrlService} searchTermUrlService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
                 private searchTermHttpService: SearchTermHttpService,
+                private searchTermUrlService: SearchTermUrlService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
@@ -110,6 +116,21 @@ export class HCATableFilesComponent implements OnInit {
         return {
             "file-download": true
         };
+    }
+
+    /**
+     * Dispatch action to track view of analysis protocol.
+     * 
+     * @param {AnalysisProtocolViewedEvent} event
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
+     */
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
+                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+
+        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
+        const action =
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS, currentQuery);
+        this.store.dispatch(action);
     }
 
     /**
@@ -146,18 +167,14 @@ export class HCATableFilesComponent implements OnInit {
             sort: sort.active,
             order: sort.direction
         };
-        
+
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action =
             new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.FILES, GASource.SEARCH_RESULTS, query);
         this.store.dispatch(action);
     }
 
-    /**
-     * Lifecycle hooks
-     */
-
-    ngAfterContentChecked() {
+    public ngAfterContentChecked() {
 
         this.cdref.detectChanges();
     }
@@ -199,6 +216,10 @@ export class HCATableFilesComponent implements OnInit {
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
             map(() => true)
+        );
+
+        this.selectedSearchTermsBySearchKey$ = this.store.pipe(
+            select(selectSelectedSearchTermsBySearchKey)
         );
     }
 }

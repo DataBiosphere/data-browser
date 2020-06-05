@@ -13,18 +13,23 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
+import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
 import { ContactView } from "../project-view/contact-view.model";
 import { ContributorView } from "../project-view/contributor-view.model";
 import { ProjectViewFactory } from "../project-view/project-view.factory";
+import { SearchTerm } from "../search/search-term.model";
+import { SearchTermUrlService } from "../search/url/search-term-url.service";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { Publication } from "../shared/publication.model";
+import { GASource } from "../../shared/analytics/ga-source.model";
 
 @Component({
     selector: "project-overview",
@@ -44,7 +49,8 @@ export class ProjectOverviewComponent implements OnDestroy {
      * @param {ActivatedRoute} activatedRoute
      */
     constructor(private projectAnalyticsService: ProjectAnalyticsService, 
-                private projectFactory: ProjectViewFactory, 
+                private projectFactory: ProjectViewFactory,
+                private searchTermUrlService: SearchTermUrlService,
                 private store: Store<AppState>, 
                 private activatedRoute: ActivatedRoute) {}
 
@@ -111,6 +117,21 @@ export class ProjectOverviewComponent implements OnDestroy {
         return curators && curators.length > 0;
     }
 
+
+    /**
+     * Dispatch action to track view of analysis protocol.
+     *
+     * @param {AnalysisProtocolViewedEvent} event
+     */
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
+                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+
+        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
+        const action =
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.PROJECT, currentQuery);
+        this.store.dispatch(action);
+    }
+    
     /**
      * Returns true if project publications exist.
      *
@@ -157,22 +178,29 @@ export class ProjectOverviewComponent implements OnDestroy {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        const project$ = this.store.pipe(select(selectSelectedProject));
+        const project$ = this.store.pipe(
+            select(selectSelectedProject),
+            filter(project => !!project)
+        );
+        
+        // Grab a reference to the set of selected search terms
+        const selectedSearchTermsBySearchKey$ = this.store.pipe(
+            select(selectSelectedSearchTermsBySearchKey)
+        );
+        
+        this.state$ = combineLatest(project$, selectedSearchTermsBySearchKey$).pipe(
+            takeUntil(this.ngDestroy$),
+            map(([project, selectedSearchTermsBySearchKey]) => {
 
-        this.state$ = project$
-            .pipe(
-                takeUntil(this.ngDestroy$),
-                filter(project => !!project),
-                map((project) => {
+                const projectView = this.projectFactory.getProjectView(project);
 
-                    const projectView = this.projectFactory.getProjectView(project);
-
-                    return {
-                        projectShortname: project.projectShortname,
-                        project: projectView
-                    };
-                })
-            );
+                return {
+                    projectShortname: project.projectShortname,
+                    project: projectView,
+                    selectedSearchTermsBySearchKey
+                };
+            })
+        );
 
         // Set up tracking of project tab
         this.initTracking();

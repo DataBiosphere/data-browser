@@ -74,7 +74,7 @@ export class ProjectEffects {
      * Trigger tracking of view of any project tab.
      */
     @Effect({dispatch: false})
-    viewProjectTab: Observable<Action> = this.actions$.pipe(
+    viewProjectTab$ = this.actions$.pipe(
         ofType(ViewProjectTabAction.ACTION_TYPE),
         tap((action: ViewProjectTabAction) => {
             this.gtmService.trackEvent(action.asEvent());

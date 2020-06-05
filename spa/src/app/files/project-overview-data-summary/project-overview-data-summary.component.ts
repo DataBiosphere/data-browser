@@ -6,9 +6,10 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
+import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { ConfigService } from "../../config/config.service";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import {
@@ -25,6 +26,9 @@ export class ProjectOverviewDataSummaryComponent {
 
     // Inputs
     @Input() dataSummaries: KeyValuePair[];
+
+    // Outputs
+    @Output() analysisProtocolViewed = new EventEmitter<AnalysisProtocolViewedEvent>();
 
     // Template variables
     public getColumnDescription = getColumnDescription;
@@ -68,6 +72,16 @@ export class ProjectOverviewDataSummaryComponent {
         }
 
         return values;
+    }
+
+    /**
+     * Let parent components know that analysis pipeline has been viewed.
+     * 
+     * @param {AnalysisProtocolViewedEvent} event
+     */
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
+
+        this.analysisProtocolViewed.emit(event)
     }
 
     /**
