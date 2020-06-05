@@ -11,7 +11,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 // App dependencies
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { selectSelectedSearchTermsBySearchKey } from "./search/search.selectors";
-import { getSelectedEntity, getSelectedTable, TableState } from "./table/table.state";
+import { getSelectedEntitySpec, getSelectedTable, TableState } from "./table/table.state";
 import { Pagination } from "../table/pagination/pagination.model";
 
 /**
@@ -80,8 +80,8 @@ export const selectEntities = createSelector(selectTableState, (tableState: Tabl
  *
  * @returns {EntitySpec}
  */
-export const selectSelectedEntity = createSelector(selectTableState, (tableState: TableState) => {
-    return getSelectedEntity(tableState);
+export const selectSelectedEntitySpec = createSelector(selectTableState, (tableState: TableState) => {
+    return getSelectedEntitySpec(tableState);
 });
 
 /**

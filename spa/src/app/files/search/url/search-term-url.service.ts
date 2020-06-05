@@ -25,7 +25,7 @@ export class SearchTermUrlService {
     /**
      * Build the default set of search terms - if no search terms are selected on app init, default species to Homo
      * Sapiens.
-     * 
+     *
      * @returns {QueryStringSearchTerm}
      */
     public getDefaultSearchState(): QueryStringSearchTerm {
@@ -34,8 +34,9 @@ export class SearchTermUrlService {
     }
 
     /**
-     * Parse filter query string parameter, if present, and convert string to query string search terms.
-     * 
+     * Parse filter query string parameter, if present, and convert string to query string search terms. Called when
+     * initializing app state from the query string.
+     *
      * @param {Params} params
      */
     public parseQueryStringSearchTerms(params: Params): QueryStringSearchTerm[] {
@@ -66,28 +67,32 @@ export class SearchTermUrlService {
     }
 
     /**
-     * Convert specified set of search terms into a URL-friendly string.
-     * 
+     * Convert specified set of search terms into a URL-friendly string. Called when updating the browser's location
+     * on select of file facets (location.updateState takes a string "query string" parameter). Also applicable for use as
+     * queryParams value for Angular routing. Called when generating UrlTree objects, for example, when redirecting
+     * internally from /projects to /projects?filter=x
+     *
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      * @returns {string}
      */
     public stringifySearchTerms(selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>): string {
 
         // Convert search terms to query string state
-        const queryStringSearchTerms = Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {
+        const filterQueryStringParams =
+            Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {
 
-            const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
-            accum.add({
-                [SearchTermUrl.FACET_NAME]: facetName,
-                [SearchTermUrl.VALUE]: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchValue())
-            });
-            return accum;
-        }, new Set<any>());
+                const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
+                accum.add({
+                    [SearchTermUrl.FACET_NAME]: facetName,
+                    [SearchTermUrl.VALUE]: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchValue())
+                });
+                return accum;
+            }, new Set<any>());
 
-        if ( queryStringSearchTerms.size > 0 ) {
-            return JSON.stringify(Array.from(queryStringSearchTerms));
+        if ( filterQueryStringParams.size > 0 ) {
+            return JSON.stringify(Array.from(filterQueryStringParams));
         }
-        
+
         return "";
     }
 

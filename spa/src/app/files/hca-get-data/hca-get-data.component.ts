@@ -23,7 +23,7 @@ import { AppState } from "../../_ngrx/app.state";
 import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
 import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
 import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
-import { selectSelectedEntity } from "../_ngrx/file.selectors";
+import { selectSelectedEntitySpec } from "../_ngrx/file.selectors";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { EntitySelectAction } from "../_ngrx/table/table.actions";
 import EntitySpec from "../shared/entity-spec";
@@ -283,7 +283,7 @@ export class HCAGetDataComponent implements OnInit {
     public ngOnInit() {
 
         // Determine the current selected tab (from table)
-        const selectedEntity$ = this.store.pipe(select(selectSelectedEntity));
+        const selectedEntity$ = this.store.pipe(select(selectSelectedEntitySpec));
 
         // Get the list of fileFacets to display
         const fileFacets$ = this.store.pipe(select(selectFacetFileFacets));

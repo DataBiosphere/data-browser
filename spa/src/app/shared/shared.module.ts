@@ -37,6 +37,7 @@ import { ToolbarNavDropDownComponent } from "./toolbar-nav-drop-down/toolbar-nav
 import { ToolbarNavItemComponent } from "./toolbar-nav-item/toolbar-nav-item.component";
 import { ToolbarNavSubMenuComponent} from "./toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { ToolbarNavSubMenuItemComponent } from "./toolbar-nav-sub-menu-item/toolbar-nav-sub-menu-item.component";
+import { UtilService } from "./util/util.service";
 import { WarningComponent } from "./warning/warning.component";
 import { WarningContentComponent } from "./warning/warning-content.component";
 import { WarningTitleComponent } from "./warning/warning-title.component";
@@ -77,7 +78,8 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
     providers: [
         BrowserCanActivateGuard,
         GTMService,
-        ResponsiveService
+        ResponsiveService,
+        UtilService
     ],
     exports: [
         AnnouncementComponent,

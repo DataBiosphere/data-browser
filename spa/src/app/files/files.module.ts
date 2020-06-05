@@ -100,6 +100,7 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
+import { ProjectsCanActivateGuard } from "./project/projects.can-activate.guard";
 import { ProjectService } from "./project/project.service";
 import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
@@ -268,6 +269,7 @@ const v2 = environment.version === "2.0";
         ProjectAnalyticsService,
         ProjectService,
         ProjectEditsService,
+        ProjectsCanActivateGuard,
         ProjectViewFactory,
         ReleaseService,
         SearchTermHttpService,

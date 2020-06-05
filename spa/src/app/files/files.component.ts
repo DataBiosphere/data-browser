@@ -7,12 +7,10 @@
 
 // Core dependencies
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
-import { Location } from "@angular/common";
-import * as _ from "lodash";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
-import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { FilesState } from "./files.state";
@@ -21,16 +19,15 @@ import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
     selectFileSummary,
     selectEntities,
-    selectSelectedEntity
+    selectSelectedEntitySpec
 } from "./_ngrx/file.selectors";
 import {
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
-    selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey
+    selectSelectedSearchTerms
 } from "./_ngrx/search/search.selectors";
 import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import { SearchTerm } from "./search/search-term.model";
-import { SearchTermUrlService } from "./search/url/search-term-url.service";
 import EntitySpec from "./shared/entity-spec";
 
 @Component({
@@ -48,14 +45,10 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     /**
      * @param {DeviceDetectorService} deviceService
-     * @param {SearchTermUrlService} locationService
-     * @param {Location} location
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
     constructor(private deviceService: DeviceDetectorService,
-                private locationService: SearchTermUrlService,
-                private location: Location,
                 private store: Store<AppState>,
                 private renderer: Renderer2) {
     }
@@ -100,35 +93,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Update URL on change of selected facets.
-     */
-    private initOnStateChanges() {
-
-        // Set up the URL state management - write to the browser address bar when the selected facets change.
-        combineLatest(
-            this.store.pipe(select(selectSelectedEntity)),
-            this.store.pipe(select(selectSelectedSearchTermsBySearchKey))
-        )
-        .pipe(
-            takeUntil(this.ngDestroy$),
-            distinctUntilChanged((previous, current) => {
-                return _.isEqual(previous, current);
-            })
-        )
-        .subscribe(([selectedEntity, selectedSearchTermsBySearchKey]) => {
-
-            const filterQueryString = this.locationService.stringifySearchTerms(selectedSearchTermsBySearchKey);
-            
-            const path = selectedEntity.key;
-            const params = new URLSearchParams();
-            if ( !!filterQueryString ) {
-                params.set("filter", filterQueryString);
-            }
-            this.location.replaceState(path, params.toString());
-        });
-    }
-
-    /**
      * Setup initial component state from store.
      */
     private initState() {
@@ -137,7 +101,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe(select(selectFileSummary)), // Counts
             this.store.pipe(select(selectFacetFacets)), // Complete list of facets to display - both file facets (facets with term lists) as well as range facets
             this.store.pipe(select(selectEntities)), // Set of tabs to be displayed
-            this.store.pipe(select(selectSelectedEntity)), // Current selected tab
+            this.store.pipe(select(selectSelectedEntitySpec)), // Current selected tab
             this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
             this.store.pipe(select(selectSearchTerms)),
             this.store.pipe( // Current set of selected projects, if any
@@ -196,6 +160,5 @@ export class FilesComponent implements OnInit, OnDestroy {
     public ngOnInit() {
 
         this.initState();
-        this.initOnStateChanges();
     }
 }

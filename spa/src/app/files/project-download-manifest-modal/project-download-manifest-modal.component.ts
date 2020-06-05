@@ -42,12 +42,11 @@ export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit 
 
     /**
      * @param {Store<AppState>} store
-     * @param {MatDialogRef<ProjectDownloadMatrixModalComponent>} dialogRef
+     * @param {MatDialogRef<ProjectDownloadManifestModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
-    constructor(
-        private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
         private dialogRef: MatDialogRef<ProjectDownloadManifestModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private router: Router) {

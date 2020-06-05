@@ -15,7 +15,7 @@ import { filter, takeUntil } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { ReleaseService } from "../../files/shared/release.service";
-import { HCAToolbarState } from "./hca-toolbar.state";
+import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import { Subject } from "rxjs/index";
@@ -33,7 +33,7 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     private currentUrl: string;
     private ngDestroy$ = new Subject();
     private portalUrl: string;
-    private state$ = new BehaviorSubject<HCAToolbarState>({
+    private state$ = new BehaviorSubject<HCAToolbarComponentState>({
         modalOpen: false
     });
 
@@ -100,11 +100,11 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
 
     /**
      * Returns true if release functionality is available on the current environment.
-     * 
+     *
      * @returns {boolean}
      */
     public isReleaseFeatureEnabled(): boolean {
-        
+
         return this.releaseService.isReleaseFeatureEnabled();
     }
 
@@ -139,7 +139,7 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
             takeUntil(this.ngDestroy$)
         ).subscribe((evt: NavigationEnd) => {
 
-                this.currentUrl = evt.url;
+            this.currentUrl = evt.url;
         });
     }
 

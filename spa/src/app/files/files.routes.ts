@@ -25,6 +25,7 @@ import { ReleaseComponent } from "./releases/release.component";
 import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
 import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
 import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
+import { ProjectsCanActivateGuard } from "./project/projects.can-activate.guard";
 
 export const routes: Route[] = [
     {
@@ -49,6 +50,7 @@ export const routes: Route[] = [
             {
                 path: "",
                 pathMatch: "full",
+                canActivate: [ProjectsCanActivateGuard],
                 component: FilesComponent
             },
             {

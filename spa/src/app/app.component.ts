@@ -218,12 +218,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 const filter = this.searchUrlService.parseQueryStringSearchTerms(params);
 
-                // Default app state to have human selected. This is only necessary if there is currently no filter
+                // Default app state is to have human selected. This is only necessary if there is currently no filter
                 // applied.
                 if ( filter.length === 0 ) {
                     filter.push(this.searchUrlService.getDefaultSearchState());
                 }
-                
+
                 this.store.dispatch(new SetViewStateAction(tab, filter));
 
                 if ( this.routerEventsSubscription ) {
