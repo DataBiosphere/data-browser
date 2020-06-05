@@ -124,30 +124,6 @@ export class TableEffects {
         );
 
     /**
-     * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from
-     * the store to update publication and contributor details, where specified.
-     */
-    @Effect()
-    fetchProject: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchProjectRequestAction.ACTION_TYPE),
-            switchMap((action: FetchProjectRequestAction) => {
-                
-                return this.store.pipe(
-                    select(selectProjectById, {id: action.projectId}),
-                    map((updatedProject: Project) => {
-                        
-                        // Grab the project from the release
-                        return {action, updatedProject};
-                    })
-                );
-            }),
-            switchMap(({action, updatedProject}) => 
-                this.projectService.fetchProjectById(action.projectId, updatedProject)),
-            map((project: Project) => new FetchProjectSuccessAction(project))
-        );
-
-    /**
      * Fetch table data, to update table data and corresponding pagination details. Update to term counts is not required.
      */
     @Effect()

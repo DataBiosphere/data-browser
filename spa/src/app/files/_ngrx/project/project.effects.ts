@@ -8,9 +8,9 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
+import { Action, select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { map, mergeMap, tap } from "rxjs/operators";
+import { distinct, map, mergeMap, switchMap, tap } from "rxjs/operators";
 
 // App dependencies
 import { FetchProjectTSVUrlRequestAction } from "./fetch-project-tsv-url-request.action";
@@ -18,7 +18,11 @@ import { FetchProjectTSVUrlSuccessAction } from "./fetch-project-tsv-url-success
 import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
+import { selectProjectById } from "../project-edits/project-edits.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
+import { Project } from "../../shared/project.model";
+import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
+import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
 
 @Injectable()
@@ -33,8 +37,38 @@ export class ProjectEffects {
     constructor(private gtmService: GTMService,
                 private projectService: ProjectService,
                 private store: Store<AppState>,
-                private actions$: Actions) {
-    }
+                private actions$: Actions) {}
+
+    /**
+     * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from
+     * the store to update publication and contributor details, where specified.
+     */
+    @Effect()
+    fetchProject: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectRequestAction.ACTION_TYPE),
+            // Prevent dupe hits to fetch project
+            distinct((action: FetchProjectRequestAction)  =>
+                action.projectId,
+                this.actions$.pipe(ofType(ClearSelectedProjectAction.ACTION_TYPE))), // Reset distinct check on clear of project
+            // Grab local overrides for the selected project
+            switchMap((action: FetchProjectRequestAction) => {
+
+                return this.store.pipe(
+                    select(selectProjectById, {id: action.projectId}),
+                    map((updatedProject: Project) => {
+
+                        // Grab the project from the release
+                        return {action, updatedProject};
+                    })
+                );
+            }),
+            // Fetch the project and apply any local overrides
+            switchMap(({action, updatedProject}) =>
+                this.projectService.fetchProjectById(action.projectId, updatedProject)),
+            // Success - update store with fetched project
+            map((project: Project) => new FetchProjectSuccessAction(project))
+        );
 
     /**
      * Trigger tracking of view of any project tab.
