@@ -7,6 +7,7 @@
 
 export enum GAAction {
     "CLEAR" = "Clear",
+    "CLICK" = "Click",
     "COPY_TO_CLIPBOARD" = "Copy to Clipboard",
     "DESELECT" = "Deselect",
     "DOWNLOAD" = "Download",

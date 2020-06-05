@@ -7,9 +7,11 @@
 
 // App dependencies
 import { ProjectView } from "../project-view/project-view.model";
+import { SearchTerm } from "../search/search-term.model";
 
 export interface ProjectOverviewComponentState {
 
     projectShortname: string;
     project: ProjectView;
+    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>
 }

@@ -199,7 +199,12 @@
                               [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
                         <hca-table-cell [ngSwitch]="isElementUnspecified(element.workflow)">
                             <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
-                            <analysis-protocol-pipeline-linker *ngSwitchDefault class="fontsize-xxs" [workflow]="element.workflow"></analysis-protocol-pipeline-linker>
+                            <ng-container *ngIf="(selectedSearchTermsBySearchKey$ | async) as selectedSearchTermsBySearchKey">
+                                <analysis-protocol-pipeline-linker *ngSwitchDefault
+                                                               class="fontsize-xxs"
+                                                               [workflow]="element.workflow"
+                                                               (analysisProtocolViewed)="onAnalysisProtocolViewed($event, selectedSearchTermsBySearchKey)"></analysis-protocol-pipeline-linker>
+                            </ng-container>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>

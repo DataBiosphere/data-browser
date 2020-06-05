@@ -7,6 +7,7 @@
 
 // App dependencies
 import { ConfigEffects } from "../config/_ngrx/config.effects";
+import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
 import { FileEffects } from "../files/_ngrx/file.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
@@ -19,6 +20,7 @@ import { TableEffects } from "../files/_ngrx/table/table.effects";
 import { TerraEffects } from "../files/_ngrx/terra/terra.effects";
 
 export const AppEffects = [
+    AnalysisProtocolEffects,
     ConfigEffects,
     FileEffects,
     FileManifestEffects,

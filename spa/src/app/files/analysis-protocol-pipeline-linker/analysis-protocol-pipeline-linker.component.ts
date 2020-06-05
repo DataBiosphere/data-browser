@@ -6,9 +6,10 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
+import { AnalysisProtocolViewedEvent } from "./analysis-protocol-viewed.event";
 import { ConfigService } from "../../config/config.service";
 
 @Component({
@@ -21,6 +22,9 @@ export class AnalysisProtocolPipelineLinkerComponent {
 
     // Inputs
     @Input() workflow: string;
+    
+    // Outputs
+    @Output() analysisProtocolViewed = new EventEmitter<AnalysisProtocolViewedEvent>();
 
     // Template variables
     public portalURL: string;
@@ -84,6 +88,19 @@ export class AnalysisProtocolPipelineLinkerComponent {
         }
 
         return this.workflow.split(", ");
+    }
+
+    /**
+     * Let parents know analysis protocol link has been clicked.
+     * 
+     * @param {string} analysisProtocol
+     */
+    public onAnalysisProtocolLinkClicked(analysisProtocol: string) {
+
+        this.analysisProtocolViewed.emit({
+            analysisProtocol,
+            url: this.getPipelineLink(analysisProtocol)
+        });
     }
 
     /**

@@ -15,7 +15,8 @@
                innerHTML="{{linkifyValues(dataSummary.value)}}"></p>
             <analysis-protocol-pipeline-linker *ngSwitchCase="'workflow'"
                                                class="fontsize-xs rhs"
-                                               [workflow]="dataSummary.value"></analysis-protocol-pipeline-linker>
+                                               [workflow]="dataSummary.value"
+                                               (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"></analysis-protocol-pipeline-linker>
             <p *ngSwitchDefault
                [ngClass]="getValueClassName(dataSummary.key, dataSummary.value)">{{dataSummary.value}}</p>
         </ng-container>

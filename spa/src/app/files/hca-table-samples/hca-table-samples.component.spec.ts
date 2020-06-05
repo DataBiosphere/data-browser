@@ -46,6 +46,7 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
+import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -135,6 +136,14 @@ describe("HCATableSamplesComponent", () => {
                     ])
                 },
                 {
+                    provide: SearchTermUrlService,
+                    useValue: jasmine.createSpyObj("SearchTermUrlService", [
+                        "getDefaultSearchState",
+                        "parseQueryStringSearchTerms",
+                        "stringifySearchTerms"
+                    ])
+                },
+                {
                     provide: TableRendererService,
                     useValue: jasmine.createSpyObj("TableRendererService", {
                         "onRenderCompleted": of(true)
@@ -173,7 +182,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -194,7 +204,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -229,7 +240,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -268,7 +280,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -291,7 +304,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -312,7 +326,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -333,7 +348,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         // Trigger change detection so template updates accordingly
@@ -355,7 +371,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         // Trigger change detection so template updates accordingly
@@ -377,7 +394,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -398,7 +416,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         // Trigger change detection so template updates accordingly
@@ -420,7 +439,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
@@ -443,7 +463,8 @@ describe("HCATableSamplesComponent", () => {
             of(SAMPLES_TABLE_MODEL.loading),
             of(SAMPLES_TABLE_MODEL.pagination),
             of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
         );
 
         fixture.detectChanges();
