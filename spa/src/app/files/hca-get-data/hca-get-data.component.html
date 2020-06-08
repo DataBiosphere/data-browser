@@ -3,7 +3,7 @@
         <ng-container title>{{getTitle()}}</ng-container>
     </hca-section-title>
     <hca-tab [tabs]="getDataTabs(state.selectedEntity)" [activeTab]="getActiveTab()"
-             (tabSelected)="onTabSelected($event)"></hca-tab>
+             (tabSelected)="onTabSelected($event, state.selectedSearchTermsBySearchKey)"></hca-tab>
     <div class="wrapper">
         <div class="get-data">
             <div>

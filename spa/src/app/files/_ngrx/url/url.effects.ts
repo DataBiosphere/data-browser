@@ -19,11 +19,11 @@ import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.acti
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { selectUrlSpecState } from "./url.selectors";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { EntityName } from "../../shared/entity-name.model";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
-import { EntitySelectAction } from "../table/table.actions";
 import { SetViewStateAction } from "../facet/set-view-state.action";
+import { SelectEntityAction } from "../entity/select-entity.action";
 
 @Injectable()
 export class UrlEffects {
@@ -50,7 +50,7 @@ export class UrlEffects {
         ofType(
             ClearSelectedTermsAction.ACTION_TYPE,
             ClearSelectedAgeRangeAction.ACTION_TYPE,
-            EntitySelectAction.ACTION_TYPE,
+            SelectEntityAction.ACTION_TYPE,
             SelectFileFacetTermAction.ACTION_TYPE,
             SelectFacetAgeRangeAction.ACTION_TYPE,
             SetViewStateAction.ACTION_TYPE

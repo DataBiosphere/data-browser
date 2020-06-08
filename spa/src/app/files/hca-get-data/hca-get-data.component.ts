@@ -18,16 +18,18 @@ import { ConfigService } from "../../config/config.service";
 import { DownloadViewState } from "./download-view-state.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { HCAGetDataState } from "./hca-get-data.state";
+import { HcaGetDataComponentState } from "./hca-get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
+import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
 import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
 import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
 import { selectSelectedEntitySpec } from "../_ngrx/file.selectors";
-import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
-import { EntitySelectAction } from "../_ngrx/table/table.actions";
+import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { Term } from "../shared/term.model";
+import { SearchTerm } from "../search/search-term.model";
+import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 @Component({
     selector: "hca-get-data",
@@ -50,15 +52,17 @@ export class HCAGetDataComponent implements OnInit {
     private ngDestroy$ = new Subject();
 
     // Template variables
-    private state$: Observable<HCAGetDataState>;
+    private state$: Observable<HcaGetDataComponentState>;
     private viewState = DownloadViewState.NONE;
 
     /**
      * @param {ConfigService} configService
+     * @param {SearchTermUrlService} searchTermUrlService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
     public constructor(private configService: ConfigService,
+                       private searchTermUrlService: SearchTermUrlService,
                        private router: Router,
                        private store: Store<AppState>) {
     }
@@ -189,14 +193,16 @@ export class HCAGetDataComponent implements OnInit {
      * Otherwise, selected entity in state is updated and return user back to table.
      *
      * @param {EntitySpec} tab
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onTabSelected(tab: EntitySpec) {
+    public onTabSelected(tab: EntitySpec, selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
 
         if ( this.viewState !== DownloadViewState.NONE ) {
             this.viewState = DownloadViewState.NONE;
         }
         else {
-            this.store.dispatch(new EntitySelectAction(tab.key));
+            const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
+            this.store.dispatch(new BackToEntityAction(tab.key, currentQuery));
             this.router.navigate(["/" + tab.key]);
         }
     }
@@ -290,6 +296,9 @@ export class HCAGetDataComponent implements OnInit {
 
         // Grab the current set of selected search terms
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+        
+        // Grab the current set of selected search terms keyed by search key
+        const selectedSearchTermsBySearchKey$ = this.store.pipe(select(selectSelectedSearchTermsBySearchKey));
 
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
@@ -300,9 +309,10 @@ export class HCAGetDataComponent implements OnInit {
             fileFacets$,
             matrixSupported$,
             selectedSearchTerms$,
+            selectedSearchTermsBySearchKey$
         )
             .pipe(
-                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms]) => {
+                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms, selectedSearchTermsBySearchKey]) => {
 
                     const disableFeature = this.configService.isV2();
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
@@ -314,7 +324,8 @@ export class HCAGetDataComponent implements OnInit {
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
-                        selectedSearchTerms
+                        selectedSearchTerms,
+                        selectedSearchTermsBySearchKey
                     };
                 })
             );
