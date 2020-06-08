@@ -18,16 +18,6 @@ export class TableOrderByAction implements Action {
 }
 
 /**
- * Action dispatched when tab is selected (eg Files or Samples).
- */
-export class EntitySelectAction implements Action {
-    public static ACTION_TYPE = "ENTITY.SELECT";
-    public readonly type = EntitySelectAction.ACTION_TYPE;
-
-    constructor(public key: string) {}
-}
-
-/**
  * Action dispatched when a project has been selected from the projects table and the corresponding project details are
  * to be requested from the server.
  */
@@ -59,7 +49,6 @@ export class FetchProjectFailureAction implements Action {
 export type All
     = TableSetPageAction
     | TableOrderByAction
-    | EntitySelectAction
     | FetchProjectRequestAction
     | FetchProjectSuccessAction
     | FetchProjectFailureAction;

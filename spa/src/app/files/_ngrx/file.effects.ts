@@ -36,9 +36,7 @@ import { EntityName } from "../shared/entity-name.model";
 import { FilesService } from "../shared/files.service";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
-import { EntitySelectAction } from "./table/table.actions";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
-import { getSelectedTable } from "./table/table.state";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 
 @Injectable()
@@ -208,29 +206,6 @@ export class FileEffects {
             )),
             switchMap((searchTerms: SearchTerm[]) => this.fileService.fetchFileSummary(searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
-        );
-
-    /**
-     * Handle action where tab is selected (eg Samples or Files).
-     */
-    @Effect()
-    switchTabs: Observable<Action> = this.actions$
-        .pipe(
-            ofType(EntitySelectAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectTableQueryParams),
-                take(1)
-            )),
-            map((tableQueryParams) => {
-
-                // Return cached table, if available
-                if ( getSelectedTable(tableQueryParams.tableState).data.length ) {
-                    return new NoOpAction();
-                }
-
-                // Table data has not been previously loaded and is therefore not cached.
-                return new InitEntityStateAction();
-            })
         );
 
     /**

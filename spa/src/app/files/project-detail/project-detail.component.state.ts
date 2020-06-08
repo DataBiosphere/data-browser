@@ -7,11 +7,13 @@
 
 // App dependencies
 import { Project } from "../shared/project.model";
+import { SearchTerm } from "../search/search-term.model";
 
-export interface ProjectDetailState {
+export interface ProjectDetailComponentState {
 
     externalResourcesExist: boolean;
     project: Project;
     projectInRelease: boolean;
     projectSelected: boolean;
+    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>;
 }

@@ -13,8 +13,9 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { FilesState } from "./files.state";
+import { FilesComponentState } from "./files.component.state";
 import { AppState } from "../_ngrx/app.state";
+import { SelectEntityAction } from "./_ngrx/entity/select-entity.action";
 import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
     selectFileSummary,
@@ -24,11 +25,11 @@ import {
 import {
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
-    selectSelectedSearchTerms
+    selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey
 } from "./_ngrx/search/search.selectors";
-import { EntitySelectAction } from "./_ngrx/table/table.actions";
 import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
+import { SearchTermUrlService } from "./search/url/search-term-url.service";
 
 @Component({
     selector: "bw-files",
@@ -38,17 +39,19 @@ import EntitySpec from "./shared/entity-spec";
 export class FilesComponent implements OnInit, OnDestroy {
 
     // Public/template variables
-    public state$: Observable<FilesState>;
+    public state$: Observable<FilesComponentState>;
 
     // Locals
     private ngDestroy$ = new Subject();
 
     /**
      * @param {DeviceDetectorService} deviceService
+     * @param {SearchTermUrlService} searchTermUrlService
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
     constructor(private deviceService: DeviceDetectorService,
+                private searchTermUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
                 private renderer: Renderer2) {
     }
@@ -86,10 +89,12 @@ export class FilesComponent implements OnInit, OnDestroy {
      * Handle click on tab - update selected entity.
      *
      * @param {EntitySpec} tab
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onTabSelected(tab: EntitySpec) {
+    public onTabSelected(tab: EntitySpec, selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
 
-        this.store.dispatch(new EntitySelectAction(tab.key));
+        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
+        this.store.dispatch(new SelectEntityAction(tab.key, currentQuery));
     }
 
     /**
@@ -103,6 +108,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe(select(selectEntities)), // Set of tabs to be displayed
             this.store.pipe(select(selectSelectedEntitySpec)), // Current selected tab
             this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
+            this.store.pipe(select(selectSelectedSearchTermsBySearchKey)), // Search terms keyed by search key, required for tracking of entity select action
             this.store.pipe(select(selectSearchTerms)),
             this.store.pipe( // Current set of selected projects, if any
                 select(selectSelectedProjectSearchTerms),
@@ -117,6 +123,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                          entities,
                          selectedEntity,
                          selectedSearchTerms,
+                         selectedSearchTermsBySearchKey,
                          searchTerms,
                          selectedProjectIds]) => {
 
@@ -127,7 +134,8 @@ export class FilesComponent implements OnInit, OnDestroy {
                         searchTerms,
                         selectedEntity,
                         selectedProjectIds,
-                        selectedSearchTerms
+                        selectedSearchTerms,
+                        selectedSearchTermsBySearchKey
                     };
                 }));
     }

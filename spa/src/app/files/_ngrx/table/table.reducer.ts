@@ -16,14 +16,12 @@ import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import * as tableStateService from "./table.state";
 import { TableState } from "./table.state";
-import {
-    EntitySelectAction,
-    FetchProjectSuccessAction
-} from "./table.actions";
+import { FetchProjectSuccessAction } from "./table.actions";
 import { TableModel } from "../../table/table.model";
 import { TermCountsUpdatedAction } from "./term-counts-updated.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
+import { SelectEntityAction } from "../entity/select-entity.action";
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
@@ -34,10 +32,10 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
     switch (action.type) {
 
         // User is switching tab, update selected entity.
-        case EntitySelectAction.ACTION_TYPE:
+        case SelectEntityAction.ACTION_TYPE:
 
             nextState = {
-                ...state, selectedEntity: (action as EntitySelectAction).key
+                ...state, selectedEntity: (action as SelectEntityAction).entityKey
             };
 
             return nextState;

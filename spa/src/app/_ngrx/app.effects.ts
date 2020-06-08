@@ -8,6 +8,7 @@
 // App dependencies
 import { ConfigEffects } from "../config/_ngrx/config.effects";
 import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
+import { EntityEffects } from "../files/_ngrx/entity/entity.effects";
 import { FileEffects } from "../files/_ngrx/file.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
@@ -23,6 +24,7 @@ import { UrlEffects } from "../files/_ngrx/url/url.effects";
 export const AppEffects = [
     AnalysisProtocolEffects,
     ConfigEffects,
+    EntityEffects,
     FileEffects,
     FileManifestEffects,
     IntegrationEffects,
