@@ -22,10 +22,7 @@ import {
 } from "../_ngrx/release/release.selectors";
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
-import {
-    selectSelectedProjectSearchTerms,
-    selectSelectedSearchTermsBySearchKey
-} from "../_ngrx/search/search.selectors";
+import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
@@ -197,21 +194,17 @@ export class ProjectDetailComponent {
             filter(integrations => !!integrations)
         );
 
-        // Grab the current set of selected search terms keyed by search key
-        const selectedSearchTermsBySearchKey$ = this.store.pipe(select(selectSelectedSearchTermsBySearchKey));
-
         // Set up component state
         this.state$ = combineLatest(
             project$,
             projectInRelease$,
             projectIntegrations$,
-            selectedProjectIds$,
-            selectedSearchTermsBySearchKey$
+            selectedProjectIds$
         )
         .pipe(
             takeUntil(this.ngDestroy$),
             filter(([project]) => !!project),
-            map(([project, projectInRelease, projectIntegrations, selectedProjectIds, selectedSearchTermsBySearchKey]) => {
+            map(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
 
                 const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
@@ -221,8 +214,7 @@ export class ProjectDetailComponent {
                     externalResourcesExist,
                     project,
                     projectInRelease,
-                    projectSelected,
-                    selectedSearchTermsBySearchKey
+                    projectSelected
                 };
             })
         );

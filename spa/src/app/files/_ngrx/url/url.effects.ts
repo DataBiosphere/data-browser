@@ -77,7 +77,6 @@ export class UrlEffects {
                 params.set("filter", filterQueryString);
             }
             this.location.replaceState(path, params.toString());
-            
         })
     );
 }

@@ -30,7 +30,6 @@ import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-proje
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { ProjectRowMapper } from "./project-row-mapper";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { SearchTerm } from "../search/search-term.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
@@ -45,10 +44,8 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 
 @Component({
@@ -83,7 +80,6 @@ export class HCATableProjectsComponent implements OnInit {
     // Locals
     private ngDestroy$ = new Subject();
     private dataLoaded$: Observable<boolean>;
-    private selectedSearchTermsBySearchKey$: Observable<Map<string, Set<SearchTerm>>>;
 
     // Inputs
     @Input() selectedProjectIds: string[];
@@ -96,16 +92,12 @@ export class HCATableProjectsComponent implements OnInit {
     /**
      * @param {Store<AppState>} store
      * @param {DeviceDetectorService} deviceService
-     * @param {SearchTermHttpService} searchTermHttpService
-     * @param {SearchTermUrlService} searchTermUrlService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private deviceService: DeviceDetectorService,
-                private searchTermHttpService: SearchTermHttpService,
-                private searchTermUrlService: SearchTermUrlService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 private router: Router) {
@@ -173,14 +165,11 @@ export class HCATableProjectsComponent implements OnInit {
      * Dispatch action to track view of analysis protocol.
      * 
      * @param {AnalysisProtocolViewedEvent} event
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
-                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
 
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
         const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS, currentQuery);
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -201,9 +190,8 @@ export class HCATableProjectsComponent implements OnInit {
      *
      * @param {Pagination} pm
      * @param {Sort} sort
-     * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
+    public sortTable(pm: Pagination, sort: Sort) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -231,9 +219,8 @@ export class HCATableProjectsComponent implements OnInit {
             order: sort.direction
         };
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.PROJECTS, GASource.SEARCH_RESULTS, query);
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.PROJECTS, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -294,10 +281,6 @@ export class HCATableProjectsComponent implements OnInit {
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
             map(() => true)
-        );
-
-        this.selectedSearchTermsBySearchKey$ = this.store.pipe(
-            select(selectSelectedSearchTermsBySearchKey)
         );
     }
 }

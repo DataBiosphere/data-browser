@@ -16,15 +16,6 @@ export class BackToEntityAction extends SelectEntityAction {
     public readonly type = BackToEntityAction.ACTION_TYPE;
 
     /**
-     * @param {string} entityKey
-     * @param {string} currentQuery
-     */
-    constructor(public entityKey: string,
-                public currentQuery: string) {
-        super(entityKey, currentQuery);
-    }
-
-    /**
      * Return the tracking event action for this action.
      *
      * @returns {GAAction}

@@ -28,7 +28,6 @@ import { selectSelectedEntitySpec } from "../_ngrx/file.selectors";
 import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { Term } from "../shared/term.model";
-import { SearchTerm } from "../search/search-term.model";
 import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 @Component({
@@ -193,16 +192,14 @@ export class HCAGetDataComponent implements OnInit {
      * Otherwise, selected entity in state is updated and return user back to table.
      *
      * @param {EntitySpec} tab
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onTabSelected(tab: EntitySpec, selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onTabSelected(tab: EntitySpec) {
 
         if ( this.viewState !== DownloadViewState.NONE ) {
             this.viewState = DownloadViewState.NONE;
         }
         else {
-            const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
-            this.store.dispatch(new BackToEntityAction(tab.key, currentQuery));
+            this.store.dispatch(new BackToEntityAction(tab.key));
             this.router.navigate(["/" + tab.key]);
         }
     }
@@ -297,9 +294,6 @@ export class HCAGetDataComponent implements OnInit {
         // Grab the current set of selected search terms
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
         
-        // Grab the current set of selected search terms keyed by search key
-        const selectedSearchTermsBySearchKey$ = this.store.pipe(select(selectSelectedSearchTermsBySearchKey));
-
         // Determine if Matrix files are included in the current files result set.
         this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
         const matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
@@ -308,11 +302,10 @@ export class HCAGetDataComponent implements OnInit {
             selectedEntity$,
             fileFacets$,
             matrixSupported$,
-            selectedSearchTerms$,
-            selectedSearchTermsBySearchKey$
+            selectedSearchTerms$
         )
             .pipe(
-                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms, selectedSearchTermsBySearchKey]) => {
+                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms]) => {
 
                     const disableFeature = this.configService.isV2();
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
@@ -324,8 +317,7 @@ export class HCAGetDataComponent implements OnInit {
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
-                        selectedSearchTerms,
-                        selectedSearchTermsBySearchKey
+                        selectedSearchTerms
                     };
                 })
             );

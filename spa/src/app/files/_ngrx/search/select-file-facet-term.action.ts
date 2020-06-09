@@ -31,27 +31,26 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @param {string} termName
      * @param {boolean} selected
      * @param {GASource} source
-     * @param {string} currentQuery
      */
     constructor(public readonly facetName: string,
                 public readonly termName: string,
                 public readonly selected = true,
-                public source: GASource,
-                public currentQuery: string) {}
+                public source: GASource) {}
 
     /**
      * Return the selected age range as a GA event.
-     * 
+     *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
         
         return {
             category: GACategory.SEARCH,
             action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
             label: this.termName,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
                 [GADimension.SOURCE]: this.source,

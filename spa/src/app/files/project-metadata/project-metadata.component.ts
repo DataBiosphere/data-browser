@@ -15,7 +15,6 @@ import { filter, map, take } from "rxjs/operators";
 
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { ProjectMetadataComponentState } from "./project-metadata.component.state";
@@ -45,14 +44,11 @@ export class ProjectMetadataComponent {
      */
     private initTracking() {
 
-        // Grab the current set of selected terms 
-        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-
-        combineLatest(this.state$, selectedSearchTerms$).pipe(
+        this.state$.pipe(
             take(1)
-        ).subscribe(([state, selectedSearchTerms]) => {
+        ).subscribe((state) => {
 
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_METADATA, state.projectShortname, selectedSearchTerms);
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_METADATA, state.projectShortname);
         });
     }
 

@@ -31,19 +31,18 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
      * @param {string} facetName
      * @param {AgeRange} ageRange
      * @param {GASource} source
-     * @param {string} currentQuery
      */
     constructor(public readonly facetName: string,
                 public readonly ageRange: AgeRange,
-                public source: GASource,
-                public currentQuery: string) {}
+                public source: GASource) {}
 
     /**
      * Return the de/selected term as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         const term = this.asSearchTerm().getDisplayValue();
         return {
@@ -51,7 +50,7 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
             action: GAAction.SELECT, // Always SELECT for this action (see ClearSelectedAgeRangeAction for DESELECT
             label: term,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,

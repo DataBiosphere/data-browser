@@ -16,7 +16,7 @@
                       [summary]="state.fileSummary">
     </hca-file-summary>
     <hca-tab [tabs]="state.entities" [activeTab]="state.selectedEntity"
-             (tabSelected)="onTabSelected($event, state.selectedSearchTermsBySearchKey)"></hca-tab>
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <hca-table-samples *ngIf="(state.selectedEntity).key == 'samples'"
                        [selectedSearchTerms]="state.selectedSearchTerms"></hca-table-samples>
     <hca-table-files *ngIf="(state.selectedEntity).key == 'files'"

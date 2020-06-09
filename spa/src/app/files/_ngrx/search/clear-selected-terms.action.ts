@@ -24,23 +24,23 @@ export class ClearSelectedTermsAction implements Action, TrackingAction {
 
     /**
      * @param {GASource} source
-     * @param {string} currentQuery
      */
-    constructor(public source: GASource, public currentQuery: string) {}
+    constructor(public source: GASource) {}
 
     /**
      * Return the clear action as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         return {
             category: GACategory.SEARCH,
             action: GAAction.CLEAR,
             label: "Clear All",
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.SOURCE]: this.source
             }

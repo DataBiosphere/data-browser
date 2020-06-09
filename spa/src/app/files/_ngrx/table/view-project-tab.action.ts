@@ -24,26 +24,25 @@ export class ViewProjectTabAction implements Action, TrackingAction {
      * @param {GAAction} tabName
      * @param {string} projectName
      * @param {string} projectUrl
-     * @param {string} currentQuery
      */
     constructor(public tabName: GAAction,
                 public projectName: string,
-                public projectUrl: string,
-                public currentQuery: string) {}
+                public projectUrl: string) {}
 
     /**
      * Return the cleared age range action as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         return {
             category: GACategory.PROJECT,
             action: this.tabName,
             label: this.projectName,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.projectUrl
             }
         };

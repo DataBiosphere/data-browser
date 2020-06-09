@@ -9,9 +9,9 @@
         <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
-                                    (facetTermSelected)="onFacetTermSelected(state.selectedSearchTerms, $event)"></file-type-summary-list>
+                                    (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
             <button class="button primary"
-                    type="button" 
+                    type="button"
                     (click)="onRequestManifest(state.selectedSearchTerms)"
                     [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Prepare Manifest</button>
         </ng-container>

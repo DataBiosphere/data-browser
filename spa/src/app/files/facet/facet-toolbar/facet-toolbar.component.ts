@@ -30,7 +30,6 @@ import { FacetAgeRangeName } from "../facet-age-range/facet-age-range-name.model
 import { SelectFacetAgeRangeAction } from "../../_ngrx/search/select-facet-age-range.action";
 import { ClearSelectedAgeRangeAction } from "../../_ngrx/search/clear-selected-age-range.action";
 import { GASource } from "../../../shared/analytics/ga-source.model";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 @Component({
     selector: "facet-toolbar",
@@ -60,14 +59,12 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {DeviceDetectorService} deviceService
      * @param {FacetDisplayService} facetDisplayService
      * @param {ResponsiveService} responsiveService
-     * @param {SearchTermHttpService} searchTermHttpService
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
     constructor(private deviceService: DeviceDetectorService,
                 private facetDisplayService: FacetDisplayService,
                 private responsiveService: ResponsiveService,
-                private searchTermHttpService: SearchTermHttpService,
                 private termSortService: TermSortService,
                 private store: Store<AppState>) {
     }
@@ -350,46 +347,38 @@ export class FacetToolbarComponent implements OnChanges {
      * Handle age range cleared.
      *
      * @param {string} facetName
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {AgeRange} ageRange
      */
-    public onAgeRangeCleared(facetName: string, selectedSearchTerms: SearchTerm[], ageRange: AgeRange) {
+    public onAgeRangeCleared(facetName: string, ageRange: AgeRange) {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const action = new ClearSelectedAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER, query);
+        const action = new ClearSelectedAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER);
         this.store.dispatch(action);
     }
-    
 
     /**
      * Handle age range selection and update store with the age range value.
      *
      * @param {string} facetName
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {AgeRange} ageRange
      */
-    public onAgeRangeSelected(facetName: string, selectedSearchTerms: SearchTerm[], ageRange: AgeRange) {
+    public onAgeRangeSelected(facetName: string, ageRange: AgeRange) {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const action = new SelectFacetAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER, query);
+        const action = new SelectFacetAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER);
         this.store.dispatch(action);
     }
 
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
-    public onFacetTermSelected(selectedSearchTerms: SearchTerm[], facetTermSelectedEvent: FacetTermSelectedEvent) {
+    public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action = new SelectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             facetTermSelectedEvent.selected,
-            GASource.FACET_BROWSER,
-            query);
+            GASource.FACET_BROWSER);
         this.store.dispatch(action);
     }
 

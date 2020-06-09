@@ -3,7 +3,7 @@
         <table-scroll [dataLoaded]="dataLoaded$">
             <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                        matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
-                       (matSortChange)="sortTable(pagination, $event, selectedSearchTerms)">
+                       (matSortChange)="sortTable(pagination, $event)">
                 <ng-container matColumnDef="sampleId">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('sampleId')"
                                      [ngStyle]="getColumnStyle('sampleId')">
@@ -150,12 +150,10 @@
                               [ngClass]="getColumnClass('workflow')" [ngStyle]="getColumnStyle('workflow')">
                         <hca-table-cell [ngSwitch]="isElementUnspecified(element.workflow)">
                             <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
-                            <ng-container *ngIf="(selectedSearchTermsBySearchKey$ | async) as selectedSearchTermsBySearchKey">
-                                <analysis-protocol-pipeline-linker *ngSwitchDefault 
-                                                                   class="fontsize-xxs" 
-                                                                   [workflow]="element.workflow"
-                                                                   (analysisProtocolViewed)="onAnalysisProtocolViewed($event, selectedSearchTermsBySearchKey)"></analysis-protocol-pipeline-linker>
-                            </ng-container>
+                            <analysis-protocol-pipeline-linker *ngSwitchDefault 
+                                                               class="fontsize-xxs" 
+                                                               [workflow]="element.workflow"
+                                                               (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"></analysis-protocol-pipeline-linker>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>

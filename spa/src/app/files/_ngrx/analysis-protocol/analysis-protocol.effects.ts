@@ -8,13 +8,15 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
-import { tap } from "rxjs/operators";
+import { select, Store } from "@ngrx/store";
+import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewAnalysisProtocolAction } from "./view-analysis-protocol.action";
+import { of } from "rxjs/index";
+import { selectPreviousQuery } from "../search/search.selectors";
 
 @Injectable()
 export class AnalysisProtocolEffects {
@@ -34,8 +36,11 @@ export class AnalysisProtocolEffects {
     @Effect({dispatch: false})
     viewAnalysisProtocol$ = this.actions$.pipe(
         ofType(ViewAnalysisProtocolAction.ACTION_TYPE),
-        tap((action: ViewAnalysisProtocolAction) => {
-            this.gtmService.trackEvent(action.asEvent());
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewAnalysisProtocolAction).asEvent(queryWhenActionTriggered));
         })
     );
 }

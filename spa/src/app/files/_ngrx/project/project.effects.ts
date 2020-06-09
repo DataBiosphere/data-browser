@@ -9,7 +9,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { distinct, map, mergeMap, switchMap, tap } from "rxjs/operators";
 
 // App dependencies
@@ -24,6 +24,8 @@ import { Project } from "../../shared/project.model";
 import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
 import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
+import { concatMap, take, withLatestFrom } from "rxjs/internal/operators";
+import { selectPreviousQuery } from "../search/search.selectors";
 
 @Injectable()
 export class ProjectEffects {
@@ -76,8 +78,11 @@ export class ProjectEffects {
     @Effect({dispatch: false})
     viewProjectTab$ = this.actions$.pipe(
         ofType(ViewProjectTabAction.ACTION_TYPE),
-        tap((action: ViewProjectTabAction) => {
-            this.gtmService.trackEvent(action.asEvent());
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),        
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewProjectTabAction).asEvent(queryWhenActionTriggered));
         })
     );
 

@@ -22,24 +22,23 @@ export class SelectEntityAction implements Action, TrackingAction {
 
     /**
      * @param {string} entityKey
-     * @param {string} currentQuery
      */
-    constructor(public entityKey: string,
-                public currentQuery: string) {}
+    constructor(public entityKey: string) {}
 
     /**
      * Return the cleared age range action as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         return {
             category: GACategory.ENTITY,
             action: this.getTrackingAction(),
             label: this.entityKey,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery
+                [GADimension.CURRENT_QUERY]: currentQuery,
             }
         };
     }

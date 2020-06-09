@@ -21,6 +21,7 @@ import { selectTableQueryParams } from "../file.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
 import { BackToEntityAction } from "./back-to-entity.action";
+import { selectPreviousQuery } from "../search/search.selectors";
 
 @Injectable()
 export class EntityEffects {
@@ -46,12 +47,15 @@ export class EntityEffects {
                 BackToEntityAction.ACTION_TYPE
             ),
             concatMap(action => of(action).pipe(
-                withLatestFrom(this.store.pipe(select(selectTableQueryParams), take(1)))
+                withLatestFrom(
+                    this.store.pipe(select(selectTableQueryParams), take(1)),
+                    this.store.pipe(select(selectPreviousQuery), take(1))
+                )
             )),
-            map(([action, tableQueryParams]) => {
+            map(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Track change of tab
-                this.gtmService.trackEvent((action as SelectEntityAction).asEvent());
+                this.gtmService.trackEvent((action as SelectEntityAction).asEvent(queryWhenActionTriggered));
 
                 // Return cached table, if available
                 if ( getSelectedTable(tableQueryParams.tableState).data.length ) {

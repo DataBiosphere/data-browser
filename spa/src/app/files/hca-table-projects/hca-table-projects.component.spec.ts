@@ -43,7 +43,6 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { PipeModule } from "../../pipe/pipe.module";
 import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
@@ -54,7 +53,6 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -169,21 +167,6 @@ describe("HCATableProjectsComponent", () => {
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
-                },
-                {
-                    provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermService", [
-                        "bindSearchTerms",
-                        "marshallSearchTerms"
-                    ])
-                },
-                {
-                    provide: SearchTermUrlService,
-                    useValue: jasmine.createSpyObj("SearchTermUrlService", [
-                        "getDefaultSearchState",
-                        "parseQueryStringSearchTerms",
-                        "stringifySearchTerms"
-                    ])
                 },
                 {
                     provide: TableRendererService,
@@ -302,8 +285,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -361,8 +343,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -392,8 +373,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -425,8 +405,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -460,8 +439,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -493,8 +471,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -528,8 +505,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
@@ -559,8 +535,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -590,8 +565,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
@@ -623,8 +597,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -656,8 +629,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -690,8 +662,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -721,8 +692,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -752,8 +722,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -783,8 +752,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -812,8 +780,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -841,8 +808,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -870,8 +836,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -899,8 +864,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -928,8 +892,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -957,8 +920,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -988,8 +950,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];
@@ -1019,8 +980,7 @@ describe("HCATableProjectsComponent", () => {
             of(new Map()), // project matrix URLs
             of({
                 status: ProjectTSVUrlRequestStatus.NOT_STARTED // selectProjectTSVUrlsByProjectId inside ProjectDownloadTSVComponent
-            }),
-            of([])
+            })
         );
 
         component.selectedProjectIds = [];

@@ -301,9 +301,9 @@ describe("HCAGetMatrixSpeciesSelectionComponent", () => {
         
         const facetName = FACET_SINGLE_SPECIES_HUMAN.name;
         const termName = FACET_SINGLE_SPECIES_HUMAN.terms[0].name;
-        component["dispatchSelectedSpeciesAction"](facetName, termName, []);
+        component["dispatchSelectedSpeciesAction"](facetName, termName);
         const actionToHaveBeenCalled =
-            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX, "");
+            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX);
         expect(testStore.dispatch).toHaveBeenCalledWith(actionToHaveBeenCalled)
     });
 

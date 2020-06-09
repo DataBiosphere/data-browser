@@ -38,7 +38,6 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
 import { ProjectDownloadTSVComponent } from "../project-download-tsv/project-download-tsv.component";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadService } from "../shared/download.service";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
@@ -49,7 +48,6 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 describe("HCATableFilesComponent", () => {
 
@@ -141,24 +139,10 @@ describe("HCATableFilesComponent", () => {
                 {
                     provide: "PAGINATION_SERVICE",
                     useClass: PaginationService
-                }, {
-                    provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermService", [
-                        "bindSearchTerms",
-                        "marshallSearchTerms"
-                    ])
                 },
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
-                },
-                {
-                    provide: SearchTermUrlService,
-                    useValue: jasmine.createSpyObj("SearchTermUrlService", [
-                        "getDefaultSearchState",
-                        "parseQueryStringSearchTerms",
-                        "stringifySearchTerms"
-                    ])
                 },
                 {
                     provide: TableRendererService,
@@ -257,8 +241,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -297,8 +280,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -321,8 +303,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -343,8 +324,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -365,8 +345,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -387,8 +366,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -409,8 +387,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -431,8 +408,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -453,8 +429,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();
@@ -477,8 +452,7 @@ describe("HCATableFilesComponent", () => {
             of(FILES_TABLE_MODEL.loading),
             of(FILES_TABLE_MODEL.pagination),
             of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
+            of(DEFAULT_FILE_SUMMARY)
         );
 
         fixture.detectChanges();

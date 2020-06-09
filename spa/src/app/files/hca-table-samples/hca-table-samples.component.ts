@@ -34,7 +34,6 @@ import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-t
 import { SampleRowMapper } from "./sample-row-mapper";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { EntityName } from "../shared/entity-name.model";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { SearchTerm } from "../search/search-term.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
@@ -47,10 +46,8 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 @Component({
     selector: "hca-table-samples",
@@ -83,7 +80,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     // Locals
     private ngDestroy$ = new Subject();
     private dataLoaded$: Observable<boolean>;
-    private selectedSearchTermsBySearchKey$: Observable<Map<string, Set<SearchTerm>>>;
 
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
@@ -94,13 +90,10 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
 
     /**
      * @param {Store<AppState>} store
-     * @param {SearchTermHttpService} searchTermHttpService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
-                private searchTermHttpService: SearchTermHttpService,
-                private searchTermUrlService: SearchTermUrlService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
@@ -109,14 +102,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * Dispatch action to track view of analysis protocol.
      * 
      * @param {AnalysisProtocolViewedEvent} event
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
-                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
 
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
         const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS, currentQuery);
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -155,9 +145,8 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
             order: sort.direction
         };
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.SAMPLES, GASource.SEARCH_RESULTS, query);
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.SAMPLES, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -203,10 +192,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
             map(() => true)
-        );
-
-        this.selectedSearchTermsBySearchKey$ = this.store.pipe(
-            select(selectSelectedSearchTermsBySearchKey)
         );
     }
 }

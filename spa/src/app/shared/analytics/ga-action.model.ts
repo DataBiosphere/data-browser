@@ -12,6 +12,8 @@ export enum GAAction {
     "DESELECT" = "Deselect",
     "DOWNLOAD" = "Download",
     "LAUNCH" = "Launch",
+    "NEXT_PAGE" = "Next Page",
+    "PREVIOUS_PAGE" = "Previous Page",
     "REQUEST" = "Request",
     "RETURN_TO_TAB" = "Return to Tab",
     "SELECT" = "Select",

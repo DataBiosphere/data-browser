@@ -34,7 +34,7 @@ export function reducer(state: SearchState = SearchState.getDefaultState(), acti
 
         // Clear all search terms
         case ClearSelectedTermsAction.ACTION_TYPE:
-            return SearchState.getDefaultState();
+            return state.clearAllSelectedSearchTerms();
             
         // Term or project has been selected/deselected
         case SelectFileFacetTermAction.ACTION_TYPE:

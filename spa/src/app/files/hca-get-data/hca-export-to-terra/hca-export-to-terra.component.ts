@@ -26,7 +26,6 @@ import { ExportToTerraRequestAction } from "../../_ngrx/terra/export-to-terra-re
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
 import { SearchTerm } from "../../search/search-term.model";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
@@ -49,13 +48,11 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
      *
      * @param {ConfigService} configService
      * @param {TerraService} terraService
-     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      * @param {Window} window
      */
     constructor(private configService: ConfigService,
                 private terraService: TerraService,
-                private searchTermHttpService: SearchTermHttpService,
                 private store: Store<AppState>,
                 @Inject("Window") window: Window) {
 
@@ -181,18 +178,15 @@ export class HCAExportToTerraComponent implements OnDestroy, OnInit {
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
-    public onFacetTermSelected(selectedSearchTerms: SearchTerm[], facetTermSelectedEvent: FacetTermSelectedEvent) {
+    public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action = new SelectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             facetTermSelectedEvent.selected,
-            GASource.COHORT_EXPORT,
-            query);
+            GASource.COHORT_EXPORT);
         this.store.dispatch(action);
     }
 

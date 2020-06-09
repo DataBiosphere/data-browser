@@ -132,7 +132,7 @@ describe("Table Effects", () => {
     });
 
     /**
-     * Only table data should be updated when viewing a project tab and there is a selected project search term. 
+     * Only table data should be updated when viewing a project tab and there is a selected project search term.
      */
     it("fetchTableData$ - should update table data only", () => {
 
@@ -160,7 +160,13 @@ describe("Table Effects", () => {
         store.setState(DEFAULT_FILES_STATE);
 
         actions = hot("--a-", {
-            a: new TableNextPageAction({"search_after":"10x 1 Run Integration Test","search_after_uid":"doc#1af6d535-81f1-4a3f-8626-830ae8668867","size":15,"sort":"projectTitle","order":"asc"})
+            a: new TableNextPageAction({
+                "search_after": "10x 1 Run Integration Test",
+                "search_after_uid": "doc#1af6d535-81f1-4a3f-8626-830ae8668867",
+                "size": 15,
+                "sort": "projectTitle",
+                "order": "asc"
+            }, 1)
         });
 
         const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
@@ -180,7 +186,13 @@ describe("Table Effects", () => {
         store.setState(DEFAULT_FILES_STATE);
 
         actions = hot("--a-", {
-            a: new TablePreviousPageAction({"search_before":"Assessing the relevance of organoids to model inter-individual variation","search_before_uid":"doc#2c4724a4-7252-409e-b008-ff5c127c7e89","size":15,"sort":"projectTitle","order":"asc"})
+            a: new TablePreviousPageAction({
+                "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                "size": 15,
+                "sort": "projectTitle",
+                "order": "asc"
+            }, 2)
         });
 
         const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
@@ -201,10 +213,15 @@ describe("Table Effects", () => {
 
         actions = hot("--a-", {
             a: new FetchSortedTableDataRequestAction(
-                {"search_before":"Assessing the relevance of organoids to model inter-individual variation","search_before_uid":"doc#2c4724a4-7252-409e-b008-ff5c127c7e89","size":15,"sort":"projectTitle","order":"desc"},
+                {
+                    "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                    "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                    "size": 15,
+                    "sort": "projectTitle",
+                    "order": "desc"
+                },
                 EntityName.PROJECTS,
-                GASource.SEARCH_RESULTS,
-                "")
+                GASource.SEARCH_RESULTS)
         });
 
         const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;

@@ -33,5 +33,5 @@ export function selectProject(): SearchState {
 
     return new SearchState([], new Map([
         [FileFacetName.PROJECT_ID, new Set([projectSearchTerm])]
-    ]));
+    ]), "");
 }

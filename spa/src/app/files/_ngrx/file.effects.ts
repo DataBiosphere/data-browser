@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { map, mergeMap, switchMap, take } from "rxjs/operators";
+import { concatMap, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { TrackingAction } from "./analytics/tracking.action";
@@ -26,7 +26,7 @@ import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
-import { selectSelectedSearchTerms } from "./search/search.selectors";
+import { selectPreviousQuery, selectSelectedSearchTerms } from "./search/search.selectors";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { SearchTerm } from "../search/search-term.model";
 import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
@@ -72,11 +72,14 @@ export class FileEffects {
                 SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
                 SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
             ),
-            mergeMap((action) => {
+            concatMap(action => of(action).pipe(
+                withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            )),
+            mergeMap(([action, queryWhenActionTriggered]) => {
 
                 // If this action is a tracking action, send tracking event.
                 if ( (action as TrackingAction).asEvent ) {
-                    this.gtmService.trackEvent((action as TrackingAction).asEvent());
+                    this.gtmService.trackEvent((action as TrackingAction).asEvent(queryWhenActionTriggered));
                 }
 
                 // Return an array of actions that need to be dispatched - we need to (re-)request summary and facet

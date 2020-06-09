@@ -25,7 +25,6 @@ import { SelectedSearchTermOption } from "./selected-search-term-option.model";
 import { TermSortService } from "../sort/term-sort.service";
 import { FacetDisplayService } from "../facet/facet-display.service";
 import { GASource } from "../../shared/analytics/ga-source.model";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Component({
     selector: "hca-search",
@@ -49,12 +48,10 @@ export class HCASearchComponent implements OnInit, OnChanges {
 
     /**
      * @param {FacetDisplayService} facetDisplayService
-     * @param {SearchTermHttpService} searchTermHttpService
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
     constructor(private facetDisplayService: FacetDisplayService,
-                private searchTermHttpService: SearchTermHttpService,
                 private termSortService: TermSortService,
                 private store: Store<AppState>) {}
 
@@ -90,10 +87,9 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * Search term has been selected from list - emit appropriate event depending on whether a facet or entity was
      * selected.
      *
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {MatAutocompleteSelectedEvent} event
      */
-    public onSearchTermSelected(selectedSearchTerms: SearchTerm[], event: MatAutocompleteSelectedEvent) {
+    public onSearchTermSelected(event: MatAutocompleteSelectedEvent) {
 
         const selectedSearchTermOption = event.option.value;
         
@@ -101,11 +97,9 @@ export class HCASearchComponent implements OnInit, OnChanges {
         const displayValue = selectedSearchTermOption.option.displayValue;
         const searchValue = selectedSearchTermOption.option.searchValue;
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-
         const action = (searchKey === FileFacetName.PROJECT_ID) ?
             new SelectProjectIdAction(searchValue, displayValue) :
-            new SelectFileFacetTermAction(searchKey, searchValue, true, GASource.SEARCH, query);
+            new SelectFileFacetTermAction(searchKey, searchValue, true, GASource.SEARCH);
         this.store.dispatch(action);
 
         // Clear the filter input.

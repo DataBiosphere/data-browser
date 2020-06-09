@@ -25,11 +25,10 @@ import {
 import {
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
-    selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey
+    selectSelectedSearchTerms
 } from "./_ngrx/search/search.selectors";
 import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
-import { SearchTermUrlService } from "./search/url/search-term-url.service";
 
 @Component({
     selector: "bw-files",
@@ -46,12 +45,10 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     /**
      * @param {DeviceDetectorService} deviceService
-     * @param {SearchTermUrlService} searchTermUrlService
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
     constructor(private deviceService: DeviceDetectorService,
-                private searchTermUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
                 private renderer: Renderer2) {
     }
@@ -89,12 +86,10 @@ export class FilesComponent implements OnInit, OnDestroy {
      * Handle click on tab - update selected entity.
      *
      * @param {EntitySpec} tab
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onTabSelected(tab: EntitySpec, selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onTabSelected(tab: EntitySpec) {
 
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
-        this.store.dispatch(new SelectEntityAction(tab.key, currentQuery));
+        this.store.dispatch(new SelectEntityAction(tab.key));
     }
 
     /**
@@ -108,7 +103,6 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe(select(selectEntities)), // Set of tabs to be displayed
             this.store.pipe(select(selectSelectedEntitySpec)), // Current selected tab
             this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
-            this.store.pipe(select(selectSelectedSearchTermsBySearchKey)), // Search terms keyed by search key, required for tracking of entity select action
             this.store.pipe(select(selectSearchTerms)),
             this.store.pipe( // Current set of selected projects, if any
                 select(selectSelectedProjectSearchTerms),
@@ -123,7 +117,6 @@ export class FilesComponent implements OnInit, OnDestroy {
                          entities,
                          selectedEntity,
                          selectedSearchTerms,
-                         selectedSearchTermsBySearchKey,
                          searchTerms,
                          selectedProjectIds]) => {
 
@@ -134,8 +127,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                         searchTerms,
                         selectedEntity,
                         selectedProjectIds,
-                        selectedSearchTerms,
-                        selectedSearchTermsBySearchKey
+                        selectedSearchTerms
                     };
                 }));
     }
