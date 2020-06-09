@@ -14,8 +14,6 @@ import {
 // App dependencies
 import EntitySpec from "../../files/shared/entity-spec";
 
-// App dependencies
-
 @Component({
     selector: "hca-tab",
     templateUrl: "./hca-tab.component.html",
@@ -31,10 +29,6 @@ export class HCATabComponent {
 
     // Outputs
     @Output() tabSelected = new EventEmitter<EntitySpec[]>();
-
-    /**
-     * Public API
-     */
 
     /**
      * Return the set of CSS class names that are applicable to the tab.
@@ -59,6 +53,18 @@ export class HCATabComponent {
     public onClickTab(tab: EntitySpec[]): void {
 
         this.tabSelected.emit(tab);
+    }
+
+    /**
+     * Track by function used when displaying the set of tabs.
+     *
+     * @param {number} index
+     * @param {EntitySpec} tab
+     * @returns {string}
+     */
+    public trackByFn(index: number, tab: EntitySpec): string {
+
+        return tab.key;
     }
 
 }
