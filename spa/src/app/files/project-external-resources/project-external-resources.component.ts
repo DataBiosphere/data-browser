@@ -40,7 +40,7 @@ export class ProjectExternalResourcesComponent {
         project$.pipe(
             take(1)
         ).subscribe((project) => {
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_EXTERNAL_RESOURCES, project.projectShortname);
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_EXTERNAL_RESOURCES, project.entryId, project.projectShortname);
         });
     }
 

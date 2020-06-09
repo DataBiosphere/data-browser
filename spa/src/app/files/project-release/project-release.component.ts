@@ -60,12 +60,12 @@ export class ProjectReleaseComponent implements OnDestroy, OnInit {
         // Grab the release project
         this.store.pipe(
             select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId: projectId}),
-            filter(release => !!release && release.length),
+            filter(release => !!release),
             take(1)
-        ).subscribe(([release]) => {
+        ).subscribe((release) => {
 
-            const projectShortname = release.projects[0].projectShortname;
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_RELEASES, projectShortname);
+            const project = release.projects[0];
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_RELEASES, project.projectId, project.projectShortname);
         })
     }
 

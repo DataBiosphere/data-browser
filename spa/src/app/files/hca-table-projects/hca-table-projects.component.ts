@@ -182,7 +182,7 @@ export class HCATableProjectsComponent implements OnInit {
      */
     public onProjectSelected(projectId: string, projectName: string, selected: boolean) {
 
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectName, !selected));
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectName, !selected, GASource.SEARCH_RESULTS));
     }
     
     /**

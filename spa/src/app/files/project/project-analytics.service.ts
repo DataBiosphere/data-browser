@@ -25,13 +25,14 @@ export class ProjectAnalyticsService {
      * on view of tab.
      * 
      * @param {GAAction} tabName
+     * @param {string} projectId
      * @param {string} projectShortname
      */
-    public trackTabView(tabName: GAAction, projectShortname: string) {
+    public trackTabView(tabName: GAAction, projectId: string, projectShortname: string) {
 
         const url = window.location.href;
         const action =
-            new ViewProjectTabAction(tabName, projectShortname, url);
+            new ViewProjectTabAction(tabName, projectId, projectShortname, url);
         this.store.dispatch(action);
     }
 }

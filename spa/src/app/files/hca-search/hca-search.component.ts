@@ -98,7 +98,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
         const searchValue = selectedSearchTermOption.option.searchValue;
 
         const action = (searchKey === FileFacetName.PROJECT_ID) ?
-            new SelectProjectIdAction(searchValue, displayValue) :
+            new SelectProjectIdAction(searchValue, displayValue, true, GASource.SEARCH) :
             new SelectFileFacetTermAction(searchKey, searchValue, true, GASource.SEARCH);
         this.store.dispatch(action);
 

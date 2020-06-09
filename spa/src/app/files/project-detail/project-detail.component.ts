@@ -32,6 +32,7 @@ import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
 import { ProjectDetailComponentState } from "./project-detail.component.state";
 import { ReleaseService } from "../shared/release.service";
+import { GASource } from "../../shared/analytics/ga-source.model";
 
 @Component({
     selector: "project-detail",
@@ -104,7 +105,7 @@ export class ProjectDetailComponent {
      */
     public onProjectSelected(projectSelected: boolean, projectId: string, projectShortname: string) {
 
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !projectSelected));
+        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !projectSelected, GASource.PROJECT));
         this.router.navigate(["/projects"]);
     }
 

@@ -49,7 +49,8 @@ export class ProjectExpressionMatricesComponent {
         this.state$.pipe(
             take(1)
         ).subscribe((state) => {
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_MATRICES, state.project.projectShortname);
+            const project = state.project;
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_MATRICES, project.entryId, project.projectShortname);
         });
     }
 
