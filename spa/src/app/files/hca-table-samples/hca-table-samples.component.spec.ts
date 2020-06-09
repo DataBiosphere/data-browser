@@ -36,7 +36,6 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSamplesComponent } from "./hca-table-samples.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
@@ -46,7 +45,6 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { SAMPLES_TABLE_MODEL } from "./table-state-table-model-samples.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 
 describe("HCATableSamplesComponent", () => {
 
@@ -128,20 +126,6 @@ describe("HCATableSamplesComponent", () => {
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
-                }, {
-                    provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermService", [
-                        "bindSearchTerms",
-                        "marshallSearchTerms"
-                    ])
-                },
-                {
-                    provide: SearchTermUrlService,
-                    useValue: jasmine.createSpyObj("SearchTermUrlService", [
-                        "getDefaultSearchState",
-                        "parseQueryStringSearchTerms",
-                        "stringifySearchTerms"
-                    ])
                 },
                 {
                     provide: TableRendererService,

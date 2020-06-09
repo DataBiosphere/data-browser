@@ -25,7 +25,6 @@ import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fet
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SearchTerm } from "../../search/search-term.model";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { ManifestResponse } from "../../shared/manifest-response.model";
@@ -48,13 +47,11 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
-     * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      */
     constructor(
         private configService: ConfigService,
         private fileManifestService: FileManifestService,
-        private searchTermHttpService: SearchTermHttpService,
         private store: Store<AppState>) {
 
         this.portalURL = this.configService.getPortalUrl();
@@ -150,18 +147,15 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     /**
      * Handle click on term in list of terms - update store to toggle selected value of term.
      *
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
-    public onFacetTermSelected(selectedSearchTerms: SearchTerm[], facetTermSelectedEvent: FacetTermSelectedEvent) {
+    public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action = new SelectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             facetTermSelectedEvent.selected,
-            GASource.COHORT_MANIFEST,
-            query);
+            GASource.COHORT_MANIFEST);
         this.store.dispatch(action);
     }
 

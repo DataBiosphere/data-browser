@@ -38,12 +38,9 @@ import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
 import { SearchTerm } from "../search/search-term.model";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { EntityName } from "../shared/entity-name.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
-import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 
 @Component({
     selector: "hca-table-files",
@@ -76,7 +73,6 @@ export class HCATableFilesComponent implements OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    private selectedSearchTermsBySearchKey$: Observable<Map<string, Set<SearchTerm>>>;
 
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
@@ -87,17 +83,12 @@ export class HCATableFilesComponent implements OnInit {
 
     /**
      * @param {Store<AppState>} store
-     * @param {SearchTermHttpService} searchTermHttpService
-     * @param {SearchTermUrlService} searchTermUrlService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
     constructor(private store: Store<AppState>,
-                private searchTermHttpService: SearchTermHttpService,
-                private searchTermUrlService: SearchTermUrlService,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef) {
-    }
+                private elementRef: ElementRef) {}
 
     /**
      * Returns class download and class truncate (if table data is not spaced).
@@ -122,14 +113,11 @@ export class HCATableFilesComponent implements OnInit {
      * Dispatch action to track view of analysis protocol.
      * 
      * @param {AnalysisProtocolViewedEvent} event
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
-                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
 
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
         const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS, currentQuery);
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -138,9 +126,8 @@ export class HCATableFilesComponent implements OnInit {
      *
      * @param {Pagination} pm
      * @param {Sort} sort
-     * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
+    public sortTable(pm: Pagination, sort: Sort) {
 
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
@@ -168,9 +155,8 @@ export class HCATableFilesComponent implements OnInit {
             order: sort.direction
         };
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.FILES, GASource.SEARCH_RESULTS, query);
+            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.FILES, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 
@@ -216,10 +202,6 @@ export class HCATableFilesComponent implements OnInit {
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
             map(() => true)
-        );
-
-        this.selectedSearchTermsBySearchKey$ = this.store.pipe(
-            select(selectSelectedSearchTermsBySearchKey)
         );
     }
 }

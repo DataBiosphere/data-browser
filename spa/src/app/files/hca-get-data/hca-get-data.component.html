@@ -3,7 +3,7 @@
         <ng-container title>{{getTitle()}}</ng-container>
     </hca-section-title>
     <hca-tab [tabs]="getDataTabs(state.selectedEntity)" [activeTab]="getActiveTab()"
-             (tabSelected)="onTabSelected($event, state.selectedSearchTermsBySearchKey)"></hca-tab>
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <div class="wrapper">
         <div class="get-data">
             <div>
@@ -23,7 +23,6 @@
                     </ng-container>
                     <hca-get-matrix-species-selection *ngSwitchCase="'MATRIX_SPECIES_SELECTION'"
                                                       [speciesFileFacet]="getSpeciesFileFacet(state.fileFacets)"
-                                                      [selectedSearchTerms]="state.selectedSearchTerms"
                                                       (speciesSelected)="onDownloadSelected('MATRIX')"></hca-get-matrix-species-selection>
                     <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
                     <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>

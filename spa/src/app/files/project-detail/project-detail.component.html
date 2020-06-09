@@ -1,6 +1,5 @@
 <pop-layout *ngIf="state$ | async as state"
-            [tabs]="getProjectDetailTabs()"
-            [selectedSearchTermsBySearchKey]="state.selectedSearchTermsBySearchKey">
+            [tabs]="getProjectDetailTabs()">
     <ng-container title>Explore Project</ng-container>
     <project-nav nav
                  [externalResourcesExist]="state.externalResourcesExist"

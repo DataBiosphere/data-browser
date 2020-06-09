@@ -33,7 +33,6 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
 
     // Inputs/outputs
     @Input() speciesFileFacet: FileFacet;
-    @Input() selectedSearchTerms: SearchTerm[];
     @Output() speciesSelected = new EventEmitter<boolean>();
 
     /**
@@ -71,9 +70,8 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
      * 
      * @param {FileFacet} speciesFileFacet
      * @param {CheckboxOption[]} speciesCheckboxOptions
-     *  @param {SearchTerm[]} selectedSearchTerms
      */
-    public onSpeciesSelected(speciesFileFacet: FileFacet, speciesCheckboxOptions: CheckboxOption[], selectedSearchTerms: SearchTerm[]) {
+    public onSpeciesSelected(speciesFileFacet: FileFacet, speciesCheckboxOptions: CheckboxOption[]) {
 
         // Determine the set of selected species and update state
         const selectedSpeciesOptions = speciesCheckboxOptions.filter(option => {
@@ -81,7 +79,7 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
         });
 
         selectedSpeciesOptions.forEach(option => {
-            this.dispatchSelectedSpeciesAction(speciesFileFacet.name, option.value, selectedSearchTerms);
+            this.dispatchSelectedSpeciesAction(speciesFileFacet.name, option.value);
         });
         
         // Let parents know species have been selected, and exit component
@@ -93,13 +91,11 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
      *
      * @param {string} facetName ("Genus Species")
      * @param {string} termName (species)
-     * @param {SearchTerm[]} selectedSearchTerms
      */
-    private dispatchSelectedSpeciesAction(facetName: string, termName: string, selectedSearchTerms: SearchTerm[]): void {
+    private dispatchSelectedSpeciesAction(facetName: string, termName: string): void {
 
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const selectTermAction =
-            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX, query);
+            new SelectFileFacetTermAction(facetName, termName, true, GASource.COHORT_MATRIX);
         this.store.dispatch(selectTermAction);
     }
 
@@ -153,7 +149,7 @@ export class HCAGetMatrixSpeciesSelectionComponent implements OnChanges {
         const speciesTerms = this.speciesFileFacet.terms;
         if ( speciesTerms.length === 1 && this.isTermHomoSapiens(speciesTerms[0].name) ) {
 
-            this.dispatchSelectedSpeciesAction(this.speciesFileFacet.name, speciesTerms[0].name, this.selectedSearchTerms);
+            this.dispatchSelectedSpeciesAction(this.speciesFileFacet.name, speciesTerms[0].name);
 
             // Species selection can be skipped - exit component
             this.speciesSelected.emit(true);

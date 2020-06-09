@@ -13,7 +13,6 @@ import { Store } from "@ngrx/store";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { EntityName } from "../../files/shared/entity-name.model";
-import { SearchTerm } from "../../files/search/search-term.model";
 import { SearchTermUrlService } from "../../files/search/url/search-term-url.service";
 import EntitySpec from "../../files/shared/entity-spec";
 import { BackToEntityAction } from "../../files/_ngrx/entity/back-to-entity.action";
@@ -27,7 +26,6 @@ export class PopLayoutComponent {
 
     // Inputs
     @Input() activeTab: EntitySpec;
-    @Input() selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>> = new Map();
     @Input() tabs: EntitySpec[];
 
     /**
@@ -73,16 +71,14 @@ export class PopLayoutComponent {
      * Handle click on tab - update selected entity in state and return user back to tab key.
      *
      * @param {EntitySpec} tab
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    public onTabSelected(tab: EntitySpec, selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onTabSelected(tab: EntitySpec) {
 
         // Only update state if we have a tab key that corresponds to an entity. There are cases, for example the "back
         // to releases" tab key that does not correspond to an entity. In this case, we use projects as the default.
         const tabKey = tab.key;
         const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
-        this.store.dispatch(new BackToEntityAction(selectedEntity, currentQuery));
+        this.store.dispatch(new BackToEntityAction(selectedEntity));
         
         // Navigate to specified tab key
         this.router.navigate(["/" + tab.key]);

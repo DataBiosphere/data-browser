@@ -13,6 +13,7 @@ import * as _ from "lodash";
 import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "../facet/set-view-state.action";
+import { ResponseTermService } from "../../http/response-term.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
@@ -20,6 +21,7 @@ import { SearchEntity } from "../../search/search-entity.model";
 import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
 import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-name.model";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchAgeRange } from "../../search/search-age-range.model";
 import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 
@@ -28,12 +30,16 @@ export class SearchState {
     public readonly searchTerms: SearchTerm[] = []; // Set of possible search terms that are selectable
     public readonly selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>; // Current set of search terms, keyed by facet/entity name
     public readonly selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
+    public readonly previousQuery: string; // Stringified version of the previous set of selected search terms
+    
+    private searchTermHttpService: SearchTermHttpService = new SearchTermHttpService(new ResponseTermService());
 
     /**
      * @param {SearchTerm[]} searchTerms
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
+     * @param {string} previousQuery
      */
-    constructor(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    constructor(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>, previousQuery: string) {
 
         this.searchTerms = searchTerms;
         this.selectedSearchTermsBySearchKey = selectedSearchTermsBySearchKey;
@@ -46,6 +52,18 @@ export class SearchState {
 
             return accum;
         }, []);
+        this.previousQuery = previousQuery;
+    }
+
+    /**
+     * Clear all selected search terms.
+     * 
+     * @returns {SearchState}
+     */
+    public clearAllSelectedSearchTerms(): SearchState {
+
+        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        return new SearchState([], new Map(), previousQuery);
     }
 
     /**
@@ -59,7 +77,8 @@ export class SearchState {
         const searchTerm = action.asSearchTerm();
         const updatedSearchTermsByFacetName =
             this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
     }
 
     /**
@@ -73,7 +92,8 @@ export class SearchState {
         const searchTerm = action.asSearchTerm();
         const updatedSearchTermsByFacetName = 
             this.replaceSearchTermInSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
     }
 
     /**
@@ -84,16 +104,18 @@ export class SearchState {
      */
     public selectSearchTerm(action: SelectSearchTermAction): SearchState {
 
+        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        
         const searchTerm = action.asSearchTerm();
         if ( action.selected ) {
             const updatedSearchTermsByFacetName =
                 this.addSearchTermToSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-            return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+            return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
         }
 
         const updatedSearchTermsByFacetName =
             this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName);
+        return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
     }
 
     /**
@@ -113,8 +135,8 @@ export class SearchState {
             accum.set(facetName, searchTerms);
             return accum;
         }, new Map<string, Set<SearchTerm>>());
-
-        return new SearchState(this.searchTerms, searchTermsByFacetName);
+        
+        return new SearchState(this.searchTerms, searchTermsByFacetName, "");
     }
 
     /**
@@ -132,8 +154,9 @@ export class SearchState {
         let searchTermsBySearchKey = this.searchTerms.length === 0 ?
             this.patchSearchTerms(action.searchTerms, this.selectedSearchTermsBySearchKey) :
             this.selectedSearchTermsBySearchKey;
-            
-        return new SearchState(action.searchTerms, searchTermsBySearchKey);
+
+        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        return new SearchState(action.searchTerms, searchTermsBySearchKey, previousQuery);
     }
 
     /**
@@ -143,7 +166,7 @@ export class SearchState {
      */
     public static getDefaultState() {
 
-        return new SearchState([], new Map());
+        return new SearchState([], new Map(), "");
     }
 
     /**
@@ -166,6 +189,16 @@ export class SearchState {
         const clonedTermsBySearchKey = new Map(searchTermsBySearchKey);
         clonedTermsBySearchKey.set(searchKey, updatedSearchTerms);
         return clonedTermsBySearchKey;
+    }
+
+    /**
+     * Build up the previous query from the current set of selected search terms.
+     * 
+     * @param {SearchTerm[]} selectedSearchTerms
+     */
+    private buildPreviousQuery(selectedSearchTerms: SearchTerm[]): string {
+
+        return this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
     }
 
     /**

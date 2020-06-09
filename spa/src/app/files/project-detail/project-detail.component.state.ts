@@ -15,5 +15,4 @@ export interface ProjectDetailComponentState {
     project: Project;
     projectInRelease: boolean;
     projectSelected: boolean;
-    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>;
 }

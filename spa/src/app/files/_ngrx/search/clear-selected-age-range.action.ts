@@ -29,19 +29,18 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
      * @param {string} facetName
      * @param {AgeRange} ageRange
      * @param {GASource} source
-     * @param {string} currentQuery
      */
     constructor(public readonly facetName: string,
                 public readonly ageRange: AgeRange,
-                public source: GASource,
-                public currentQuery: string) {}
+                public source: GASource) {}
 
     /**
      * Return the cleared age range action as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         const term = this.asSearchTerm().getDisplayValue();
         return {
@@ -49,7 +48,7 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
             action: GAAction.DESELECT, // Always DESELECT for this action (see SelectSelectedAgeRangeAction for SELECT)
             label: term,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,

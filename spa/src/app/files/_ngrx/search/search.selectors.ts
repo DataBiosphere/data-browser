@@ -34,3 +34,6 @@ export const selectSelectedProjectSearchTerms = createSelector(selectSearch, (st
             searchTerm.getSearchKey() === FileFacetName.PROJECT_ID;
     });
 });
+
+// Select the previous query from the search state
+export const selectPreviousQuery = createSelector(selectSearch, (state) => state.previousQuery);

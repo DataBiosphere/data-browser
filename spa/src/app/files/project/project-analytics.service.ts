@@ -13,14 +13,11 @@ import { Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
 import { ViewProjectTabAction } from "../_ngrx/table/view-project-tab.action";
 import { GAAction } from "../../shared/analytics/ga-action.model";
-import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { SearchTerm } from "../search/search-term.model";
 
 @Injectable()
 export class ProjectAnalyticsService {
     
-    constructor(private searchTermHttpService: SearchTermHttpService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 @Inject("Window") private window: Window) {}
 
     /**
@@ -29,14 +26,12 @@ export class ProjectAnalyticsService {
      * 
      * @param {GAAction} tabName
      * @param {string} projectShortname
-     * @param {SearchTerm[]} selectedSearchTerms
      */
-    public trackTabView(tabName: GAAction, projectShortname: string, selectedSearchTerms: SearchTerm[]) {
+    public trackTabView(tabName: GAAction, projectShortname: string) {
 
         const url = window.location.href;
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const action =
-            new ViewProjectTabAction(tabName, projectShortname, url, query);
+            new ViewProjectTabAction(tabName, projectShortname, url);
         this.store.dispatch(action);
     }
 }

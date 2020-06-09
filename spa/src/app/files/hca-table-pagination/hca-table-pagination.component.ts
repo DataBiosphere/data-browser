@@ -53,7 +53,7 @@ export class HCATablePaginationComponent implements OnInit {
         }
         
         const tableParams = this.paginationService.buildNextPageTableParams(pagination);
-        this.store.dispatch(new TableNextPageAction(tableParams));
+        this.store.dispatch(new TableNextPageAction(tableParams, pagination.current_page));
     }
 
     /**
@@ -68,7 +68,7 @@ export class HCATablePaginationComponent implements OnInit {
         }
         
         const tableParams = this.paginationService.buildPreviousPageTableParams(pagination);
-        this.store.dispatch(new TablePreviousPageAction(tableParams));
+        this.store.dispatch(new TablePreviousPageAction(tableParams, pagination.current_page));
     }
 
     /**

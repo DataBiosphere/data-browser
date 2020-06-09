@@ -1,6 +1,6 @@
 <input class="hca-input" type="text" placeholder="Search all filters" aria-label="Number" matInput
        [formControl]="filterControl" #filterInput [matAutocomplete]="auto">
-<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSearchTermSelected(selectedSearchTerms, $event)"
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSearchTermSelected($event)"
                   [displayWith]="selectedSearchTermOptionDisplayFn">
     <mat-option *ngIf="searchReturnsEmpty" class="hca-option error">Oops! We don’t have an exact match, it may
         be called by a different name. Scroll through the list to see what data we currently have available.

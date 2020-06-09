@@ -24,26 +24,25 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
      * @param {string} workflow
      * @param {string} url
      * @param {GASource} source
-     * @param {string} currentQuery
      */
     constructor(public workflow: string,
                 public url: string,
-                public source: GASource,
-                public currentQuery: string) {}
+                public source: GASource) {}
 
     /**
      * Return the clear action as a GA event.
      *
+     * @param {string} currentQuery
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent(currentQuery: string): GAEvent {
 
         return {
             category: GACategory.PORTAL_LINK,
             action: GAAction.CLICK,
             label: this.workflow,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: this.currentQuery,
+                [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.url,
                 [GADimension.SOURCE]: this.source
             }

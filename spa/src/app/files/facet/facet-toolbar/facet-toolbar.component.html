@@ -21,8 +21,8 @@
                                             <facet-menu-option-content>
                                                 <facet-age-range-form *ngSwitchCase="true"
                                                                       [ageRange]="getFacet(facetName).ageRange"
-                                                                      (applyFacet)="onAgeRangeSelected(facetName, selectedSearchTerms, $event)"
-                                                                      (clearFacet)="onAgeRangeCleared(facetName, selectedSearchTerms, $event)"></facet-age-range-form>
+                                                                      (applyFacet)="onAgeRangeSelected(facetName, $event)"
+                                                                      (clearFacet)="onAgeRangeCleared(facetName, $event)"></facet-age-range-form>
                                             </facet-menu-option-content>
                                         </facet-menu-option>
                                         <facet-menu-option *ngSwitchDefault>
@@ -31,7 +31,7 @@
                                                 <file-facet [fileFacet]="getFacet(facetName)"
                                                             [facetName]="facetName"
                                                             [selectedEntity]="selectedEntity"
-                                                            (facetTermSelected)="onFacetTermSelected(selectedSearchTerms, $event)"></file-facet>
+                                                            (facetTermSelected)="onFacetTermSelected($event)"></file-facet>
                                             </facet-menu-option-content>
                                         </facet-menu-option>
                                     </ng-container>
@@ -62,13 +62,13 @@
                                         <ng-container [ngSwitch]="isFacetOrganismAge(facetName)">
                                             <facet-age-range-form *ngSwitchCase="true"
                                                              [ageRange]="getFacet(facetName).ageRange"
-                                                             (applyFacet)="onAgeRangeSelected(facetName, selectedSearchTerms, $event)"
-                                                             (clearFacet)="onAgeRangeCleared(facetName, selectedSearchTerms, $event)"></facet-age-range-form>
+                                                             (applyFacet)="onAgeRangeSelected(facetName, $event)"
+                                                             (clearFacet)="onAgeRangeCleared(facetName, $event)"></facet-age-range-form>
                                             <ng-container *ngSwitchDefault>
                                                 <span class="fontsize-xxs">{{getLabelName(selectedEntity)}}</span>
                                                 <facet-term-list [fileFacetName]="facetName"
                                                                      [terms]="getSortedFacetTerms(facetName)"
-                                                                     (facetTermSelected)="onFacetTermSelected(selectedSearchTerms, $event)"></facet-term-list>
+                                                                     (facetTermSelected)="onFacetTermSelected($event)"></facet-term-list>
                                             </ng-container>
                                         </ng-container>
                                     </div>

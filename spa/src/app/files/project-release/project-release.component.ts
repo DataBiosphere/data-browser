@@ -9,13 +9,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, combineLatest, Subject } from "rxjs/index";
+import { BehaviorSubject, Subject } from "rxjs/index";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectReleaseByProjectId } from "../_ngrx/release/release.selectors";
-import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import { ReleaseState } from "../releases/release.state";
 import { ReleaseName } from "../releases/release-name.model";
 import { ReleaseOrganView } from "../releases/release-organ-view.model";
@@ -59,20 +58,15 @@ export class ProjectReleaseComponent implements OnDestroy, OnInit {
     private initTracking(projectId: string) {
         
         // Grab the release project
-        const release$ = this.store.pipe(
-            select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId: projectId})
-        );
-
-        // Grab the current set of selected terms 
-        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-
-        combineLatest(release$, selectedSearchTerms$).pipe(
+        this.store.pipe(
+            select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId: projectId}),
+            filter(release => !!release && release.length),
             take(1)
-        ).subscribe(([release, selectedSearchTerms]) => {
+        ).subscribe(([release]) => {
 
             const projectShortname = release.projects[0].projectShortname;
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_RELEASES, projectShortname, selectedSearchTerms);
-        });
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_RELEASES, projectShortname);
+        })
     }
 
     /**

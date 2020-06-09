@@ -7,7 +7,7 @@
         <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
-                                    (facetTermSelected)="onFacetTermSelected(state.selectedSearchTerms, $event)"></file-type-summary-list>
+                                    (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
             <button class="button primary"
                     type="button"
                     (click)="onExportToTerra(state.selectedSearchTerms)"

@@ -9,7 +9,7 @@
 import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable, Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -18,15 +18,12 @@ import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-anal
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
 import { ContactView } from "../project-view/contact-view.model";
 import { ContributorView } from "../project-view/contributor-view.model";
 import { ProjectViewFactory } from "../project-view/project-view.factory";
-import { SearchTerm } from "../search/search-term.model";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { Publication } from "../shared/publication.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
@@ -50,7 +47,6 @@ export class ProjectOverviewComponent implements OnDestroy {
      */
     constructor(private projectAnalyticsService: ProjectAnalyticsService, 
                 private projectFactory: ProjectViewFactory,
-                private searchTermUrlService: SearchTermUrlService,
                 private store: Store<AppState>, 
                 private activatedRoute: ActivatedRoute) {}
 
@@ -123,12 +119,10 @@ export class ProjectOverviewComponent implements OnDestroy {
      *
      * @param {AnalysisProtocolViewedEvent} event
      */
-    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent,
-                                    selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
 
-        const currentQuery = this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsBySearchKey);
         const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.PROJECT, currentQuery);
+            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.PROJECT);
         this.store.dispatch(action);
     }
     
@@ -148,14 +142,11 @@ export class ProjectOverviewComponent implements OnDestroy {
      */
     private initTracking() {
 
-        // Grab the current set of selected terms 
-        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
-
-        combineLatest(this.state$, selectedSearchTerms$).pipe(
+        this.state$.pipe(
             take(1)
-        ).subscribe(([state, selectedSearchTerms]) => {
+        ).subscribe((state) => {
 
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectShortname, selectedSearchTerms);
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectShortname);
         });
     }
 
@@ -183,21 +174,15 @@ export class ProjectOverviewComponent implements OnDestroy {
             filter(project => !!project)
         );
         
-        // Grab a reference to the set of selected search terms
-        const selectedSearchTermsBySearchKey$ = this.store.pipe(
-            select(selectSelectedSearchTermsBySearchKey)
-        );
-        
-        this.state$ = combineLatest(project$, selectedSearchTermsBySearchKey$).pipe(
+        this.state$ = project$.pipe(
             takeUntil(this.ngDestroy$),
-            map(([project, selectedSearchTermsBySearchKey]) => {
+            map((project) => {
 
                 const projectView = this.projectFactory.getProjectView(project);
 
                 return {
                     projectShortname: project.projectShortname,
-                    project: projectView,
-                    selectedSearchTermsBySearchKey
+                    project: projectView
                 };
             })
         );
