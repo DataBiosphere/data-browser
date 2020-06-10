@@ -222,13 +222,17 @@ export class TableEffects {
     selectProject$: Observable<Action> = this.actions$
         .pipe(
             ofType(SelectProjectIdAction.ACTION_TYPE),
-            switchMap(() =>
-                this.store.pipe(
-                    select(selectTableQueryParams),
-                    take(1)
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectTableQueryParams)),
+                    this.store.pipe(select(selectPreviousQuery), take(1))
                 )
-            ),
-            switchMap((tableQueryParams) => {
+            )),
+            switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
+
+                // Send tracking event.
+                const event = (action as SelectProjectIdAction).asEvent(queryWhenActionTriggered);
+                this.gtmService.trackEvent(event);
 
                 // Return an array of actions that need to be dispatched - request for file summary and file facets.
                 return of(

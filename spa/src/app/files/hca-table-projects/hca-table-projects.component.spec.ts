@@ -47,6 +47,7 @@ import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { GASource } from "../../shared/analytics/ga-source.model";
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
@@ -320,7 +321,7 @@ describe("HCATableProjectsComponent", () => {
 
         const projectId = PROJECTS_TABLE_MODEL.data[0].entryId;
         const projectName = PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
-        const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true);
+        const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true, GASource.SEARCH_RESULTS);
 
         // Confirm store dispatch is called
         component.onProjectSelected(projectId, projectName, false);

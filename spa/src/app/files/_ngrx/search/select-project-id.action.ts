@@ -11,12 +11,19 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { TrackingAction } from "../analytics/tracking.action";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { SearchEntity } from "../../search/search-entity.model";
 import { SelectSearchTermAction } from "./select-search-term.action";
+import { GAEvent } from "../../../shared/analytics/ga-event.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
+import { GAAction } from "../../../shared/analytics/ga-action.model";
+import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectProjectIdAction implements Action, SelectSearchTermAction {
+export class SelectProjectIdAction implements Action, SelectSearchTermAction, TrackingAction {
 
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_PROJECT_ID";
     public readonly type = SelectProjectIdAction.ACTION_TYPE;
@@ -27,11 +34,36 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction {
      * @param {string} projectId
      * @param {string} projectShortname
      * @param {boolean} selected
+     * @param {GASource} source
      */
     constructor(
         public readonly projectId: string,
         public readonly projectShortname: string,
-        public readonly selected = true) {}
+        public readonly selected = true,
+        public readonly source: GASource) {}
+
+    /**
+     * Return the cleared age range action as a GA event.
+     *
+     * @param {string} currentQuery
+     * @returns {GAEvent}
+     */
+    public asEvent(currentQuery: string): GAEvent {
+
+        return {
+            category: GACategory.SEARCH,
+            action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
+            label: this.projectShortname,
+            dimensions: {
+                [GADimension.CURRENT_QUERY]: currentQuery,
+                [GADimension.ENTITY_ID]: this.projectId,
+                [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
+                [GADimension.FACET]: this.facetName,
+                [GADimension.SOURCE]: this.source,
+                [GADimension.TERM]: this.projectShortname
+            }
+        };
+    }
 
     /**
      * Returns selected project in search term format.

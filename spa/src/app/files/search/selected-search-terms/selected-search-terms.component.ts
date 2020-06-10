@@ -111,7 +111,11 @@ export class SelectedSearchTermsComponent {
         let action;
         if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
             
-            action = new SelectProjectIdAction(searchTerm.getSearchValue(), searchTerm.getDisplayValue(), false);
+            action = new SelectProjectIdAction(
+                searchTerm.getSearchValue(),
+                searchTerm.getDisplayValue(), 
+                false,
+                GASource.SELECTED_TERMS);
         }
         else if ( searchTerm.getSearchKey() === FacetAgeRangeName.ORGANISM_AGE_RANGE) {
             

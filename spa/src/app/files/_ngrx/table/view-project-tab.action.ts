@@ -22,11 +22,13 @@ export class ViewProjectTabAction implements Action, TrackingAction {
 
     /**
      * @param {GAAction} tabName
-     * @param {string} projectName
+     * @param {string} projectId
+     * @param {string} projectShortname
      * @param {string} projectUrl
      */
     constructor(public tabName: GAAction,
-                public projectName: string,
+                public projectId: string,
+                public projectShortname: string,
                 public projectUrl: string) {}
 
     /**
@@ -40,9 +42,10 @@ export class ViewProjectTabAction implements Action, TrackingAction {
         return {
             category: GACategory.PROJECT,
             action: this.tabName,
-            label: this.projectName,
+            label: this.projectShortname,
             dimensions: {
                 [GADimension.CURRENT_QUERY]: currentQuery,
+                [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_URL]: this.projectUrl
             }
         };

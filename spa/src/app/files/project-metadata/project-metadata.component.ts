@@ -48,7 +48,7 @@ export class ProjectMetadataComponent {
             take(1)
         ).subscribe((state) => {
 
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_METADATA, state.projectShortname);
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_METADATA, state.projectId, state.projectShortname);
         });
     }
 

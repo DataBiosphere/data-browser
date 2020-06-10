@@ -146,7 +146,7 @@ export class ProjectOverviewComponent implements OnDestroy {
             take(1)
         ).subscribe((state) => {
 
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectShortname);
+            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectId, state.projectShortname);
         });
     }
 
@@ -181,8 +181,9 @@ export class ProjectOverviewComponent implements OnDestroy {
                 const projectView = this.projectFactory.getProjectView(project);
 
                 return {
-                    projectShortname: project.projectShortname,
-                    project: projectView
+                    project: projectView,
+                    projectId: project.entryId,
+                    projectShortname: project.projectShortname
                 };
             })
         );

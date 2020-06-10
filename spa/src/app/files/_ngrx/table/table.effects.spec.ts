@@ -80,7 +80,7 @@ describe("Table Effects", () => {
     it(`selectProject$ - projects tab - should set "update table data" flag to false`, () => {
 
         actions = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true)
+            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
         });
 
         const expected = cold("--(bc)", {
@@ -100,7 +100,7 @@ describe("Table Effects", () => {
         store.setState(DEFAULT_SAMPLES_STATE);
 
         actions = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true)
+            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
         });
 
         const expected = cold("--(bc)", {
@@ -120,7 +120,7 @@ describe("Table Effects", () => {
         store.setState(DEFAULT_FILES_STATE);
 
         actions = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true)
+            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
         });
 
         const expected = cold("--(bc)", {

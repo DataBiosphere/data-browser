@@ -35,7 +35,7 @@ export const selectReleaseByProjectId =
     createSelector(selectReleases, (state, props) => {
         
         const release = state.releasesByName.get(props.name);
-        
+
         // Filter down the set of projects in this release to just the project we are looking for
         const project = release.projects.find(project => project.entryId === props.projectId);
         return Object.assign({}, release, {
