@@ -73,7 +73,7 @@ export class ProjectEffects {
         );
 
     /**
-     * Trigger tracking of view of any project tab.
+     * Trigger tracking of view of any project tab (for example, matrices, external resources).
      */
     @Effect({dispatch: false})
     viewProjectTab$ = this.actions$.pipe(
@@ -82,7 +82,9 @@ export class ProjectEffects {
             withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
         )),        
         tap(([action, queryWhenActionTriggered]) => {
-            this.gtmService.trackEvent((action as ViewProjectTabAction).asEvent(queryWhenActionTriggered));
+            this.gtmService.trackEvent((action as ViewProjectTabAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
         })
     );
 

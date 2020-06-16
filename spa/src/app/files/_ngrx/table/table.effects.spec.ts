@@ -9,13 +9,13 @@
 import { TestBed } from "@angular/core/testing";
 import { cold, hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
-import { Store } from "@ngrx/store";
+import {  Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of } from "rxjs";
 
 // App dependencies
+import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { FileState } from "../file.state";
-import { FetchFileFacetsRequestAction } from "../facet/file-facet-list.actions";
 import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../file.state.mock";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
@@ -24,6 +24,9 @@ import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import { PROJECT_1M_NEURONS } from "../search/search.state.mock";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
 import { ProjectService } from "../../project/project.service";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
+import { GAIndex } from "../../../shared/analytics/ga-index.model";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../../shared/entity-search-results.mock";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { FilesService } from "../../shared/files.service";
@@ -33,9 +36,6 @@ import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
-import { GTMService } from "../../../shared/analytics/gtm.service";
-import { EntityName } from "../../shared/entity-name.model";
-import { GASource } from "../../../shared/analytics/ga-source.model";
 
 describe("Table Effects", () => {
 
@@ -220,7 +220,7 @@ describe("Table Effects", () => {
                     "sort": "projectTitle",
                     "order": "desc"
                 },
-                EntityName.PROJECTS,
+                GAIndex.PROJECTS,
                 GASource.SEARCH_RESULTS)
         });
 

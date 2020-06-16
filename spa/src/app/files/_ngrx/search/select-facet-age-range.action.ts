@@ -39,10 +39,10 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
     /**
      * Return the de/selected term as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery, index}): GAEvent {
 
         const term = this.asSearchTerm().getDisplayValue();
         return {
@@ -53,6 +53,7 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
+                [GADimension.INDEX]: index,
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,
                 [GADimension.MIN]: `${this.ageRange.ageMin}`,
                 [GADimension.SOURCE]: this.source,

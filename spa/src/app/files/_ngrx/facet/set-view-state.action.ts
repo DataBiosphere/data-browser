@@ -8,12 +8,18 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
-import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 
 // App dependencies
+import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 
 export class SetViewStateAction implements Action {
+    
     public static ACTION_TYPE = "FILE.FACET.SET_VIEW_STATE";
     public readonly type = SetViewStateAction.ACTION_TYPE;
+
+    /**
+     * @param {string} selectedEntity
+     * @param {QueryStringSearchTerm[]} selectedSearchTerms
+     */
     constructor(public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[]) {}
 }

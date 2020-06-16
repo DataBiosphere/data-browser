@@ -30,10 +30,10 @@ export class ClearSelectedTermsAction implements Action, TrackingAction {
     /**
      * Return the clear action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery, index}): GAEvent {
 
         return {
             category: GACategory.SEARCH,
@@ -42,6 +42,7 @@ export class ClearSelectedTermsAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
+                [GADimension.INDEX]: index,
                 [GADimension.SOURCE]: this.source
             }
         };

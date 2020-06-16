@@ -10,13 +10,11 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ClearIsMatrixSupportedAction } from "./clear-is-matrix-supported.action";
+import { InitEntityStateAction } from "../entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { FetchIsMatrixSupportedRequestAction } from "./fetch-is-matrix-supported-request.action";
 import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FacetState } from "./facet.state";
-import {
-    InitEntityStateAction
-} from "./file-facet-list.actions";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
 import { SetViewStateAction } from "./set-view-state.action";

@@ -21,8 +21,10 @@ import { Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 // App dependencies
+import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { AppState } from "../../_ngrx/app.state";
 import { FileSummary } from "../file-summary/file-summary";
+import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,
     selectPagination,
@@ -32,8 +34,8 @@ import {
 } from "../_ngrx/file.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { SampleRowMapper } from "./sample-row-mapper";
+import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
-import { EntityName } from "../shared/entity-name.model";
 import { SearchTerm } from "../search/search-term.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
@@ -46,8 +48,6 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
-import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 
 @Component({
     selector: "hca-table-samples",
@@ -100,7 +100,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
 
     /**
      * Dispatch action to track view of analysis protocol.
-     * 
+     *
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
@@ -146,7 +146,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         };
 
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.SAMPLES, GASource.SEARCH_RESULTS);
+            new FetchSortedTableDataRequestAction(tableParamsModel, GAIndex.SAMPLES, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 

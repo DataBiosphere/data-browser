@@ -28,15 +28,15 @@ export class SelectEntityAction implements Action, TrackingAction {
     /**
      * Return the cleared age range action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery}): GAEvent {
 
         return {
             category: GACategory.ENTITY,
             action: this.getTrackingAction(),
-            label: this.entityKey,
+            label: this.entityKey.charAt(0).toUpperCase() + this.entityKey.slice(1), // Capitalize first letter of entity
             dimensions: {
                 [GADimension.CURRENT_QUERY]: currentQuery,
             }

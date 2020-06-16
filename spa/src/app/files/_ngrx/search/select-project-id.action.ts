@@ -45,10 +45,10 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
     /**
      * Return the cleared age range action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery}): GAEvent {
 
         return {
             category: GACategory.SEARCH,

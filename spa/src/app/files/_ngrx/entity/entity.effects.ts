@@ -16,12 +16,13 @@ import { concatMap, withLatestFrom } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { SelectEntityAction } from "./select-entity.action";
-import { InitEntityStateAction, NoOpAction } from "../facet/file-facet-list.actions";
 import { selectTableQueryParams } from "../file.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
 import { BackToEntityAction } from "./back-to-entity.action";
 import { selectPreviousQuery } from "../search/search.selectors";
+import { InitEntityStateAction } from "./init-entity-state.action";
+import { NoOpAction } from "../facet/no-op.action";
 
 @Injectable()
 export class EntityEffects {
@@ -55,7 +56,9 @@ export class EntityEffects {
             map(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Track change of tab
-                this.gtmService.trackEvent((action as SelectEntityAction).asEvent(queryWhenActionTriggered));
+                this.gtmService.trackEvent((action as SelectEntityAction).asEvent({
+                    currentQuery: queryWhenActionTriggered
+                }));
 
                 // Return cached table, if available
                 if ( getSelectedTable(tableQueryParams.tableState).data.length ) {

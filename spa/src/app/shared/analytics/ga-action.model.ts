@@ -11,6 +11,7 @@ export enum GAAction {
     "COPY_TO_CLIPBOARD" = "Copy to Clipboard",
     "DESELECT" = "Deselect",
     "DOWNLOAD" = "Download",
+    "EXCEPTION" = "Exception",
     "LAUNCH" = "Launch",
     "NEXT_PAGE" = "Next Page",
     "PREVIOUS_PAGE" = "Previous Page",

@@ -35,5 +35,8 @@ export const selectSelectedProjectSearchTerms = createSelector(selectSearch, (st
     });
 });
 
+// Select the current query from the search state
+export const selectCurrentQuery = createSelector(selectSearch, (state) => state.currentQuery);
+
 // Select the previous query from the search state
 export const selectPreviousQuery = createSelector(selectSearch, (state) => state.previousQuery);

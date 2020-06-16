@@ -13,20 +13,20 @@ import { Observable, of } from "rxjs";
 import { concatMap, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { TrackingAction } from "./analytics/tracking.action";
+import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
+import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
 import { FetchIsMatrixSupportedRequestAction } from "./facet/fetch-is-matrix-supported-request.action";
 import { FetchIsMatrixSupportedSuccessAction } from "./facet/fetch-is-matrix-supported-success.action";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
-import { FetchFileFacetsRequestAction, InitEntityStateAction, NoOpAction } from "./facet/file-facet-list.actions";
 import { selectTableQueryParams } from "./file.selectors";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
-import { selectPreviousQuery, selectSelectedSearchTerms } from "./search/search.selectors";
+import { selectCurrentQuery, selectSelectedSearchTerms } from "./search/search.selectors";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { SearchTerm } from "../search/search-term.model";
 import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
@@ -34,6 +34,10 @@ import { ClearSelectedAgeRangeAction } from "./search/clear-selected-age-range.a
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { EntityName } from "../shared/entity-name.model";
 import { FilesService } from "../shared/files.service";
+import { GAAction } from "../../shared/analytics/ga-action.model";
+import { GACategory } from "../../shared/analytics/ga-category.model";
+import { GADimension } from "../../shared/analytics/ga-dimension.model";
+import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
@@ -72,15 +76,7 @@ export class FileEffects {
                 SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
                 SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
             ),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
-            )),
-            mergeMap(([action, queryWhenActionTriggered]) => {
-
-                // If this action is a tracking action, send tracking event.
-                if ( (action as TrackingAction).asEvent ) {
-                    this.gtmService.trackEvent((action as TrackingAction).asEvent(queryWhenActionTriggered));
-                }
+            mergeMap(() => {
 
                 // Return an array of actions that need to be dispatched - we need to (re-)request summary and facet
                 // (including table) data.
@@ -95,22 +91,20 @@ export class FileEffects {
 
     /**
      * Fetch data to populate facet menus, facet summary and potentially table data. If we are currently on the projects
-     * tab with a selected project, an additional call to populate the table is called.
+     * tab with a selected project, an additional call to populate the table is called. Track any cases where the result
+     * set is empty.
      */
     @Effect()
     fetchFacets$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFileFacetsRequestAction.ACTION_TYPE),
-            switchMap((action) =>
-                this.store.pipe(
-                    select(selectTableQueryParams),
-                    take(1),
-                    map((tableQueryParams) => {
-                        return {action, tableQueryParams};
-                    })
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectTableQueryParams), take(1)),
+                    this.store.pipe(select(selectCurrentQuery), take(1))
                 )
-            ),
-            switchMap(({action, tableQueryParams}) => {
+            )),
+            switchMap(([action, tableQueryParams, currentQuery]) => {
 
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
@@ -125,11 +119,28 @@ export class FileEffects {
                 return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, tableParams, selectedEntity)
                     .pipe(
                         map((entitySearchResults) => {
-                            return {action, entitySearchResults, tableQueryParams};
+                            return {action, entitySearchResults, currentQuery, tableQueryParams};
                         })
                     );
             }),
-            mergeMap(({action, tableQueryParams, entitySearchResults}) => {
+            mergeMap(({action, entitySearchResults, currentQuery, tableQueryParams}) => {
+                
+                // Track empty search results, using the tracking event triggered from the original action as a base
+                const emptyResultSet = entitySearchResults.tableModel.data.length === 0;
+                if ( emptyResultSet ) {
+                    
+                    const selectedEntity = tableQueryParams.tableState.selectedEntity;
+                    const index = GAIndex[selectedEntity.toUpperCase()];
+                    this.gtmService.trackEvent({
+                        category: GACategory.SEARCH,
+                        action: GAAction.EXCEPTION,
+                        label: "Empty Result Set",
+                        dimensions: {
+                            [GADimension.CURRENT_QUERY]: currentQuery,
+                            [GADimension.INDEX]: index
+                        }
+                    });
+                }
 
                 // Set up fetch success action
                 const fetchSuccessAction = new FetchFacetsSuccessAction(entitySearchResults.facets);

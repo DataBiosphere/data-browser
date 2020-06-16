@@ -19,7 +19,8 @@ export interface TrackingAction extends Action {
     /**
      * Return action in the format of a GA event.
      *
+     * @param {{[key: string]: any}} dimensions
      * @returns {string}
      */
-    asEvent(currentQuery?: string): GAEvent;
+    asEvent(dimensions?: {[key: string]: any}): GAEvent;
 }

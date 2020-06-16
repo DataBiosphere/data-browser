@@ -38,12 +38,12 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
                 public source: GASource) {}
 
     /**
-     * Return the selected age range as a GA event.
+     * Return the selected file facet term a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({index, currentQuery}): GAEvent {
         
         return {
             category: GACategory.SEARCH,
@@ -53,6 +53,7 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
+                [GADimension.INDEX]: index,
                 [GADimension.SOURCE]: this.source,
                 [GADimension.TERM]: this.termName
             }

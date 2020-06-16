@@ -37,10 +37,10 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
     /**
      * Return the cleared age range action as a GA event.
      *
-     * @param {string} currentQuery
+     * param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery, index}): GAEvent {
 
         const term = this.asSearchTerm().getDisplayValue();
         return {
@@ -51,6 +51,7 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
+                [GADimension.INDEX]: index,
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,
                 [GADimension.MIN]: `${this.ageRange.ageMin}`,
                 [GADimension.SOURCE]: this.source,
