@@ -34,10 +34,10 @@ export class ViewProjectTabAction implements Action, TrackingAction {
     /**
      * Return the cleared age range action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery}): GAEvent {
 
         return {
             category: GACategory.PROJECT,

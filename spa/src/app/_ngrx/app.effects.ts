@@ -16,6 +16,7 @@ import { MatrixEffects } from "../files/_ngrx/matrix/matrix.effects";
 import { ProjectEffects } from "../files/_ngrx/project/project.effects";
 import { ProjectEditsEffects } from "../files/_ngrx/project-edits/project-edits.effects";
 import { ReleaseEffects } from "../files/_ngrx/release/release.effects";
+import { SearchEffects } from "../files/_ngrx/search/search.effects";
 import { SystemEffects } from "../system/_ngrx/system.effects";
 import { TableEffects } from "../files/_ngrx/table/table.effects";
 import { TerraEffects } from "../files/_ngrx/terra/terra.effects";
@@ -32,6 +33,7 @@ export const AppEffects = [
     ProjectEffects,
     ProjectEditsEffects,
     ReleaseEffects,
+    SearchEffects,
     SystemEffects,
     TableEffects,
     TerraEffects,

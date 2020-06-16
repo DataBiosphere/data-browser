@@ -15,9 +15,11 @@ import { Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
+import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { FileSummary } from "../file-summary/file-summary";
+import { AppState } from "../../_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,
     selectPagination,
@@ -34,6 +36,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { EntityName } from "../shared/entity-name.model";
+import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
@@ -44,8 +47,6 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
-import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 
 
 @Component({
@@ -163,7 +164,7 @@ export class HCATableProjectsComponent implements OnInit {
 
     /**
      * Dispatch action to track view of analysis protocol.
-     * 
+     *
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
@@ -184,7 +185,7 @@ export class HCATableProjectsComponent implements OnInit {
 
         this.store.dispatch(new SelectProjectIdAction(projectId, projectName, !selected, GASource.SEARCH_RESULTS));
     }
-    
+
     /**
      * Sort the table given the sort param and the order.
      *
@@ -220,7 +221,7 @@ export class HCATableProjectsComponent implements OnInit {
         };
 
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.PROJECTS, GASource.SEARCH_RESULTS);
+            new FetchSortedTableDataRequestAction(tableParamsModel, GAIndex.PROJECTS, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 

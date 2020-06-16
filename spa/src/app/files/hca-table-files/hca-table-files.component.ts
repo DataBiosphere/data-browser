@@ -15,8 +15,10 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
+import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,
     selectPagination,
@@ -25,6 +27,9 @@ import {
     selectTermCountsByFacetName
 } from "../_ngrx/file.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
+import { SearchTerm } from "../search/search-term.model";
+import { GAIndex } from "../../shared/analytics/ga-index.model";
+import { GASource } from "../../shared/analytics/ga-source.model";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
     getAge,
@@ -36,11 +41,6 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
-import { FileRowMapper } from "./file-row-mapper";
-import { SearchTerm } from "../search/search-term.model";
-import { EntityName } from "../shared/entity-name.model";
-import { GASource } from "../../shared/analytics/ga-source.model";
-import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 
 @Component({
     selector: "hca-table-files",
@@ -111,7 +111,7 @@ export class HCATableFilesComponent implements OnInit {
 
     /**
      * Dispatch action to track view of analysis protocol.
-     * 
+     *
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
@@ -156,7 +156,7 @@ export class HCATableFilesComponent implements OnInit {
         };
 
         const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, EntityName.FILES, GASource.SEARCH_RESULTS);
+            new FetchSortedTableDataRequestAction(tableParamsModel, GAIndex.FILES, GASource.SEARCH_RESULTS);
         this.store.dispatch(action);
     }
 

@@ -40,7 +40,9 @@ export class AnalysisProtocolEffects {
             withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
         )),
         tap(([action, queryWhenActionTriggered]) => {
-            this.gtmService.trackEvent((action as ViewAnalysisProtocolAction).asEvent(queryWhenActionTriggered));
+            this.gtmService.trackEvent((action as ViewAnalysisProtocolAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
         })
     );
 }

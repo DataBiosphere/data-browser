@@ -14,6 +14,7 @@ import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
+import { GAIndex } from "../../../shared/analytics/ga-index.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { TableParams } from "../../table/pagination/table-params.model";
 
@@ -24,20 +25,20 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
 
     /**
      * @param {TableParams} tableParams
-     * @param {string} selectedEntity
+     * @param {GAIndex} index
      * @param {GASource} source
      */
     constructor(public tableParams: TableParams,
-                public selectedEntity: string,
+                public index: GAIndex,
                 public source: GASource) {}
 
     /**
      * Return the cleared age range action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery}): GAEvent {
 
         return {
             category: GACategory.SEARCH_RESULTS,
@@ -46,7 +47,7 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
             dimensions: {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.DIRECTION]: this.tableParams.order,
-                [GADimension.ENTITY_TYPE]: this.selectedEntity,
+                [GADimension.INDEX]: this.index,
                 [GADimension.SOURCE]: this.source,
             }
         };

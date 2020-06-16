@@ -14,8 +14,7 @@ import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators"
 
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
-import { ProjectService } from "../../project/project.service";
-import { FetchFileFacetsRequestAction } from "../facet/file-facet-list.actions";
+import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { selectTableQueryParams } from "../file.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
@@ -23,6 +22,7 @@ import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import { FetchTableModelRequestAction } from "./fetch-table-model-request.action";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
+import { ProjectService } from "../../project/project.service";
 import { selectPreviousQuery } from "../search/search.selectors";
 import { EntityName } from "../../shared/entity-name.model";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
@@ -34,6 +34,7 @@ import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
+import { GAIndex } from "../../../shared/analytics/ga-index.model";
 
 @Injectable()
 export class TableEffects {
@@ -67,8 +68,12 @@ export class TableEffects {
             )),
             switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
-                // Send tracking event.
-                const event = (action as TableNextPageAction).asEvent(queryWhenActionTriggered);
+                // Send tracking event of next page action.
+                const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
+                const event = (action as TableNextPageAction).asEvent({
+                    currentQuery: queryWhenActionTriggered,
+                    index
+                });
                 this.gtmService.trackEvent(event);
 
                 // Fetch previous page.
@@ -93,8 +98,10 @@ export class TableEffects {
             )),            
             switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
-                // Send tracking event.
-                this.gtmService.trackEvent((action as FetchSortedTableDataRequestAction).asEvent(queryWhenActionTriggered));
+                // Send tracking event of sort action.
+                this.gtmService.trackEvent((action as FetchSortedTableDataRequestAction).asEvent({
+                    currentQuery: queryWhenActionTriggered
+                }));
 
                 // Fetch sorted search results
                 return this.fetchSortedTableModel(action, tableQueryParams).pipe(
@@ -128,8 +135,12 @@ export class TableEffects {
             )),
             switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
-                // Send tracking event.
-                const event = (action as TablePreviousPageAction).asEvent(queryWhenActionTriggered);
+                // Send tracking event of previous page action.
+                const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
+                const event = (action as TablePreviousPageAction).asEvent({
+                    currentQuery: queryWhenActionTriggered,
+                    index
+                });
                 this.gtmService.trackEvent(event);
                 
                 // Fetch previous page.
@@ -231,7 +242,7 @@ export class TableEffects {
             switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Send tracking event.
-                const event = (action as SelectProjectIdAction).asEvent(queryWhenActionTriggered);
+                const event = (action as SelectProjectIdAction).asEvent({currentQuery: queryWhenActionTriggered});
                 this.gtmService.trackEvent(event);
 
                 // Return an array of actions that need to be dispatched - request for file summary and file facets.
@@ -243,6 +254,17 @@ export class TableEffects {
                 );
             })
         );
+
+    /**
+     * Convert the selected entity spec key into the corresponding GAIndex value, for tracking.
+     * 
+     * @param {string} selectedEntityKey
+     * @returns {GAIndex}
+     */
+    private convertSelectedEntityToTrackingIndex(selectedEntityKey: string): GAIndex {
+
+        return GAIndex[selectedEntityKey.toUpperCase()];
+    }
 
     /**
      * Fetch the paged/sorted table data and map to appropriate format for FE.

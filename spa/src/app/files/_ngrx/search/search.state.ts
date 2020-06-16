@@ -27,10 +27,11 @@ import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 
 export class SearchState {
 
+    public readonly currentQuery: string; // Stringified version of the current set of selected search terms, used by analytics-related functionality
     public readonly searchTerms: SearchTerm[] = []; // Set of possible search terms that are selectable
     public readonly selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>; // Current set of search terms, keyed by facet/entity name
     public readonly selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
-    public readonly previousQuery: string; // Stringified version of the previous set of selected search terms
+    public readonly previousQuery: string; // Stringified version of the previous set of selected search terms, used by analytics-related functionality
     
     private searchTermHttpService: SearchTermHttpService = new SearchTermHttpService(new ResponseTermService());
 
@@ -52,6 +53,7 @@ export class SearchState {
 
             return accum;
         }, []);
+        this.currentQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         this.previousQuery = previousQuery;
     }
 
@@ -62,7 +64,7 @@ export class SearchState {
      */
     public clearAllSelectedSearchTerms(): SearchState {
 
-        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         return new SearchState([], new Map(), previousQuery);
     }
 
@@ -77,7 +79,7 @@ export class SearchState {
         const searchTerm = action.asSearchTerm();
         const updatedSearchTermsByFacetName =
             this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
     }
 
@@ -92,7 +94,7 @@ export class SearchState {
         const searchTerm = action.asSearchTerm();
         const updatedSearchTermsByFacetName = 
             this.replaceSearchTermInSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
-        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
     }
 
@@ -104,7 +106,7 @@ export class SearchState {
      */
     public selectSearchTerm(action: SelectSearchTermAction): SearchState {
 
-        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         
         const searchTerm = action.asSearchTerm();
         if ( action.selected ) {
@@ -155,7 +157,7 @@ export class SearchState {
             this.patchSearchTerms(action.searchTerms, this.selectedSearchTermsBySearchKey) :
             this.selectedSearchTermsBySearchKey;
 
-        const previousQuery = this.buildPreviousQuery(this.selectedSearchTerms);
+        const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         return new SearchState(action.searchTerms, searchTermsBySearchKey, previousQuery);
     }
 
@@ -196,7 +198,7 @@ export class SearchState {
      * 
      * @param {SearchTerm[]} selectedSearchTerms
      */
-    private buildPreviousQuery(selectedSearchTerms: SearchTerm[]): string {
+    private stringifySelectedSearchTerms(selectedSearchTerms: SearchTerm[]): string {
 
         return this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
     }

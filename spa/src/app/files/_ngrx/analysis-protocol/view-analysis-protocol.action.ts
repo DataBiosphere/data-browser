@@ -32,10 +32,10 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
     /**
      * Return the clear action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery}): GAEvent {
 
         return {
             category: GACategory.PORTAL_LINK,

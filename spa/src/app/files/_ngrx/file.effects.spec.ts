@@ -14,6 +14,8 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of } from "rxjs";
 
 // App dependencies
+import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
+import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
 import { FileEffects } from "./file.effects";
 import { FileState } from "./file.state";
 import {
@@ -22,8 +24,6 @@ import {
     DEFAULT_SAMPLES_STATE, FILES_STATE_WITH_SEARCH_TERM,
     PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM, SAMPLES_STATE_WITH_SEARCH_TERM
 } from "./file.state.mock";
-import { FetchFileFacetsRequestAction } from "./facet/file-facet-list.actions";
-import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
@@ -84,7 +84,7 @@ describe("File Effects", () => {
         actions = hot("--a-", {
             a: new FetchFileFacetsRequestAction(false)
         });
-        
+
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
             c: new SearchTermsUpdatedAction([]),
@@ -114,7 +114,7 @@ describe("File Effects", () => {
 
         expect(effects.fetchFacets$).toBeObservable(expected);
     });
-    
+
     /**
      * A new request to fetch table data should be returned when viewing the projects tab and there is currently a
      * selected project.
@@ -122,7 +122,7 @@ describe("File Effects", () => {
     it("fetchFacets$ - projects tab - should request table data when a project search term is selected", () => {
 
         // Update search state to include a selected project search term
-        store.setState(PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM); 
+        store.setState(PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM);
 
         // Dispatch the fetch file facets action
         actions = hot("--a-", {
@@ -137,7 +137,7 @@ describe("File Effects", () => {
 
         expect(effects.fetchFacets$).toBeObservable(expected);
     });
-    
+
     /**
      * Full table model (data, pagination and term counts) should be updated when fetching facets if the "update table
      * data" flag is set to true and the current tab is samples.

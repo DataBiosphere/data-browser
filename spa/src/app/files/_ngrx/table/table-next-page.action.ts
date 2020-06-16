@@ -30,17 +30,18 @@ export class TableNextPageAction implements Action, TrackingAction {
     /**
      * Return the pagination action as a GA event.
      *
-     * @param {string} currentQuery
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(currentQuery: string): GAEvent {
+    public asEvent({currentQuery, index}): GAEvent {
 
         return {
             category: GACategory.SEARCH_RESULTS,
             action: GAAction.NEXT_PAGE,
             label: `${this.currentPage}`,
             dimensions: {
-                [GADimension.CURRENT_QUERY]: currentQuery
+                [GADimension.CURRENT_QUERY]: currentQuery,
+                [GADimension.INDEX]: index
             }
         };
     }
