@@ -5,12 +5,15 @@
 The following custom dimensions are configured in Google Analytics, allowing additional data (in addition to Category, Action and Label) to be included in each data layer event fired from the front end.
 
 - `currentQuery`
+- `direction`
+- `entityId`
 - `entityType`
 - `entityUrl`
 - `facet`
 - `fileFormat`
 - `fileName`
 - `fileType`
+- `index`
 - `min`
 - `max`
 - `releaseName`
@@ -29,13 +32,14 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Label: `termName` or `between 0 and 100 years`
 
 
-- Entity Type: "Facet"
 - Current Query: `currentQuery`
+- Entity Type: "Facet"
 - Facet: `facetName`
-- Term: `termName` or `between 0 and 100 years`
-- Source: "Cohort Export", "Manifest Export", "Cohort Matrix", "Facet Browser", "Search" or "Selected Terms"
-- Min: `min`
+- Index: `index`
 - Max: `max`
+- Min: `min`
+- Source: "Cohort Export", "Manifest Export", "Cohort Matrix", "Facet Browser", "Search" or "Selected Terms"
+- Term: `termName` or `between 0 and 100 years`
 
 ###### Clear Search Terms
 
@@ -44,9 +48,19 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Label: "Clear All"
 
 
-- Entity Type: "Facet"
 - Current Query: `currentQuery`
+- Entity Type: "Facet"
+- Index: `index`
 - Source: "Selected Terms"
+
+###### Empty Search Results
+
+- Category: "Search"
+- Action: "Exception"
+- Label: "Empty Result Set"
+
+- Current Query: `currentQuery`
+- Index: `index`
 
 
 ##### Sort Events
@@ -57,9 +71,29 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Action: "Sort"
 - Label: `sortBy`
 
-- Entity Type: "Projects", "Samples" or "Files"
-- Current Query: `currentQuery`
 - Direction: "Asc" or "Desc"
+- Current Query: `currentQuery`
+- Index: `index`
+
+##### Page Events
+
+###### Next Page
+
+- Category: "Search Results"
+- Action: "Next Page"
+- Label: `currentPageNumber`
+
+- Current Query: `currentQuery`
+- Index: `index`
+
+###### Previous Page
+
+- Category: "Search Results"
+- Action: "Previous Page"
+- Label: `currentPageNumber`
+
+- Current Query: `currentQuery`
+- Index: `index`
 
 ##### Project Events
 
@@ -256,11 +290,26 @@ Visualize events are configured as:
 
 ### GTM "Data Layer" Variables
 
-##### Entity Type Name
+##### Current Query
+- Selected search terms at time of event.
+- Used to capture `currentQuery` dimension from front end data layer.
+- Corresponds to `currentQuery` custom dimension in Google Analytics.
+
+##### Direction
+- Specific to sort actions.
+- Used to capture `direction` dimension from front end data layer.
+- Corresponds to `direction` custom dimension in Google Analytics.
+
+##### Entity Id
+- Used to capture `entityId` dimension from front end data layer.
+- Corresponds to `entityId` custom dimension in Google Analytics.
+
+##### Entity Type
+- UI entity type (see `index` for data entity type).
 - Used to capture `entityType` dimension from front end data layer.
 - Corresponds to `entityType` custom dimension in Google Analytics.
 
-##### Entity URL Name
+##### Entity URL
 - Used to capture `entityUrl` dimension from front end data layer.
 - Corresponds to `entityUrl` custom dimension in Google Analytics.
 
@@ -271,6 +320,11 @@ Visualize events are configured as:
 ##### Event Label
 - Used to capture `eventLabel` dimension from front end data layer.
 - Corresponds to the Label value in a Google Analytics event.
+
+##### Facet
+- Used by search-related events when facet term is selected.
+- Used to capture `facet` dimension from front end data layer.
+- Corresponds to `facet` custom dimension in Google Analytics.
 
 ##### File Format
 - Used to capture `fileFormat` dimension from front end data layer.
@@ -284,9 +338,34 @@ Visualize events are configured as:
 - Used to capture `fileType` dimension from front end data layer.
 - Corresponds to `fileType` custom dimension in Google Analytics.
 
+##### Index
+- Data entity type (eg Projects, Samples, Files).
+- Used to capture `index` dimension from front end data layer.
+- Corresponds to `index` custom dimension in Google Analytics.
+
+##### Min
+- Specific to age range searches.
+- Used to capture `min` dimension from front end data layer, used during 
+- Corresponds to `min` custom dimension in Google Analytics.
+
+##### Max
+- Specific to age range searches.
+- Used to capture `max` dimension from front end data layer, used during 
+- Corresponds to `max` custom dimension in Google Analytics.
+
 ##### Release Name
 - Used to capture `releaseName` dimension from front end data layer.
 - Corresponds to `releaseName` custom dimension in Google Analytics.
+
+##### Source
+- UI element where event was triggered from.
+- Used to capture `source` dimension from front end data layer.
+- Corresponds to `source` custom dimension in Google Analytics.
+
+##### Term
+- Used by search-related events when facet term is selected.
+- Used to capture `term` dimension from front end data layer.
+- Corresponds to `term` custom dimension in Google Analytics.
 
 ##### Tool Name
 - Used to capture `fileType` dimension from front end data layer.
@@ -326,6 +405,16 @@ Visualize events are configured as:
 - Sends "Cohort Matrix Copy to Clipboard" event to Google Analytics when `Cohort Matrix Copy to Clipboard` trigger is fired.
 - Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
 
+#### Entity Return to Tab
+- Fired when tab (Projects, Samples, Files) is returned to from project detail or get dat flow. 
+- Sends "Entity Return to Tab" event to Google Analytics when `Entity Return to Tab` trigger is fired.
+- Event data includes Category, Action and Label as well as the Current Query dimension. 
+
+#### Entity Select Tab
+- Fired when tab is selected (Projects, Samples, Files).
+- Sends "Entity Select Tab" event to Google Analytics when `Entity Select Tab` trigger is fired.
+- Event data includes Category, Action and Label as well as the Current Query dimension. 
+
 #### Export Request
 - Sends "Export Request" event to Google Analytics when `Export Request` trigger is fired.
 - Event data includes Category, Action and Label as well as Entity Type and Tool Name dimensions.
@@ -338,17 +427,49 @@ Visualize events are configured as:
 - Sends "Export Copy to Clipboard" event to Google Analytics when `Export Copy to Clipboard` trigger is fired.
 - Event data includes Category, Action and Label as well as Entity Type, Entity URL and Tool Name dimensions.
 
-#### Dataset Download
-- Sends "Download" event to Google Analytics when `Dataset Download` trigger is fired.
+#### Portal Link
+- Sends "Portal Link" event to Google Analytics when `Portal Link` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity URL, Current Query and Source dimensions.
+
+#### Project Manifest Request
+- Sends "Project Manifest Request" event to Google Analytics when `Project Manifest Request` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Project Manifest Download
+- Sends "Project Manifest Download" event to Google Analytics when `Project Manifest Download` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Project Manifest Download Link Copy to Clipboard
+- Sends "Project Manifest Copy to Clipboard" event to Google Analytics when `Project Manifest Copy to Clipboard` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
+
+#### Project View Tab
+- Sends "Project View Tab" event to Google Analytics when `Project View Tab` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity URL, Entity ID and Current Query dimensions.
+
+#### Release Download
+- Sends "Download" event to Google Analytics when `Release Download` trigger is fired.
 - Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
 
-#### Dataset Copy to Clipboard
-- Sends "Copy to Clipboard" event to Google Analytics when `Dataset Copy to Clipboard` trigger is fired.
+#### Release Copy to Clipboard
+- Sends "Copy to Clipboard" event to Google Analytics when `Release Copy to Clipboard` trigger is fired.
 - Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
 
-#### Dataset Visualize
-- Sends "Visualize" event to Google Analytics when `Dataset Visualize` trigger is fired.
+#### Release Visualize
+- Sends "Visualize" event to Google Analytics when `Release Visualize` trigger is fired.
 - Event data includes Category, Action and Label as well as Release Name and Tool Name dimensions.
+
+#### Search
+- Sends "Search" event to Google Analytics when `Search` trigger is fired.
+- Event data includes Category, Action and Label as well as Entity ID, Entity Type, Current Query, Facet, Term, Source, Min, Max, and Index dimensions.
+
+#### Search Results Page
+- Sends "Search Results Page" event to Google Analytics when `Search Results Page` trigger is fired.
+- Event data includes Category, Action and Label as well as Current Query and Index dimensions.
+
+#### Search Results Sort
+- Sends "Search Results Sort" event to Google Analytics when `Search Results Sort` trigger is fired.
+- Event data includes Category, Action and Label as well as Current Query and Index dimensions.
 
 ### Front End Data Layer Event Configuration
 
@@ -368,6 +489,3 @@ where:
 - `eventLabel` is the Label value sent to Google Analytics, always the full URL to the file or visualization tool.
 - `dimension0` represents a dimension to be included in the event values sent to Google Analytics (eg `datasetName`, `toolName`, `releaseName`).
 
-### Deployment
-
-Currently published to develop, ux-dev, integration, staging and production.
