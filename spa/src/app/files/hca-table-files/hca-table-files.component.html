@@ -16,7 +16,7 @@
                     <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileName')"
                               [ngStyle]="getColumnStyle('fileName')">
                         <div [ngClass]="getFileDownloadClass(element.fileName)">
-                            <hca-download-file [file]="element"></hca-download-file>
+                            <hca-download-file [file]="element" (fileDownloaded)="onFileDownloaded($event)"></hca-download-file>
                             <span class="fontsize-xxs">{{element.fileName}}</span>
                         </div>
                     </mat-cell>

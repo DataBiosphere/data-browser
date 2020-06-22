@@ -13,8 +13,8 @@ export enum GADimension {
     "ENTITY_URL" = "entityUrl",
     "FACET" = "facet",
     "FILE_NAME" = "fileName",
-    "FILE_FORMAT" = "fileFormat",
-    "FILE_TYPE" = "fileType",
+    "FILE_FORMAT" = "fileFormat", // eg csv, loom
+    "FILE_TYPE" = "fileType", // Text description of file
     "INDEX" = "index",
     "MAX" = "max",
     "MIN" = "min",
