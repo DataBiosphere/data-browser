@@ -17,7 +17,9 @@ import { filter, map } from "rxjs/operators";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
+import { FileDownloadEvent } from "../hca-download-file/file-download.event";
 import { AppState } from "../../_ngrx/app.state";
+import { DownloadFileAction } from "../_ngrx/download-file.action";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,
@@ -41,6 +43,7 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
+
 
 @Component({
     selector: "hca-table-files",
@@ -118,6 +121,17 @@ export class HCATableFilesComponent implements OnInit {
 
         const action =
             new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
+        this.store.dispatch(action);
+    }
+
+    /**
+     * Dispatch action to track file download.
+     * 
+     * @param {FileDownloadEvent} event
+     */
+    public onFileDownloaded(event: FileDownloadEvent) {
+
+        const action = new DownloadFileAction(event.fileUrl, event.fileName, event.fileFormat);
         this.store.dispatch(action);
     }
 

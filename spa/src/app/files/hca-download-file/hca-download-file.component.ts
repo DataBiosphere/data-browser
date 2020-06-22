@@ -12,10 +12,11 @@ import { BehaviorSubject, interval, Observable, Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { FileDownloadEvent } from "./file-download.event";
+import { FileRow } from "../hca-table-files/file-row.model";
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadResponse } from "../shared/download-response.model";
 import { FileDownloadStatus } from "../shared/file-download-status.model";
-import { FileRow } from "../hca-table-files/file-row.model";
 
 @Component({
     selector: "hca-download-file",
@@ -34,9 +35,9 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
         status: FileDownloadStatus.NOT_STARTED
     });
 
-    // Inputs
+    // Inputs/outputs
     @Input() file: FileRow;
-    @Output() fileUrlGenerated = new EventEmitter<string>();
+    @Output() fileDownloaded = new EventEmitter<FileDownloadEvent>();
 
     // View child/ren
     @ViewChild("download", { static: false }) downloadEl: ElementRef; // Static false: must wait for ng switch to resolve 
@@ -44,12 +45,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     /**
      * @param {DownloadService} downloadService
      */
-    constructor(private downloadService: DownloadService) {
-    }
-
-    /**
-     * Public API
-     */
+    constructor(private downloadService: DownloadService) {}
 
     /**
      * Returns true if download has completed.
@@ -129,10 +125,13 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Initiate file download request.
+     * Initiate file download request. Let parent components know file download has been initiated.
      */
     public onRequestFile() {
-
+        
+        const event = new FileDownloadEvent(this.fileUrl, this.fileName, this.file.fileFormat);
+        this.fileDownloaded.emit(event);
+        
         // Update file download status to indicate user has initiated file download.
         this.downloadResponse$.next({
             status: FileDownloadStatus.INITIATED
@@ -225,10 +224,6 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
             this.requestFileDownload(response.fileUrl);
         }, response.retryAfter * 1000);
     }
-
-    /**
-     * Lifecycle hooks
-     */
 
     /**
      * Kill subscriptions on destroy of component.

@@ -10,9 +10,10 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, map, mergeMap, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { DownloadFileAction } from "./download-file.action";
 import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
@@ -26,7 +27,7 @@ import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
-import { selectCurrentQuery, selectSelectedSearchTerms } from "./search/search.selectors";
+import { selectCurrentQuery, selectPreviousQuery, selectSelectedSearchTerms } from "./search/search.selectors";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { SearchTerm } from "../search/search-term.model";
 import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
@@ -57,6 +58,22 @@ export class FileEffects {
                 private fileService: FilesService,
                 private gtmService: GTMService) {
     }
+
+    /**
+     * Track download of file.
+     */
+    @Effect({dispatch: false})
+    downloadFile$ = this.actions$.pipe(
+        ofType(DownloadFileAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as DownloadFileAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
+        })
+    );
 
     /**
      * Trigger fetch of facets, summary counts and the table. This executes:
