@@ -2,18 +2,32 @@
     <ng-container *ngTemplateOutlet="organTitle"></ng-container>
 </hca-table-sort>
 <ng-template #organTitle>
-    <div class="column-organ" *ngIf="columnName === 'organ'; else headerTitle">
-        <ng-container *ngTemplateOutlet="headerTitle"></ng-container>
-        <span class="fontsize-xxs bold"> / </span>
-        <hca-tooltip
-                *ngIf="columnName === 'organ'"
-                [tooltipContent]="getColumnDescription('modelOrgan')"
-                [tooltipDisabled]="getColumnDescription('modelOrgan') === null"
-                [tooltipPosition]="'above'"
-                [tooltipClass]="'hca-tooltip narrow'">
-            <span [ngClass]="{'fontsize-xxs bold': true, 'spacer': !isColumnSort(columnName)}">Model Organ</span>
-        </hca-tooltip>
-    </div>
+    <ng-container *ngIf="columnName === 'organ' || columnName === 'disease' ; else headerTitle">
+        <div class="column-organ" *ngIf="columnName === 'organ'">
+            <ng-container *ngTemplateOutlet="headerTitle"></ng-container>
+            <span class="fontsize-xxs bold"> / </span>
+            <hca-tooltip
+                    *ngIf="columnName === 'organ'"
+                    [tooltipContent]="getColumnDescription('modelOrgan')"
+                    [tooltipDisabled]="getColumnDescription('modelOrgan') === null"
+                    [tooltipPosition]="'above'"
+                    [tooltipClass]="'hca-tooltip narrow'">
+                <span [ngClass]="{'fontsize-xxs bold': true, 'spacer': !isColumnSort(columnName)}">Model Organ</span>
+            </hca-tooltip>
+        </div>
+        <div class="column-organ" *ngIf="columnName === 'disease'">
+            <ng-container *ngTemplateOutlet="headerTitle"></ng-container>
+            <span class="fontsize-xxs bold"> / </span>
+            <hca-tooltip
+                    *ngIf="columnName === 'disease'"
+                    [tooltipContent]="getColumnDescription('donorDisease')"
+                    [tooltipDisabled]="getColumnDescription('donorDisease') === null"
+                    [tooltipPosition]="'above'"
+                    [tooltipClass]="'hca-tooltip narrow'">
+                <span [ngClass]="{'fontsize-xxs bold': true, 'spacer': !isColumnSort(columnName)}">(Donor)</span>
+            </hca-tooltip>
+        </div>
+    </ng-container>
 </ng-template>
 <ng-template #headerTitle>
     <hca-tooltip

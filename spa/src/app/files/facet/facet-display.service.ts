@@ -21,7 +21,7 @@ export class FacetDisplayService {
 
         {
             facetGroupName: "Donor",
-            facetNames: ["genusSpecies", "organismAgeRange", "biologicalSex"]
+            facetNames: ["genusSpecies", "organismAgeRange", "biologicalSex", "donorDisease"]
         },
         {
             facetGroupName: "Tissue Type",

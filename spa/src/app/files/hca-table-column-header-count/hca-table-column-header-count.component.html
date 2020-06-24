@@ -4,7 +4,11 @@
                  [tooltipPosition]="'above'"
                  [tooltipClass]="'hca-tooltip narrow'"
                  *ngIf="isDomainCountVisible(columnName)">
-        <span>({{getDomainCountDisplayText(columnName)}})<ng-container *ngIf="columnName === 'organ'"><span> / ({{getDomainCountDisplayText('modelOrgan')}})</span></ng-container></span>
+        <span>
+            ({{getDomainCountDisplayText(columnName)}})
+            <ng-container *ngIf="columnName === 'organ'"><span> / ({{getDomainCountDisplayText('modelOrgan')}})</span></ng-container>
+            <ng-container *ngIf="columnName === 'disease'"><span> / ({{getDomainCountDisplayText('donorDisease')}})</span></ng-container>
+        </span>
     </hca-tooltip>
     <span *ngIf="isSummaryCountVisible(columnName)"><hca-content-ellipsis>({{summaryCount}})</hca-content-ellipsis></span>
 </div>

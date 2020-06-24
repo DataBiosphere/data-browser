@@ -33,9 +33,19 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 88,
+        columnFlexDirection: ColumnFlexDirection.COLUMN,
+        columnMinWidth: 120,
         columnSort: true,
         countName: "specimenDisease",
+        countType: CountType.DOMAIN_COUNT
+
+    },
+    {
+        key: "donorDisease",
+        userFriendly: "Disease Status (Donor)",
+        description: "Short description of known disease(s) of the organism.",
+        alignment: ColumnAlignment.LEFT,
+        columnSort: false,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -43,7 +53,7 @@ let tableColumns: TableColumn[] = [
         key: "donorCount",
         userFriendly: "Donor Count",
         alignment: ColumnAlignment.RIGHT,
-        columnMinWidth: 88,
+        columnMinWidth: 60,
         columnSort: true,
         countType: CountType.NONE
 
