@@ -1,4 +1,4 @@
-<span [ngClass]="{'cell-wrapper': tableCellContentWrapper}"
+<span [ngClass]="{'cell-wrapper': tableCellContentWrapper, 'enabled': !tooltipDisabled}"
       matTooltip="{{tooltipContent}}"
       matTooltipPosition="{{tooltipPosition}}"
       matTooltipShowDelay="{{tooltipShowDelay}}"

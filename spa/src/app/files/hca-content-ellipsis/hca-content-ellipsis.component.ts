@@ -2,11 +2,11 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles for hca content ellipsis component.
+ * Ellipsis component.
  */
 
 // Core dependencies
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 
 // App dependencies
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
@@ -36,7 +36,12 @@ export class HCAContentEllipsisComponent {
             return "";
         }
 
-        // Grab the content of the text child
+        // Grab the content of the text child. Remove any trailing slashes - this is specific to multi value columns
+        // and can be removed once multi value column implementation is refactored. TODO.
+        const tooltipContent = this.textElementRef.nativeElement.textContent;
+        if ( tooltipContent.endsWith("/") ) {
+            return tooltipContent.slice(0, -1);
+        }
         return this.textElementRef.nativeElement.textContent;
     }
 
