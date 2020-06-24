@@ -267,7 +267,11 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('disease')" [ngStyle]="getColumnStyle('disease')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
-                                <span class="fontsize-xxs">{{element.disease}}</span>
+                                <span class="fontsize-xxs">{{element.disease}}<span
+                                        *ngIf="element.donorDisease"> /</span></span>
+                            </hca-content-ellipsis>
+                            <hca-content-ellipsis *ngIf="element.donorDisease">
+                                <span class="fontsize-xxs">{{element.donorDisease}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
