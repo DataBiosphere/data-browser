@@ -25,5 +25,5 @@ export class HCATooltipComponent {
     @Input() tooltipPosition: string;
 
     // Template variables
-    tooltipShowDelay = 150;
+    tooltipShowDelay = 0;
 }

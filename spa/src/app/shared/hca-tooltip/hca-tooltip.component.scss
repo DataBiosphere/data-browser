@@ -11,6 +11,15 @@
 
 @import "../../site/theme/hca.vars";
 
+/* Darken text on tooltip source, on hover (table cells only) */
+.cell-wrapper.enabled {
+    transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1) 50ms;
+}
+
+.cell-wrapper.enabled:hover {
+    color: $hca-black;
+}
+
 /* Styles for ellipsis on table cell only - positions tooltip centered in relation to cell content */
 .cell-wrapper {
     display: inherit;
@@ -52,5 +61,9 @@
     /* Force break on longer tooltips where there are no spaces */
     &.truncate {
         word-break: break-all;
+    }
+    
+    .hca-tooltip span:last-of-type {
+        font-size: 600px;
     }
 }
