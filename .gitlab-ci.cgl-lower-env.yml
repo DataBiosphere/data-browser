@@ -57,7 +57,7 @@ build_cgl-dev:
     - pwd
     - ./insert-gtm-snippet.sh
     - cd spa
-    - npm run build-develop
+    - npm run build-cgl-dev
   only:
     - develop
 
