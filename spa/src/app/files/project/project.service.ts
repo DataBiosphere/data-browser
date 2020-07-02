@@ -44,15 +44,15 @@ export class ProjectService {
      * projects. See DB#1135 and DB#1139).
      *
      * @param {string} projectId
-     * @param {Project} updatedProject
+     * @param {Project} projectOverrides
      * @returns {Observable<Project>}
      */
-    public fetchProjectById(projectId: string, updatedProject: Project): Observable<Project> {
+    public fetchProjectById(projectId: string, projectOverrides: Project): Observable<Project> {
 
         const url = this.configService.getProjectUrl(projectId);
         return this.httpClient.get<Project>(url).pipe(
             map((response) => {
-                return this.bindProject(response, updatedProject);
+                return this.bindProject(response, projectOverrides);
             })
         );
     }
@@ -88,12 +88,12 @@ export class ProjectService {
      * Bind the raw response to Project object.
      *
      * @param {any} response
-     * @param {ReleaseProject} updatedProject
+     * @param {ReleaseProject} projectOverrides
      * @returns {Project}
      */
-    private bindProject(response: any, updatedProject: Project): Project {
+    private bindProject(response: any, projectOverrides: Project): Project {
 
-        const mapper = new ProjectMapper(response, updatedProject);
+        const mapper = new ProjectMapper(response, projectOverrides);
         return mapper.mapRow() as Project;
     }
 

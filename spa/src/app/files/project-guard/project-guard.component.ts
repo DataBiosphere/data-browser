@@ -9,8 +9,14 @@
 // Core dependencies
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { select, Store } from "@ngrx/store";
+import { BehaviorSubject, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+
+// App dependencies
+import { AppState } from "../../_ngrx/app.state";
+import { selectProjectById } from "../_ngrx/project-edits/project-edits.selectors";
+import { ProjectGuardComponentState } from "./project-guard.component.state";
 import { ProjectStatus } from "./project-status.model";
 
 @Component({
@@ -28,17 +34,15 @@ export class ProjectGuardComponent implements OnInit {
         // "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944, https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/948
     ];
 
-    private PROJECT_IDS_WITHDRAWN = [
-        "008e40e8-66ae-43bb-951c-c073a2fa6774" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/1209
-    ];
-
-    public projectId$: Observable<string>;
-
+    private ngDestroy$ = new Subject();
+    private state$ = new BehaviorSubject<ProjectGuardComponentState>({
+        loaded: false
+    });
+    
     /**
-     * @param {ActivatedRoute} route
+     * @param {ActivatedRoute} activatedRoute
      */
-    constructor(private route: ActivatedRoute) {
-    }
+    constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
 
     /**
      * Return the view mode for the project, depending on its current status.
@@ -46,15 +50,17 @@ export class ProjectGuardComponent implements OnInit {
      * @param {string} projectId
      * @returns {string}
      */
-    public getProjectViewMode(projectId): string {
+    public getProjectViewMode(projectId, withdrawn): string {
 
         if ( this.isProjectDeprecated(projectId) ) {
             return ProjectStatus.DEPRECATED;
         }
-        else if ( this.isProjectIngestInProgress(projectId) ) {
+        
+        if ( this.isProjectIngestInProgress(projectId) ) {
             return ProjectStatus.INGEST_IN_PROGRESS;
         }
-        else if ( this.isProjectWithdrawn(projectId) ) {
+        
+        if ( withdrawn ) {
             return ProjectStatus.WITHDRAWN;
         }
 
@@ -95,24 +101,32 @@ export class ProjectGuardComponent implements OnInit {
     }
 
     /**
-     * Returns true if project has been withdrawn.
-     *
-     * @param {string} projectIdToCheck
-     * @returns {boolean}
+     * Kill subscriptions on destroy of component.
      */
-    public isProjectWithdrawn(projectIdToCheck: string): boolean {
+    public ngOnDestroy() {
 
-        return this.PROJECT_IDS_WITHDRAWN.indexOf(projectIdToCheck) >= 0;
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
     
     /**
-     *
+     * Grab project from store.
      */
     ngOnInit() {
 
-        this.projectId$ = this.route.params
-            .pipe(
-                map(params => params["id"])
-            );
+        // Add selected project to state - grab the project ID from the URL.
+        const projectId = this.activatedRoute.snapshot.paramMap.get("id");
+        this.store.pipe(
+            select(selectProjectById, {id: projectId}),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(project => {
+
+            this.state$.next({
+                loaded: true,
+                projectId,
+                redirectUrl: project ? project.redirectUrl : null,
+                withdrawn: project && project.withdrawn
+            });
+        })
     }
 }

@@ -50,7 +50,7 @@ export class ProjectEffects {
         .pipe(
             ofType(FetchProjectRequestAction.ACTION_TYPE),
             // Prevent dupe hits to fetch project
-            distinct((action: FetchProjectRequestAction)  =>
+            distinct((action: FetchProjectRequestAction) =>
                 action.projectId,
                 this.actions$.pipe(ofType(ClearSelectedProjectAction.ACTION_TYPE))), // Reset distinct check on clear of project
             // Grab local overrides for the selected project
