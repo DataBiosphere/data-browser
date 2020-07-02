@@ -49,6 +49,7 @@ export class ProjectViewFactory {
         "organPart": "",
         "modelOrgan": "",
         "disease": "",
+        "donorDisease" :"",
         "libraryConstructionApproach": "",
         "pairedEnd": "",
         "workflow": "",
