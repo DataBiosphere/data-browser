@@ -18,9 +18,9 @@ export class ProjectMapper extends ProjectRowMapper {
 
     /**
      * @param {any} row - data modelling row in current selected table.
-     * @param {Project} updatedProject
+     * @param {Project} projectOverrides
      */
-    constructor(row: any, private updatedProject: Project) {
+    constructor(row: any, private projectOverrides: Project) {
         super(row);
     }
 
@@ -34,23 +34,29 @@ export class ProjectMapper extends ProjectRowMapper {
         // project's publications. That is, replace the entire publications array returned from the server with the 
         // publications array specified in the project edits JSON. 
         // Otherwise, use the publication data returned from the server. 
-        const publications = this.mapPublications(this.row.projects, this.updatedProject);
+        const publications = this.mapPublications(this.row.projects, this.projectOverrides);
         
         // If there are contributors listed in the updated project (loaded from the project edits JSON), use it to
         // update the project's contributors. Otherwise, use the publication data return from server.
-        const contributors = this.mapContributors(this.row.projects, this.updatedProject);
+        const contributors = this.mapContributors(this.row.projects, this.projectOverrides);
 
-        return Object.assign({}, super.mapRow(), {
-            arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
-            contributors: contributors,
-            fileType: (this.row.fileTypeSummaries || []).map(fileType => fileType.fileType),
-            geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
-            insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
-            insdcStudyAccessions: getUnspecifiedIfNullValue(this.projects.insdcStudyAccessions),
-            projectDescription: getUnspecifiedIfNullValue(this.projects.projectDescription),
-            publications: publications,
-            supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks")
-        });
+        return Object.assign(
+            {},
+            super.mapRow(),
+            {
+                arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
+                contributors: contributors,
+                fileType: (this.row.fileTypeSummaries || []).map(fileType => fileType.fileType),
+                geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
+                insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
+                insdcStudyAccessions: getUnspecifiedIfNullValue(this.projects.insdcStudyAccessions),
+                projectDescription: getUnspecifiedIfNullValue(this.projects.projectDescription),
+                publications: publications,
+                redirectUrl: this.projectOverrides ? this.projectOverrides.redirectUrl : null,
+                supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks"),
+                withdrawn: this.projectOverrides && this.projectOverrides.withdrawn // Check project edits to see if project has been withdrawn
+            }
+        );
     }
 
     /**

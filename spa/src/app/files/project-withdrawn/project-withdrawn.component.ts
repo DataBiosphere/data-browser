@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: "project-withdrawn",
@@ -14,4 +14,6 @@ import { Component } from "@angular/core";
     styleUrls: ["./project-withdrawn.component.scss"]
 })
 export class ProjectWithdrawnComponent {
+    
+    @Input() redirectUrl: string;
 }

@@ -18,5 +18,7 @@ export interface Project extends ProjectRow {
     insdcStudyAccessions: string[];
     projectDescription: string;
     publications: Publication[];
+    redirectUrl: string; // Redirect URL is only specified if project has been withdrawn
     supplementaryLinks: string[];
+    withdrawn: boolean;
 }
