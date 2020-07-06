@@ -37,6 +37,10 @@
     <span class="fontsize-xxs label">Donors</span>
 </div>
 <div class="summary">
+    <h3 class="fontsize-l terms">{{displayTerms(selectedDonorDiseases)}}</h3>
+    <span class="fontsize-xxs label">Disease Status (Donor)</span>
+</div>
+<div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                  [tooltipContent]="summary.specimenCount | localeString"
                  [tooltipDisabled]="isTooltipDisabled(summary.specimenCount)"
@@ -44,6 +48,10 @@
         <h3 class="fontsize-l count">{{summary.specimenCount | countSize}}</h3>
     </hca-tooltip>
     <span class="fontsize-xxs label">Specimens</span>
+</div>
+<div class="summary">
+    <h3 class="fontsize-l terms">{{displayTerms(selectedDiseases)}}</h3>
+    <span class="fontsize-xxs label">Disease Status (Specimen)</span>
 </div>
 <div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"

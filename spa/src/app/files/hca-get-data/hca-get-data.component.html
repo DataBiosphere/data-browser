@@ -29,7 +29,9 @@
                     <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
                 </ng-container>
             </div>
-            <hca-get-data-summary [selectedGenusSpecies]="listSelectedGenusSpecies(state.fileFacets)"
+            <hca-get-data-summary [selectedDiseases]="listSelectedDiseases(state.fileFacets)"
+                                  [selectedDonorDiseases]="listSelectedDonorDiseases(state.fileFacets)"
+                                  [selectedGenusSpecies]="listSelectedGenusSpecies(state.fileFacets)"
                                   [selectedLibraryConstructionApproaches]="listSelectedLibraryConstructionApproaches(state.fileFacets)"
                                   [selectedOrgans]="listSelectedOrgans(state.fileFacets)"
                                   [selectedOrganParts]="listSelectedOrganParts(state.fileFacets)"
