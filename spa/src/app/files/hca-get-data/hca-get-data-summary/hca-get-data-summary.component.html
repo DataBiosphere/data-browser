@@ -8,8 +8,10 @@
     </div>
     <div class="data-file-summary">
         <h4 class="fontsize-m semi-bold">Selected Data Summary</h4>
-        <hca-get-data-file-summary [selectedDiseases]="selectedDiseases"
+        <hca-get-data-file-summary *ngIf="loaded"
+                                   [selectedDiseases]="selectedDiseases"
                                    [selectedDonorDiseases]="selectedDonorDiseases"
+                                   [selectedGenusSpecies]="selectedGenusSpecies"
                                    [selectedLibraryConstructionApproaches]="selectedLibraryConstructionApproaches"
                                    [selectedOrgans]="selectedOrgans"
                                    [selectedOrganParts]="selectedOrganParts"

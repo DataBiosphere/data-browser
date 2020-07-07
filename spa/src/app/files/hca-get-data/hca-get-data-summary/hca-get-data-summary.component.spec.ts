@@ -107,6 +107,7 @@ describe("HCAGetDataSummaryComponent", () => {
             of([]) // search terms
         );
 
+        component.loaded = true;
         fixture.detectChanges();
 
         expect(fixture.debugElement.nativeElement.querySelector("hca-get-data-file-summary")).not.toBe(null);

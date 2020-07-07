@@ -12,6 +12,7 @@ import { Action } from "@ngrx/store";
 import { ClearIsMatrixSupportedAction } from "./clear-is-matrix-supported.action";
 import { InitEntityStateAction } from "../entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
+import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { FetchIsMatrixSupportedRequestAction } from "./fetch-is-matrix-supported-request.action";
 import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FacetState } from "./facet.state";
@@ -20,6 +21,7 @@ import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action"
 import { SetViewStateAction } from "./set-view-state.action";
 import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.action";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
+import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 
 /**
  * @param state {FacetState}
@@ -41,11 +43,19 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         // Handle clear of matrixable search results
         case ClearIsMatrixSupportedAction.ACTION_TYPE:
             return  state.clearMatrixableSearchResults();
+            
+        // Reset files facets (facets fetched from files endpoint for display on get data pages)
+        case ClearFilesFacetsAction.ACTION_TYPE:
+            return state.clearFilesFacets();
 
         // Handle cases where facet list has been re/requested and updated list of facets have been returned from end
         // point.
         case FetchFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFileFacets(action as FetchFacetsSuccessAction);
+            
+        // Fetch facets from files endpoint for populating facet summary on get data pages
+        case FetchFilesFacetsSuccessAction.ACTION_TYPE:
+            return state.receiveFilesFacets(action as FetchFilesFacetsSuccessAction);
 
         // Request matrixable data from the server
         case FetchIsMatrixSupportedRequestAction.ACTION_TYPE:
@@ -54,7 +64,8 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         // Matrixable data has been successfully returned from server
         case FetchIsMatrixSupportedSuccessAction.ACTION_TYPE:
             return state.receiveMatrixSupported(action as FetchIsMatrixSupportedSuccessAction);
-
+            
+        // Set up data for selected entity (eg projects, samples, files)
         case InitEntityStateAction.ACTION_TYPE:
             return state.requestFileFacets();            
 

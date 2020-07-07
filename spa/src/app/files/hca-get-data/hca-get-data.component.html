@@ -13,7 +13,7 @@
                             <hca-get-data-downloads [disableFeature]="state.disableFeature"
                                                     [matrixEnabled]="state.matrixSupported"
                                                     [matrixSpeciesSelectionRequired]="state.matrixSpeciesSelectionRequired"
-                                                    (downloadSelected)="onDownloadSelected($event, state.fileFacets)"></hca-get-data-downloads>
+                                                    (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
                         </div>
                         <div class="spinner-container" *ngIf="!state.matrixSupportedLoaded">
                             <mat-spinner *ngIf="true"
@@ -22,20 +22,21 @@
                         </div>
                     </ng-container>
                     <hca-get-matrix-species-selection *ngSwitchCase="'MATRIX_SPECIES_SELECTION'"
-                                                      [speciesFileFacet]="getSpeciesFileFacet(state.fileFacets)"
+                                                      [speciesFileFacet]="getSpeciesFileFacet(state.filesFacets)"
                                                       (speciesSelected)="onDownloadSelected('MATRIX')"></hca-get-matrix-species-selection>
                     <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
                     <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>
                     <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
                 </ng-container>
             </div>
-            <hca-get-data-summary [selectedDiseases]="listSelectedDiseases(state.fileFacets)"
-                                  [selectedDonorDiseases]="listSelectedDonorDiseases(state.fileFacets)"
-                                  [selectedGenusSpecies]="listSelectedGenusSpecies(state.fileFacets)"
-                                  [selectedLibraryConstructionApproaches]="listSelectedLibraryConstructionApproaches(state.fileFacets)"
-                                  [selectedOrgans]="listSelectedOrgans(state.fileFacets)"
-                                  [selectedOrganParts]="listSelectedOrganParts(state.fileFacets)"
-                                  [selectedPairedEnds]="listSelectedPairedEnds(state.fileFacets)"
+            <hca-get-data-summary [loaded]="!!state.filesFacets.length"
+                                  [selectedDiseases]="listSelectedDiseases(state.filesFacets)"
+                                  [selectedDonorDiseases]="listSelectedDonorDiseases(state.filesFacets)"
+                                  [selectedGenusSpecies]="listSelectedGenusSpecies(state.filesFacets)"
+                                  [selectedLibraryConstructionApproaches]="listSelectedLibraryConstructionApproaches(state.filesFacets)"
+                                  [selectedOrgans]="listSelectedOrgans(state.filesFacets)"
+                                  [selectedOrganParts]="listSelectedOrganParts(state.filesFacets)"
+                                  [selectedPairedEnds]="listSelectedPairedEnds(state.filesFacets)"
                                   [viewState]="viewState"></hca-get-data-summary>
         </div>
     </div>
