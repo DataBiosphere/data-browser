@@ -602,7 +602,7 @@ export function rollUpMetadata(array: any[]): any {
 
                 // flatten arrays
                 if ( value instanceof Array ) {
-                    value = value.join(", ");
+                    value = value.filter(val => val !== null).join(", ");
                 }
 
 
