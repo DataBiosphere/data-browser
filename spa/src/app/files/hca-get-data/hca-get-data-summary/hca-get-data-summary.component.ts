@@ -29,6 +29,7 @@ import { DownloadViewState } from "../download-view-state.model";
 export class HCAGetDataSummaryComponent implements OnInit {
 
     // Inputs
+    @Input() loaded: boolean; // True if facets have been fetched from the files endpoint
     @Input() selectedDiseases: Term[];
     @Input() selectedDonorDiseases: Term[];
     @Input() selectedGenusSpecies: Term[];
@@ -45,15 +46,10 @@ export class HCAGetDataSummaryComponent implements OnInit {
     /**
      * @param {Store<AppState>} store
      */
-    public constructor(private store: Store<AppState>) {
-    }
+    public constructor(private store: Store<AppState>) {}
 
     /**
-     * Public API
-     */
-
-    /**
-     * Update state.
+     * Set up state.
      */
     public ngOnInit() {
 

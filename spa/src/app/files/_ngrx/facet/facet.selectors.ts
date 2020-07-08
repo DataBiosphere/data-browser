@@ -33,6 +33,13 @@ export const selectFacetFileFacets = createSelector(selectFacet, (state) => {
 });
 
 /**
+ * Return the set of file facets, returned from the files endpoint, from the store.
+ */
+export const selectFilesFacets = createSelector(selectFacet, (state) => {
+    return state.filesFacets;
+});
+
+/**
  * Return the file format facet from the store.
  */
 export const selectFileFormatsFileFacet = createSelector(selectFacet, (state) => {

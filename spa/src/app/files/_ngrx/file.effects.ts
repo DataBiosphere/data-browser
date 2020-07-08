@@ -21,6 +21,8 @@ import { FetchIsMatrixSupportedRequestAction } from "./facet/fetch-is-matrix-sup
 import { FetchIsMatrixSupportedSuccessAction } from "./facet/fetch-is-matrix-supported-success.action";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
+import { FetchFilesFacetsRequestAction } from "./facet/fetch-files-facets-request.action";
+import { FetchFilesFacetsSuccessAction } from "./facet/fetch-files-facets-success.action";
 import { selectTableQueryParams } from "./file.selectors";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
@@ -197,6 +199,25 @@ export class FileEffects {
                     searchTermUpdatedAction,
                     tableDataAction
                 );
+            })
+        );
+
+    /**
+     * Fetch facets from files endpoint to populate facet summary on get data pages.
+     */
+    @Effect()
+    fetchFilesFacets$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchFilesFacetsRequestAction.ACTION_TYPE),
+            switchMap(() => this.store.pipe(select(selectTableQueryParams), take(1))),
+            switchMap((tableQueryParams) => {
+
+                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
+                return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS, EntityName.FILES);
+            }),
+            map((entitySearchResults) => {
+                
+                return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
             })
         );
 

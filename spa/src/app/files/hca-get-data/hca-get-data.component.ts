@@ -16,16 +16,19 @@ import { map } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { DownloadViewState } from "./download-view-state.model";
+import { Facet } from "../facet/facet.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { HcaGetDataComponentState } from "./hca-get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
+import { ClearFilesFacetsAction } from "../_ngrx/facet/clear-files-facets.action";
 import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
-import { selectFacetFileFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
+import { selectFilesFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
+import { FetchFilesFacetsRequestAction } from "../_ngrx/facet/fetch-files-facets-request.action";
 import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
 import { selectSelectedEntitySpec } from "../_ngrx/file.selectors";
-import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
+import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { Term } from "../shared/term.model";
 import { SearchTermUrlService } from "../search/url/search-term-url.service";
@@ -91,12 +94,12 @@ export class HCAGetDataComponent implements OnInit {
     /**
      * Find and return the species facet from the species set of facets.
      * 
-     * @param {FileFacet[]} fileFacets
+     * @param {Facet[]} fileFacets
      * @returns {FileFacet}
      */
-    public getSpeciesFileFacet(fileFacets: FileFacet[]): FileFacet {
+    public getSpeciesFileFacet(fileFacets: Facet[]): FileFacet {
 
-        return fileFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES);
+        return fileFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
     }
 
     /**
@@ -237,9 +240,10 @@ export class HCAGetDataComponent implements OnInit {
      * - more than one species, none selected, species selection required
      * - more than one species, at least one selected (either human or non-human), species selection not required 
      * 
+     * @param {Facet[]} fileFacets
      * @returns {boolean}
      */
-    private isMatrixSpeciesSelectionRequired(fileFacets: FileFacet[]): boolean {
+    private isMatrixSpeciesSelectionRequired(fileFacets: Facet[]): boolean {
 
         const speciesFileFacet = this.getSpeciesFileFacet(fileFacets);
         if ( !speciesFileFacet ) {
@@ -298,6 +302,7 @@ export class HCAGetDataComponent implements OnInit {
     public ngOnDestroy() {
 
         this.store.dispatch(new ClearIsMatrixSupportedAction());
+        this.store.dispatch(new ClearFilesFacetsAction());
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -310,8 +315,9 @@ export class HCAGetDataComponent implements OnInit {
         // Determine the current selected tab (from table)
         const selectedEntity$ = this.store.pipe(select(selectSelectedEntitySpec));
 
-        // Get the list of file facets to display
-        const fileFacets$ = this.store.pipe(select(selectFacetFileFacets));
+        // Get the list of facets to display. Must pull these from the files endpoint.
+        this.store.dispatch(new FetchFilesFacetsRequestAction());
+        const filesFacets$ = this.store.pipe(select(selectFilesFacets));
 
         // Grab the current set of selected search terms
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
@@ -322,20 +328,20 @@ export class HCAGetDataComponent implements OnInit {
 
         this.state$ = combineLatest(
             selectedEntity$,
-            fileFacets$,
+            filesFacets$,
             matrixSupported$,
             selectedSearchTerms$
         )
             .pipe(
-                map(([selectedEntity, fileFacets, matrixSupported, selectedSearchTerms]) => {
+                map(([selectedEntity, filesFacets, matrixSupported, selectedSearchTerms]) => {
 
                     const disableFeature = this.configService.isV2();
-                    const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(fileFacets);
+                    const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(filesFacets);
 
                     return {
                         selectedEntity,
                         disableFeature,
-                        fileFacets,
+                        filesFacets,
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
