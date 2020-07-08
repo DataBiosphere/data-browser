@@ -29,6 +29,8 @@ import { DownloadViewState } from "../download-view-state.model";
 export class HCAGetDataSummaryComponent implements OnInit {
 
     // Inputs
+    @Input() selectedDiseases: Term[];
+    @Input() selectedDonorDiseases: Term[];
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
     @Input() selectedOrgans: Term[];

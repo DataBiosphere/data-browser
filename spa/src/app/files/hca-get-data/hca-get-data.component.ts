@@ -122,6 +122,28 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
+     * Returns the effective terms for the disease facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedDiseases(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.DISEASE);
+    }
+
+    /**
+     * Returns the effective terms for the donor disease facet.
+     *
+     * @param {FileFacet[]} fileFacets
+     * @returns {Term[]}
+     */
+    public listSelectedDonorDiseases(fileFacets: FileFacet[]): Term[] {
+
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.DONOR_DISEASE);
+    }
+
+    /**
      * Returns the effective terms for the genus species facet.
      *
      * @param {FileFacet[]} fileFacets
@@ -288,7 +310,7 @@ export class HCAGetDataComponent implements OnInit {
         // Determine the current selected tab (from table)
         const selectedEntity$ = this.store.pipe(select(selectSelectedEntitySpec));
 
-        // Get the list of fileFacets to display
+        // Get the list of file facets to display
         const fileFacets$ = this.store.pipe(select(selectFacetFileFacets));
 
         // Grab the current set of selected search terms

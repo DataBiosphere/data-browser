@@ -25,6 +25,8 @@ import { Term } from "../../shared/term.model";
 export class HCAGetDataFileSummaryComponent {
 
     // Inputs
+    @Input() selectedDiseases: Term[];
+    @Input() selectedDonorDiseases: Term[];
     @Input() selectedGenusSpecies: Term[];
     @Input() selectedLibraryConstructionApproaches: Term[];
     @Input() selectedOrgans: Term[];

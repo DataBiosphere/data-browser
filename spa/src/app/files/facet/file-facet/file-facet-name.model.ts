@@ -6,6 +6,8 @@
  */
 
 export enum FileFacetName {
+    "DISEASE" = "disease",
+    "DONOR_DISEASE" = "donorDisease",
     "FILE_FORMAT" = "fileFormat",
     "GENUS_SPECIES" = "genusSpecies",
     "LIBRARY_CONSTRUCTION_APPROACH" = "libraryConstructionApproach",

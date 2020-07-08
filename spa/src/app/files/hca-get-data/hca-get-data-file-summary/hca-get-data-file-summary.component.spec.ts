@@ -26,7 +26,10 @@ describe("HCAGetDataFileSummaryComponent", () => {
     let component: HCAGetDataFileSummaryComponent;
     let fixture: ComponentFixture<HCAGetDataFileSummaryComponent>;
 
-    const SUMMARY_DISPLAY_ORDER = ["Projects", "Species", "Library Construction Method", "Organ", "Organ Part", "Paired End", "Donors", "Specimens", "Estimated Cells", "Files", "File Size"];
+    const SUMMARY_DISPLAY_ORDER = [
+        "Projects", "Species", "Library Construction Method", "Organ", "Organ Part", "Paired End", "Donors", 
+        "Disease Status (Donor)", "Specimens", "Disease Status (Specimen)", "Estimated Cells", "Files", "File Size"
+    ];
 
     // Summary order by index
     const INDEX_PROJECT_COUNT = 0;
@@ -36,10 +39,12 @@ describe("HCAGetDataFileSummaryComponent", () => {
     const INDEX_ORGAN_PART = 4;
     const INDEX_PAIRED_END = 5;
     const INDEX_DONORS_COUNT = 6;
-    const INDEX_SPECIMENS_COUNT = 7;
-    const INDEX_ESTIMATED_CELLS_COUNT = 8;
-    const INDEX_FILES_COUNT = 9;
-    const INDEX_FILE_SIZE_COUNT = 10;
+    const INDEX_DONOR_DISEASE_COUNT = 7;
+    const INDEX_SPECIMENS_COUNT = 8;
+    const INDEX_DISEASE_COUNT = 9;
+    const INDEX_ESTIMATED_CELLS_COUNT = 10;
+    const INDEX_FILES_COUNT = 11;
+    const INDEX_FILE_SIZE_COUNT = 12;
 
     beforeEach(async(() => {
 
