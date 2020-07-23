@@ -19,6 +19,7 @@ import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { HCAGetManifestState } from "./hca-get-manifest.state";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearManifestDownloadFileSummaryAction } from "../../_ngrx/file-manifest/clear-manifest-download-file-summary.action";
+import { ClearFileManifestUrlAction } from "../../_ngrx/file-manifest/clear-file-manifest-url.action";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary, selectFileManifestManifestResponse } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
@@ -167,7 +168,7 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
     public onRequestManifest(selectedSearchTerms: SearchTerm[]) {
 
         this.fileManifestService.trackRequestCohortManifest(selectedSearchTerms);
-        this.store.dispatch(new FetchFileManifestUrlRequestAction(this.ngDestroy$));
+        this.store.dispatch(new FetchFileManifestUrlRequestAction());
     }
 
     /**
@@ -175,7 +176,11 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
      */
     public ngOnDestroy() {
 
+        // Clear file manifest download-specific file summary from store
         this.store.dispatch(new ClearManifestDownloadFileSummaryAction());
+        
+        // Clear file manifest download request status, if any, from store
+        this.store.dispatch(new ClearFileManifestUrlAction());
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
@@ -193,15 +198,15 @@ export class HCAGetManifestComponent implements OnDestroy, OnInit {
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
         // Grab file summary for populating file type counts
-        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
+        const manifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
 
         // Update the UI with any changes in the download request request status and URL
-        const selectFileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
+        const fileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
 
         this.state$ = combineLatest(
             selectedSearchTerms$,
-            selectManifestDownloadFileSummary$,
-            selectFileManifestManifestResponse$
+            manifestDownloadFileSummary$,
+            fileManifestManifestResponse$
         ).pipe(
             map(([selectedSearchTerms, fileManifestFileSummary, manifestResponse]) => {
 

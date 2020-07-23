@@ -12,7 +12,7 @@
 
 // Core dependencies
 import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, BehaviorSubject, Observable, Subject } from "rxjs";
@@ -35,8 +35,11 @@ import { ProjectDownloadManifestModalState } from "./project-download-manifest-m
 })
 export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit {
 
+    // Locals
     private ngDestroy$ = new Subject();
-    private state$ = new BehaviorSubject<ProjectDownloadManifestModalState>({
+    
+    // Template variables
+    public state$ = new BehaviorSubject<ProjectDownloadManifestModalState>({
         loaded: false
     });
 
@@ -107,9 +110,8 @@ export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit 
 
         this.initCloseOnNavigation();
 
-        const projectId = this.data.projectId;
-
         // Request project details so we can display the project title
+        const projectId = this.data.projectId;
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab the current project

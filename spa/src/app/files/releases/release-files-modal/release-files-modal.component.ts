@@ -12,7 +12,7 @@
 
 // Core dependencies
 import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
@@ -50,10 +50,12 @@ import { ReleaseService } from "../../shared/release.service";
 export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
 
     // Locals
-    private columnsToDisplay = ["download", "description", "copyLink"];
     private ngDestroy$ = new Subject();
     private releaseFilesReferrer: boolean;
-    private state$ = new BehaviorSubject<ReleaseFilesModalState>({
+    
+    // Template variables
+    public columnsToDisplay = ["download", "description", "copyLink"];
+    public state$ = new BehaviorSubject<ReleaseFilesModalState>({
         loaded: false
     });
 

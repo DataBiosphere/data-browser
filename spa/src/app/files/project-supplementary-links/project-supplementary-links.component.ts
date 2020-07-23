@@ -28,7 +28,9 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    private state$ = new BehaviorSubject<ProjectSupplementaryLinksState>({
+    
+    // Template variables
+    public state$ = new BehaviorSubject<ProjectSupplementaryLinksState>({
         loaded: false
     });
 

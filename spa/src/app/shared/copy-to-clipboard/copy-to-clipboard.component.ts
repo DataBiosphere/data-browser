@@ -8,7 +8,7 @@
 // Core dependencies
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { BehaviorSubject, interval } from "rxjs";
-import { take } from "rxjs/internal/operators";
+import { take } from "rxjs/operators";
 
 @Component({
     selector: "copy-to-clipboard",

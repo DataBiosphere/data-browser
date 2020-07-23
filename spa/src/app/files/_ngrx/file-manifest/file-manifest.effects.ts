@@ -9,19 +9,21 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { map, switchMap, take } from "rxjs/operators";
+import { of, Observable } from "rxjs";
+import { concatMap, filter, map, skip, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-request.action";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
+import { selectFileManifestManifestResponse } from "./file-manifest.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { FileManifestService } from "../../shared/file-manifest.service";
-import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
+import { ManifestStatus } from "../../shared/manifest-status.model";
 
 @Injectable()
 export class FileManifestEffects {
@@ -37,8 +39,8 @@ export class FileManifestEffects {
     }
 
     /**
-     * Fetch file summary to populate file type summaries on manifest modal. Include all selected facets except any
-     * selected file types, in request.
+     * Fetch file summary to populate file type summaries on manifest download pages. Include all selected facets except
+     * any selected file types, in request.
      */
     @Effect()
     fetchManifestDownloadFileSummary$: Observable<Action> = this.actions$
@@ -59,23 +61,26 @@ export class FileManifestEffects {
     requestFileManifestUrl$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFileManifestUrlRequestAction.ACTION_TYPE),
-            switchMap((action) => this.store.pipe(
-                select(selectSelectedSearchTerms),
-                take(1),
-                map(searchTerms => ({action, searchTerms}))
-            )),
-            switchMap(({action, searchTerms}) =>
-                this.store.pipe(
-                    select(selectFileFormatsFileFacet),
-                    take(1),
-                    map((fileFormatsFileFacet) => {
-                        return {action, searchTerms, fileFormatsFileFacet};
-                    })
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectSelectedSearchTerms), take(1)),
+                    this.store.pipe(select(selectFileFormatsFileFacet), take(1))
                 )
-            ),
-            switchMap(({action, searchTerms, fileFormatsFileFacet}) =>
-                this.fileManifestService.requestFileManifestUrl(
-                    searchTerms, fileFormatsFileFacet, (action as FetchFileManifestUrlRequestAction).killSwitch$)),
+            )),
+            switchMap(([action, searchTerms, fileFormatsFileFacet]) => {
+
+                // Set up the kill switch for the polling of the file manifest URL. We'll use the value of the response
+                // object in the store, and only stop polling if the response state returns to NOT_STARTED (which occurs
+                // if user navigates away from download component).
+                const killSwitch$ = this.store.pipe(
+                    select(selectFileManifestManifestResponse),
+                    skip(1), // Skip the initial NOT_STARTED value, we need to wait until there's at least an initial response value
+                    map(manifestResponse => manifestResponse.status === ManifestStatus.NOT_STARTED),
+                    filter(cleared => cleared) // Only allow value to emit if file manifest response has been cleared from the store
+                );
+
+                return this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet, killSwitch$);
+            }),
             map(response => new FetchFileManifestUrlSuccessAction(response))
         );
 }

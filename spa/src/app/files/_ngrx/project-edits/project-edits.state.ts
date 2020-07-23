@@ -19,7 +19,6 @@ export class ProjectEditsState implements ProjectEdits {
      * @param {Project[]} projects
      */
     constructor(projects) {
-        
         this.projects = projects;
         this.projectsById = projects.reduce((accum, project) => {
             accum.set(project.entryId, project);

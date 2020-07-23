@@ -141,7 +141,7 @@ export class HCAGetMatrixComponent implements OnDestroy, OnInit {
     public onMatrixUrlRequested(selectedSearchTerms: SearchTerm[], fileFormat: MatrixFormat) {
 
         this.matrixService.trackRequestCohortMatrix(selectedSearchTerms, fileFormat);
-        this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat, this.ngDestroy$));
+        this.store.dispatch(new FetchMatrixUrlRequestAction(fileFormat));
     }
 
     /**

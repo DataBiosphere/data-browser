@@ -9,15 +9,14 @@
 import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { AppState } from "../../_ngrx/app.state";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { ProjectAnalysisPortalsState } from "./project-analysis-portals.state";
-import { Subject } from "rxjs/index";
 
 @Component({
     selector: "project-analysis-portals",

@@ -9,8 +9,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { map, switchMap, take } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
@@ -31,8 +31,7 @@ export class TerraEffects {
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                private terraService: TerraService) {
-    }
+                private terraService: TerraService) {}
 
     /**
      * Trigger export to Terra.
@@ -41,20 +40,14 @@ export class TerraEffects {
     exportToTerra$: Observable<Action> = this.actions$
         .pipe(
             ofType(ExportToTerraRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedSearchTerms),
-                take(1)
-            )),
-            switchMap((searchTerms) =>
-                this.store.pipe(
-                    select(selectFileFormatsFileFacet),
-                    take(1),
-                    map((fileFormatsFileFacet) => {
-                        return {searchTerms, fileFormatsFileFacet};
-                    })
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectSelectedSearchTerms), take(1)),
+                    this.store.pipe(select(selectFileFormatsFileFacet), take(1))
                 )
-            ),
-            switchMap(({searchTerms, fileFormatsFileFacet}) => this.terraService.exportToTerra(searchTerms, fileFormatsFileFacet)),
+            )),
+            switchMap(([action, searchTerms, fileFormatsFileFacet]) => 
+                this.terraService.exportToTerra(searchTerms, fileFormatsFileFacet)),
             map(response => this.terraService.isExportToTerraRequestInProgress(response.status) ?
                 new ExportToTerraInProgressAction(response) :
                 new ExportToTerraSuccessAction(response))

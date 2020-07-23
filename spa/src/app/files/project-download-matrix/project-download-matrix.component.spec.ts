@@ -8,7 +8,7 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule } from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";

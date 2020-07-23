@@ -12,6 +12,7 @@ import { ManifestStatus } from "../../shared/manifest-status.model";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { ManifestResponse } from "../../shared/manifest-response.model";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
+import { ClearFileManifestUrlAction } from "./clear-file-manifest-url.action";
 
 const DEFAULT_FILE_MANIFEST_STATE = {
     fileSummary: FileSummaryState.getDefaultState(),
@@ -30,6 +31,21 @@ export class FileManifestState {
      */
     constructor(state: FileManifest = DEFAULT_FILE_MANIFEST_STATE) {
         Object.assign(this, state);
+    }
+
+    /**
+     * File manifest request has been cancelled (for example, from navigation away from download); clear corresponding
+     * state.
+     * 
+     * @param {ClearFileManifestUrlAction} action
+     */
+    public clearFileManifestUrl(action: ClearFileManifestUrlAction) {
+        return new FileManifestState({
+            manifestResponse: {
+                status: ManifestStatus.NOT_STARTED
+            } as ManifestResponse,
+            fileSummary: this.fileSummary
+        });
     }
 
     /**

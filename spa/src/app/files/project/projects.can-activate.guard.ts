@@ -15,12 +15,12 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { select, Store } from "@ngrx/store";
+import { Observable, of } from "rxjs";
+import { switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
-import { Observable, of } from "rxjs/index";
-import { switchMap, take } from "rxjs/operators";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchTermUrlService } from "../search/url/search-term-url.service";
 import { UtilService } from "../../shared/util/util.service";

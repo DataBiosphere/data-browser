@@ -69,8 +69,8 @@ describe("File Effects", () => {
             ]
         });
 
-        effects = TestBed.get(FileEffects);
-        store = TestBed.get(Store);
+        effects = TestBed.inject(FileEffects);
+        store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
     });
 
     /**

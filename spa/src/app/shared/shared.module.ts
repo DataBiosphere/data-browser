@@ -9,7 +9,8 @@
 // Core dependencies
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { MatProgressSpinnerModule, MatTooltipModule } from "@angular/material";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";

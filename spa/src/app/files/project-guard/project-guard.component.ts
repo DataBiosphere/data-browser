@@ -11,7 +11,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
@@ -26,16 +26,17 @@ import { ProjectStatus } from "./project-status.model";
 })
 export class ProjectGuardComponent implements OnInit {
 
+    // Locals
     private PROJECT_IDS_BY_DEPRECATED_ID = new Map<string, string>([
         ["29f53b7e-071b-44b5-998a-0ae70d0229a4", "091cf39b-01bc-42e5-9437-f419a66c8a45"] // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/865
     ]);
-
     private PROJECT_IDS_INGEST_IN_PROGRESS = [
         // "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944, https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/948
     ];
-
     private ngDestroy$ = new Subject();
-    private state$ = new BehaviorSubject<ProjectGuardComponentState>({
+    
+    // Template variables
+    public  state$ = new BehaviorSubject<ProjectGuardComponentState>({
         loaded: false
     });
     
@@ -118,9 +119,9 @@ export class ProjectGuardComponent implements OnInit {
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
         this.store.pipe(
             select(selectProjectById, {id: projectId}),
-            takeUntil(this.ngDestroy$)
+            takeUntil(this.ngDestroy$),
+            take(1)
         ).subscribe(project => {
-
             this.state$.next({
                 loaded: true,
                 projectId,

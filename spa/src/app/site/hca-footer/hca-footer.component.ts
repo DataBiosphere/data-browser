@@ -8,12 +8,12 @@
 // Core dependencies
 import { Component } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
-import { BehaviorSubject, Subject } from "rxjs/index";
-import { AppState } from "../../_ngrx/app.state";
+import { BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { select, Store } from "@ngrx/store";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { HCAFooterState } from "./hca-footer.state";
 
@@ -25,11 +25,14 @@ import { HCAFooterState } from "./hca-footer.state";
 
 export class HCAFooterComponent {
 
-    private ngDestroy$ = new Subject();
-    private portalUrl: string;
-    private state$ = new BehaviorSubject<HCAFooterState>({
+    // Template variables
+    public portalUrl: string;
+    public state$ = new BehaviorSubject<HCAFooterState>({
         modalOpen: false
     });
+
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
 
     /**
      * @param {Store<AppState>} store

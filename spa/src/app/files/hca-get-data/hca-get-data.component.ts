@@ -51,11 +51,11 @@ import { SearchTermUrlService } from "../search/url/search-term-url.service";
 export class HCAGetDataComponent implements OnInit {
 
     // Locals
-    private ngDestroy$ = new Subject();
+    private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
-    private state$: Observable<HcaGetDataComponentState>;
-    private viewState = DownloadViewState.NONE;
+    public state$: Observable<HcaGetDataComponentState>;
+    public viewState = DownloadViewState.NONE;
 
     /**
      * @param {ConfigService} configService

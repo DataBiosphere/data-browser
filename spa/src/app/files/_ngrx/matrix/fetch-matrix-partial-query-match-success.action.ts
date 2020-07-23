@@ -9,7 +9,7 @@
 import { Action } from "@ngrx/store";
 
 export class FetchMatrixPartialQueryMatchSuccessAction implements Action {
-    public static ACTION_TYPE = "FILE.FETCH_MATRIX_PARTIAL_QUERY__MATCHSUCCESS";
+    public static ACTION_TYPE = "FILE.FETCH_MATRIX_PARTIAL_QUERY__MATCH_SUCCESS";
     public readonly type = FetchMatrixPartialQueryMatchSuccessAction.ACTION_TYPE;
     constructor(public readonly partialQueryMatch: boolean) {}
 }

@@ -347,7 +347,7 @@ describe("HCAGetMatrixComponent", () => {
 
         // Confirm store dispatch is called
         component.onMatrixUrlRequested([], MatrixFormat.loom);
-        const fetchMatrixUrlRequestAction = new FetchMatrixUrlRequestAction(MatrixFormat.loom, component["ngDestroy$"]);
+        const fetchMatrixUrlRequestAction = new FetchMatrixUrlRequestAction(MatrixFormat.loom);
         expect(testStore.dispatch).toHaveBeenCalledWith(fetchMatrixUrlRequestAction);
     });
 

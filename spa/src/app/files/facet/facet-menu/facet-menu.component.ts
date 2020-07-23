@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
-import { MatIcon } from "@angular/material";
+import { MatIcon } from "@angular/material/icon";
 
 // App dependencies
 
@@ -22,7 +22,7 @@ export class FacetMenuComponent {
     @Output() menuOpen = new EventEmitter<boolean>();
     
     // View child/ren
-    @ViewChild(MatIcon, {read: ElementRef, static: false}) closeElRef: ElementRef;
+    @ViewChild(MatIcon, { read: ElementRef }) closeElRef: ElementRef;
 
     /**
      * Prevents event propagation when click event is inside facet group.
