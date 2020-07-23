@@ -9,7 +9,7 @@
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatDialogModule } from "@angular/material";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -32,6 +32,9 @@ import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pip
 import { ConfigService } from "../config/config.service";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
 import { environment } from "../../environments/environment";
+import { AgeInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-in-age-unit.pipe";
+import { AgeUnitInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-unit-in-age-unit.pipe";
+import { AgeUnitInSeconds } from "./facet/facet-age-range/facet-age-range-form/age-unit-in-seconds.pipe";
 import { FacetAgeRangeFormComponent } from "./facet/facet-age-range/facet-age-range-form/facet-age-range-form.component";
 import { FacetDisplayService } from "./facet/facet-display.service";
 import { FacetMenuComponent } from "./facet/facet-menu/facet-menu.component";
@@ -166,6 +169,9 @@ const v2 = environment.version === "2.0";
         SharedModule
     ],
     declarations: [
+        AgeInAgeUnit,
+        AgeUnitInAgeUnit,
+        AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
         DataDownloadCitationComponent,
         DisplayDataLinkComponent,
@@ -244,12 +250,6 @@ const v2 = environment.version === "2.0";
         ReleaseTitleOverlineComponent,
         SelectedSearchTermsComponent,
         TableScroll
-    ],
-    entryComponents: [
-        ProjectDownloadManifestModalComponent,
-        ProjectDownloadMatrixModalComponent,
-        ReleaseFilesModalComponent,
-        ReleaseVisualizationsModalComponent
     ],
     providers: [
         ConfigService,

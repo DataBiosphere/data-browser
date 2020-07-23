@@ -73,8 +73,10 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
         case FetchTableDataSuccessAction.ACTION_TYPE:
 
             const data = (action as FetchTableDataSuccessAction).data;
-            const pagination = (action as FetchTableDataSuccessAction).pagination;
-            pagination.current_page = 1;
+            const pagination = {
+                ...(action as FetchTableDataSuccessAction).pagination,
+                current_page: 1
+            };
             termCountsByFacetName = (action as FetchTableDataSuccessAction).termCountsByFacetName;
 
             nextState = {
@@ -90,13 +92,19 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
         case FetchTableModelSuccessAction.ACTION_TYPE:
 
             tableModel = (action as FetchTableModelSuccessAction).tableModel;
-            tableModel.pagination.current_page = 1;
+            const updatedTableModel = {
+                ...tableModel,
+                pagination: {
+                    ...tableModel.pagination,
+                    current_page: 1
+                }
+            };
 
             nextState = {
                 ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.updateSelectedTableModel(state, tableModel)
+                tableModels: tableStateService.updateSelectedTableModel(state, updatedTableModel)
             };
 
             return nextState;
@@ -105,7 +113,10 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
         case TableNextPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TableNextPageSuccessAction).tableModel;
-            tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page + 1;
+            const nextPagination = {
+                ...tableModel.pagination,
+                current_page: tableStateService.getSelectedTable(state).pagination.current_page + 1
+            };
 
             termCountsByFacetName = tableStateService.getSelectedTable(state).termCountsByFacetName;
 
@@ -113,7 +124,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
                 ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, tableModel.pagination, termCountsByFacetName)
+                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, nextPagination, termCountsByFacetName)
             };
 
             return nextState;
@@ -122,7 +133,10 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
         case TablePreviousPageSuccessAction.ACTION_TYPE:
 
             tableModel = (action as TablePreviousPageSuccessAction).tableModel;
-            tableModel.pagination.current_page = tableStateService.getSelectedTable(state).pagination.current_page - 1;
+            const previousPagination = {
+                ...tableModel.pagination,
+                current_page: tableStateService.getSelectedTable(state).pagination.current_page - 1
+            };
 
             termCountsByFacetName = tableStateService.getSelectedTable(state).termCountsByFacetName;
 
@@ -130,7 +144,7 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
                 ...state,
                 selectedEntity: state.selectedEntity,
                 entitySpecs: state.entitySpecs,
-                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, tableModel.pagination, termCountsByFacetName)
+                tableModels: tableStateService.updateSelectedTableModelData(state, tableModel.data, previousPagination, termCountsByFacetName)
             };
 
             return nextState;

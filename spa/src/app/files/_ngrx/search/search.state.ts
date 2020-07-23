@@ -7,7 +7,7 @@
  */
 
 // Core dependencies
-import * as _ from "lodash";
+import { isEqual } from "lodash-es";
 
 // App dependencies
 import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
@@ -224,7 +224,7 @@ export class SearchState {
         // Remove the selected term for the current set of selected term
         let updatedSearchTerms = Array.from(currentSearchTerms).reduce((accum, currentSearchTerm) => {
 
-            if ( !_.isEqual(currentSearchTerm, selectedTerm) ) {
+            if ( !isEqual(currentSearchTerm, selectedTerm) ) {
                 accum.add(currentSearchTerm);
             }
 

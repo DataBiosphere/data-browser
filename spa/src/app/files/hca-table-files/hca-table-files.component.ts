@@ -53,36 +53,36 @@ import { EntitiesDataSource } from "../table/entities.data-source";
 export class HCATableFilesComponent implements OnInit {
 
     // Template variables
-    data$: Observable<any[]>;
-    defaultSortOrder = {
+    public data$: Observable<any[]>;
+    public defaultSortOrder = {
         sort: "fileName",
         order: "asc"
     };
-    displayedColumns = [
+    public displayedColumns = [
         "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType",
         "libraryConstructionApproach", "pairedEnd", "workflow", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
-    domainCountsByColumnName$: Observable<Map<string, number>>;
-    getAge = getAge;
-    getColumnClass = getColumnClass;
-    getColumnDisplayName = getColumnDisplayName;
-    getColumnStyle = getColumnStyle;
-    isElementUnspecified = isElementUnspecified;
-    loading$: Observable<boolean>;
-    selectFileSummary$: Observable<FileSummary>;
-    dataSource: EntitiesDataSource<FileRowMapper>;
-    pagination$: Observable<Pagination>;
+    public domainCountsByColumnName$: Observable<Map<string, number>>;
+    public getAge = getAge;
+    public getColumnClass = getColumnClass;
+    public getColumnDisplayName = getColumnDisplayName;
+    public getColumnStyle = getColumnStyle;
+    public isElementUnspecified = isElementUnspecified;
+    public loading$: Observable<boolean>;
+    public selectFileSummary$: Observable<FileSummary>;
+    public dataSource: EntitiesDataSource<FileRowMapper>;
+    public pagination$: Observable<Pagination>;
     public dataLoaded$: Observable<boolean>;
 
     // Locals
-    private ngDestroy$ = new Subject();
+    private ngDestroy$ = new Subject<boolean>();
 
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatSort, {static: false}) matSort: MatSort;
-    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
+    @ViewChild(MatSort) matSort: MatSort;
+    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
      * @param {Store<AppState>} store

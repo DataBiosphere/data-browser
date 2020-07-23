@@ -58,35 +58,35 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
 
     // Template variables
     data$: Observable<any[]>;
-    defaultSortOrder = {
+    public dataLoaded$: Observable<boolean>;
+    public defaultSortOrder = {
         sort: "sampleId",
         order: "asc"
     };
-    displayedColumns = [
+    public displayedColumns = [
         "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "workflow",
         "organismAge", "biologicalSex", "disease", "totalCells"
     ];
-    domainCountsByColumnName$: Observable<Map<string, number>>;
-    getAge = getAge;
-    getColumnClass = getColumnClass;
-    getColumnDisplayName = getColumnDisplayName;
-    getColumnStyle = getColumnStyle;
-    isElementUnspecified = isElementUnspecified;
-    loading$: Observable<boolean>;
-    selectFileSummary$: Observable<FileSummary>;
-    dataSource: EntitiesDataSource<SampleRowMapper>;
-    pagination$: Observable<Pagination>;
+    public domainCountsByColumnName$: Observable<Map<string, number>>;
+    public getAge = getAge;
+    public getColumnClass = getColumnClass;
+    public getColumnDisplayName = getColumnDisplayName;
+    public getColumnStyle = getColumnStyle;
+    public isElementUnspecified = isElementUnspecified;
+    public loading$: Observable<boolean>;
+    public selectFileSummary$: Observable<FileSummary>;
+    public dataSource: EntitiesDataSource<SampleRowMapper>;
+    public pagination$: Observable<Pagination>;
 
     // Locals
     private ngDestroy$ = new Subject();
-    private dataLoaded$: Observable<boolean>;
 
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatSort, {static: false}) matSort: MatSort;
-    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
+    @ViewChild(MatSort) matSort: MatSort;
+    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
      * @param {Store<AppState>} store

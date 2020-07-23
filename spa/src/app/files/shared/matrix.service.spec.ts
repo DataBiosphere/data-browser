@@ -50,9 +50,9 @@ describe("MatrixService:", () => {
                 }]
         });
 
-        const configService = TestBed.get(ConfigService);
-        const fileManifestService = TestBed.get(FileManifestService);
-        const gtmService = TestBed.get(GTMService);
+        const configService = TestBed.inject(ConfigService);
+        const fileManifestService = TestBed.inject(FileManifestService);
+        const gtmService = TestBed.inject(GTMService);
 
         const termResponseService = new ResponseTermService();
         const searchTermService = new SearchTermHttpService(termResponseService);

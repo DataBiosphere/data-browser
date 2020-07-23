@@ -26,8 +26,10 @@ import { MinMaxValidator } from "./min-max.validator";
 export class FacetAgeRangeFormComponent implements OnDestroy, OnInit {
 
     // Locals
-    private pristine: boolean = true; // True if user has not yet submitted the form since form was first displayed on menu open
-    private ageRangeGroup: FormGroup;
+    public ageRangeGroup: FormGroup;
+    
+    // Template variables
+    public pristine: boolean = true; // True if user has not yet submitted the form since form was first displayed on menu open
     private ngDestroy$ = new Subject();
 
     // Inputs

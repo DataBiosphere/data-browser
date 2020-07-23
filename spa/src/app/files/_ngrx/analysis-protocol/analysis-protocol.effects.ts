@@ -9,13 +9,13 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
+import { of } from "rxjs";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewAnalysisProtocolAction } from "./view-analysis-protocol.action";
-import { of } from "rxjs/index";
 import { selectPreviousQuery } from "../search/search.selectors";
 
 @Injectable()

@@ -9,18 +9,17 @@
 // Core dependencies
 import { Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subject } from "rxjs/index";
+import { Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { ClearProjectTSVUrlAction } from "../_ngrx/project/clear-project-tsv-url.action";
 import { FetchProjectTSVUrlRequestAction } from "../_ngrx/project/fetch-project-tsv-url-request.action";
-import { selectProjectTSVUrlsByProjectId } from "../_ngrx/project/project.selectors";
+import { selectProjectTSVUrlResponseByProjectId } from "../_ngrx/project/project.selectors";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { ProjectTSVUrlResponse } from "../project/project-tsv-url-response.model";
 import { ProjectDownloadManifestState } from "./project-download-manifest.state";
-import { SearchTerm } from "../search/search-term.model";
 import { FileManifestService } from "../shared/file-manifest.service";
 
 @Component({
@@ -37,12 +36,12 @@ export class ProjectDownloadManifestComponent implements OnDestroy {
     private ngDestroy$ = new Subject<boolean>();
 
     // Inputs
-    @Input('classFontName') classFontName: string;
+    @Input("classFontName") classFontName: string;
     @Input() projectId: string;
     @Input() projectTitle: string;
 
     // View child/ren
-    @ViewChild("download" , { static: false }) downloadEl: ElementRef;
+    @ViewChild("download") downloadEl: ElementRef;
 
     /**
      * @param {FileManifestService} fileManifestService
@@ -68,9 +67,9 @@ export class ProjectDownloadManifestComponent implements OnDestroy {
      * @returns {string}
      */
     public onDownloadMetadata(projectTitle: string) {
-
+        
         this.fileManifestService.trackDownloadProjectManifest(projectTitle);
-        this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle, this.ngDestroy$));
+        this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle));
     }
 
     /**
@@ -136,7 +135,7 @@ export class ProjectDownloadManifestComponent implements OnDestroy {
     public ngOnInit() {
 
         this.state$ = this.store.pipe(
-            select(selectProjectTSVUrlsByProjectId, {projectId: this.projectId}),
+            select(selectProjectTSVUrlResponseByProjectId, {projectId: this.projectId}),
             takeUntil(this.ngDestroy$),
             map((response: ProjectTSVUrlResponse) => {
 

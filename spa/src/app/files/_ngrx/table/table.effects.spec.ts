@@ -70,8 +70,8 @@ describe("Table Effects", () => {
             ],
         });
 
-        effects = TestBed.get(TableEffects);
-        store = TestBed.get(Store);
+        effects = TestBed.inject(TableEffects);
+        store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
     });
 
     /**

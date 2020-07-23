@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatTooltipModule } from "@angular/material";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";

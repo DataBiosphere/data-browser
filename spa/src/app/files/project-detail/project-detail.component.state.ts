@@ -11,8 +11,9 @@ import { SearchTerm } from "../search/search-term.model";
 
 export interface ProjectDetailComponentState {
 
-    externalResourcesExist: boolean;
-    project: Project;
-    projectInRelease: boolean;
-    projectSelected: boolean;
+    externalResourcesExist?: boolean;
+    loaded: boolean;
+    project?: Project;
+    projectInRelease?: boolean;
+    projectSelected?: boolean;
 }

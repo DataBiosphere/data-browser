@@ -12,7 +12,7 @@
 
 // Core dependencies
 import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, BehaviorSubject, Observable, Subject } from "rxjs";
@@ -38,8 +38,11 @@ import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal
 })
 export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
 
+    // Locals
     private ngDestroy$ = new Subject();
-    private state$ = new BehaviorSubject<ProjectDownloadMatrixModalState>({
+    
+    // Template variables
+    public state$ = new BehaviorSubject<ProjectDownloadMatrixModalState>({
         loaded: false
     });
 

@@ -1,22 +1,23 @@
-<pop-layout *ngIf="state$ | async as state"
-            [tabs]="getProjectDetailTabs()">
-    <ng-container title>Explore Project</ng-container>
-    <project-nav nav
-                 [externalResourcesExist]="state.externalResourcesExist"
-                 [projectInRelease]="state.projectInRelease"
-                 [releaseFeatureEnabled]="isReleaseFeatureEnabled()"></project-nav>
-    <div content>
-        <status-panel class="project-title">
-            <release-title-overline *ngIf="isReleaseFeatureEnabled() && state.projectInRelease"></release-title-overline>
-            <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
-            <div class="select-project"
-                 (click)="onProjectSelected(state.projectSelected, state.project.entryId, state.project.projectShortname)">
-                <div [ngClass]="getLegendClass(state.projectSelected)">
-                    <mat-icon *ngIf="state.projectSelected">check</mat-icon>
+<ng-container *ngIf="state$ | async as state"> 
+    <pop-layout [tabs]="getProjectDetailTabs()" *ngIf="state.loaded">
+        <ng-container title>Explore Project</ng-container>
+        <project-nav nav
+                     [externalResourcesExist]="state.externalResourcesExist"
+                     [projectInRelease]="state.projectInRelease"
+                     [releaseFeatureEnabled]="isReleaseFeatureEnabled()"></project-nav>
+        <div content>
+            <status-panel class="project-title">
+                <release-title-overline *ngIf="isReleaseFeatureEnabled() && state.projectInRelease"></release-title-overline>
+                <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
+                <div class="select-project"
+                     (click)="onProjectSelected(state.projectSelected, state.project.entryId, state.project.projectShortname)">
+                    <div [ngClass]="getLegendClass(state.projectSelected)">
+                        <mat-icon *ngIf="state.projectSelected">check</mat-icon>
+                    </div>
+                    <span class="fontsize-xs">Select Project</span>
                 </div>
-                <span class="fontsize-xs">Select Project</span>
-            </div>
-        </status-panel>
-        <router-outlet></router-outlet>
-    </div>
-</pop-layout>
+            </status-panel>
+            <router-outlet></router-outlet>
+        </div>
+    </pop-layout>
+</ng-container>

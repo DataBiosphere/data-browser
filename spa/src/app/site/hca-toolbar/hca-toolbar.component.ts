@@ -9,7 +9,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -18,7 +18,6 @@ import { ReleaseService } from "../../files/shared/release.service";
 import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../_ngrx/app.state";
-import { Subject } from "rxjs/index";
 
 @Component({
     selector: "hca-toolbar",
@@ -30,12 +29,14 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
 
     // Template variables
     public dropDownMenuOpen = false;
-    private currentUrl: string;
-    private ngDestroy$ = new Subject();
-    private portalUrl: string;
-    private state$ = new BehaviorSubject<HCAToolbarComponentState>({
+    public portalUrl: string;
+    public state$ = new BehaviorSubject<HCAToolbarComponentState>({
         modalOpen: false
     });
+
+    // Locals
+    private currentUrl: string;
+    private ngDestroy$ = new Subject();
 
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();

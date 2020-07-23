@@ -15,7 +15,7 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 import { FetchProjectTSVUrlRequestAction } from "../_ngrx/project/fetch-project-tsv-url-request.action";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { selectProjectTSVUrlsByProjectId } from "../_ngrx/project/project.selectors";
+import { selectProjectTSVUrlResponseByProjectId } from "../_ngrx/project/project.selectors";
 import { ProjectDownloadTSVState } from "./project-download-tsv.state";
 import { ProjectTSVUrlRequestStatus } from "../project/project-tsv-url-request-status.model";
 import { ProjectTSVUrlResponse } from "../project/project-tsv-url-response.model";
@@ -33,7 +33,7 @@ export class ProjectDownloadTSVComponent implements OnDestroy {
     @Input() projectTitle: string;
 
     // View child/ren
-    @ViewChild("download" , { static: false }) downloadEl: ElementRef;
+    @ViewChild("download") downloadEl: ElementRef;
 
     // Template variables
     public state$: Observable<ProjectDownloadTSVState>;
@@ -44,7 +44,7 @@ export class ProjectDownloadTSVComponent implements OnDestroy {
     /**
      * @param {DeviceDetectorService} deviceService
      * @param {ElementRef} elementRef
-     * @param {Store<AppStore>} store
+     * @param {Store<AppState>} store
      */
     public constructor(
         private deviceService: DeviceDetectorService, private elementRef: ElementRef, private store: Store<AppState>) {
@@ -73,7 +73,7 @@ export class ProjectDownloadTSVComponent implements OnDestroy {
             return; // do nothing
         }
 
-        this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle, this.ngDestroy$));
+        this.store.dispatch(new FetchProjectTSVUrlRequestAction(this.projectId, this.projectTitle));
     }
 
     /**
@@ -139,7 +139,7 @@ export class ProjectDownloadTSVComponent implements OnDestroy {
     public ngOnInit() {
         
         this.state$ = this.store.pipe(
-            select(selectProjectTSVUrlsByProjectId, {projectId: this.projectId}),
+            select(selectProjectTSVUrlResponseByProjectId, {projectId: this.projectId}),
             takeUntil(this.ngDestroy$),
             map((response: ProjectTSVUrlResponse) => {
 

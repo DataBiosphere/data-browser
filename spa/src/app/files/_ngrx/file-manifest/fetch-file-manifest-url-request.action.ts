@@ -12,5 +12,5 @@ import { Subject } from "rxjs";
 export class FetchFileManifestUrlRequestAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_REQUEST";
     public readonly type = FetchFileManifestUrlRequestAction.ACTION_TYPE;
-    constructor(public readonly killSwitch$: Subject<boolean>) {}
+    constructor() {}
 }

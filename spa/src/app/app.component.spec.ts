@@ -8,7 +8,8 @@
 // Core dependencies
 import { Location } from "@angular/common";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatToolbarModule } from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent, RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";

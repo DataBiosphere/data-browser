@@ -7,7 +7,8 @@
 
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatProgressSpinnerModule } from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
 

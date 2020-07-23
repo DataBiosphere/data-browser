@@ -15,7 +15,7 @@ import {
     OnDestroy,
     Renderer2
 } from "@angular/core";
-import { MatTable } from "@angular/material";
+import { MatTable } from "@angular/material/table";
 import { fromEvent, merge, Observable, Subject } from "rxjs";
 import { debounceTime, map, switchMap, take, takeUntil } from "rxjs/operators";
 
@@ -36,7 +36,7 @@ export class TableScroll implements OnDestroy, AfterContentInit {
     private ngDestroy$ = new Subject();
 
     // Content children
-    @ContentChild(MatTable, {read: ElementRef, static: false}) matTable: ElementRef;
+    @ContentChild(MatTable, { read: ElementRef }) matTable: ElementRef;
 
     // Inputs
     @Input("dataLoaded") dataLoaded$: Observable<boolean>;

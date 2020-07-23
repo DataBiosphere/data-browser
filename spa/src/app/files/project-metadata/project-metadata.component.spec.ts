@@ -8,7 +8,8 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatProgressSpinnerModule } from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";

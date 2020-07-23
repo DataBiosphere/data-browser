@@ -17,7 +17,7 @@ import { ProjectState } from "./project.state";
 export const selectProject = createFeatureSelector<ProjectState>("project");
 
 /**
- * Returns the map of project TSV URLs keyed by project ID.
+ * Returns the current status (ProjectTSVUrlResponse) of the TSV download for the speciifed project.
  */
-export const selectProjectTSVUrlsByProjectId =
+export const selectProjectTSVUrlResponseByProjectId =
     createSelector(selectProject, (state, props) => state.projectTSVUrlResponsesByProjectId.get(props.projectId));

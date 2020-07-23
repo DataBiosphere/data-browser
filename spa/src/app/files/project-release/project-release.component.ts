@@ -9,7 +9,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Subject } from "rxjs/index";
+import { BehaviorSubject, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -21,6 +21,7 @@ import { ReleaseOrganView } from "../releases/release-organ-view.model";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { ReleaseService } from "../shared/release.service";
+import { ConfigService } from "../../config/config.service";
 
 @Component({
     selector: "project-release",
@@ -30,24 +31,30 @@ import { ReleaseService } from "../shared/release.service";
 export class ProjectReleaseComponent implements OnDestroy, OnInit {
 
     // Locals
+    private ngDestroy$ = new Subject<boolean>();
+    
+    // Template variables
     public columnsToDisplay = ["dataset", "organ", "developmentalStage", "technology", "releaseFiles", "visualize",
         "attributes", "actions"]; // attributes and actions are mobile-only columns, to group values into a single column
-    private ngDestroy$ = new Subject();
-    private state$ = new BehaviorSubject<ReleaseState>({
+    public portalUrl: string;
+    public state$ = new BehaviorSubject<ReleaseState>({
         loaded: false,
         releaseOrganViews: []
     });
 
     /**
      * @param {ProjectAnalyticsService} projectAnalyticsService
+     * @param {ConfigService} configService
      * @param {ReleaseService} releaseService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      */
     constructor(private projectAnalyticsService: ProjectAnalyticsService,
+                private configService: ConfigService,
                 private releaseService: ReleaseService,
                 private store: Store<AppState>,
-                private activatedRoute: ActivatedRoute,) {
+                private activatedRoute: ActivatedRoute) {
+        this.portalUrl = this.configService.getPortalUrl();
     }
 
     /**
@@ -66,7 +73,7 @@ export class ProjectReleaseComponent implements OnDestroy, OnInit {
 
             const project = release.projects[0];
             this.projectAnalyticsService.trackTabView(GAAction.VIEW_RELEASES, project.projectId, project.projectShortname);
-        })
+        });
     }
 
     /**

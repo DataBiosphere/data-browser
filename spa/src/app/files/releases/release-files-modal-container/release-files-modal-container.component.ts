@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Component, OnDestroy, ViewEncapsulation } from "@angular/core";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";

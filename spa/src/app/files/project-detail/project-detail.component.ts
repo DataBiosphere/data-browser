@@ -11,7 +11,7 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable, Subject } from "rxjs/index";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -41,10 +41,14 @@ import { GASource } from "../../shared/analytics/ga-source.model";
 })
 export class ProjectDetailComponent {
 
-    // Template variables
+    // Locals
     private releaseReferrer: boolean;
     private ngDestroy$ = new Subject();
-    private state$: Observable<ProjectDetailComponentState>;
+
+    // Template variables
+    public state$ = new BehaviorSubject<ProjectDetailComponentState>({
+        loaded: false
+    });
 
     /**
      * @param {ReleaseService} releaseService
@@ -175,16 +179,25 @@ export class ProjectDetailComponent {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        const project$ = this.store.pipe(select(selectSelectedProject));
+        const project$ = this.store.pipe(
+            select(selectSelectedProject),
+            takeUntil(this.ngDestroy$),
+            filter(project => !!project),
+            take(1)
+        );
 
         // Grab the ID's of the current set of selected projects, if any
         const selectedProjectIds$ = this.store.pipe(
             select(selectSelectedProjectSearchTerms),
+            takeUntil(this.ngDestroy$),
+            take(1),
             map(this.mapSearchTermsToProjectIds)
         );
         
         const projectInRelease$ = this.store.pipe(
             select(selectReleaseByProjectId, {name: ReleaseName.RELEASE_2020_MAR, projectId}),
+            takeUntil(this.ngDestroy$),
+            take(1),
             map(release => release.projects.length > 0)
         );
 
@@ -192,32 +205,28 @@ export class ProjectDetailComponent {
         this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
         const projectIntegrations$ = this.store.pipe(
             select(selectProjectIntegrations, {projectId: projectId}),
-            filter(integrations => !!integrations)
+            takeUntil(this.ngDestroy$),
+            filter(integrations => !!integrations),
+            take(1)
         );
 
         // Set up component state
-        this.state$ = combineLatest(
-            project$,
-            projectInRelease$,
-            projectIntegrations$,
-            selectedProjectIds$
-        )
-        .pipe(
-            takeUntil(this.ngDestroy$),
-            filter(([project]) => !!project),
-            map(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
-
+        combineLatest(project$, projectInRelease$, projectIntegrations$, selectedProjectIds$)
+            .pipe(
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
+    
                 const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
-
                 const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
 
-                return {
+                this.state$.next({
                     externalResourcesExist,
+                    loaded: true,
                     project,
                     projectInRelease,
                     projectSelected
-                };
-            })
-        );
+                });
+            });
     }
 }

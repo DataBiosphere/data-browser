@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { distinct, map, mergeMap, switchMap, tap } from "rxjs/operators";
+import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { FetchProjectTSVUrlRequestAction } from "./fetch-project-tsv-url-request.action";
@@ -24,8 +24,8 @@ import { Project } from "../../shared/project.model";
 import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
 import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
-import { concatMap, take, withLatestFrom } from "rxjs/internal/operators";
 import { selectPreviousQuery } from "../search/search.selectors";
+import { selectProjectTSVUrlResponseByProjectId } from "./project.selectors";
 
 @Injectable()
 export class ProjectEffects {
@@ -96,7 +96,21 @@ export class ProjectEffects {
         .pipe(
             ofType(FetchProjectTSVUrlRequestAction.ACTION_TYPE),
             mergeMap((action) => { // Merge map here as we don't want to cancel any previous requests for separate project TSV's
-                const {projectId, projectName, killSwitch$} = action as FetchProjectTSVUrlRequestAction;
+                
+                const {projectId, projectName} = action as FetchProjectTSVUrlRequestAction;
+                
+                // Set up the kill switch for the polling of the project TSV URL. We'll use the existence of the
+                // ProjectTSVUrlResponse object for this project, in the store. The ProjectTSVUrlResponse object is
+                // created on request of the ProjectTSVUrl and is cleared on destroy of components that initiate the
+                // request.
+                const killSwitch$ = this.store.pipe(
+                    select(selectProjectTSVUrlResponseByProjectId, {projectId: projectId}),
+                    skip(1), // Skip the initial undefined value, we need to wait until there's at least an initial response value
+                    map(projectTSVUrlResponse => !projectTSVUrlResponse),
+                    filter(cleared => cleared) // Only allow value to emit if project TSV URL response for this project has been cleared from the store
+                );
+
+                // Fetch project TSV URL
                 return this.projectService.fetchProjectTSVUrl(projectId, projectName, killSwitch$);
             }),
             map((response: ProjectTSVUrlResponse) => new FetchProjectTSVUrlSuccessAction(response))

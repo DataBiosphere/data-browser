@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action dispatched when file summary is to be requested to populate file type summaries on manifest modal. Include
+ * Action dispatched when file summary is requested, to populate file type summaries on manifest download pages. Include
  * all selected facets except any selected file types, in request.
  */
 

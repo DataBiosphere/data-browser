@@ -49,7 +49,7 @@ describe("ProjectService:", () => {
         const termResponseService = new ResponseTermService();
         const searchTermService = new SearchTermHttpService(termResponseService);
 
-        const configService = TestBed.get(ConfigService);
+        const configService = TestBed.inject(ConfigService);
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
         projectService = new ProjectService(configService, searchTermService, <any>httpClientSpy);
     }));

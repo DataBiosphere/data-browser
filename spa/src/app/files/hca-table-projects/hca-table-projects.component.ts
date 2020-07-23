@@ -59,6 +59,7 @@ export class HCATableProjectsComponent implements OnInit {
 
     // Template variables
     public data$: Observable<any[]>;
+    public dataLoaded$: Observable<boolean>;
     public defaultSortOrder = {
         sort: "projectTitle",
         order: "asc"
@@ -80,15 +81,14 @@ export class HCATableProjectsComponent implements OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    private dataLoaded$: Observable<boolean>;
 
     // Inputs
     @Input() selectedProjectIds: string[];
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatTable, {read: ElementRef, static: false}) matTableElementRef: ElementRef;
-    @ViewChild(MatSort, {static: false}) matSort: MatSort;
+    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
+    @ViewChild(MatSort) matSort: MatSort;
 
     /**
      * @param {Store<AppState>} store
