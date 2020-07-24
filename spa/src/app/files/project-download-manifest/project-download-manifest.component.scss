@@ -61,12 +61,12 @@ p:first-of-type {
 
     /* Download not started image */
     .download-not-started {
-        background: url("/assets/images/icon/download-primary.png") center no-repeat;
+        background: url("assets/images/icon/download-primary.png") center no-repeat;
     }
 
     /* Download complete image */
     .download-completed {
-        background: url("/assets/images/icon/check-black.png") center no-repeat;
+        background: url("assets/images/icon/check-black.png") center no-repeat;
         opacity: 0.4;
     }
 
