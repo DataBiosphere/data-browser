@@ -76,7 +76,8 @@ export class FileManifestEffects {
                     select(selectFileManifestManifestResponse),
                     skip(1), // Skip the initial NOT_STARTED value, we need to wait until there's at least an initial response value
                     map(manifestResponse => manifestResponse.status === ManifestStatus.NOT_STARTED),
-                    filter(cleared => cleared) // Only allow value to emit if file manifest response has been cleared from the store
+                    filter(cleared => cleared), // Only allow value to emit if file manifest response has been cleared from the store
+                    take(1)
                 );
 
                 return this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet, killSwitch$);

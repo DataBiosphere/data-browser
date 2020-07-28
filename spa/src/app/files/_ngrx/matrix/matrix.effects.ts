@@ -103,7 +103,8 @@ export class MatrixEffects {
                     select(selectMatrixUrlRequestsBySpecies),
                     skip(1), // Skip the initial null value, we need to wait until there's at least an initial response value
                     map(matrixUrlRequestsBySpecies => matrixUrlRequestsBySpecies.size === 0),
-                    filter(cleared => cleared) // Only allow value to emit if matrix response for this project has been cleared from the store
+                    filter(cleared => cleared), // Only allow value to emit if matrix response for this project has been cleared from the store
+                    take(1)
                 );
                 
                 const {fileFormat} = (action as FetchMatrixUrlRequestAction);

@@ -9,7 +9,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { interval, Observable, of, Subject } from "rxjs";
-import { catchError, retry, switchMap, take } from "rxjs/operators";
+import { catchError, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -118,9 +118,13 @@ export class TerraService {
      *
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
+     * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ExportToTerraResponse>}
      */
-    public exportToTerra(searchTerms: SearchTerm[], fileFormats: FileFacet): Observable<ExportToTerraResponse> {
+    public exportToTerra(
+        searchTerms: SearchTerm[],
+        fileFormats: FileFacet,
+        killSwitch$: Observable<boolean>): Observable<ExportToTerraResponse> {
 
         const manifestSearchTerms = this.fileManifestService.buildManifestSearchTerms(searchTerms, fileFormats);
 
@@ -130,7 +134,7 @@ export class TerraService {
         exportResponse$.subscribe((response: ExportToTerraResponse) => {
 
             if ( response.status === ExportToTerraStatus.IN_PROGRESS ) {
-                return this.updateExportToTerraStatus(response, exportResponse$);
+                return this.updateExportToTerraStatus(response, exportResponse$, killSwitch$);
             }
 
             exportResponse$.unsubscribe();
@@ -141,7 +145,7 @@ export class TerraService {
 
         const url = this.configService.getFileManifestUrl();
         const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
-        this.requestExportToTerra(getRequest, exportResponse$);
+        this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
 
         return exportResponse$.asObservable();
     }
@@ -247,14 +251,19 @@ export class TerraService {
      *
      * @param {Observable<ExportToTerraHttpResponse>} getRequest
      * @param {ExportToTerraResponse} terraResponse
+     * @param {Observable<boolean>} killSwitch$
      */
-    private requestExportToTerra(getRequest: Observable<ExportToTerraHttpResponse>,  terraResponse: Subject<ExportToTerraResponse>) {
+    private requestExportToTerra(
+        getRequest: Observable<ExportToTerraHttpResponse>,
+        terraResponse: Subject<ExportToTerraResponse>,
+        killSwitch$: Observable<boolean>) {
 
         getRequest
             .pipe(
                 retry(3),
                 catchError(this.handleExportToTerraError.bind(this)),
-                switchMap(this.bindExportToTerraResponse.bind(this))
+                switchMap(this.bindExportToTerraResponse.bind(this)),
+                takeUntil(killSwitch$)
             )
             .subscribe((response: ExportToTerraResponse) => {
                 terraResponse.next(response);
@@ -266,8 +275,12 @@ export class TerraService {
      *
      * @param {ExportToTerraResponse} response
      * @param {Subject<ExportToTerraResponse>} exportResponse$
+     * @param {Observable<boolean>} killSwitch$
      */
-    private updateExportToTerraStatus(response: ExportToTerraResponse, exportResponse$: Subject<ExportToTerraResponse>) {
+    private updateExportToTerraStatus(
+        response: ExportToTerraResponse,
+        exportResponse$: Subject<ExportToTerraResponse>,
+        killSwitch$: Observable<boolean>) {
 
         interval(response.retryAfter * 1000)
             .pipe(
@@ -275,7 +288,7 @@ export class TerraService {
             )
             .subscribe(() => {
                 const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(response.url);
-                this.requestExportToTerra(getRequest, exportResponse$);
+                this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
             });
     }
 
