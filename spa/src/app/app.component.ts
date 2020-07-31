@@ -6,9 +6,8 @@
  */
 
 // Core dependencies
-import { Location } from "@angular/common";
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Observable, Subscription, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
@@ -16,12 +15,9 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppComponentState } from "./app.component.state";
 import { ConfigService } from "./config/config.service";
-import { SearchTermUrlService } from "./files/search/url/search-term-url.service";
-import { SetViewStateAction } from "./files/_ngrx/facet/set-view-state.action";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
 import { ReleaseService } from "./files/shared/release.service";
-import { EntityName } from "./files/shared/entity-name.model";
 import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AppState } from "./_ngrx/app.state";
@@ -47,20 +43,14 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      * @param {ReleaseService} releaseService
-     * @param {SearchTermUrlService} searchUrlService
      * @param {Store<AppState>} store
-     * @param {ActivatedRoute} activatedRoute
-     * @param {Location} location
      * @param {Router} router
      * @param {Renderer2} renderer
      */
     constructor(private configService: ConfigService,
                 private deviceService: DeviceDetectorService,
                 private releaseService: ReleaseService,
-                private searchUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
-                private activatedRoute: ActivatedRoute,
-                private location: Location,
                 private router: Router,
                 private renderer: Renderer2) {
     }
@@ -163,25 +153,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Determine the current selected tab.
-     *
-     * @returns {string}
-     */
-    private parseTab(): string {
-
-        const path = this.location.path().split("?")[0];
-        if ( path === "/files" ) {
-            return EntityName.FILES;
-        }
-
-        if ( path === "/samples" ) {
-            return EntityName.SAMPLES;
-        }
-
-        return EntityName.PROJECTS;
-    }
-
-    /**
      * Fetch current status of system, and current status of index, and display information banners, if necessary. Also
      * check for changes in config.
      */
@@ -201,39 +172,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Set up app state from query string parameters, if any.
-     */
-    private setAppStateFromURL() {
-
-        // Using NavigationEnd here as subscribing to activatedRoute.queryParamsMap always emits an initial value,
-        // making it difficult to detect the difference between the initial value or an intentionally empty value. Using
-        // activatedRoute.queryParamsMap would therefore make it difficult to determine when app state setup is complete,
-        // and when we can safely unsubscribe.
-        this.routerEventsSubscription = this.router.events.subscribe((evt) => {
-
-            if ( evt instanceof NavigationEnd ) {
-
-                const params = this.activatedRoute.snapshot.queryParams;
-                const tab = this.parseTab();
-
-                const filter = this.searchUrlService.parseQueryStringSearchTerms(params);
-
-                // Default app state is to have human selected. This is only necessary if there is currently no filter
-                // applied.
-                if ( filter.length === 0 ) {
-                    filter.push(this.searchUrlService.getDefaultSearchState());
-                }
-
-                this.store.dispatch(new SetViewStateAction(tab, filter));
-
-                if ( this.routerEventsSubscription ) {
-                    this.routerEventsSubscription.unsubscribe();
-                }
-            }
-        });
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -247,12 +185,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Set up app state from URL, if specified. Kick off health check. Grab config - we need to know which environment
-     * we're in for displaying the ingest info banner.
+     * Kick off health check. Grab config - we need to know which environment we're in for displaying the ingest
+     * info banner.
      */
     public ngOnInit() {
 
-        this.setAppStateFromURL();
         this.initState();
         this.loadReleaseData();
         this.loadProjectEditsData();
