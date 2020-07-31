@@ -6,9 +6,11 @@
  */
 
 // Core dependencies
+import { Location } from "@angular/common";
 import { TestBed } from "@angular/core/testing";
 import { cold, hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
+import { ActivatedRoute, Router, RouterEvent } from "@angular/router";
 import {  Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of } from "rxjs";
@@ -36,12 +38,23 @@ import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
+import { SearchTermUrlService } from "../../search/url/search-term-url.service";
+import { ActivatedRouteStub } from "../../../test/activated-route.stub";
+import { ReplaySubject } from "rxjs/index";
 
 describe("Table Effects", () => {
 
     let effects: TableEffects;
     let actions: Observable<any>;
     let store: MockStore<FileState>;
+
+    const navigation$ = new ReplaySubject<RouterEvent>(1);
+    const routerMock = {
+        events: navigation$.asObservable()
+    };
+
+    const locationSpy = jasmine.createSpyObj("Location", ["path"]);
+    const searchTermUrlService = new SearchTermUrlService();
 
     /**
      * Setup for each test in suite.
@@ -59,13 +72,25 @@ describe("Table Effects", () => {
             providers: [
                 TableEffects,
                 provideMockActions(() => actions),
-                {provide: FilesService, useValue: filesService}, {
+                {
+                    provide: FilesService, useValue: filesService
+                }, {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
                         "trackEvent"
                     ])
+                }, {
+                    provide: ProjectService, useClass: ProjectMockService
+                }, {
+                    provide: Router,
+                    useValue: routerMock
+                }, {
+                    provide: SearchTermUrlService,
+                    useValue: searchTermUrlService
+                }, {
+                    provide: ActivatedRoute,
+                    useClass: ActivatedRouteStub
                 },
-                {provide: ProjectService, useClass: ProjectMockService},
                 provideMockStore({initialState: DEFAULT_PROJECTS_STATE})
             ],
         });
@@ -230,5 +255,56 @@ describe("Table Effects", () => {
         });
 
         expect(effects.fetchSortedTableData$).toBeObservable(expected);
+    });
+
+    /**
+     * Default to homo sapiens if there are initially no filters set.
+     * 
+     * TODO revist - this has been ported along with the functionality from the AppComponent to TableEffects. Requires completion.
+     * 
+     * const PROJECTS_PATH = "/projects";
+     * const PROJECTS_PATH_WITH_FILTERS = "/projects?filter=%5B%7B%22facetName%22:%22libraryConstructionApproach%22,%value%22:%5B%22Smart-seq2%22%5D%7D%5D";
+     */
+    xit("defaults search terms to human if no filters set on load of app", () => {
+
+        // const activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+        // spyOnProperty(activatedRoute, "snapshot").and.returnValue({
+        //     queryParams: {}
+        // });
+        // locationSpy.path.and.returnValue(PROJECTS_PATH);
+        // navigation$.next(new NavigationEnd(1, "/", PROJECTS_PATH));
+        //
+        // component["setAppStateFromURL"]();
+        //
+        // const filters = [
+        //     new QueryStringSearchTerm(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS])
+        // ];
+        // const setViewAction = new SetViewStateAction(EntityName.PROJECTS, filters);
+        // expect(storeSpy.dispatch).toHaveBeenCalledWith(setViewAction);
+    });
+
+    /**
+     * Do not default to homo sapiens if there are initially filters set.
+     * 
+     * TODO revist - this has been ported along with the functionality from the AppComponent to TableEffects. Requires completion.
+     */
+    xit("does not default search terms to human if filters are already set on load of app", () => {
+
+        // const activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+        // spyOnProperty(activatedRoute, "snapshot").and.returnValue({
+        //     queryParams: {
+        //         filter: `[{"${SearchTermUrl.FACET_NAME}": "libraryConstructionApproach", "${SearchTermUrl.VALUE}": ["Smart-seq2"]}]`
+        //     }
+        // });
+        // locationSpy.path.and.returnValue(PROJECTS_PATH_WITH_FILTERS);
+        // navigation$.next(new NavigationEnd(1, "/", PROJECTS_PATH_WITH_FILTERS));
+        //
+        // component["setAppStateFromURL"]();
+        //
+        // const filters = [
+        //     new QueryStringSearchTerm(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH, [LibraryConstructionApproach.SMART_SEQ2])
+        // ];
+        // const setViewAction = new SetViewStateAction(EntityName.PROJECTS, filters);
+        // expect(storeSpy.dispatch).toHaveBeenCalledWith(setViewAction);
     });
 });

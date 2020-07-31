@@ -7,14 +7,16 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, filter, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
+import { SetViewStateAction } from "../facet/set-view-state.action";
 import { selectTableQueryParams } from "../file.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
@@ -24,17 +26,18 @@ import { FetchTableModelRequestAction } from "./fetch-table-model-request.action
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
 import { ProjectService } from "../../project/project.service";
 import { selectPreviousQuery } from "../search/search.selectors";
-import { EntityName } from "../../shared/entity-name.model";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
-import { EntitySearchResults } from "../../shared/entity-search-results.model";
-import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
-import { FilesService } from "../../shared/files.service";
+import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GTMService } from "../../../shared/analytics/gtm.service";
+import { GAIndex } from "../../../shared/analytics/ga-index.model";
+import { EntityName } from "../../shared/entity-name.model";
+import { EntitySearchResults } from "../../shared/entity-search-results.model";
+import { FilesService } from "../../shared/files.service";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
-import { GAIndex } from "../../../shared/analytics/ga-index.model";
 
 @Injectable()
 export class TableEffects {
@@ -45,12 +48,18 @@ export class TableEffects {
      * @param {FilesService} fileService
      * @param {GTMService} gtmService
      * @param {ProjectService} projectService
+     * @param {SearchTermUrlService} searchTermUrlService
+     * @param {ActivatedRoute} activatedRoute
+     * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
                 private fileService: FilesService,
                 private gtmService: GTMService,
-                private projectService: ProjectService) {
+                private projectService: ProjectService,
+                private searchTermUrlService: SearchTermUrlService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router) {
     }
 
     /**
@@ -225,6 +234,50 @@ export class TableEffects {
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableModelSuccessAction(entitySearchResults.tableModel))
         );
+
+    /**
+     * Set up default table state:
+     * - Set selected entity
+     * - Set default search terms if use has arrived at site with no previous search terms selected, and user is currently
+     *   viewing the projects tab.
+     *   
+     * The dispatched SetViewStateAction triggers the following:
+     * - Sets the selected entity in the store
+     * - Sets search terms in the store
+     * - Sets the selected term facets in the store
+     * - Updates the filter query string parameter, if a filter is specified  
+     */
+    @Effect()
+    initTableState$: Observable<Action> = this.router.events.pipe(
+        filter(evt => evt instanceof NavigationEnd),
+        take(1),
+        map(() => {
+
+            // Determine the current selected entity
+            let selectedEntity;
+            if ( this.router.isActive(EntityName.FILES, false) ) {
+                selectedEntity = EntityName.FILES;
+            }
+            else if ( this.router.isActive(EntityName.SAMPLES, false) ) {
+                selectedEntity = EntityName.SAMPLES
+            }
+            else {
+                selectedEntity = EntityName.PROJECTS
+            }
+
+            // Parse the current filter from the URL, if any.
+            const params = this.activatedRoute.snapshot.queryParams;
+            let filter = this.searchTermUrlService.parseQueryStringSearchTerms(params);
+            
+            // Default app state is to have human selected. This is only necessary if there is currently no filter
+            // applied and the user is currently viewing the projects tab.
+            if ( filter.length === 0 && this.router.isActive(EntityName.PROJECTS, true) ) {
+                filter.push(this.searchTermUrlService.getDefaultSearchState());
+            }
+            
+            return new SetViewStateAction(selectedEntity, filter);
+        })
+    );
 
     /**
      * Trigger fetch of facets and summary counts on select of project.

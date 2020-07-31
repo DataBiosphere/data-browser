@@ -8,22 +8,22 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Location } from "@angular/common";
+import { Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
-import { filter, map, switchMap, take, tap } from "rxjs/operators";
+import { filter, switchMap, take, tap } from "rxjs/operators";
 
 // App dependencies
+import { SelectEntityAction } from "../entity/select-entity.action";
+import { SetViewStateAction } from "../facet/set-view-state.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
 import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
-import { selectUrlSpecState } from "./url.selectors";
-import { Router } from "@angular/router";
 import { EntityName } from "../../shared/entity-name.model";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
-import { SetViewStateAction } from "../facet/set-view-state.action";
-import { SelectEntityAction } from "../entity/select-entity.action";
+import { selectUrlSpecState } from "./url.selectors";
 
 @Injectable()
 export class UrlEffects {
@@ -56,9 +56,12 @@ export class UrlEffects {
             SetViewStateAction.ACTION_TYPE
         ),
         filter(() => {
-            return this.router.isActive(EntityName.PROJECTS, false) ||
-                this.router.isActive(EntityName.SAMPLES, false) ||
-                this.router.isActive(EntityName.FILES, false)
+
+            // We only want to update the location if user is currently viewing /projects, /samples or /files.
+            const path = this.router.url.split("?")[0];
+            return path === `/${EntityName.PROJECTS}` ||
+                path === `/${EntityName.SAMPLES}` ||
+                path === `/${EntityName.FILES}`
         }),
         switchMap(() =>
             this.store.pipe(
