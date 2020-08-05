@@ -104,6 +104,6 @@ export class ProjectDownloadMatrixComponent {
      */
     public onMatrixDownloadUrlCopiedToClipboard(projectTitle: string, link: FileDownloadLink) {
 
-        this.matrixService.trackCopyToClipboardProjectMatrixtLink(projectTitle, link.url, MatrixFormat[link.name]);
+        this.matrixService.trackCopyToClipboardProjectMatrixLink(projectTitle, link.url, MatrixFormat[link.name]);
     }
 }

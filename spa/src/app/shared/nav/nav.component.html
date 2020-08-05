@@ -5,7 +5,9 @@
                *ngSwitchCase="true"
                [routerLink]="navItem.routerLink"
                routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}">{{navItem.display}}</a>
+               [routerLinkActiveOptions]="{exact: true}"
+               [queryParams]="navItem.queryParams"
+               queryParamsHandling="navItem.queryParamsHandling">{{navItem.display}}</a>
             <span *ngSwitchDefault [ngClass]="{nav:true, 'no-link': true, 'sub-nav': navItem.subNavItems}">{{navItem.display}}</span>
             <ng-container *ngIf="navItem.subNavItems">
                 <ng-container *ngFor="let subNavItem of navItem.subNavItems">

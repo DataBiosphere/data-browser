@@ -9,8 +9,8 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subscription, Subject } from "rxjs";
-import { filter, map, takeUntil } from "rxjs/operators";
+import { Subject, BehaviorSubject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppComponentState } from "./app.component.state";
@@ -33,11 +33,10 @@ import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.
 export class AppComponent implements OnInit, OnDestroy {
 
     // Template/public variables
-    public state$: Observable<AppComponentState>;
+    public state$ = new BehaviorSubject<AppComponentState>({});
 
     // Locals
     private ngDestroy$ = new Subject();
-    private routerEventsSubscription: Subscription;
 
     /**
      * @param {ConfigService} configService
@@ -153,32 +152,26 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Fetch current status of system, and current status of index, and display information banners, if necessary. Also
-     * check for changes in config.
+     * Fetch current status of system, and current status of index, and display information banners, if necessary.
      */
     private initState() {
-        
-        this.store.dispatch(new SystemStatusRequestAction());
-        this.state$ = this.store.pipe(
-            select(selectSystemStatus),
-            takeUntil(this.ngDestroy$),
-            map((systemStatus) => {
 
-                return {
-                    systemStatus
-                }
-            })
-        );
+        this.store.dispatch(new SystemStatusRequestAction());
+        this.store.pipe(
+            select(selectSystemStatus),
+            takeUntil(this.ngDestroy$)
+        ).subscribe((systemStatus) => {
+
+            this.state$.next({
+                systemStatus
+            });
+        });
     }
 
     /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
-        if ( !!this.routerEventsSubscription ) {
-            this.routerEventsSubscription.unsubscribe();
-        }
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();

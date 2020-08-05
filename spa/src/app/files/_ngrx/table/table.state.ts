@@ -2,10 +2,11 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of state of table that displays file-facet related data.
+ * Model of state of table that displays entity (project, sample or file) data.
  */
 
 // App dependencies
+import { Catalog } from "../../catalog/catalog.model";
 import { EntityName } from "../../shared/entity-name.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
@@ -13,11 +14,13 @@ import { Pagination } from "../../table/pagination/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 
+
 export interface TableState {
     selectedProject: Project; // Current selected project in table
     selectedEntity: string; // Current selected tab (eg Projects, Samples, Files)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];
+    catalog: Catalog; // Currently only applicable only to cgl-dev environment
 }
 
 /**
@@ -70,7 +73,8 @@ export function getDefaultTableState(): TableState {
             {key: EntityName.PROJECTS, displayName: "Projects"},
             {key: EntityName.SAMPLES, displayName: "Samples"},
             {key: EntityName.FILES, displayName: "Files"}
-        ]
+        ],
+        catalog: Catalog.NONE
     };
 }
 

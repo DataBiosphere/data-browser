@@ -24,6 +24,8 @@
                                 <mat-icon *ngIf="isProjectSelected(element)">check</mat-icon>
                             </div>
                             <a [routerLink]="['/projects', element.entryId]"
+                               [queryParams]="getProjectQueryParams(catalog$ | async)"
+                               queryParamsHandling="merge"
                                class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
                         </div>
                     </mat-cell>

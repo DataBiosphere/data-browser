@@ -12,6 +12,7 @@ import { forkJoin, interval, Observable, of, merge , Subject } from "rxjs";
 import { catchError, map, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { GenusSpecies } from "./genus-species.model";
 import { MatrixFormat } from "./matrix-format.model";
@@ -21,6 +22,7 @@ import { SearchTerm } from "../search/search-term.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileFormat } from "./file-format.model";
 import { FileManifestService } from "./file-manifest.service";
+import { HttpService } from "../http/http.service";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { MatrixUrlRequestHttpResponse } from "./matrix-url-request-http-response.model";
@@ -41,12 +43,14 @@ export class MatrixService {
     /**
      * @param {ConfigService} configService
      * @param {GTMService} gtmService
+     * @param {HttpService} httpService
      * @param {FileManifestService} manifestService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private gtmService: GTMService,
+                private httpService: HttpService,
                 private manifestService: FileManifestService,
                 private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
@@ -137,22 +141,25 @@ export class MatrixService {
     /**
      * Request the set of possible matrix file formats.
      *
+     * @param {Catalog} catalog
      * @returns {Observable<string[]>}
      */
-    public fetchFileFormats(): Observable<string[]> {
+    public fetchFileFormats(catalog: Catalog): Observable<string[]> {
 
         const url = this.configService.getMatrixFormatsUrl();
-        return this.httpClient.get<any>(url);
+        const params = this.httpService.createIndexParams(catalog, {});
+        return this.httpClient.get<any>(url, {params});
     }
 
     /**
      * Fetch the set of matrix URLs, if any, that are available for the specified project.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, ProjectMatrixUrls>} projectMatrixUrls
      * @param {string} entityId
      */
     public fetchProjectMatrixURLs(
-        projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityId: string): Observable<ProjectMatrixUrls> {
+        catalog: Catalog, projectMatrixUrls: Map<string, ProjectMatrixUrls>, entityId: string): Observable<ProjectMatrixUrls> {
 
         // If we already have the matrix URLs for this project, return the cached version
         if ( projectMatrixUrls.has(entityId) ) {
@@ -161,12 +168,12 @@ export class MatrixService {
 
         // Otherwise we don't have the matrix URLs for this project cached, request them from the server
         return forkJoin(
-            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "csv.zip"),
-            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "loom"),
-            this.getProjectMatrixUrl(entityId, GenusSpecies.HOMO_SAPIENS, "mtx.zip"),
-            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "csv.zip"),
-            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "loom"),
-            this.getProjectMatrixUrl(entityId, GenusSpecies.MUS_MUSCULUS, "mtx.zip")
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.HOMO_SAPIENS, "csv.zip"),
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.HOMO_SAPIENS, "loom"),
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.HOMO_SAPIENS, "mtx.zip"),
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.MUS_MUSCULUS, "csv.zip"),
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.MUS_MUSCULUS, "loom"),
+            this.getProjectMatrixUrl(catalog, entityId, GenusSpecies.MUS_MUSCULUS, "mtx.zip")
         ).pipe(
             map(([humanCSVUrl, humanLoomUrl, humanmMtxUrl, mouseCSVUrl, mouseLoomUrl, mouseMtxUrl]) => {
 
@@ -188,13 +195,17 @@ export class MatrixService {
     /**
      * Request manifest URL then kick off matrix URL request.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<MatrixUrlRequest | MatrixUrlRequestSpecies>}
      */
     public requestMatrixUrl(
-        searchTerms: SearchTerm[], matrixFormat: MatrixFormat, killSwitch$: Observable<boolean>): Observable<MatrixUrlRequest | MatrixUrlRequestSpecies> {
+        catalog: Catalog,
+        searchTerms: SearchTerm[],
+        matrixFormat: MatrixFormat,
+        killSwitch$: Observable<boolean>): Observable<MatrixUrlRequest | MatrixUrlRequestSpecies> {
 
         // Create subjects for letting listeners know the current status of the Matrix URL request, as well as the set
         // of species that the Matrix URL request includes.
@@ -202,7 +213,7 @@ export class MatrixService {
         const matrixUrlRequestSpecies$ = new Subject<MatrixUrlRequestSpecies>();
 
         const manifestRequest$ =
-            this.requestFileManifestUrl(searchTerms, killSwitch$)
+            this.requestFileManifestUrl(catalog, searchTerms, killSwitch$)
                 .subscribe((manifestResponse: ManifestResponse) => {
                     
                     // Manifest URL request is complete - kick off matrix URL request
@@ -352,24 +363,6 @@ export class MatrixService {
     }
     
     /**
-     * Normalize matrix URL response to FE-friendly format.
-     *
-     * @param {MatrixUrlRequestHttpResponse} httpResponse
-     * @param {string} species
-     * @returns {MatrixUrlRequest}
-     */
-    private bindMatrixUrlRequest(httpResponse: MatrixUrlRequestHttpResponse, species: string): MatrixUrlRequest {
-
-        return {
-            matrixUrl: httpResponse.matrix_location,
-            message: httpResponse.message,
-            requestId: httpResponse.request_id,
-            species,
-            status: this.translateMatrixStatus(httpResponse.status)
-        } as MatrixUrlRequest;
-    }
-
-    /**
      * Track click on the pre-generated, project-specific matrix download link.
      *
      * @param {string} projectTitle
@@ -399,7 +392,7 @@ export class MatrixService {
      * @param {string} matrixUrl
      * @param {MatrixFileFormat} fileFormat
      */
-    public trackCopyToClipboardProjectMatrixtLink(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
+    public trackCopyToClipboardProjectMatrixLink(projectTitle: string, matrixUrl: string, fileFormat: MatrixFormat) {
 
         const event = {
             category: GACategory.MATRIX,
@@ -413,6 +406,24 @@ export class MatrixService {
         };
         
         this.gtmService.trackEvent(event);
+    }
+
+    /**
+     * Normalize matrix URL response to FE-friendly format.
+     *
+     * @param {MatrixUrlRequestHttpResponse} httpResponse
+     * @param {string} species
+     * @returns {MatrixUrlRequest}
+     */
+    private bindMatrixUrlRequest(httpResponse: MatrixUrlRequestHttpResponse, species: string): MatrixUrlRequest {
+
+        return {
+            matrixUrl: httpResponse.matrix_location,
+            message: httpResponse.message,
+            requestId: httpResponse.request_id,
+            species,
+            status: this.translateMatrixStatus(httpResponse.status)
+        } as MatrixUrlRequest;
     }
 
     /**
@@ -448,16 +459,20 @@ export class MatrixService {
     /**
      * Returns the project matrix CSV URL, if it's available for download. Otherwise returns null.
      *
+     * @param {Catalog} catalog
      * @param {string} projectId
      * @param {GenusSpecies} species
      * @param {string} matrixFormat
      * @returns {Observable<string>}
      */
-    private getProjectMatrixUrl(projectId: string, species: GenusSpecies, matrixFormat: string): Observable<string> {
+    private getProjectMatrixUrl(
+        catalog: Catalog, projectId: string, species: GenusSpecies, matrixFormat: string): Observable<string> {
 
         const speciesSlug = this.buildSpeciesSlug(species);
-        const url = this.configService.getProjectPreparedMatrixDownloadUrl(`${projectId}.${speciesSlug}.${matrixFormat}`);
-        return this.httpClient.head<any>(url).pipe(
+        const url =
+            this.configService.getProjectPreparedMatrixDownloadUrl(`${projectId}.${speciesSlug}.${matrixFormat}`);
+        const params = this.httpService.createIndexParams(catalog, {});
+        return this.httpClient.head<any>(url, {params}).pipe(
             catchError(() => of("")), // Convert error response to ""
             switchMap((valueIfError) => valueIfError === "" ? of(null) : of(url)) // Return URL if 200, otherwise null
         );
@@ -466,15 +481,17 @@ export class MatrixService {
     /**
      * Get the manifest URL for the matrix request.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {Observable<boolean>} killSwitch$
      * @returns {ManifestResponse}
      */
-    private requestFileManifestUrl(searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+    private requestFileManifestUrl(
+        catalog: Catalog, searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         // Add matrix file format, if not yet specified
         const matrixSearchTerms = this.createMatrixableSearchTerms(searchTerms);
-        return this.manifestService.requestMatrixFileManifestUrl(matrixSearchTerms, killSwitch$);
+        return this.manifestService.requestMatrixFileManifestUrl(catalog, matrixSearchTerms, killSwitch$);
     }
 
     /**

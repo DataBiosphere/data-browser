@@ -12,7 +12,9 @@ import { BehaviorSubject, interval, Observable, of, Subject } from "rxjs";
 import { catchError, map, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
+import { HttpService } from "../http/http.service";
 import { ProjectMapper } from "./project-mapper";
 import { ProjectTSVUrlHttpResponse } from "./project-tsv-url-http-response.model";
 import { ProjectTSVUrlResponse } from "./project-tsv-url-response.model";
@@ -34,6 +36,7 @@ export class ProjectService {
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService, 
+                private httpService: HttpService,
                 private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
@@ -43,14 +46,16 @@ export class ProjectService {
      * and contributor data from the server are overriden by project edits publication and contributor data for certain
      * projects. See DB#1135 and DB#1139).
      *
+     * @param {Catalog} catalog
      * @param {string} projectId
      * @param {Project} projectOverrides
      * @returns {Observable<Project>}
      */
-    public fetchProjectById(projectId: string, projectOverrides: Project): Observable<Project> {
+    public fetchProjectById(catalog: Catalog, projectId: string, projectOverrides: Project): Observable<Project> {
 
         const url = this.configService.getProjectUrl(projectId);
-        return this.httpClient.get<Project>(url).pipe(
+        const params = this.httpService.createIndexParams(catalog, {});
+        return this.httpClient.get<Project>(url, {params}).pipe(
             map((response) => {
                 return this.bindProject(response, projectOverrides);
             })
@@ -60,12 +65,13 @@ export class ProjectService {
     /**
      * Poll for the project TSV URL.
      * 
+     * @param {Catalog} catalog
      * @param {string} projectId
      * @param {string} projectName
      * @param {Observable<boolean>} killSwitch$
      */
     public fetchProjectTSVUrl(
-        projectId: string, projectName: string, killSwitch$: Observable<boolean>): Observable<ProjectTSVUrlResponse> {
+        catalog: Catalog, projectId: string, projectName: string, killSwitch$: Observable<boolean>): Observable<ProjectTSVUrlResponse> {
 
         const response$ = new BehaviorSubject<ProjectTSVUrlResponse>({
             projectId,
@@ -76,7 +82,7 @@ export class ProjectService {
         const searchTerms = [
             new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectName)
         ];
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
+        const query = new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.getFileManifestUrl();
         this.pollRequestProjectTSVUrl(projectId, url, params, 0, response$, killSwitch$);

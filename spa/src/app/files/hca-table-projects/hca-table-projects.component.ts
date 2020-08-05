@@ -16,11 +16,13 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { Catalog } from "../catalog/catalog.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
+    selectCatalog,
     selectFileSummary,
     selectPagination,
     selectTableData,
@@ -48,16 +50,15 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 
-
 @Component({
     selector: "hca-table-projects",
     templateUrl: "./hca-table-projects.component.html",
     styleUrls: ["./hca-table-projects.component.scss"]
 })
-
 export class HCATableProjectsComponent implements OnInit {
 
     // Template variables
+    public catalog$: Observable<Catalog>;
     public data$: Observable<any[]>;
     public dataLoaded$: Observable<boolean>;
     public defaultSortOrder = {
@@ -102,6 +103,21 @@ export class HCATableProjectsComponent implements OnInit {
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 private router: Router) {
+    }
+
+    /**
+     * Return the set of query params required when generating the link to a project detail page. Currently, "catalog"
+     * is the only query string parameter required for displaying a project detail page (that is, filters are dropped).
+     * 
+     * @param {Catalog} catalog
+     * @returns {{[key: string]: string}}
+     */
+    public getProjectQueryParams(catalog: Catalog): {[key: string]: string} {
+
+        return {
+            filter: null, // With the merge query param handling, we want to drop the filter param  
+            catalog: catalog ? catalog : null // Don't include a catalog param if catalog is not specified 
+        };
     }
 
     /**
@@ -283,5 +299,7 @@ export class HCATableProjectsComponent implements OnInit {
             filter(data => !!data.length),
             map(() => true)
         );
+        
+        this.catalog$ = this.store.pipe(select(selectCatalog));
     }
 }

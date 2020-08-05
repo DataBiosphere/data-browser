@@ -12,6 +12,8 @@ import { catchError, switchMap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { Catalog } from "../../files/catalog/catalog.model";
+import { HttpService } from "../../files/http/http.service";
 import { HealthResponse } from "./health/health-response.model";
 import { HealthHttpResponse } from "./health/health-http-response.model";
 import { IndexResponse } from "./index/index-response.model";
@@ -23,25 +25,33 @@ export abstract class AbstractSystemService {
 
     /**
      * @param {ConfigService} configService
+     * @param {HttpService} httpService
      * @param {HttpClient} httpClient
      */
-    constructor(protected configService: ConfigService, protected httpClient: HttpClient) {}
+    constructor(
+        protected configService: ConfigService,
+        protected httpService: HttpService,
+        protected httpClient: HttpClient) {}
 
     /**
      * Fetch the current system status.
+     * 
+     * @param {Catalog} catalog
      */
-    public abstract fetchSystemStatus(): Observable<SystemStatusResponse>;
+    public abstract fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse>;
 
     /**
      * Fetch the current DCP-wide health status.
      *
+     * @param {Catalog} catalog
      * @returns {Observable<HealthResponse>}
      */
-    protected checkHealth(): Observable<HealthResponse> {
+    protected checkHealth(catalog: Catalog): Observable<HealthResponse> {
 
         const url = this.configService.getDCPHealthCheckUrl();
+        const params = this.httpService.createIndexParams(catalog, {});
         return this.httpClient
-            .get<HealthHttpResponse>(url)
+            .get<HealthHttpResponse>(url, {params})
             .pipe(
                 catchError(this.handleHealthError.bind(this)),
                 switchMap(this.bindHealthResponse.bind(this))
@@ -51,13 +61,15 @@ export abstract class AbstractSystemService {
     /**
      * Fetch the current Azul system status and index status.
      *
+     * @param {Catalog} catalog
      * @returns {Observable<IndexResponse>}
      */
-    protected checkIndexStatus(): Observable<IndexResponse> {
+    protected checkIndexStatus(catalog: Catalog): Observable<IndexResponse> {
 
         const url = this.configService.getIndexStatusUrl();
+        const params = this.httpService.createIndexParams(catalog, {});
         return this.httpClient
-            .get<IndexHttpResponse>(url)
+            .get<IndexHttpResponse>(url, {params})
             .pipe(
                 catchError(this.handleIndexError.bind(this)),
                 switchMap(this.bindIndexResponse.bind(this))

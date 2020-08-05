@@ -229,6 +229,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns true if the current environment is cgl-dev.
+     *
+     * @returns {boolean}
+     */
+    public isEnvClgDev(): boolean {
+
+        return this.deployment === "cgl-dev";
+    }
+
+    /**
      * Returns true if the current environment is local.
      *
      * @returns {boolean}

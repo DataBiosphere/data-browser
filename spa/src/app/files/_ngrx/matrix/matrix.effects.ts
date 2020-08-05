@@ -22,12 +22,15 @@ import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { FetchMatrixUrlSpeciesSuccessAction } from "./fetch-matrix-url-species-success.action";
 import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
 import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
+import { selectCatalog } from "../file.selectors";
 import { selectMatrixUrlRequestsBySpecies, selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../search/search.selectors";
+import {
+    selectSelectedSearchTerms,
+    selectSelectedSearchTermsBySearchKey
+} from "../search/search.selectors";
 import { FilesService } from "../../shared/files.service";
 import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
-import { SearchTerm } from "../../search/search-term.model";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixUrlRequestSpecies } from "../../shared/matrix-url-request-species.model";
@@ -54,7 +57,8 @@ export class MatrixEffects {
     fetchMatrixFileFormats: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchMatrixFileFormatsRequestAction.ACTION_TYPE),
-            switchMap(() => this.matrixService.fetchFileFormats()),
+            switchMap(() => this.store.pipe(select(selectCatalog), take(1))),
+            switchMap((catalog) => this.matrixService.fetchFileFormats(catalog)),
             map((fileFormats: string[]) => new FetchMatrixFileFormatsSuccessAction(fileFormats))
         );
 
@@ -66,15 +70,16 @@ export class MatrixEffects {
     fetchMatrixPartialQueryStatus: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchMatrixPartialQueryMatchRequestAction.ACTION_TYPE),
-            switchMap(() =>
-                this.store.pipe(
-                    select(selectSelectedSearchTermsBySearchKey),
-                    take(1)
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectSelectedSearchTermsBySearchKey), take(1))
                 )
-            ),
-            switchMap((selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) => {
+            )),
+            switchMap(([action, catalog, selectedSearchTermsBySearchKey]) => {
                 
-                return this.fileService.fetchIsMatrixPartialQueryMatch(selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
+                return this.fileService.fetchIsMatrixPartialQueryMatch(
+                    catalog, selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
             }),
             map((partialQueryMatch: boolean) => {
                 
@@ -92,10 +97,11 @@ export class MatrixEffects {
             ofType(FetchMatrixUrlRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectSelectedSearchTerms), take(1))
                 )
             )),
-            switchMap(([action, searchTerms]) => {
+            switchMap(([action, catalog, searchTerms]) => {
 
                 // Set up the kill switch for the polling of the matrix URL. We'll use the value of the response
                 // object in the store, and only stop polling if the response state is empty.
@@ -108,7 +114,7 @@ export class MatrixEffects {
                 );
                 
                 const {fileFormat} = (action as FetchMatrixUrlRequestAction);
-                return this.matrixService.requestMatrixUrl(searchTerms, fileFormat, killSwitch$);
+                return this.matrixService.requestMatrixUrl(catalog, searchTerms, fileFormat, killSwitch$);
             }),
             map(response => {
 
@@ -130,12 +136,13 @@ export class MatrixEffects {
             ofType(FetchProjectMatrixUrlsRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectProjectMatrixUrlsByProjectId), take(1))
                 )
             )),
-            mergeMap(([action, projectMatrixUrls]) =>
+            mergeMap(([action, catalog, projectMatrixUrls]) =>
                 this.matrixService.fetchProjectMatrixURLs(
-                    projectMatrixUrls, (action as FetchProjectMatrixUrlsRequestAction).entityId)),
+                    catalog, projectMatrixUrls, (action as FetchProjectMatrixUrlsRequestAction).entityId)),
             map(response => new FetchProjectMatrixUrlsSuccessAction(response))
         );
 }

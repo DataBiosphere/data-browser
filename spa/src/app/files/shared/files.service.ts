@@ -12,25 +12,27 @@ import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { Dictionary } from "../../dictionary";
 import { EntityAPIResponse } from "../http/entity-api-response.model";
 import { EntityName } from "./entity-name.model";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { EntitySearchResults } from "./entity-search-results.model";
+import { FacetAgeRange } from "../facet/facet-age-range/facet-age-range.model";
+import { FacetAgeRangeName } from "../facet/facet-age-range/facet-age-range-name.model";
+import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
+import { Facet } from "../facet/facet.model";
 import { FileFormat } from "./file-format.model";
 import { ResponseFacet } from "../http/response-facet.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { ResponseTerm } from "../http/response-term.model";
+import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
-import { FacetAgeRange } from "../facet/facet-age-range/facet-age-range.model";
-import { FacetAgeRangeName } from "../facet/facet-age-range/facet-age-range-name.model";
 import { SearchAgeRange } from "../search/search-age-range.model";
-import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
-import { Facet } from "../facet/facet.model";
 import { GenusSpecies } from "./genus-species.model";
 import { LibraryConstructionApproach } from "./library-construction-approach.model";
 import { MatrixableFileFacets } from "./matrixable-file-facets.model";
@@ -52,6 +54,7 @@ export class FilesService {
      */
     constructor(private configService: ConfigService,
                 @Inject("ENTITY_REQUEST_SERVICE") private entityRequestService: EntityRequestService,
+                private httpService: HttpService,
                 private searchTermHttpService: SearchTermHttpService,
                 private responseTermService: ResponseTermService,
                 private httpClient: HttpClient) {
@@ -61,13 +64,15 @@ export class FilesService {
      * Fetch data to populate rows in table, depending on the current selected tab (eg samples, files), as
      * well as facet terms and their corresponding counts.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey - set of currently selected search terms
      * @param {TableParams} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
-    public fetchEntitySearchResults(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    public fetchEntitySearchResults(catalog: Catalog,
+                                    searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                     tableParams: TableParams,
                                     selectedEntity: string,
                                     filterableByProject = true): Observable<EntitySearchResults> {
@@ -76,7 +81,7 @@ export class FilesService {
         // Build model of HTTP request for entity API
         const entityRequest = 
             this.entityRequestService.buildEntityRequest(
-                searchTermsBySearchKey, tableParams, selectedEntity, filterableByProject);
+                catalog, searchTermsBySearchKey, tableParams, selectedEntity, filterableByProject);
 
         return this.httpClient
             .get<EntityAPIResponse>(entityRequest.url, {params: entityRequest.params})
@@ -92,19 +97,16 @@ export class FilesService {
      * {SearchTerm[]} selectedSearchTerms
      * @returns {Observable<Action>}
      */
-    public fetchFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
+    public fetchFileSummary(catalog: Catalog, searchTerms: SearchTerm[]): Observable<FileSummary> {
 
         // Build up API URL
         const url = this.configService.getSummaryUrl();
 
         // Build up the query params
         const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
+        const params = this.httpService.createIndexParams(catalog, {filters});
 
-        return this.httpClient.get<FileSummary>(url, {
-            params: {
-                filters
-            }
-        }).pipe(
+        return this.httpClient.get<FileSummary>(url, {params}).pipe(
             map(this.bindFileSummaryResponse)
         );
     }
@@ -113,15 +115,19 @@ export class FilesService {
      * Returns true if there is matrixable data for the current search terms. Query FILES endpoint with the current
      * search terms, updating the file type to only matrix if necessary.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @returns {Observable<boolean>}
      */
-    public fetchIsMatrixSupported(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    public fetchIsMatrixSupported(catalog: Catalog,
+                                  searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                   tableParams: TableParams): Observable<boolean> {
 
-        return this.fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-            map((apiResponse: EntityAPIResponse) => !this.bindIsEmptySetResponse(apiResponse))
+        return this.fetchIsMatrixSupportedFilesAPIResponse(catalog, searchTermsBySearchKey, tableParams)
+            .pipe(
+                map((apiResponse: EntityAPIResponse) => !this.bindIsEmptySetResponse(apiResponse)
+            )
         );
     }
 
@@ -130,19 +136,23 @@ export class FilesService {
      * the current search terms will be included in a matrix. A matrix partial query is false when all of the data for
      * the current search terms will be included in a matrix.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @returns {Observable<boolean>}
      */
-    public fetchIsMatrixPartialQueryMatch(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    public fetchIsMatrixPartialQueryMatch(catalog: Catalog,
+                                          searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                           tableParams: TableParams): Observable<boolean> {
 
 
-        return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey, tableParams).pipe(
-            map((apiResponse: EntityAPIResponse) =>
-                this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
-            switchMap((matrixableFileFacets: MatrixableFileFacets) =>
-                this.isMatrixPartialQueryMatch(searchTermsBySearchKey, tableParams, matrixableFileFacets))
+        return this.fetchIsMatrixPartialQueryMatchFilesAPIResponse(catalog, searchTermsBySearchKey, tableParams)
+            .pipe(
+                map((apiResponse: EntityAPIResponse) =>
+                    this.bindMatrixableFileFacetsResponse(apiResponse, searchTermsBySearchKey)),
+                switchMap((matrixableFileFacets: MatrixableFileFacets) =>
+                    this.isMatrixPartialQueryMatch(catalog, searchTermsBySearchKey, tableParams, matrixableFileFacets)
+            )
         );
     }
 
@@ -150,11 +160,13 @@ export class FilesService {
      * Returns true if there is data for the specified search terms, but additionally restricting the library construction
      * approach to just smart seq 2.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @returns {Observable<boolean>}
      */
-    private fetchIsSmartSeq2False(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    private fetchIsSmartSeq2False(catalog: Catalog,
+                                  searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                   tableParams: TableParams): Observable<boolean> {
 
         // Build API URL
@@ -162,7 +174,8 @@ export class FilesService {
 
         // Clear out any library construction approaches other than smart seq 2
         const ss2SearchTerms = this.createSmartSeq2SearchTerms(searchTermsBySearchKey);
-        const paramMap = this.entityRequestService.buildFetchSearchResultsQueryParams(ss2SearchTerms, tableParams);
+        const paramMap =
+            this.entityRequestService.buildFetchSearchResultsQueryParams(catalog, ss2SearchTerms, tableParams);
 
         return this.httpClient
             .get<EntityAPIResponse>(url, {params: paramMap})
@@ -424,11 +437,13 @@ export class FilesService {
      * Fetch the matrixable data for the current search terms, if any. Query FILES endpoint with the current search
      * terms, removing all selected file formats except matrix.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @returns {Observable<EntityAPIResponse>}
      */
-    private fetchIsMatrixPartialQueryMatchFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    private fetchIsMatrixPartialQueryMatchFilesAPIResponse(catalog: Catalog,
+                                                           searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                                            tableParams: TableParams): Observable<EntityAPIResponse> {
 
         // Build API URL
@@ -436,7 +451,8 @@ export class FilesService {
 
         // Update search terms such that only selected file type is matrix
         const matrixSearchTerms = this.createMatrixPartialQuerySearchTerms(searchTermsBySearchKey);
-        const paramMap = this.entityRequestService.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
+        const paramMap =
+            this.entityRequestService.buildFetchSearchResultsQueryParams(catalog, matrixSearchTerms, tableParams);
 
         return this.httpClient
             .get<EntityAPIResponse>(url, {params: paramMap});
@@ -446,11 +462,13 @@ export class FilesService {
      * Fetch the matrixable data for the current search terms, if any. Query FILES endpoint with the current search
      * terms, updating the file type to only matrix if necessary.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @returns {Observable<EntityAPIResponse>}
      */
-    private fetchIsMatrixSupportedFilesAPIResponse(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    private fetchIsMatrixSupportedFilesAPIResponse(catalog: Catalog,
+                                                   searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                                    tableParams: TableParams): Observable<EntityAPIResponse> {
 
         // Build API URL
@@ -458,7 +476,8 @@ export class FilesService {
 
         // Update search terms such that only selected file type is matrix
         const matrixSearchTerms = this.createMatrixSupportedSearchTerms(searchTermsBySearchKey);
-        const paramMap = this.entityRequestService.buildFetchSearchResultsQueryParams(matrixSearchTerms, tableParams);
+        const paramMap =
+            this.entityRequestService.buildFetchSearchResultsQueryParams(catalog, matrixSearchTerms, tableParams);
 
         return this.httpClient
             .get<EntityAPIResponse>(url, {params: paramMap});
@@ -469,12 +488,14 @@ export class FilesService {
      * a partial query match. Returns observable as we may need to execute an additional query to the backend to
      * determine partial query match status.
      *
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @param {MatrixableFileFacets} matrixableFileFacets
      * @returns {Observable<boolean>}
      */
-    private isMatrixPartialQueryMatch(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    private isMatrixPartialQueryMatch(catalog: Catalog,
+                                      searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                                       tableParams: TableParams,
                                       matrixableFileFacets: MatrixableFileFacets): Observable<boolean> {
 
@@ -510,7 +531,7 @@ export class FilesService {
 
         // We could potentially have a partial query match and therefore need to execute the additional
         // query to determine if there are any smart seq 2 / paired end false combinations in the data.
-        return this.fetchIsSmartSeq2False(searchTermsBySearchKey, tableParams);
+        return this.fetchIsSmartSeq2False(catalog, searchTermsBySearchKey, tableParams);
     }
 
     /**

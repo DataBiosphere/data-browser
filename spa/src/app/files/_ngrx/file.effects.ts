@@ -23,7 +23,7 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
 import { FetchFilesFacetsRequestAction } from "./facet/fetch-files-facets-request.action";
 import { FetchFilesFacetsSuccessAction } from "./facet/fetch-files-facets-success.action";
-import { selectTableQueryParams } from "./file.selectors";
+import { selectCatalog, selectTableQueryParams } from "./file.selectors";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import { AppState } from "../../_ngrx/app.state";
@@ -45,6 +45,7 @@ import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.ac
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
+import { SelectCatalogAction } from "./table/select-catalog.action";
 
 @Injectable()
 export class FileEffects {
@@ -88,6 +89,7 @@ export class FileEffects {
     fetchFacetsAndSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(
+                SelectCatalogAction.ACTION_TYPE,
                 ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
                 ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
                 InitEntityStateAction.ACTION_TYPE, // Init table data for newly selected tab, if table data isn't cached
@@ -135,12 +137,16 @@ export class FileEffects {
                         order: tableQueryParams.pagination.order
                     });
 
-                return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, tableParams, selectedEntity)
-                    .pipe(
-                        map((entitySearchResults) => {
-                            return {action, entitySearchResults, currentQuery, tableQueryParams};
-                        })
-                    );
+                return this.fileService.fetchEntitySearchResults(
+                    tableQueryParams.catalog,
+                    selectedSearchTermsBySearchKey,
+                    tableParams,
+                    selectedEntity)
+                        .pipe(
+                            map((entitySearchResults) => {
+                                return {action, entitySearchResults, currentQuery, tableQueryParams};
+                            })
+                        );
             }),
             mergeMap(({action, entitySearchResults, currentQuery, tableQueryParams}) => {
                 
@@ -213,7 +219,11 @@ export class FileEffects {
             switchMap((tableQueryParams) => {
 
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
-                return this.fileService.fetchEntitySearchResults(selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS, EntityName.FILES);
+                return this.fileService.fetchEntitySearchResults(
+                    tableQueryParams.catalog,
+                    selectedSearchTermsBySearchKey,
+                    DEFAULT_TABLE_PARAMS,
+                    EntityName.FILES);
             }),
             map((entitySearchResults) => {
                 
@@ -239,7 +249,7 @@ export class FileEffects {
             switchMap((tableQueryParams) => {
 
                 return this.fileService.fetchIsMatrixSupported(
-                    tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
+                    tableQueryParams.catalog, tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
             }),
             map((matrixableSearchResults: boolean) => new FetchIsMatrixSupportedSuccessAction(matrixableSearchResults))
         );
@@ -252,11 +262,14 @@ export class FileEffects {
     fetchSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFileSummaryRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedSearchTerms),
-                take(1)
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectSelectedSearchTerms), take(1))
+                )
             )),
-            switchMap((searchTerms: SearchTerm[]) => this.fileService.fetchFileSummary(searchTerms)),
+            switchMap(([action, catalog, searchTerms]) =>
+                this.fileService.fetchFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
         );
 

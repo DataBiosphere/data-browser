@@ -15,25 +15,32 @@ import { switchMap } from "rxjs/operators";
 import { AbstractSystemService } from "./abstract.system.service";
 import { ConfigService } from "../../config/config.service";
 import { SystemStatusResponse } from "./system-status-response.model";
+import { Catalog } from "../../files/catalog/catalog.model";
+import { HttpService } from "../../files/http/http.service";
 
 @Injectable()
 export class SystemService extends AbstractSystemService {
 
     /**
      * @param {ConfigService} configService
+     * @param {HttpService} httpService
      * @param {HttpClient} httpClient
      */
-    constructor(protected configService: ConfigService, protected httpClient: HttpClient) {
+    constructor(protected configService: ConfigService,
+                protected httpService: HttpService,
+                protected httpClient: HttpClient) {
 
-        super(configService, httpClient);
+        super(configService, httpService, httpClient);
     }
 
     /**
      * Fetch the current system status; both the DCP-wide status and the current (Azul) indexing status.
+     * 
+     * @param {Catalog} catalog
      */
-    public fetchSystemStatus(): Observable<SystemStatusResponse> {
+    public fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse> {
 
-        return forkJoin({health: this.checkHealth(), index: this.checkIndexStatus()})
+        return forkJoin({health: this.checkHealth(catalog), index: this.checkIndexStatus(catalog)})
             .pipe(
                 switchMap(({health, index}) => {
                     return of({

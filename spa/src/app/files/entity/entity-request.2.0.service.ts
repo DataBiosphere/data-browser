@@ -12,6 +12,7 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { EntityRequest } from "./entity-request.model";
 import { SearchTerm } from "../search/search-term.model";
 import { TableParams } from "../table/pagination/table-params.model";
@@ -22,13 +23,15 @@ import { TableParams20 } from "../table/pagination/table-params.2.0.model";
 export class EntityRequestService20 extends EntityRequestService {
 
     /**
+     * @param {Catalog} catalog
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @param {TableParams} tableParams
      * @param {string} selectedEntity
      * @param {boolean} filterableByProject
      * @returns {EntityRequest}
      */
-    public buildEntityRequest(searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+    public buildEntityRequest(catalog: Catalog,
+                              searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
                               tableParams: TableParams20,
                               selectedEntity: string,
                               filterableByProject = true): EntityRequest {
@@ -39,6 +42,6 @@ export class EntityRequestService20 extends EntityRequestService {
             };
         }
 
-        return super.buildEntityRequest(searchTermsBySearchKey, tableParams, selectedEntity, filterableByProject);
+        return super.buildEntityRequest(catalog, searchTermsBySearchKey, tableParams, selectedEntity, filterableByProject);
     }
 }

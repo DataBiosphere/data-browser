@@ -40,6 +40,7 @@ import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.m
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
+import { HttpService } from "../../http/http.service";
 
 describe("HCAGetMatrixComponent", () => {
 
@@ -209,6 +210,11 @@ describe("HCAGetMatrixComponent", () => {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
                         "trackEvent"
+                    ])
+                }, {
+                    provide: HttpService,
+                    useValue: jasmine.createSpyObj("HttpService", [
+                        "createIndexParams"
                     ])
                 }, {
                     provide: SearchTermHttpService,

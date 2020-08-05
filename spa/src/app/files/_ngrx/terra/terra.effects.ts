@@ -18,6 +18,7 @@ import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.act
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
+import { selectCatalog } from "../file.selectors";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
@@ -25,15 +26,6 @@ import { selectExportToTerra } from "./terra.selectors";
 
 @Injectable()
 export class TerraEffects {
-
-    /**
-     * @param {Store<AppState>} store
-     * @param {Actions} actions$
-     * @param {TerraService} terraService
-     */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private terraService: TerraService) {}
 
     /**
      * Trigger export to Terra.
@@ -44,11 +36,12 @@ export class TerraEffects {
             ofType(ExportToTerraRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectSelectedSearchTerms), take(1)),
                     this.store.pipe(select(selectFileFormatsFileFacet), take(1))
                 )
             )),
-            switchMap(([action, searchTerms, fileFormatsFileFacet]) => {
+            switchMap(([action, catalog, searchTerms, fileFormatsFileFacet]) => {
 
                 // Set up the kill switch for the polling of the Tera export. We'll use the value of the response
                 // object in the store, and only stop polling if the response state returns to NOT_STARTED (which occurs
@@ -60,7 +53,7 @@ export class TerraEffects {
                     take(1)
                 );
                 
-                return this.terraService.exportToTerra(searchTerms, fileFormatsFileFacet, killSwitch$);
+                return this.terraService.exportToTerra(catalog, searchTerms, fileFormatsFileFacet, killSwitch$);
             }),
             map(response => {
                 return this.terraService.isExportToTerraRequestInProgress(response.status) ?
@@ -68,4 +61,13 @@ export class TerraEffects {
                     new ExportToTerraSuccessAction(response)
             })
         );
+
+    /**
+     * @param {Store<AppState>} store
+     * @param {Actions} actions$
+     * @param {TerraService} terraService
+     */
+    constructor(private store: Store<AppState>,
+                private actions$: Actions,
+                private terraService: TerraService) {}
 }

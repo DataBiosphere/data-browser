@@ -8,11 +8,12 @@
 // Core dependencies
 import { Inject, Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
+import { Action, select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { map, switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../../files/_ngrx/file.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import { AbstractSystemService } from "../shared/abstract.system.service";
 import { SystemService } from "../shared/system.service";
@@ -42,7 +43,8 @@ export class SystemEffects {
     systemStatus$: Observable<Action> = this.actions$
         .pipe(
             ofType(SystemStatusRequestAction.ACTION_TYPE),
-            switchMap(() => this.systemService.fetchSystemStatus()),
+            switchMap(() => this.store.pipe(select(selectCatalog), take(1))),
+            switchMap((catalog) => this.systemService.fetchSystemStatus(catalog)),
             map((response: SystemStatusResponse) => {
 
                 return new SystemStatusSuccessAction(response.ok, response.indexing);

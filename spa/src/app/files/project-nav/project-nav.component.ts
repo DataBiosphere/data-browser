@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ProjectNav } from "./project-nav.model";
 import { EntityName } from "../shared/entity-name.model";
 import { NavItem } from "../../shared/nav/nav-item.model";
@@ -25,6 +26,7 @@ import { NavItem } from "../../shared/nav/nav-item.model";
 export class ProjectNavComponent {
 
     // Inputs
+    @Input() catalog: Catalog;
     @Input() externalResourcesExist: boolean;
     @Input() projectInRelease: boolean;
     @Input() releaseFeatureEnabled: boolean;
@@ -136,44 +138,59 @@ export class ProjectNavComponent {
     public ngOnInit() {
 
         this.route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
-
+            
             const projectId = params.id;
+            
+            // Determine whether catalog param should be added to project detail links
+            const navigationExtras = this.catalog ?
+                {
+                    queryParams: {
+                        catalog: this.catalog 
+                    },
+                    queryParamsHandling: "merge"
+                } : {};
 
             this.projectInformation = {
                 disabled: false,
                 display: "Project Information",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION)
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_INFORMATION),
+                ...navigationExtras
             };
 
             this.projectMetadata = {
                 disabled: false,
                 display: "Project Metadata",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA)
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_METADATA),
+                ...navigationExtras
             };
 
             this.expressionMatrices = {
                 disabled: false,
                 display: "Expression Matrices",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES)
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES),
+                ...navigationExtras
             };
 
             this.externalResources = {
                 disabled: !this.externalResourcesExist,
                 display: "External Resources",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES),
-                tooltip: "There are no external resources associated with this project."
+                tooltip: "There are no external resources associated with this project.",
+                ...navigationExtras
             };
 
             this.summaryStats = {
                 disabled: false,
                 display: "Summary Stats",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS)
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.SUMMARY_STATS),
+                ...navigationExtras
             };
 
             this.dataCitation = {
                 disabled: false,
                 display: "Data Citation",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION)
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION),
+                ...navigationExtras
             };
 
             if ( this.releaseFeatureEnabled ) {
@@ -183,7 +200,8 @@ export class ProjectNavComponent {
                     subNavItems: [{
                         disabled: false,
                         display: "2020 March Data Release",
-                        routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR)
+                        routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR),
+                        ...navigationExtras
                     }]
                 }
             }
