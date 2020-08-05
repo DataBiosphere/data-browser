@@ -12,6 +12,7 @@ import { interval, Observable, of, Subject } from "rxjs";
 import { catchError, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
@@ -69,44 +70,47 @@ export class FileManifestService {
     /**
      * Request file manifest. Removes "matrix" search term, if selected.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
     public requestFileManifestUrl(
-        searchTerms: SearchTerm[], fileFormats: FileFacet, killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+        catalog: Catalog, searchTerms: SearchTerm[], fileFormats: FileFacet, killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         const manifestSearchTerms = this.buildManifestSearchTerms(searchTerms, fileFormats);
-        return this.sendFileManifestUrlRequest(manifestSearchTerms, killSwitch$);
+        return this.sendFileManifestUrlRequest(catalog, manifestSearchTerms, killSwitch$);
     }
 
     /**
      * Get the file manifest URL for generating a matrix request.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      *
      */
-    public requestMatrixFileManifestUrl(searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+    public requestMatrixFileManifestUrl(catalog: Catalog, searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
-        return this.sendFileManifestUrlRequest(searchTerms, killSwitch$);
+        return this.sendFileManifestUrlRequest(catalog, searchTerms, killSwitch$);
     }
 
     /**
      * Fetch file summary for displaying the manifest modal, passing in the current set of selected facets except any
      * selected file types.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @returns {Observable<FileSummary>}
      */
-    public fetchFileManifestFileSummary(searchTerms: SearchTerm[]): Observable<FileSummary> {
+    public fetchFileManifestFileSummary(catalog: Catalog, searchTerms: SearchTerm[]): Observable<FileSummary> {
 
         const searchTermsExceptFileTypes = searchTerms.filter((searchTerm) => {
             return searchTerm.getSearchKey() !== FileFacetName.FILE_FORMAT;
         });
-        return this.filesService.fetchFileSummary(searchTermsExceptFileTypes);
+        return this.filesService.fetchFileSummary(catalog, searchTermsExceptFileTypes);
     }
 
     /**
@@ -260,15 +264,17 @@ export class FileManifestService {
     /**
      * Send HTTP request for file manifest URL, and set up polling to monitor status.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
-    private sendFileManifestUrlRequest(searchTerms: SearchTerm[], killSwitch$): Observable<ManifestResponse> {
+    private sendFileManifestUrlRequest(catalog: Catalog, searchTerms: SearchTerm[], killSwitch$): Observable<ManifestResponse> {
 
         const manifestResponse$ = new Subject<ManifestResponse>();
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
+        const query =
+            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.getFileManifestUrl();
         this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);

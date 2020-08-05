@@ -41,6 +41,7 @@ import { TablePreviousPageSuccessAction } from "./table-previous-page-success.ac
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { ActivatedRouteStub } from "../../../test/activated-route.stub";
 import { ReplaySubject } from "rxjs/index";
+import { UrlService } from "../../url/url.service";
 
 describe("Table Effects", () => {
 
@@ -87,6 +88,14 @@ describe("Table Effects", () => {
                 }, {
                     provide: SearchTermUrlService,
                     useValue: searchTermUrlService
+                }, {
+                    provide: UrlService,
+                    useValue: jasmine.createSpyObj("UrlService", [
+                        "isViewingEntities",
+                        "isViewingFiles",
+                        "isViewingProjects",
+                        "isViewingSamples"
+                    ])
                 }, {
                     provide: ActivatedRoute,
                     useClass: ActivatedRouteStub

@@ -29,8 +29,11 @@ import { RouterModule } from "@angular/router";
 
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
+import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
+import { EntityRequestService } from "./entity/entity-request.service";
 import { environment } from "../../environments/environment";
 import { AgeInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-in-age-unit.pipe";
 import { AgeUnitInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-unit-in-age-unit.pipe";
@@ -79,6 +82,7 @@ import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projec
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { ResponseTermService } from "./http/response-term.service";
+import { HttpService } from "./http/http.service";
 import { LeftBarComponent } from "./left-bar/left-bar.component";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
@@ -135,8 +139,7 @@ import { PaginationService } from "./table/pagination/pagination.service";
 import { PaginationService20 } from "./table/pagination/pagination.2.0.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
-import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
-import { EntityRequestService } from "./entity/entity-request.service";
+import { UrlService } from "./url/url.service";
 
 // True if current environment is running v2.0 code.
 const v2 = environment.version === "2.0";
@@ -173,6 +176,7 @@ const v2 = environment.version === "2.0";
         AgeUnitInAgeUnit,
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
+        CatalogFormComponent,
         DataDownloadCitationComponent,
         DisplayDataLinkComponent,
         FacetAgeRangeFormComponent,
@@ -261,6 +265,7 @@ const v2 = environment.version === "2.0";
         FacetDisplayService,
         FileManifestService,
         FilesService,
+        HttpService,
         IntegrationService,
         SearchTermUrlService,
         MatrixService,
@@ -279,8 +284,9 @@ const v2 = environment.version === "2.0";
         ResponseTermService,
         TermSortService,
         TerraService,
+        UrlService,
         {provide: "Window", useValue: window} // Required for hamburger functionality
-    ],
+    ]
 })
 export class FilesModule {
 }

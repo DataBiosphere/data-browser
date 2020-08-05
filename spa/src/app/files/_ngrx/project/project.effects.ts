@@ -15,6 +15,7 @@ import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap,
 // App dependencies
 import { FetchProjectTSVUrlRequestAction } from "./fetch-project-tsv-url-request.action";
 import { FetchProjectTSVUrlSuccessAction } from "./fetch-project-tsv-url-success.action";
+import { selectCatalog } from "../file.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
@@ -54,20 +55,15 @@ export class ProjectEffects {
                 action.projectId,
                 this.actions$.pipe(ofType(ClearSelectedProjectAction.ACTION_TYPE))), // Reset distinct check on clear of project
             // Grab local overrides for the selected project
-            switchMap((action: FetchProjectRequestAction) => {
-
-                return this.store.pipe(
-                    select(selectProjectById, {id: action.projectId}),
-                    map((updatedProject: Project) => {
-
-                        // Grab the project from the release
-                        return {action, updatedProject};
-                    })
-                );
-            }),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectProjectById, {id: action.projectId}), take(1))
+                )
+            )),
             // Fetch the project and apply any local overrides
-            switchMap(({action, updatedProject}) =>
-                this.projectService.fetchProjectById(action.projectId, updatedProject)),
+            switchMap(([action, catalog, updatedProject]) =>
+                this.projectService.fetchProjectById(catalog, action.projectId, updatedProject)),
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
         );
@@ -95,7 +91,10 @@ export class ProjectEffects {
     fetchProjectTSVUrl: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchProjectTSVUrlRequestAction.ACTION_TYPE),
-            mergeMap((action) => { // Merge map here as we don't want to cancel any previous requests for separate project TSV's
+            concatMap(action => of(action).pipe(
+                withLatestFrom(this.store.pipe(select(selectCatalog), take(1)))
+            )),
+            mergeMap(([action, catalog]) => { // Merge map here as we don't want to cancel any previous requests for separate project TSV's
                 
                 const {projectId, projectName} = action as FetchProjectTSVUrlRequestAction;
                 
@@ -111,7 +110,7 @@ export class ProjectEffects {
                 );
 
                 // Fetch project TSV URL
-                return this.projectService.fetchProjectTSVUrl(projectId, projectName, killSwitch$);
+                return this.projectService.fetchProjectTSVUrl(catalog, projectId, projectName, killSwitch$);
             }),
             map((response: ProjectTSVUrlResponse) => new FetchProjectTSVUrlSuccessAction(response))
         );

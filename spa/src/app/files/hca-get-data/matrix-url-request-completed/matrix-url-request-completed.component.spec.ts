@@ -24,6 +24,7 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { FileManifestService } from "../../shared/file-manifest.service";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequestStatus } from "../../shared/matrix-url-request-status.model";
+import { HttpService } from "../../http/http.service";
 
 describe("MatrixUrlRequestCompleted", () => {
 
@@ -104,6 +105,11 @@ describe("MatrixUrlRequestCompleted", () => {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
                         "requestMatrixFileManifestUrl"
+                    ])
+                }, {
+                    provide: HttpService,
+                    useValue: jasmine.createSpyObj("HttpService", [
+                        "createIndexParams"
                     ])
                 }, {
                     provide: SearchTermHttpService,

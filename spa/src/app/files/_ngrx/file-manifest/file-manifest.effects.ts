@@ -20,6 +20,7 @@ import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-req
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { selectFileManifestManifestResponse } from "./file-manifest.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
+import { selectCatalog } from "../file.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { FileManifestService } from "../../shared/file-manifest.service";
@@ -46,11 +47,14 @@ export class FileManifestEffects {
     fetchManifestDownloadFileSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectSelectedSearchTerms),
-                take(1)
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectSelectedSearchTerms), take(1)),
+                    this.store.pipe(select(selectCatalog), take(1))
+                )
             )),
-            switchMap((searchTerms) => this.fileManifestService.fetchFileManifestFileSummary(searchTerms)),
+            switchMap(([action, searchTerms, catalog]) => 
+                this.fileManifestService.fetchFileManifestFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
         );
 
@@ -63,11 +67,12 @@ export class FileManifestEffects {
             ofType(FetchFileManifestUrlRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectSelectedSearchTerms), take(1)),
                     this.store.pipe(select(selectFileFormatsFileFacet), take(1))
                 )
             )),
-            switchMap(([action, searchTerms, fileFormatsFileFacet]) => {
+            switchMap(([action, catalog, searchTerms, fileFormatsFileFacet]) => {
 
                 // Set up the kill switch for the polling of the file manifest URL. We'll use the value of the response
                 // object in the store, and only stop polling if the response state returns to NOT_STARTED (which occurs
@@ -80,7 +85,8 @@ export class FileManifestEffects {
                     take(1)
                 );
 
-                return this.fileManifestService.requestFileManifestUrl(searchTerms, fileFormatsFileFacet, killSwitch$);
+                return this.fileManifestService.requestFileManifestUrl(
+                    catalog, searchTerms, fileFormatsFileFacet, killSwitch$);
             }),
             map(response => new FetchFileManifestUrlSuccessAction(response))
         );

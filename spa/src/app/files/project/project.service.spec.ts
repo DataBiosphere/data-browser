@@ -11,6 +11,8 @@ import { ConfigService } from "../../config/config.service";
 import { of } from "rxjs";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
+import { HttpService } from "../http/http.service";
 import { ProjectService } from "./project.service";
 import {
     PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT,
@@ -46,12 +48,13 @@ describe("ProjectService:", () => {
                 }]
         });
 
+        const httpService = new HttpService();
         const termResponseService = new ResponseTermService();
         const searchTermService = new SearchTermHttpService(termResponseService);
 
         const configService = TestBed.inject(ConfigService);
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
-        projectService = new ProjectService(configService, searchTermService, <any>httpClientSpy);
+        projectService = new ProjectService(configService, httpService, searchTermService, <any>httpClientSpy);
     }));
 
     /**
@@ -71,7 +74,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.arrayExpressAccessions).toEqual(projectToMap.projects[0].arrayExpressAccessions.join(", "));
                 return done();
@@ -85,7 +88,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.arrayExpressAccessions).toEqual(projectToMap.projects[0].arrayExpressAccessions.join(", "));
                 return done();
@@ -99,7 +102,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 const expectedValue = mapMultipleValues(projectToMap.projects, "arrayExpressAccessions");
                 expect(mappedProject.arrayExpressAccessions).toEqual(expectedValue);
@@ -114,7 +117,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.arrayExpressAccessions).toEqual("Unspecified");
                 return done();
@@ -128,7 +131,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.arrayExpressAccessions).toEqual("Unspecified");
                 return done();
@@ -142,7 +145,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.contributors.length).toEqual(projectToMap.projects[0].contributors.length);
                 const mappedContributor = mappedProject.contributors[0];
@@ -159,7 +162,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.contributors).toEqual([]);
                 return done();
@@ -173,7 +176,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.geoSeriesAccessions).toEqual(projectToMap.projects[0].geoSeriesAccessions.join(", "));
                 return done();
@@ -187,7 +190,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.geoSeriesAccessions).toEqual(projectToMap.projects[0].geoSeriesAccessions.join(", "));
                 return done();
@@ -201,7 +204,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 const expectedValue = mapMultipleValues(projectToMap.projects, "geoSeriesAccessions");
                 expect(mappedProject.geoSeriesAccessions).toEqual(expectedValue);
@@ -216,7 +219,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.geoSeriesAccessions).toEqual("Unspecified");
                 return done();
@@ -230,7 +233,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.geoSeriesAccessions).toEqual("Unspecified");
                 return done();
@@ -244,7 +247,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcProjectAccessions).toEqual(projectToMap.projects[0].insdcProjectAccessions.join(", "));
                 return done();
@@ -258,7 +261,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcProjectAccessions).toEqual(projectToMap.projects[0].insdcProjectAccessions.join(", "));
                 return done();
@@ -272,7 +275,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 const expectedValue = mapMultipleValues(projectToMap.projects, "insdcProjectAccessions");
                 expect(mappedProject.insdcProjectAccessions).toEqual(expectedValue);
@@ -287,7 +290,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcProjectAccessions).toEqual("Unspecified");
                 return done();
@@ -301,7 +304,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcProjectAccessions).toEqual("Unspecified");
                 return done();
@@ -316,7 +319,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcStudyAccessions).toEqual(projectToMap.projects[0].insdcStudyAccessions.join(", "));
                 return done();
@@ -330,7 +333,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcStudyAccessions).toEqual(projectToMap.projects[0].insdcStudyAccessions.join(", "));
                 return done();
@@ -344,7 +347,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 const expectedValue = mapMultipleValues(projectToMap.projects, "insdcStudyAccessions");
                 expect(mappedProject.insdcStudyAccessions).toEqual(expectedValue);
@@ -359,7 +362,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcStudyAccessions).toEqual("Unspecified");
                 return done();
@@ -373,7 +376,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.insdcStudyAccessions).toEqual("Unspecified");
                 return done();
@@ -387,7 +390,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.projectDescription).toEqual(projectToMap.projects[0].projectDescription);
                 return done();
@@ -401,7 +404,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 const expectedValue = mapMultipleValues(projectToMap.projects, "projectDescription");
 
@@ -417,7 +420,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.projectDescription).toEqual("Unspecified");
                 return done();
@@ -431,7 +434,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.publications.length).toEqual(projectToMap.projects[0].publications.length);
                 return done();
@@ -445,7 +448,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.publications).toEqual([]);
                 return done();
@@ -459,7 +462,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_SINGLE_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.supplementaryLinks.length).toEqual(projectToMap.projects[0].supplementaryLinks.length);
                 return done();
@@ -473,7 +476,7 @@ describe("ProjectService:", () => {
 
             const projectToMap = PROJECT_ROW_NULL_VALUES;
             httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("123abc", {} as Project).subscribe((mappedProject) => {
+            projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.supplementaryLinks).toEqual([]);
                 return done();

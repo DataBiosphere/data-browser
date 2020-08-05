@@ -12,6 +12,7 @@ import { of } from "rxjs";
 
 // App dependencies
 import { FileManifestService } from "./file-manifest.service";
+import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { MatrixService } from "./matrix.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
@@ -51,6 +52,7 @@ describe("MatrixService:", () => {
         });
 
         const configService = TestBed.inject(ConfigService);
+        const httpService = new HttpService();
         const fileManifestService = TestBed.inject(FileManifestService);
         const gtmService = TestBed.inject(GTMService);
 
@@ -58,7 +60,7 @@ describe("MatrixService:", () => {
         const searchTermService = new SearchTermHttpService(termResponseService);
         
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
-        matrixService = new MatrixService(configService, gtmService, fileManifestService, searchTermService, <any>httpClientSpy);
+        matrixService = new MatrixService(configService, gtmService, httpService, fileManifestService, searchTermService, <any>httpClientSpy);
     }));
 
     /**

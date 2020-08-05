@@ -15,7 +15,7 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectCatalog, selectSelectedProject } from "../_ngrx/file.selectors";
 import {
     selectReleaseByProjectId,
     selectReleaseReferrer
@@ -209,18 +209,22 @@ export class ProjectDetailComponent {
             filter(integrations => !!integrations),
             take(1)
         );
+        
+        // Grab the current catalog value - we need this to generate links to project detail pages
+        const catalog$ = this.store.pipe(select(selectCatalog));
 
         // Set up component state
-        combineLatest(project$, projectInRelease$, projectIntegrations$, selectedProjectIds$)
+        combineLatest(project$, projectInRelease$, projectIntegrations$, selectedProjectIds$, catalog$)
             .pipe(
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(([project, projectInRelease, projectIntegrations, selectedProjectIds]) => {
+            .subscribe(([project, projectInRelease, projectIntegrations, selectedProjectIds, catalog]) => {
     
                 const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
                 const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
 
                 this.state$.next({
+                    catalog,
                     externalResourcesExist,
                     loaded: true,
                     project,

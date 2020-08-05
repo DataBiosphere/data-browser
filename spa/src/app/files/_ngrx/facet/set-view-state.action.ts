@@ -10,6 +10,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { Catalog } from "../../catalog/catalog.model";
 import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 
 export class SetViewStateAction implements Action {
@@ -20,6 +21,7 @@ export class SetViewStateAction implements Action {
     /**
      * @param {string} selectedEntity
      * @param {QueryStringSearchTerm[]} selectedSearchTerms
+     * @param {Catalog} catalog
      */
-    constructor(public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[]) {}
+    constructor(public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[], public catalog: Catalog) {}
 }

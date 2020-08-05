@@ -12,38 +12,45 @@ import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
+import { EntityType } from "./entity-type.model";
+import { HttpService } from "../http/http.service";
 import { Portal } from "../_ngrx/integration/portal.model";
 import { IntegrationHttpResponse } from "./integration-http-response.model";
 import { Integration } from "../_ngrx/integration/integration.model";
 import { IntegrationType } from "../_ngrx/integration/integration-type.model";
-import { EntityType } from "./entity-type.model";
 
 @Injectable()
 export class IntegrationService {
 
     /**
      * @param {ConfigService} configService
+     * @param {HttpService} httpService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
+                private httpService: HttpService,
                 private httpClient: HttpClient) {}
 
     /**
      * Request the set of integrations for the specified project.
      *
+     * @param {Catalog} catalog
+     * @param {string} projectId
      * @returns {Observable<Portal[]>}
      */
-    public fetchIntegrationsByProjectId(projectId: string): Observable<Portal[]> {
+    public fetchIntegrationsByProjectId(catalog: Catalog, projectId: string): Observable<Portal[]> {
 
         const url = this.configService.getIntegrationsUrl();
 
-        const paramMap = {
+        const integrationParams = {
             "integration_type": IntegrationType.GET,
             "entity_type": EntityType.PROJECT,
             "entity_ids": [projectId]
         }; 
-        return this.httpClient.get<Portal[]>(url, {params: paramMap}).pipe(
+        const params = this.httpService.createIndexParams(catalog, integrationParams);
+        return this.httpClient.get<Portal[]>(url, {params}).pipe(
             catchError(() => of([])), // Convert error response to []
             map(this.bindIntegrationsByProjectIdResponse.bind(this))
         );

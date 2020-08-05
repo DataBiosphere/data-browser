@@ -22,6 +22,7 @@ import { TermCountsUpdatedAction } from "./term-counts-updated.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
+import { SelectCatalogAction } from "./select-catalog.action";
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
@@ -30,6 +31,15 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
     let termCountsByFacetName;
 
     switch (action.type) {
+        
+        // Handle select of catalog - lower environments only
+        case SelectCatalogAction.ACTION_TYPE:
+            nextState = {
+                ...state,
+                catalog: (action as SelectCatalogAction).catalog
+            };
+
+            return nextState;
 
         // User is switching tab, update selected entity.
         case SelectEntityAction.ACTION_TYPE:
@@ -109,6 +119,16 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
 
             return nextState;
 
+        // View state has been parsed from URL param on app init - must do this to set the current selected tab.
+        case SetViewStateAction.ACTION_TYPE:
+
+            const setViewStateAction = (action as SetViewStateAction);
+            return {
+                ...state,
+                catalog: setViewStateAction.catalog,
+                selectedEntity: setViewStateAction.selectedEntity
+            };
+
         // Paginate to next page using the specified table model, update table data and pagination but not term counts.
         case TableNextPageSuccessAction.ACTION_TYPE:
 
@@ -148,14 +168,6 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             };
 
             return nextState;
-
-        // View state has been parsed from URL param on app init - must do this to set the current selected tab.
-        case SetViewStateAction.ACTION_TYPE:
-
-            return {
-                ...state,
-                selectedEntity: (action as SetViewStateAction).selectedEntity
-            };
 
         // Handle case where only the term counts need to be updated (and not the table data, pagination etc). This
         // can occur when selecting a project on the projects tab.

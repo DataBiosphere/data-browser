@@ -38,6 +38,7 @@ import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
+import { UrlService } from "../../url/url.service";
 
 @Injectable()
 export class TableEffects {
@@ -49,6 +50,7 @@ export class TableEffects {
      * @param {GTMService} gtmService
      * @param {ProjectService} projectService
      * @param {SearchTermUrlService} searchTermUrlService
+     * @param {UrlService} urlService
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
@@ -58,6 +60,7 @@ export class TableEffects {
                 private gtmService: GTMService,
                 private projectService: ProjectService,
                 private searchTermUrlService: SearchTermUrlService,
+                private urlService: UrlService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router) {
     }
@@ -189,7 +192,11 @@ export class TableEffects {
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 const filterableByProject = (selectedEntity !== EntityName.PROJECTS);
                 return this.fileService.fetchEntitySearchResults(
-                    selectedSearchTermsBySearchKey, tableParams, selectedEntity, filterableByProject)
+                        tableQueryParams.catalog,    
+                        selectedSearchTermsBySearchKey,
+                        tableParams,
+                        selectedEntity,
+                        filterableByProject)
                     .pipe(
                         map((entitySearchResults) => {
                             return {action, entitySearchResults};
@@ -229,7 +236,11 @@ export class TableEffects {
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 return this.fileService.fetchEntitySearchResults(
-                    selectedSearchTermsBySearchKey, tableParams, selectedEntity, (selectedEntity !== EntityName.PROJECTS));
+                    tableQueryParams.catalog,
+                    selectedSearchTermsBySearchKey,
+                    tableParams,
+                    selectedEntity,
+                    (selectedEntity !== EntityName.PROJECTS));
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableModelSuccessAction(entitySearchResults.tableModel))
@@ -271,11 +282,10 @@ export class TableEffects {
             
             // Default app state is to have human selected. This is only necessary if there is currently no filter
             // applied and the user is currently viewing the projects tab.
-            if ( filter.length === 0 && this.router.isActive(EntityName.PROJECTS, true) ) {
+            if ( filter.length === 0 && this.urlService.isViewingProjects() ) {
                 filter.push(this.searchTermUrlService.getDefaultSearchState());
             }
-            
-            return new SetViewStateAction(selectedEntity, filter);
+            return new SetViewStateAction(selectedEntity, filter, params.catalog);
         })
     );
 
@@ -333,6 +343,10 @@ export class TableEffects {
         const tableParams = action.tableParams;
         const selectedEntity = tableQueryParams.tableState.selectedEntity;
         return this.fileService.fetchEntitySearchResults(
-            selectedSearchTermsByFacetName, tableParams, selectedEntity, (selectedEntity !== EntityName.PROJECTS));
+            tableQueryParams.catalog,
+            selectedSearchTermsByFacetName,
+            tableParams,
+            selectedEntity,
+            (selectedEntity !== EntityName.PROJECTS));
     }
 }

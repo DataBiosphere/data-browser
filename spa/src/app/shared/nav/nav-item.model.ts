@@ -9,6 +9,8 @@ export interface NavItem {
     disabled?: boolean;
     display: string;
     routerLink?: string[];
+    queryParams?: any;
+    queryParamsHandling?: string;
     subNavItems?: NavItem[];
     tooltip?: string;
 }

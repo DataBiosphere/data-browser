@@ -4,10 +4,11 @@
  *
  * State backing top level app component.
  */
-import { SystemStatus } from "./system/_ngrx/system-status.model";
 
 // App dependencies
+import { SystemStatus } from "./system/_ngrx/system-status.model";
+
 export interface AppComponentState {
 
-    systemStatus: SystemStatus;
+    systemStatus?: SystemStatus;
 }

@@ -13,11 +13,13 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../config/config.service";
 import { FilesComponentState } from "./files.component.state";
 import { AppState } from "../_ngrx/app.state";
 import { SelectEntityAction } from "./_ngrx/entity/select-entity.action";
 import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
+    selectCatalog,
     selectFileSummary,
     selectEntities,
     selectSelectedEntitySpec
@@ -44,13 +46,25 @@ export class FilesComponent implements OnInit, OnDestroy {
     private ngDestroy$ = new Subject();
 
     /**
+     * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
-    constructor(private deviceService: DeviceDetectorService,
+    constructor(private configService: ConfigService,
+                private deviceService: DeviceDetectorService,
                 private store: Store<AppState>,
                 private renderer: Renderer2) {
+    }
+
+    /**
+     * Returns true if the catalog feature is enabled.
+     * 
+     * @returns {boolean}
+     */
+    public isCatalogEnabled(): boolean {
+        
+        return this.configService.isEnvClgDev();
     }
 
     /**
@@ -107,7 +121,8 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe( // Current set of selected projects, if any
                 select(selectSelectedProjectSearchTerms),
                 map(this.mapSearchTermsToProjectIds)
-            )
+            ),
+            this.store.pipe(select(selectCatalog))
         )
             .pipe(
                 takeUntil(this.ngDestroy$),
@@ -118,9 +133,11 @@ export class FilesComponent implements OnInit, OnDestroy {
                          selectedEntity,
                          selectedSearchTerms,
                          searchTerms,
-                         selectedProjectIds]) => {
+                         selectedProjectIds, 
+                         catalog]) => {
 
                     return {
+                        catalog,
                         entities,
                         facets,
                         fileSummary,

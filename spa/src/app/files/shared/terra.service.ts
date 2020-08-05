@@ -12,6 +12,7 @@ import { interval, Observable, of, Subject } from "rxjs";
 import { catchError, retry, switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { ExportToTerraResponse } from "./export-to-terra-response.model";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
@@ -116,12 +117,14 @@ export class TerraService {
     /**
      * Export current state of selected facets to Terra.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ExportToTerraResponse>}
      */
     public exportToTerra(
+        catalog: Catalog,
         searchTerms: SearchTerm[],
         fileFormats: FileFacet,
         killSwitch$: Observable<boolean>): Observable<ExportToTerraResponse> {
@@ -140,9 +143,9 @@ export class TerraService {
             exportResponse$.unsubscribe();
         });
 
-        const query = new ICGCQuery(this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
+        const query =
+            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
         let params = new HttpParams({fromObject: query} as any);
-
         const url = this.configService.getFileManifestUrl();
         const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
         this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
