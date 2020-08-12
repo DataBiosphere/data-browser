@@ -1,6 +1,11 @@
 <form [formGroup]="catalogFormGroup">
     <label>
         <mat-radio-group class="hca-radio term" formControlName="catalog" (change)="onCatalogSelected($event)">
+            <label class="mat-radio-label radio-label">
+                <div class="mat-radio-label-content">
+                    Catalog:
+                </div>
+            </label>
             <mat-radio-button value="dcp1">DCP1</mat-radio-button>
             <mat-radio-button value="dcp2">DCP2</mat-radio-button>
             <label *ngIf="catalog" class="mat-radio-label clear-label" (click)="onCatalogCleared($event)">

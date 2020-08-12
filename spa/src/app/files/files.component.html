@@ -1,4 +1,5 @@
 <div class="layout-column" *ngIf="state$ | async as state">
+    <catalog-form *ngIf="isCatalogEnabled()" [catalog]="state.catalog"></catalog-form>
     <hca-section-title>Explore Data</hca-section-title>
     <facet-toolbar
             [facets]="state.facets"
@@ -24,5 +25,4 @@
     <hca-table-projects *ngIf="(state.selectedEntity).key == 'projects'"
                         [selectedProjectIds]="state.selectedProjectIds"
                         [selectedSearchTerms]="state.selectedSearchTerms"></hca-table-projects>
-    <catalog-form *ngIf="isCatalogEnabled()" [catalog]="state.catalog"></catalog-form>
 </div>
