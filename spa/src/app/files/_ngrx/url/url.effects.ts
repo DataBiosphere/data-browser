@@ -24,6 +24,7 @@ import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { selectUrlSpecState } from "./url.selectors";
 import { SelectCatalogAction } from "../table/select-catalog.action";
 import { UrlService } from "../../url/url.service";
+import { SelectProjectIdAction } from "../search/select-project-id.action";
 
 @Injectable()
 export class UrlEffects {
@@ -72,6 +73,7 @@ export class UrlEffects {
             SelectEntityAction.ACTION_TYPE,
             SelectFileFacetTermAction.ACTION_TYPE,
             SelectFacetAgeRangeAction.ACTION_TYPE,
+            SelectProjectIdAction.ACTION_TYPE,
             SetViewStateAction.ACTION_TYPE
         ),
         filter(() => {

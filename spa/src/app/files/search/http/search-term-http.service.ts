@@ -22,8 +22,8 @@ import { SearchAgeRange } from "../search-age-range.model";
 @Injectable()
 export class SearchTermHttpService {
 
-    // Search blacklist - exclude from set of search terms
-    private SEARCH_TERM_BLACKLIST = [
+    // Search deny list - exclude from set of search terms
+    private SEARCH_TERM_DENY_LIST = [
         "contactName",
         "effectiveOrgan",
         "laboratory",
@@ -39,7 +39,7 @@ export class SearchTermHttpService {
     constructor(private termResponseService: ResponseTermService) {}
 
     /**
-     * Create search terms for each term facet, for each facet, in the specified response
+     * Create search terms for each term facet, for each facet, in the specified response.
      * 
      * Note, age range facet is created manually with its state stored locally; there is no corresponding facet returned
      * from the backend for it. We do not want to search over age range so we are not adding any handling of it here. 
@@ -51,27 +51,41 @@ export class SearchTermHttpService {
 
         return Object.keys(responseFacetsByName).reduce((accum, facetName) => {
 
-            // Do not create search terms for any black listed fileFacets
-            if ( this.SEARCH_TERM_BLACKLIST.indexOf(facetName) >= 0 ) {
+            // Do not create search terms for file facets on the deny list
+            if ( this.SEARCH_TERM_DENY_LIST.indexOf(facetName) >= 0 ) {
                 return accum;
             }
 
+            // Search entities (ie terms for project facet) are handled separately as we do not want to search over
+            // these values and are on the deny list
             const responseFacet = responseFacetsByName[facetName];
-            const projectFacet = facetName === FileFacetName.PROJECT;
             responseFacet.terms.forEach((termResponse: ResponseTerm) => {
-
-                if ( projectFacet ) {
-                    const projectSearchEntities = this.createSearchEntity(facetName, termResponse); 
-                    accum = [
-                        ...accum,
-                        ...projectSearchEntities
-                    ];
-                }
-                else {
-                    accum.push(this.createSearchFacetTerm(facetName, termResponse));
-                }
+                accum.push(this.createSearchFacetTerm(facetName, termResponse));
             });
 
+            return accum;
+        }, []);
+    }
+
+
+    /**
+     * Create search entities from the project facet specified in the response.
+     *
+     * @param {Dictionary<ResponseFacet>} responseFacetsByName
+     * @returns {SearchTerm[]}
+     */
+    public bindSearchEntities(responseFacetsByName: Dictionary<ResponseFacet>): SearchTerm[] {
+        
+        const projectFacet = responseFacetsByName[FileFacetName.PROJECT];
+        return projectFacet.terms.reduce((accum, termResponse: ResponseTerm) => {
+
+            // Convert the facet name PROJECT to the search key PROJECT_ID
+            const projectSearchEntities = this.createSearchEntity(FileFacetName.PROJECT_ID, termResponse);
+            accum = [
+                ...accum,
+                ...projectSearchEntities
+            ];
+            
             return accum;
         }, []);
     }
@@ -127,14 +141,13 @@ export class SearchTermHttpService {
      * Create search terms for the specified project facet. It is possible that multiple search terms are created for
      * the case where there is a collision in project names. That is, multiple projects have the same short name.
      *
-     * @param {string} facetName
+     * @param {string} searchKey
      * @param {ResponseTerm} termResponse
      * @returns {SearchTerm[]}
      */
-    private createSearchEntity(facetName: string, termResponse: ResponseTerm): SearchTerm[] {
+    private createSearchEntity(searchKey: string, termResponse: ResponseTerm): SearchTerm[] {
 
         const termName = this.bindSearchValue(termResponse);
-        const searchKey = facetName === FileFacetName.PROJECT ? FileFacetName.PROJECT_ID : facetName; // Project IDs are nested under "project" term facet
         return (termResponse.projectId || []).reduce((accum, projectId) => {
             accum.push(new SearchEntity(searchKey, projectId, termName, 1));
             return accum;

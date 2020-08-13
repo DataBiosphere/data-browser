@@ -15,6 +15,7 @@ import { Facet } from "../facet/facet.model";
 
 export interface EntitySearchResults {
     facets: Facet[];
-    searchTerms: SearchTerm[];
+    searchEntities: SearchTerm[]; // Search terms built from project facet
+    searchTerms: SearchTerm[]; // Search terms built from facet terms on allow list (does not include project values)
     tableModel: TableModel;
 }

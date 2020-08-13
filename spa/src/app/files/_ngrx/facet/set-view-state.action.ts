@@ -19,9 +19,9 @@ export class SetViewStateAction implements Action {
     public readonly type = SetViewStateAction.ACTION_TYPE;
 
     /**
+     * @param {Catalog} catalog
      * @param {string} selectedEntity
      * @param {QueryStringSearchTerm[]} selectedSearchTerms
-     * @param {Catalog} catalog
      */
-    constructor(public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[], public catalog: Catalog) {}
+    constructor(public catalog: Catalog, public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[]) {}
 }
