@@ -4,12 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-    production: true,
-    dataURL: "https://service.dev.singlecell.gi.ucsc.edu",
-    dcpHealthCheckUrl: "https://status.data.humancellatlas.org/service/dcp-health-check-prod",
-    matrixURL: "https://matrix.data.humancellatlas.org/v0/matrix",
-    portalURL: "https://dev.singlecell.gi.ucsc.edu",
-    projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
-    deployment: "cgl-dev",
-    version: "2.0"
+    production: false,
+    dataURL: "https://service.dev.explore.data.humancellatlas.org",
+    dcpHealthCheckUrl: "https://status.dev.data.humancellatlas.org/service/dcp-health-check-dev",
+    matrixURL: "https://matrix.staging.data.humancellatlas.org/v0/matrix",
+    portalURL: "https://dev.data.humancellatlas.org",
+    projectMetaURL: "https://dev.data.humancellatlas.org",
+    deployment: "local",
+    version: "1.0"
 };
