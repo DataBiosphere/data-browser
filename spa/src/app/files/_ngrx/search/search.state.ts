@@ -153,8 +153,10 @@ export class SearchState {
      */
     public setSearchTerms(action: SearchTermsUpdatedAction) {
 
+        // Search terms are empty if they have not yet been initialized from endpoint facet response. If empty, we need
+        // to manually match up the project ID to project name.
         let searchTermsBySearchKey = this.searchTerms.length === 0 ?
-            this.patchSearchTerms(action.searchTerms, this.selectedSearchTermsBySearchKey) :
+            this.patchSearchTerms(action.searchEntities, this.selectedSearchTermsBySearchKey) :
             this.selectedSearchTermsBySearchKey;
 
         const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
@@ -299,10 +301,10 @@ export class SearchState {
      * corresponding project short names from the full set of possible search terms returned from the server (as the
      * short name is not in the URL).
      * 
-     * @param {SearchTerm[]} searchTerms
+     * @param {SearchTerm[]} searchEntities
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      */
-    private patchSearchTerms(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
+    private patchSearchTerms(searchEntities: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
         
         // If there's no selected project IDs, return the selected search terms as is
         if ( !selectedSearchTermsBySearchKey.has(FileFacetName.PROJECT_ID) ) {
@@ -310,19 +312,19 @@ export class SearchState {
         }
 
         // Group project ID search terms by search key - we'll use map as a quick reference to the selected search terms
-        const allSearchTermsById = searchTerms
+        const allProjectSearchTermsByProjectId = searchEntities
             .filter(searchTerm => searchTerm.getSearchKey() === FileFacetName.PROJECT_ID) 
             .reduce((accum, searchTerm) => {
                 accum.set(searchTerm.getId(), searchTerm);
                 return accum;
             }, new Map<string, SearchTerm>());
 
-        // Update the current set of selected project search terms with values from the correpsonding search terms returned
-        // from the server
+        // Update the current set of selected project search terms with values from the corresponding search terms
+        // returned from the server
         const patchedProjectSearchTerms = Array.from(selectedSearchTermsBySearchKey.get(FileFacetName.PROJECT_ID))
             .reduce((accum, selectedSearchTerm) => {
 
-                const completeSearchTerm = allSearchTermsById.get(selectedSearchTerm.getId());
+                const completeSearchTerm = allProjectSearchTermsByProjectId.get(selectedSearchTerm.getId());
                 if ( !!completeSearchTerm ) {
                     accum.add(new SearchEntity(
                         completeSearchTerm.getSearchKey(),

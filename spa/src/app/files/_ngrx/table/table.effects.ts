@@ -14,7 +14,7 @@ import { Observable, of } from "rxjs";
 import { concatMap, filter, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../../_ngrx/app.state";
+import { Catalog } from "../../catalog/catalog.model";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { selectTableQueryParams } from "../file.selectors";
@@ -24,6 +24,7 @@ import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import { FetchTableModelRequestAction } from "./fetch-table-model-request.action";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
+import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { selectPreviousQuery } from "../search/search.selectors";
 import { SelectProjectIdAction } from "../search/select-project-id.action";
@@ -44,25 +45,25 @@ import { UrlService } from "../../url/url.service";
 export class TableEffects {
 
     /**
-     * @param {Store<AppState>} store
-     * @param {Actions} actions$
      * @param {FilesService} fileService
      * @param {GTMService} gtmService
      * @param {ProjectService} projectService
      * @param {SearchTermUrlService} searchTermUrlService
      * @param {UrlService} urlService
+     * @param {Actions} actions$
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
+     * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private fileService: FilesService,
+    constructor(private fileService: FilesService,
                 private gtmService: GTMService,
                 private projectService: ProjectService,
                 private searchTermUrlService: SearchTermUrlService,
                 private urlService: UrlService,
+                private actions$: Actions,
                 private activatedRoute: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                private store: Store<AppState>) {
     }
 
     /**
@@ -285,7 +286,11 @@ export class TableEffects {
             if ( filter.length === 0 && this.urlService.isViewingProjects() ) {
                 filter.push(this.searchTermUrlService.getDefaultSearchState());
             }
-            return new SetViewStateAction(selectedEntity, filter, params.catalog);
+
+            // Set catalog to none if not specified in params
+            const catalog = params.catalog ? params.catalog : Catalog.NONE;
+
+            return new SetViewStateAction(catalog, selectedEntity, filter);
         })
     );
 

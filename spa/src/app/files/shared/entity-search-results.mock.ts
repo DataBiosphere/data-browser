@@ -6,7 +6,6 @@
  * FileService.fetchEntitySearchResults.
  */
 
-
 // App dependencies
 import { EntitySearchResults } from "./entity-search-results.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
@@ -4561,6 +4560,7 @@ function buildDefaultProjectsEntitySearchResults(json): EntitySearchResults {
 
     return {
         facets: fileFacets as any,
+        searchEntities: [],
         searchTerms: [],
         tableModel: json.tableModel
     };

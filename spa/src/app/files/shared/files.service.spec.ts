@@ -2,15 +2,19 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Spec for testing service service.
+ * Spec for testing files service.
  */
 
 // Core dependencies
 import { async, TestBed } from "@angular/core/testing";
-import { ConfigService } from "../../config/config.service";
 import { of } from "rxjs";
 
 // App dependencies
+import { Catalog } from "../catalog/catalog.model";
+import { ConfigService } from "../../config/config.service";
+import { PROJECTS_ENTITY_API_RESPONSE } from "./entity-api-response.mock";
+import { EntityName } from "./entity-name.model";
+import { EntityRequestService } from "../entity/entity-request.service";
 import { FileFormat } from "./file-format.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
@@ -18,6 +22,7 @@ import { FilesService } from "./files.service";
 import { GenusSpecies } from "./genus-species.model";
 import { FILE_SINGLE_VALUES } from "../hca-table-files/file-row-mapper.mock";
 import { ResponseTermService } from "../http/response-term.service";
+import { HttpService } from "../http/http.service";
 import { LibraryConstructionApproach } from "./library-construction-approach.model";
 import { MatrixableFileFacets } from "./matrixable-file-facets.model";
 import { PairedEnd } from "./paired-end.model";
@@ -27,9 +32,6 @@ import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { DEFAULT_TABLE_PARAMS, TableParams } from "../table/pagination/table-params.model";
 import { Term } from "./term.model";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { EntityRequestService } from "../entity/entity-request.service";
-import { HttpService } from "../http/http.service";
-import { Catalog } from "../catalog/catalog.model";
 
 describe("FileService:", () => {
 
@@ -64,12 +66,23 @@ describe("FileService:", () => {
             <any>httpClientSpy);
     }));
 
-    /**
-     * Smoke test
-     */
-    it("should create service", () => {
+    describe("Bind Entity Search Results:", () => {
 
-        expect(fileService).toBeTruthy();
+        /**
+         * Confirm both search terms and search entities are returned from bind function.
+         */
+        it("binds both search terms and search entities", () => {
+
+            // Using square bracket notation here to do a sneaky call of a private method
+            const entitySearchResults = fileService["bindEntitySearchResultsResponse"](
+                PROJECTS_ENTITY_API_RESPONSE,
+                new Map(), // No selected terms
+                EntityName.PROJECTS
+            );
+            expect(entitySearchResults).toBeTruthy();
+            expect(entitySearchResults.searchTerms).toBeTruthy(); // Facet terms
+            expect(entitySearchResults.searchEntities).toBeTruthy(); // Project IDs
+        });
     });
 
     describe("Matrix Supported:", () => {

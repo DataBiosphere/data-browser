@@ -171,7 +171,8 @@ export class FileEffects {
                 const fetchSuccessAction = new FetchFacetsSuccessAction(entitySearchResults.facets);
 
                 // Set up search term action
-                const searchTermUpdatedAction = new SearchTermsUpdatedAction(entitySearchResults.searchTerms);
+                const searchTermUpdatedAction =
+                    new SearchTermsUpdatedAction(entitySearchResults.searchTerms, entitySearchResults.searchEntities);
 
                 // If we don't need to update the table data (eg if this fetch facets is triggered from a select project
                 // action), then just emit actions to update facets and search.

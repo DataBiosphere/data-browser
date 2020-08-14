@@ -87,7 +87,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new TermCountsUpdatedAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
         });
 
@@ -108,7 +108,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
 
@@ -131,7 +131,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
         });
 
@@ -154,7 +154,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
 
@@ -177,7 +177,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
 
@@ -200,7 +200,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
 
@@ -223,7 +223,7 @@ describe("File Effects", () => {
 
         const expected = cold("--(bcd)", {
             b: new FetchFacetsSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.facets),
-            c: new SearchTermsUpdatedAction([]),
+            c: new SearchTermsUpdatedAction([], []),
             d: new FetchTableModelSuccessAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel)
         });
 

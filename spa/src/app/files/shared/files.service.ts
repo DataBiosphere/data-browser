@@ -214,6 +214,7 @@ export class FilesService {
         const facets = this.bindFacets(searchTermsBySearchKey, apiResponse.termFacets);
         const termCountsByFacetName = this.mapTermCountsByFacetName(facets);
         const searchTerms = this.searchTermHttpService.bindSearchTerms(apiResponse.termFacets);
+        const searchEntities = this.searchTermHttpService.bindSearchEntities(apiResponse.termFacets);
         
         const tableModel = {
             data: apiResponse.hits,
@@ -224,6 +225,7 @@ export class FilesService {
 
         return {
             facets,
+            searchEntities,
             searchTerms,
             tableModel
         };

@@ -9,7 +9,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { ActivatedRoute, NavigationEnd, Router, RouterEvent, RouterModule } from "@angular/router";
+import { Router, RouterEvent, RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -31,7 +31,6 @@ import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.com
 import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
-import { ActivatedRouteStub } from "./test/activated-route.stub";
 import { LocalStorageService } from "./storage/local-storage.service";
 
 
@@ -77,9 +76,6 @@ describe("AppComponent:", () => {
             }, {
                 provide: Store,
                 useValue: storeSpy
-            }, {
-                provide: ActivatedRoute,
-                useClass: ActivatedRouteStub
             }, {
                 provide: Router,
                 useValue: routerMock
