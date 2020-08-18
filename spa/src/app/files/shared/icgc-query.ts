@@ -16,7 +16,9 @@ export class ICGCQuery {
 
     constructor(catalog: Catalog, filters: string, format?: string) {
 
-        this.catalog = catalog;
+        if ( catalog ) {
+            this.catalog = catalog;
+        }
         this.filters = filters;
         if ( format ) {
             this.format = format;
