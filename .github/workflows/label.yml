@@ -1,4 +1,4 @@
-name: Add `orange` label to new issues
+name: Add `canary` label to new issues
 on: [issues]
 jobs:
   label:
@@ -7,4 +7,4 @@ jobs:
     - uses: HumanCellAtlas/azul-github-labeler-action@releases/v2
       with:
         repo-token: "${{secrets.GITHUB_TOKEN}}"
-        label: orange
+        label: canary
