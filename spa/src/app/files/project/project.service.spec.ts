@@ -9,10 +9,12 @@
 import { async, TestBed } from "@angular/core/testing";
 import { ConfigService } from "../../config/config.service";
 import { of } from "rxjs";
+import { filter } from "rxjs/operators";
 
 // App dependencies
 import { Catalog } from "../catalog/catalog.model";
 import { HttpService } from "../http/http.service";
+import { ResponseTermService } from "../http/response-term.service";
 import { ProjectService } from "./project.service";
 import {
     PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT,
@@ -20,14 +22,15 @@ import {
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES, PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "../hca-table-projects/project-row-mapper.mock";
-import { mapMultipleValues } from "../table/entity-row-mapper.spec";
+
 import {
     PROJECT_SINGLE_VALUES,
     PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "../hca-table-projects/project-mapper.mock";
-import { ResponseTermService } from "../http/response-term.service";
+import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { Project } from "../shared/project.model";
+import { mapMultipleValues } from "../table/entity-row-mapper.spec";
 
 describe("ProjectService:", () => {
 
@@ -35,7 +38,10 @@ describe("ProjectService:", () => {
     let projectService: ProjectService;
 
     beforeEach(async(() => {
-
+        
+        const configService = jasmine.createSpyObj("ConfigService", ["getProjectUrl", "getFileManifestUrl"]);
+        configService.getProjectUrl.and.returnValue(""); // Required for testing catalog params on public methods
+        
         TestBed.configureTestingModule({
             declarations: [
             ],
@@ -44,7 +50,7 @@ describe("ProjectService:", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getProjectUrl", "getFileManifestUrl"])
+                    useValue: configService
                 }]
         });
 
@@ -52,18 +58,9 @@ describe("ProjectService:", () => {
         const termResponseService = new ResponseTermService();
         const searchTermService = new SearchTermHttpService(termResponseService);
 
-        const configService = TestBed.inject(ConfigService);
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
         projectService = new ProjectService(configService, httpService, searchTermService, <any>httpClientSpy);
     }));
-
-    /**
-     * Smoke test
-     */
-    it("should create service", () => {
-
-        expect(projectService).toBeTruthy();
-    });
 
     describe("fetchProjectById:", () => {
 
@@ -482,5 +479,125 @@ describe("ProjectService:", () => {
                 return done();
             });
         });
+
+        /**
+         * Confirm catalog param is not included if catalog is not specified.
+         */
+        it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
+
+            const projectToMap = PROJECT_ROW_NULL_VALUES;
+            httpClientSpy.get.and.returnValue(of(projectToMap));
+
+            const catalog = Catalog.NONE;
+            projectService.fetchProjectById(catalog, "123abc", {} as Project).subscribe(() => {
+
+                expect(httpClientSpy.get).toHaveBeenCalled();
+                expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                    jasmine.anything(),
+                    {
+                        params: jasmine.objectContaining({
+                            catalog
+                        })
+                    }
+                );
+
+                return done();
+            });
+        });
+
+        /**
+         * Confirm catalog param if catalog is specified.
+         */
+        it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
+
+            const projectToMap = PROJECT_ROW_NULL_VALUES;
+            httpClientSpy.get.and.returnValue(of(projectToMap));
+
+            const catalog = Catalog.DCP1;
+            projectService.fetchProjectById(catalog, "123abc", {} as Project).subscribe(() => {
+
+                expect(httpClientSpy.get).toHaveBeenCalled();
+                expect(httpClientSpy.get).toHaveBeenCalledWith(
+                    jasmine.anything(),
+                    {
+                        params: jasmine.objectContaining({
+                            catalog
+                        })
+                    }
+                );
+
+                return done();
+            });
+        });
+    });
+
+    describe("fetchProjectTSVUrl:", () => {
+
+        /**
+         * Confirm catalog param is not included if catalog is not specified.
+         */
+        it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
+
+            const projectId = "123abc";
+            httpClientSpy.get.and.returnValue(of({
+                projectId: projectId,
+                status: ProjectTSVUrlRequestStatus.IN_PROGRESS
+            }));
+
+            const catalog = Catalog.NONE;
+            projectService.fetchProjectTSVUrl(catalog, projectId, "project name", of())
+                .pipe(
+                    // Skip initial value returned from fetch method
+                    filter(response => response.status !== ProjectTSVUrlRequestStatus.INITIATED)
+                )
+                .subscribe(() => {
+
+                expect(httpClientSpy.get).toHaveBeenCalled();
+                expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                    jasmine.anything(),
+                    {
+                        params: jasmine.objectContaining({
+                            catalog
+                        })
+                    }
+                );
+
+                return done();
+            });
+        });
+
+        /**
+         * Confirm catalog param if catalog is specified.
+         */
+        it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
+
+            const projectId = "123abc";
+            httpClientSpy.get.and.returnValue(of({
+                projectId: projectId,
+                status: ProjectTSVUrlRequestStatus.IN_PROGRESS
+            }));
+
+            const catalog = Catalog.DCP1;
+            projectService.fetchProjectTSVUrl(catalog, projectId, "project name", of())
+                .pipe(
+                    // Skip initial value returned from fetch method
+                    filter(response => response.status !== ProjectTSVUrlRequestStatus.INITIATED)
+                )
+                .subscribe(() => {
+
+                    expect(httpClientSpy.get).toHaveBeenCalled();
+                    expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                        jasmine.anything(),
+                        {
+                            params: jasmine.objectContaining({
+                                catalog
+                            })
+                        }
+                    );
+
+                    return done();
+                });
+        });
+
     });
 });
