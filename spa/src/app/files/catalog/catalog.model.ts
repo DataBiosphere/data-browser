@@ -8,5 +8,6 @@
 export enum Catalog {
     "NONE" = "",
     "DCP1" = "dcp1",
-    "DCP2" = "dcp2"
+    "DCP2" = "dcp2",
+    "DCP2EBI" = "dcp2ebi"
 }
