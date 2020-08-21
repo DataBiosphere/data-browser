@@ -30,8 +30,8 @@ import { SearchTerm } from "../search/search-term.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { DEFAULT_TABLE_PARAMS, TableParams } from "../table/pagination/table-params.model";
-import { Term } from "./term.model";
 import { PaginationService } from "../table/pagination/pagination.service";
+import { Term } from "./term.model";
 
 describe("FileService:", () => {
 
@@ -47,6 +47,8 @@ describe("FileService:", () => {
         });
 
         const configService = jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl"]);
+        configService.getEntitiesUrl.and.returnValue(""); // Required for testing catalog params on public methods
+        configService.getSummaryUrl.and.returnValue(""); // Required for testing catalog params on public methods
         const httpService = new HttpService();
         const termResponseService = new ResponseTermService();
         const searchTermHttpService = new SearchTermHttpService(termResponseService);
@@ -860,6 +862,129 @@ describe("FileService:", () => {
             const fileFormat = fileFormats[0];
             expect(fileFormat.getSearchKey()).toEqual(FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
             expect(fileFormat.getSearchValue()).toEqual(LibraryConstructionApproach.SMART_SEQ2);
+        });
+    });
+
+    describe("Fetch Entity Search Results:", () => {
+
+        /**
+         * Confirm catalog param is not included in fetch entities if not specified.
+         */
+        it("doesn't include catalog param if catalog is NONE", () => {
+
+            httpClientSpy.get.and.returnValue(of({
+                hits: [],
+                pagination: {},
+                termFacets: []
+            }));
+
+            fileService.fetchEntitySearchResults(
+                Catalog.NONE,
+                new Map(),
+                DEFAULT_TABLE_PARAMS,
+                EntityName.PROJECTS,
+                true);
+
+            expect(httpClientSpy.get).toHaveBeenCalled();
+            expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                jasmine.anything(),
+                {
+                    params: jasmine.objectContaining({
+                        catalog: ""
+                    })
+                }
+            );
+        });
+
+        /**
+         * Confirm catalog param is included in fetch entities if specified.
+         */
+        it("includes catalog param if catalog is DCP1", () => {
+
+            httpClientSpy.get.and.returnValue(of({
+                hits: [],
+                pagination: {},
+                termFacets: []
+            }));
+
+            const catalog = Catalog.DCP1;
+            fileService.fetchEntitySearchResults(
+                catalog,
+                new Map(),
+                DEFAULT_TABLE_PARAMS,
+                EntityName.PROJECTS,
+                true);
+
+            expect(httpClientSpy.get).toHaveBeenCalledWith(
+                jasmine.anything(),
+                {
+                    params: jasmine.objectContaining({
+                        catalog
+                    })
+                }
+            );
+        });
+    });
+
+
+    describe("Fetch FileSummary:", () => {
+
+        /**
+         * Confirm catalog param is not included in fetch summary if not specified.
+         */
+        it("doesn't include catalog param if catalog is NONE", () => {
+
+            httpClientSpy.get.and.returnValue(of({
+                donorCount: 0,
+                fileCount: 0,
+                fileTypeSummaries: [],
+                organTypes: [],
+                projectCount: 0,
+                specimenCount: 0,
+                totalCellCount: 0,
+                totalFileSize: 0
+            }));
+
+            fileService.fetchFileSummary(Catalog.NONE, []);
+
+            expect(httpClientSpy.get).toHaveBeenCalled();
+            expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                jasmine.anything(),
+                {
+                    params: jasmine.objectContaining({
+                        catalog: ""
+                    })
+                }
+            );
+        });
+
+        /**
+         * Confirm catalog param is included in fetch summary if specified.
+         */
+        it("includes catalog param if catalog is DCP1", () => {
+
+            httpClientSpy.get.and.returnValue(of({
+                donorCount: 0,
+                fileCount: 0,
+                fileTypeSummaries: [],
+                organTypes: [],
+                projectCount: 0,
+                specimenCount: 0,
+                totalCellCount: 0,
+                totalFileSize: 0
+            }));
+
+            const catalog = Catalog.DCP1;
+            fileService.fetchFileSummary(catalog, []);
+
+            expect(httpClientSpy.get).toHaveBeenCalledWith(
+                jasmine.anything(),
+                {
+                    params: jasmine.objectContaining({
+                        catalog
+                    })
+                }
+            );
         });
     });
 });
