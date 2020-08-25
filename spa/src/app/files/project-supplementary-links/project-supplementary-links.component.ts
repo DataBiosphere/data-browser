@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -16,7 +16,9 @@ import { filter, takeUntil } from "rxjs/operators";
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ViewProjectSupplementaryLinkAction } from "../_ngrx/table/view-project-supplementary-link.action";
 import { ProjectSupplementaryLinksState } from "./project-supplementary-links.state";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-supplementary-links",
@@ -41,7 +43,9 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
      * @param {ActivatedRoute} activatedRoute
      * @param {Store<AppState>} store
      */
-    constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
+    constructor(private activatedRoute: ActivatedRoute,
+                private store: Store<AppState>,
+                @Inject("Window") private window: Window) {}
 
     /**
      * Returns true if project has at least on supplementary link associated with it.
@@ -69,6 +73,23 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
         catch (_) {
             return false;
         }
+    }
+
+    /**
+     * Dispatch event to trigger track view of integration.
+     *
+     * @param {string} supplementaryLink
+     * @param {Project} project
+     */
+    onSupplementaryLinkClicked(supplementaryLink: string, project: Project) {
+
+        const action = new ViewProjectSupplementaryLinkAction(
+            supplementaryLink,
+            project.entryId,
+            project.projectShortname,
+            this.window.location.href
+        );
+        this.store.dispatch(action);
     }
 
     /**

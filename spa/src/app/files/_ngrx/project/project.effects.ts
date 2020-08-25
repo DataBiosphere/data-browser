@@ -28,6 +28,7 @@ import { ClearSelectedProjectAction } from "../table/clear-selected-project.acti
 import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
 import { ViewProjectIntegrationAction } from "../table/view-project-integration.action";
+import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
 
 @Injectable()
 export class ProjectEffects {
@@ -80,6 +81,22 @@ export class ProjectEffects {
         )),
         tap(([action, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectIntegrationAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
+        })
+    );
+
+    /**
+     * Trigger tracking of view of a project supplementary link.
+     */
+    @Effect({dispatch: false})
+    viewProjectSupplementaryLink$ = this.actions$.pipe(
+        ofType(ViewProjectSupplementaryLinkAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewProjectSupplementaryLinkAction).asEvent({
                 currentQuery: queryWhenActionTriggered
             }));
         })

@@ -6,5 +6,6 @@
  */
 
 export enum GARelatedEntityType {
-    "INTEGRATION" = "Integration" // eg Project integration
+    "INTEGRATION" = "Integration", // eg Project integration
+    "SUPPLEMENTARY_LINK" = "Supplementary Link" // eg Project supplementary link
 }

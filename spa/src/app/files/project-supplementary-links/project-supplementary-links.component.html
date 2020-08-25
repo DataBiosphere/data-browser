@@ -7,7 +7,10 @@
                 <ng-container *ngFor="let supplementaryLink of state.project.supplementaryLinks; let i = index">
                     <p class="fontsize-xs max600 supplementary-link" *ngIf="isValidUrl(supplementaryLink)">
                         <span>{{i+1}}.</span>
-                        <a href="{{supplementaryLink}}" target="_blank" rel="noopener noreferrer">{{supplementaryLink}}</a>
+                        <a href="{{supplementaryLink}}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           (click)="onSupplementaryLinkClicked(supplementaryLink, state.project)">{{supplementaryLink}}</a>
                         <copy-to-clipboard [copyToClipboardLink]="supplementaryLink"></copy-to-clipboard>
                     </p>
                 </ng-container>
