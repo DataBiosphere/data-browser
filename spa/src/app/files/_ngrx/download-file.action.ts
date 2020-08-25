@@ -7,13 +7,13 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
+
+// App dependencies
 import { TrackingAction } from "./analytics/tracking.action";
 import { GAEvent } from "../../shared/analytics/ga-event.model";
 import { GACategory } from "../../shared/analytics/ga-category.model";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { GADimension } from "../../shared/analytics/ga-dimension.model";
-
-// App dependencies
 
 export class DownloadFileAction implements Action, TrackingAction {
     
@@ -44,8 +44,8 @@ export class DownloadFileAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.fileUrl,
-                [GADimension.FILE_FORMAT]: this.fileFormat,
-                [GADimension.FILE_NAME]: this.fileName
+                [GADimension.RELATED_ENTITY_TYPE]: this.fileFormat,
+                [GADimension.RELATED_ENTITY_ID]: this.fileName
             }
         };
     }

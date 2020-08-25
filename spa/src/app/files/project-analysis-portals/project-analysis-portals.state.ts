@@ -7,10 +7,12 @@
 
 // App dependencies
 import { Portal } from "../_ngrx/integration/portal.model";
+import { Project } from "../shared/project.model";
 
 export interface ProjectAnalysisPortalsState {
 
     loaded: boolean;
     integrations?: Portal[];
     integratedWithTertiaryPortals?: boolean;
+    project?: Project;
 }

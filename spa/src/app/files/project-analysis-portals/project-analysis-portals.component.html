@@ -4,7 +4,8 @@
         <p class="fontsize-xs">This project's data can be viewed live in the following analysis portals:</p>
         <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
             <ng-container *ngSwitchCase="true">
-                <project-integrations [integrations]="state.integrations"></project-integrations>
+                <project-integrations [integrations]="state.integrations"
+                                      (integrationViewed)="onIntegrationViewed($event, state.project)"></project-integrations>
             </ng-container>
             <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no analysis portals associated with this project.</p></no-hits>
         </ng-container>
