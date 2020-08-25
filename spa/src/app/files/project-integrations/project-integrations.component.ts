@@ -6,10 +6,12 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
 import { Portal } from "../_ngrx/integration/portal.model";
+import { Integration } from "../_ngrx/integration/integration.model";
+import { IntegrationViewedEvent } from "./project-integration-selected.event";
 
 @Component({
     selector: "project-integrations",
@@ -19,6 +21,18 @@ import { Portal } from "../_ngrx/integration/portal.model";
 
 export class ProjectIntegrationsComponent {
 
-    // Inputs
+    // Inputs/outputs
     @Input() integrations: Portal[];
+    @Output() integrationViewed = new EventEmitter<IntegrationViewedEvent>();
+
+    /**
+     * Let parent components know integration link has been clicked.
+     * 
+     * @param {Portal} portal
+     * @param {Integration} integration
+     */
+    onIntegrationClicked(portal: Portal, integration: Integration) {
+
+        this.integrationViewed.emit(new IntegrationViewedEvent(portal, integration));
+    }
 }

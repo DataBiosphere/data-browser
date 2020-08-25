@@ -136,8 +136,8 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
             dimensions: {
                 [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
                 [GADimension.FILE_TYPE]: releaseFile.type,
-                [GADimension.FILE_FORMAT]: releaseFile.extension,
-                [GADimension.FILE_NAME]: releaseFile.url,
+                [GADimension.RELATED_ENTITY_TYPE]: releaseFile.extension,
+                [GADimension.RELATED_ENTITY_ID]: releaseFile.url,
                 [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
             }
         };
@@ -159,8 +159,8 @@ export class ReleaseFilesModalComponent implements OnDestroy, OnInit {
             dimensions: {
                 [GADimension.ENTITY_URL]: this.getReleaseFileUrl(releaseFile.url),
                 [GADimension.FILE_TYPE]: releaseFile.type,
-                [GADimension.FILE_FORMAT]: releaseFile.extension,
-                [GADimension.FILE_NAME]: releaseFile.url,
+                [GADimension.RELATED_ENTITY_TYPE]: releaseFile.extension,
+                [GADimension.RELATED_ENTITY_ID]: releaseFile.url,
                 [GADimension.RELEASE_NAME]: ReleaseName.RELEASE_2020_MAR
             }
         };

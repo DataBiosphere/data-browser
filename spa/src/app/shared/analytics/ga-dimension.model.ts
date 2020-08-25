@@ -12,12 +12,13 @@ export enum GADimension {
     "ENTITY_TYPE" = "entityType", // UI entity
     "ENTITY_URL" = "entityUrl",
     "FACET" = "facet",
-    "FILE_NAME" = "fileName",
-    "FILE_FORMAT" = "fileFormat", // eg csv, loom
-    "FILE_TYPE" = "fileType", // Text description of file
+    "FILE_TYPE" = "fileType", // Text description of file - release file downloads category 
     "INDEX" = "index",
     "MAX" = "max",
     "MIN" = "min",
+    "RELATED_ENTITY_ID" = "relatedEntityId", // File download from files tab, release file download (previously fileName)
+    "RELATED_ENTITY_TYPE" = "relatedEntityType", // eg csv, loom - file download from files tab, matrix service, release file download (previously fileFormat)
+    "RELATED_ENTITY_URL" = "relatedEntityUrl",
     "RELEASE_NAME" = "releaseName",
     "SOURCE" = "source",
     "TERM" = "term",

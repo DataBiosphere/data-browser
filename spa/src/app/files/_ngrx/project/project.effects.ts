@@ -20,13 +20,14 @@ import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
 import { selectProjectById } from "../project-edits/project-edits.selectors";
+import { selectProjectTSVUrlResponseByProjectId } from "./project.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
+import { selectPreviousQuery } from "../search/search.selectors";
 import { Project } from "../../shared/project.model";
 import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
 import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
-import { selectPreviousQuery } from "../search/search.selectors";
-import { selectProjectTSVUrlResponseByProjectId } from "./project.selectors";
+import { ViewProjectIntegrationAction } from "../table/view-project-integration.action";
 
 @Injectable()
 export class ProjectEffects {
@@ -67,6 +68,22 @@ export class ProjectEffects {
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
         );
+
+    /**
+     * Trigger tracking of view of a project integration.
+     */
+    @Effect({dispatch: false})
+    viewProjectIntegration$ = this.actions$.pipe(
+        ofType(ViewProjectIntegrationAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewProjectIntegrationAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
+        })
+    );
 
     /**
      * Trigger tracking of view of any project tab (for example, matrices, external resources).

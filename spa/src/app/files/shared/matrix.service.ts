@@ -311,7 +311,7 @@ export class MatrixService {
             label: query,
             dimensions: {
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MATRIX,
-                [GADimension.FILE_FORMAT]: fileFormat
+                [GADimension.RELATED_ENTITY_TYPE]: fileFormat
             }
         };
         
@@ -378,7 +378,7 @@ export class MatrixService {
             dimensions: {
                 [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
                 [GADimension.ENTITY_URL]: matrixUrl,
-                [GADimension.FILE_FORMAT]: fileFormat
+                [GADimension.RELATED_ENTITY_TYPE]: fileFormat
             }
         };
         
@@ -401,7 +401,7 @@ export class MatrixService {
             dimensions: {
                 [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MATRIX_LINK,
                 [GADimension.ENTITY_URL]: matrixUrl,
-                [GADimension.FILE_FORMAT]: fileFormat
+                [GADimension.RELATED_ENTITY_TYPE]: fileFormat
             }
         };
         
