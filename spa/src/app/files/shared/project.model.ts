@@ -12,6 +12,7 @@ import { Publication } from "./publication.model";
 
 export interface Project extends ProjectRow {
     arrayExpressAccessions: string[];
+    deprecated: boolean, // Specified in project-edits.json
     contributors: Contributor[];
     geoSeriesAccessions: string[];
     insdcProjectAccessions: string[];
@@ -20,5 +21,6 @@ export interface Project extends ProjectRow {
     publications: Publication[];
     redirectUrl: string; // Redirect URL is only specified if project has been withdrawn
     supplementaryLinks: string[];
-    withdrawn: boolean;
+    supersededBy: string; // Specified only if project has been deprecated
+    withdrawn: boolean; // Specified in project-edits.json
 }

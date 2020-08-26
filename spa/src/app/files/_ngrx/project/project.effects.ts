@@ -19,7 +19,7 @@ import { selectCatalog } from "../file.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
-import { selectProjectById } from "../project-edits/project-edits.selectors";
+import { selectProjectEditsById } from "../project-edits/project-edits.selectors";
 import { selectProjectTSVUrlResponseByProjectId } from "./project.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { selectPreviousQuery } from "../search/search.selectors";
@@ -60,7 +60,7 @@ export class ProjectEffects {
             concatMap(action => of(action).pipe(
                 withLatestFrom(
                     this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectProjectById, {id: action.projectId}), take(1))
+                    this.store.pipe(select(selectProjectEditsById, {id: action.projectId}), take(1))
                 )
             )),
             // Fetch the project and apply any local overrides

@@ -45,6 +45,7 @@ export class ProjectMapper extends ProjectRowMapper {
             super.mapRow(),
             {
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
+                deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
                 contributors: contributors,
                 fileType: (this.row.fileTypeSummaries || []).map(fileType => fileType.fileType),
                 geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
@@ -53,6 +54,7 @@ export class ProjectMapper extends ProjectRowMapper {
                 projectDescription: getUnspecifiedIfNullValue(this.projects.projectDescription),
                 publications: publications,
                 redirectUrl: this.projectOverrides ? this.projectOverrides.redirectUrl : null,
+                supersededBy: this.projectOverrides ? this.projectOverrides.supersededBy : null,
                 supplementaryLinks: this.rollupArray(this.row.projects, "supplementaryLinks"),
                 withdrawn: this.projectOverrides && this.projectOverrides.withdrawn // Check project edits to see if project has been withdrawn
             }

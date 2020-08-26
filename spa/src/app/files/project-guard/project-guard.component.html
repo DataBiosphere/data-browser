@@ -1,7 +1,7 @@
 <ng-container *ngIf="state$ | async as state">
     <ng-container *ngIf="state.loaded">
-        <ng-container [ngSwitch]="getProjectViewMode(state.projectId, state.withdrawn)">
-            <project-deprecated *ngSwitchCase="'DEPRECATED'" [updatedProjectId]="getUpdatedProjectId(state.projectId)"></project-deprecated>
+        <ng-container [ngSwitch]="getProjectViewMode(state.projectId, state.withdrawn, state.deprecated)">
+            <project-deprecated *ngSwitchCase="'DEPRECATED'" [updatedProjectId]="state.supersededBy"></project-deprecated>
             <project-ingest-in-progress *ngSwitchCase="'INGEST_IN_PROGRESS'"></project-ingest-in-progress>
             <project-withdrawn *ngSwitchCase="'WITHDRAWN'" 
                                [redirectUrl]="state.redirectUrl"></project-withdrawn>

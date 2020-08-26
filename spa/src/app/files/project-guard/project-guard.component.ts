@@ -3,7 +3,8 @@
  * https://www.humancellatlas.org/
  *
  * Component responsible for determining if project ID has been deprecated and if so, displays the deprecated component.
- * If project ID is valid, display the project detail component.
+ * If project has been withdrawn, withdrawn project should be displayed. If project ID is valid, display the project
+ * detail component.
  */
 
 // Core dependencies
@@ -11,11 +12,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
-import { take, takeUntil } from "rxjs/operators";
+import { switchMap, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectProjectById } from "../_ngrx/project-edits/project-edits.selectors";
+import { selectProjectEditsById } from "../_ngrx/project-edits/project-edits.selectors";
 import { ProjectGuardComponentState } from "./project-guard.component.state";
 import { ProjectStatus } from "./project-status.model";
 
@@ -27,9 +28,6 @@ import { ProjectStatus } from "./project-status.model";
 export class ProjectGuardComponent implements OnInit {
 
     // Locals
-    private PROJECT_IDS_BY_DEPRECATED_ID = new Map<string, string>([
-        ["29f53b7e-071b-44b5-998a-0ae70d0229a4", "091cf39b-01bc-42e5-9437-f419a66c8a45"] // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/865
-    ]);
     private PROJECT_IDS_INGEST_IN_PROGRESS = [
         // "abe1a013-af7a-45ed-8c26-f3793c24a1f4" // https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/944, https://app.zenhub.com/workspaces/orange-5d680d7e3eeb5f1bbdf5668f/issues/humancellatlas/data-browser/948
     ];
@@ -49,11 +47,13 @@ export class ProjectGuardComponent implements OnInit {
      * Return the view mode for the project, depending on its current status.
      * 
      * @param {string} projectId
+     * @param {boolean} withdrawn
+     * @param {boolean} deprecated
      * @returns {string}
      */
-    public getProjectViewMode(projectId, withdrawn): string {
+    public getProjectViewMode(projectId: string, withdrawn: boolean, deprecated: boolean): string {
 
-        if ( this.isProjectDeprecated(projectId) ) {
+        if ( deprecated ) {
             return ProjectStatus.DEPRECATED;
         }
         
@@ -66,28 +66,6 @@ export class ProjectGuardComponent implements OnInit {
         }
 
         return ProjectStatus.LIVE;
-    }
-
-    /**
-     * Returns true the updated project ID for the specified deprecated project ID.
-     *
-     * @param {string} deprecatedProjectId
-     * @returns {string}
-     */
-    public getUpdatedProjectId(deprecatedProjectId: string): string {
-
-        return this.PROJECT_IDS_BY_DEPRECATED_ID.get(deprecatedProjectId);
-    }
-
-    /**
-     * Returns true if project has been deprecated and there is a new version of the project.
-     *
-     * @param {string} projectIdToCheck
-     * @returns {boolean}
-     */
-    public isProjectDeprecated(projectIdToCheck: string): boolean {
-
-        return this.PROJECT_IDS_BY_DEPRECATED_ID.has(projectIdToCheck);
     }
 
     /**
@@ -115,19 +93,21 @@ export class ProjectGuardComponent implements OnInit {
      */
     ngOnInit() {
 
-        // Add selected project to state - grab the project ID from the URL.
-        const projectId = this.activatedRoute.snapshot.paramMap.get("id");
-        this.store.pipe(
-            select(selectProjectById, {id: projectId}),
-            takeUntil(this.ngDestroy$),
-            take(1)
-        ).subscribe(project => {
+        // Add selected project edits to state - grab the project ID from the URL.
+        this.activatedRoute.params.pipe(
+            switchMap(params =>
+                this.store.pipe(select(selectProjectEditsById, {id: params.id}), take(1))),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(projectEdits => {
+
             this.state$.next({
+                deprecated: projectEdits.deprecated,
                 loaded: true,
-                projectId,
-                redirectUrl: project ? project.redirectUrl : null,
-                withdrawn: project && project.withdrawn
+                projectId: projectEdits.entryId,
+                redirectUrl: projectEdits.redirectUrl,
+                supersededBy: projectEdits.supersededBy,
+                withdrawn: projectEdits.withdrawn
             });
-        })
+        });
     }
 }
