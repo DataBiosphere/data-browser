@@ -23,9 +23,9 @@ export const selectProjects =
     createSelector(selectProjectEdits, (state) => state.projects);
 
 /**
- * Returns the project with the specified ID.
+ * Returns the project edits with the specified ID.
  */
-export const selectProjectById =
+export const selectProjectEditsById =
     createSelector(selectProjectEdits, (state, props) => {
         return state.projectsById.get(props.id) || {};
     });
