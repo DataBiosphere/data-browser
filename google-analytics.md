@@ -10,12 +10,13 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - `entityType`
 - `entityUrl`
 - `facet`
-- `fileFormat`
-- `fileName`
 - `fileType`
 - `index`
 - `min`
 - `max`
+- `relatedEntityId` (previously `fileName`)
+- `relatedEntityType` (previously `fileFormat`)
+- `relatedEntityUrl`
 - `releaseName`
 - `source`
 - `term`
@@ -107,6 +108,46 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Entity URL: `http:/path/to/project`
 - Current Query: `currentQuery`
 
+###### View Deprecated Project
+
+- Category: "Project"
+- Action: "View Deprecated Project"
+- Label: `projectShortname`
+
+
+- Entity ID: `projectId`
+- Entity URL: `http:/path/to/project`
+- Current Query: `currentQuery`
+
+
+###### View Project Integration
+
+- Category: "Project"
+- Action: "View External Resource"
+- Label: `projectShortname`
+
+
+- Entity ID: `projectId`
+- Entity URL: `http:/path/to/project`
+- Current Query: `currentQuery`
+- Related Entity Id: `portalName (portalOrg)`
+- Related Entity Type: "Integration"
+- Related Entity URL: `portalUrl`
+
+###### View Project Supplementary Links
+
+- Category: "Project"
+- Action: "View External Resource"
+- Label: `projectShortname`
+
+
+- Entity ID: `projectId`
+- Entity URL: `http:/path/to/project`
+- Current Query: `currentQuery`
+- Related Entity Id: `supplementaryLinkUrl`
+- Related Entity Type: "Supplementary Link"
+- Related Entity URL: `supplementaryLinkUrl`
+
 ##### Manifest Events
 
 ###### Cohort Manifest Request
@@ -168,7 +209,7 @@ The following custom dimensions are configured in Google Analytics, allowing add
 
 
 - Entity Type: "Cohort Matrix"
-- File Format: `fileFormat`
+- File Format: `relatedEntityType`
 
 ###### Cohort Matrix Download
 
@@ -209,6 +250,20 @@ The following custom dimensions are configured in Google Analytics, allowing add
 
 - Entity Type: "Project Matrix Link"
 - Entity URL: `http://path/to/download`
+
+##### Table Events
+
+###### File Download
+
+- Category: "File"
+- Action: "Download"
+- Label: `fileName`
+
+
+- Current Query: `currentQuery`
+- Entity URL: `http://path/to/download`
+- Related Entity Type: `fileType`
+- Related Entity ID: `fileName`
 
 ##### Terra Events
 
@@ -254,8 +309,8 @@ The following custom dimensions are configured in Google Analytics, allowing add
 
 
 - Entity URL: `http://path/to/download`
-- File Format: `fileFormat`
-- File Name: `fileName`
+- File Format: `relatedEntityType`
+- File Name: `relatedEntityId`
 - File Type: `fileType`
 - Release Name: `releaseName`
 
@@ -269,8 +324,8 @@ Copy to Clipboard events are configured as:
 
 
 - Entity URL: `http://path/to/download`
-- File Format: `fileFormat`
-- File Name: `fileName`
+- File Format: `relatedEntityType`
+- File Name: `relatedEntityId`
 - File Type: `fileType`
 - Release Name: `releaseName`
 
@@ -287,189 +342,6 @@ Visualize events are configured as:
 - Release Name: `releaseName`
 - Tool Name: `toolName`
 
-
-### GTM "Data Layer" Variables
-
-##### Current Query
-- Selected search terms at time of event.
-- Used to capture `currentQuery` dimension from front end data layer.
-- Corresponds to `currentQuery` custom dimension in Google Analytics.
-
-##### Direction
-- Specific to sort actions.
-- Used to capture `direction` dimension from front end data layer.
-- Corresponds to `direction` custom dimension in Google Analytics.
-
-##### Entity Id
-- Used to capture `entityId` dimension from front end data layer.
-- Corresponds to `entityId` custom dimension in Google Analytics.
-
-##### Entity Type
-- UI entity type (see `index` for data entity type).
-- Used to capture `entityType` dimension from front end data layer.
-- Corresponds to `entityType` custom dimension in Google Analytics.
-
-##### Entity URL
-- Used to capture `entityUrl` dimension from front end data layer.
-- Corresponds to `entityUrl` custom dimension in Google Analytics.
-
-##### Event Action
-- Used to capture `eventAction` dimension from front end data layer.
-- Corresponds to the Action value in a Google Analytics event.
-
-##### Event Label
-- Used to capture `eventLabel` dimension from front end data layer.
-- Corresponds to the Label value in a Google Analytics event.
-
-##### Facet
-- Used by search-related events when facet term is selected.
-- Used to capture `facet` dimension from front end data layer.
-- Corresponds to `facet` custom dimension in Google Analytics.
-
-##### File Format
-- Used to capture `fileFormat` dimension from front end data layer.
-- Corresponds to `fileFormat` custom dimension in Google Analytics.
-
-##### File Name
-- Used to capture `fileName` dimension from front end data layer.
-- Corresponds to `fileName` custom dimension in Google Analytics.
-
-##### File Type
-- Used to capture `fileType` dimension from front end data layer.
-- Corresponds to `fileType` custom dimension in Google Analytics.
-
-##### Index
-- Data entity type (eg Projects, Samples, Files).
-- Used to capture `index` dimension from front end data layer.
-- Corresponds to `index` custom dimension in Google Analytics.
-
-##### Min
-- Specific to age range searches.
-- Used to capture `min` dimension from front end data layer, used during 
-- Corresponds to `min` custom dimension in Google Analytics.
-
-##### Max
-- Specific to age range searches.
-- Used to capture `max` dimension from front end data layer, used during 
-- Corresponds to `max` custom dimension in Google Analytics.
-
-##### Release Name
-- Used to capture `releaseName` dimension from front end data layer.
-- Corresponds to `releaseName` custom dimension in Google Analytics.
-
-##### Source
-- UI element where event was triggered from.
-- Used to capture `source` dimension from front end data layer.
-- Corresponds to `source` custom dimension in Google Analytics.
-
-##### Term
-- Used by search-related events when facet term is selected.
-- Used to capture `term` dimension from front end data layer.
-- Corresponds to `term` custom dimension in Google Analytics.
-
-##### Tool Name
-- Used to capture `fileType` dimension from front end data layer.
-- Corresponds to `fileType` custom dimension in Google Analytics.
-
-### GTM Triggers
-
-#### Download
-- Custom event, listens for events where event name is "Dataset" and event action is "Download".
-
-#### Visualize
-- Custom event, listens for events where event name is "Dataset" and event action is "Visualize".
-
-### GTM Tags and Triggers
-
-#### Cohort Manifest Request
-- Sends "Cohort Manifest Request" event to Google Analytics when `Cohort Manifest Request` trigger is fired.
-- Event data includes Category, Action and Label as well as the Entity Type dimension.
-
-#### Cohort Manifest Download
-- Sends "Cohort Manifest Download" event to Google Analytics when `Cohort Manifest Download` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Cohort Manifest Download Link Copy to Clipboard
-- Sends "Cohort Manifest Copy to Clipboard" event to Google Analytics when `Cohort Manifest Copy to Clipboard` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Cohort Matrix Request
-- Sends "Cohort Matrix Request" event to Google Analytics when `Cohort Matrix Request` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and File Format dimensions.
-
-#### Cohort Matrix Download
-- Sends "Cohort Matrix Download" event to Google Analytics when `Cohort Matrix Download` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Cohort Matrix Download Link Copy to Clipboard
-- Sends "Cohort Matrix Copy to Clipboard" event to Google Analytics when `Cohort Matrix Copy to Clipboard` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Entity Return to Tab
-- Fired when tab (Projects, Samples, Files) is returned to from project detail or get dat flow. 
-- Sends "Entity Return to Tab" event to Google Analytics when `Entity Return to Tab` trigger is fired.
-- Event data includes Category, Action and Label as well as the Current Query dimension. 
-
-#### Entity Select Tab
-- Fired when tab is selected (Projects, Samples, Files).
-- Sends "Entity Select Tab" event to Google Analytics when `Entity Select Tab` trigger is fired.
-- Event data includes Category, Action and Label as well as the Current Query dimension. 
-
-#### Export Request
-- Sends "Export Request" event to Google Analytics when `Export Request` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Tool Name dimensions.
-
-#### Export Launch
-- Sends "Export Launch" event to Google Analytics when `Export Launch` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type, Entity URL and Tool Name dimensions.
-
-#### Export Copy to Clipboard
-- Sends "Export Copy to Clipboard" event to Google Analytics when `Export Copy to Clipboard` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type, Entity URL and Tool Name dimensions.
-
-#### Portal Link
-- Sends "Portal Link" event to Google Analytics when `Portal Link` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity URL, Current Query and Source dimensions.
-
-#### Project Manifest Request
-- Sends "Project Manifest Request" event to Google Analytics when `Project Manifest Request` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Project Manifest Download
-- Sends "Project Manifest Download" event to Google Analytics when `Project Manifest Download` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Project Manifest Download Link Copy to Clipboard
-- Sends "Project Manifest Copy to Clipboard" event to Google Analytics when `Project Manifest Copy to Clipboard` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity Type and Entity URL dimensions.
-
-#### Project View Tab
-- Sends "Project View Tab" event to Google Analytics when `Project View Tab` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity URL, Entity ID and Current Query dimensions.
-
-#### Release Download
-- Sends "Download" event to Google Analytics when `Release Download` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
-
-#### Release Copy to Clipboard
-- Sends "Copy to Clipboard" event to Google Analytics when `Release Copy to Clipboard` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity URL, File Format, File Name, File Type and Release Name dimensions.
-
-#### Release Visualize
-- Sends "Visualize" event to Google Analytics when `Release Visualize` trigger is fired.
-- Event data includes Category, Action and Label as well as Release Name and Tool Name dimensions.
-
-#### Search
-- Sends "Search" event to Google Analytics when `Search` trigger is fired.
-- Event data includes Category, Action and Label as well as Entity ID, Entity Type, Current Query, Facet, Term, Source, Min, Max, and Index dimensions.
-
-#### Search Results Page
-- Sends "Search Results Page" event to Google Analytics when `Search Results Page` trigger is fired.
-- Event data includes Category, Action and Label as well as Current Query and Index dimensions.
-
-#### Search Results Sort
-- Sends "Search Results Sort" event to Google Analytics when `Search Results Sort` trigger is fired.
-- Event data includes Category, Action and Label as well as Current Query and Index dimensions.
 
 ### Front End Data Layer Event Configuration
 

@@ -8,7 +8,7 @@
  */
 
 // Core dependencies
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -17,6 +17,7 @@ import { switchMap, take, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectProjectEditsById } from "../_ngrx/project-edits/project-edits.selectors";
+import { ViewProjectDeprecatedAction } from "../_ngrx/table/view-project-deprecated.action";
 import { ProjectGuardComponentState } from "./project-guard.component.state";
 import { ProjectStatus } from "./project-status.model";
 
@@ -37,11 +38,15 @@ export class ProjectGuardComponent implements OnInit {
     public  state$ = new BehaviorSubject<ProjectGuardComponentState>({
         loaded: false
     });
-    
+
     /**
      * @param {ActivatedRoute} activatedRoute
+     * @param {Store<AppState>} store
+     * @param {Window} window
      */
-    constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) {}
+    constructor(private activatedRoute: ActivatedRoute,
+                private store: Store<AppState>,
+                @Inject("Window") private window: Window) {}
 
     /**
      * Return the view mode for the project, depending on its current status.
@@ -99,11 +104,20 @@ export class ProjectGuardComponent implements OnInit {
                 this.store.pipe(select(selectProjectEditsById, {id: params.id}), take(1))),
             takeUntil(this.ngDestroy$)
         ).subscribe(projectEdits => {
+            
+            // Track hits to deprecated project
+            const projectId = projectEdits.entryId;
+            const deprecated = projectEdits.deprecated;
+            if ( deprecated ) {
+                const action =
+                    new ViewProjectDeprecatedAction(projectId, projectEdits.projectShortname, this.window.location.href)
+                this.store.dispatch(action);
+            }
 
             this.state$.next({
-                deprecated: projectEdits.deprecated,
+                deprecated,
                 loaded: true,
-                projectId: projectEdits.entryId,
+                projectId,
                 redirectUrl: projectEdits.redirectUrl,
                 supersededBy: projectEdits.supersededBy,
                 withdrawn: projectEdits.withdrawn

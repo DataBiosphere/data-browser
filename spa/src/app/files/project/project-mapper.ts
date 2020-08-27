@@ -40,7 +40,7 @@ export class ProjectMapper extends ProjectRowMapper {
         // update the project's contributors. Otherwise, use the publication data return from server.
         const contributors = this.mapContributors(this.row.projects, this.projectOverrides);
 
-        return Object.assign(
+        const entity = Object.assign(
             {},
             super.mapRow(),
             {
@@ -59,6 +59,14 @@ export class ProjectMapper extends ProjectRowMapper {
                 withdrawn: this.projectOverrides && this.projectOverrides.withdrawn // Check project edits to see if project has been withdrawn
             }
         );
+
+        // If the built entity has no project short name, and the project edits does have a short name, apply it to
+        // the newly build entity.
+        // TODO revisit as any here - why is this necessary? 
+        if ( !(entity as any).projectShortname && this.projectOverrides.projectShortname ) {
+            (entity as any).projectShortname = this.projectOverrides.projectShortname;
+        }
+        return entity;
     }
 
     /**

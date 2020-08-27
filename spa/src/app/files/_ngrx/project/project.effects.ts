@@ -26,9 +26,10 @@ import { selectPreviousQuery } from "../search/search.selectors";
 import { Project } from "../../shared/project.model";
 import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
 import { FetchProjectRequestAction, FetchProjectSuccessAction } from "../table/table.actions";
-import { ViewProjectTabAction } from "../table/view-project-tab.action";
+import { ViewProjectDeprecatedAction } from "../table/view-project-deprecated.action";
 import { ViewProjectIntegrationAction } from "../table/view-project-integration.action";
 import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
+import { ViewProjectTabAction } from "../table/view-project-tab.action";
 
 @Injectable()
 export class ProjectEffects {
@@ -69,6 +70,23 @@ export class ProjectEffects {
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
         );
+
+    /**
+     * Trigger tracking of view of a deprecated projejct.
+     */
+    @Effect({dispatch: false})
+    viewProjectDeprecated$ = this.actions$.pipe(
+        ofType(ViewProjectDeprecatedAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewProjectDeprecatedAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
+        })
+    );
+
 
     /**
      * Trigger tracking of view of a project integration.
