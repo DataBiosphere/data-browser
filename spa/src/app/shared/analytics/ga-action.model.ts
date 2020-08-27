@@ -21,6 +21,7 @@ export enum GAAction {
     "SELECT_TAB" = "Select Tab",
     "SORT" = "Sort",
     "VIEW_DATA_CITATION" = "View Data Citation", // View project data citation - not implemented
+    "VIEW_DEPRECATED_PROJECT" = "View Deprecated Project", // View deprecated project
     "VIEW_EXTERNAL_RESOURCES" = "View External Resources", // View project external resources tab
     "VIEW_EXTERNAL_RESOURCE" = "View External Resource", // View an external resource associated with project
     "VIEW_MATRICES" = "View Matrices", // View project matrices tab

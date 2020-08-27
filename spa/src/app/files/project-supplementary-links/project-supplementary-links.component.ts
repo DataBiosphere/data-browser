@@ -42,6 +42,7 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
     /**
      * @param {ActivatedRoute} activatedRoute
      * @param {Store<AppState>} store
+     * @param {Window} window
      */
     constructor(private activatedRoute: ActivatedRoute,
                 private store: Store<AppState>,
