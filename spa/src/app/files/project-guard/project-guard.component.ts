@@ -18,6 +18,7 @@ import { switchMap, take, takeUntil } from "rxjs/operators";
 import { AppState } from "../../_ngrx/app.state";
 import { selectProjectEditsById } from "../_ngrx/project-edits/project-edits.selectors";
 import { ViewProjectDeprecatedAction } from "../_ngrx/table/view-project-deprecated.action";
+import { ViewProjectWithdrawnAction } from "../_ngrx/table/view-project-withdrawn.action";
 import { ProjectGuardComponentState } from "./project-guard.component.state";
 import { ProjectStatus } from "./project-status.model";
 
@@ -113,6 +114,18 @@ export class ProjectGuardComponent implements OnInit {
                     new ViewProjectDeprecatedAction(projectId, projectEdits.projectShortname, this.window.location.href)
                 this.store.dispatch(action);
             }
+            
+            // Track hits to withdrawn project
+            const withdrawn = projectEdits.withdrawn;
+            if ( withdrawn ) {
+                const action =
+                    new ViewProjectWithdrawnAction(
+                        projectId,
+                        projectEdits.projectShortname,
+                        this.window.location.href,
+                        projectEdits.redirectUrl);
+                this.store.dispatch(action);
+            }
 
             this.state$.next({
                 deprecated,
@@ -120,7 +133,7 @@ export class ProjectGuardComponent implements OnInit {
                 projectId,
                 redirectUrl: projectEdits.redirectUrl,
                 supersededBy: projectEdits.supersededBy,
-                withdrawn: projectEdits.withdrawn
+                withdrawn
             });
         });
     }
