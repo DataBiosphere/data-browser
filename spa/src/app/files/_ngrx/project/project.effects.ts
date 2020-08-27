@@ -30,6 +30,7 @@ import { ViewProjectDeprecatedAction } from "../table/view-project-deprecated.ac
 import { ViewProjectIntegrationAction } from "../table/view-project-integration.action";
 import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
+import { ViewProjectWithdrawnAction } from "../table/view-project-withdrawn.action";
 
 @Injectable()
 export class ProjectEffects {
@@ -72,7 +73,7 @@ export class ProjectEffects {
         );
 
     /**
-     * Trigger tracking of view of a deprecated projejct.
+     * Trigger tracking of view of a deprecated project.
      */
     @Effect({dispatch: false})
     viewProjectDeprecated$ = this.actions$.pipe(
@@ -86,7 +87,6 @@ export class ProjectEffects {
             }));
         })
     );
-
 
     /**
      * Trigger tracking of view of a project integration.
@@ -131,6 +131,22 @@ export class ProjectEffects {
         )),        
         tap(([action, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectTabAction).asEvent({
+                currentQuery: queryWhenActionTriggered
+            }));
+        })
+    );
+
+    /**
+     * Trigger tracking of view of a withdrawn project.
+     */
+    @Effect({dispatch: false})
+    viewProjectWithdrawn$ = this.actions$.pipe(
+        ofType(ViewProjectWithdrawnAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+        )),
+        tap(([action, queryWhenActionTriggered]) => {
+            this.gtmService.trackEvent((action as ViewProjectWithdrawnAction).asEvent({
                 currentQuery: queryWhenActionTriggered
             }));
         })
