@@ -101,284 +101,498 @@ describe("URL Effects", () => {
         mockSelectUrlSpecState = store.overrideSelector(selectUrlSpecState, defaultSelectUrlSpecState);
     });
 
-    /**
-     * Location is updated if user currently viewing /projects, /samples or /files.
-     */
-    it("updateFilterQueryParam$ - location updated if viewing entity data table", () => {
+    describe("updateFilterQueryParam$", () => {
 
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
+        /**
+         * Location is updated if user currently viewing /projects, /samples or /files.
+         */
+        it("location updated if viewing entity data table", () => {
 
-        actions$ = hot("-a", {
-            a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create clear action
+            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS); // Use any matching action here 
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
         });
 
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
+        /**
+         * Location is not updated unless user is currently viewing /projects, /samples or /files.
+         */
+        it("location not updated if not viewing entity data table", () => {
+
+            // Return false from isViewingEntities to fail filter in effect
+            urlService.isViewingEntities.and.returnValue(false);
+
+            actions$ = hot("-a", {
+                a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here
+            });
+
+            // Effect is not completed as filter on current path should fail
+            const expected = hot("--");
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
         });
 
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+        /**
+         * Location is not updated unless user is currently viewing /projects, /samples or /files.
+         */
+        it("clear selected terms action triggers update to location", () => {
 
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-    });
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
 
-    /**
-     * Location is not updated unless user is currently viewing /projects, /samples or /files.
-     */
-    it("updateFilterQueryParam$ - location not updated if not viewing entity data table", () => {
+            // Create clear action
+            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS);
 
-        // Return false from isViewingEntities to fail filter in effect
-        urlService.isViewingEntities.and.returnValue(false);
-        
-        actions$ = hot("-a", {
-            a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+
+            // Empty array for URL segments param, null filter param
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [],
+                jasmine.objectContaining({
+                    queryParams: {
+                        filter: null // Null is an explicit clear of the catalog filter
+                    }
+                })
+            );
         });
 
-        // Effect is not completed as filter on current path should fail
-        const expected = hot("--");
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-    });
+        /**
+         * Path is not udpated on clear of search terms.
+         */
+        it("does not update path on clear of search terms", () => {
 
-    /**
-     * Location is not updated unless user is currently viewing /projects, /samples or /files.
-     */
-    it("updateFilterQueryParam$ - clear selected terms action triggers update to location", () => {
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
 
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
+            // Create clear action
+            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS);
 
-        actions$ = hot("-a", {
-            a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS)
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [], // No update to path
+                jasmine.any(Object)
+            );
         });
-        
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
-        });
 
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-        
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
+        /**
+         * Clear age range action triggers update to location.
+         */
+        it("clear selected age range action triggers update to location", () => {
 
-        // Empty array for URL segments param, null filter param
-        expect(routerMock.navigate).toHaveBeenCalledWith(
-            [],
-            jasmine.objectContaining({
-                queryParams: {
-                    filter: null // Null is an explicit clear of the catalog filter
-                }
-            })
-        );
-    });
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
 
-    /**
-     * Clear age range action triggers update to location. 
-     */
-    it("updateFilterQueryParam$ - clear selected age range action triggers update to location", () => {
-
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
-
-        actions$ = hot("-a", {
-            a: new ClearSelectedAgeRangeAction(
-                FileFacetName.ORGANISM_AGE, 
+            // Create clear action
+            const action = new ClearSelectedAgeRangeAction(
+                FileFacetName.ORGANISM_AGE,
                 defaultAgeRange,
-                GASource.FACET_BROWSER)
+                GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
         });
 
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
+        /**
+         * Clear age range action does not trigger update to path.
+         */
+        it("does not update path on clear of age range", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create clear action
+            const action = new ClearSelectedAgeRangeAction(
+                FileFacetName.ORGANISM_AGE,
+                defaultAgeRange,
+                GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+            
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [], // No update to path
+                jasmine.any(Object)
+            );
         });
 
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+        /**
+         * Select entity action triggers update to location.
+         */
+        it("select entity action triggers update to location", () => {
 
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create selected entity action
+            const action = new SelectEntityAction(EntityName.PROJECTS);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Select entity action triggers update to path.
+         */
+        it("select entity action triggers update to path", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create selected entity action
+            const selectedEntityName = EntityName.SAMPLES;
+            const action = new SelectEntityAction(selectedEntityName);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [selectedEntityName], // Single token in path array that equals selected entity
+                jasmine.any(Object)
+            );
+        });
+
+        /**
+         * Select age range action triggers update to location.
+         */
+        it("select age range action triggers update to location", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create select age range action
+            const action = new SelectFacetAgeRangeAction(FileFacetName.ORGANISM_AGE, defaultAgeRange, GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Select age range action does not trigger update to path.
+         */
+        it("does not update path on select of age range", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create select age range action
+            const action = new SelectFacetAgeRangeAction(FileFacetName.ORGANISM_AGE, defaultAgeRange, GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [], // No update to path
+                jasmine.any(Object)
+            );
+        });
+
+        /**
+         * Select project ID action triggers update to location.
+         */
+        it("select project ID action triggers update to location", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create select project ID action
+            const action =
+                new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Select project ID action does not trigger update to path.
+         */
+        it("does not update path on select of project ID", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create select project ID action
+            const action =
+                new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [], // No update to path
+                jasmine.any(Object)
+            );
+        });
+
+        /**
+         * Set view state action triggers update to location.
+         */
+        it("set view state action triggers update to location", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Create set view state action
+            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []);
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Filter is included in params when location is updated
+         */
+        it("update to location includes filter param", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Mock filter returned from search term URL service - this is the return value from the switchMap
+            const filter =  `[{"facetName":"organ", "terms":["blood"]}]`;
+            searchTermUrlService.stringifySearchTerms.and.returnValue(filter);
+
+            // Create view state action
+            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []); // Any action that triggers effect can be used here 
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+
+            // Empty array for URL segments param, filter param matching filter returned from search term URL service
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [],
+                jasmine.objectContaining({
+                    queryParams: {
+                        filter
+                    }
+                })
+            );
+        });
+
+        /**
+         * Set view state action does not trigger update to path.
+         */
+        it("does not update path on set view state", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingEntities.and.returnValue(true);
+
+            // Mock filter returned from search term URL service - this is the return value from the switchMap
+            const filter =  `[{"facetName":"organ", "terms":["blood"]}]`;
+            searchTermUrlService.stringifySearchTerms.and.returnValue(filter);
+
+            // Create view state action
+            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []); // Any action that triggers effect can be used here 
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Expect navigate to have been called with update path
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [], // No update to path
+                jasmine.any(Object)
+            );
+        });
     });
 
-    /**
-     * Select entity action triggers update to location.
-     */
-    it("updateFilterQueryParam$ - select entity action triggers update to location", () => {
+    describe("updateCatalogQueryParam$", () => {
 
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
+        /**
+         * Catalog param cleared from filter if not specified.
+         */
+        it("catalog cleared from filter if not specified", () => {
 
-        actions$ = hot("-a", {
-            a: new SelectEntityAction(EntityName.PROJECTS)
+            actions$ = hot("-a", {
+                a: new SelectCatalogAction(Catalog.NONE)
+            });
+
+            // Dispatch false - straight pass-through of actions
+            expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+
+            // Empty array for URL segments param, null filter param
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [],
+                jasmine.objectContaining({
+                    queryParams: {
+                        catalog: null // Null is an explicit clear of the catalog filter
+                    }
+                })
+            );
         });
 
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
+        /**
+         * Catalog param set on filter if not specified.
+         */
+        it("catalog set on filter if specified", () => {
+
+            const selectedCatalog = Catalog.DCP1;
+            actions$ = hot("-a", {
+                a: new SelectCatalogAction(selectedCatalog)
+            });
+
+            // Dispatch false - straight pass-through of actions
+            expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+
+            // Empty array for URL segments param, filter param containing catalog value
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [],
+                jasmine.objectContaining({
+                    queryParams: {
+                        catalog: selectedCatalog
+                    }
+                })
+            );
         });
-
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-    });
-    
-    /**
-     * Select age range action triggers update to location.
-     */
-    it("updateFilterQueryParam$ - select age range action triggers update to location", () => {
-
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
-
-        actions$ = hot("-a", {
-            a: new SelectFacetAgeRangeAction(FileFacetName.ORGANISM_AGE, defaultAgeRange, GASource.FACET_BROWSER)
-        });
-
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
-        });
-
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-    });
-
-    /**
-     * Select project ID action triggers update to location.
-     */
-    it("updateFilterQueryParam$ - select project ID action triggers update to location", () => {
-
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
-
-        actions$ = hot("-a", {
-            a: new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER)
-        });
-
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
-        });
-
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-    });
-
-    /**
-     * Set view state action triggers update to location.
-     */
-    it("updateFilterQueryParam$ - set view state action triggers update to location", () => {
-
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
-
-        actions$ = hot("-a", {
-            a: new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, [])
-        });
-
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
-        });
-
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-    });
-
-    /**
-     * Filter is included in params when location is updated 
-     */
-    it("updateFilterQueryParam$ - update to location includes filter param", () => {
-
-        // Return true from isViewingEntities to pass filter in effect
-        urlService.isViewingEntities.and.returnValue(true);
-        
-        // Mock filter returned from search term URL service - this is the return value from the switchMap
-        const filter =  `[{"facetName":"organ", "terms":["blood"]}]`;
-        searchTermUrlService.stringifySearchTerms.and.returnValue(filter);
-        
-        actions$ = hot("-a", {
-            a: new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []) // Any action that triggers effect can be used here
-        });
-
-        const expected = hot("-b", {
-            b: defaultSelectUrlSpecState
-        });
-
-        // Pass through of URL spec state from switchMap before tap
-        expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-
-        // Empty array for URL segments param, filter param matching filter returned from search term URL service
-        expect(routerMock.navigate).toHaveBeenCalledWith(
-            [],
-            jasmine.objectContaining({
-                queryParams: {
-                    filter
-                }
-            })
-        );
-    });
-
-    /**
-     * Catalog param cleared from filter if not specified.
-     */
-    it("updateCatalogQueryParam$ - catalog cleared from filter if not specified", () => {
-
-        actions$ = hot("-a", {
-            a: new SelectCatalogAction(Catalog.NONE)
-        });
-
-        // Dispatch false - straight pass-through of actions
-        expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-
-        // Empty array for URL segments param, null filter param
-        expect(routerMock.navigate).toHaveBeenCalledWith(
-            [],
-            jasmine.objectContaining({
-                queryParams: {
-                    catalog: null // Null is an explicit clear of the catalog filter
-                }
-            })
-        );
-    });
-
-    /**
-     * Catalog param set on filter if not specified.
-     */
-    it("updateCatalogQueryParam$ - catalog set on filter if specified", () => {
-
-        const selectedCatalog = Catalog.DCP1;
-        actions$ = hot("-a", {
-            a: new SelectCatalogAction(selectedCatalog)
-        });
-
-        // Dispatch false - straight pass-through of actions
-        expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
-
-        // Smoke test of navigate
-        expect(routerMock.navigate).toHaveBeenCalled();
-
-        // Empty array for URL segments param, filter param containing catalog value
-        expect(routerMock.navigate).toHaveBeenCalledWith(
-            [],
-            jasmine.objectContaining({
-                queryParams: {
-                    catalog: selectedCatalog
-                }
-            })
-        );
     });
 });
