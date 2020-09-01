@@ -13,6 +13,7 @@ export class Config {
     public readonly portalURL: string;
     public readonly deployment: string;
     public readonly projectMetaURL: string;
+    public readonly terraExportURL: string;
     public readonly version: string;
 
     /**
@@ -30,6 +31,7 @@ export class Config {
                 matrixURL: string,
                 portalURL: string,
                 projectMetaURL: string,
+                terraExportURL: string,
                 version: string) {
 
         this.dataURL = dataURL;
@@ -38,6 +40,7 @@ export class Config {
         this.deployment = deployment;
         this.portalURL = portalURL;
         this.projectMetaURL = projectMetaURL;
+        this.terraExportURL = terraExportURL;
         this.version = version;
     }
 }
