@@ -59,11 +59,18 @@ describe("HCAExportToTerraComponent", () => {
         "totalCellCount": 0,
         "totalFileSize": 0
     };
+    
+    const TERRA_EXPORT_URL = "https://app.terra.bio/#import-data?url=";
 
     /**
      * Setup before each test.
      */
     beforeEach(async(() => {
+
+        const configService = jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getFileManifestUrl", "getTerraExportUrl"]);
+        configService.getTerraExportUrl.and.callFake((exportUrl) => {
+            return `${TERRA_EXPORT_URL}${exportUrl}`;
+        });
 
         TestBed.configureTestingModule({
             declarations: [
@@ -82,7 +89,7 @@ describe("HCAExportToTerraComponent", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getFileManifestUrl", "getPortalUrl"])
+                    useValue: configService
                 },
                 {
                     provide: FileManifestService,
@@ -168,7 +175,7 @@ describe("HCAExportToTerraComponent", () => {
         // method and then confirm the returned value is not null and equals "https://app.terra.bio/#import-data?url=terraURL".
         const terraServiceURL = component.getTerraServiceUrl("terraURL");
         expect(terraServiceURL).not.toEqual(null);
-        expect(terraServiceURL).toEqual("https://app.terra.bio/#import-data?url=terraURL");
+        expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}terraURL`);
     });
 
     /**

@@ -55,8 +55,8 @@ export class TerraService {
      */
     public buildExportToTerraWorkspaceUrl(exportUrl: string): string {
 
-        const encdodedUrl = encodeURIComponent(exportUrl);
-        return `https://app.terra.bio/#import-data?url=${encdodedUrl}`;
+        const encdodedExportUrl = encodeURIComponent(exportUrl);
+        return this.configService.getTerraExportUrl(encdodedExportUrl);
     }
 
     /**

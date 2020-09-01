@@ -5,6 +5,7 @@ export const environment = {
     matrixURL: "https://matrix.integration.data.humancellatlas.org/v0/matrix",
     portalURL: "https://integration.data.humancellatlas.org",
     projectMetaURL: "https://integration.data.humancellatlas.org",
+    terraExportURL: "https://app.terra.bio",
     deployment: "integration",
     version: "1.0"
 };

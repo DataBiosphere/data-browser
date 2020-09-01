@@ -26,6 +26,7 @@ export class ConfigService {
     protected portalURL: string;
     protected deployment: string;
     protected projectMetaURL: string;
+    protected terraExportURL: string;
     protected store: Store<AppState>;
     protected version: string;
 
@@ -199,6 +200,17 @@ export class ConfigService {
     }
 
     /**
+     * Return the full URL for the specified release file URL.
+     *
+     * @param {string} encdodedExportUrl
+     * @returns {string}
+     */
+    public getTerraExportUrl(encdodedExportUrl: string): string {
+
+        return `${this.terraExportURL}#import-data?url=${encdodedExportUrl}`;
+    }
+    
+    /**
      * Returns the URL for the summary end point.
      *
      * @returns {string}
@@ -293,6 +305,7 @@ export class ConfigService {
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
+        this.terraExportURL = config.terraExportURL;
         this.version = config.version;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }
