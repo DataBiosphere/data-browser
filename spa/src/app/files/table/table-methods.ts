@@ -513,14 +513,14 @@ export function getTooltipStyle(column: string): any {
 }
 
 /**
- * Returns the value if it is specified, otherwise returns "Unspecified" if value null.
+ * Returns the value if it is specified, otherwise returns "Unspecified" if value null/unspecifed.
  *
  * @param {any} value
  * @returns {any}
  */
 export function getUnspecifiedIfNullValue(value: any): any {
 
-    if ( value ) {
+    if ( value || value === 0 ) {
 
         return value;
     }
@@ -597,8 +597,8 @@ export function rollUpMetadata(array: any[]): any {
         Object.keys(element).forEach((key) => {
             let value = element[key];
 
-            // skip null values
-            if ( value ) {
+            // skip null/undefined values
+            if ( value || value === 0) {
 
                 // flatten arrays
                 if ( value instanceof Array ) {
