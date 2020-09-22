@@ -1,4 +1,7 @@
 /**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ * 
  * Pipe for formatting file sizes.
  */
 
@@ -12,7 +15,7 @@ export class FileSizePipe implements PipeTransform {
 
     transform(value: number): string {
 
-        const fileSizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+        const fileSizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
         // Determine file size display value and unit
         let val = value || 0;
