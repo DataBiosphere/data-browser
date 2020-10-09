@@ -199,7 +199,7 @@ describe("HCAGetDataDownloadsComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Export to Terra" is displayed
-        expect(isPanelHeaderDisplayed("Export to Terra (Beta)")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Export to Terra")).toEqual(true);
     });
 
     /**
