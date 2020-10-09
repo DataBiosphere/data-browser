@@ -7,6 +7,7 @@
 
 export enum GACategory {
     "DATASET" = "Dataset",
+    "DB_PAGEVIEW" = "DB Pageview",
     "ENTITY" = "Entity",
     "EXPORT" = "Export",
     "FILE" = "File",

@@ -15,7 +15,6 @@ import { concatMap, filter, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { SelectEntityAction } from "../entity/select-entity.action";
-import { SetViewStateAction } from "../facet/set-view-state.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
@@ -74,8 +73,7 @@ export class UrlEffects {
             SelectEntityAction.ACTION_TYPE,
             SelectFileFacetTermAction.ACTION_TYPE,
             SelectFacetAgeRangeAction.ACTION_TYPE,
-            SelectProjectIdAction.ACTION_TYPE,
-            SetViewStateAction.ACTION_TYPE
+            SelectProjectIdAction.ACTION_TYPE
         ),
         filter(() => {
 

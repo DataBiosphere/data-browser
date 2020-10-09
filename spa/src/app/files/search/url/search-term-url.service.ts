@@ -23,17 +23,6 @@ import { QueryStringSearchTerm } from "./query-string-search-term.model";
 export class SearchTermUrlService {
 
     /**
-     * Build the default set of search terms - if no search terms are selected on app init, default species to Homo
-     * Sapiens.
-     *
-     * @returns {QueryStringSearchTerm}
-     */
-    public getDefaultSearchState(): QueryStringSearchTerm {
-
-        return new QueryStringSearchTerm(FileFacetName.GENUS_SPECIES, [GenusSpecies.HOMO_SAPIENS]);
-    }
-
-    /**
      * Parse filter query string parameter, if present, and convert string to query string search terms. Called when
      * initializing app state from the query string.
      *
