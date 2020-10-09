@@ -8,12 +8,14 @@
 // Core dependencies
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { combineLatest, BehaviorSubject, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
+import { ErrorComponentState } from "./error.component.state";
 import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
+import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
+import { AppState } from "../../_ngrx/app.state";
 
 
 @Component({
@@ -24,18 +26,18 @@ import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.a
 export class ErrorComponent implements OnDestroy, OnInit {
 
     // Public variables
-    public errorMessage$: Observable<string>;
-    public requestUrl$: Observable<string>;
+    public state$ = new BehaviorSubject<ErrorComponentState>({
+        loaded: false
+    });
+
+    // Locals
+    private ngDestroy$ = new Subject();
 
     /**
      * @param {Store<AppState>} store
      * @param {Window} window
      */
     public constructor(private store: Store<AppState>, @Inject("Window") private window: Window) {}
-
-    /**
-     * Public API
-     */
 
     /**
      * Return user back to projects tab.
@@ -46,15 +48,14 @@ export class ErrorComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Life cycle hooks
-     */
-
-    /**
      * Clear error message on exit of error page.
      */
     public ngOnDestroy() {
 
         this.store.dispatch(new ClearErrorStateAction());
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
 
     /**
@@ -62,8 +63,18 @@ export class ErrorComponent implements OnDestroy, OnInit {
      */
     public ngOnInit() {
 
-        // Grab reference to error message and request URL
-        this.errorMessage$ = this.store.pipe(select(selectErrorMessage));
-        this.requestUrl$ = this.store.pipe(select(selectRequestUrl));
+        // Grab references to error message and request URL
+        combineLatest(
+            this.store.pipe(select(selectErrorMessage)),
+            this.store.pipe(select(selectRequestUrl))
+        ).pipe(
+            takeUntil(this.ngDestroy$)
+        ).subscribe(([errorMessage, requestUrl]) => {
+            this.state$.next({
+                errorMessage,
+                loaded: true,
+                requestUrl
+            })
+        })
     }
 }
