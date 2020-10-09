@@ -19,7 +19,6 @@ import { Catalog } from "../../catalog/catalog.model";
 import { SelectEntityAction } from "../entity/select-entity.action";
 import { AgeUnit } from "../../facet/facet-age-range/age-unit.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { SetViewStateAction } from "../facet/set-view-state.action";
 import { DEFAULT_PROJECTS_STATE } from "../file.state.mock";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
@@ -421,105 +420,6 @@ describe("URL Effects", () => {
             // Create select project ID action
             const action =
                 new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER);
-
-            actions$ = hot("-a", {
-                a: action
-            });
-
-            const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
-            });
-
-            // Pass through of URL spec state from concatMap/combineWithLatest before tap
-            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-            // Expect navigate to have been called with update path
-            expect(routerMock.navigate).toHaveBeenCalledWith(
-                [], // No update to path
-                jasmine.any(Object)
-            );
-        });
-
-        /**
-         * Set view state action triggers update to location.
-         */
-        it("set view state action triggers update to location", () => {
-
-            // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingEntities.and.returnValue(true);
-
-            // Create set view state action
-            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []);
-
-            actions$ = hot("-a", {
-                a: action
-            });
-
-            const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
-            });
-
-            // Pass through of URL spec state from concatMap/combineWithLatest before tap
-            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-            // Smoke test of navigate
-            expect(routerMock.navigate).toHaveBeenCalled();
-        });
-
-        /**
-         * Filter is included in params when location is updated
-         */
-        it("update to location includes filter param", () => {
-
-            // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingEntities.and.returnValue(true);
-
-            // Mock filter returned from search term URL service - this is the return value from the switchMap
-            const filter =  `[{"facetName":"organ", "terms":["blood"]}]`;
-            searchTermUrlService.stringifySearchTerms.and.returnValue(filter);
-
-            // Create view state action
-            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []); // Any action that triggers effect can be used here 
-
-            actions$ = hot("-a", {
-                a: action
-            });
-
-            const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
-            });
-
-            // Pass through of URL spec state from concatMap/combineWithLatest before tap
-            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-            // Smoke test of navigate
-            expect(routerMock.navigate).toHaveBeenCalled();
-
-            // Empty array for URL segments param, filter param matching filter returned from search term URL service
-            expect(routerMock.navigate).toHaveBeenCalledWith(
-                [],
-                jasmine.objectContaining({
-                    queryParams: {
-                        filter
-                    }
-                })
-            );
-        });
-
-        /**
-         * Set view state action does not trigger update to path.
-         */
-        it("does not update path on set view state", () => {
-
-            // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingEntities.and.returnValue(true);
-
-            // Mock filter returned from search term URL service - this is the return value from the switchMap
-            const filter =  `[{"facetName":"organ", "terms":["blood"]}]`;
-            searchTermUrlService.stringifySearchTerms.and.returnValue(filter);
-
-            // Create view state action
-            const action = new SetViewStateAction(Catalog.NONE, EntityName.PROJECTS, []); // Any action that triggers effect can be used here 
 
             actions$ = hot("-a", {
                 a: action
