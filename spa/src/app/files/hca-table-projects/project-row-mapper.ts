@@ -14,11 +14,12 @@ import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-map
 export class ProjectRowMapper extends FileTypeSummariesRowMapper {
 
     /**
+     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(row: any) {
+    constructor(v2: boolean, row: any) {
 
-        super(row);
+        super(v2, row);
     }
 
     /**

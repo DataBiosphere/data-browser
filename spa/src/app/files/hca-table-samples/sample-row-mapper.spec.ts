@@ -46,7 +46,8 @@ describe("SampleRowMapper:", () => {
      */
     it("should create data source", () => {
 
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_SINGLE_VALUES]), SampleRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([SAMPLE_SINGLE_VALUES]), SampleRowMapper);
         expect(dataSource).toBeTruthy();
     });
 
@@ -56,8 +57,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should map file type summary bam count", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -73,8 +75,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should map sample ID", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -88,8 +91,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should map first sample ID if multiple are specified", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -103,7 +107,8 @@ describe("SampleRowMapper:", () => {
      */
     it("should not map sample ID when null", (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_NULL_VALUES]), SampleRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([SAMPLE_NULL_VALUES]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -117,7 +122,8 @@ describe("SampleRowMapper:", () => {
      */
     it("should not map sample ID when samples is null", (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_NULL_TOP_LEVEL_VALUES]), SampleRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([SAMPLE_NULL_TOP_LEVEL_VALUES]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -131,8 +137,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should map library construction approach", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -146,8 +153,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should roll up and map multiple library construction approach values", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -162,8 +170,9 @@ describe("SampleRowMapper:", () => {
      */
     it("should roll up and map multiple library construction approach values across multiple protocols", (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -178,8 +187,9 @@ describe("SampleRowMapper:", () => {
      */
     it(`should map empty array library construction approach to "Unspecified"`, (done: DoneFn) => {
 
+        const v2 = false;
         const sampleToMap = SAMPLE_EMPTY_ARRAY_VALUES;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([sampleToMap]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -193,7 +203,8 @@ describe("SampleRowMapper:", () => {
      */
     it(`should map library construction approach to "Unspecified" when protocols is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_NULL_VALUES]), SampleRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([SAMPLE_NULL_VALUES]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
@@ -207,7 +218,8 @@ describe("SampleRowMapper:", () => {
      */
     it(`should map null library construction approach to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_NULL_VALUES]), SampleRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(v2, of([SAMPLE_NULL_VALUES]), SampleRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];

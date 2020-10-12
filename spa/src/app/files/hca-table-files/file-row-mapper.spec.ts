@@ -46,7 +46,8 @@ describe("FileRowMapper:", () => {
      */
     it("should create data source", () => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_SINGLE_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_SINGLE_VALUES]), FileRowMapper);
         expect(dataSource).toBeTruthy();
     });
 
@@ -55,8 +56,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map organism age", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -70,8 +72,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map sample ID", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -85,8 +88,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map first sample ID if multiple are specified", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -100,7 +104,8 @@ describe("FileRowMapper:", () => {
      */
     it("should not map sample ID when samples is null", (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_TOP_LEVEL_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_NULL_TOP_LEVEL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -114,7 +119,8 @@ describe("FileRowMapper:", () => {
      */
     it("should not map null sample ID ", (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_NULL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -128,8 +134,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map library construction approach", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -143,8 +150,9 @@ describe("FileRowMapper:", () => {
      */
     it("should roll up and map multiple library construction approach values", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -159,8 +167,9 @@ describe("FileRowMapper:", () => {
      */
     it("should roll up and map multiple library construction approach values across multiple protocols", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -175,7 +184,8 @@ describe("FileRowMapper:", () => {
      */
     it(`should map empty array library construction approach to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_EMPTY_ARRAY_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_EMPTY_ARRAY_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -189,7 +199,8 @@ describe("FileRowMapper:", () => {
      */
     it(`should map library construction approach to "Unspecified" when protocols is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_NULL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -203,7 +214,8 @@ describe("FileRowMapper:", () => {
      */
     it(`should map null library construction approach to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([FILE_NULL_VALUES]), FileRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([FILE_NULL_VALUES]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -218,7 +230,7 @@ describe("FileRowMapper:", () => {
     // it(`should map file format to "Unspecified" when files is null`, (done: DoneFn) => {
     //
     //     const fileToMap = FILE_NULL_TOP_LEVEL_VALUES;
-    //     dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+    //     dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
     //     dataSource.connect().subscribe((rows) => {
     //
     //         const mappedFile = rows[0];
@@ -232,8 +244,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map file format", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -247,8 +260,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map file name", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -262,8 +276,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map file size", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
@@ -277,8 +292,9 @@ describe("FileRowMapper:", () => {
      */
     it("should map file URL", (done: DoneFn) => {
 
+        const v2 = false;
         const fileToMap = FILE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileRowMapper>(of([fileToMap]), FileRowMapper);
+        dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];

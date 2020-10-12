@@ -108,7 +108,7 @@ describe("HCATableSamplesComponent", () => {
                 },
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "isV2"])
                 },
                 {
                     provide: "ENTITY_REQUEST_SERVICE",

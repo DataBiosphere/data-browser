@@ -15,6 +15,7 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { ConfigService } from "../../config/config.service";
 import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileDownloadEvent } from "../hca-download-file/file-download.event";
@@ -43,7 +44,6 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 import { EntitiesDataSource } from "../table/entities.data-source";
-
 
 @Component({
     selector: "hca-table-files",
@@ -85,11 +85,13 @@ export class HCATableFilesComponent implements OnInit {
     @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
+     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
-    constructor(private store: Store<AppState>,
+    constructor(private configService: ConfigService,
+                private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {}
 
@@ -194,8 +196,9 @@ export class HCATableFilesComponent implements OnInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
+        const v2 = this.configService.isV2();
         this.dataSource =
-            new EntitiesDataSource<FileRowMapper>(this.store.pipe(select(selectTableData)), FileRowMapper);
+            new EntitiesDataSource<FileRowMapper>(v2, this.store.pipe(select(selectTableData)), FileRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));

@@ -20,15 +20,16 @@ export class EntitiesDataSource<T extends EntityRowMapper> extends DataSource<an
     private readonly rows$: Observable<EntityRow[]>;
 
     /**
+     * @param {boolean} v2 - true if running in v2 environment
      * @param {Observable<any[]>} tableData$
      * @param {{new(row): T}} mapperType
      */
-    constructor(tableData$: Observable<any[]>, mapperType: {new(row): T;}) {
+    constructor(v2: boolean, tableData$: Observable<any[]>, mapperType: {new(v2, row): T;}) {
 
         super();
 
         this.rows$ = tableData$.pipe(
-            map((rows: any[]) => rows.map((row: any) => new mapperType(row).mapRow()))
+            map((rows: any[]) => rows.map((row: any) => new mapperType(v2, row).mapRow()))
         );
     }
 

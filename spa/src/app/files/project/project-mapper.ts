@@ -17,11 +17,13 @@ import { Publication } from "../shared/publication.model";
 export class ProjectMapper extends ProjectRowMapper {
 
     /**
+     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      * @param {Project} projectOverrides
      */
-    constructor(row: any, private projectOverrides: Project) {
-        super(row);
+    constructor(v2: boolean, row: any, private projectOverrides: Project) {
+
+        super(v2, row);
     }
 
     /**
