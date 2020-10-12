@@ -43,8 +43,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      * Smoke test
      */
     it("should create data source", () => {
-
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_SINGLE_VALUES]), FileTypeSummariesRowMapper);
+        
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_SINGLE_VALUES]), FileTypeSummariesRowMapper);
         expect(dataSource).toBeTruthy();
     });
 
@@ -54,8 +55,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map organ value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -69,8 +71,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map file type summary bam count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -86,7 +89,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map file type summary with null bam count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -100,7 +104,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map null file type summary bam count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -114,8 +119,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map file type summary matrix count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -131,7 +137,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map null file type summary matrix count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -145,8 +152,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map file type summary with null matrix count to "--"`, (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES; 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -160,8 +168,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map file type summary raw (fastq) count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -177,7 +186,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map null file type summary raw (fastq) count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -191,7 +201,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map file type summary with null raw count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -205,8 +216,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map file type summary total count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -223,7 +235,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map null file type summary total count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -237,7 +250,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map file type summary with null total count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -251,8 +265,9 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it("should map file type summary other count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([projectToMap]), FileTypeSummariesRowMapper);
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([projectToMap]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -273,7 +288,8 @@ describe("FileTypeSummaryRowMapper:", () => {
      */
     it(`should map null file type summary other count to "--"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<FileTypeSummariesRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), FileTypeSummariesRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];

@@ -23,6 +23,7 @@ import { filter, map } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { AppState } from "../../_ngrx/app.state";
+import { ConfigService } from "../../config/config.service";
 import { FileSummary } from "../file-summary/file-summary";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -89,11 +90,13 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
+     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
-    constructor(private store: Store<AppState>,
+    constructor(private configService: ConfigService,
+                private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
@@ -170,8 +173,9 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
+        const v2 = this.configService.isV2();
         this.dataSource =
-            new EntitiesDataSource<SampleRowMapper>(this.store.pipe(select(selectTableData)), SampleRowMapper);
+            new EntitiesDataSource<SampleRowMapper>(v2, this.store.pipe(select(selectTableData)), SampleRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));

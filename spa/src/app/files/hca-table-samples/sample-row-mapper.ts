@@ -14,10 +14,12 @@ import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-method
 export class SampleRowMapper extends FileTypeSummariesRowMapper {
 
     /**
+     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(row: any) {
-        super(row);
+    constructor(v2: boolean, row: any) {
+
+        super(v2, row);
     }
 
     /**

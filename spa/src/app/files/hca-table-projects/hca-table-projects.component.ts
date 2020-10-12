@@ -17,6 +17,7 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { Catalog } from "../catalog/catalog.model";
+import { ConfigService } from "../../config/config.service";
 import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -92,13 +93,15 @@ export class HCATableProjectsComponent implements OnInit {
     @ViewChild(MatSort) matSort: MatSort;
 
     /**
+     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {DeviceDetectorService} deviceService
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      * @param {Router} router
      */
-    constructor(private store: Store<AppState>,
+    constructor(private configService: ConfigService,
+                private store: Store<AppState>,
                 private deviceService: DeviceDetectorService,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
@@ -261,8 +264,9 @@ export class HCATableProjectsComponent implements OnInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
+        const v2 = this.configService.isV2();
         this.dataSource =
-            new EntitiesDataSource<ProjectRowMapper>(this.store.pipe(select(selectTableData)), ProjectRowMapper);
+            new EntitiesDataSource<ProjectRowMapper>(v2, this.store.pipe(select(selectTableData)), ProjectRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));

@@ -45,7 +45,8 @@ describe("ProjectRowMapper:", () => {
      */
     it("should create data source", () => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_SINGLE_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_SINGLE_VALUES]), ProjectRowMapper);
         expect(dataSource).toBeTruthy();
     });
 
@@ -55,8 +56,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should map file type summary bam count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -72,8 +74,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should map entry ID", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -87,8 +90,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should not map null entry ID", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_NULL_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -102,8 +106,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should map library construction approach", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -117,7 +122,8 @@ describe("ProjectRowMapper:", () => {
      */
     it(`should map empty library construction approach to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -131,7 +137,8 @@ describe("ProjectRowMapper:", () => {
      */
     it(`should map null library construction approach to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -145,8 +152,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should map project short name", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -160,8 +168,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should roll up and map short name values in a single project", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -175,8 +184,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should roll up and map short name values across multiple projects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -191,7 +201,8 @@ describe("ProjectRowMapper:", () => {
      */
     it(`should map null project short name to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -205,8 +216,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should map donor count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -220,8 +232,9 @@ describe("ProjectRowMapper:", () => {
      */
     it("should roll up and map donor count values across multiple projects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([projectToMap]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -236,7 +249,8 @@ describe("ProjectRowMapper:", () => {
      */
     it(`should map null donor count to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -250,7 +264,8 @@ describe("ProjectRowMapper:", () => {
      */
     it(`should map an empty age unit array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<ProjectRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), ProjectRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];

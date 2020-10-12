@@ -23,17 +23,18 @@ export class EntityRowMapper {
     protected specimens;
 
     /**
+     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(row: any) {
+    constructor(v2: boolean, row: any) {
 
-        this.cellSuspensions = rollUpMetadata(row.cellSuspensions);
-        this.donorOrganisms = rollUpMetadata(row.donorOrganisms);
-        this.samples = rollUpMetadata(row.samples);
-        this.specimens = rollUpMetadata(row.specimens);
+        this.cellSuspensions = rollUpMetadata(v2, row.cellSuspensions);
+        this.donorOrganisms = rollUpMetadata(v2, row.donorOrganisms);
+        this.samples = rollUpMetadata(v2, row.samples);
+        this.specimens = rollUpMetadata(v2, row.specimens);
         this.organs = this.specimens.organ;
-        this.projects = rollUpMetadata(row.projects);
-        this.protocols = rollUpMetadata(row.protocols);
+        this.projects = rollUpMetadata(v2, row.projects);
+        this.protocols = rollUpMetadata(v2, row.protocols);
         this.row = row;
     }
 

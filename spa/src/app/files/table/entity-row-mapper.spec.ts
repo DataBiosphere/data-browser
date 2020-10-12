@@ -41,7 +41,8 @@ describe("EntityRowMapper:", () => {
      */
     it("should create data source", () => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_SINGLE_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_SINGLE_VALUES]), EntityRowMapper);
         expect(dataSource).toBeTruthy();
     });
 
@@ -50,14 +51,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single age unit value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.ageUnit).toEqual(projectToMap.donorOrganisms[0].organismAgeUnit[0]);
             return done();
-        })
+        });
     });
 
     /**
@@ -65,14 +67,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple age unit values in a single donor organism", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.ageUnit).toEqual(projectToMap.donorOrganisms[0].organismAgeUnit.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -80,15 +83,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple age unit values across multiple donor organisms", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "organismAgeUnit");
             expect(mappedProject.ageUnit).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -96,13 +100,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty age unit array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.ageUnit).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -111,13 +116,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map age unit to "Unspecified" when donor organism is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.ageUnit).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -125,13 +131,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null age unit to ""`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.ageUnit).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -139,14 +146,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map biological sex value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.biologicalSex).toEqual(projectToMap.donorOrganisms[0].biologicalSex[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -154,14 +162,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map biological sex values in a single donor organism", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.biologicalSex).toEqual(projectToMap.donorOrganisms[0].biologicalSex.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -169,15 +178,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple biological sex values across multiple donor organisms", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "biologicalSex");
             expect(mappedProject.biologicalSex).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -185,13 +195,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty age unit array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.biologicalSex).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -199,13 +210,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null biological sex to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.biologicalSex).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -213,14 +225,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single disease value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual(projectToMap.specimens[0].disease[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -228,14 +241,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple disease values in a single object", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual(projectToMap.specimens[0].disease.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -243,15 +257,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple disease values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.specimens, "disease");
             expect(mappedProject.disease).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -260,13 +275,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map disease to "Unspecified" when samples is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -274,13 +290,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty disease array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -288,13 +305,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null disease to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.disease).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -302,14 +320,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map donor count value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.donorCount).toEqual(projectToMap.donorOrganisms[0].donorCount);
             done();
-        })
+        });
     });
 
     /**
@@ -317,8 +336,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single donor count across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -326,7 +346,7 @@ describe("EntityRowMapper:", () => {
 
             expect(mappedProject.donorCount).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -334,13 +354,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null donor count to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.donorCount).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -348,14 +369,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single genus species value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.genusSpecies).toEqual(projectToMap.donorOrganisms[0].genusSpecies[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -363,14 +385,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple genus species values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.genusSpecies).toEqual(projectToMap.donorOrganisms[0].genusSpecies.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -378,15 +401,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple genus species values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "genusSpecies");
             expect(mappedProject.genusSpecies).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -394,13 +418,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty genus species array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.genusSpecies).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -408,13 +433,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null genus species to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.genusSpecies).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -422,14 +448,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map organ value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organ).toEqual(projectToMap.specimens[0].organ[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -437,14 +464,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple organ values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organ).toEqual(projectToMap.specimens[0].organ.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -452,15 +480,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple organ values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.specimens, "organ");
             expect(mappedProject.organ).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -468,13 +497,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty organ array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organ).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -482,13 +512,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map paired end to "Unspecified" when protocols is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.pairedEnd).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -496,13 +527,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null organ to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organ).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -510,14 +542,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single age value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedRow = rows[0];
             expect(mappedRow.organismAge).toEqual(projectToMap.donorOrganisms[0].organismAge[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -525,14 +558,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple age values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedRow = rows[0];
             expect(mappedRow.organismAge).toEqual(projectToMap.donorOrganisms[0].organismAge.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -540,15 +574,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple age values across multiple donor organism objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "organismAge");
             expect(mappedProject.organismAge).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -556,14 +591,15 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty age array to "Unspecified"`, (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_EMPTY_ARRAY_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organismAge).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -571,13 +607,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null age to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedRow = rows[0];
             expect(mappedRow.organismAge).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -585,14 +622,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map organ part value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organPart).toEqual(projectToMap.specimens[0].organPart[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -600,14 +638,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple organ part values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organPart).toEqual(projectToMap.specimens[0].organPart.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -615,15 +654,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple part organ values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.specimens, "organPart");
             expect(mappedProject.organPart).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -631,13 +671,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty organ part array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organPart).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -645,13 +686,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null organ part to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.organPart).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -659,14 +701,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map paired end value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.pairedEnd).toEqual(`${projectToMap.protocols[0].pairedEnd[0]}`); // Boolean value is converted to string
             done();
-        })
+        });
     });
 
     /**
@@ -674,14 +717,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple paired end values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.pairedEnd).toEqual(projectToMap.protocols[0].pairedEnd.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -689,15 +733,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple part paired end across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.protocols, "pairedEnd");
             expect(mappedProject.pairedEnd).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -705,13 +750,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty paired end array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.pairedEnd).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -719,13 +765,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null paired end to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.pairedEnd).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -733,14 +780,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map project title", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.projectTitle).toEqual(projectToMap.projects[0].projectTitle);
             done();
-        })
+        });
     });
 
     /**
@@ -748,8 +796,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple project titles in a single object", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -763,8 +812,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple project titles across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -772,7 +822,7 @@ describe("EntityRowMapper:", () => {
 
             expect(mappedProject.projectTitle).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -780,13 +830,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty array project title to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.projectTitle).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -794,13 +845,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null project title to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.projectTitle).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -808,14 +860,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map sample entity type value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.sampleEntityType).toEqual(projectToMap.samples[0].sampleEntityType[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -823,14 +876,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple sample entity type values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.sampleEntityType).toEqual(projectToMap.samples[0].sampleEntityType.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -838,8 +892,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple sample entity type values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -847,7 +902,7 @@ describe("EntityRowMapper:", () => {
 
             expect(mappedProject.sampleEntityType).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -855,13 +910,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty array sample entity type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.sampleEntityType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -869,13 +925,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null sample entity type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.sampleEntityType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -883,14 +940,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map selected cell type value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.selectedCellType).toEqual(projectToMap.cellSuspensions[0].selectedCellType[0]);
             done();
-        })
+        });
     });
 
     /**
@@ -898,14 +956,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple selected cell type values", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.selectedCellType).toEqual(projectToMap.cellSuspensions[0].selectedCellType.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -913,8 +972,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple selected cell type values across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -930,13 +990,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty array selected cell type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.selectedCellType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -944,13 +1005,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map selected cell type to "Unspecified" when cell suspensions is null`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.selectedCellType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -958,13 +1020,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null selected cell type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.selectedCellType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -972,13 +1035,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null sample entity type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.sampleEntityType).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -986,14 +1050,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map total cell count value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.totalCells).toEqual(projectToMap.cellSuspensions[0].totalCells);
             done();
-        })
+        });
     });
 
     /**
@@ -1001,14 +1066,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple selected total cell count", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.totalCells).toEqual(projectToMap.cellSuspensions[0].totalCells);
             done();
-        })
+        });
     });
 
     /**
@@ -1016,8 +1082,9 @@ describe("EntityRowMapper:", () => {
      */
     it("should map multiple selected total cell count across multiple objects", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
@@ -1025,7 +1092,7 @@ describe("EntityRowMapper:", () => {
 
             expect(mappedProject.totalCells).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -1033,13 +1100,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty array selected cell type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.totalCells).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -1047,13 +1115,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null selected cell type to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.totalCells).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -1061,14 +1130,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should map single workflow value", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.workflow).toEqual(projectToMap.protocols[0].workflow[0]);
             return done();
-        })
+        });
     });
 
     /**
@@ -1076,14 +1146,15 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple workflow values in a single protocol", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.workflow).toEqual(projectToMap.protocols[0].workflow.join(", "));
             done();
-        })
+        });
     });
 
     /**
@@ -1091,15 +1162,16 @@ describe("EntityRowMapper:", () => {
      */
     it("should roll up and map multiple workflow values across multiple protocols", (done: DoneFn) => {
 
+        const v2 = false;
         const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             const expectedValue = mapMultipleValues(projectToMap.protocols, "workflow");
             expect(mappedProject.workflow).toEqual(expectedValue);
             done();
-        })
+        });
     });
 
     /**
@@ -1107,13 +1179,14 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map an empty workflow array to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.workflow).toEqual("Unspecified");
             done();
-        })
+        });
     });
 
     /**
@@ -1121,13 +1194,59 @@ describe("EntityRowMapper:", () => {
      */
     it(`should map null workflow to "Unspecified"`, (done: DoneFn) => {
 
-        dataSource = new EntitiesDataSource<EntityRowMapper>(of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
             expect(mappedProject.workflow).toEqual("Unspecified");
             done();
-        })
+        });
+    });
+
+
+    /**
+     * Null values inside array values should be mapped to "Unspecified"
+     *
+     * TODO - move this to table-methods.ts spec for rollUpMetadata.
+     */
+    it(`irgnores null array element values to "Unspecified" in v1 environments`, (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = Object.assign({}, PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT, {
+            specimens: [{
+                organPart: ["x", null, "y"]
+            }]
+        });
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.organPart).toEqual("x, , y");
+            done();
+        });
+    });
+    
+    /**
+     * Null values inside array values should be mapped to "Unspecified"
+     * 
+     * TODO - move this to table-methods.ts spec for rollUpMetadata.
+     */
+    it(`maps null array element values to "Unspecified" in v2 environments`, (done: DoneFn) => {
+
+        const v2 = true;
+        const projectToMap = Object.assign({}, PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT, {
+            specimens: [{
+                organPart: ["x", null, "y"] 
+            }]
+        });
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.organPart).toEqual("x, Unspecified, y");
+            done();
+        });
     });
 });
 

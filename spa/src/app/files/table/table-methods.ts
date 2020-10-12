@@ -5,10 +5,6 @@
  * Table methods.
  */
 
-/**
- * Public API
- */
-
 // App dependencies
 import {
     ColumnAlignment, ColumnFlexDirection, CountType, OverflowType, PositionType,
@@ -520,7 +516,7 @@ export function getTooltipStyle(column: string): any {
  */
 export function getUnspecifiedIfNullValue(value: any): any {
 
-    if ( value || value === 0 ) {
+    if ( value || value === 0 || value === false ) {
 
         return value;
     }
@@ -579,11 +575,14 @@ export function isElementUnspecified(element: string): boolean {
  * }
  *
  * Note, all flattened values - with the exception of totalCells and donorCount - are cast to string values.
+ * 
+ * TODO move table methods to service structure during refactor of tables (#1245), allowing us to use dependency injection of service versions rather than an explicit version argument here 
  *
+ * @param {boolean} v2 - true if running in v2 environment 
  * @param {any[]} array
  * @returns {any}
  */
-export function rollUpMetadata(array: any[]): any {
+export function rollUpMetadata(v2: boolean, array: any[]): any {
 
     // Return empty object if no array is specified
     if ( !array ) {
@@ -602,6 +601,11 @@ export function rollUpMetadata(array: any[]): any {
 
                 // flatten arrays
                 if ( value instanceof Array ) {
+                    
+                    // Convert any null or undefined values in array to Unspecified - only for v2 environments
+                    if ( v2 ) {
+                        value = value.map((elementVal) => getUnspecifiedIfNullValue(elementVal));
+                    }
                     value = value.join(", ");
                 }
 

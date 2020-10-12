@@ -113,7 +113,7 @@ describe("HCATableFilesComponent", () => {
                 },
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "isV2"])
                 },
                 {
                     provide: DownloadService,

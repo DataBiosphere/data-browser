@@ -39,7 +39,7 @@ describe("ProjectService:", () => {
 
     beforeEach(async(() => {
         
-        const configService = jasmine.createSpyObj("ConfigService", ["getProjectUrl", "getFileManifestUrl"]);
+        const configService = jasmine.createSpyObj("ConfigService", ["getProjectUrl", "getFileManifestUrl", "isV2"]);
         configService.getProjectUrl.and.returnValue(""); // Required for testing catalog params on public methods
         
         TestBed.configureTestingModule({
