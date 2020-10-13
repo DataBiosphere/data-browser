@@ -30,10 +30,11 @@ import {
     selectSelectedSearchTermsBySearchKey
 } from "../search/search.selectors";
 import { FilesService } from "../../shared/files.service";
-import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
+import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
 import { MatrixService } from "../../shared/matrix.service";
 import { MatrixUrlRequest } from "../../shared/matrix-url-request.model";
 import { MatrixUrlRequestSpecies } from "../../shared/matrix-url-request-species.model";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 
 @Injectable()
 export class MatrixEffects {
@@ -114,7 +115,7 @@ export class MatrixEffects {
                 );
                 
                 const {fileFormat} = (action as FetchMatrixUrlRequestAction);
-                return this.matrixService.requestMatrixUrl(catalog, searchTerms, fileFormat, killSwitch$);
+                return this.matrixService.requestMatrixUrl(catalog, searchTerms, fileFormat, ManifestDownloadFormat.COMPACT, killSwitch$);
             }),
             map(response => {
 

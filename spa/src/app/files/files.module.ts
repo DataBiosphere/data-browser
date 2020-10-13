@@ -29,6 +29,8 @@ import { RouterModule } from "@angular/router";
 
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
+import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
@@ -176,6 +178,8 @@ const v2 = environment.version === "2.0";
         AgeUnitInAgeUnit,
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
+        BaseGetManifestComponent,
+        BulkDownloadComponent,
         CatalogFormComponent,
         DataDownloadCitationComponent,
         DisplayDataLinkComponent,

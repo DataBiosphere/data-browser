@@ -43,18 +43,6 @@ describe("HCAGetManifestComponent", () => {
         new SearchFacetTerm("disease", "ESRD", 8),
         new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
     ];
-    
-    // Empty file summary
-    const FILE_SUMMARY_EMPTY = {
-        "donorCount": 0,
-        "fileCount": 0,
-        "fileTypeSummaries": [],
-        "organTypes": [],
-        "projectCount": 0,
-        "specimenCount": 0,
-        "totalCellCount": 0,
-        "totalFileSize": 0
-    };
 
     /**
      * Setup before each test.
@@ -115,84 +103,11 @@ describe("HCAGetManifestComponent", () => {
         component = fixture.componentInstance;
     }));
 
-    /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
-
-    /**
-     * Confirm get file type summaries returns an empty array when file summaries is empty.
-     */
-    it("should get file type summaries return an empty array when file summaries is empty", () => {
-
-        // Confirm get file type summaries returns an empty array, when file summaries is empty - first execute the
-        // method and then confirm the returned value is an empty array.
-        const fileTypeSummaries = component.getFileTypeSummaries(FILE_SUMMARY_EMPTY);
-        expect(fileTypeSummaries).toEqual([]);
-    });
-
-    /**
-     * Confirm get file type summaries returns file type summaries when file summaries is not empty.
-     */
-    it("should get file type summaries return file type summaries when file summaries is not empty", () => {
-
-        // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
-        // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
-        const fileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY);
-        expect(fileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
-    });
-
-    /**
-     * Confirm any file format selected returns false when no "fileFormat" facet terms are selected.
-     */
-    it(`should any file format selected return true when no "fileFormat" facet terms are selected`, () => {
-
-        // Confirm any file format selected returns false, when no "fileFormat" facet terms are selected - first execute the
-        // method and then confirm the returned value is false.
-        const anyFormatSelected = component.isAnyFileFormatSelected([]);
-        expect(anyFormatSelected).toEqual(false);
-    });
-
-    /**
-     * Confirm any file format selected returns true when "fileFormat" facet terms are selected.
-     */
-    it(`should any file format selected return true when "fileFormat" facet terms are selected`, () => {
-
-        // Confirm any file format selected returns true, when "fileFormat" facet terms are selected - first execute the
-        // method and then confirm the returned value is true.
-        const anyFormatSelected = component.isAnyFileFormatSelected(SEARCH_TERMS_WITH_FILE_FORMAT);
-        expect(anyFormatSelected).toEqual(true);
-    });
-
-    /**
-     * Confirm file type summaries empty returns true when file summary is empty.
-     */
-    it("should file type summaries empty return true when file summary is empty", () => {
-
-        // Confirm file type summaries empty returns true, when file summary is empty - first execute the
-        // method and then confirm the returned value is true.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY_EMPTY);
-        expect(fileTypeSummariesEmpty).toEqual(true);
-    });
-
-    /**
-     * Confirm file type summaries empty returns false when file summary is not empty.
-     */
-    it("should file type summaries empty return false when file summary is not empty", () => {
-
-        // Confirm file type summaries empty returns false, when file summary is not empty - first execute the
-        // method and then confirm the returned value is false.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY);
-        expect(fileTypeSummariesEmpty).toEqual(false);
-    });
 
     /**
      * Confirm "Select Manifest File Types" is displayed when download status is not started.
      */
-    it(`should display "Select Manifest File Types" when download status is "NOT_STARTED"`, () => {
+    it(`displays "Select Manifest File Types" when download status is "NOT_STARTED"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -212,7 +127,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm <file-type-summary-list> is displayed when download status is not started.
      */
-    it(`should display component file-type-summary-list when download status is "NOT_STARTED"`, () => {
+    it(`displays component file-type-summary-list when download status is "NOT_STARTED"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -233,7 +148,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Being Prepared" is not displayed when download status is not started.
      */
-    it(`should not display "Your File Manifest is Being Prepared" when download status is "NOT_STARTED"`, () => {
+    it(`hides "Your File Manifest is Being Prepared" when download status is "NOT_STARTED"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -253,7 +168,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Ready" is not displayed when download status is not started.
      */
-    it(`should not display "Your File Manifest is Ready" when download status is "NOT_STARTED"`, () => {
+    it(`hides "Your File Manifest is Ready" when download status is "NOT_STARTED"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -273,7 +188,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Select Manifest File Types" is not displayed when download status is in progress.
      */
-    it(`should not display "Select Manifest File Types" when download status is "IN_PROGRESS"`, () => {
+    it(`hides "Select Manifest File Types" when download status is "IN_PROGRESS"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -293,7 +208,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm <file-type-summary-list> is not displayed when download status is in progress.
      */
-    it(`should not display component file-type-summary-list when download status is "IN_PROGRESS"`, () => {
+    it(`hides component file-type-summary-list when download status is "IN_PROGRESS"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -315,7 +230,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Being Prepared" is displayed when download status is in progress.
      */
-    it(`should display "Your File Manifest is Being Prepared" when download status is "IN_PROGRESS"`, () => {
+    it(`displays "Your File Manifest is Being Prepared" when download status is "IN_PROGRESS"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -335,7 +250,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Ready" is not displayed when download status is in progress.
      */
-    it(`should not display "Your File Manifest is Ready" when download status is "IN_PROGRESS"`, () => {
+    it(`hides "Your File Manifest is Ready" when download status is "IN_PROGRESS"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -355,7 +270,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Select Manifest File Types" is not displayed when download status is complete.
      */
-    it(`should not display "Select Manifest File Types" when download status is "COMPLETE"`, () => {
+    it(`hides "Select Manifest File Types" when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -375,7 +290,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm <file-type-summary-list> is not displayed when download status is complete.
      */
-    it(`should not display component file-type-summary-list when download status is "COMPLETE"`, () => {
+    it(`hides component file-type-summary-list when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -397,7 +312,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Being Prepared" is not displayed when download status is complete.
      */
-    it(`should not display "Your File Manifest is Being Prepared" when download status is "COMPLETE"`, () => {
+    it(`hides "Your File Manifest is Being Prepared" when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -417,7 +332,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm "Your File Manifest is Ready" is displayed when download status is complete.
      */
-    it(`should display "Your File Manifest is Ready" when download status is "COMPLETE"`, () => {
+    it(`displays "Your File Manifest is Ready" when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -437,7 +352,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm <copy-to-clipboard> is displayed when download status is complete.
      */
-    it(`should display component copy-to-clipboard when download status is "COMPLETE"`, () => {
+    it(`displays component copy-to-clipboard when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -481,7 +396,7 @@ describe("HCAGetManifestComponent", () => {
     /**
      * Confirm confirm store dispatch is called on click of request manifest.
      */
-    it("should store dispatch on click of request manifest", () => {
+    it("dispatches to store on click of request manifest", () => {
 
         testStore.pipe
             .and.returnValues(

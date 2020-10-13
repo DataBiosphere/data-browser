@@ -23,7 +23,7 @@ describe("HCAGetDataDownloadsComponent", () => {
     let component: HCAGetDataDownloadsComponent;
     let fixture: ComponentFixture<HCAGetDataDownloadsComponent>;
 
-    const DOWNLOAD_DISPLAY_ORDER = ["MATRIX", "MANIFEST", "TERRA"];
+    const DOWNLOAD_DISPLAY_ORDER = ["MATRIX", "BULK_DOWNLOAD", "MANIFEST", "TERRA"];
 
     /**
      * Setup before each test.
@@ -183,12 +183,37 @@ describe("HCAGetDataDownloadsComponent", () => {
     });
 
     /**
+     * Confirm "Bulk Download" is displayed when feature is enabled.
+     */
+    it(`hides "Bulk Download" when matrix enabled is false`, () => {
+
+        component.bulkDownloadFeatureDisabled = false;
+        fixture.detectChanges();
+
+        // Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed
+        expect(isPanelHeaderDisplayed("Bulk Download (for data)")).toEqual(true);
+    });
+
+
+    /**
+     * Confirm "Bulk Download" is not displayed when feature is disabled.
+     */
+    it(`hides "Bulk Download" when matrix enabled is false`, () => {
+
+        component.bulkDownloadFeatureDisabled = true;
+        fixture.detectChanges();
+
+        // Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed
+        expect(isPanelHeaderDisplayed("Bulk Download (for data)")).not.toEqual(true);
+    });
+
+    /**
      * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed.
      */
-    it(`displays "Request a File Manifest (for downloading files via the HCA CLI)"`, () => {
+    it(`displays "Request a File Manifest (for metadata)"`, () => {
 
         // Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed
-        expect(isPanelHeaderDisplayed("Request a File Manifest (for downloading files via the HCA CLI)")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Request a File Manifest (for metadata)")).toEqual(true);
     });
 
     /**
@@ -220,6 +245,26 @@ describe("HCAGetDataDownloadsComponent", () => {
 
         // Confirm emit "MATRIX"
         expect(selectedDownload).toBe(DownloadViewState.MATRIX);
+    });
+
+    /**
+     * Confirm emit "BULK_DOWNLOAD" on click of matrix start button.
+     */
+    it(`emits "BULK_DOWNLOAD" on click of matrix start button`, () => {
+
+        component.matrixEnabled = true;
+        fixture.detectChanges();
+
+        let selectedDownload: string;
+        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
+
+        const matrixStartButton = getButtonEl("BULK_DOWNLOAD");
+
+        // Execute click on matrix start button
+        matrixStartButton.triggerEventHandler("click", null);
+
+        // Confirm emit "MATRIX"
+        expect(selectedDownload).toBe(DownloadViewState.BULK_DOWNLOAD);
     });
 
     /**
