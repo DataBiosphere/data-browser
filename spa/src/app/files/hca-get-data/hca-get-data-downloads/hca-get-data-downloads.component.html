@@ -29,17 +29,16 @@
     </ng-container>
 </hca-get-data-panel>
 <hca-get-data-panel *ngIf="!bulkDownloadFeatureDisabled">
-    <h4 class="fontsize-m semi-bold">Bulk Download (for data)</h4>
-    <p class="fontsize-m">TBD</p>
+    <h4 class="fontsize-m semi-bold">Download Selected Data Using "curl"</h4>
+    <p class="fontsize-m">Obtain a curl command for downloading the selected data. The generated curl command is compatible with Mac, Linux and Windows sytems and will remain valid for one hour. </p>
     <div class="start">
         <button class="button secondary" type="button" (click)="onStartGetData('BULK_DOWNLOAD')">Start</button>
         <!--<p class="fontsize-m delimiter">|</p><a><p class="fontsize-m">Help</p></a>-->
     </div>
 </hca-get-data-panel>
 <hca-get-data-panel>
-    <h4 class="fontsize-m semi-bold">Request a File Manifest (for metadata)</h4>
-    <p class="fontsize-m">Request a file manifest for the current query for use with the HCA
-        Command Line Interface (HCA CLI) to download the selected data (e.g. fastqs, BAMs) and metadata.</p>
+    <h4 class="fontsize-m semi-bold">Download a File Manifest with Metadata for the Selected Data</h4>
+    <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and the metadata for each file.</p>
     <div class="start">
         <button class="button secondary" type="button" (click)="onStartGetData('MANIFEST')">Start</button>
         <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/intro-to-downloading-and-analyzing" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>

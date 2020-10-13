@@ -1,10 +1,9 @@
 <div class="data-snapshot">
     <div class="data-query" *ngIf="selectedSearchTerms$ | async as selectedSearchTerms">
-        <h4 class="fontsize-m semi-bold">Query</h4>
+        <h4 class="fontsize-m semi-bold">Current Query</h4>
         <selected-search-terms [removable]="false"
                                 [selectedSearchTerms]="selectedSearchTerms"></selected-search-terms>
-        <p class="fontsize-xs" *ngIf="selectedSearchTerms && selectedSearchTerms.length === 0">No query applied to
-            data</p>
+        <p class="fontsize-xs" *ngIf="selectedSearchTerms && selectedSearchTerms.length === 0">All Data</p>
     </div>
     <div class="data-file-summary">
         <h4 class="fontsize-m semi-bold">Selected Data Summary</h4>

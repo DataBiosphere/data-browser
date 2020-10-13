@@ -1,5 +1,31 @@
 <div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                 [tooltipContent]="summary.totalCellCount | localeString"
+                 [tooltipDisabled]="isTooltipDisabled(summary.totalCellCount)"
+                 [tooltipPosition]="'above'">
+        <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
+    </hca-tooltip>
+    <span class="fontsize-xxs label">Estimated Cells</span>
+</div>
+<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
+    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                 [tooltipContent]="summary.totalFileSize | localeString"
+                 [tooltipPosition]="'above'">
+        <h3 class="fontsize-l count">{{summary.totalFileSize | fileSize}}</h3>
+    </hca-tooltip>
+    <span class="fontsize-xxs label">File Size</span>
+</div>
+<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
+    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
+                 [tooltipContent]="summary.fileCount | localeString"
+                 [tooltipDisabled]="isTooltipDisabled(summary.fileCount)"
+                 [tooltipPosition]="'above'">
+        <h3 class="fontsize-l count">{{summary.fileCount | countSize}}</h3>
+    </hca-tooltip>
+    <span class="fontsize-xxs label">Files</span>
+</div>
+<div class="summary">
+    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                  [tooltipContent]="summary.projectCount | localeString"
                  [tooltipDisabled]="isTooltipDisabled(summary.projectCount)"
                  [tooltipPosition]="'above'">
@@ -10,22 +36,6 @@
 <div class="summary">
     <h3 class="fontsize-l terms">{{displayTerms(selectedGenusSpecies)}}</h3>
     <span class="fontsize-xxs label">Species</span>
-</div>
-<div class="summary">
-    <h3 class="fontsize-l terms">{{displayTerms(selectedLibraryConstructionApproaches)}}</h3>
-    <span class="fontsize-xxs label">Library Construction Method</span>
-</div>
-<div class="summary">
-    <h3 class="fontsize-l terms">{{displayTerms(selectedOrgans)}}</h3>
-    <span class="fontsize-xxs label">Organ</span>
-</div>
-<div class="summary">
-    <h3 class="fontsize-l terms">{{displayTerms(selectedOrganParts)}}</h3>
-    <span class="fontsize-xxs label">Organ Part</span>
-</div>
-<div class="summary">
-    <h3 class="fontsize-l terms">{{displayTerms(selectedPairedEnds)}}</h3>
-    <span class="fontsize-xxs label">Paired End</span>
 </div>
 <div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
@@ -53,29 +63,21 @@
     <h3 class="fontsize-l terms">{{displayTerms(selectedDiseases)}}</h3>
     <span class="fontsize-xxs label">Disease Status (Specimen)</span>
 </div>
+
 <div class="summary">
-    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                 [tooltipContent]="summary.totalCellCount | localeString"
-                 [tooltipDisabled]="isTooltipDisabled(summary.totalCellCount)"
-                 [tooltipPosition]="'above'">
-        <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
-    </hca-tooltip>
-    <span class="fontsize-xxs label">Estimated Cells</span>
+    <h3 class="fontsize-l terms">{{displayTerms(selectedOrgans)}}</h3>
+    <span class="fontsize-xxs label">Organ</span>
 </div>
-<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
-    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                 [tooltipContent]="summary.fileCount | localeString"
-                 [tooltipDisabled]="isTooltipDisabled(summary.fileCount)"
-                 [tooltipPosition]="'above'">
-        <h3 class="fontsize-l count">{{summary.fileCount | countSize}}</h3>
-    </hca-tooltip>
-    <span class="fontsize-xxs label">Files</span>
+<div class="summary">
+    <h3 class="fontsize-l terms">{{displayTerms(selectedOrganParts)}}</h3>
+    <span class="fontsize-xxs label">Organ Part</span>
 </div>
-<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
-    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                 [tooltipContent]="summary.totalFileSize | localeString"
-                 [tooltipPosition]="'above'">
-        <h3 class="fontsize-l count">{{summary.totalFileSize | fileSize}}</h3>
-    </hca-tooltip>
-    <span class="fontsize-xxs label">File Size</span>
+<div class="summary">
+    <h3 class="fontsize-l terms">{{displayTerms(selectedLibraryConstructionApproaches)}}</h3>
+    <span class="fontsize-xxs label">Library Construction Method</span>
 </div>
+<div class="summary">
+    <h3 class="fontsize-l terms">{{displayTerms(selectedPairedEnds)}}</h3>
+    <span class="fontsize-xxs label">Paired End</span>
+</div>
+

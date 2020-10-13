@@ -110,7 +110,7 @@ export class HCAGetDataComponent implements OnInit {
     public getTitle(): string {
 
         if ( this.viewState === DownloadViewState.BULK_DOWNLOAD ) {
-            return "Bulk Download";
+            return "Download Selected Data Using curl";
         }
         
         if ( this.viewState === DownloadViewState.MANIFEST ) {
@@ -125,7 +125,7 @@ export class HCAGetDataComponent implements OnInit {
             return "Request Expression Matrix";
         }
 
-        return "Export Data";
+        return "Export Selected Data";
     }
 
     /**
