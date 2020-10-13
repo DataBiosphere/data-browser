@@ -10,7 +10,8 @@
                 <ng-container [ngSwitch]="viewState">
                     <ng-container *ngSwitchDefault>
                         <div *ngIf="state.matrixSupportedLoaded" [@fadeIn]>
-                            <hca-get-data-downloads [disableFeature]="state.disableFeature"
+                            <hca-get-data-downloads [bulkDownloadFeatureDisabled]="state.bulkDownloadFeatureDisabled"
+                                                    [matrixFeatureDisabled]="state.matrixFeatureDisabled"
                                                     [matrixEnabled]="state.matrixSupported"
                                                     [matrixSpeciesSelectionRequired]="state.matrixSpeciesSelectionRequired"
                                                     (downloadSelected)="onDownloadSelected($event)"></hca-get-data-downloads>
@@ -24,6 +25,7 @@
                     <hca-get-matrix-species-selection *ngSwitchCase="'MATRIX_SPECIES_SELECTION'"
                                                       [speciesFileFacet]="getSpeciesFileFacet(state.filesFacets)"
                                                       (speciesSelected)="onDownloadSelected('MATRIX')"></hca-get-matrix-species-selection>
+                    <bulk-download *ngSwitchCase="'BULK_DOWNLOAD'"></bulk-download>
                     <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
                     <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>
                     <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>

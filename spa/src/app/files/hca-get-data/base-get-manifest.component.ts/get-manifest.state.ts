@@ -10,7 +10,7 @@ import { FileSummary } from "../../file-summary/file-summary";
 import { ManifestResponse } from "../../shared/manifest-response.model";
 import { SearchTerm } from "../../search/search-term.model";
 
-export interface HCAGetManifestState {
+export interface GetManifestState {
 
     selectedSearchTermNames: string[];
     selectedSearchTerms: SearchTerm[];

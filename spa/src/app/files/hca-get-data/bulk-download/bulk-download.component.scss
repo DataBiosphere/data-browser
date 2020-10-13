@@ -1,0 +1,27 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for HCA get manifest.
+ */
+
+@import "../../../site/theme/hca.vars";
+
+file-type-summary-list {
+    display: block;
+    margin: 24px 0 32px;
+    max-width: 400px;
+}
+
+/* Download */
+.download {
+    margin: 24px 0 32px;
+}
+
+
+/* Curl command */
+.bulk-download-curl {
+    background-color: $black-3;
+    padding: 8px;
+    word-break: break-all;
+}

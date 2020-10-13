@@ -24,6 +24,7 @@ import { FileFormat } from "./file-format.model";
 import { FileManifestService } from "./file-manifest.service";
 import { HttpService } from "../http/http.service";
 import { ManifestResponse } from "./manifest-response.model";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { MatrixUrlRequestHttpResponse } from "./matrix-url-request-http-response.model";
 import { MatrixUrlRequestSpecies } from "./matrix-url-request-species.model";
@@ -194,10 +195,11 @@ export class MatrixService {
 
     /**
      * Request manifest URL then kick off matrix URL request.
-     *
+     * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {MatrixFormat} matrixFormat
+     * @param {ManifestDownloadFormat} manifestFormat
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<MatrixUrlRequest | MatrixUrlRequestSpecies>}
      */
@@ -205,6 +207,7 @@ export class MatrixService {
         catalog: Catalog,
         searchTerms: SearchTerm[],
         matrixFormat: MatrixFormat,
+        manifestFormat: ManifestDownloadFormat,
         killSwitch$: Observable<boolean>): Observable<MatrixUrlRequest | MatrixUrlRequestSpecies> {
 
         // Create subjects for letting listeners know the current status of the Matrix URL request, as well as the set
@@ -213,7 +216,7 @@ export class MatrixService {
         const matrixUrlRequestSpecies$ = new Subject<MatrixUrlRequestSpecies>();
 
         const manifestRequest$ =
-            this.requestFileManifestUrl(catalog, searchTerms, killSwitch$)
+            this.requestFileManifestUrl(catalog, searchTerms, manifestFormat, killSwitch$)
                 .subscribe((manifestResponse: ManifestResponse) => {
                     
                     // Manifest URL request is complete - kick off matrix URL request
@@ -480,18 +483,21 @@ export class MatrixService {
 
     /**
      * Get the manifest URL for the matrix request.
-     *
+     * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
+     * @param {ManifestDownloadFormat} manifestFormat
      * @param {Observable<boolean>} killSwitch$
-     * @returns {ManifestResponse}
+     * @returns {Observable<ManifestResponse>}
      */
-    private requestFileManifestUrl(
-        catalog: Catalog, searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+    private requestFileManifestUrl(catalog: Catalog,
+                                   searchTerms: SearchTerm[],
+                                   manifestFormat: ManifestDownloadFormat,
+                                   killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         // Add matrix file format, if not yet specified
         const matrixSearchTerms = this.createMatrixableSearchTerms(searchTerms);
-        return this.manifestService.requestMatrixFileManifestUrl(catalog, matrixSearchTerms, killSwitch$);
+        return this.manifestService.requestMatrixFileManifestUrl(catalog, matrixSearchTerms, manifestFormat, killSwitch$);
     }
 
     /**

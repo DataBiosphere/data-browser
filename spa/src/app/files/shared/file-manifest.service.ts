@@ -69,32 +69,39 @@ export class FileManifestService {
 
     /**
      * Request file manifest. Removes "matrix" search term, if selected.
-     *
+     * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
+     * @param {ManifestDownloadFormat} format
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
-    public requestFileManifestUrl(
-        catalog: Catalog, searchTerms: SearchTerm[], fileFormats: FileFacet, killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+    public requestFileManifestUrl(catalog: Catalog, 
+                                  searchTerms: SearchTerm[], 
+                                  fileFormats: FileFacet,
+                                  manifestFormat: ManifestDownloadFormat,
+                                  killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
         const manifestSearchTerms = this.buildManifestSearchTerms(searchTerms, fileFormats);
-        return this.sendFileManifestUrlRequest(catalog, manifestSearchTerms, killSwitch$);
+        return this.sendFileManifestUrlRequest(catalog, manifestSearchTerms, manifestFormat, killSwitch$);
     }
 
     /**
      * Get the file manifest URL for generating a matrix request.
-     *
+     * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
+     * @param {ManifestDownloadFormat} manifestFormat
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
-     *
      */
-    public requestMatrixFileManifestUrl(catalog: Catalog, searchTerms: SearchTerm[], killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
+    public requestMatrixFileManifestUrl(catalog: Catalog,
+                                        searchTerms: SearchTerm[],
+                                        manifestFormat: ManifestDownloadFormat,
+                                        killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
 
-        return this.sendFileManifestUrlRequest(catalog, searchTerms, killSwitch$);
+        return this.sendFileManifestUrlRequest(catalog, searchTerms, manifestFormat, killSwitch$);
     }
 
     /**
@@ -263,18 +270,22 @@ export class FileManifestService {
 
     /**
      * Send HTTP request for file manifest URL, and set up polling to monitor status.
-     *
+     * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
-     * @param {Observable<boolean>} killSwitch$
+     * @param {ManifestDownloadFormat} manifestFormat
+     * @param killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
-    private sendFileManifestUrlRequest(catalog: Catalog, searchTerms: SearchTerm[], killSwitch$): Observable<ManifestResponse> {
+    private sendFileManifestUrlRequest(catalog: Catalog,
+                                       searchTerms: SearchTerm[],
+                                       manifestFormat: ManifestDownloadFormat,
+                                       killSwitch$): Observable<ManifestResponse> {
 
         const manifestResponse$ = new Subject<ManifestResponse>();
 
         const query =
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
+            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), manifestFormat);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.getFileManifestUrl();
         this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);

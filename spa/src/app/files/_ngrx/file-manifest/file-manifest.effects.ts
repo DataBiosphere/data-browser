@@ -85,8 +85,9 @@ export class FileManifestEffects {
                     take(1)
                 );
 
+                const {manifestFormat} = action as FetchFileManifestUrlRequestAction;
                 return this.fileManifestService.requestFileManifestUrl(
-                    catalog, searchTerms, fileFormatsFileFacet, killSwitch$);
+                    catalog, searchTerms, fileFormatsFileFacet, manifestFormat, killSwitch$);
             }),
             map(response => new FetchFileManifestUrlSuccessAction(response))
         );

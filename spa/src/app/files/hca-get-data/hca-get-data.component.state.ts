@@ -12,7 +12,8 @@ import EntitySpec from "../shared/entity-spec";
 
 export interface HcaGetDataComponentState {
 
-    disableFeature: boolean;
+    bulkDownloadFeatureDisabled: boolean;
+    matrixFeatureDisabled: boolean;
     filesFacets: Facet[]; // Facets returned from the files endpoint
     matrixSpeciesSelectionRequired: boolean;
     matrixSupported: boolean;

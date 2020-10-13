@@ -18,6 +18,7 @@ import { FileManifestService } from "./file-manifest.service";
 import { FilesService } from "./files.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { HttpService } from "../http/http.service";
+import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GTMService } from "../../shared/analytics/gtm.service";
@@ -86,6 +87,7 @@ describe("FileManifestService:", () => {
             Catalog.NONE, 
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+            ManifestDownloadFormat.COMPACT, 
             of()).subscribe(() => {
 
                 expect(httpClientSpy.get).toHaveBeenCalled();
@@ -114,6 +116,7 @@ describe("FileManifestService:", () => {
             catalog,
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+            ManifestDownloadFormat.COMPACT,
             of()).subscribe(() => {
 
             expect(httpClientSpy.get).toHaveBeenCalledWith(

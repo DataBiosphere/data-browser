@@ -1,10 +1,9 @@
-<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)" *ngIf="!disableFeature">
+<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)" *ngIf="!matrixFeatureDisabled">
     <h4 class="fontsize-m semi-bold">Create Concatenated Expression Matrix</h4>
     <ng-container *ngIf="!isMatrixSupportedLoading(matrixEnabled)">
         <ng-container [ngSwitch]="matrixEnabled">
             <p class="fontsize-m" *ngSwitchCase="true">Request an expression matrix for the selected data from the HCA
-                Matrix
-                service.</p>
+                Matrix service.</p>
             <warning *ngSwitchDefault>
                 <warning-content>
                     <p class="fontsize-m">
@@ -29,8 +28,16 @@
         </div>
     </ng-container>
 </hca-get-data-panel>
+<hca-get-data-panel *ngIf="!bulkDownloadFeatureDisabled">
+    <h4 class="fontsize-m semi-bold">Bulk Download (for data)</h4>
+    <p class="fontsize-m">TBD</p>
+    <div class="start">
+        <button class="button secondary" type="button" (click)="onStartGetData('BULK_DOWNLOAD')">Start</button>
+        <!--<p class="fontsize-m delimiter">|</p><a><p class="fontsize-m">Help</p></a>-->
+    </div>
+</hca-get-data-panel>
 <hca-get-data-panel>
-    <h4 class="fontsize-m semi-bold">Request a File Manifest (for downloading files via the HCA CLI)</h4>
+    <h4 class="fontsize-m semi-bold">Request a File Manifest (for metadata)</h4>
     <p class="fontsize-m">Request a file manifest for the current query for use with the HCA
         Command Line Interface (HCA CLI) to download the selected data (e.g. fastqs, BAMs) and metadata.</p>
     <div class="start">

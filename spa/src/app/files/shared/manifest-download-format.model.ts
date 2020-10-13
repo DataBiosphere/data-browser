@@ -6,7 +6,10 @@
  */
 
 export enum ManifestDownloadFormat {
-    "TERRA_BDBAG" = "terra.bdbag",
+    "COMPACT" = "compact",
+    "CURL" = "curl",
     "FULL" = "full",
-    "COMPACT" = "compact"
+    "TERRA_BDBAG" = "terra.bdbag"
+    
+    
 }

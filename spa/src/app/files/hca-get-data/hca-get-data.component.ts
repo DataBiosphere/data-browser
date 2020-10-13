@@ -108,6 +108,10 @@ export class HCAGetDataComponent implements OnInit {
      * @returns {string}
      */
     public getTitle(): string {
+
+        if ( this.viewState === DownloadViewState.BULK_DOWNLOAD ) {
+            return "Bulk Download";
+        }
         
         if ( this.viewState === DownloadViewState.MANIFEST ) {
             return "Request File Manifest";
@@ -335,16 +339,17 @@ export class HCAGetDataComponent implements OnInit {
             .pipe(
                 map(([selectedEntity, filesFacets, matrixSupported, selectedSearchTerms]) => {
 
-                    const disableFeature = this.configService.isV2();
+                    const v2 = this.configService.isV2();
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(filesFacets);
 
                     return {
-                        selectedEntity,
-                        disableFeature,
+                        bulkDownloadFeatureDisabled: !v2,
+                        matrixFeatureDisabled: v2,
                         filesFacets,
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
+                        selectedEntity,
                         selectedSearchTerms
                     };
                 })
