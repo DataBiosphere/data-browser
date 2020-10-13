@@ -25,9 +25,6 @@ import { Term } from "../shared/term.model";
 
 export class HCAFileSummaryComponent {
 
-    // Locals
-    private store: Store<AppState>;
-
     // Inputs
     @Input() showDownload: boolean;
     @Input() summary: FileSummary;
@@ -35,25 +32,7 @@ export class HCAFileSummaryComponent {
     /**
      * @param store {Store<AppState>}
      */
-    constructor(store: Store<AppState>) {
-        this.store = store;
-    }
-
-    /**
-     * Returns a concatenation of all terms in the specified array.
-     *
-     * @param {Term[]} terms
-     * @returns {string}
-     */
-    public displayTerms(terms: Term[]): string {
-
-        if ( terms.length ) {
-            return terms.map(term => term.name.trim()).join(", ");
-        }
-        else {
-            return "Unspecified";
-        }
-    }
+    constructor(private store: Store<AppState>) {}
 
     /**
      * Returns true if the count value is not formatted by CountSizePipe.
