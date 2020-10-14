@@ -116,7 +116,7 @@ describe("HCAGetDataSummaryComponent", () => {
     /**
      * Confirm "No query applied to data" is displayed when selected search terms is empty.
      */
-    it(`should display "No query applied to data" when selected search terms is empty`, () => {
+    it(`should display "All Data" when selected search terms is empty`, () => {
 
         // Set up initial component state
         testStore.pipe
@@ -130,7 +130,7 @@ describe("HCAGetDataSummaryComponent", () => {
         const noQueryText = fixture.debugElement.query(By.css(".data-query p")).nativeElement.innerHTML;
 
         // Confirm "No query applied to data" is displayed
-        expect(noQueryText).toEqual("No query applied to data");
+        expect(noQueryText).toEqual("All Data");
     });
 
     /**

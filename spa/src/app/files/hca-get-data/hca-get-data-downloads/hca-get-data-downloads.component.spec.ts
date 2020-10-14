@@ -185,35 +185,49 @@ describe("HCAGetDataDownloadsComponent", () => {
     /**
      * Confirm "Bulk Download" is displayed when feature is enabled.
      */
-    it(`hides "Bulk Download" when matrix enabled is false`, () => {
+    it(`hides "Bulk Download" when bulk download enabled is false`, () => {
 
         component.bulkDownloadFeatureDisabled = false;
         fixture.detectChanges();
 
         // Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed
-        expect(isPanelHeaderDisplayed("Bulk Download (for data)")).toEqual(true);
+        expect(isPanelHeaderDisplayed(`Download Selected Data Using "curl"`)).toEqual(true);
     });
 
 
     /**
      * Confirm "Bulk Download" is not displayed when feature is disabled.
      */
-    it(`hides "Bulk Download" when matrix enabled is false`, () => {
+    it(`hides "Bulk Download" when bulk download enabled is false`, () => {
 
         component.bulkDownloadFeatureDisabled = true;
         fixture.detectChanges();
 
-        // Confirm "Request an expression matrix for the selected data from the HCA Matrix service." is not displayed
-        expect(isPanelHeaderDisplayed("Bulk Download (for data)")).not.toEqual(true);
+        expect(isPanelHeaderDisplayed(`Download Selected Data Using "curl"`)).toEqual(false);
     });
 
     /**
-     * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed.
+     * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed for v1.
      */
-    it(`displays "Request a File Manifest (for metadata)"`, () => {
+    it(`displays "Request a File Manifest (for downloading files via the HCA CLI)" for v1`, () => {
+
+        component.v2 = false;
+        fixture.detectChanges();
 
         // Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed
-        expect(isPanelHeaderDisplayed("Request a File Manifest (for metadata)")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Request a File Manifest (for downloading files via the HCA CLI)")).toEqual(true);
+    });
+
+    /**
+     * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed for v2.
+     */
+    it(`displays "Download a File Manifest with Metadata for the Selected Data" for v1`, () => {
+
+        component.v2 = true;
+        fixture.detectChanges();
+
+        // Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed
+        expect(isPanelHeaderDisplayed("Download a File Manifest with Metadata for the Selected Data")).toEqual(true);
     });
 
     /**

@@ -29,6 +29,7 @@ export class HCAGetDataDownloadsComponent {
     @Input() matrixFeatureDisabled: boolean;
     @Input() matrixEnabled: boolean;
     @Input() matrixSpeciesSelectionRequired: boolean;
+    @Input() v2: boolean;
 
     // Outputs
     @Output() downloadSelected = new EventEmitter<string>();

@@ -20,4 +20,5 @@ export interface HcaGetDataComponentState {
     matrixSupportedLoaded: boolean;
     selectedEntity: EntitySpec;
     selectedSearchTerms: SearchTerm[];
+    v2: boolean;
 }
