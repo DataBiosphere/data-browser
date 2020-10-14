@@ -27,24 +27,24 @@ describe("HCAGetDataFileSummaryComponent", () => {
     let fixture: ComponentFixture<HCAGetDataFileSummaryComponent>;
 
     const SUMMARY_DISPLAY_ORDER = [
-        "Projects", "Species", "Library Construction Method", "Organ", "Organ Part", "Paired End", "Donors", 
-        "Disease Status (Donor)", "Specimens", "Disease Status (Specimen)", "Estimated Cells", "Files", "File Size"
+        "Estimated Cells", "File Size", "Files","Projects", "Species", "Donors", "Disease Status (Donor)",
+        "Specimens", "Disease Status (Specimen)", "Organ", "Organ Part", "Library Construction Method","Paired End"  
     ];
 
     // Summary order by index
-    const INDEX_PROJECT_COUNT = 0;
-    const INDEX_GENUS_SPECIES = 1;
-    const INDEX_LIBRARY_CONSTRUCTION_METHOD = 2;
-    const INDEX_ORGAN = 3;
-    const INDEX_ORGAN_PART = 4;
-    const INDEX_PAIRED_END = 5;
-    const INDEX_DONORS_COUNT = 6;
-    const INDEX_DONOR_DISEASE_COUNT = 7;
-    const INDEX_SPECIMENS_COUNT = 8;
-    const INDEX_DISEASE_COUNT = 9;
-    const INDEX_ESTIMATED_CELLS_COUNT = 10;
-    const INDEX_FILES_COUNT = 11;
-    const INDEX_FILE_SIZE_COUNT = 12;
+    const INDEX_ESTIMATED_CELLS_COUNT = 0;
+    const INDEX_FILE_SIZE_COUNT = 1;
+    const INDEX_FILES_COUNT = 2;
+    const INDEX_PROJECT_COUNT = 3;
+    const INDEX_GENUS_SPECIES = 4;
+    const INDEX_DONORS_COUNT = 5;
+    const INDEX_DONOR_DISEASE_COUNT = 6;
+    const INDEX_SPECIMENS_COUNT = 7;
+    const INDEX_DISEASE_COUNT = 8;
+    const INDEX_ORGAN = 9;
+    const INDEX_ORGAN_PART = 10;
+    const INDEX_LIBRARY_CONSTRUCTION_METHOD = 11;
+    const INDEX_PAIRED_END = 12;
 
     beforeEach(async(() => {
 
@@ -222,7 +222,13 @@ describe("HCAGetDataFileSummaryComponent", () => {
         // with the class "label" then confirm the labels are displayed in the correct order and confirm the exclusion of
         // labels "Files" and "File Size".
         getSummaryEls().forEach((el, index) => {
-            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[index]));
+
+            // We need to skip file size and count
+            let elementIndex = index;
+            if ( index > 0 ) {
+                elementIndex = elementIndex + 2;
+            }
+            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[elementIndex]));
             expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILES_COUNT]);
             expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILE_SIZE_COUNT]);
         });

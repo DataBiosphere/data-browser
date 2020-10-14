@@ -350,7 +350,8 @@ export class HCAGetDataComponent implements OnInit {
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
                         selectedEntity,
-                        selectedSearchTerms
+                        selectedSearchTerms,
+                        v2
                     };
                 })
             );
