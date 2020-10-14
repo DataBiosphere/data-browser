@@ -33,7 +33,7 @@ export class BulkDownloadComponent extends BaseGetManifestComponent implements O
     public getUrlCommand(url: string): string {
 
         const escapedUrl = this.curlEscape.transform(url);
-        return `curl '${escapedUrl}' | curl -K -`;
+        return `curl '${escapedUrl}' | curl -L -K -`;
     }
 
     /**
