@@ -98,6 +98,6 @@ describe("BulkDownloadComponent", () => {
         
         const url = "http://test.com";
         const curl = component.getUrlCommand(url);
-        expect(curl).toEqual(`curl '${url}' | curl -L -K -`);
+        expect(curl).toEqual(`curl "${url}" | curl -L -K -`);
     });
 });
