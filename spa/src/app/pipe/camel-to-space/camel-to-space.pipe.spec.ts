@@ -21,7 +21,7 @@ describe("Pipe: CamelToSpace", () => {
         let pipe = new CamelToSpacePipe();
         let value = "camelCase";
         let result = pipe.transform(value);
-        expect(result).toBeTruthy();
+        expect(result).toBe("Camel Case");
     });
 
     it(`space delimits PascalCase: "Pascal Case"`, () => {

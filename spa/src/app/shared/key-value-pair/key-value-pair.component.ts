@@ -22,5 +22,26 @@ export class KeyValuePairComponent {
     @Input() keyValuePairs: KeyValuePair[];
     @Input() title: string;
 
-    public constructor() {}
+    /**
+     * Returns display text when there are no key value pairs.
+     * 
+     * @param {string} title
+     * @returns {string}
+     */
+    public getEmptyDisplayText(title: string): string {
+
+        const titleSentenceCase = title.toLowerCase();
+        return `There are no ${titleSentenceCase} for this project.`;
+    } 
+
+    /**
+     * Returns true if value is an array.
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    public isMultiValue(value: string | string[]): boolean {
+
+        return Array.isArray(value);
+    }
 }
