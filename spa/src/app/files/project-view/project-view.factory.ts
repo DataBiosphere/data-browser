@@ -9,10 +9,12 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
+import { Accession } from "./accession.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
 import { ContributorView } from "./contributor-view.model";
+import { AccessionUrlPipe } from "../../pipe/accession-url/accession-url.pipe";
 import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
 import { ProjectView } from "./project-view.model";
@@ -28,20 +30,20 @@ export class ProjectViewFactory {
         "libraryConstructionApproach": "-",
         "pairedEnd": "-",
     };
-    private WHITELIST_ACCESSION_TO_KEY = {
-        "arrayExpressAccessions": "Array Express Accessions",
-        "geoSeriesAccessions": "GEO Series Accessions",
-        "insdcProjectAccessions": "INSDC Project Accessions",
-        "insdcStudyAccessions": "INSDC Study Accessions"
+    private ACCEPT_LIST_ACCESSION_TO_KEY = {
+        [Accession.arrayExpressAccessions]: "Array Express Accessions",
+        [Accession.geoSeriesAccessions]: "GEO Series Accessions",
+        [Accession.insdcProjectAccessions]: "INSDC Project Accessions",
+        [Accession.insdcStudyAccessions]: "INSDC Study Accessions"
     };
-    private WHITELIST_FILE_COUNT_TO_KEY = {
+    private ACCEPT_LIST_FILE_COUNT_TO_KEY = {
         "rawCount": "Fastq",
         "bamCount": "Bam",
         "matrixCount": "Matrix",
         "otherCount": "Other",
         "totalCount": "Total"
     };
-    private WHITELIST_DATA_SUMMARY_TO_KEY = {
+    private ACCEPT_LIST_DATA_SUMMARY_TO_KEY = {
         "projectShortname": "",
         "genusSpecies": "",
         "sampleEntityType": "",
@@ -57,12 +59,12 @@ export class ProjectViewFactory {
         "totalCells": "",
         "donorCount": ""
     };
+    private accessionUrlPipe = new AccessionUrlPipe();
 
     /**
      * @param {ConfigService} configService
      */
-    public constructor(private configService: ConfigService) {
-    }
+    public constructor(private configService: ConfigService) {}
 
     /**
      * Returns project related information, including formatted contact, contributor and organizations lists.
@@ -207,11 +209,11 @@ export class ProjectViewFactory {
      */
     private buildFileCountSummaries(project: Project): KeyValuePair[] {
 
-        return Object.keys(this.WHITELIST_FILE_COUNT_TO_KEY)
+        return Object.keys(this.ACCEPT_LIST_FILE_COUNT_TO_KEY)
             .map(key => {
 
                 return {
-                    key: this.WHITELIST_FILE_COUNT_TO_KEY[key],
+                    key: this.ACCEPT_LIST_FILE_COUNT_TO_KEY[key],
                     value: this.stringifyValues(key, project[key])
                 }
             });
@@ -224,15 +226,33 @@ export class ProjectViewFactory {
      * @returns {KeyValuePair[]}
      */
     private buildProjectAccessionsSummaries(project: Project): KeyValuePair[] {
-
-        return Object.keys(this.WHITELIST_ACCESSION_TO_KEY)
-            .map(key => {
-
-                return {
-                    key: this.WHITELIST_ACCESSION_TO_KEY[key],
-                    value: this.stringifyValues(key, project[key])
+        
+        return Object.keys(this.ACCEPT_LIST_ACCESSION_TO_KEY)
+            .reduce((accum, accessionKey) => {
+                
+                // Standardize accession values to be arrays, remove "null" accessions and exit if accessions array
+                // is empty.
+                const accessions = project[accessionKey]
+                    .split(", ")
+                    .filter(accession => !!accession && accession !== "Unspecified"); // null accession values are converted to "Undefined" in mapper
+                if ( accessions.length === 0 ) {
+                    return accum;
                 }
-            });
+
+                // Create view models for each accession value
+                const accessionViews = accessions.map(accession => {
+                    return {
+                        key: accession,
+                        value: this.accessionUrlPipe.transform(accession, accessionKey as Accession)
+                    }
+                });
+                accum.push({
+                    key: this.ACCEPT_LIST_ACCESSION_TO_KEY[accessionKey],
+                    value: accessionViews
+                });
+
+                return accum;
+            }, []);
     }
 
     /**
@@ -260,7 +280,7 @@ export class ProjectViewFactory {
      */
     private filterDataSummary(project: Project): string[] {
 
-        return Object.keys(this.WHITELIST_DATA_SUMMARY_TO_KEY)
+        return Object.keys(this.ACCEPT_LIST_DATA_SUMMARY_TO_KEY)
             .filter(key => {
 
                 if ( key === "modelOrgan" ) {
@@ -301,7 +321,7 @@ export class ProjectViewFactory {
 
         let columnName = key;
 
-        const alternateKey = this.WHITELIST_DATA_SUMMARY_TO_KEY[columnName];
+        const alternateKey = this.ACCEPT_LIST_DATA_SUMMARY_TO_KEY[columnName];
 
         if ( alternateKey ) {
 
@@ -386,7 +406,7 @@ export class ProjectViewFactory {
         if ( typeof value === "number" ) {
 
             // Bam, ,matrix, other, raw, total
-            if ( this.WHITELIST_FILE_COUNT_TO_KEY[key] ) {
+            if ( this.ACCEPT_LIST_FILE_COUNT_TO_KEY[key] ) {
 
                 return new LocaleStringPipe().transform(value);
             }

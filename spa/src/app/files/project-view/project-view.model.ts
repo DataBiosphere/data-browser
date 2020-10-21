@@ -6,11 +6,11 @@
  */
 
 // App dependencies
+import { ContactView } from "./contact-view.model";
+import { ContributorView } from "./contributor-view.model";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import { Publication } from "../shared/publication.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
-import { ContactView } from "./contact-view.model";
-import { ContributorView } from "./contributor-view.model";
 
 export interface ProjectView {
     citationLink: string;
