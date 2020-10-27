@@ -86,7 +86,7 @@ export abstract class AbstractSystemService {
 
         return of({
             serviceName: response.service_name,
-            ok: response.status === "ok" 
+            ok: /*response.status === "ok" */true // Temporarily hide banner for DCP1 - see #1366.
         });
     }
     
