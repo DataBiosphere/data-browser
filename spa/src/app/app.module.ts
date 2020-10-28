@@ -40,6 +40,7 @@ import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
+import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { SystemService } from "./system/shared/system.service";
@@ -51,7 +52,6 @@ const v2 = environment.version === "2.0";
 @NgModule({
     bootstrap: [AppComponent],
     imports: [
-
         // ANGULAR SETUP
         BrowserModule,
         BrowserAnimationsModule,
@@ -71,6 +71,8 @@ const v2 = environment.version === "2.0";
         SharedModule,
         ConfigModule,
         FilesModule,
+        SupportRequestModule,
+
         DeviceDetectorModule.forRoot()
     ],
     declarations: [
@@ -116,7 +118,7 @@ const v2 = environment.version === "2.0";
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAHttpResponseErrorInterceptor,
-            deps: [Router, Store],
+            deps: [ConfigService, Router, Store],
             multi: true
         }
     ]

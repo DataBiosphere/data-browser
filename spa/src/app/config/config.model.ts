@@ -15,6 +15,7 @@ export class Config {
     public readonly projectMetaURL: string;
     public readonly terraExportURL: string;
     public readonly version: string;
+    public readonly zendeskURL: string;
 
     /**
      * @param {string} dataURL
@@ -23,7 +24,9 @@ export class Config {
      * @param {string} matrixURL
      * @param {string} portalURL
      * @param {string} projectMetaURL
+     * @param {string} terraExportURL
      * @param {string} version
+     * @param {string} zendeskURL
      */
     constructor(dataURL: string,
                 dcpHealthCheckUrl: string,
@@ -32,7 +35,8 @@ export class Config {
                 portalURL: string,
                 projectMetaURL: string,
                 terraExportURL: string,
-                version: string) {
+                version: string,
+                zendeskURL: string) {
 
         this.dataURL = dataURL;
         this.dcpHealthCheckUrl = dcpHealthCheckUrl;
@@ -42,5 +46,6 @@ export class Config {
         this.projectMetaURL = projectMetaURL;
         this.terraExportURL = terraExportURL;
         this.version = version;
+        this.zendeskURL = zendeskURL;
     }
 }

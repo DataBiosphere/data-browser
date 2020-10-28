@@ -420,6 +420,30 @@ button {
 }
 
 /**
+ * Material overrides
+ */
+
+/* Add padding to the select label and select arrow */
+.mat-select-trigger {
+    padding: 0 12px 0 16px;
+}
+
+.mat-select-panel-dp .mat-option {
+    @include dp-font();
+    -webkit-font-smoothing: auto;
+}
+
+
+.mat-select-panel-dp .mat-option.mat-selected {
+    background-color: #1c7cc7 !important;
+    color: $hca-white;
+}
+
+.mat-select-panel-dp .mat-option:hover {
+    background-color: $hca-blue-light;
+}
+
+/**
  * Large Tablet +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */

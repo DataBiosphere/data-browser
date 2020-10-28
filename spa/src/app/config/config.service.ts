@@ -29,6 +29,7 @@ export class ConfigService {
     protected terraExportURL: string;
     protected store: Store<AppState>;
     protected version: string;
+    protected zendeskURL: string;
 
     /**
      * @param store {Store<AppState>}
@@ -281,6 +282,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns the Zendesk URL for this environment.
+     *
+     * @returns {string}
+     */
+    public getZendeskUrl(): string {
+
+        return this.zendeskURL;
+    }
+    
+    /**
      * Returns the "base path" for index/repository API calls.
      */
     private getIndexBasePath(): string {
@@ -307,6 +318,7 @@ export class ConfigService {
         this.projectMetaURL = config.projectMetaURL;
         this.terraExportURL = config.terraExportURL;
         this.version = config.version;
+        this.zendeskURL = config.zendeskURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }
 }

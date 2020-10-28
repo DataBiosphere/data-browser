@@ -18,6 +18,7 @@ import { ProjectEffects } from "../files/_ngrx/project/project.effects";
 import { ProjectEditsEffects } from "../files/_ngrx/project-edits/project-edits.effects";
 import { ReleaseEffects } from "../files/_ngrx/release/release.effects";
 import { SearchEffects } from "../files/_ngrx/search/search.effects";
+import { SupportRequestEffects } from "../support-request/_ngrx/support-request.effects";
 import { SystemEffects } from "../system/_ngrx/system.effects";
 import { TableEffects } from "../files/_ngrx/table/table.effects";
 import { TerraEffects } from "../files/_ngrx/terra/terra.effects";
@@ -36,6 +37,7 @@ export const AppEffects = [
     ProjectEditsEffects,
     ReleaseEffects,
     SearchEffects,
+    SupportRequestEffects,
     SystemEffects,
     TableEffects,
     TerraEffects,

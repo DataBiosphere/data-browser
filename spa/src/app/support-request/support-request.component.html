@@ -1,0 +1,10 @@
+<ng-container *ngIf="state$ | async as state">
+    <ng-container [ngSwitch]="state.active">
+        <ng-container *ngSwitchCase="true">
+            <support-request-form (formDismissed)="onFormDismissed()"></support-request-form>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <support-request-button (buttonClicked)="onButtonClicked()"></support-request-button>
+        </ng-container>
+    </ng-container>
+</ng-container>

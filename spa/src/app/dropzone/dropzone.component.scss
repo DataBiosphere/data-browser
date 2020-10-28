@@ -1,0 +1,10 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Style definitions specific dropzone.
+ */
+
+:host > input[type="file"] {
+    display: none;
+}

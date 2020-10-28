@@ -20,6 +20,7 @@ import { EMPTY, Observable, of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../config/config.service";
 import { AppState } from "../_ngrx/app.state";
 import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
 
@@ -36,10 +37,11 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     ];
 
     /**
+     * @param {ConfigService} configService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    constructor(private router:  Router, private store: Store<AppState>) {}
+    constructor(private configService: ConfigService, private router: Router, private store: Store<AppState>) {}
 
     /**
      * @param {HttpRequest<any>} req
@@ -53,7 +55,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
                 if ( error instanceof HttpErrorResponse ) {
 
-                    // Allow system service to handle health check errors or HEAD checks
+                    // Allow system service to handle health check errors or HEAD checks or Zendesk errors
                     if ( this.isNoRedirectOnError(req, error) ) {
                         return throwError(error);
                     }
@@ -85,7 +87,8 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
         return this.isHEADRequest(req) ||
             this.isNoRedirectPath(req, error) ||
-            this.isHealthCheckError(error);
+            this.isHealthCheckError(error) ||
+            this.isZendeskError(error);
     }
 
     /**
@@ -124,6 +127,18 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         return req.method === "HEAD";
     }
 
+    /**
+     * Returns true if the request URL is the Zendesk POST URL, and the response code is 422.
+     *
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isZendeskError(error: HttpErrorResponse): boolean {
+
+        const url = new URL(error.url);
+        return error.status === 422 && url.origin === this.configService.getZendeskUrl();
+    }
+    
     /**
      * Grab the error message from the response error - we'll add this to the store. Must handle different formats of
      * error responses.
