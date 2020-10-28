@@ -15,6 +15,7 @@ import { catchError, retry, switchMap } from "rxjs/operators";
 import { FileDownloadResponse } from "./download-response.model";
 import { FileDownloadStatus } from "./file-download-status.model";
 import { FileDownloadHttpResponse } from "./download-http-response.model";
+import { Catalog } from "../catalog/catalog.model";
 
 @Injectable()
 export class DownloadService {
@@ -96,15 +97,16 @@ export class DownloadService {
      *  Request the file with the specified URL - returns location of either retry URL if file is not yet ready for
      *  download, or the final file location if ready for download.
      *
+     * @param {boolean} v2
      * @param {string} url - either initial file download URL, or URL to retrieve status of file download
      * @param {string} fileName
      * @returns {Subject<FileDownloadResponse>}
      *
      */
-    public requestFileDownload(url: string, fileName?: string): Observable<FileDownloadResponse> {
+    public requestFileDownload(v2: boolean, url: string, fileName?: string): Observable<FileDownloadResponse> {
 
         const params = {};
-        if ( fileName ) {
+        if ( !v2 && fileName ) {
             params["fileName"] = fileName;
         }
         return this.httpClient
