@@ -125,14 +125,14 @@ export class ReleaseService {
     }
 
     /**
-     * Returns true if release functionality is visible for the current environment - currently only visible on local
-     * and ux-dev.
+     * Returns true if release functionality is visible for the current environment - currently not visible in any
+     * environmnt.
      * 
      * @returns {boolean}
      */
     public isReleaseFeatureEnabled(): boolean {
 
-        return this.configService.isEnvLocal() || this.configService.isEnvUxDev();
+        return false;
     }
 
     /**
