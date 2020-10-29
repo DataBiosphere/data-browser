@@ -81,11 +81,11 @@ export const routes: Route[] = [
                     {
                         path: "data-citation",
                         component: ProjectDataCitationComponent
-                    },
+                    }/*, Disabled - #1358
                     {
                         path: "releases/2020-mar",
                         component: ProjectReleaseComponent
-                    }
+                    }*/
                 ]
             },
             {
@@ -95,7 +95,7 @@ export const routes: Route[] = [
             {
                 path: ":id/m/expression-matrices",
                 component: ProjectDownloadMatrixModalContainerComponent
-            },
+            }/*,  Disabled - #1358
             {
                 path: ":id/m/releases/2020-mar/datasets/:datasetId/release-files",
                 component: ReleaseFilesModalContainerComponent,
@@ -103,12 +103,12 @@ export const routes: Route[] = [
             {
                 path: ":id/m/releases/2020-mar/datasets/:datasetId/visualizations",
                 component: ReleaseVisualizationsModalContainerComponent,
-            }
+            }*/
         ]
-    },
+    }/*, Disabled - #1358
     {
         path: "releases/2020-mar",
         canActivate: [BrowserCanActivateGuard],
         component: ReleaseComponent
-    }
+    }*/
 ];
