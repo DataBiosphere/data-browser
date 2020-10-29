@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
@@ -35,7 +35,8 @@ import EntitySpec from "./shared/entity-spec";
 @Component({
     selector: "bw-files",
     templateUrl: "files.component.html",
-    styleUrls: ["files.component.scss"]
+    styleUrls: ["files.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilesComponent implements OnInit, OnDestroy {
 

@@ -7,5 +7,6 @@ export const environment = {
     projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
     terraExportURL: "https://bvdp-saturn-dev.appspot.com",
     deployment: "cgl-dev",
-    version: "2.0"
+    version: "2.0",
+    zendeskURL: "https://support.terra.bio"
 };

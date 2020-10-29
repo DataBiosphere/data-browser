@@ -12,6 +12,7 @@ $hca-black: #000000;
 $hca-blue-background: #F4F7F9;
 $hca-blue-light: #DAF0F6;
 $hca-orange: #E8AA45;
+$hca-orange-hover: #CF912C;
 $hca-secondary: #00D0F4;
 $hca-secondary-hover: #00B7DB;
 $hca-gray-darkest: #333333;
@@ -25,6 +26,8 @@ $hca-primary-hover: #0363AE;
 $hca-white: #FFFFFF;
 
 $black-3: rgba(0, 0, 0, 0.03);
+$black-6: rgba(0, 0, 0, 0.06);
+$black-38: rgba(0, 0, 0, 0.38);
 
 /**
  * Material Design media break points
@@ -44,3 +47,14 @@ $md-xs-max: $md-sm-min - 1;
  */
 $hca-md-min: 1200px;
 $hca-sm-max: $hca-md-min - 1;
+
+/**
+ * Mixins
+ */
+
+/* Match DP font styles */
+@mixin dp-font {
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+}

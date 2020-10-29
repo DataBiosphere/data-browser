@@ -1,0 +1,13 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Style definitions specific to displaying the thank you message after a support request has been submitted.
+ */
+
+@import "../../site/theme/hca.vars";
+
+:host {
+    @include dp-font;
+    position: absolute;
+}

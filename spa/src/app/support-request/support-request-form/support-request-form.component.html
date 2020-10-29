@@ -1,0 +1,67 @@
+<ng-container *ngIf="state$ | async as state">
+    <div class="support-request-form" [ngClass]="{'submitted': state.submitted}">
+        <dropzone [maxSize]="maxAttachmentSize"
+                  [multiple]="false"
+                  (dropAccepted)="onAttachmentDropped($event)"
+                  (dropRejected)="onAttachmentRejected($event)">
+            <support-request-submitted *ngIf="state.submitted"></support-request-submitted>
+            <form [formGroup]="supportRequestGroup"
+                  [ngClass]="{'hidden': state.submitted}"
+                  (ngSubmit)="onSupportRequestSubmitted(supportRequestGroup, state.attachmentToken)">
+                <h2 class="fontsize-xl">Contact Us</h2>
+                <h3 class="fontsize-l">Type *</h3>
+                <mat-select formControlName="type" panelClass="mat-select-panel-dp" disableRipple>
+                    <mat-select-trigger>
+                        <span>{{getSelectedTypeValue(supportRequestGroup)}}</span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let typeOption of typeOptions" [value]="typeOption.value">
+                        {{typeOption.label}}
+                    </mat-option>
+                </mat-select>
+                <h3 class="fontsize-l">How can we help you? *</h3>
+                <input class="input-subject" placeholder="Enter a subject" formControlName="subject"/>
+                <textarea placeholder="Enter a description" formControlName="description"></textarea>
+                <h3 class="fontsize-l">Attachment</h3>
+                <attachment-error *ngIf="state.attachmentRejected || state.attachmentUploadError"
+                                  [rejection]="state.attachmentRejection"></attachment-error>
+                <ng-container [ngSwitch]="!!state.attachmentToken">
+                    <ng-container *ngSwitchCase="true">
+                        <div class="input-attachment-attached">
+                            <div class="input-attachment-filename">{{state.attachmentName}}</div>
+                            <button class="input-attachment-delete" (click)="onAttachmentDeleted()"></button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <ng-container [ngSwitch]="state.attachmentUploading">
+                            <div class="input-attachment">
+                                <ng-container *ngSwitchCase="true">
+                                    <mat-spinner class="hca-spinner"
+                                                 diameter="16"></mat-spinner>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <directory-button>Drag or <span>click</span> to attach file.</directory-button>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <h3 class="fontsize-l">Contact Details *</h3>
+                <input placeholder="Enter your name"formControlName="name"/>
+                <input placeholder="Enter a email" formControlName="email"/>
+                <support-request-error *ngIf="state.submitError">An error has occurred. Please try again later.</support-request-error>
+                <div class="support-request-buttons">
+                    <button class="dp-button support-request-button-cancel" (click)="onCancelClicked()">Cancel</button>
+                    <button class="dp-button support-request-button-submit"
+                            type="submit" [disabled]="!supportRequestGroup.valid">
+                        <ng-container [ngSwitch]="state.submitting">
+                            <mat-spinner *ngSwitchCase="true"
+                                         class="hca-spinner"
+                                         diameter="16"></mat-spinner>
+                            <ng-container *ngSwitchDefault>Send</ng-container>
+                        </ng-container>
+                    </button>
+                </div>    
+            </form>
+        </dropzone>
+    </div>
+</ng-container>
