@@ -12,6 +12,7 @@ import { BehaviorSubject, interval, Observable, Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { FileDownloadEvent } from "./file-download.event";
 import { FileRow } from "../hca-table-files/file-row.model";
 import { DownloadService } from "../shared/download.service";
@@ -43,9 +44,10 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     @ViewChild("download") downloadEl: ElementRef; // Static false: must wait for ng switch to resolve 
 
     /**
+     * @param {ConfigService} configService
      * @param {DownloadService} downloadService
      */
-    constructor(private downloadService: DownloadService) {}
+    constructor(private configService: ConfigService, private downloadService: DownloadService) {}
 
     /**
      * Returns true if download has completed.
@@ -206,7 +208,7 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
      */
     private requestFileDownload(fileUrl: string, fileName?: string) {
 
-        this.downloadService.requestFileDownload(fileUrl, fileName)
+        this.downloadService.requestFileDownload(this.configService.isV2(), fileUrl, fileName)
             .subscribe((response) => {
                 this.downloadResponse$.next(response);
             });
