@@ -1,0 +1,95 @@
+[
+    {
+        "facetGroupName": "Donor",
+        "facets": [
+            {
+                "facetName": "genusSpecies",
+                "versions": []
+            },
+            {
+                "facetName": "organismAgeRange",
+                "versions": []
+            },
+            {
+                "facetName": "biologicalSex",
+                "versions": []
+            },
+            {
+                "facetName": "donorDisease",
+                "versions": []
+            },
+            {
+                "facetName": "developmentStage",
+                "versions": ["2.0"]
+            }
+        ]
+    },
+    {
+        "facetGroupName": "Tissue Type",
+        "facets": [
+            {
+                "facetName": "sampleEntityType",
+                "versions": []
+            },
+            {
+                "facetName": "specimenOrgan",
+                "versions": []
+            },
+            {
+                "facetName": "specimenOrganPart",
+                "versions": []
+            },
+            {
+                "facetName": "modelOrgan",
+                "versions": []
+            },
+            {
+                "facetName": "selectedCellType",
+                "versions": []
+            }
+        ]
+    },
+    {
+        "facetGroupName": "Specimen",
+        "facets": [
+            {
+                "facetName": "specimenDisease",
+                "versions": []
+            }
+        ]
+    },
+    {
+        "facetGroupName": "Method",
+        "facets": [
+            {
+                "facetName": "instrumentManufacturerModel",
+                "versions": []
+            },
+            {
+                "facetName": "preservationMethod",
+                "versions": []
+            },
+            {
+                "facetName": "libraryConstructionApproach",
+                "versions": []
+            },
+            {
+                "facetName": "pairedEnd",
+                "versions": []
+            },
+            {
+                "facetName": "workflow",
+                "versions": []
+            }
+        ]
+    },
+    {
+        "facetGroupName": "File",
+        "facets": [
+            {
+                "facetName": "fileFormat",
+                "versions": []
+            }
+        ]
+    }
+]
