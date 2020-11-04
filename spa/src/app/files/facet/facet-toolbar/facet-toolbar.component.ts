@@ -465,7 +465,7 @@ export class FacetToolbarComponent implements OnChanges {
 
         // Iterate over the facet groups definition and filter out any fileFacets that are not in the set of
         // available fileFacets.
-        this.fileFacetGroups = this.facetDisplayService.FILE_FACET_GROUPS.map((group) => {
+        this.fileFacetGroups = this.facetDisplayService.getFacetGroups().map((group) => {
 
             const groupFacetNames = group.facetNames.filter((facetName: string) => {
                 return specifiedFacetNames.indexOf(facetName) >= 0;

@@ -4,7 +4,7 @@
  *
  * Service for building entity-related HTTP request values, including API URLs and corresponding parameters. Serves
  * both version 2.0 and functionality before 2.0, with the exception of handling next/previous pagination values that
- * are returned from the API. See EntitySearchService20 for 2.0-specific funtionality.
+ * are returned from the API. See EntitySearchService20 for 2.0-specific functionality.
  */
 
 // Core dependencies

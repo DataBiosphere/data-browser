@@ -18,6 +18,8 @@ import { APIEndpoints } from "./api-endpoints.model";
 
 @Injectable()
 export class ConfigService {
+    
+    public readonly VERSION_2_0 = "2.0";
 
     // Locals
     protected dataURL: string; // Pulled from config store, saved as local state here on service
@@ -278,7 +280,18 @@ export class ConfigService {
      */
     public isV2(): boolean {
 
-        return this.version === "2.0";
+        return this.version === this.VERSION_2_0;
+    }
+
+    /**
+     * Returns true if the specified version matches the version running in the current environment.
+     *
+     * @param {string} version
+     * @returns {boolean}
+     */
+    public isCurrentVersion(version: string): boolean {
+
+        return version === this.version;
     }
 
     /**
