@@ -74,6 +74,10 @@
                 "versions": []
             },
             {
+                "facetName": "nucleicAcidSource",
+                "versions": ["2.0"]
+            },
+            {
                 "facetName": "pairedEnd",
                 "versions": []
             },
