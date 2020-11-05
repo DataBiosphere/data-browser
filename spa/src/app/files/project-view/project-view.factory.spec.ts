@@ -35,6 +35,37 @@ describe("ProjectViewFactory:", () => {
         const configService = TestBed.inject(ConfigService);
         projectViewFactory = new ProjectViewFactory(configService);
     }));
+
+    describe("buildDataSummaries", () => {
+
+        /**
+         * Confirm nucleic acid source is added to project view if value is Unspecified.
+         */
+        it(`includes nucleic acid source with value "Unspecified"`, () => {
+
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                nucleicAcidSource: "Unspecified"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "nucleicAcidSource");
+            expect(mappedNucleicAcidSource).toBeTruthy();
+        });
+
+        /**
+         * Confirm nucleic acid source is added to project view if value is "single cell".
+         */
+        it(`includes nucleic acid source with value "Unspecified"`, () => {
+
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                nucleicAcidSource: "single cell"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "nucleicAcidSource");
+            expect(mappedNucleicAcidSource.value).toEqual(mappedProject.nucleicAcidSource);
+        });
+    });
     
     describe("buildProjectAccessionsSummaries", () => {
 
@@ -48,7 +79,7 @@ describe("ProjectViewFactory:", () => {
                 arrayExpressAccessions: "Unspecified",
                 geoSeriesAccessions: "Unspecified",
                 insdcProjectAccessions: "Unspecified",
-                insdcStudyAccessions: "Unspecified",
+                insdcStudyAccessions: "Unspecified"
             };
             const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
             expect(result.length).toBe(0);
@@ -64,7 +95,7 @@ describe("ProjectViewFactory:", () => {
                 arrayExpressAccessions: "Unspecified",
                 geoSeriesAccessions: "abc",
                 insdcProjectAccessions: "def",
-                insdcStudyAccessions: "ghi",
+                insdcStudyAccessions: "ghi"
             };
             const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
             expect(result.length).toBe(3);
@@ -84,7 +115,7 @@ describe("ProjectViewFactory:", () => {
                 arrayExpressAccessions: "abc",
                 geoSeriesAccessions: "def",
                 insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl",
+                insdcStudyAccessions: "jkl"
             };
             const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
             expect(result.length).toBe(4);
@@ -104,7 +135,7 @@ describe("ProjectViewFactory:", () => {
                 arrayExpressAccessions: "abc",
                 geoSeriesAccessions: "def",
                 insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl",
+                insdcStudyAccessions: "jkl"
             };
             const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");
@@ -122,7 +153,7 @@ describe("ProjectViewFactory:", () => {
                 arrayExpressAccessions: "abc, mno",
                 geoSeriesAccessions: "def",
                 insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl",
+                insdcStudyAccessions: "jkl"
             };
             const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");

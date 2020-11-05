@@ -14,10 +14,11 @@ export interface EntityRow {
     donorCount: number;
     genusSpecies: string;
     libraryConstructionApproach?: string;
+    modelOrgan: string;
+    nucleicAcidSource: string;
     organ: string;
     organismAge: string;
     organPart: string;
-    modelOrgan: string;
     pairedEnd: string;
     projectTitle: string;
     sampleEntityType: string;

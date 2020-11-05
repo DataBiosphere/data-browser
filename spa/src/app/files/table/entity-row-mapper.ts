@@ -58,6 +58,12 @@ export class EntityRowMapper {
             getUnspecifiedIfEmpty(libraryConstructionApproach) :
             getUnspecifiedIfNullValue(libraryConstructionApproach);
 
+        // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array
+        const nucleicAcidSource = this.protocols.nucleicAcidSource;
+        const mappedNucleicAcidSource = Array.isArray(nucleicAcidSource) ?
+            getUnspecifiedIfEmpty(nucleicAcidSource) :
+            getUnspecifiedIfNullValue(nucleicAcidSource);
+
         // Workflow "Analysis Protocol" should be displayed as "Unspecified" if it is null, or empty array
         const workflow = this.protocols.workflow;
         const mappedWorkflow = Array.isArray(workflow) ?
@@ -75,10 +81,11 @@ export class EntityRowMapper {
             donorCount: getUnspecifiedIfNullValue(this.donorOrganisms.donorCount),
             genusSpecies: getUnspecifiedIfNullValue(this.donorOrganisms.genusSpecies),
             libraryConstructionApproach: mappedLibraryConstructionApproach,
+            modelOrgan: modelOrgan,
+            nucleicAcidSource: mappedNucleicAcidSource,
             organ: getUnspecifiedIfNullValue(this.organs),
             organismAge: getUnspecifiedIfNullValue(this.donorOrganisms.organismAge),
             organPart: getUnspecifiedIfNullValue(this.specimens.organPart),
-            modelOrgan: modelOrgan,
             pairedEnd: getUnspecifiedIfNullValue(this.protocols.pairedEnd),
             projectTitle: getUnspecifiedIfNullValue(this.projects.projectTitle),
             sampleEntityType: getUnspecifiedIfNullValue(this.samples.sampleEntityType),

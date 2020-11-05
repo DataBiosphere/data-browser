@@ -13,6 +13,9 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "libraryConstructionApproach": [
                     "10x_v2"
                 ],
+                "nucleicAcidSource": [
+                    "single cell"
+                ],
                 "instrumentManufacturerModel": [
                     "Illumina HiSeq 4000"
                 ],
@@ -175,6 +178,10 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                 "libraryConstructionApproach": [
                     "10x_v2",
                     "x"
+                ],
+                "nucleicAcidSource": [
+                    "single cell",
+                    "single nucleus"
                 ],
                 "instrumentManufacturerModel": [
                     "Illumina HiSeq 4000",
@@ -370,6 +377,9 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "libraryConstructionApproach": [
                     "10x_v2"
                 ],
+                "nucleicAcidSource": [
+                    "single cell"
+                ],
                 "instrumentManufacturerModel": [
                     "Illumina HiSeq 4000"
                 ],
@@ -387,6 +397,9 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "libraryConstructionApproach": [
                     "x",
                     "y"
+                ],
+                "nucleicAcidSource": [
+                    "single nucleus"
                 ],
                 "instrumentManufacturerModel": [
                     "x",
@@ -663,6 +676,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
         "protocols": [
             {
                 "libraryConstructionApproach": [],
+                "nucleicAcidSource": [],
                 "instrumentManufacturerModel": [],
                 "pairedEnd": [],
                 "workflow": [],
@@ -741,6 +755,7 @@ export const PROJECT_ROW_NULL_VALUES =
         "protocols": [
             {
                 "libraryConstructionApproach": null,
+                "nucleicAcidSource": null,
                 "instrumentManufacturerModel": null,
                 "pairedEnd": null,
                 "workflow": null,

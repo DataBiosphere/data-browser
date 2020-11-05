@@ -697,6 +697,85 @@ describe("EntityRowMapper:", () => {
     });
 
     /**
+     * Nucleic acid source should be mapped.
+     */
+    it("maps nucleic acid source", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.nucleicAcidSource).toEqual(projectToMap.protocols[0].nucleicAcidSource[0]);
+            done();
+        });
+    });
+
+    /**
+     * Multiple nucleic acid source values should be rolled up and mapped.
+     */
+    it("rolls up and maps multiple nucleic acid source values", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.nucleicAcidSource).toEqual(projectToMap.protocols[0].nucleicAcidSource.join(", "));
+            done();
+        });
+    });
+
+    /**
+     * Multiple nucleic acid source values across multiple objects should be rolled up and mapped.
+     */
+    it("maps multiple nucleic acid source values across multiple objects", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            const expectedValue = mapMultipleValues(projectToMap.protocols, "nucleicAcidSource");
+            expect(mappedProject.nucleicAcidSource).toEqual(expectedValue);
+            done();
+        });
+    });
+
+    /**
+     * A nucleic acid source value that is an empty array should be mapped to "Unspecified"
+     */
+    it(`maps an empty nucleic acid source array to "Unspecified"`, (done: DoneFn) => {
+
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.nucleicAcidSource).toEqual("Unspecified");
+            done();
+        });
+    });
+
+    /**
+     * A null nucleic acid source should be mapped to "Unspecified"
+     */
+    it(`maps null nucleic acid source to "Unspecified"`, (done: DoneFn) => {
+
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.nucleicAcidSource).toEqual("Unspecified");
+            done();
+        });
+    });
+    
+    /**
      * Single paired end value should be mapped.
      */
     it("should map paired end value", (done: DoneFn) => {

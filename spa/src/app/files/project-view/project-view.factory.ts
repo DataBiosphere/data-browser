@@ -53,6 +53,7 @@ export class ProjectViewFactory {
         "disease": "",
         "donorDisease" :"",
         "libraryConstructionApproach": "",
+        "nucleicAcidSource": "",
         "pairedEnd": "",
         "workflow": "",
         "fileType": "fileFormat",
