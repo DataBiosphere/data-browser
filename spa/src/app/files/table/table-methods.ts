@@ -151,6 +151,14 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
+        key: "nucleicAcidSource",
+        userFriendly: "Nucleic Acid Source",
+        description: `Source cells or organelles from which nucleic acid molecules were collected. Should be one of: "bulk cell", "single cell", "single nucleus", "bulk nuclei" or "mitochondria".`,
+        alignment: ColumnAlignment.LEFT,
+        columnSort: false,
+        countType: CountType.DOMAIN_COUNT
+    },    
+    {
         key: "organ",
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
