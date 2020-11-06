@@ -74,6 +74,7 @@ describe("HCATableProjectsComponent", () => {
     const CLASSNAME_SELECTED = "selected";
 
     // Column titles
+    const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
     const COLUMN_TITLE_DONORCOUNT = "Donor Count";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_PROJECTTITLE = "Project Title";
@@ -81,6 +82,7 @@ describe("HCATableProjectsComponent", () => {
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
+    const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
     const COLUMN_NAME_DONORCOUNT = "donorCount";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_PROJECTTITLE = "projectTitle";
@@ -889,7 +891,70 @@ describe("HCATableProjectsComponent", () => {
     });
 
     /**
-     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     * Confirm development stage column is hidden for non-v2 environments.
+     */
+    it(`hides column "Development Stage" column in non-v2 environments`, () => {
+
+        configService.isV2.and.returnValue(false);
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+
+            of(Catalog.NONE)
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeFalsy();
+    });
+
+    /**
+     * Confirm development stage column labeled as "Development Stage" is displayed for v2 environments.
+     */
+    it(`displays column "Development Stage" column in v2 environments`, () => {
+
+        configService.isV2.and.returnValue(true);
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+
+            of(Catalog.NONE)
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeTruthy();
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+    });
+
+    /**
+     * Confirm nucleic acid source columnl is hidden for non-v2 environments.
      */
     it(`hides column "Nucleic Acid Source" column in non-v2 environments`, () => {
 
@@ -948,7 +1013,7 @@ describe("HCATableProjectsComponent", () => {
 
         // Confirm column title is displayed
         expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE );
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
     });
 
     /**

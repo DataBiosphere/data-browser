@@ -29,7 +29,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Development Stage",
         description: "A classification of the developmental stage of the organism.",
         alignment: ColumnAlignment.LEFT,
-        columnSort: false,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
