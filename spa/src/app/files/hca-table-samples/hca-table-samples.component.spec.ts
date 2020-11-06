@@ -50,6 +50,7 @@ describe("HCATableSamplesComponent", () => {
 
     let component: HCATableSamplesComponent;
     let fixture: ComponentFixture<HCATableSamplesComponent>;
+    let configService;
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
@@ -58,10 +59,12 @@ describe("HCATableSamplesComponent", () => {
     const INDEX_TABLE_ROW_NULL_VALUES = 5;
 
     // Column titles
+    const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
+    const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_WORKFLOW = "workflow";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
 
@@ -71,6 +74,9 @@ describe("HCATableSamplesComponent", () => {
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
     beforeEach(async(() => {
+
+        configService =
+            jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "getProjectMetaDownloadUrl", "isV2"]);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -108,7 +114,7 @@ describe("HCATableSamplesComponent", () => {
                 },
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "isV2"])
+                    useValue: configService
                 },
                 {
                     provide: "ENTITY_REQUEST_SERVICE",
@@ -250,6 +256,61 @@ describe("HCATableSamplesComponent", () => {
         fixture.detectChanges();
         expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
         expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+    });
+
+    /**
+     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     */
+    it(`hides column "Nucleic Acid Source" column in non-v2 environments`, () => {
+
+        configService.isV2.and.returnValue(false);
+
+        testStore.pipe
+            .and.returnValues(
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
+        );
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeFalsy();
+    });
+
+    /**
+     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     */
+    it(`displays column "Nucleic Acid Source" column in v2 environments`, () => {
+
+        configService.isV2.and.returnValue(true);
+
+        testStore.pipe
+            .and.returnValues(
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
+        );
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeTruthy();
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE );
     });
 
     /**
@@ -495,6 +556,18 @@ describe("HCATableSamplesComponent", () => {
      * @param {string} columnName
      */
     function findHeader(columnName: string): DebugElement {
+
+        return fixture.debugElement.query(
+            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
+        );
+    }
+
+    /**
+     * Return the column header title debug element with the specified name.
+     *
+     * @param {string} columnName
+     */
+    function findHeaderTitle(columnName: string): DebugElement {
 
         return fixture.debugElement.query(
             By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)

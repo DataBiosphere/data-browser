@@ -163,7 +163,7 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Nucleic Acid Source",
         description: `Source cells or organelles from which nucleic acid molecules were collected. Should be one of: "bulk cell", "single cell", "single nucleus", "bulk nuclei" or "mitochondria".`,
         alignment: ColumnAlignment.LEFT,
-        columnSort: false,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },    
     {

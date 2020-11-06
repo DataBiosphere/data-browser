@@ -59,6 +59,7 @@ describe("HCATableProjectsComponent", () => {
 
     let component: HCATableProjectsComponent;
     let fixture: ComponentFixture<HCATableProjectsComponent>;
+    let configService;
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
@@ -74,12 +75,14 @@ describe("HCATableProjectsComponent", () => {
 
     // Column titles
     const COLUMN_TITLE_DONORCOUNT = "Donor Count";
+    const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_PROJECTTITLE = "Project Title";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
     const COLUMN_NAME_DONORCOUNT = "donorCount";
+    const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_PROJECTTITLE = "projectTitle";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
     const COLUMN_NAME_WORKFLOW = "workflow";
@@ -105,6 +108,9 @@ describe("HCATableProjectsComponent", () => {
     const TEST_VALUE_ROUTER_LINK = "/projects/";
 
     beforeEach(async(() => {
+
+        configService =
+            jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "getProjectMetaDownloadUrl", "isV2"]);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -147,7 +153,7 @@ describe("HCATableProjectsComponent", () => {
                 },
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "getProjectMetaDownloadUrl", "isV2"])
+                    useValue: configService
                 }, {
                     provide: DeviceDetectorService,
                     useValue: jasmine.createSpyObj("DeviceDetectorService", ["getDeviceInfo", "isMobile", "isTablet", "isDesktop"])
@@ -880,6 +886,69 @@ describe("HCATableProjectsComponent", () => {
 
         // Confirm row with single values in column "Analysis Protocol" does not display component
         expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
+    });
+
+    /**
+     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     */
+    it(`hides column "Nucleic Acid Source" column in non-v2 environments`, () => {
+
+        configService.isV2.and.returnValue(false);
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+
+            of(Catalog.NONE)
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeFalsy();
+    });
+    
+    /**
+     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     */
+    it(`displays column "Nucleic Acid Source" column in v2 environments`, () => {
+
+        configService.isV2.and.returnValue(true);
+
+        testStore.pipe
+            .and.returnValues(
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.data),
+            of(PROJECTS_TABLE_MODEL.loading),
+            of(PROJECTS_TABLE_MODEL.pagination),
+            of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of(new Map()), // project matrix URLs
+
+            of(Catalog.NONE)
+        );
+
+        component.selectedProjectIds = [];
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeTruthy();
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE );
     });
 
     /**

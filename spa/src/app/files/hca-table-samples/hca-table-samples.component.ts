@@ -24,6 +24,7 @@ import { filter, map } from "rxjs/operators";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { AppState } from "../../_ngrx/app.state";
 import { ConfigService } from "../../config/config.service";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -65,7 +66,8 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType", "libraryConstructionApproach", "pairedEnd", "workflow",
+        "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType", 
+        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
         "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -99,6 +101,24 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
                 private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
+    }
+
+    /**
+     * Return the list of columns to be displayed. Remove columns only visible in v2 environments.
+     *
+     * @returns {string[]}
+     */
+    public listColumns(): string[] {
+
+        return this.displayedColumns.filter(columnName => {
+
+            if ( !this.configService.isV2() &&
+                (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /**
