@@ -247,6 +247,26 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="developmentStage">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('developmentStage')"
+                                     [ngStyle]="getColumnStyle('developmentStage')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'developmentStage'">
+                                {{getColumnDisplayName('developmentStage')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'developmentStage'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('developmentStage')"
+                              [ngStyle]="getColumnStyle('developmentStage')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.developmentStage}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="totalCells">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')" [ngStyle]="getColumnStyle('totalCells')">
                         <hca-table-column-header>

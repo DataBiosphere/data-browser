@@ -68,7 +68,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     public displayedColumns = [
         "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType", 
         "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
-        "organismAge", "biologicalSex", "disease", "totalCells"
+        "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getAge = getAge;

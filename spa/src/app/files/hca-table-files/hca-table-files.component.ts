@@ -60,8 +60,9 @@ export class HCATableFilesComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType",
-        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow", "organismAge", "biologicalSex", "disease", "totalCells"
+        "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ",
+        "organPart", "selectedCellType", "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
+        "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getAge = getAge;

@@ -59,11 +59,13 @@ describe("HCATableSamplesComponent", () => {
     const INDEX_TABLE_ROW_NULL_VALUES = 5;
 
     // Column titles
+    const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
+    const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_WORKFLOW = "workflow";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
@@ -259,7 +261,62 @@ describe("HCATableSamplesComponent", () => {
     });
 
     /**
-     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
+     * Confirm development stage column is hidden for non-v2 environments.
+     */
+    it(`hides column "Development Stage" column in non-v2 environments`, () => {
+
+        configService.isV2.and.returnValue(false);
+
+        testStore.pipe
+            .and.returnValues(
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
+        );
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeFalsy();
+    });
+
+    /**
+     * Confirm development stage column labeled as "Development Stage" is displayed for v2 environments.
+     */
+    it(`displays column "Development Stage" column in v2 environments`, () => {
+
+        configService.isV2.and.returnValue(true);
+
+        testStore.pipe
+            .and.returnValues(
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.data),
+            of(SAMPLES_TABLE_MODEL.loading),
+            of(SAMPLES_TABLE_MODEL.pagination),
+            of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY),
+            of([])
+        );
+
+        // Trigger change detection so template updates accordingly
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE).toBeTruthy();
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+    });
+
+    /**
+     * Confirm nucleic acid source column is hidden for non-v2 environments.
      */
     it(`hides column "Nucleic Acid Source" column in non-v2 environments`, () => {
 
@@ -310,7 +367,7 @@ describe("HCATableSamplesComponent", () => {
 
         // Confirm column title is displayed
         expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE );
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
     });
 
     /**
