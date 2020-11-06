@@ -774,7 +774,86 @@ describe("EntityRowMapper:", () => {
             done();
         });
     });
-    
+
+    /**
+     * Development stage should be mapped.
+     */
+    it("maps development stage", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.developmentStage).toEqual(projectToMap.donorOrganisms[0].developmentStage[0]);
+            done();
+        });
+    });
+
+    /**
+     * Multiple development stage values should be rolled up and mapped.
+     */
+    it("rolls up and maps multiple development stage values", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.developmentStage).toEqual(projectToMap.donorOrganisms[0].developmentStage.join(", "));
+            done();
+        });
+    });
+
+    /**
+     * Multiple development stage values across multiple objects should be rolled up and mapped.
+     */
+    it("maps multipledevelopment stage values across multiple objects", (done: DoneFn) => {
+
+        const v2 = false;
+        const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([projectToMap]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "developmentStage");
+            expect(mappedProject.developmentStage).toEqual(expectedValue);
+            done();
+        });
+    });
+
+    /**
+     * A development stage value that is an empty array should be mapped to "Unspecified"
+     */
+    it(`maps an empty development stage array to "Unspecified"`, (done: DoneFn) => {
+
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_EMPTY_ARRAY_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.developmentStage).toEqual("Unspecified");
+            done();
+        });
+    });
+
+    /**
+     * A null nucleic acid source should be mapped to "Unspecified"
+     */
+    it(`maps null development stage to "Unspecified"`, (done: DoneFn) => {
+
+        const v2 = false;
+        dataSource = new EntitiesDataSource<EntityRowMapper>(v2, of([PROJECT_ROW_NULL_VALUES]), EntityRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.developmentStage).toEqual("Unspecified");
+            done();
+        });
+    });
+
     /**
      * Single paired end value should be mapped.
      */

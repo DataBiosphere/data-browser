@@ -58,7 +58,8 @@ export class EntityRowMapper {
             getUnspecifiedIfEmpty(libraryConstructionApproach) :
             getUnspecifiedIfNullValue(libraryConstructionApproach);
 
-        // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array
+        // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array - always map but 
+        // only displayed in v2 environments
         const nucleicAcidSource = this.protocols.nucleicAcidSource;
         const mappedNucleicAcidSource = Array.isArray(nucleicAcidSource) ?
             getUnspecifiedIfEmpty(nucleicAcidSource) :
@@ -76,6 +77,7 @@ export class EntityRowMapper {
         return {
             ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
+            developmentStage: getUnspecifiedIfNullValue(this.donorOrganisms.developmentStage), //  Always map but only displayed in v2 environments
             disease: getUnspecifiedIfNullValue(this.specimens.disease),
             donorDisease: getUnspecifiedIfNullValue(this.donorOrganisms.disease),
             donorCount: getUnspecifiedIfNullValue(this.donorOrganisms.donorCount),

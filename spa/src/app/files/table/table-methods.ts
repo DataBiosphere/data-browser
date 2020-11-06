@@ -25,6 +25,14 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
+        key: "developmentStage",
+        userFriendly: "Development Stage",
+        description: "A classification of the developmental stage of the organism.",
+        alignment: ColumnAlignment.LEFT,
+        columnSort: false,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
         key: "disease",
         userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",

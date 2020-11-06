@@ -14,6 +14,7 @@ import { CollaboratingOrganizationView } from "./collaborating-organization-view
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
 import { ContributorView } from "./contributor-view.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { AccessionUrlPipe } from "../../pipe/accession-url/accession-url.pipe";
 import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
@@ -52,6 +53,7 @@ export class ProjectViewFactory {
         "modelOrgan": "",
         "disease": "",
         "donorDisease" :"",
+        "developmentStage": "",
         "libraryConstructionApproach": "",
         "nucleicAcidSource": "",
         "pairedEnd": "",
@@ -276,6 +278,8 @@ export class ProjectViewFactory {
      * Workflow will not display if "Unspecified".
      * Analysis Protocol "modelOrgan" will not display if the sampleEntityType is "specimens".
      *
+     * Development stage and nucleic acid source are only available in v2 environments.
+     * 
      * @param {Project} project
      * @returns {string[]}
      */
@@ -292,6 +296,11 @@ export class ProjectViewFactory {
                 if ( key === "workflow" ) {
 
                     return this.isWorkflowNotUnspecified(project.workflow);
+                }
+                
+                if ( !this.configService.isV2() &&
+                    (key === FileFacetName.DEVELOMENT_STAGE || key === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
+                    return false;
                 }
 
                 return true;

@@ -13,11 +13,17 @@ import { ConfigService } from "../../config/config.service";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 
-describe("ProjectViewFactory:", () => {
+fdescribe("ProjectViewFactory:", () => {
 
     let projectViewFactory: ProjectViewFactory;
+    let configService;
 
     beforeEach(async(() => {
+
+        configService = jasmine.createSpyObj("ConfigService", [
+            "getPortalUrl",
+            "isV2"
+        ]);
 
         TestBed.configureTestingModule({
             declarations: [],
@@ -25,14 +31,11 @@ describe("ProjectViewFactory:", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", [
-                        "getPortalUrl"
-                    ])
+                    useValue: configService
                 }
             ]
         });
 
-        const configService = TestBed.inject(ConfigService);
         projectViewFactory = new ProjectViewFactory(configService);
     }));
 
@@ -42,6 +45,8 @@ describe("ProjectViewFactory:", () => {
          * Confirm nucleic acid source is added to project view if value is Unspecified.
          */
         it(`includes nucleic acid source with value "Unspecified"`, () => {
+
+            configService.isV2.and.returnValue(true);
 
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
@@ -57,6 +62,8 @@ describe("ProjectViewFactory:", () => {
          */
         it(`includes nucleic acid source with value "Unspecified"`, () => {
 
+            configService.isV2.and.returnValue(true);
+            
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
                 nucleicAcidSource: "single cell"
@@ -64,6 +71,38 @@ describe("ProjectViewFactory:", () => {
             const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
             const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "nucleicAcidSource");
             expect(mappedNucleicAcidSource.value).toEqual(mappedProject.nucleicAcidSource);
+        });
+
+        /**
+         * Confirm development stage is added to project view if value is Unspecified.
+         */
+        it(`includes development stage with value "Unspecified"`, () => {
+
+            configService.isV2.and.returnValue(true);
+            
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                developmentStage: "Unspecified"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "developmentStage");
+            expect(mappedNucleicAcidSource).toBeTruthy();
+        });
+
+        /**
+         * Confirm development stage is added to project view if value is "adult".
+         */
+        it(`includes development stage with value "Unspecified"`, () => {
+
+            configService.isV2.and.returnValue(true);
+
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                developmentStage: "adult"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "developmentStage");
+            expect(mappedNucleicAcidSource.value).toEqual(mappedProject.developmentStage);
         });
     });
     
