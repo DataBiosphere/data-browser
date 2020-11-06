@@ -50,6 +50,7 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 
 @Component({
     selector: "hca-table-projects",
@@ -67,7 +68,7 @@ export class HCATableProjectsComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "pairedEnd",
+        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd",
         "workflow", "disease", "donorCount", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -147,16 +148,27 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Return the list of columns to be displayed. Remove download columns if the user's device is hand-held.
+     * Return the list of columns to be displayed. Remove download columns if the user's device is hand-held. Remove
+     * columns only visible in v2 environments.
      *
      * @returns {string[]}
      */
     public listColumns(): string[] {
 
-        if ( this.deviceService.isMobile() || this.deviceService.isTablet() ) {
-            return this.displayedColumns.filter(columnName => columnName !== "getData");
-        }
-        return this.displayedColumns;
+        return this.displayedColumns.filter(columnName => {
+
+            if ( columnName === "getData" &&
+                (this.deviceService.isMobile() || this.deviceService.isTablet()) ) {
+                return false;
+            }
+            
+            if ( !this.configService.isV2() &&
+                (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
+                return false;
+            }
+            
+            return true;
+        });
     }
 
     /**

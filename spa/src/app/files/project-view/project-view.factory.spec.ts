@@ -13,7 +13,7 @@ import { ConfigService } from "../../config/config.service";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 
-fdescribe("ProjectViewFactory:", () => {
+describe("ProjectViewFactory:", () => {
 
     let projectViewFactory: ProjectViewFactory;
     let configService;

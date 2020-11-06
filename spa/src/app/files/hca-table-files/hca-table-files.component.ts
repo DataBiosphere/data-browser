@@ -16,6 +16,7 @@ import { filter, map } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { ConfigService } from "../../config/config.service";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileDownloadEvent } from "../hca-download-file/file-download.event";
@@ -60,7 +61,7 @@ export class HCATableFilesComponent implements OnInit {
     };
     public displayedColumns = [
         "fileName", "fileFormat", "fileSize", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType",
-        "libraryConstructionApproach", "pairedEnd", "workflow", "organismAge", "biologicalSex", "disease", "totalCells"
+        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow", "organismAge", "biologicalSex", "disease", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getAge = getAge;
@@ -112,6 +113,24 @@ export class HCATableFilesComponent implements OnInit {
         return {
             "file-download": true
         };
+    }
+
+    /**
+     * Return the list of columns to be displayed. Remove columns only visible in v2 environments.
+     *
+     * @returns {string[]}
+     */
+    public listColumns(): string[] {
+
+        return this.displayedColumns.filter(columnName => {
+            
+            if ( !this.configService.isV2() &&
+                (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /**

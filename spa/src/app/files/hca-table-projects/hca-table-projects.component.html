@@ -114,6 +114,26 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="nucleicAcidSource">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('nucleicAcidSource')"
+                                     [ngStyle]="getColumnStyle('nucleicAcidSource')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'nucleicAcidSource'">
+                                {{getColumnDisplayName('nucleicAcidSource')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'nucleicAcidSource'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('nucleicAcidSource')"
+                              [ngStyle]="getColumnStyle('nucleicAcidSource')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.nucleicAcidSource}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="pairedEnd">
                     <mat-header-cell *matHeaderCellDef
                                      [ngClass]="getColumnClass('pairedEnd')" [ngStyle]="getColumnStyle('pairedEnd')">
