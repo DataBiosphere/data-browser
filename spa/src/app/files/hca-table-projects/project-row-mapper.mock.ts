@@ -108,6 +108,9 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "biologicalSex": [
                     "male"
                 ],
+                "developmentStage": [
+                    "adult"
+                ],
                 "disease": [
                     "x"
                 ],
@@ -301,6 +304,10 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                 "biologicalSex": [
                     "male",
                     "female"
+                ],
+                "developmentStage": [
+                    "adult",
+                    "human adult stage"
                 ],
                 "disease": ["H syndrome", "normal"],
                 "donorCount": 12,
@@ -565,7 +572,12 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "biologicalSex": [
                     "male"
                 ],
-                "disease": ["normal"],
+                "disease": [
+                    "normal"
+                ],
+                "developmentStage": [
+                    "adult"
+                ],
                 "donorCount": 8,
                 "genusSpecies": [
                     "Mus musculus"
@@ -584,6 +596,9 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "biologicalSex": [
                     "x",
                     "y"
+                ],
+                "developmentStage": [
+                    "human adult stage"
                 ],
                 "disease": [
                     "x",
@@ -721,6 +736,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
         "donorOrganisms": [
             {
                 "biologicalSex": [],
+                "developmentStage": [],
                 "disease": [],
                 "genusSpecies": [],
                 "donorCount": 1,
@@ -802,6 +818,7 @@ export const PROJECT_ROW_NULL_VALUES =
         "donorOrganisms": [
             {
                 "biologicalSex": null,
+                "developmentStage": null,
                 "disease": null,
                 "donorCount": null,
                 "genusSpecies": null,
