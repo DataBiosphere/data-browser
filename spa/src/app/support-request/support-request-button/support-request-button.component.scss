@@ -23,10 +23,18 @@
     position: fixed;
     right: 0;
     top: 40%;
-    transform:rotate(-90deg);
+    transform: rotate(-90deg);
     transform-origin: right bottom;
     transition: background-color 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 100;
+}
+
+.support-request-button-data-tables {
+    bottom: 103px;
+    right: 30px;
+    transform: unset;
+    transform-origin: unset;
+    top: unset;
 }
 
 .support-request-button:hover {
