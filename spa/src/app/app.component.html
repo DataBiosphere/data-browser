@@ -5,6 +5,7 @@
     <header>
         <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
     </header>
+    <dcp2-announcement></dcp2-announcement>
     <release-banner *ngIf="showRelease()"></release-banner>
     <announcement *ngIf="!state.systemStatus.ok" class="status">
         <mat-icon>warning</mat-icon>
