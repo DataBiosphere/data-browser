@@ -12,9 +12,14 @@
     padding: 14px 16px; /* Site gutter */
 }
 
-/* Component release-banner */
-:host-context(release-banner) {
+/* Component release-banner, dcp2-announcement */
+:host-context(release-banner), :host-context(dcp2-announcement) {
     background-color: $hca-blue-light;
+}
+
+/* Component dcp2-announcement */
+:host-context(dcp2-announcement) {
+    padding: 20px 16px;
 }
 
 /* Component app with class "data-re-ingestion" */
@@ -67,9 +72,10 @@
 
     /* Center align content - for banners at the top of site */
     /* Component release-banner */
+    /* Component dcp2-announcement */
     /* Component app with class "status" */
     /* Component app with class "data-re-ingestion" */
-    :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
+    :host-context(dcp2-announcement), :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
         display: flex;
         justify-content: center;
     }

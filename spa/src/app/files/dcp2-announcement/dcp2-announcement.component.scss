@@ -1,0 +1,12 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for DCP2 accouncement banner.
+ */
+
+@import "../../site/theme/hca.vars";
+
+.dcp2-announcement span {
+    margin: 0; /* Overrides fontsize-s margin */
+}
