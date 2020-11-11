@@ -16,6 +16,7 @@ import { AppState } from "../_ngrx/app.state";
 import { selectSupportRequestActive } from "./_ngrx/support-request.selectors";
 import { UpdateSupportRequestActiveAction } from "./_ngrx/update-support-request-active.action";
 import { SupportRequestState } from "./support-request.state";
+import { UrlService } from "../files/url/url.service";
 
 @Component({
     selector: "support-request",
@@ -31,11 +32,20 @@ export class SupportRequestComponent implements OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    
+
     /**
+     * @param {UrlService} urlService
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {}
+    constructor(private urlService: UrlService, private store: Store<AppState>) {}
+
+    /**
+     * Feedback button is not visible on data table pages.
+     */
+    public isButtonVisible(): boolean {
+
+        return !this.urlService.isViewingEntities();
+    }
 
     /**
      * Handle click on support request button - display support request form.

@@ -25,5 +25,5 @@
     <desktop-footer *ngIf="isDeviceHandheld()"></desktop-footer>
     <data-policy-footer></data-policy-footer>
 </sticky-footer>
-<hca-footer></hca-footer>
+<hca-footer (feedbackClicked)="onFeedbackClicked()"></hca-footer>
 

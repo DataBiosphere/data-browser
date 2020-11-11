@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -33,6 +33,9 @@ export class HCAFooterComponent {
 
     // Locals
     private ngDestroy$ = new Subject<boolean>();
+    
+    // Outputs
+    @Output() feedbackClicked = new EventEmitter<boolean>();
 
     /**
      * @param {Store<AppState>} store
@@ -41,6 +44,14 @@ export class HCAFooterComponent {
     constructor(private store: Store<AppState>,
                 private configService: ConfigService) {
         this.portalUrl = this.configService.getPortalUrl();
+    }
+
+    /**
+     * Handle click on feedback link.
+     */
+    public onFeedbackClicked() {
+
+        this.feedbackClicked.emit(true);
     }
 
     /**
