@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: "support-request-button",
@@ -14,6 +14,9 @@ import { Component, EventEmitter, Output } from "@angular/core";
     styleUrls: ["support-request-button.component.scss"]
 })
 export class SupportRequestButtonComponent {
+    
+    // Input
+    @Input() visible: boolean;
 
     // Output
     @Output() buttonClicked = new EventEmitter<boolean>();

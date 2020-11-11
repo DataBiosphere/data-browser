@@ -11,7 +11,7 @@
             <a href="{{portalUrl}}/privacy">Privacy</a>
             <a href="{{portalUrl}}/contact">Contact</a>
             <a href="{{portalUrl}}/status" *ngIf="showSystemStatus()">System Status</a>
-            <a href="{{portalUrl}}/feedback">Feedback</a>
+            <a (click)="onFeedbackClicked()">Feedback</a>
         </div>
     </div>
 </footer>

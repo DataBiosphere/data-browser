@@ -21,6 +21,7 @@ import { ReleaseService } from "./files/shared/release.service";
 import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AppState } from "./_ngrx/app.state";
+import { UpdateSupportRequestActiveAction } from "./support-request/_ngrx/update-support-request-active.action";
 import { selectSystemStatus } from "./system/_ngrx/system.selectors";
 import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.action";
 
@@ -75,6 +76,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Maintenance mode warning is currently disabled.
         return false;
+    }
+
+    /**
+     * Handle click on feedback link in footer - display support request form.
+     */
+    public onFeedbackClicked() {
+
+        this.store.dispatch(new UpdateSupportRequestActiveAction(true));
     }
 
     /**

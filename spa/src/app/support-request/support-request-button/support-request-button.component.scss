@@ -29,12 +29,9 @@
     z-index: 100;
 }
 
-.support-request-button-data-tables {
-    bottom: 103px;
-    right: 30px;
-    transform: unset;
-    transform-origin: unset;
-    top: unset;
+/** Support button is hidden on data tables TODO revisit with DB 764 */
+.support-request-button-hidden {
+    display: none;
 }
 
 .support-request-button:hover {
@@ -42,13 +39,14 @@
 }
 
 /**
- * Custom breakpoint - matches width of support request form + left/right gutters 
+ * Custom width breakpoint - matches width of support request form + left/right gutters
+ * Custom height breakpoint - matches point where larger style of feedback button is no longer visible 
  */
-@media screen and (max-width: 498px) {
+@media screen and (max-width: 498px), screen and (max-height: 424px) {
 
     .support-request-button {
         padding: 4px 8px;
-        top: 75%;
+        top: 60%;
     }
 
     .support-request-button span {
