@@ -248,6 +248,7 @@ export class FileManifestService {
     private bindManifestResponse(response: ManifestHttpResponse): Observable<ManifestResponse> {
 
         return of({
+            commandLine: response.CommandLine,
             fileUrl: response.Location,
             retryAfter: response["Retry-After"],
             status: this.translateFileDownloadStatus(response.Status)

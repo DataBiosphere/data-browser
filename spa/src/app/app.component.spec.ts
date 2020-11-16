@@ -20,6 +20,7 @@ import { AppComponent } from "./app.component";
 import { ConfigService } from "./config/config.service";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { ReleaseService } from "./files/shared/release.service";
+import { UrlService } from "./files/url/url.service";
 import { AnnouncementComponent } from "./shared/announcement/announcement.component";
 import { ToolbarNavComponent } from "./shared/toolbar-nav/toolbar-nav.component";
 import { ToolbarNavDropDownComponent } from "./shared/toolbar-nav-drop-down/toolbar-nav-drop-down.component";
@@ -32,6 +33,7 @@ import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
 import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
+import { SupportRequestComponent } from "./support-request/support-request.component";
 
 
 describe("AppComponent:", () => {
@@ -62,7 +64,8 @@ describe("AppComponent:", () => {
                 ToolbarNavItemComponent,
                 ToolbarNavSubMenuComponent,
                 ToolbarNavSubMenuItemComponent,
-                ReleaseBannerComponent
+                ReleaseBannerComponent,
+                SupportRequestComponent
             ],
             imports: [
                 RouterTestingModule,
@@ -88,6 +91,9 @@ describe("AppComponent:", () => {
             }, {
                 provide: ReleaseService,
                 useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseFeatureEnabled"])
+            }, {
+                provide: UrlService,
+                useValue: jasmine.createSpyObj("ReleaseService", ["isViewingEntities", "isViewingFiles", "isViewingProjects", "isViewingSamples"])
             }]
         });
 

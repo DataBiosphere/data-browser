@@ -16,9 +16,11 @@ import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileManifestService } from "./file-manifest.service";
 import { FilesService } from "./files.service";
+import { BulkDownloadExecutionEnvironment } from "../hca-get-data/bulk-download/bulk-download-execution-environment.model";
 import { ResponseTermService } from "../http/response-term.service";
 import { HttpService } from "../http/http.service";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
+import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GTMService } from "../../shared/analytics/gtm.service";
@@ -74,21 +76,23 @@ describe("FileManifestService:", () => {
             <any>httpClientSpy);
     }));
 
-    /**
-     * Confirm catalog param is not included in file manifest URL request if not specified.
-     */
-    it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
+    describe("requestFileManifestUrl", () => {
 
-        httpClientSpy.get.and.returnValue(of({
-            status: ManifestStatus.NOT_STARTED
-        }));
+        /**
+         * Confirm catalog param is not included in file manifest URL request if not specified.
+         */
+        it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
 
-        fileManifestService.requestFileManifestUrl(
-            Catalog.NONE, 
-            [],
-            new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
-            ManifestDownloadFormat.COMPACT, 
-            of()).subscribe(() => {
+            httpClientSpy.get.and.returnValue(of({
+                status: ManifestStatus.NOT_STARTED
+            }));
+
+            fileManifestService.requestFileManifestUrl(
+                Catalog.NONE,
+                [],
+                new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+                ManifestDownloadFormat.COMPACT,
+                of()).subscribe(() => {
 
                 expect(httpClientSpy.get).toHaveBeenCalled();
                 expect(httpClientSpy.get).not.toHaveBeenCalledWith(
@@ -97,36 +101,66 @@ describe("FileManifestService:", () => {
                         params: jasmine.stringMatching(/catalog\=dcp1/)
                     }
                 );
-                
+
                 done();
             });
+        });
+
+        /**
+         * Confirm catalog param is included in file manifest URL request if specified.
+         */
+        it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
+
+            httpClientSpy.get.and.returnValue(of({
+                status: ManifestStatus.NOT_STARTED
+            }));
+
+            const catalog = Catalog.DCP1;
+            fileManifestService.requestFileManifestUrl(
+                catalog,
+                [],
+                new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+                ManifestDownloadFormat.COMPACT,
+                of()).subscribe(() => {
+
+                expect(httpClientSpy.get).toHaveBeenCalledWith(
+                    jasmine.anything(),
+                    {
+                        params: jasmine.stringMatching(/catalog\=dcp1/)
+                    }
+                );
+
+                done();
+            });
+        });
     });
 
-    /**
-     * Confirm catalog param is included in file manifest URL request if specified.
-     */
-    it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
+    describe("bindManifestResponse", () => {
 
-        httpClientSpy.get.and.returnValue(of({
-            status: ManifestStatus.NOT_STARTED
-        }));
+        /**
+         * Confirm command line is parsed correctly from manifest response.
+         */
+        it("binds command line value from manifest response", (done: DoneFn) => {
 
-        const catalog = Catalog.DCP1;
-        fileManifestService.requestFileManifestUrl(
-            catalog,
-            [],
-            new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
-            ManifestDownloadFormat.COMPACT,
-            of()).subscribe(() => {
+            const bashCurl = `curl 'http://cmd.exe.com/path/to/file' | curl -K -`;
+            const cmdExeCurl = `curl 'http://bash.com/path/to/file' | curl -K -`;
+            const manifestHttpResponse = {
+                CommandLine: {
+                    "bash": bashCurl,
+                    "cmd.exe": cmdExeCurl
+                },
+                Location: "http://location.com",
+                "Retry-After": 4,
+                Status: 201
+            };
+            fileManifestService["bindManifestResponse"](manifestHttpResponse)
+                .subscribe((manifestResponse: ManifestResponse) => {
 
-            expect(httpClientSpy.get).toHaveBeenCalledWith(
-                jasmine.anything(),
-                {
-                    params: jasmine.stringMatching(/catalog\=dcp1/)
-                }
-            );
-            
-            done();
+                    expect(manifestResponse.commandLine).toBeTruthy();
+                    expect(manifestResponse.commandLine[BulkDownloadExecutionEnvironment.BASH]).toEqual(bashCurl);
+                    expect(manifestResponse.commandLine[BulkDownloadExecutionEnvironment.CMD_EXE]).toEqual(cmdExeCurl);
+                    done();
+                });
         });
     });
 });

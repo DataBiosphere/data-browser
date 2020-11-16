@@ -10,6 +10,7 @@ import { ManifestStatus } from "./manifest-status.model";
 
 export interface ManifestResponse {
 
+    commandLine?: {[key: string]: string};
     fileUrl?: string;
     retryAfter?: number;
     status: ManifestStatus;
