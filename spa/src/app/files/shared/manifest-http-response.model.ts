@@ -7,6 +7,7 @@
 
 export interface ManifestHttpResponse {
 
+    CommandLine: {[key: string]: string};
     Location: string;
     "Retry-After": number;
     Status: number;

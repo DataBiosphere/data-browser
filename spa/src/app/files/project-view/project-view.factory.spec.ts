@@ -104,6 +104,8 @@ describe("ProjectViewFactory:", () => {
             const mappedNucleicAcidSource = result.find(keyValuePair => keyValuePair.key === "developmentStage");
             expect(mappedNucleicAcidSource.value).toEqual(mappedProject.developmentStage);
         });
+
+        projectViewFactory = new ProjectViewFactory(configService);
     });
     
     describe("buildProjectAccessionsSummaries", () => {

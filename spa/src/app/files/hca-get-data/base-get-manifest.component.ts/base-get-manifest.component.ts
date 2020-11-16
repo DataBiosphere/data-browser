@@ -77,6 +77,7 @@ export class BaseGetManifestComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
+
         return selectedSearchTerms.some(selectedSearchTerm => selectedSearchTerm.getSearchKey() === "fileFormat");
     }
 

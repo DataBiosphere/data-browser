@@ -13,12 +13,10 @@ import { CountSizePipe } from "./count-size/count-size.pipe";
 import { FileSizePipe } from "./file-size/file-size.pipe";
 import { LocaleStringPipe } from "./locale-string/locale-string.pipe";
 import { CamelToSpacePipe } from "./camel-to-space/camel-to-space.pipe";
-import { CurlEscapePipe } from "./curl-escape/curl-escape.pipe";
 
 const pipes = [
     CamelToSpacePipe,
     CountSizePipe,
-    CurlEscapePipe,
     FileSizePipe,
     LocaleStringPipe
 ];

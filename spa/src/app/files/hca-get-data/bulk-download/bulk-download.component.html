@@ -8,10 +8,23 @@
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+            <div *ngIf="isShellOptionsVisible()" class="execution-environment fontsize-s">
+                <p class="fontsize-s">Select Shell:</p>
+                <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
+                    <mat-radio-button *ngFor="let option of getShellOptions()" [value]="option">
+                        {{option}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <warning>
+                <warning-content>
+                    <p class="fontsize-m">The generated curl command is compatible with the bash shell on Mac and Linux systems and will remain valid for one hour.  Support for Windows systems is coming soon.</p>
+                </warning-content>
+            </warning>
             <button class="button primary"
                     type="button"
                     (click)="onRequestManifest(state.selectedSearchTerms)"
-                    [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request curl Command</button>
+                    [disabled]="!isRequestFormValid(state.selectedSearchTerms, executionEnvironment)">Request curl Command</button>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
@@ -28,9 +41,9 @@
         <div class="download">
             <p class="bulk-download-curl fontsize-xs"
                  (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, state.manifestResponse.fileUrl)">
-                {{getUrlCommand(state.manifestResponse.fileUrl)}}
+                {{getCurlCommand(state.manifestResponse, executionEnvironment)}}
             </p>
-            <copy-to-clipboard [copyToClipboardLink]="getUrlCommand(state.manifestResponse.fileUrl)"
+            <copy-to-clipboard [copyToClipboardLink]="getCurlCommand(state.manifestResponse, executionEnvironment)"
                                (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
         </div>
     </ng-container>
