@@ -40,6 +40,7 @@ let tableColumns: TableColumn[] = [
         columnFlexDirection: ColumnFlexDirection.COLUMN,
         columnMinWidth: 120,
         columnSort: true,
+        // columnSortKey: "donorDisease",
         countName: "specimenDisease",
         countType: CountType.DOMAIN_COUNT
 
@@ -385,20 +386,24 @@ export function getColumnFlexDirection(column: string): string {
 /**
  * Returns column sort key for column sort.
  *
+ * @param {boolean} v2 - true if environment is running v2
  * @param {string} column
  * @returns {string}
  */
-export function getColumnSortKey(column: string): string {
+export function getColumnSortKey(v2: boolean, column: string): string {
+    
+    // For v2 environments, if column is disease, return "donorDisease". TODO remove this once v2 is deployed to production. See #1394.
+    if ( v2 && column === "disease" ) {
+        return "donorDisease";
+    }
 
     const col = tableColumn.get(column);
-
     if ( !col ) {
 
         return "";
     }
 
     const columnSortKey = col.columnSortKey;
-
     if ( !columnSortKey ) {
 
         return "";

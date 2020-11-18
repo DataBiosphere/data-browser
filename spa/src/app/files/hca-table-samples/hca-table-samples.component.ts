@@ -142,8 +142,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      */
     public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
 
+        // Determine the environment - required for overriding certain sort keys in v2.
+        const v2 = this.configService.isV2();
+
         // Get column sort key, when sort key is specified by table config.
-        const tableConfigColumnSortKey = getColumnSortKey(sort.active);
+        const tableConfigColumnSortKey = getColumnSortKey(v2, sort.active);
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
         if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
