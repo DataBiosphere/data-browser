@@ -10,10 +10,11 @@ import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable } from "rxjs";
+import { combineLatest, Observable, of } from "rxjs";
 import { map, take } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
@@ -33,13 +34,26 @@ export class ProjectExpressionMatricesComponent {
     public state$: Observable<ProjectExpressionMatricesComponentState>;
 
     /**
+     * @param {ConfigService} configService
      * @param {ProjectAnalyticsService} projectAnalyticsService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      */
-    constructor(private projectAnalyticsService: ProjectAnalyticsService,
+    constructor(private configService: ConfigService,
+                private projectAnalyticsService: ProjectAnalyticsService,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute) {}
+
+
+    /**
+     * Returns true if environment is v2 - used to switch out matrix download functionality in template.
+     *
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+
+        return this.configService.isV2();
+    }
 
     /**
      * Set up tracking of tab.
@@ -63,14 +77,18 @@ export class ProjectExpressionMatricesComponent {
         const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Determine which matrix formats, if any, are available for download for this project
-        this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        // Determine which matrix formats, if any, are available for download for this project.  Not required for
+        // v2 environments as Azul returns contributor and generated matrices values with project.
+        const v2 = this.isV2(); 
+        if ( !v2 ) {
+            this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        }
 
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
 
         // Grab the project matrix URLs, if any, for this project
-        const projectMatrixUrls$ = this.store.pipe(
+        const projectMatrixUrls$ = v2 ? of({} as any) : this.store.pipe(
             select(selectProjectMatrixUrlsByProjectId),
             map(projectMatrixUrlsByProjectId => projectMatrixUrlsByProjectId.get(projectId))
         );

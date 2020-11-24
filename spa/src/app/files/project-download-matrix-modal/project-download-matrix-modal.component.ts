@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Component for displaying project prepared expression matrices downloads inside modal. The modal closes automatically
- * on NavigationStart event. The follow actions causes a redirect to the projects page (and therefore closes the modal):
+ * on NavigationStart event. The following actions causes a redirect to the projects page (and therefore closes the modal):
  * 
  * 1. Hitting escape
  * 2. Clicking the close icon
@@ -15,10 +15,11 @@ import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, BehaviorSubject, Observable, Subject } from "rxjs";
+import { combineLatest, BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
@@ -47,12 +48,14 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
     });
 
     /**
+     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {MatDialogRef<ProjectDownloadMatrixModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
     constructor(
+        private configService: ConfigService,
         private store: Store<AppState>,
         private dialogRef: MatDialogRef<ProjectDownloadMatrixModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -72,6 +75,20 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Return environment-specific title for modal.
+     * 
+     * @returns {string}
+     */
+    private getModalTitle(): string {
+
+        if ( this.isV2() ) {
+            return "Project Matrices";
+        }
+
+        return "Download Project Expression Matrices";
+    }
+
+    /**
      * Close the modal on any navigation event.
      */
     private initCloseOnNavigation() {
@@ -84,6 +101,16 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
             this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
+    }
+
+    /**
+     * Returns true if environment is v2 - used to switch out matrix download functionality in template.
+     *
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+
+        return this.configService.isV2();
     }
 
     /**
@@ -138,19 +165,22 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
         // Request project details so we can display the project title
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Determine which matrix formats, if any, are available for download for the current project
-        this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        // Determine which matrix formats, if any, are available for download for the current project. Not required for
+        // v2 environments as Azul returns contributor and generated matrices values with project.
+        const v2 = this.isV2(); 
+        if ( !v2 ) {
+            this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
+        }
         
-        // Grab the project matrix URLs, if any, for the current set of projects as well as the current project
+        // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest(
             this.selectProject(projectId),
-            this.selectProjectMatrixUrls(projectId)
-            
+            v2 ? of({}) : this.selectProjectMatrixUrls(projectId) 
         ).pipe(
             map(([project, projectMatrixUrls]) => {
 
                 return {
-                    loaded: !!project && !!projectMatrixUrls,
+                    loaded: !!project && (!!projectMatrixUrls || v2),
                     project,
                     projectMatrixUrls,
                 }
