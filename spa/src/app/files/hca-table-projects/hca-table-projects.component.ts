@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -51,6 +51,7 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { ProjectRow } from "./project-row.model";
 
 @Component({
     selector: "hca-table-projects",
@@ -80,7 +81,7 @@ export class HCATableProjectsComponent implements OnInit {
     public pagination$: Observable<Pagination>;
     public selectFileSummary$: Observable<FileSummary>;
     public dataSource: EntitiesDataSource<ProjectRowMapper>;
-    public projectsMatrixUrls$: Observable<Map<string, ProjectMatrixUrls>>;
+    public projectsMatrixUrls$ = new BehaviorSubject<Map<string, ProjectMatrixUrls>>(new Map());
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -90,7 +91,7 @@ export class HCATableProjectsComponent implements OnInit {
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
+    @ViewChild(MatTable, {read: ElementRef}) matTableElementRef: ElementRef;
     @ViewChild(MatSort) matSort: MatSort;
 
     /**
@@ -112,11 +113,11 @@ export class HCATableProjectsComponent implements OnInit {
     /**
      * Return the set of query params required when generating the link to a project detail page. Currently, "catalog"
      * is the only query string parameter required for displaying a project detail page (that is, filters are dropped).
-     * 
+     *
      * @param {Catalog} catalog
      * @returns {{[key: string]: string}}
      */
-    public getProjectQueryParams(catalog: Catalog): {[key: string]: string} {
+    public getProjectQueryParams(catalog: Catalog): { [key: string]: string } {
 
         return {
             filter: null, // With the merge query param handling, we want to drop the filter param  
@@ -125,7 +126,18 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Returns true if there is at least one matrix expression available for the specified project.
+     * v2 only - returns true if the specified project has at least one contributed or DCP-generated matrix.
+     * 
+     * @param {ProjectRow} project
+     * @returns {boolean}
+     */
+    public isAnyMatrixAvailable(project: ProjectRow) {
+
+        return project.matrices.length || project.contributorMatrices.length;
+    }
+
+    /**
+     * v1 only - returns true if there is at least one matrix expression available for the specified project.
      *
      * @param {Map<string, ProjectMatrixUrls>} projectsMatrixUrls
      * @param {string} projectId
@@ -148,6 +160,16 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
+     * Returns true if environment is v2 - used to switch out matrix download functionality in template.
+     * 
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+        
+        return this.configService.isV2();
+    }
+
+    /**
      * Return the list of columns to be displayed. Remove download columns if the user's device is hand-held. Remove
      * columns only visible in v2 environments.
      *
@@ -161,12 +183,12 @@ export class HCATableProjectsComponent implements OnInit {
                 (this.deviceService.isMobile() || this.deviceService.isTablet()) ) {
                 return false;
             }
-            
+
             if ( !this.configService.isV2() &&
                 (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
                 return false;
             }
-            
+
             return true;
         });
     }
@@ -299,26 +321,33 @@ export class HCATableProjectsComponent implements OnInit {
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
-        // Determine which matrix formats, if any, are available for download for the current set of projects
-        this.data$.pipe(
-            filter(data => !!data.length),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((data) => {
+        // For v1 environments, determine which matrix formats, if any, are available for download for the current set
+        // of projects. For v2 environments, matrix information is available on values returned from Azul.
+        if ( !v2 ) {
 
-            data.forEach((row) =>
-                this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(row.entryId)));
-        });
+            this.data$.pipe(
+                filter(data => !!data.length),
+                takeUntil(this.ngDestroy$)
+            ).subscribe((data) => {
 
-        // Grab the project matrix URLs, if any, for the current set of projects
-        this.projectsMatrixUrls$ = this.store.pipe(
-            select(selectProjectMatrixUrlsByProjectId)
-        );
+                data.forEach((row) =>
+                    this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(row.entryId)));
+            });
+
+            // Grab the project matrix URLs, if any, for the current set of projects
+            this.store
+                .pipe(
+                    select(selectProjectMatrixUrlsByProjectId),
+                    takeUntil(this.ngDestroy$)
+                )
+                .subscribe(projectMatrixUrlsByProjectId => this.projectsMatrixUrls$.next(projectMatrixUrlsByProjectId));
+        }
 
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
             map(() => true)
         );
-        
+
         this.catalog$ = this.store.pipe(select(selectCatalog));
     }
 }

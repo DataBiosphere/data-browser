@@ -94,6 +94,7 @@ import { ProjectAnalyticsService } from "./project/project-analytics.service";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
+import { ProjectDownloadGeneratedMatrixComponent } from "./project-download-generated-matrix/project-download-generated-matrix.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
@@ -231,6 +232,7 @@ const v2 = environment.version === "2.0";
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
+        ProjectDownloadGeneratedMatrixComponent,
         ProjectDownloadManifestComponent,
         ProjectDownloadManifestModalComponent,
         ProjectDownloadManifestModalContainerComponent,

@@ -19,6 +19,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 export class DownloadButtonComponent {
 
     // Inputs
+    @Input() disabled: boolean;
     @Input() downloadAvailable: boolean;
     @Output() downloadClicked = new EventEmitter<boolean>();
 

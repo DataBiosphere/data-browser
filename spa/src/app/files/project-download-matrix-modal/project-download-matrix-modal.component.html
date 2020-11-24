@@ -1,11 +1,17 @@
 <modal-layout *ngIf="state$ | async as state"
               [loaded]="state.loaded"
               (closed)="redirectToProjects()">
-    <ng-container title *ngIf="state.loaded">Download Project Expression Matrices</ng-container>
+    <ng-container title *ngIf="state.loaded">{{getModalTitle()}}</ng-container>
     <ng-container subtitle *ngIf="state.loaded">{{state.project.projectTitle}}</ng-container>
     <ng-container content *ngIf="state.loaded">
-        <project-download-matrix [classFontName]="'fontsize-m'"
-                                 [projectMatrixUrls]="state.projectMatrixUrls" 
-                                 [projectTitle]="state.project.projectTitle"></project-download-matrix>
+        <ng-container [ngSwitch]="isV2()">
+            <project-download-generated-matrix *ngSwitchCase="true" 
+                                               [project]="state.project"></project-download-generated-matrix>
+            <project-download-matrix
+                    *ngSwitchDefault
+                    [classFontName]="'fontsize-m'"
+                    [projectMatrixUrls]="state.projectMatrixUrls" 
+                    [projectTitle]="state.project.projectTitle"></project-download-matrix>
+        </ng-container>
     </ng-container>
 </modal-layout>

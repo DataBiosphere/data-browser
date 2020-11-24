@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class UtilService {
@@ -17,14 +17,8 @@ export class UtilService {
      * @param {any} obj
      * @returns {boolean}
      */
-    public isEmpty(obj) {
-        
-        for ( var prop in obj ) {
-            if ( obj.hasOwnProperty(prop) )
-                return false;
-        }
+    public static isEmpty(obj) {
 
-        return true;
+        return !obj || Object.keys(obj).length === 0 && obj.constructor === Object;
     }
-
 }
