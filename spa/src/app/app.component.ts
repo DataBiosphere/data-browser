@@ -9,12 +9,13 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Subject, BehaviorSubject, combineLatest } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppComponentState } from "./app.component.state";
 import { ConfigService } from "./config/config.service";
+import { selectCatalog } from "./files/_ngrx/file.selectors";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
 import { ReleaseService } from "./files/shared/release.service";
@@ -165,14 +166,25 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     private initState() {
 
+        // Grab the current catalog value - we need this for the announcement banner
+        const catalog$ = this.store.pipe(select(selectCatalog));
+
+        // Grab the system status
         this.store.dispatch(new SystemStatusRequestAction());
-        this.store.pipe(
+
+        const systemStatus$ = this.store.pipe(
             select(selectSystemStatus),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((systemStatus) => {
+            takeUntil(this.ngDestroy$));
+
+        combineLatest(catalog$, systemStatus$)
+            .pipe(
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe(([catalog, systemStatus]) => {
 
             this.state$.next({
-                systemStatus
+                catalog: catalog,
+                systemStatus: systemStatus
             });
         });
     }
