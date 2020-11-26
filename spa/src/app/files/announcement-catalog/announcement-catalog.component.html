@@ -1,0 +1,16 @@
+<announcement class="announcement-catalog">
+    <span class="fontsize-m">
+        <ng-container [ngSwitch]="isCatalogDCP2()">
+            <span *ngSwitchCase="true">You are currently viewing the HCA DCP 2.0 Data Preview.</span>
+            <span *ngSwitchDefault><strong>Update: </strong>A preview of the HCA DCP 2.0 data is now available.</span>
+        </ng-container>
+        <span>
+            <ng-container [ngSwitch]="isCatalogDCP2()">
+                <span (click)="onCatalogSelected('dcp1')" *ngSwitchCase="true">View DCP 1.0</span>
+                <span (click)="onCatalogSelected('dcp2')" *ngSwitchDefault>View DCP 2.0 Preview</span>
+            </ng-container>
+            <span>|</span>
+            <a [href]="getCatalogAnnouncementUrl()">Learn More</a>
+        </span>
+    </span>
+</announcement>

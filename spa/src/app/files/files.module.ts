@@ -29,12 +29,12 @@ import { RouterModule } from "@angular/router";
 
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
+import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
 import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
 import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
 import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
-import { DCP2AnnouncementComponent } from "./dcp2-announcement/dcp2-announcement.component";
 import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
 import { EntityRequestService } from "./entity/entity-request.service";
 import { environment } from "../../environments/environment";
@@ -180,11 +180,11 @@ const v2 = environment.version === "2.0";
         AgeUnitInAgeUnit,
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
+        AnnouncementCatalogComponent,
         BaseGetManifestComponent,
         BulkDownloadComponent,
         CatalogFormComponent,
         DataDownloadCitationComponent,
-        DCP2AnnouncementComponent,
         DisplayDataLinkComponent,
         FacetAgeRangeFormComponent,
         FacetMenuComponent,
@@ -296,7 +296,7 @@ const v2 = environment.version === "2.0";
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     exports: [
-        DCP2AnnouncementComponent
+        AnnouncementCatalogComponent
     ]
 })
 export class FilesModule {

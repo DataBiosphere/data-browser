@@ -12,13 +12,13 @@
     padding: 14px 16px; /* Site gutter */
 }
 
-/* Component release-banner, dcp2-announcement */
-:host-context(release-banner), :host-context(dcp2-announcement) {
+/* Component release-banner, announcement-catalog */
+:host-context(release-banner), :host-context(announcement-catalog) {
     background-color: $hca-blue-light;
 }
 
-/* Component dcp2-announcement */
-:host-context(dcp2-announcement) {
+/* Component announcement-catalog */
+:host-context(announcement-catalog) {
     padding: 20px 16px;
 }
 
@@ -71,11 +71,11 @@
     }
 
     /* Center align content - for banners at the top of site */
+    /* Component announcement-catalog */
     /* Component release-banner */
-    /* Component dcp2-announcement */
     /* Component app with class "status" */
     /* Component app with class "data-re-ingestion" */
-    :host-context(dcp2-announcement), :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
+    :host-context(announcement-catalog), :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
         display: flex;
         justify-content: center;
     }
