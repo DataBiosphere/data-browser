@@ -65,6 +65,7 @@ export class ProjectsCanActivateGuard implements CanActivate {
             switchMap(([selectedCatalog, selectedSearchTermsByKey, defaultFilterInit]) => {
 
                 const queryParams = route.queryParams;
+                const catalogParam = queryParams.catalog;
                 const filterParam = queryParams.filter;
 
                 // If the default filter has not yet been added to the app URL, add it and redirect.
@@ -72,11 +73,9 @@ export class ProjectsCanActivateGuard implements CanActivate {
                     
                     this.store.dispatch(new DefaultFilterInitAction());
                     if ( !filterParam ) {
-                        return of(this.createDefaultFilterTree());
+                        return of(this.createDefaultFilterTree(catalogParam));
                     }
                 }
-
-                const catalogParam = queryParams.catalog;
 
                 // Proceed as is if:
                 // - Filter param is specified, or, if there is no filter param and there are no selected search terms
@@ -97,9 +96,10 @@ export class ProjectsCanActivateGuard implements CanActivate {
     /**
      * Build up URL tree to projects, including default filter.
      * 
+     * @param {string} selectedCatalog
      * @returns {UrlTree}
      */
-    private createDefaultFilterTree(): UrlTree {
+    private createDefaultFilterTree(selectedCatalog): UrlTree {
 
         return this.router.createUrlTree(["projects"], {
             queryParams: {
@@ -107,7 +107,8 @@ export class ProjectsCanActivateGuard implements CanActivate {
                     new Map([
                         [FileFacetName.GENUS_SPECIES, new Set([new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)])]
                     ])
-                )
+                ),
+                catalog: selectedCatalog ? selectedCatalog : null
             }
         });
     }
@@ -115,6 +116,8 @@ export class ProjectsCanActivateGuard implements CanActivate {
     /**
      * Build up URL tree from current state.
      *
+     * @param {Map<string, Set<SearchTerm>} selectedSearchTermsByKey
+     * @param {string} selectedCatalog
      * @returns {UrlTree}
      */
     private createTreeFromState(selectedSearchTermsByKey, selectedCatalog): UrlTree {
