@@ -250,7 +250,7 @@ export class ConfigService {
      */
     public isEnvClgDev(): boolean {
 
-        return this.deployment === "cgl-dev";
+        return this.deployment === "cgl-dev" || this.deployment === "dcp2";
     }
 
     /**
