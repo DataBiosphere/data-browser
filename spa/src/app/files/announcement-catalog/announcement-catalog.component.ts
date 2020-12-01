@@ -56,6 +56,6 @@ export class AnnouncementCatalogComponent {
      */
     public onCatalogSelected(catalog: Catalog) {
 
-        this.window.location.href = `/${EntityName.PROJECTS}?catalog=${catalog}`;
+        this.window.location.href = `/explore/${EntityName.PROJECTS}?catalog=${catalog}`;
     }
 }
