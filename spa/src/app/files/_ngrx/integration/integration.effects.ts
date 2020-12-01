@@ -13,7 +13,7 @@ import { Observable, of } from "rxjs";
 import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { selectCatalog } from "../file.selectors";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchIntegrationsByProjectIdRequestAction } from "./fetch-integrations-by-project-id-request.action";
 import { FetchIntegrationsByProjectIdSuccessAction } from "./fetch-integrations-by-project-id-success.action";
 import { selectIntegrationsByProjectId } from "./integration.selectors";

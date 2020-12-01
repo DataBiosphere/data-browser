@@ -169,7 +169,7 @@ export class FacetState {
 
 
     /**
-     * Handle set of file facets returned from the files end point, used to poplated data summary on get data pages.
+     * Handle set of file facets returned from the files end point, used to poplate data summary on get data pages.
      *
      * @param {SelectFacetAgeRangeAction} action
      * @returns {FacetState}

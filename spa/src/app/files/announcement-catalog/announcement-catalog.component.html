@@ -6,8 +6,8 @@
         </ng-container>
         <span>
             <ng-container [ngSwitch]="isCatalogDCP2()">
-                <span (click)="onCatalogSelected('dcp1')" *ngSwitchCase="true">View DCP 1.0</span>
-                <span (click)="onCatalogSelected('dcp2')" *ngSwitchDefault>View DCP 2.0 Preview</span>
+                <span (click)="onCatalogSelected('dcp1')" *ngSwitchCase="true">View DCP 1.0 Data</span>
+                <span (click)="onCatalogSelected('dcp2')" *ngSwitchDefault>View DCP 2.0 Data Preview</span>
             </ng-container>
             <span>|</span>
             <a [href]="getCatalogAnnouncementUrl()">Learn More</a>

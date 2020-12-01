@@ -15,7 +15,8 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectCatalog, selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { selectSelectedProject } from "../_ngrx/file.selectors";
 import {
     selectReleaseByProjectId,
     selectReleaseReferrer

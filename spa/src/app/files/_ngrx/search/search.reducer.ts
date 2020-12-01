@@ -16,7 +16,6 @@ import { SetViewStateAction } from "../facet/set-view-state.action";
 import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
 import { SelectProjectIdAction } from "./select-project-id.action";
 import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
-import { SelectSearchTermAction } from "./select-search-term.action";
 import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
 
 /**

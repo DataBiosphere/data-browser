@@ -20,10 +20,10 @@ import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { FileSummary } from "../file-summary/file-summary";
 import { AppState } from "../../_ngrx/app.state";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
-    selectCatalog,
     selectFileSummary,
     selectPagination,
     selectTableData,

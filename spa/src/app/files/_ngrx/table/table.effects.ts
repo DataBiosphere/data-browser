@@ -37,6 +37,7 @@ import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { UrlService } from "../../url/url.service";
+import { selectCatalog } from "../catalog/catalog.selectors";
 
 @Injectable()
 export class TableEffects {
@@ -163,14 +164,13 @@ export class TableEffects {
     fetchTableData$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchTableDataRequestAction.ACTION_TYPE),
-            switchMap((action) => this.store.pipe(
-                select(selectTableQueryParams),
-                take(1),
-                map((tableQueryParams) => {
-                    return {action, tableQueryParams};
-                })
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1))
+                )
             )),
-            switchMap(({action, tableQueryParams}) => {
+            switchMap(([action, catalog, tableQueryParams]) => {
 
                 // Reset the pagination but keep the set page size if it was changed.
                 let tableParams = Object.assign(
@@ -186,7 +186,7 @@ export class TableEffects {
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 const filterableByProject = (selectedEntity !== EntityName.PROJECTS);
                 return this.fileService.fetchEntitySearchResults(
-                        tableQueryParams.catalog,    
+                        catalog,    
                         selectedSearchTermsBySearchKey,
                         tableParams,
                         selectedEntity,
@@ -211,11 +211,13 @@ export class TableEffects {
     fetchTableModel$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchTableModelRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(
-                select(selectTableQueryParams),
-                take(1)
-            )),
-            switchMap((tableQueryParams) => {
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1))
+                ))
+            ),
+            switchMap(([action, catalog, tableQueryParams]) => {
 
                 // Reset the pagination but keep the set page size if it was changed.
                 let tableParams = Object.assign(
@@ -230,7 +232,7 @@ export class TableEffects {
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
                 return this.fileService.fetchEntitySearchResults(
-                    tableQueryParams.catalog,
+                    catalog,
                     selectedSearchTermsBySearchKey,
                     tableParams,
                     selectedEntity,

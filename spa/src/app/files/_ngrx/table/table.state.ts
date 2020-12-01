@@ -6,7 +6,6 @@
  */
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
 import { EntityName } from "../../shared/entity-name.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
@@ -20,7 +19,6 @@ export interface TableState {
     selectedEntity: string; // Current selected tab (eg Projects, Samples, Files)
     tableModels: TableModel[];
     entitySpecs: EntitySpec[];
-    catalog: Catalog; // Currently only applicable only to cgl-dev environment
 }
 
 /**
@@ -73,8 +71,7 @@ export function getDefaultTableState(): TableState {
             {key: EntityName.PROJECTS, displayName: "Projects"},
             {key: EntityName.SAMPLES, displayName: "Samples"},
             {key: EntityName.FILES, displayName: "Files"}
-        ],
-        catalog: Catalog.NONE
+        ]
     };
 }
 

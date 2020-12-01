@@ -14,6 +14,7 @@ import { of } from "rxjs";
 import { concatMap, filter, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { SelectCatalogAction } from "../catalog/select-catalog.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
@@ -23,7 +24,6 @@ import { SelectFileFacetTermAction } from "../search/select-file-facet-term.acti
 import { SelectProjectIdAction } from "../search/select-project-id.action";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { selectUrlSpecState } from "./url.selectors";
-import { SelectCatalogAction } from "../table/select-catalog.action";
 import { UrlService } from "../../url/url.service";
 
 @Injectable()
@@ -44,14 +44,14 @@ export class UrlEffects {
     }
 
     /**
-     * Update catalog query string param if catalog has changed.
+     * Update catalog query string param if catalog has been selected.
      */
     @Effect({dispatch: false})
     updateCatalogQueryParam$ = this.actions$.pipe(
         ofType(SelectCatalogAction.ACTION_TYPE),
         tap((action: SelectCatalogAction) => {
-
-            // Update catalog query string parameter, retaining any existing query string paramters
+            
+            // Update catalog query string parameter, retaining any existing query string parameters
             const catalog = action.catalog;
             this.router.navigate([], {
                 queryParams: {

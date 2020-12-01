@@ -9,8 +9,8 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { InitState } from "./init.state";
 import { DefaultFilterInitAction } from "./default-filter-init.action";
+import { InitState } from "./init.state";
 
 export function reducer(state: InitState = InitState.getDefaultState(), action: Action): InitState {
 

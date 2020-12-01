@@ -22,25 +22,29 @@ import { combineLatest, Observable, of } from "rxjs";
 import { switchMap, take } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { DefaultFilterInitAction } from "../_ngrx/init/default-filter-init.action";
-import { selectCatalog } from "../_ngrx/file.selectors";
 import { selectDefaultFilterInit } from "../_ngrx/init/init.selectors";
 import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
 import { SearchTermUrlService } from "../search/url/search-term-url.service";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { GenusSpecies } from "../shared/genus-species.model";
+import { Catalog } from "../catalog/catalog.model";
 
 @Injectable()
 export class ProjectsCanActivateGuard implements CanActivate {
 
     /**
+     * @param {ConfigService} configService
      * @param {SearchTermUrlService} searchTermUrlService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    constructor(private searchTermUrlService: SearchTermUrlService,
+    constructor(private configService: ConfigService,
+                private searchTermUrlService: SearchTermUrlService,
                 private router: Router,
                 private store: Store<AppState>) {}
 
@@ -55,6 +59,8 @@ export class ProjectsCanActivateGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean | UrlTree> {
         
+        const v2 = this.configService.isV2();
+        
         return combineLatest(
             this.store.pipe(select(selectCatalog), take(1)),
             this.store.pipe(select(selectSelectedSearchTermsBySearchKey), take(1)),
@@ -68,12 +74,14 @@ export class ProjectsCanActivateGuard implements CanActivate {
                 const catalogParam = queryParams.catalog;
                 const filterParam = queryParams.filter;
 
-                // If the default filter has not yet been added to the app URL, add it and redirect.
+                // If the default filter, or default catalog for v2 environments, has not yet been added to the app URL,
+                // add them and redirect.
                 if ( !defaultFilterInit ) {
                     
                     this.store.dispatch(new DefaultFilterInitAction());
-                    if ( !filterParam ) {
-                        return of(this.createDefaultFilterTree(catalogParam));
+                    if ( !filterParam || (v2 && !catalogParam) ) {
+                        
+                        return of(this.createDefaultTree(v2, filterParam, catalogParam));
                     }
                 }
 
@@ -94,21 +102,43 @@ export class ProjectsCanActivateGuard implements CanActivate {
     }
 
     /**
-     * Build up URL tree to projects, including default filter.
+     * Build up URL tree to projects, including default filter and if v2, default catalog.
      * 
-     * @param {string} selectedCatalog
+     * @param {boolean} v2
+     * @param {string} filterParam
+     * @param {string} catalogParam
      * @returns {UrlTree}
      */
-    private createDefaultFilterTree(selectedCatalog): UrlTree {
+    private createDefaultTree(v2: boolean, filterParam: string, catalogParam: string): UrlTree {
+
+        // Grab the catalog param if specified in the query string. 
+        let catalog;
+        if ( !!catalogParam ) {
+            catalog = catalogParam;
+        }
+        // Otherwise default catalog param to DCP1 for v2 environments if it's not currently specified in the query
+        // string. For v1 environments, set to null to prevent addition to query string params.
+        else {
+            catalog = v2 ? Catalog.DCP1 : null;
+        }
+
+        // Always default filter to homo sapiens if filter is not currently specified in query string
+        let filter;
+        if ( !!filterParam ) {
+            filter = filterParam;
+        }
+        else {
+            filter = this.searchTermUrlService.stringifySearchTerms(
+                new Map([
+                    [FileFacetName.GENUS_SPECIES, new Set([new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)])]
+                ])
+            );
+        }
 
         return this.router.createUrlTree(["projects"], {
             queryParams: {
-                filter: this.searchTermUrlService.stringifySearchTerms(
-                    new Map([
-                        [FileFacetName.GENUS_SPECIES, new Set([new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)])]
-                    ])
-                ),
-                catalog: selectedCatalog ? selectedCatalog : null
+                filter,
+                catalog
             }
         });
     }

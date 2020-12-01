@@ -6,6 +6,7 @@
  */
 
 // App dependencies
+import { CatalogState } from "./catalog/catalog.state";
 import { FacetState } from "./facet/facet.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
@@ -19,6 +20,7 @@ import { TableState } from "./table/table.state";
 import { TerraState } from "./terra/terra.state";
 
 export interface FileState {
+    catalog: CatalogState,
     terra: TerraState;
     fileSummary: FileSummaryState;
     facet: FacetState;

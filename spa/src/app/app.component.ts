@@ -15,7 +15,7 @@ import { filter, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppComponentState } from "./app.component.state";
 import { ConfigService } from "./config/config.service";
-import { selectCatalog } from "./files/_ngrx/file.selectors";
+import { selectCatalog } from "./files/_ngrx/catalog/catalog.selectors";
 import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
 import { ReleaseService } from "./files/shared/release.service";
@@ -77,6 +77,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Maintenance mode warning is currently disabled.
         return false;
+    }
+
+    /**
+     * Returns true if the current environment is running v2 code.
+     * 
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+        
+        return this.configService.isV2();
     }
 
     /**
@@ -167,7 +177,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private initState() {
 
         // Grab the current catalog value - we need this for the announcement banner
-        const catalog$ = this.store.pipe(select(selectCatalog));
+        const catalog$ = this.store.pipe(
+            select(selectCatalog),
+            takeUntil(this.ngDestroy$)
+        );
 
         // Grab the system status
         this.store.dispatch(new SystemStatusRequestAction());

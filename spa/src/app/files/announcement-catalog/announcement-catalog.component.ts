@@ -6,14 +6,14 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, Inject, Input } from "@angular/core";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
-import { Store } from "@ngrx/store";
-import { SelectCatalogAction } from "../_ngrx/table/select-catalog.action";
+import { EntityName } from "../shared/entity-name.model";
 
 @Component({
     selector: "announcement-catalog",
@@ -26,11 +26,11 @@ export class AnnouncementCatalogComponent {
     @Input() catalog: Catalog;
 
     /**
-     *
      * @param {ConfigService} configService
      * @param {Store<AppState>} store
+     * @param {Window} window
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>) {}
+    constructor(private configService: ConfigService, private store: Store<AppState>, @Inject("Window") private window: Window) {}
 
     /**
      * Returns the URL to the catalog announcement page.
@@ -56,6 +56,6 @@ export class AnnouncementCatalogComponent {
      */
     public onCatalogSelected(catalog: Catalog) {
 
-        this.store.dispatch(new SelectCatalogAction(catalog));
+        this.window.location.href = `/${EntityName.PROJECTS}?catalog=${catalog}`;
     }
 }

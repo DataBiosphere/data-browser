@@ -73,7 +73,7 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
 
         if ( this.currentUrl ) {
 
-            const explorePaths = ["projects", "samples", "files"];
+            const explorePaths = ["projects", "samples", "files", "get-data"];
             const explorePathExists = explorePaths.some(explorePath => this.currentUrl.includes(explorePath));
             const homePathExists = this.currentUrl === "/";
 

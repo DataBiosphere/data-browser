@@ -16,6 +16,7 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { Catalog } from "../../catalog/catalog.model";
+import { SelectCatalogAction } from "../catalog/select-catalog.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
 import { AgeUnit } from "../../facet/facet-age-range/age-unit.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
@@ -28,7 +29,6 @@ import { SelectProjectIdAction } from "../search/select-project-id.action";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { EntityName } from "../../shared/entity-name.model";
-import { SelectCatalogAction } from "../table/select-catalog.action";
 import { UrlEffects } from "./url.effects";
 import { selectUrlSpecState } from "./url.selectors";
 import { UrlService } from "../../url/url.service";
