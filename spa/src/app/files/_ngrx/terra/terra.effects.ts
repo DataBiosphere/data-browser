@@ -13,12 +13,12 @@ import { Observable, of } from "rxjs";
 import { concatMap, filter, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../../_ngrx/app.state";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.action";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
-import { selectCatalog } from "../file.selectors";
+import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";

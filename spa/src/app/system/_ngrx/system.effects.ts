@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 
 // App dependencies
-import { selectCatalog } from "../../files/_ngrx/file.selectors";
+import { selectCatalog } from "../../files/_ngrx/catalog/catalog.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import { AbstractSystemService } from "../shared/abstract.system.service";
 import { SystemService } from "../shared/system.service";

@@ -13,6 +13,8 @@ import { Observable, of } from "rxjs";
 import { concatMap, map, mergeMap, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "./catalog/catalog.selectors";
+import { SelectCatalogAction } from "./catalog/select-catalog.action";
 import { DownloadFileAction } from "./download-file.action";
 import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
@@ -23,7 +25,7 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
 import { FetchFilesFacetsRequestAction } from "./facet/fetch-files-facets-request.action";
 import { FetchFilesFacetsSuccessAction } from "./facet/fetch-files-facets-success.action";
-import { selectCatalog, selectTableQueryParams } from "./file.selectors";
+import { selectTableQueryParams } from "./file.selectors";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import { AppState } from "../../_ngrx/app.state";
@@ -45,7 +47,6 @@ import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.ac
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
-import { SelectCatalogAction } from "./table/select-catalog.action";
 
 @Injectable()
 export class FileEffects {
@@ -89,7 +90,7 @@ export class FileEffects {
     fetchFacetsAndSummary$: Observable<Action> = this.actions$
         .pipe(
             ofType(
-                SelectCatalogAction.ACTION_TYPE,
+                SelectCatalogAction.ACTION_TYPE, // Dev-specific select of catalog
                 ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
                 ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
                 InitEntityStateAction.ACTION_TYPE, // Init table data for newly selected tab, if table data isn't cached
@@ -121,11 +122,12 @@ export class FileEffects {
             ofType(FetchFileFacetsRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectTableQueryParams), take(1)),
                     this.store.pipe(select(selectCurrentQuery), take(1))
                 )
             )),
-            switchMap(([action, tableQueryParams, currentQuery]) => {
+            switchMap(([action, catalog, tableQueryParams, currentQuery]) => {
 
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 const selectedEntity = tableQueryParams.tableState.selectedEntity;
@@ -138,7 +140,7 @@ export class FileEffects {
                     });
 
                 return this.fileService.fetchEntitySearchResults(
-                    tableQueryParams.catalog,
+                    catalog,
                     selectedSearchTermsBySearchKey,
                     tableParams,
                     selectedEntity)
@@ -216,12 +218,17 @@ export class FileEffects {
     fetchFilesFacets$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFilesFacetsRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(select(selectTableQueryParams), take(1))),
-            switchMap((tableQueryParams) => {
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1))
+                )
+            )),
+            switchMap(([action, catalog, tableQueryParams]) => {
 
                 const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
                 return this.fileService.fetchEntitySearchResults(
-                    tableQueryParams.catalog,
+                    catalog,
                     selectedSearchTermsBySearchKey,
                     DEFAULT_TABLE_PARAMS,
                     EntityName.FILES);
@@ -241,16 +248,16 @@ export class FileEffects {
             ofType(
                 FetchIsMatrixSupportedRequestAction.ACTION_TYPE
             ),
-            switchMap(() =>
-                this.store.pipe(
-                    select(selectTableQueryParams),
-                    take(1)
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1))
                 )
-            ),
-            switchMap((tableQueryParams) => {
+            )),
+            switchMap(([action, catalog, tableQueryParams]) => {
 
                 return this.fileService.fetchIsMatrixSupported(
-                    tableQueryParams.catalog, tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
+                    catalog, tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
             }),
             map((matrixableSearchResults: boolean) => new FetchIsMatrixSupportedSuccessAction(matrixableSearchResults))
         );

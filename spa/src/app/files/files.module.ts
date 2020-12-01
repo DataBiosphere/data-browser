@@ -30,6 +30,7 @@ import { RouterModule } from "@angular/router";
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
+import { AnnouncementDCP2ComingSoonComponent } from "./announcement-dcp2-coming-soon/announcement-dcp2-coming-soon.component";
 import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
 import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
@@ -181,6 +182,7 @@ const v2 = environment.version === "2.0";
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
         AnnouncementCatalogComponent,
+        AnnouncementDCP2ComingSoonComponent,
         BaseGetManifestComponent,
         BulkDownloadComponent,
         CatalogFormComponent,
@@ -296,7 +298,8 @@ const v2 = environment.version === "2.0";
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     exports: [
-        AnnouncementCatalogComponent
+        AnnouncementCatalogComponent,
+        AnnouncementDCP2ComingSoonComponent
     ]
 })
 export class FilesModule {

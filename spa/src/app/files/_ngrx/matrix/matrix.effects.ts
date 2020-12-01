@@ -13,6 +13,7 @@ import { Observable, of } from "rxjs";
 import { concatMap, filter, map, mergeMap, skip, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats-request.action";
 import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats-success.action";
 import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partial-query-match-success.action";
@@ -22,7 +23,6 @@ import { FetchMatrixUrlSuccessAction } from "./fetch-matrix-url-success.action";
 import { FetchMatrixUrlSpeciesSuccessAction } from "./fetch-matrix-url-species-success.action";
 import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls-request.action";
 import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
-import { selectCatalog } from "../file.selectors";
 import { selectMatrixUrlRequestsBySpecies, selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import {

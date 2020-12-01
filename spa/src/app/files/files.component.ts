@@ -13,13 +13,15 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { CatalogDisplayName } from "./catalog/catalog-display-name.model";
+import { Catalog } from "./catalog/catalog.model";
 import { ConfigService } from "../config/config.service";
 import { FilesComponentState } from "./files.component.state";
 import { AppState } from "../_ngrx/app.state";
+import { selectCatalog } from "./_ngrx/catalog/catalog.selectors";
 import { SelectEntityAction } from "./_ngrx/entity/select-entity.action";
 import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
-    selectCatalog,
     selectFileSummary,
     selectEntities,
     selectSelectedEntitySpec
@@ -59,13 +61,35 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true if the catalog feature is enabled.
-     * 
+     * Return the catalog for the explore header. For example, "Explore Data: DCP 1.0" or "Explore Data: DCP 2.0", or
+     * "Explore Data" for v1 environments.
+     *
+     * @param {Catalog} catalog
+     * @returns {string}
+     */
+    public getExploreTitle(catalog: Catalog): string {
+
+        const title = "Explore Data";
+        if ( !this.configService.isV2() ) {
+            return title;
+        }
+
+        const catalogDisplayName = CatalogDisplayName[catalog];
+        if ( !catalogDisplayName ) {
+            return title;
+        }
+        return `${title}: ${catalogDisplayName}`;
+    }
+
+
+    /**
+     * Returns true if the catalog feature is enabled. Currently true for all v2 environments exception dcp2 and production.
+     *
      * @returns {boolean}
      */
     public isCatalogEnabled(): boolean {
-        
-        return this.configService.isEnvClgDev();
+
+        return this.configService.isV2() && !this.configService.isEnvDCP2() && !this.configService.isEnvProd();
     }
 
     /**
@@ -134,7 +158,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                          selectedEntity,
                          selectedSearchTerms,
                          searchTerms,
-                         selectedProjectIds, 
+                         selectedProjectIds,
                          catalog]) => {
 
                     return {

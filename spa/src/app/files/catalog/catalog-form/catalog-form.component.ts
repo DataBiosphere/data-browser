@@ -8,13 +8,13 @@
 // Core dependencies
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { MatRadioChange } from "@angular/material/radio";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { Catalog } from "../catalog.model";
-import { Store } from "@ngrx/store";
 import { AppState } from "../../../_ngrx/app.state";
-import { SelectCatalogAction } from "../../_ngrx/table/select-catalog.action";
-import { MatRadioChange } from "@angular/material/radio";
+import { SelectCatalogAction } from "../../_ngrx/catalog/select-catalog.action";
 
 @Component({
     selector: "catalog-form",

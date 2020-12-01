@@ -15,13 +15,13 @@ import { filter, map, take, tap } from "rxjs/operators";
 
 // App dependencies
 import { Catalog } from "../../catalog/catalog.model";
+import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
-import { DefaultFilterInitAction } from "./default-filter-init.action";
 
 @Injectable()
 export class InitEffects {
@@ -60,8 +60,8 @@ export class InitEffects {
     /**
      * Set up default table state:
      * - Set selected entity
-     * - Set default search terms if use has arrived at site with no previous search terms selected, and user is currently
-     *   viewing the projects tab.
+     * - Set default search terms if user has arrived at site with no previous search terms selected, and user is
+     * currently viewing the projects tab.
      *
      * The dispatched SetViewStateAction triggers the following:
      * - Sets the selected entity in the store
@@ -99,11 +99,12 @@ export class InitEffects {
     );
 
     /**
-     * Trigger action to update state indicating default filter has been applied.
+     * After initial router has completed, trigger action to update state indicating default filter has been applied.
      */
     @Effect()
     updateDefaultFilterInit$ = this.router.events.pipe(
         filter(evt => evt instanceof NavigationEnd),
+        take(1),
         map(() => {
             return new DefaultFilterInitAction();
         })

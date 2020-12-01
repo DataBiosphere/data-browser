@@ -13,9 +13,9 @@ import { Observable, of } from "rxjs";
 import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchProjectTSVUrlRequestAction } from "./fetch-project-tsv-url-request.action";
 import { FetchProjectTSVUrlSuccessAction } from "./fetch-project-tsv-url-success.action";
-import { selectCatalog } from "../file.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";

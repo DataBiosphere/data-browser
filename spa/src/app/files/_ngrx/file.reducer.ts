@@ -6,6 +6,7 @@
  */
 
 // App dependencies
+import * as catalogReducer from "./catalog/catalog.reducer";
 import * as facetReducer from "./facet/facet.reducer";
 import * as fileSummaryReducer from "./file-summary/file-summary.reducer";
 import * as fileManifestReducer from "./file-manifest/file-manifest.reducer";
@@ -19,6 +20,7 @@ import * as tableReducer from "./table/table.reducer";
 import * as searchReducer from "./search/search.reducer";
 
 export const reducer = {
+    catalog: catalogReducer.reducer,
     facet: facetReducer.reducer,
     fileManifest: fileManifestReducer.reducer,
     fileSummary: fileSummaryReducer.reducer,

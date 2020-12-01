@@ -6,6 +6,7 @@
  */
 
 // App dependencies
+import { CatalogState } from "./catalog/catalog.state";
 import { FacetState } from "./facet/facet.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileState } from "./file.state";
@@ -25,6 +26,7 @@ import { getDefaultTableState } from "./table/table.state";
  * Default project state - current tab is projects, no selected search terms
  */
 export const DEFAULT_PROJECTS_STATE = {
+    catalog: CatalogState.getDefaultState(),
     fileSummary: FileSummaryState.getDefaultState(),
     facet: FacetState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
@@ -88,7 +90,7 @@ function selectEntity(fromState: FileState, selectedEntity: string): FileState {
     const updatedState = Object.assign({}, fromState, {
         tableState: getDefaultTableState()
     });
-    updatedState.tableState.selectedEntity = EntityName.SAMPLES;
+    updatedState.tableState.selectedEntity = selectedEntity;
 
     return updatedState;
 }

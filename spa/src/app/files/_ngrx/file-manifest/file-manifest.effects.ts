@@ -13,6 +13,7 @@ import { of, Observable } from "rxjs";
 import { concatMap, filter, map, skip, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 import { FetchManifestDownloadFileSummaryRequestAction } from "./fetch-manifest-download-file-summary-request.action";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
@@ -20,7 +21,6 @@ import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-req
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { selectFileManifestManifestResponse } from "./file-manifest.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
-import { selectCatalog } from "../file.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
 import { FileManifestService } from "../../shared/file-manifest.service";

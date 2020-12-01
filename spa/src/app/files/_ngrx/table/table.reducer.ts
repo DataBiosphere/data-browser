@@ -22,7 +22,6 @@ import { TermCountsUpdatedAction } from "./term-counts-updated.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
-import { SelectCatalogAction } from "./select-catalog.action";
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
@@ -32,15 +31,6 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
 
     switch (action.type) {
         
-        // Handle select of catalog - lower environments only
-        case SelectCatalogAction.ACTION_TYPE:
-            nextState = {
-                ...state,
-                catalog: (action as SelectCatalogAction).catalog
-            };
-
-            return nextState;
-
         // User is switching tab, update selected entity.
         case SelectEntityAction.ACTION_TYPE:
 
@@ -125,7 +115,6 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             const setViewStateAction = (action as SetViewStateAction);
             return {
                 ...state,
-                catalog: setViewStateAction.catalog,
                 selectedEntity: setViewStateAction.selectedEntity
             };
 

@@ -248,9 +248,9 @@ export class ConfigService {
      *
      * @returns {boolean}
      */
-    public isEnvClgDev(): boolean {
+    public isEnvCGLDev(): boolean {
 
-        return this.deployment === "cgl-dev" || this.deployment === "dcp2";
+        return this.deployment === "cgl-dev";
     }
 
     /**
@@ -271,6 +271,26 @@ export class ConfigService {
     public isEnvUxDev(): boolean {
 
         return this.deployment === "ux-dev";
+    }
+
+    /**
+     * Returns true if the current environment is dpc2.
+     * 
+     * @returns {boolean}
+     */
+    public isEnvDCP2(): boolean {
+
+        return this.deployment === "dcp2";
+    }
+
+    /**
+     * Returns true if the current environment is prod.
+     *
+     * @returns {boolean}
+     */
+    public isEnvProd(): boolean {
+
+        return this.deployment === "prod";
     }
 
     /**

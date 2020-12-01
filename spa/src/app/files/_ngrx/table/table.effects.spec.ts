@@ -166,7 +166,7 @@ describe("Table Effects", () => {
      */
     it("fetchTableData$ - should update table data only", () => {
 
-        // Update selected tab to be samples
+        // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
         actions$ = hot("--a-", {
@@ -186,7 +186,7 @@ describe("Table Effects", () => {
      */
     it("fetchNextPagedOrSortedTableData$ - should update table data only", () => {
 
-        // Update selected tab to be samples
+        // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
         actions$ = hot("--a-", {
@@ -212,7 +212,7 @@ describe("Table Effects", () => {
      */
     it("fetchPreviousPagedOrSortedTableData$ - should update table data only", () => {
 
-        // Update selected tab to be samples
+        // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
         actions$ = hot("--a-", {
@@ -238,7 +238,7 @@ describe("Table Effects", () => {
      */
     it("fetchPagedOrSortedTableData$ - should update table data only", () => {
 
-        // Update selected tab to be samples
+        // Update selected tab to be files
         store.setState(DEFAULT_FILES_STATE);
 
         actions$ = hot("--a-", {

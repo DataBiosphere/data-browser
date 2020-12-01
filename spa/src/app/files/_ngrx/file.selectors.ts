@@ -32,11 +32,6 @@ export const selectFileSummary = createFeatureSelector<FileSummaryState>("fileSu
 export const selectTableState = createFeatureSelector<TableState>("tableState");
 
 /**
- * Return the current catalog value.
- */
-export const selectCatalog = createSelector(selectTableState, state => state.catalog);
-
-/**
  * For the current selected entity, return the term counts for each facet, keyed by facet name.
  *
  * @returns {Map<string, number>}
@@ -95,12 +90,11 @@ export const selectSelectedEntitySpec = createSelector(selectTableState, (tableS
  * @returns {Map<string, FileFacet> & Pagination & TableState}
  */
 export const selectTableQueryParams = createSelector(
-    selectCatalog,
     selectSelectedSearchTermsBySearchKey,
     selectPagination,
     selectTableState,
-    (catalog, selectedSearchTermsBySearchKey, pagination, tableState) => {
-        return {catalog, selectedSearchTermsBySearchKey, pagination, tableState};
+    (selectedSearchTermsBySearchKey, pagination, tableState) => {
+        return {selectedSearchTermsBySearchKey, pagination, tableState};
     });
 
 /**
