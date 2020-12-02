@@ -2,17 +2,40 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles for project contributor and DCP-generated matrices download functionality.
+ * Styles for project contributor and DCP-generated matrices download functionality. Displayed either in modal
+ * or in project detail.
  */
+
+@import "../../site/theme/hca.global";
+
+/** Limit width of text and no hits */
+* {
+    max-width: 600px;
+}
 
 h2 {
     margin-top: 24px;
 }
 
-p.fontsize-xs {
-    margin-bottom: 0;
+/** Remove margin from bottom of no hits paragraph */
+no-hits p.fontsize-s {
+    margin-bottom: 0 !important; // important to override parent-driven styles below */
 }
 
-.max600 {
-    max-width: 600px;
+/**
+ * Parent-driven style configuration of table
+ */
+
+/** Matrix download displayed in modal **/
+:host.project-download-matrix-modal-view {
+
+    /* Mimic fontsize-m for modal content */
+    .fontsize-s {
+        @include fontsize-m;
+    }
+    
+    // Allow text and no hits to expand to full width of modal
+    > * {
+        max-width: unset;
+    }
 }

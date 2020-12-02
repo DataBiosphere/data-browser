@@ -1,31 +1,36 @@
-<div class="max600">
-    <h2 class="fontsize-xl">
-        DCP Generated Matrices
-    </h2>
-    <p class="fontsize-m">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus ex sit amet cursus porta. Fusce tincidunt, mauris id ultricies venenatis, mauris est malesuada lectus, eget dictum turpis metus vitae magna.
-    </p>
-</div>
+<h2 class="fontsize-xl">
+    DCP Generated Matrices
+</h2>
+<p class="fontsize-s">
+    DCP Generated Matrices are those produced with
+    <a href="{{portalUrl}}/pipelines" target="_blank">HCA standardized pipelines</a>. All DCP Generated Matrices
+    include quality control
+    <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">metrics</a>.
+</p>
+<p class="fontsize-s">
+    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs. Matrices are in CSV, MTX, and Loom
+    formats.
+</p>
 <ng-container [ngSwitch]="project.matrices.length === 0">
     <no-hits *ngSwitchCase="true">
-        <p class="fontsize-xs">There are currently no DCP generated matrices for this project.</p>
+        <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault [projectMatrixViews]="project.matrices"></project-matrix-table>
 </ng-container>
-<div class="max600">
-    <h2 class="fontsize-xl">
-        Contributor Generated Matrices
-    </h2>
-    <p class="fontsize-m">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus ex sit amet cursus porta. Fusce tincidunt, mauris id ultricies venenatis, mauris est malesuada lectus, eget dictum turpis metus vitae magna.
-    </p>
-</div>
+<h2 class="fontsize-xl">
+    Contributor Generated Matrices
+</h2>
+<p class="fontsize-s">
+    Contributor Generated Matrices are optionally provided by the project contributors. These matrices vary in file
+    format and content. For questions about a specific contributor-generated matrix, reach out to the Contacts
+    listed on the Project Information page.
+</p>
 <ng-container [ngSwitch]="project.contributorMatrices.length === 0">
     <no-hits *ngSwitchCase="true">
-        <p class="fontsize-xs">There are currently no contributor generated matrices for this project.</p>
+        <p class="fontsize-s">There are currently no contributor generated matrices for this project.</p>
     </no-hits>
-    <project-matrix-table  class="project-matrix-table-contributor-generated"
-                           *ngSwitchDefault
-                           [projectMatrixViews]="project.contributorMatrices"></project-matrix-table>
+    <project-matrix-table *ngSwitchDefault
+                          class="project-matrix-table-contributor-generated"
+                          [projectMatrixViews]="project.contributorMatrices"></project-matrix-table>
 </ng-container>
 
