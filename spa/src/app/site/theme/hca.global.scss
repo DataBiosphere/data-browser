@@ -114,13 +114,16 @@ ul, ol {
 }
 
 /* HCA paragraph font class "fontsize-m" */
-p.fontsize-m, ul.fontsize-m, ol.fontsize-m, span.fontsize-m {
+@mixin fontsize-m {
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: normal;
     line-height: 28px;
     margin: 0 0 18px;
+}
+p.fontsize-m, ul.fontsize-m, ol.fontsize-m, span.fontsize-m {
+    @include fontsize-m;
 }
 
 /* HCA paragraph font class "fontsize-l" */

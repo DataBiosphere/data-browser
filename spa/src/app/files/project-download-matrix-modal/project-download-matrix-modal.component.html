@@ -5,7 +5,8 @@
     <ng-container subtitle *ngIf="state.loaded">{{state.project.projectTitle}}</ng-container>
     <ng-container content *ngIf="state.loaded">
         <ng-container [ngSwitch]="isV2()">
-            <project-download-generated-matrix *ngSwitchCase="true" 
+            <project-download-generated-matrix *ngSwitchCase="true"
+                                               class="project-download-matrix-modal-view"
                                                [project]="state.project"></project-download-generated-matrix>
             <project-download-matrix
                     *ngSwitchDefault
