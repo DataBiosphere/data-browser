@@ -108,6 +108,8 @@ import { ProjectExternalResourcesComponent } from "./project-external-resources/
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
+import { ProjectMatrixFileShortNamePipe } from "./project-matrix-file-short-name/project-matrix-file-short-name.pipe";
+import { ProjectMatrixTableComponent } from "./project-matrix-table/project-matrix-table.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
@@ -246,8 +248,9 @@ const v2 = environment.version === "2.0";
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
-        ProjectWithdrawnComponent,
         ProjectIntegrationsComponent,
+        ProjectMatrixFileShortNamePipe,
+        ProjectMatrixTableComponent,
         ProjectMetadataComponent,
         ProjectNavComponent,
         ProjectOverviewComponent,
@@ -255,6 +258,7 @@ const v2 = environment.version === "2.0";
         ProjectReleaseComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
+        ProjectWithdrawnComponent,
         ReleaseComponent,
         ReleaseFilesModalComponent,
         ReleaseFilesModalContainerComponent,

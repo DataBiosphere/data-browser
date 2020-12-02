@@ -7,12 +7,15 @@
  */
 
 // App dependencies
+import { ProjectMatrixMapper } from "../project-matrix/project-matrix-mapper";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 import { EntityRow } from "../table/entity-row.model";
 import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
-import { UtilService } from "../../shared/util/util.service";
 
 export class ProjectRowMapper extends FileTypeSummariesRowMapper {
+
+    // Locals
+    private matrixMapper = new ProjectMatrixMapper();
 
     /**
      * @param {boolean} v2 - true if running in v2 environment
@@ -28,14 +31,10 @@ export class ProjectRowMapper extends FileTypeSummariesRowMapper {
      */
     public mapRow(): EntityRow {
 
-        // Using empty object here to temporarily represent the existence of contributor matrices. TODO update with DB 1315 
-        const contributorMatrices = 
-            UtilService.isEmpty(this.projects.contributorMatrices) ? [] : [{}];
-
-        // Using empty object here to temporarily represent the existence of matrices. TODO update with DB 1315 
-        const matrices =
-            UtilService.isEmpty(this.projects.matrices) ? [] : [{}];
-
+        // Bind contributor and CDP generated matrices 
+        const contributorMatrices = this.v2 ? this.matrixMapper.bindMatrices(this.projects.contributorMatrices) : [];
+        const matrices = this.v2 ? this.matrixMapper.bindMatrices(this.projects.matrices) : [];
+        
         return Object.assign({}, super.mapRow(), {
             contributorMatrices,
             entryId: this.row.entryId,

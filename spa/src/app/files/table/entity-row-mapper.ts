@@ -21,6 +21,7 @@ export class EntityRowMapper {
     protected row;
     protected samples;
     protected specimens;
+    protected v2;
 
     /**
      * @param {boolean} v2 - true if running in v2 environment
@@ -36,6 +37,7 @@ export class EntityRowMapper {
         this.projects = rollUpMetadata(v2, row.projects);
         this.protocols = rollUpMetadata(v2, row.protocols);
         this.row = row;
+        this.v2 = v2;
     }
 
     /**

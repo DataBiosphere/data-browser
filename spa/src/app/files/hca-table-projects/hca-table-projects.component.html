@@ -257,8 +257,8 @@
                             <download-button [downloadAvailable]="true" (downloadClicked)="onProjectDownloadManifestClicked(element.entryId)"></download-button>
                             <ng-container [ngSwitch]="isV2()">
                                 <download-button *ngSwitchCase="true"
-                                                 [disabled]="true"
-                                                 [downloadAvailable]="isAnyMatrixAvailable(element)"></download-button>
+                                                 [downloadAvailable]="isAnyMatrixAvailable(element)"
+                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>
                                 <download-button *ngSwitchDefault
                                                  [downloadAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
                                                  (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>

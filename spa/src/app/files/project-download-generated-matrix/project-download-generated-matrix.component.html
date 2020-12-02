@@ -1,23 +1,31 @@
 <div class="max600">
-    <h2>
+    <h2 class="fontsize-xl">
         DCP Generated Matrices
     </h2>
     <p class="fontsize-m">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus ex sit amet cursus porta. Fusce tincidunt, mauris id ultricies venenatis, mauris est malesuada lectus, eget dictum turpis metus vitae magna.
     </p>
-    <no-hits>
-        <p class="fontsize-xs">{{getDCPGeneratedMatricesText(project)}}</p>
+</div>
+<ng-container [ngSwitch]="project.matrices.length === 0">
+    <no-hits *ngSwitchCase="true">
+        <p class="fontsize-xs">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
-    <p class="fontsize-m">
-        
-    </p>
-    <h2>
+    <project-matrix-table *ngSwitchDefault [projectMatrixViews]="project.matrices"></project-matrix-table>
+</ng-container>
+<div class="max600">
+    <h2 class="fontsize-xl">
         Contributor Generated Matrices
     </h2>
     <p class="fontsize-m">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus ex sit amet cursus porta. Fusce tincidunt, mauris id ultricies venenatis, mauris est malesuada lectus, eget dictum turpis metus vitae magna.
     </p>
-    <no-hits>
-        <p class="fontsize-xs">{{getContributorMatricesText(project)}}</p>
-    </no-hits>
 </div>
+<ng-container [ngSwitch]="project.contributorMatrices.length === 0">
+    <no-hits *ngSwitchCase="true">
+        <p class="fontsize-xs">There are currently no contributor generated matrices for this project.</p>
+    </no-hits>
+    <project-matrix-table  class="project-matrix-table-contributor-generated"
+                           *ngSwitchDefault
+                           [projectMatrixViews]="project.contributorMatrices"></project-matrix-table>
+</ng-container>
+

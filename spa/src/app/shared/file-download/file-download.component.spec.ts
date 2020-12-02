@@ -72,7 +72,7 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const urlDE = getDEBySelector("a.fontsize-s");
+        const urlDE = getDEBySelector("a");
 
         // Confirm url is added to href attribute
         expect(getDEProperty(urlDE, "href")).toEqual(component.link.url);
@@ -89,7 +89,7 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const labelDE = getDEBySelector(".fontsize-s span");
+        const labelDE = getDEBySelector("span");
 
         // Confirm label is displayed
         expect(getDETextContent(labelDE)).toEqual(component.link.name);

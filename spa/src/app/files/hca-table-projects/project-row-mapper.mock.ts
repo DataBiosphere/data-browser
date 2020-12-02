@@ -1,9 +1,21 @@
+import { LibraryConstructionApproach } from "../shared/library-construction-approach.model";
+
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
  * Mock of projects with various values, to be exercised by the project row mapper spec.
  */
+
+// Example of matrix files
+export const MOCK_PROJECT_MATRIX_FILE_0 = {
+    "name": "123.loom",
+    "url": "http://path/to/file0?version=0&catalog=dcp2ebi"
+};
+export const MOCK_PROJECT_MATRIX_FILE_1 = {
+    "name": "456.loom",
+    "url": "http://path/to/file1?version=0&catalog=dcp2ebi"
+};
 
 // Example of project with single values (eg disease, genusSpecies)
 export const PROJECT_ROW_SINGLE_VALUES =
@@ -52,7 +64,48 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 ],
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"
-                ]
+                ],
+                "contributorMatrices": {
+                    "genusSpecies": {
+                        "Homo sapiens": {
+                            "stage": {
+                                "adult": {
+                                    "organ": {
+                                        "large intestine": {
+                                            "libraryConstructionApproach": {
+                                                [LibraryConstructionApproach.TENX_V2]: [
+                                                    {
+                                                        "url": MOCK_PROJECT_MATRIX_FILE_0.url,
+                                                        "name": MOCK_PROJECT_MATRIX_FILE_0.name
+                                                    }
+                                                ],
+                                                [LibraryConstructionApproach.SMART_SEQ2]: [{
+                                                        "url": MOCK_PROJECT_MATRIX_FILE_1.url,
+                                                        "name": MOCK_PROJECT_MATRIX_FILE_1.name
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "lymph node": {
+                                            "libraryConstructionApproach": {
+                                                [LibraryConstructionApproach.TENX_V2]: [
+                                                    {
+                                                        "url": MOCK_PROJECT_MATRIX_FILE_0.url,
+                                                        "name": MOCK_PROJECT_MATRIX_FILE_0.name
+                                                    },
+                                                    {
+                                                        "url": MOCK_PROJECT_MATRIX_FILE_1.url,
+                                                        "name": MOCK_PROJECT_MATRIX_FILE_1.name
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         ],
         "samples": [

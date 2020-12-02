@@ -1,0 +1,105 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project matrix table component.
+ */
+
+@import "../../site/theme/hca.vars";
+
+/* Table */
+mat-table {
+
+    max-width: 1440px !important; /* Snap width at large window width, override (!important) host context specific
+                                             max-widths set on smaller breakpoints */
+
+    mat-header-row {
+        border-bottom: 1px solid $hca-gray-light;
+        display: flex; /* 1024+ is in table format - display header row */
+        min-height: 42px;
+    }
+
+    /* Cell row */
+    mat-row {
+        align-items: center;
+        border-bottom: 1px solid $hca-gray-lightest;
+        flex-direction: row;
+        min-height: unset;
+        padding: 4px 0;
+
+        &:first-of-type {
+            border-top: none;
+        }
+
+        mat-cell {
+            min-height: unset;
+        }
+    }
+
+    /* Header cell */
+    mat-header-cell {
+        align-items: flex-start;
+        display: flex;
+
+        > span span {
+            display: block; /* Wrap header, if nested <span> */
+        }
+    }
+
+    /* Header cell, cell */
+    mat-header-cell, mat-cell {
+        color: $hca-black;
+        overflow: visible;
+        padding: 0 12px;
+    }
+
+    mat-header-cell:first-child, mat-cell:first-child {
+        padding-left: 0;
+    }
+
+    mat-header-cell:last-child, mat-cell:last-child {
+        padding-right: 0;
+    }
+
+    /* Override font sizing in file-download component to match table fonts */
+    .fontsize-s {
+        color: red !important;
+        font-size: inherit;
+        line-height: inherit;
+    }
+    
+    /* Cell class "fontsize-..." */
+    mat-cell, mat-cell.fontsize-xxs {
+        margin: 4px 0; /* Overrides class "fontsize-..." margin */
+    }
+    
+    /** Cells with multiple values */
+    .mat-cell-multi {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /** File name */
+    .mat-column-fileName, .mat-cell-fileName {
+        word-break: break-all;
+    }
+
+    /** Actions */
+    .mat-column-actions, .mat-cell-actions {
+        justify-content: flex-end;
+        max-width: 92px;
+    }
+}
+
+/** Parent-driven style configuration of table */
+:host.project-matrix-table-contributor-generated {
+
+    mat-table {
+
+        /** File name */
+        .mat-column-fileName, .mat-cell-fileName {
+            min-width: 200px;
+        }
+    }
+}
