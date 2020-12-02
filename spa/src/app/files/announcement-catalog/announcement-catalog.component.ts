@@ -37,7 +37,7 @@ export class AnnouncementCatalogComponent {
      */
     public getCatalogAnnouncementUrl(): string {
 
-        return `${this.configService.getPortalUrl()}/coming-soon-DCP-2-with-support-for-controlled-access-data`;
+        return `${this.configService.getPortalUrl()}/dcp-updates`;
     }
 
     /**
