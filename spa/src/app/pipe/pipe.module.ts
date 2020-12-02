@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Shared pipes modle.
+ * Shared pipes module.
  */
 
 // Core dependencies

@@ -33,6 +33,11 @@ h3:first-child {
     flex-basis: 50%;
 }
 
+/* Add spacing below each listed file download */
+file-download {
+    margin-bottom: 8px;
+}
+
 /* Component project-expression-matrices */
 :host-context(project-expression-matrices) {
 
