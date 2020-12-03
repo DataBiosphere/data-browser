@@ -42,7 +42,7 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { PipeModule } from "../../pipe/pipe.module";
-import { ProjectDownloadMatrixComponent } from "../project-download-matrix/project-download-matrix.component";
+import { ProjectDownloadExpressionMatrixComponent } from "../project-download-expression-matrix/project-download-expression-matrix.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
@@ -135,7 +135,7 @@ describe("HCATableProjectsComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 LeftBarComponent,
-                ProjectDownloadMatrixComponent,
+                ProjectDownloadExpressionMatrixComponent,
                 TableScroll
             ],
             imports: [

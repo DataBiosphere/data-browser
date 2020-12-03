@@ -5,7 +5,8 @@
                      [catalog]="state.catalog"
                      [externalResourcesExist]="state.externalResourcesExist"
                      [projectInRelease]="state.projectInRelease"
-                     [releaseFeatureEnabled]="isReleaseFeatureEnabled()"></project-nav>
+                     [releaseFeatureEnabled]="isReleaseFeatureEnabled()"
+                     [v2]="isV2()"></project-nav>
         <div content>
             <status-panel class="project-title">
                 <release-title-overline *ngIf="isReleaseFeatureEnabled() && state.projectInRelease"></release-title-overline>

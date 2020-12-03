@@ -8,6 +8,9 @@
  * 1. Hitting escape
  * 2. Clicking the close icon
  * 3. Clicking the HCA logo
+ * 
+ * This component switches out version-specific download components. For v1, ProjectDownloadExpressionMatrix. For v2, 
+ * ProjectDownloadMatrix.
  */
 
 // Core dependencies

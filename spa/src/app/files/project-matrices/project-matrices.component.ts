@@ -20,18 +20,18 @@ import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-proje
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
-import { ProjectExpressionMatricesComponentState } from "./project-expression-matrices.component.state";
+import { ProjectMatricesComponentState } from "./project-matrices.component.state";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 
 @Component({
-    selector: "project-expression-matrices",
-    templateUrl: "./project-expression-matrices.component.html",
-    styleUrls: ["./project-expression-matrices.component.scss"]
+    selector: "project-matrices",
+    templateUrl: "./project-matrices.component.html",
+    styleUrls: ["./project-matrices.component.scss"]
 })
-export class ProjectExpressionMatricesComponent {
+export class ProjectMatricesComponent {
 
     // Template variables
-    public state$: Observable<ProjectExpressionMatricesComponentState>;
+    public state$: Observable<ProjectMatricesComponentState>;
 
     /**
      * @param {ConfigService} configService

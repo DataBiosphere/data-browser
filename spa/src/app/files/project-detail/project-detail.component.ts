@@ -15,6 +15,7 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../config/config.service";
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import {
@@ -52,12 +53,14 @@ export class ProjectDetailComponent {
     });
 
     /**
+     * @param {ConfigService} configService
      * @param {ReleaseService} releaseService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    public constructor(private releaseService: ReleaseService,
+    public constructor(private configService: ConfigService,
+                       private releaseService: ReleaseService,
                        private store: Store<AppState>,
                        private activatedRoute: ActivatedRoute,
                        private router: Router) {}
@@ -99,6 +102,16 @@ export class ProjectDetailComponent {
     private isReleaseFeatureEnabled(): boolean {
 
         return this.releaseService.isReleaseFeatureEnabled();
+    }
+
+    /**
+     * Returns true if the current environment is running v2 code.
+     *
+     * @returns {boolean}
+     */
+    public isV2(): boolean {
+
+        return this.configService.isV2();
     }
 
     /**

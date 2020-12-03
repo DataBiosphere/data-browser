@@ -14,16 +14,12 @@ import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
-import { ProjectExpressionMatricesComponent } from "./project-expression-matrices/project-expression-matrices.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
+import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
-import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
-import { ReleaseComponent } from "./releases/release.component";
-import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
-import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
 import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 import { ProjectsCanActivateGuard } from "./project/projects.can-activate.guard";
 
@@ -68,7 +64,7 @@ export const routes: Route[] = [
                     },
                     {
                         path: "expression-matrices",
-                        component: ProjectExpressionMatricesComponent
+                        component: ProjectMatricesComponent
                     },
                     {
                         path: "external-resources",
