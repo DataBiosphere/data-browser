@@ -9,7 +9,7 @@
 import { Project } from "../shared/project.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
-export interface ProjectExpressionMatricesComponentState {
+export interface ProjectMatricesComponentState {
 
     project: Project;
     projectMatrixUrls: ProjectMatrixUrls;

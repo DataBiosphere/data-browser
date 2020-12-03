@@ -2,16 +2,16 @@
     <ng-container [ngSwitch]="isV2()">
         <ng-container *ngSwitchCase="true">
             <h2 class="fontsize-xl">Project Matrices</h2>
-            <project-download-generated-matrix
-                    [project]="state.project"></project-download-generated-matrix>
+            <project-download-matrix
+                    [project]="state.project"></project-download-matrix>
         </ng-container>
         <ng-container *ngSwitchDefault>
             <h2 class="fontsize-xl">Expression Matrices</h2>
-            <project-download-matrix
+            <project-download-expression-matrix
                     class="max600"
                     [classFontName]="'fontsize-s'"
                     [projectMatrixUrls]="state.projectMatrixUrls"
-                    [projectTitle]="state.project.projectTitle"></project-download-matrix>            
+                    [projectTitle]="state.project.projectTitle"></project-download-expression-matrix>            
         </ng-container>
     </ng-container>
 </ng-container>

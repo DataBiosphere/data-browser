@@ -1,0 +1,64 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project prepared expression matrices download functionality.
+ */
+
+/* Initial paragraph */
+p:first-of-type {
+    margin-top: 24px;
+}
+
+/* Species headings */
+h3 {
+    margin-top: 24px;
+}
+
+/* Species headings */
+h3:first-child {
+    margin-top: 0;
+}
+
+/* Downloads */
+.downloads {
+    align-items: flex-start; /* Required to prevent left-bar component stretching with flex */
+    display: flex;
+}
+
+/* Download, citation wrapper */
+.downloads > * {
+    box-sizing: border-box;
+    flex: 1;
+    flex-basis: 50%;
+}
+
+/* Add spacing below each listed file download */
+file-download {
+    margin-bottom: 8px;
+}
+
+/* Component project-expression-matrices */
+:host-context(project-expression-matrices) {
+
+    /* Initial paragraph */
+    p:first-of-type {
+        margin: 0 0 24px;
+    }
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    /* Component project-download-matrix-modal */
+    :host-context(project-download-matrix-modal) {
+
+        /* Citation wrapper */
+        left-bar {
+            max-width: 33%;
+        }
+    }
+}

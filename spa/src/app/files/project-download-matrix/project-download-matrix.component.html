@@ -1,37 +1,36 @@
-<ng-container *ngIf="projectMatrixUrls">
-    <ng-container [ngSwitch]="projectMatrixUrls.isAnyProjectMatrixUrlAvailable()">
-        <ng-container *ngSwitchCase="true">
-            <p class={{classFontName}}>
-                <span>Expression matrices for the specified project are available for download below in </span>
-                <ng-container
-                        *ngFor="let fileFormat of projectMatrixUrls.listAvailableMatrixFileFormats(); last as lastFileFormat; first as firstFileFormat">
-                    <span *ngIf="isCommaDelimited(firstFileFormat, lastFileFormat)">, </span>
-                    <span *ngIf="isAndDelimited(firstFileFormat, lastFileFormat)"> and </span>
-                    <a href="{{getFileFormatLink(fileFormat)}}" target="_blank">{{fileFormat}}</a>
-                </ng-container>
-                <ng-container [ngPlural]="countOfFileFormats(projectMatrixUrls.listAvailableMatrixFileFormats())">
-                    <ng-template ngPluralCase="1"><span> format.</span></ng-template>
-                    <ng-template ngPluralCase="other"><span> formats.</span></ng-template>
-                </ng-container>
-            </p>
-            <div class="downloads">
-                <div>
-                    <ng-container *ngFor="let species of projectMatrixUrls.listSpeciesWithMatrixUrls()">
-                        <h3 class="fontsize-l">{{species}}</h3>
-                        <div class="fontsize-s">
-                            <file-download *ngFor="let matrixUrl of projectMatrixUrls.listMatrixUrlsBySpecies(species)"
-                                           [link]="matrixUrl"
-                                           (linkClicked)="onMatrixDownloadUrlClicked(projectTitle, $event)"
-                                           (linkCopiedToClipboard)="onMatrixDownloadUrlCopiedToClipboard(projectTitle, $event)"></file-download>
-                        </div>
-                    </ng-container>
-                </div>
-                <left-bar>
-                    <data-download-citation></data-download-citation>
-                </left-bar>
-            </div>
-        </ng-container>
-        <p class="fontsize-s"
-           *ngSwitchDefault>There are no expression matrices for the specified project available for download.</p>
-    </ng-container>
+<h2 class="fontsize-xl">
+    DCP Generated Matrices
+</h2>
+<p class="fontsize-s">
+    DCP Generated Matrices are those produced with
+    <a href="{{portalUrl}}/pipelines" target="_blank">HCA standardized pipelines</a>. All DCP Generated Matrices
+    include quality control
+    <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">metrics</a>.
+</p>
+<p class="fontsize-s">
+    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs. Matrices are in CSV, MTX, and Loom
+    formats.
+</p>
+<ng-container [ngSwitch]="project.matrices.length === 0">
+    <no-hits *ngSwitchCase="true">
+        <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
+    </no-hits>
+    <project-matrix-table *ngSwitchDefault [projectMatrixViews]="project.matrices"></project-matrix-table>
 </ng-container>
+<h2 class="fontsize-xl">
+    Contributor Generated Matrices
+</h2>
+<p class="fontsize-s">
+    Contributor Generated Matrices are optionally provided by the project contributors. These matrices vary in file
+    format and content. For questions about a specific contributor-generated matrix, reach out to the Contacts
+    listed on the Project Information page.
+</p>
+<ng-container [ngSwitch]="project.contributorMatrices.length === 0">
+    <no-hits *ngSwitchCase="true">
+        <p class="fontsize-s">There are currently no contributor generated matrices for this project.</p>
+    </no-hits>
+    <project-matrix-table *ngSwitchDefault
+                          class="project-matrix-table-contributor-generated"
+                          [projectMatrixViews]="project.contributorMatrices"></project-matrix-table>
+</ng-container>
+

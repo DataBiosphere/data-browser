@@ -2,63 +2,40 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles for project prepared expression matrices download functionality.
+ * Styles for project contributor and DCP-generated matrices download functionality. Displayed either in modal
+ * or in project detail.
  */
 
-/* Initial paragraph */
-p:first-of-type {
+@import "../../site/theme/hca.global";
+
+/** Limit width of text and no hits */
+* {
+    max-width: 600px;
+}
+
+h2 {
     margin-top: 24px;
 }
 
-/* Species headings */
-h3 {
-    margin-top: 24px;
-}
-
-/* Species headings */
-h3:first-child {
-    margin-top: 0;
-}
-
-/* Downloads */
-.downloads {
-    align-items: flex-start; /* Required to prevent left-bar component stretching with flex */
-    display: flex;
-}
-
-/* Download, citation wrapper */
-.downloads > * {
-    box-sizing: border-box;
-    flex: 1;
-    flex-basis: 50%;
-}
-
-/* Add spacing below each listed file download */
-file-download {
-    margin-bottom: 8px;
-}
-
-/* Component project-expression-matrices */
-:host-context(project-expression-matrices) {
-
-    /* Initial paragraph */
-    p:first-of-type {
-        margin: 0 0 24px;
-    }
+/** Remove margin from bottom of no hits paragraph */
+no-hits p.fontsize-s {
+    margin-bottom: 0 !important; // important to override parent-driven styles below */
 }
 
 /**
- * Large Tablet +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ * Parent-driven style configuration of table
  */
-@media screen and (min-width: 840px) {
 
-    /* Component project-download-matrix-modal */
-    :host-context(project-download-matrix-modal) {
+/** Matrix download displayed in modal **/
+:host.project-download-matrix-modal-view {
 
-        /* Citation wrapper */
-        left-bar {
-            max-width: 33%;
-        }
+    /* Mimic fontsize-m for modal content */
+    .fontsize-s {
+        @include fontsize-m;
+    }
+    
+    // Allow text and no hits to expand to full width of modal
+    > * {
+        max-width: unset;
     }
 }

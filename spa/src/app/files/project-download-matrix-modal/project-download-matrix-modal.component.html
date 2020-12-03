@@ -5,14 +5,14 @@
     <ng-container subtitle *ngIf="state.loaded">{{state.project.projectTitle}}</ng-container>
     <ng-container content *ngIf="state.loaded">
         <ng-container [ngSwitch]="isV2()">
-            <project-download-generated-matrix *ngSwitchCase="true"
+            <project-download-matrix *ngSwitchCase="true"
                                                class="project-download-matrix-modal-view"
-                                               [project]="state.project"></project-download-generated-matrix>
-            <project-download-matrix
+                                               [project]="state.project"></project-download-matrix>
+            <project-download-expression-matrix
                     *ngSwitchDefault
                     [classFontName]="'fontsize-m'"
                     [projectMatrixUrls]="state.projectMatrixUrls" 
-                    [projectTitle]="state.project.projectTitle"></project-download-matrix>
+                    [projectTitle]="state.project.projectTitle"></project-download-expression-matrix>
         </ng-container>
     </ng-container>
 </modal-layout>

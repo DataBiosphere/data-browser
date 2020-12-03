@@ -30,11 +30,12 @@ export class ProjectNavComponent {
     @Input() externalResourcesExist: boolean;
     @Input() projectInRelease: boolean;
     @Input() releaseFeatureEnabled: boolean;
+    @Input() v2: boolean;
 
     // Locals
     private dataCitation: NavItem;
     private deviceInfo = null;
-    private expressionMatrices: NavItem;
+    private projectMatrices: NavItem;
     private externalResources: NavItem;
     private ngDestroy$ = new Subject();
     private projectInformation: NavItem;
@@ -72,7 +73,7 @@ export class ProjectNavComponent {
             navItemList = [
                 this.projectInformation,
                 this.projectMetadata,
-                this.expressionMatrices,
+                this.projectMatrices,
                 this.externalResources
             ];
 
@@ -164,9 +165,9 @@ export class ProjectNavComponent {
                 ...navigationExtras
             };
 
-            this.expressionMatrices = {
+            this.projectMatrices = {
                 disabled: false,
-                display: "Expression Matrices",
+                display: this.v2 ? "Project Matrices" : "Expression Matrices",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES),
                 ...navigationExtras
             };

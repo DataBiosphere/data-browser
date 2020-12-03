@@ -95,19 +95,19 @@ import { ProjectAnalyticsService } from "./project/project-analytics.service";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
-import { ProjectDownloadGeneratedMatrixComponent } from "./project-download-generated-matrix/project-download-generated-matrix.component";
+import { ProjectDownloadExpressionMatrixComponent } from "./project-download-expression-matrix/project-download-expression-matrix.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
-import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
-import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
 import { ProjectDownloadMatrixComponent } from "./project-download-matrix/project-download-matrix.component";
+import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
+import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
 import { ProjectDownloadTSVComponent } from "./project-download-tsv/project-download-tsv.component";
-import { ProjectExpressionMatricesComponent } from "./project-expression-matrices/project-expression-matrices.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
+import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
 import { ProjectMatrixFileShortNamePipe } from "./project-matrix-file-short-name/project-matrix-file-short-name.pipe";
 import { ProjectMatrixTableComponent } from "./project-matrix-table/project-matrix-table.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
@@ -236,19 +236,19 @@ const v2 = environment.version === "2.0";
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
-        ProjectDownloadGeneratedMatrixComponent,
+        ProjectDownloadMatrixComponent,
         ProjectDownloadManifestComponent,
         ProjectDownloadManifestModalComponent,
         ProjectDownloadManifestModalContainerComponent,
-        ProjectDownloadMatrixComponent,
+        ProjectDownloadExpressionMatrixComponent,
         ProjectDownloadMatrixModalComponent,
         ProjectDownloadMatrixModalContainerComponent,
         ProjectDownloadTSVComponent,
-        ProjectExpressionMatricesComponent,
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
+        ProjectMatricesComponent,
         ProjectMatrixFileShortNamePipe,
         ProjectMatrixTableComponent,
         ProjectMetadataComponent,

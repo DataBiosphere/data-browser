@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Wrapper component responsible for opening prepared matrix downloads modal.
+ * Wrapper component responsible for opening matrix downloads modal.
  */
 
 // Core dependencies
