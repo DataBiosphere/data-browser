@@ -56,7 +56,7 @@ build_prod:
     - pwd
     - ./insert-gtm-snippet.sh
     - cd spa
-    - npm run build-prod
+    - npm run build-cgl-dcp2
   only:
     - master
 
