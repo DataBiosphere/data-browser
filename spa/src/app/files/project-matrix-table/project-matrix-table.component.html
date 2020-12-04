@@ -1,6 +1,6 @@
-<div *ngFor="let tableView of groupProjectMatrixViewsBySpecies(projectMatrixViews)">
+<div *ngFor="let tableView of groupProjectMatrixViewsBySpecies(projectMatrixViews); trackBy: trackProjectMatrixTableView">
     <h3 class="fontsize-l">{{getSpeciesDisplayText(tableView.species)}}</h3>
-    <mat-table [dataSource]="tableView.projectMatrixViews">
+    <mat-table [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews">
         <ng-container matColumnDef="fileName">
             <mat-header-cell *matHeaderCellDef class="column-file-name">
                 <span class="fontsize-xxs bold">File Name</span>
@@ -35,9 +35,11 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef class="fontsize-xxs bold"></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                <file-download [link]="getFileDownloadLink(element)"></file-download>
+                <hca-download-file class="project-matrix-view-table-file-download"
+                                   [fileName]="element.fileName"
+                                   [fileUrl]="element.url"></hca-download-file>
             </mat-cell>
         </ng-container>    
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>

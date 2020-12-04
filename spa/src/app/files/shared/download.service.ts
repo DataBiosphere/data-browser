@@ -134,16 +134,16 @@ export class DownloadService {
     }
 
     /**
-     * An error occurred during a file download - return error state.
+     * An error occurred during a file download - create fake response object with error values. 
      *
-     * @returns {FileDownloadResponse}
+     * @returns {FileDownloadHttpResponse}
      */
-    private handleFileDownloadError(): Observable<FileDownloadResponse> {
+    private handleFileDownloadError(): Observable<FileDownloadHttpResponse> {
 
         return of({
-            status: FileDownloadStatus.FAILED,
-            fileUrl: "",
-            retryAfter: 0
+            Location: "",
+            "Retry-After": 0,
+            Status: 500
         });
     }
 
