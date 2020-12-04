@@ -7,14 +7,13 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { BehaviorSubject, interval, Observable, Subject } from "rxjs";
-import { take, takeUntil } from "rxjs/operators";
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { BehaviorSubject, interval } from "rxjs";
+import { take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { FileDownloadEvent } from "./file-download.event";
-import { FileRow } from "../hca-table-files/file-row.model";
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadResponse } from "../shared/download-response.model";
 import { FileDownloadStatus } from "../shared/file-download-status.model";
@@ -24,20 +23,17 @@ import { FileDownloadStatus } from "../shared/file-download-status.model";
     templateUrl: "./hca-download-file.component.html",
     styleUrls: ["./hca-download-file.component.scss"]
 })
-export class HCADownloadFileComponent implements OnDestroy, OnInit {
-
-    // Locals
-    private ngDestroy$ = new Subject();
-    public fileName: string;
-    public fileUrl: string;
+export class HCADownloadFileComponent {
 
     // Template variables
-    downloadResponse$ = new BehaviorSubject<FileDownloadResponse>({
+    public downloadResponse$ = new BehaviorSubject<FileDownloadResponse>({
         status: FileDownloadStatus.NOT_STARTED
     });
 
     // Inputs/outputs
-    @Input() file: FileRow;
+    @Input() fileName: string;
+    @Input() fileFormat: string = "";
+    @Input() fileUrl: string;
     @Output() fileDownloaded = new EventEmitter<FileDownloadEvent>();
 
     // View child/ren
@@ -106,32 +102,23 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if file download has been requested.
+     * True from when the user clicks the file download button through to when the browser initiates the actual
+     * download of the file.
      *
      * @param {FileDownloadResponse} response
      * @returns {boolean}
      */
     public isDownloadInProgress(response: FileDownloadResponse): boolean {
-
+        
         return this.downloadService.isFileDownloadRequestInProgress(response);
-    }
-
-    /**
-     * Return observable of download status, for binding to in template.
-     *
-     * @returns {Observable<FileDownloadResponse>}
-     */
-    public observeFileDownloadStatus(): Observable<FileDownloadResponse> {
-
-        return this.downloadResponse$.asObservable();
     }
 
     /**
      * Initiate file download request. Let parent components know file download has been initiated.
      */
-    public onRequestFile() {
+    public onFileRequested() {
         
-        const event = new FileDownloadEvent(this.fileUrl, this.fileName, this.file.fileFormat);
+        const event = new FileDownloadEvent(this.fileUrl, this.fileName, this.fileFormat);
         this.fileDownloaded.emit(event);
         
         // Update file download status to indicate user has initiated file download.
@@ -157,6 +144,9 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
     /**
      * True from the moment user clicks the file download button through to when the browser initiates the actual
      * download of the file.
+     * 
+     * @param {FileDownloadResponse} response
+     * @returns {boolean}
      */
     public showSpinner(response: FileDownloadResponse): boolean {
 
@@ -225,26 +215,5 @@ export class HCADownloadFileComponent implements OnDestroy, OnInit {
         this.emitAfterInterval(() => {
             this.requestFileDownload(response.fileUrl);
         }, response.retryAfter * 1000);
-    }
-
-    /**
-     * Kill subscriptions on destroy of component.
-     */
-    public ngOnDestroy() {
-
-        this.ngDestroy$.next(true);
-        this.ngDestroy$.complete();
-    }
-
-    /**
-     * Set up initial component state.
-     */
-    public ngOnInit(): void {
-
-        this.fileName = this.file.fileName;
-        this.fileUrl = this.file.url;
-
-        // Kill download subject on destroy of component
-        this.downloadResponse$.pipe(takeUntil(this.ngDestroy$));
     }
 }

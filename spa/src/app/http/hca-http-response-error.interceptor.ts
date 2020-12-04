@@ -151,11 +151,20 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         if ( !error.error ) {
             return error.toString();
         }
+        
+        // Handle progress event errors
+        if ( error.error instanceof ProgressEvent ) {
+            return error.message;
+        }
 
+        // Check for errors handled by Azul where response body is in a format similar to:
+        // {Code: "BadRequest", Message": "BadRequestError: Invalid query parameter `catalog`" }
         if ( error.error.Message ) {
             return error.error.Message;
         }
 
+        // Error not handled/returned by Azul (for example, in the case of an unexpected 500). Return the body of raw
+        // HTTP response.
         return error.error;
     }
 }

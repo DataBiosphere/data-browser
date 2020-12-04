@@ -82,6 +82,30 @@ export class ProjectMatrixTableComponent {
     }
 
     /**
+     * Return the value to track project matrix views.
+     * 
+     * @param {number} index
+     * @param {ProjectMatrixView} projectMatrixView
+     * @returns {string}
+     */
+    public trackProjectMatrixViews(index: number, projectMatrixView: ProjectMatrixView): string {
+
+        return projectMatrixView.url;
+    }
+
+    /**
+     * Return the value to track table views.
+     *
+     * @param {number} index
+     * @param {ProjectMatrixTableView} projectMatrixTableView
+     * @returns {string}
+     */
+    public trackProjectMatrixTableView(index: number, projectMatrixTableView: ProjectMatrixTableView): string {
+
+        return projectMatrixTableView.species.join("");
+    }
+
+    /**
      * Sort matrix view groups first by species cardinality, then by species alpha.
      */
     private sortProjectMatrixTableViews(views: ProjectMatrixTableView[]) {

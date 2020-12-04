@@ -16,29 +16,32 @@
     /* Download image */
     img {
         cursor: pointer;
-        opacity: 0.4;
         margin-right: 16px;
         width: 14px;
 
-        &:not(.no-download):hover {
+        &:not(.download-disabled):hover {
             opacity: 0.8;
         }
 
-        &.no-download {
+        &.download-disabled {
             cursor: default;
             opacity: 1;
             padding: 2px 0;
         }
+        
+        &.download-complete {
+            opacity: 0.4;
+        }
     }
 
     /* Spinner */
-    mat-spinner {
+    .download-spinner {
         flex: none;
         margin-right: 16px;
     }
 
     /* Error */
-    .error {
+    .download-error {
         color: red;
         font-size: 12px;
         line-height: 18px;
@@ -52,3 +55,18 @@
     }
 }
 
+/** Parent-driven style configuration of file download */
+:host.project-matrix-view-table-file-download {
+    
+    img {
+        margin-right: 0;
+    }
+    
+    .download-spinner {
+        margin-right: 0;
+    }
+    
+    .download-error {
+        margin-right: 0;
+    }
+}
