@@ -71,7 +71,20 @@ describe("ProjectsCanActivateGuard", () => {
      * not filter specified in the query string.
      */
     xit("adds default filter on app init with no filter specified", () => {
-        
-        // TO DO
+
+    });
+    
+    /**
+     *
+     */
+    xit("does not add default filter if app has been init'ed and no filter is specified", () => {
+
+    });
+
+    /**
+     * 
+     */
+    xit("does not add default filter on app init if filter specified", () => {
+
     });
 });

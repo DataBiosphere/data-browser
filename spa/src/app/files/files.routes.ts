@@ -9,6 +9,7 @@
 import { Route } from "@angular/router";
 
 // App dependencies
+import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { FilesComponent } from "./files.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
@@ -20,28 +21,29 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
-import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 import { ProjectsCanActivateGuard } from "./project/projects.can-activate.guard";
+import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 
 export const routes: Route[] = [
     {
         path: "files",
-        canActivate: [BrowserCanActivateGuard],
+        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "get-data",
-        canActivate: [BrowserCanActivateGuard],
+        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard],
         component: HCAGetDataComponent
     },
     {
         path: "samples",
-        canActivate: [BrowserCanActivateGuard],
+        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard],
         component: FilesComponent
     },
     {
         path: "projects",
         canActivate: [BrowserCanActivateGuard],
+        canActivateChild: [CatalogCanActivateGuard],
         children: [
             {
                 path: "",
@@ -77,11 +79,7 @@ export const routes: Route[] = [
                     {
                         path: "data-citation",
                         component: ProjectDataCitationComponent
-                    }/*, Disabled - #1358
-                    {
-                        path: "releases/2020-mar",
-                        component: ProjectReleaseComponent
-                    }*/
+                    }
                 ]
             },
             {
@@ -91,20 +89,7 @@ export const routes: Route[] = [
             {
                 path: ":id/m/expression-matrices",
                 component: ProjectDownloadMatrixModalContainerComponent
-            }/*,  Disabled - #1358
-            {
-                path: ":id/m/releases/2020-mar/datasets/:datasetId/release-files",
-                component: ReleaseFilesModalContainerComponent,
-            },
-            {
-                path: ":id/m/releases/2020-mar/datasets/:datasetId/visualizations",
-                component: ReleaseVisualizationsModalContainerComponent,
-            }*/
+            }
         ]
-    }/*, Disabled - #1358
-    {
-        path: "releases/2020-mar",
-        canActivate: [BrowserCanActivateGuard],
-        component: ReleaseComponent
-    }*/
+    }
 ];

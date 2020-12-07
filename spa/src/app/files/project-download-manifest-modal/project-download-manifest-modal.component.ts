@@ -64,7 +64,7 @@ export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit 
     @HostListener("window:keyup.esc")
     public redirectToProjects(): void {
 
-        this.router.navigateByUrl(`/${EntityName.PROJECTS}`, {replaceUrl: true});
+        this.router.navigateByUrl(`/${EntityName.PROJECTS}`);
     }
 
     /**

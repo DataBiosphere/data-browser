@@ -20,14 +20,11 @@ export class BrowserCanActivateGuard implements CanActivate {
     constructor(private deviceService: DeviceDetectorService) {}
 
     /**
-     * Returns true if browser is supported and navigation can continue.
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
+     * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
+     * @param {RouterStateSnapshot} routerStateSnapshot
      * @returns {boolean}
      */
-    canActivate(route: ActivatedRouteSnapshot,
-                state: RouterStateSnapshot): boolean {
+    canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): boolean {
 
         return this.isBrowserSupported();
     }
