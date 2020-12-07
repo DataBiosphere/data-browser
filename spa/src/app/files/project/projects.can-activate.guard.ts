@@ -5,9 +5,9 @@
  * Determines if route to projects is complete, in that it contains the current state.
  * 
  * This guard typically catches internal links to "/projects" that don't include the current set of selected search terms,
- * causing an additional pageview hit (by first loading "/projects" then writing the current search terms or catalog
- * value to the URL). By catching this case here, we can redirect to the full URL (/projects?filter=x&catalog=y) rather
- * than specifying the full URL in every component that links to "/projects", to prevent the additional pageview hit.
+ * causing an additional pageview hit (by first loading "/projects" then writing the current search terms value to the
+ * URL). By catching this case here, we can redirect to the full URL (/projects?filter=x) rather than
+ * specifying the full URL in every component that links to "/projects", to prevent the additional pageview hit.
  * 
  * This guard can also catch redirects to "/projects" on load of the app and add the default filter, if necessary. This
  * also prevents an additional pageview, if we were to navigate to the default filter at a later point during
@@ -22,9 +22,7 @@ import { combineLatest, Observable, of } from "rxjs";
 import { switchMap, take } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { DefaultFilterInitAction } from "../_ngrx/init/default-filter-init.action";
 import { selectDefaultFilterInit } from "../_ngrx/init/init.selectors";
 import { selectSelectedSearchTermsBySearchKey } from "../_ngrx/search/search.selectors";
@@ -32,19 +30,16 @@ import { SearchTermUrlService } from "../search/url/search-term-url.service";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { GenusSpecies } from "../shared/genus-species.model";
-import { Catalog } from "../catalog/catalog.model";
 
 @Injectable()
 export class ProjectsCanActivateGuard implements CanActivate {
 
     /**
-     * @param {ConfigService} configService
      * @param {SearchTermUrlService} searchTermUrlService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    constructor(private configService: ConfigService,
-                private searchTermUrlService: SearchTermUrlService,
+    constructor(private searchTermUrlService: SearchTermUrlService,
                 private router: Router,
                 private store: Store<AppState>) {}
 
@@ -52,111 +47,89 @@ export class ProjectsCanActivateGuard implements CanActivate {
      * Returns true if projects path contains the current state of the app (eg the current set of selected search terms).
      * Otherwise it returns a URL tree containing the full state.
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
+     * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
+     * @param {RouterStateSnapshot} routerStateSnapshot
      * @returns {boolean}
      */
-    canActivate(route: ActivatedRouteSnapshot,
-                state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-        
-        const v2 = this.configService.isV2();
+    canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot,
+                routerStateSnapshot: RouterStateSnapshot): Observable<boolean | UrlTree> {
         
         return combineLatest(
-            this.store.pipe(select(selectCatalog), take(1)),
             this.store.pipe(select(selectSelectedSearchTermsBySearchKey), take(1)),
             this.store.pipe(select(selectDefaultFilterInit), take(1)),
         )
         .pipe(
             take(1),
-            switchMap(([selectedCatalog, selectedSearchTermsByKey, defaultFilterInit]) => {
+            switchMap(([ selectedSearchTermsByKey, defaultFilterInit]) => {
 
-                const queryParams = route.queryParams;
-                const catalogParam = queryParams.catalog;
+                const queryParams = activatedRouteSnapshot.queryParams;
                 const filterParam = queryParams.filter;
 
-                // If the default filter, or default catalog for v2 environments, has not yet been added to the app URL,
-                // add them and redirect.
+                // If the default filter has not yet been added to the app URL check if it needs to be added and if so,
+                // cancel current navigation and start new navigation with updated query string.
                 if ( !defaultFilterInit ) {
-                    
+
+                    // Update store to indicate init has been completed
                     this.store.dispatch(new DefaultFilterInitAction());
-                    if ( !filterParam || (v2 && !catalogParam) ) {
-                        
-                        return of(this.createDefaultTree(v2, filterParam, catalogParam));
+
+                    if ( !filterParam ) {
+                        return of(this.createDefaultTree(routerStateSnapshot.url, filterParam));
                     }
                 }
 
-                // Proceed as is if:
-                // - Filter param is specified, or, if there is no filter param and there are no selected search terms
-                // - Catalog param is specified, or, if there is no catalog param and there is no selected catalog
+                // Default filter has previous been applied. Proceed as is if filter param is specified, or if there is
+                // no filter param and there are no selected search terms
                 const filterApplied = (filterParam || !filterParam && selectedSearchTermsByKey.size === 0);
-                const catalogApplied = (catalogParam || !catalogParam && !selectedCatalog);
-                if ( filterApplied && catalogApplied ) {
+                if ( filterApplied ) {
                     return of(true);
                 }
 
-                // Otherwise, redirect to the full projects URL, including the current state (filter and catalog
-                // params).
-                return of(this.createTreeFromState(selectedSearchTermsByKey, selectedCatalog));
+                // Otherwise, there are selected search terms that are not reflected in the query string. Cancel current
+                // navigation and start new navigation to which includes the filter query string parameter built from
+                // the current set of selected search terms.
+                return of(this.createTreeFromState(routerStateSnapshot.url, selectedSearchTermsByKey));
             })
         );
     }
 
     /**
-     * Build up URL tree to projects, including default filter and if v2, default catalog.
+     * Build up URL tree, including default filter.
      * 
-     * @param {boolean} v2
+     * @param {string} url
      * @param {string} filterParam
-     * @param {string} catalogParam
      * @returns {UrlTree}
      */
-    private createDefaultTree(v2: boolean, filterParam: string, catalogParam: string): UrlTree {
+    private createDefaultTree(url: string, filterParam: string): UrlTree {
+        
+        // Create default filter
+        const defaultFilter = this.searchTermUrlService.stringifySearchTerms(
+            new Map([
+                [FileFacetName.GENUS_SPECIES, new Set([new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)])]
+            ])
+        );
 
-        // Grab the catalog param if specified in the query string. 
-        let catalog;
-        if ( !!catalogParam ) {
-            catalog = catalogParam;
-        }
-        // Otherwise default catalog param to DCP1 for v2 environments if it's not currently specified in the query
-        // string. For v1 environments, set to null to prevent addition to query string params.
-        else {
-            catalog = v2 ? Catalog.DCP1 : null;
-        }
-
-        // Always default filter to homo sapiens if filter is not currently specified in query string
-        let filter;
-        if ( !!filterParam ) {
-            filter = filterParam;
-        }
-        else {
-            filter = this.searchTermUrlService.stringifySearchTerms(
-                new Map([
-                    [FileFacetName.GENUS_SPECIES, new Set([new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)])]
-                ])
-            );
-        }
-
-        return this.router.createUrlTree(["projects"], {
-            queryParams: {
-                filter,
-                catalog
-            }
-        });
+        // Return url tree container default filter
+        const urlTree = this.router.parseUrl(url);
+        urlTree.queryParams["filter"] = defaultFilter;
+        return urlTree;
     }
 
     /**
-     * Build up URL tree from current state.
+     * Build up URL tree, including filter from current selected search state.
      *
+     * @param {string} url
      * @param {Map<string, Set<SearchTerm>} selectedSearchTermsByKey
-     * @param {string} selectedCatalog
      * @returns {UrlTree}
      */
-    private createTreeFromState(selectedSearchTermsByKey, selectedCatalog): UrlTree {
+    private createTreeFromState(url: string, selectedSearchTermsByKey): UrlTree {
+        
+        const filterFromState = selectedSearchTermsByKey.size ?
+            this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsByKey) :
+            null;
 
-        return  this.router.createUrlTree(["projects"], {
-            queryParams: {
-                filter: selectedSearchTermsByKey.size ? this.searchTermUrlService.stringifySearchTerms(selectedSearchTermsByKey) : null,
-                catalog: selectedCatalog ? selectedCatalog : null
-            }
-        });
+        // Return url tree container default filter
+        const urlTree = this.router.parseUrl(url);
+        urlTree.queryParams["filter"] = filterFromState;
+        return urlTree;
     }
 }

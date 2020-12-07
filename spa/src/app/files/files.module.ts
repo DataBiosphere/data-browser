@@ -32,6 +32,7 @@ import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pip
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
 import { AnnouncementDCP2ComingSoonComponent } from "./announcement-dcp2-coming-soon/announcement-dcp2-coming-soon.component";
 import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
+import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
@@ -270,6 +271,7 @@ const v2 = environment.version === "2.0";
         TableScroll
     ],
     providers: [
+        CatalogCanActivateGuard,
         ConfigService,
         DownloadService,
         {

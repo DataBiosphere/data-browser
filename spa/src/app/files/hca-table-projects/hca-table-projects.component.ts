@@ -7,12 +7,12 @@
 
 // Core dependencies
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { filter, map, take, takeUntil } from "rxjs/operators";
+import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
@@ -201,7 +201,7 @@ export class HCATableProjectsComponent implements OnInit {
     public onProjectDownloadManifestClicked(projectId: string) {
 
         const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/project-metadata`;
-        this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
+        this.router.navigateByUrl(redirectUrl);
     }
 
     /**
@@ -212,7 +212,7 @@ export class HCATableProjectsComponent implements OnInit {
     public onProjectDownloadMatrixClicked(projectId: string) {
 
         const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/expression-matrices`;
-        this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
+        this.router.navigateByUrl(redirectUrl);
     }
 
     /**
