@@ -28,7 +28,7 @@
                                                       (speciesSelected)="onDownloadSelected('MATRIX')"></hca-get-matrix-species-selection>
                     <bulk-download *ngSwitchCase="'BULK_DOWNLOAD'"></bulk-download>
                     <hca-get-matrix *ngSwitchCase="'MATRIX'"></hca-get-matrix>
-                    <hca-get-manifest *ngSwitchCase="'MANIFEST'"></hca-get-manifest>
+                    <hca-get-manifest *ngSwitchCase="'MANIFEST'" [v2]="state.v2"></hca-get-manifest>
                     <hca-export-to-terra *ngSwitchCase="'TERRA'"></hca-export-to-terra>
                 </ng-container>
             </div>
