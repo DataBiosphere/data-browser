@@ -34,11 +34,13 @@
             <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"
                                (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
         </div>
-        <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to
-            download the files listed in your
-            manifest along with their associated metadata.</p>
-        <p class="fontsize-m"><a target="_blank"
-                                 href="{{portalURL}}/guides#downloading-a-data-manifest">View HCA CLI
-            Instructions</a></p>
+        <ng-container *ngIf="!v2">
+            <p class="fontsize-m">Once you have downloaded your manifest, use the HCA Command Line Interface (HCA CLI) to
+                download the files listed in your
+                manifest along with their associated metadata.</p>
+            <p class="fontsize-m"><a target="_blank"
+                                     href="{{portalURL}}/guides#downloading-a-data-manifest">View HCA CLI
+                Instructions</a></p>
+        </ng-container>
     </ng-container>
 </div>
