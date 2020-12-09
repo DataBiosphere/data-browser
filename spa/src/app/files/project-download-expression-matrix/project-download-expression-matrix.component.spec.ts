@@ -15,11 +15,11 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
+import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { GenusSpecies } from "../shared/genus-species.model";
-import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadExpressionMatrixComponent } from "./project-download-expression-matrix.component";
+import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { SpeciesMatrixUrls } from "../shared/species-matrix-urls.model";
@@ -70,8 +70,8 @@ describe("ProjectDownloadExpressionMatrixComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
-                DataDownloadCitationComponent,
-                LeftBarComponent,
+                DataUseNotificationComponent,
+                SectionBarComponent,
                 FileDownloadComponent,
                 ProjectDownloadExpressionMatrixComponent
             ],

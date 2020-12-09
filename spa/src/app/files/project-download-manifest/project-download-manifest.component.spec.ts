@@ -14,10 +14,10 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
-import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest.component";
+import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { FileManifestService } from "../shared/file-manifest.service";
 
 describe("ProjectDownloadManifestComponent", () => {
@@ -32,8 +32,8 @@ describe("ProjectDownloadManifestComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
-                DataDownloadCitationComponent,
-                LeftBarComponent,
+                DataUseNotificationComponent,
+                SectionBarComponent,
                 ProjectDownloadManifestComponent,
             ],
             imports: [

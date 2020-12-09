@@ -33,10 +33,9 @@ import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement
 import { AnnouncementDCP2ComingSoonComponent } from "./announcement-dcp2-coming-soon/announcement-dcp2-coming-soon.component";
 import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
-import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
+import { DataUseNotificationComponent } from "./data-use-notification/data-use-notification.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
-import { DataDownloadCitationComponent } from "./data-download-citation/data-download-citation.component";
 import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
 import { EntityRequestService } from "./entity/entity-request.service";
 import { environment } from "../../environments/environment";
@@ -60,6 +59,7 @@ import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
+import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
 import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
 import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
@@ -88,7 +88,6 @@ import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.
 import { HCATableSortComponent } from "./hca-table-sort/hca-table-sort.component";
 import { ResponseTermService } from "./http/response-term.service";
 import { HttpService } from "./http/http.service";
-import { LeftBarComponent } from "./left-bar/left-bar.component";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
@@ -132,6 +131,7 @@ import { ReleaseVisualizationsModalComponent } from "./releases/release-visualiz
 import { SearchTermHttpService } from "./search/http/search-term-http.service";
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
 import { SearchTermUrlService } from "./search/url/search-term-url.service";
+import { SectionBarComponent } from "./section-bar/section-bar.component";
 import { DownloadService } from "./shared/download.service";
 import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
@@ -189,7 +189,7 @@ const v2 = environment.version === "2.0";
         BaseGetManifestComponent,
         BulkDownloadComponent,
         CatalogFormComponent,
-        DataDownloadCitationComponent,
+        DataUseNotificationComponent,
         DisplayDataLinkComponent,
         FacetAgeRangeFormComponent,
         FacetMenuComponent,
@@ -229,7 +229,6 @@ const v2 = environment.version === "2.0";
         HCATableProjectsComponent,
         HCATableSamplesComponent,
         HCATableSortComponent,
-        LeftBarComponent,
         MatrixPartialQueryMatchWarningComponent,
         MatrixUrlRequestCompletedComponent,
         MatrixUrlRequestFormComponent,
@@ -267,6 +266,7 @@ const v2 = environment.version === "2.0";
         ReleaseVisualizationsModalContainerComponent,
         ReleaseTableComponent,
         ReleaseTitleOverlineComponent,
+        SectionBarComponent,
         SelectedSearchTermsComponent,
         TableScroll
     ],
