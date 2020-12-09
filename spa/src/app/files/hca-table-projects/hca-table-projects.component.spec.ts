@@ -25,7 +25,7 @@ import { of } from "rxjs";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
-import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
+import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
@@ -39,10 +39,10 @@ import { HCATableDataStatusPlaceholderComponent } from "../hca-table-data-status
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
 import { HCATableProjectsComponent } from "./hca-table-projects.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
-import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { PipeModule } from "../../pipe/pipe.module";
 import { ProjectDownloadExpressionMatrixComponent } from "../project-download-expression-matrix/project-download-expression-matrix.component";
+import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
@@ -118,7 +118,7 @@ describe("HCATableProjectsComponent", () => {
             declarations: [
                 AnalysisProtocolPipelineLinkerComponent,
                 CopyToClipboardComponent,
-                DataDownloadCitationComponent,
+                DataUseNotificationComponent,
                 DownloadButtonComponent,
                 FileDownloadComponent,
                 HCAContentEllipsisComponent,
@@ -134,7 +134,7 @@ describe("HCATableProjectsComponent", () => {
                 HCATableProjectsComponent,
                 HCATableSortComponent,
                 HCATooltipComponent,
-                LeftBarComponent,
+                SectionBarComponent,
                 ProjectDownloadExpressionMatrixComponent,
                 TableScroll
             ],

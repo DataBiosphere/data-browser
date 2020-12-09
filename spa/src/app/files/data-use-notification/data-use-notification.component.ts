@@ -12,11 +12,11 @@ import { Component } from "@angular/core";
 import { ConfigService } from "../../config/config.service";
 
 @Component({
-    selector: "data-download-citation",
-    templateUrl: "./data-download-citation.component.html",
-    styleUrls: ["./data-download-citation.component.scss"]
+    selector: "data-use-notification",
+    templateUrl: "./data-use-notification.component.html",
+    styleUrls: ["./data-use-notification.component.scss"]
 })
-export class DataDownloadCitationComponent {
+export class DataUseNotificationComponent {
 
     // Template variables
     public portalURL: string;

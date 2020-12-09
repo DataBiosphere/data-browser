@@ -17,8 +17,8 @@
                                [copyToClipboardLink]="state.projectTSVUrlResponse.fileUrl"
                                (copyClicked)="onDataLinkCopied(projectTitle, state.projectTSVUrlResponse.fileUrl)"></copy-to-clipboard>
         </div>
-        <left-bar>
-            <data-download-citation></data-download-citation>
-        </left-bar>
+        <section-bar [position]="'left'">
+            <data-use-notification></data-use-notification>
+        </section-bar>
     </div>
 </ng-container>

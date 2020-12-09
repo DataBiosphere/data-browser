@@ -19,11 +19,11 @@ import { of } from "rxjs/index";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DataDownloadCitationComponent } from "../data-download-citation/data-download-citation.component";
+import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
-import { LeftBarComponent } from "../left-bar/left-bar.component";
 import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";
+import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { FileManifestService } from "../shared/file-manifest.service";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 
@@ -50,8 +50,8 @@ describe("ProjectMetadataComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
-                DataDownloadCitationComponent,
-                LeftBarComponent,
+                DataUseNotificationComponent,
+                SectionBarComponent,
                 ProjectDownloadManifestComponent,
                 ProjectMetadataComponent,
             ],
