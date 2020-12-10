@@ -20,6 +20,7 @@ export enum GAAction {
     "SELECT" = "Select",
     "SELECT_TAB" = "Select Tab",
     "SORT" = "Sort",
+    "VIEW_CATALOG" = "View Catalog",
     "VIEW_DATA_CITATION" = "View Data Citation", // View project data citation - not implemented
     "VIEW_DEPRECATED_PROJECT" = "View Deprecated Project", // View deprecated project
     "VIEW_EXTERNAL_RESOURCES" = "View External Resources", // View project external resources tab

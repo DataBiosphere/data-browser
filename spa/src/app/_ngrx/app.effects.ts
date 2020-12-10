@@ -6,6 +6,7 @@
  */
 
 // App dependencies
+import { CatalogEffects } from "../files/_ngrx/catalog/catalog.effects";
 import { ConfigEffects } from "../config/_ngrx/config.effects";
 import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
 import { EntityEffects } from "../files/_ngrx/entity/entity.effects";
@@ -26,6 +27,7 @@ import { UrlEffects } from "../files/_ngrx/url/url.effects";
 
 export const AppEffects = [
     AnalysisProtocolEffects,
+    CatalogEffects,
     ConfigEffects,
     EntityEffects,
     FileEffects,

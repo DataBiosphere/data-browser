@@ -8,7 +8,7 @@
 @import "../../site/theme/hca.vars";
 
 /* Announcement - inner */
-.announcement-catalog > span {
+.announcement-catalog-content {
     display: flex;
     flex-wrap: wrap;
 }
@@ -19,13 +19,13 @@
 }
 
 /* Catalog selector */
-.announcement-catalog > span > span:last-of-type > span:first-of-type {
+.announcement-catalog-link {
     color: $hca-primary;
     cursor: pointer;
 }
 
 /* Separator */
-.announcement-catalog > span > span:last-of-type > span:nth-of-type(2) {
+.announcement-catalog-delimiter {
     color: $hca-gray-medium;
     padding: 0 8px;
 }
@@ -36,8 +36,8 @@
  */
 @media screen and (min-width: 600px) {
 
-    /* Announcement links */
-    .announcement-catalog > span > span:first-of-type {
+    /* Announcement message */
+    .announcement-catalog-content .announcement-catalog-message {
         margin-right: 24px;
     }
 }
