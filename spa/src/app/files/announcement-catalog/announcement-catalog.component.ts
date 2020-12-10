@@ -14,6 +14,7 @@ import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { EntityName } from "../shared/entity-name.model";
+import { ViewCatalogAction } from "../_ngrx/catalog/view-catalog.action";
 
 @Component({
     selector: "announcement-catalog",
@@ -51,11 +52,11 @@ export class AnnouncementCatalogComponent {
     }
 
     /**
-     * Handle select of catalog.
-     *
+     * Handle select of catalog - dispatch event to track click on catalog, then redirect to catalog.
      */
     public onCatalogSelected(catalog: Catalog) {
 
+        this.store.dispatch(new ViewCatalogAction(catalog));
         this.window.location.href = `/explore/${EntityName.PROJECTS}?catalog=${catalog}`;
     }
 }

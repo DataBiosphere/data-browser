@@ -6,6 +6,7 @@
  */
 
 export enum GACategory {
+    "CATALOG" = "Catalog",
     "DATASET" = "Dataset",
     "DB_PAGEVIEW" = "DB Pageview",
     "ENTITY" = "Entity",
