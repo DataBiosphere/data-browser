@@ -14,6 +14,8 @@ import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { SelectEntityAction } from "../../files/_ngrx/entity/select-entity.action";
+import { EntityName } from "../../files/shared/entity-name.model";
 import { ReleaseService } from "../../files/shared/release.service";
 import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
 import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
@@ -117,6 +119,14 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     public onDropDownMenuOpened(event) {
 
         this.dropDownMenuOpen = event;
+    }
+
+    /**
+     * Set projects as selected entity in store.
+     */
+    public onExploreLinkClicked() {
+
+        this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
     }
 
     /**
