@@ -42,6 +42,11 @@ export class IntegrationService {
      */
     public fetchIntegrationsByProjectId(catalog: Catalog, projectId: string): Observable<Portal[]> {
 
+        // Disable integrations for v2. See DB-1415.
+        if ( this.configService.isV2() ) {
+            return of([]);
+        }
+        
         const url = this.configService.getIntegrationsUrl();
 
         const integrationParams = {
