@@ -10,7 +10,7 @@
         <div menu-close hamburger class="menu-dropdown-close fontsize-s semi-bold" (click)="isMenuOpen(false)">Menu</div>
         <toolbar-nav>
             <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
-                <a class="link" [routerLink]="['/projects']">
+                <a class="link" [routerLink]="['/projects']" (click)="onExploreLinkClicked()">
                     <span class="fontsize-xs">Explore</span>
                     <span class="fontsize-xxs">Search for data in the HCA</span>
                 </a>
