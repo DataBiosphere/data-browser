@@ -7,12 +7,19 @@
 
 @import "../../site/theme/hca.vars";
 
+:host {
+    /* Enable scroll on table */
+    display: block;
+    overflow: auto;
+}
+
 /* Table */
 mat-table {
 
+    min-width: 360px; /* Set min width for overflow/scroll */
     max-width: 1440px !important; /* Snap width at large window width, override (!important) host context specific
                                              max-widths set on smaller breakpoints */
-
+    
     mat-header-row {
         border-bottom: 1px solid $hca-gray-light;
         display: flex; /* 1024+ is in table format - display header row */
@@ -81,7 +88,7 @@ mat-table {
     }
 
     /** File name */
-    .mat-column-fileName, .mat-cell-fileName {
+    .mat-column-fileName:not(mat-header-cell), .mat-cell-fileName {
         word-break: break-all;
     }
 
@@ -101,5 +108,15 @@ mat-table {
         .mat-column-fileName, .mat-cell-fileName {
             min-width: 200px;
         }
+    }
+}
+
+/**
+ * Custom breakpoint - overflow on table no longer needed
+ */
+@media (min-width: 644px) {
+    
+    mat-table {
+        overflow: visible;
     }
 }
