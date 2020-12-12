@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Event emitted when file is downloaded from files data table.
+ * Event emitted when file is downloaded.
  */
 export class FileDownloadEvent {
 

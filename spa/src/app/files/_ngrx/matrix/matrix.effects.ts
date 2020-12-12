@@ -10,10 +10,11 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, filter, map, mergeMap, skip, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, filter, map, mergeMap, skip, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { selectCatalog } from "../catalog/catalog.selectors";
+import { DownloadProjectMatrixAction } from "./download-project-matrix.action";
 import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats-request.action";
 import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats-success.action";
 import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partial-query-match-success.action";
@@ -25,6 +26,7 @@ import { FetchProjectMatrixUrlsRequestAction } from "./fetch-project-matrix-urls
 import { FetchProjectMatrixUrlsSuccessAction } from "./fetch-project-matrix-urls-success.action";
 import { selectMatrixUrlRequestsBySpecies, selectProjectMatrixUrlsByProjectId } from "./matrix.selectors";
 import { AppState } from "../../../_ngrx/app.state";
+import { GTMService } from "../../../shared/analytics/gtm.service";
 import {
     selectSelectedSearchTerms,
     selectSelectedSearchTermsBySearchKey
@@ -40,16 +42,34 @@ import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model"
 export class MatrixEffects {
 
     /**
+     * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      * @param {FilesService} fileService
      * @param {MatrixService} matrixService
      */
-    constructor(private store: Store<AppState>,
+    constructor(private gtmService: GTMService,
+                private store: Store<AppState>,
                 private actions$: Actions,
                 private fileService: FilesService,
                 private matrixService: MatrixService) {
     }
+
+    /**
+     * Trigger tracking of project matrix download.
+     */
+    @Effect({dispatch: false})
+    downloadProjectMatrix$ = this.actions$.pipe(
+        ofType(DownloadProjectMatrixAction.ACTION_TYPE),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(this.store.pipe(select(selectCatalog), take(1)))
+        )),
+        tap(([action, catalog]) => {
+            this.gtmService.trackEvent((action as DownloadProjectMatrixAction).asEvent({
+                catalog
+            }));
+        })
+    );
     
     /**
      * Trigger fetch and display of matrix file formats.

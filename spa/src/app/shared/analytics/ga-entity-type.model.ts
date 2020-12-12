@@ -14,6 +14,9 @@ export enum GAEntityType {
     "COHORT_MATRIX" = "Cohort Matrix",
     "COHORT_MATRIX_LINK" = "Cohort Matrix Link",
     "FACET" = "Facet",
+    "PROJECT" = "Project",
     "PROJECT_MANIFEST_LINK" = "Project Manifest Link",
+    "PROJECT_CGM_MATRIX" = "Project CGM Matrix",
+    "PROJECT_DCP_MATRIX" = "Project DCP Matrix",
     "PROJECT_MATRIX_LINK" = "Project Matrix Link"
 }

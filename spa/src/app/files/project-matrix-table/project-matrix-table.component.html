@@ -39,7 +39,8 @@
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
                 <hca-download-file class="project-matrix-view-table-file-download"
                                    [fileName]="element.fileName"
-                                   [fileUrl]="element.url"></hca-download-file>
+                                   [fileUrl]="element.url"
+                                   (fileDownloaded)="onProjectMatrixFileDownloaded($event)"></hca-download-file>
             </mat-cell>
         </ng-container>    
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
