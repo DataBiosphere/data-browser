@@ -15,7 +15,10 @@
     <no-hits *ngSwitchCase="true">
         <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
-    <project-matrix-table *ngSwitchDefault [projectMatrixViews]="project.matrices"></project-matrix-table>
+    <project-matrix-table *ngSwitchDefault
+                          [projectMatrixType]="projectMatrixType.DCP"
+                          [projectMatrixViews]="project.matrices"
+                          (projectMatrixFileDownloaded)="onProjectMatrixFileDownloaded($event)"></project-matrix-table>
 </ng-container>
 <h2 class="fontsize-xl">
     Contributor Generated Matrices
@@ -31,9 +34,10 @@
     </no-hits>
     <project-matrix-table *ngSwitchDefault
                           class="project-matrix-table-contributor-generated"
-                          [projectMatrixViews]="project.contributorMatrices"></project-matrix-table>
+                          [projectMatrixType]="projectMatrixType.CGM"
+                          [projectMatrixViews]="project.contributorMatrices"
+                          (projectMatrixFileDownloaded)="onProjectMatrixFileDownloaded($event)"></project-matrix-table>
 </ng-container>
 <section-bar [position]="'top'">
     <data-use-notification></data-use-notification>
 </section-bar>
-

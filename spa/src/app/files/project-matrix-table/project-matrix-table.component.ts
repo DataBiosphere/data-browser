@@ -6,10 +6,13 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { FileDownloadEvent } from "../hca-download-file/file-download.event";
+import { ProjectMatrixDownloadEvent } from "../project-matrix/project-matrix-download.event";
+import { ProjectMatrixType } from "../project-matrix/project-matrix-type.model";
 import { ProjectMatrixTableView } from "./project-matrix-table-view.model";
 import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
 import { FileDownloadLink } from "../../shared/file-download/file-download.model";
@@ -24,9 +27,11 @@ export class ProjectMatrixTableComponent {
 
     // Template variables 
     public columnsToDisplay = ["fileName", "genusSpecies", "organ", "libraryConstructionApproach", "actions"];
-    
-    // Inputs
+
+    // Inputs/Outputs
+    @Input() projectMatrixType: ProjectMatrixType;
     @Input() projectMatrixViews: ProjectMatrixView[];
+    @Output() projectMatrixFileDownloaded = new EventEmitter<ProjectMatrixDownloadEvent>();
 
     /**
      * Return the file download spec for the specified matrix file - this is used by the FileDownload component to 
@@ -79,6 +84,20 @@ export class ProjectMatrixTableComponent {
         const groupedViews = Array.from(viewsBySpecies.values());
         this.sortProjectMatrixTableViews(groupedViews);
         return groupedViews;
+    }
+
+
+    /**
+     * Track click on matrix download URL.
+     *
+     * @param {FileDownloadEvent} fileDownloadEvent
+     */
+    public onProjectMatrixFileDownloaded(fileDownloadEvent: FileDownloadEvent) {
+
+        const projectMatrixDownloadEvent = new ProjectMatrixDownloadEvent(
+            fileDownloadEvent.fileName, fileDownloadEvent.fileUrl, this.projectMatrixType
+        );
+        this.projectMatrixFileDownloaded.emit(projectMatrixDownloadEvent);
     }
 
     /**

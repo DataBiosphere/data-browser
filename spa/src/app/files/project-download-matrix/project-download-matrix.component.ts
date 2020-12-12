@@ -6,11 +6,16 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, Inject, Input } from "@angular/core";
+import { Store } from "@ngrx/store";
 
 // App dependencies
-import { Project } from "../shared/project.model";
 import { ConfigService } from "../../config/config.service";
+import { ProjectMatrixDownloadEvent } from "../project-matrix/project-matrix-download.event";
+import { ProjectMatrixType } from "../project-matrix/project-matrix-type.model";
+import { AppState } from "../../_ngrx/app.state";
+import { DownloadProjectMatrixAction } from "../_ngrx/matrix/download-project-matrix.action";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-download-matrix",
@@ -21,6 +26,7 @@ export class ProjectDownloadMatrixComponent {
     
     // Template variables
     public portalUrl: string;
+    public projectMatrixType = ProjectMatrixType; // enum values are passed into child components
 
     // Inputs
     @Input() project: Project;
@@ -28,8 +34,22 @@ export class ProjectDownloadMatrixComponent {
     /**
      * @param {ConfigService} configService
      */
-    constructor(private configService: ConfigService) {
+    constructor(private configService: ConfigService,
+                private store: Store<AppState>,
+                @Inject("Window") private window: Window) {
 
         this.portalUrl = this.configService.getPortalUrl();
+    }
+
+    /**
+     * Track download of project matrix file.
+     *
+     * @param {ProjectMatrixDownloadEvent} event
+     */
+    public onProjectMatrixFileDownloaded(event: ProjectMatrixDownloadEvent) {
+
+        const projectUrl = window.location.href;
+        this.store.dispatch(
+            new DownloadProjectMatrixAction(this.project, projectUrl, event.projectMatrixType, event.fileName, event.url));
     }
 }
