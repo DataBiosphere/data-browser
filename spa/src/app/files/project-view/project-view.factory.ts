@@ -10,6 +10,7 @@ import { Injectable } from "@angular/core";
 
 // App dependencies
 import { Accession } from "./accession.model";
+import { Catalog } from "../catalog/catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
@@ -73,12 +74,13 @@ export class ProjectViewFactory {
      * Returns project related information, including formatted contact, contributor and organizations lists.
      *
      * @param {Project} project
+     * @param catalog
      * @returns {ProjectView}
      */
-    public getProjectView(project: Project): ProjectView {
+    public getProjectView(project: Project, catalog: Catalog): ProjectView {
 
         return {
-            citationLink: this.buildCitationUrl(project.entryId),
+            citationLink: this.buildCitationUrl(project.entryId, catalog),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),
             contributors: this.buildContributors(project.contributors),
@@ -95,14 +97,15 @@ export class ProjectViewFactory {
      * Returns project detail page url.
      *
      * @param {string} projectId
+     * @param catalog
      * @returns {string}
      */
-    private buildCitationUrl(projectId: string): string {
+    private buildCitationUrl(projectId: string, catalog: Catalog): string {
 
         // Add selected project to state - grab the project ID from the URL.
         const portalURL = this.configService.getPortalUrl();
 
-        return `${portalURL}/explore/projects/${projectId}`;
+        return `${portalURL}/explore/projects/${projectId}?catalog=${catalog}`;
     }
 
     /**
