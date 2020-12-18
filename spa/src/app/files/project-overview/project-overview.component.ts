@@ -9,13 +9,14 @@
 import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Observable, Subject } from "rxjs";
+import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
@@ -168,17 +169,23 @@ export class ProjectOverviewComponent implements OnDestroy {
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
+        // Grab the current catalog value - we need this for the citation link.
+        const catalog$ = this.store.pipe(
+            select(selectCatalog),
+            takeUntil(this.ngDestroy$)
+        );
+
         // Grab reference to selected project
         const project$ = this.store.pipe(
             select(selectSelectedProject),
             filter(project => !!project)
         );
         
-        this.state$ = project$.pipe(
+        this.state$ = combineLatest(project$, catalog$).pipe(
             takeUntil(this.ngDestroy$),
-            map((project) => {
+            map(([project, catalog]) => {
 
-                const projectView = this.projectFactory.getProjectView(project);
+                const projectView = this.projectFactory.getProjectView(project, catalog);
 
                 return {
                     project: projectView,
