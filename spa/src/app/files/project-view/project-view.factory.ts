@@ -104,8 +104,15 @@ export class ProjectViewFactory {
 
         // Add selected project to state - grab the project ID from the URL.
         const portalURL = this.configService.getPortalUrl();
+        const citationURL = `${portalURL}/explore/projects/${projectId}`;
 
-        return `${portalURL}/explore/projects/${projectId}?catalog=${catalog}`;
+        // Return citation with catalog param, if in DCP2 mode.
+        if ( catalog === Catalog.DCP2 ) {
+
+            return `${citationURL}?catalog=${catalog}`;
+        }
+
+        return citationURL;
     }
 
     /**
