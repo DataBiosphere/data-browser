@@ -5,10 +5,8 @@
     <header>
         <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
     </header>
-    <ng-container [ngSwitch]="isV2()">
-        <announcement-catalog *ngSwitchCase="true" [catalog]="state.catalog"></announcement-catalog>
-        <announcement-dcp2-coming-soon *ngSwitchDefault></announcement-dcp2-coming-soon>
-    </ng-container>
+    <announcement-catalog *ngIf="isAnnouncementCatalogVisible()" [catalog]="state.catalog"></announcement-catalog>
+    <announcement-dcp2-coming-soon *ngIf="isAnnouncementDCP2ComingSoonVisible()"></announcement-dcp2-coming-soon>
     <release-banner *ngIf="showRelease()"></release-banner>
     <announcement *ngIf="!state.systemStatus.ok" class="status">
         <mat-icon>warning</mat-icon>

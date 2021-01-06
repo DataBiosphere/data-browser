@@ -86,6 +86,10 @@ describe("CatalogCanActivateGuard", () => {
          */
         it("adds default catalog if catalog not specified in query string", (doneFn: DoneFn) => {
 
+            // Set default catalog for environment
+            const defaultCatalog = Catalog.DCP1;
+            configService.getDefaultCatalog.and.returnValue(defaultCatalog);
+            
             spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
 
             const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
@@ -93,7 +97,7 @@ describe("CatalogCanActivateGuard", () => {
                 
                 const catalogParam = urlTree.queryParams["catalog"];
                 expect(catalogParam).toBeTruthy();
-                expect(catalogParam).toEqual(Catalog.DCP1);
+                expect(catalogParam).toEqual(defaultCatalog);
                 doneFn();
             });
         });
@@ -117,6 +121,10 @@ describe("CatalogCanActivateGuard", () => {
          * Merges catalog param with existing params if catalog not specified in query string.
          */
         it("merges default catalog param with existing params if catalog not specified in query string", (doneFn: DoneFn) => {
+            
+            // Set default catalog for environment
+            const defaultCatalog = Catalog.DCP1;
+            configService.getDefaultCatalog.and.returnValue(defaultCatalog);
 
             // Update router to return filter on parseUrl - we will check that filter param is maintained in UrlTree
             // object that is returned from canActivate
@@ -130,7 +138,7 @@ describe("CatalogCanActivateGuard", () => {
 
                 const catalogParam = urlTree.queryParams["catalog"];
                 expect(catalogParam).toBeTruthy();
-                expect(catalogParam).toEqual(Catalog.DCP1);
+                expect(catalogParam).toEqual(defaultCatalog);
                 
                 const filterParam = urlTree.queryParams["filter"];
                 expect(filterParam).toBeTruthy();

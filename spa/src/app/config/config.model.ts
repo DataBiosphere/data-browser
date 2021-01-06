@@ -9,9 +9,10 @@ export class Config {
 
     public readonly dataURL: string;
     public readonly dcpHealthCheckUrl: string;
+    public readonly defaultCatalog: string;
+    public readonly deployment: string;
     public readonly matrixURL: string;
     public readonly portalURL: string;
-    public readonly deployment: string;
     public readonly projectMetaURL: string;
     public readonly terraExportURL: string;
     public readonly version: string;
@@ -20,6 +21,7 @@ export class Config {
     /**
      * @param {string} dataURL
      * @param {string} dcpHealthCheckUrl
+     * @param {string} defaultCatalog
      * @param {string} deployment
      * @param {string} matrixURL
      * @param {string} portalURL
@@ -30,6 +32,7 @@ export class Config {
      */
     constructor(dataURL: string,
                 dcpHealthCheckUrl: string,
+                defaultCatalog: string,
                 deployment: string,
                 matrixURL: string,
                 portalURL: string,
@@ -40,6 +43,7 @@ export class Config {
 
         this.dataURL = dataURL;
         this.dcpHealthCheckUrl = dcpHealthCheckUrl;
+        this.defaultCatalog = defaultCatalog;
         this.matrixURL = matrixURL;
         this.deployment = deployment;
         this.portalURL = portalURL;

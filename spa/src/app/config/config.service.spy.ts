@@ -11,6 +11,7 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "getIndexStatusUrl",
     "getIntegrationsUrl",
     "getDataUrl",
+    "getDefaultCatalog",
     "getDCPHealthCheckUrl",
     "getMatrixUrl",
     "getMatrixFormatsUrl",
