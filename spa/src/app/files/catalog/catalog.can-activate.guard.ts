@@ -1,4 +1,4 @@
-/**
+ /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
@@ -92,9 +92,10 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
                 if ( !catalogParam ) {
 
                     // Add the catalog param - if there's a selected catalog in the state, use the selected catalog. If
-                    // not, default to DCP1.
+                    // not, default to catalog for the current environment.
                     const urlTree = this.router.parseUrl(nextUrl);
-                    urlTree.queryParams["catalog"] = selectedCatalog ? selectedCatalog : Catalog.DCP1;
+                    urlTree.queryParams["catalog"] =
+                        selectedCatalog ? selectedCatalog : this.configService.getDefaultCatalog();
                     return of(urlTree);
                 }
                 

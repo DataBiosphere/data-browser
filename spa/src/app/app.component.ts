@@ -57,6 +57,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Returns true for environments where dcp1 catalog is available. This is currently only the dcp2 environment.
+     */
+    public isAnnouncementCatalogVisible(): boolean {
+        
+        return this.configService.isEnvDCP2();
+    }
+
+    /**
+     * Returns true if environment is not v2.
+     */
+    public isAnnouncementDCP2ComingSoonVisible(): boolean {
+
+        return !this.configService.isV2();
+    }
+
+    /**
      * Returns true if device is either mobile or tablet.
      * @returns {boolean}
      */
@@ -77,16 +93,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Maintenance mode warning is currently disabled.
         return false;
-    }
-
-    /**
-     * Returns true if the current environment is running v2 code.
-     * 
-     * @returns {boolean}
-     */
-    public isV2(): boolean {
-        
-        return this.configService.isV2();
     }
 
     /**

@@ -111,7 +111,7 @@ export class ProjectGuardComponent implements OnInit {
             const deprecated = projectEdits.deprecated;
             if ( deprecated ) {
                 const action =
-                    new ViewProjectDeprecatedAction(projectId, projectEdits.projectShortname, this.window.location.href)
+                    new ViewProjectDeprecatedAction(projectId, projectEdits.projectShortname, this.window.location.href);
                 this.store.dispatch(action);
             }
             

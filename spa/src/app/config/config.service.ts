@@ -10,11 +10,12 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
+import { APIEndpoints } from "./api-endpoints.model";
 import { Config } from "./config.model";
 import { environment } from "../../environments/environment";
+import { Catalog } from "../files/catalog/catalog.model";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
-import { APIEndpoints } from "./api-endpoints.model";
 
 @Injectable()
 export class ConfigService {
@@ -24,6 +25,7 @@ export class ConfigService {
     // Locals
     protected dataURL: string; // Pulled from config store, saved as local state here on service
     protected dcpHealthCheckUrl: string;
+    protected defaultCatalog: string;
     protected matrixURL: string;
     protected portalURL: string;
     protected deployment: string;
@@ -93,6 +95,14 @@ export class ConfigService {
     public getDataUrl(): string {
 
         return this.dataURL;
+    }
+
+    /**
+     * Returns the default catalog for this environment.
+     */
+    public getDefaultCatalog(): string {
+        
+        return this.defaultCatalog;
     }
 
     /**
@@ -346,6 +356,7 @@ export class ConfigService {
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
         this.dcpHealthCheckUrl = config.dcpHealthCheckUrl;
+        this.defaultCatalog = config.defaultCatalog || Catalog.DCP2;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
