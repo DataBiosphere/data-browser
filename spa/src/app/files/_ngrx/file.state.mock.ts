@@ -21,12 +21,13 @@ import { IntegrationState } from "./integration/integration.state";
 import { ReleaseState } from "./release/release.state";
 import { ProjectEditsState } from "./project-edits/project-edits.state";
 import { getDefaultTableState } from "./table/table.state";
+import { Catalog } from "../catalog/catalog.model";
 
 /**
  * Default project state - current tab is projects, no selected search terms
  */
 export const DEFAULT_PROJECTS_STATE = {
-    catalog: CatalogState.getDefaultState(),
+    catalog: new CatalogState(Catalog.DCP2), // TODO Default catalog to DCP2. State currently defaults to NONE - revisit once default NONE is removed and revert to getDefaultState(), then update specs that use this value.
     fileSummary: FileSummaryState.getDefaultState(),
     facet: FacetState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
