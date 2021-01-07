@@ -14,6 +14,8 @@ import { Observable, of } from "rxjs";
 import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { Catalog } from "../../catalog/catalog.model";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { selectTableQueryParams } from "../file.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
@@ -31,13 +33,12 @@ import { GAIndex } from "../../../shared/analytics/ga-index.model";
 import { EntityName } from "../../shared/entity-name.model";
 import { EntitySearchResults } from "../../shared/entity-search-results.model";
 import { FilesService } from "../../shared/files.service";
-import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
+import { DEFAULT_TABLE_PARAMS, TableParams } from "../../table/pagination/table-params.model";
 import { TableNextPageAction } from "./table-next-page.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageAction } from "./table-previous-page.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
 import { UrlService } from "../../url/url.service";
-import { selectCatalog } from "../catalog/catalog.selectors";
 
 @Injectable()
 export class TableEffects {
@@ -64,16 +65,17 @@ export class TableEffects {
      * Grab the next page of table result set - update table model data (but not the term counts).
      */
     @Effect()
-    fetchNextPagedOrSortedTableData$: Observable<Action> = this.actions$
+    fetchNextPagedTableData$: Observable<Action> = this.actions$
         .pipe(
             ofType(TableNextPageAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
-                    this.store.pipe(select(selectTableQueryParams)),
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1)),
                     this.store.pipe(select(selectPreviousQuery), take(1))
                 )
             )),
-            switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
+            switchMap(([action, catalog, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Send tracking event of next page action.
                 const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
@@ -84,7 +86,8 @@ export class TableEffects {
                 this.gtmService.trackEvent(event);
 
                 // Fetch previous page.
-                return this.fetchSortedTableModel(action, tableQueryParams);
+                const tableParams = (action as TableNextPageAction).tableParams;
+                return this.fetchEntitySearchResults(catalog, tableParams, tableQueryParams);
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new TableNextPageSuccessAction(entitySearchResults.tableModel))
@@ -99,11 +102,12 @@ export class TableEffects {
             ofType(FetchSortedTableDataRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectTableQueryParams), take(1)),
                     this.store.pipe(select(selectPreviousQuery), take(1))
                 )
-            )),            
-            switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
+            )),
+            switchMap(([action, catalog, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Send tracking event of sort action.
                 this.gtmService.trackEvent((action as FetchSortedTableDataRequestAction).asEvent({
@@ -111,13 +115,14 @@ export class TableEffects {
                 }));
 
                 // Fetch sorted search results
-                return this.fetchSortedTableModel(action, tableQueryParams).pipe(
+                const tableParams = (action as FetchSortedTableDataRequestAction).tableParams;
+                return this.fetchEntitySearchResults(catalog, tableParams, tableQueryParams).pipe(
                     map((entitySearchResults) => {
                         return {entitySearchResults, tableQueryParams};
                     })
                 );
             }),
-            map(({tableQueryParams, entitySearchResults}) => {
+            map(({entitySearchResults, tableQueryParams}) => {
 
                 const termCountsByFacetName = tableQueryParams.tableState.tableModels.find(tableModel => {
                     return tableModel.tableName === tableQueryParams.tableState.selectedEntity;
@@ -131,16 +136,17 @@ export class TableEffects {
      * Grab the previous page of table result set - update table model data (but not the term counts).
      */
     @Effect()
-    fetchPreviousPagedOrSortedTableData$: Observable<Action> = this.actions$
+    fetchPreviousPagedTableData$: Observable<Action> = this.actions$
         .pipe(
             ofType(TablePreviousPageAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
-                    this.store.pipe(select(selectTableQueryParams)),
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectTableQueryParams), take(1)),
                     this.store.pipe(select(selectPreviousQuery), take(1))
                 )
             )),
-            switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
+            switchMap(([action, catalog, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Send tracking event of previous page action.
                 const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
@@ -149,9 +155,10 @@ export class TableEffects {
                     index
                 });
                 this.gtmService.trackEvent(event);
-                
+
                 // Fetch previous page.
-                return this.fetchSortedTableModel(action, tableQueryParams);
+                const tableParams = (action as TablePreviousPageAction).tableParams;
+                return this.fetchEntitySearchResults(catalog, tableParams, tableQueryParams);
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new TablePreviousPageSuccessAction(entitySearchResults.tableModel))
@@ -182,15 +189,7 @@ export class TableEffects {
                         order: tableQueryParams.pagination.order
                     });
 
-                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
-                const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                const filterableByProject = (selectedEntity !== EntityName.PROJECTS);
-                return this.fileService.fetchEntitySearchResults(
-                        catalog,    
-                        selectedSearchTermsBySearchKey,
-                        tableParams,
-                        selectedEntity,
-                        filterableByProject)
+                return this.fetchEntitySearchResults(catalog, tableParams, tableQueryParams)
                     .pipe(
                         map((entitySearchResults) => {
                             return {action, entitySearchResults};
@@ -229,14 +228,7 @@ export class TableEffects {
                         order: tableQueryParams.pagination.order
                     });
 
-                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
-                const selectedEntity = tableQueryParams.tableState.selectedEntity;
-                return this.fileService.fetchEntitySearchResults(
-                    catalog,
-                    selectedSearchTermsBySearchKey,
-                    tableParams,
-                    selectedEntity,
-                    (selectedEntity !== EntityName.PROJECTS));
+                return this.fetchEntitySearchResults(catalog, tableParams, tableQueryParams);
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableModelSuccessAction(entitySearchResults.tableModel))
@@ -273,7 +265,7 @@ export class TableEffects {
 
     /**
      * Convert the selected entity spec key into the corresponding GAIndex value, for tracking.
-     * 
+     *
      * @param {string} selectedEntityKey
      * @returns {GAIndex}
      */
@@ -283,21 +275,20 @@ export class TableEffects {
     }
 
     /**
-     * Fetch the paged/sorted table data and map to appropriate format for FE.
+     * Fetch the table data and map to appropriate format for FE.
      *
-     * @param {[FetchSortedTableDataRequestAction | TableNextPageAction | TablePreviousPageAction,
-     * Map<string, FileFacet> & Pagination & TableState]} action
+     * @param {Catalog} catalog
+     * @param {TableParams} tableParams
      * @param {any} tableQueryParams
      * @returns {Observable<EntitySearchResults>}
      */
-    private fetchSortedTableModel(action, tableQueryParams): Observable<EntitySearchResults> {
+    private fetchEntitySearchResults(catalog: Catalog, tableParams: TableParams, tableQueryParams): Observable<EntitySearchResults> {
 
-        const selectedSearchTermsByFacetName = tableQueryParams.selectedSearchTermsBySearchKey;
-        const tableParams = action.tableParams;
+        const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
         const selectedEntity = tableQueryParams.tableState.selectedEntity;
         return this.fileService.fetchEntitySearchResults(
-            tableQueryParams.catalog,
-            selectedSearchTermsByFacetName,
+            catalog,
+            selectedSearchTermsBySearchKey,
             tableParams,
             selectedEntity,
             (selectedEntity !== EntityName.PROJECTS));

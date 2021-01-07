@@ -15,6 +15,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of, ReplaySubject } from "rxjs";
 
 // App dependencies
+import { Catalog } from "../../catalog/catalog.model";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
@@ -101,148 +102,278 @@ describe("Table Effects", () => {
         effects = TestBed.inject(TableEffects);
         
         urlService = TestBed.inject(UrlService);
-        store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
+        store = TestBed.inject(Store) as MockStore<FileState>;
     });
 
-    /**
-     * Table data should not be updated when selecting a project from the projects tab.
-     */
-    it(`selectProject$ - projects tab - should set "update table data" flag to false`, () => {
+    describe("selectProject$", () => {
 
-        actions$ = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+        /**
+         * Table data should not be updated when selecting a project from the projects tab.
+         */
+        it(`projects tab - should set "update table data" flag to false`, () => {
+
+            actions$ = hot("--a-", {
+                a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            });
+
+            const expected = cold("--(bc)", {
+                b: new FetchFileSummaryRequestAction(),
+                c: new FetchFileFacetsRequestAction(false)
+            });
+
+            expect(effects.selectProject$).toBeObservable(expected);
         });
 
-        const expected = cold("--(bc)", {
-            b: new FetchFileSummaryRequestAction(),
-            c: new FetchFileFacetsRequestAction(false)
+        /**
+         * Table data should be updated when selecting a project from the samples tab.
+         */
+        it(`samples tab - should set "update table data" flag to true`, () => {
+
+            // Update selected tab to be samples
+            store.setState(DEFAULT_SAMPLES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            });
+
+            const expected = cold("--(bc)", {
+                b: new FetchFileSummaryRequestAction(),
+                c: new FetchFileFacetsRequestAction(true)
+            });
+
+            expect(effects.selectProject$).toBeObservable(expected);
         });
 
-        expect(effects.selectProject$).toBeObservable(expected);
+        /**
+         * Table data should be updated when selecting a project from the files tab.
+         */
+        it(`files tab - should set "update table data" flag to true`, () => {
+
+            // Update selected tab to be samples
+            store.setState(DEFAULT_FILES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            });
+
+            const expected = cold("--(bc)", {
+                b: new FetchFileSummaryRequestAction(),
+                c: new FetchFileFacetsRequestAction(true)
+            });
+
+            expect(effects.selectProject$).toBeObservable(expected);
+        });
     });
 
-    /**
-     * Table data should be updated when selecting a project from the samples tab.
-     */
-    it(`selectProject$ - samples tab - should set "update table data" flag to true`, () => {
+    describe("fetchTableData$", () => {
 
-        // Update selected tab to be samples
-        store.setState(DEFAULT_SAMPLES_STATE);
+        /**
+         * Only table data should be updated when viewing a project tab and there is a selected project search term.
+         */
+        it("should update table data only", () => {
 
-        actions$ = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
+            });
+
+            const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
+            const expected = cold("--b", {
+                b: new FetchTableDataSuccessAction(tableModel.data, tableModel.pagination, tableModel.termCountsByFacetName)
+            });
+
+            expect(effects.fetchTableData$).toBeObservable(expected);
         });
 
-        const expected = cold("--(bc)", {
-            b: new FetchFileSummaryRequestAction(),
-            c: new FetchFileFacetsRequestAction(true)
-        });
+        /**
+         * Confirm catalog is specified in fetch request.
+         */
+        it("adds catalog to fetch request", () => {
 
-        expect(effects.selectProject$).toBeObservable(expected);
+            // Spy on effects to confirm catalog is specified correctly
+            spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
+
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            const action = new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName);
+            actions$ = of(action);
+            
+            // Execute effect
+            effects.fetchTableData$.subscribe();
+
+            expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
+                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                jasmine.any(Object),
+                jasmine.any(Object)
+            );
+        });
     });
 
-    /**
-     * Table data should be updated when selecting a project from the files tab.
-     */
-    it(`selectProject$ - files tab - should set "update table data" flag to true`, () => {
+    describe("fetchNextPagedTableData$", () => {
 
-        // Update selected tab to be samples
-        store.setState(DEFAULT_FILES_STATE);
+        /**
+         * Only table data should be updated when navigating to next page of data.
+         */
+        it("should update table data only", () => {
 
-        actions$ = hot("--a-", {
-            a: new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new TableNextPageAction({
+                    "search_after": "10x 1 Run Integration Test",
+                    "search_after_uid": "doc#1af6d535-81f1-4a3f-8626-830ae8668867",
+                    "size": 15,
+                    "sort": "projectTitle",
+                    "order": "asc"
+                }, 1)
+            });
+
+            const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
+            const expected = cold("--b", {
+                b: new TableNextPageSuccessAction(tableModel)
+            });
+
+            expect(effects.fetchNextPagedTableData$).toBeObservable(expected);
         });
 
-        const expected = cold("--(bc)", {
-            b: new FetchFileSummaryRequestAction(),
-            c: new FetchFileFacetsRequestAction(true)
-        });
+        /**
+         * Confirm catalog is specified in fetch request.
+         */
+        it("adds catalog to fetch request", () => {
 
-        expect(effects.selectProject$).toBeObservable(expected);
-    });
+            // Spy on effects to confirm catalog is specified correctly
+            spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
 
-    /**
-     * Only table data should be updated when viewing a project tab and there is a selected project search term.
-     */
-    it("fetchTableData$ - should update table data only", () => {
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
 
-        // Update selected tab to be files
-        store.setState(DEFAULT_FILES_STATE);
-
-        actions$ = hot("--a-", {
-            a: new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
-        });
-
-        const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
-        const expected = cold("--b", {
-            b: new FetchTableDataSuccessAction(tableModel.data, tableModel.pagination, tableModel.termCountsByFacetName)
-        });
-
-        expect(effects.fetchTableData$).toBeObservable(expected);
-    });
-
-    /**
-     * Only table data should be updated when navigating to next page of data.
-     */
-    it("fetchNextPagedOrSortedTableData$ - should update table data only", () => {
-
-        // Update selected tab to be files
-        store.setState(DEFAULT_FILES_STATE);
-
-        actions$ = hot("--a-", {
-            a: new TableNextPageAction({
+            const action = new TableNextPageAction({
                 "search_after": "10x 1 Run Integration Test",
                 "search_after_uid": "doc#1af6d535-81f1-4a3f-8626-830ae8668867",
                 "size": 15,
                 "sort": "projectTitle",
                 "order": "asc"
-            }, 1)
-        });
+            }, 1);
+            actions$ = of(action);
 
-        const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
-        const expected = cold("--b", {
-            b: new TableNextPageSuccessAction(tableModel)
-        });
+            // Execute effect
+            effects.fetchNextPagedTableData$.subscribe();
 
-        expect(effects.fetchNextPagedOrSortedTableData$).toBeObservable(expected);
+            expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
+                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                jasmine.any(Object),
+                jasmine.any(Object)
+            );
+        });
     });
 
-    /**
-     * Only table data should be updated when navigating to previous page of data.
-     */
-    it("fetchPreviousPagedOrSortedTableData$ - should update table data only", () => {
+    describe("fetchPreviousPagedTableData$", () => {
 
-        // Update selected tab to be files
-        store.setState(DEFAULT_FILES_STATE);
+        /**
+         * Only table data should be updated when navigating to previous page of data.
+         */
+        it("should update table data only", () => {
 
-        actions$ = hot("--a-", {
-            a: new TablePreviousPageAction({
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new TablePreviousPageAction({
+                    "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                    "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                    "size": 15,
+                    "sort": "projectTitle",
+                    "order": "asc"
+                }, 2)
+            });
+
+            const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
+            const expected = cold("--b", {
+                b: new TablePreviousPageSuccessAction(tableModel)
+            });
+
+            expect(effects.fetchPreviousPagedTableData$).toBeObservable(expected);
+        });
+
+        /**
+         * Confirm catalog is specified in fetch request.
+         */
+        it("adds catalog to fetch request", () => {
+
+            // Spy on effects to confirm catalog is specified correctly
+            spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
+
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            const action = new TablePreviousPageAction({
                 "search_before": "Assessing the relevance of organoids to model inter-individual variation",
                 "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
                 "size": 15,
                 "sort": "projectTitle",
                 "order": "asc"
-            }, 2)
-        });
+            }, 2);
+            actions$ = of(action);
 
-        const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
-        const expected = cold("--b", {
-            b: new TablePreviousPageSuccessAction(tableModel)
-        });
+            // Execute effect
+            effects.fetchPreviousPagedTableData$.subscribe();
 
-        expect(effects.fetchPreviousPagedOrSortedTableData$).toBeObservable(expected);
+            expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
+                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                jasmine.any(Object),
+                jasmine.any(Object)
+            );
+        });
     });
 
-    /**
-     * Only table data should be updated when sorting or updating the page size of the table.
-     */
-    it("fetchPagedOrSortedTableData$ - should update table data only", () => {
+    describe("fetchSortedTableData$", () => {
 
-        // Update selected tab to be files
-        store.setState(DEFAULT_FILES_STATE);
+        /**
+         * Only table data should be updated when sorting or updating the page size of the table.
+         */
+        it("should update table data only", () => {
 
-        actions$ = hot("--a-", {
-            a: new FetchSortedTableDataRequestAction(
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            actions$ = hot("--a-", {
+                a: new FetchSortedTableDataRequestAction(
+                    {
+                        "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                        "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                        "size": 15,
+                        "sort": "projectTitle",
+                        "order": "desc"
+                    },
+                    GAIndex.PROJECTS,
+                    GASource.SEARCH_RESULTS)
+            });
+
+            const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
+            const expected = cold("--b", {
+                b: new FetchTableDataSuccessAction(tableModel.data, tableModel.pagination, DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
+            });
+
+            expect(effects.fetchSortedTableData$).toBeObservable(expected);
+        });
+
+
+        /**
+         * Confirm catalog is specified in fetch request.
+         */
+        it("adds catalog to fetch request", () => {
+
+            // Spy on effects to confirm catalog is specified correctly
+            spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
+
+            // Update selected tab to be files
+            store.setState(DEFAULT_FILES_STATE);
+
+            const action = new FetchSortedTableDataRequestAction(
                 {
                     "search_before": "Assessing the relevance of organoids to model inter-individual variation",
                     "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
@@ -251,14 +382,17 @@ describe("Table Effects", () => {
                     "order": "desc"
                 },
                 GAIndex.PROJECTS,
-                GASource.SEARCH_RESULTS)
-        });
+                GASource.SEARCH_RESULTS);
+            actions$ = of(action);
 
-        const tableModel = DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel;
-        const expected = cold("--b", {
-            b: new FetchTableDataSuccessAction(tableModel.data, tableModel.pagination, DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName)
-        });
+            // Execute effect
+            effects.fetchSortedTableData$.subscribe();
 
-        expect(effects.fetchSortedTableData$).toBeObservable(expected);
+            expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
+                Catalog.DCP2,  // Default catalog of DEFAULT_FILES_STATE is DCP2
+                jasmine.any(Object),
+                jasmine.any(Object)
+            );
+        });
     });
 });
