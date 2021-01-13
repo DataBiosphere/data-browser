@@ -1,6 +1,6 @@
-# HCA Data Portal
+# HCA Data Browser
 
-The HCA Data Portal is an [AngularJs](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
+The HCA Data Browser is an [AngularJs](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
 
 
 
