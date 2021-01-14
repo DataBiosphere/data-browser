@@ -18,8 +18,7 @@ import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
 export class TermSortService {
 
     private readonly SORT_TYPE_BY_SORT_KEY = {
-        [FileFacetName.ORGANISM_AGE]: TermNameSortType.NUMBER_RANGE,
-        [FileFacetName.ORGANISM_AGE_UNIT]: TermNameSortType.AGE_UNIT
+        [FileFacetName.ORGANISM_AGE]: TermNameSortType.NUMBER_RANGE
     };
 
     /**

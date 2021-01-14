@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 
 // App dependencies
-import { PROJECT_SINGLE_VALUES } from "../hca-table-projects/project-mapper.mock";
+import { PROJECT_SINGLE_VALUES } from "../project/project-mapper.mock";
 import { Project } from "./project.model";
 
 @Injectable()

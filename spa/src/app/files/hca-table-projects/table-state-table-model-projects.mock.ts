@@ -14,7 +14,7 @@ import {
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES,
     PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
-} from "./project-row-mapper.mock";
+} from "../projects/project-row-mapper.mock";
 
 // Projects data
 const PROJECTS_DATA = [
@@ -130,11 +130,11 @@ const PROJECTS_DATA = [
                     "420508"
                 ],
                 "organismAge": [
-                    "56"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ],
-                "organismAgeUnit": [
-                    "day"
-                ]
             }
         ],
         "organoids": [],
@@ -286,10 +286,10 @@ const PROJECTS_DATA = [
                     "420508"
                 ],
                 "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ]
             }
         ],
@@ -442,10 +442,10 @@ const PROJECTS_DATA = [
                     "420508"
                 ],
                 "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ]
             }
         ],
@@ -598,10 +598,10 @@ const PROJECTS_DATA = [
                     "420508"
                 ],
                 "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ]
             }
         ],

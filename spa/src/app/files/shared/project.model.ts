@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { ProjectRow } from "../hca-table-projects/project-row.model";
+import { ProjectRow } from "../projects/project-row.model";
 import { Contributor } from "./contributor.model";
 import { Publication } from "./publication.model";
 

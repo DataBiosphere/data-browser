@@ -174,12 +174,10 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "id": [
                     "420508"
                 ],
-                "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
-                ]
+                "organismAge": [{
+                    "value": "56",
+                    "unit": "year"
+                }]
             }
         ],
         "organoids": [],
@@ -372,14 +370,13 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                     "420508",
                     "123456"
                 ],
-                "organismAge": [
-                    "56",
-                    "44"
-                ],
-                "organismAgeUnit": [
-                    "day",
-                    "week"
-                ]
+                "organismAge": [{
+                    "value": "56",
+                    "unit": "year"
+                }, {
+                    "value": "60",
+                    "unit": "year"
+                }]
             }
         ],
         "organoids": [],
@@ -638,12 +635,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "id": [
                     "420508"
                 ],
-                "organismAge": [
-                    "56"
-                ],
-                "organismAgeUnit": [
-                    "day"
-                ]
+                "organismAge": [{
+                    "value": "56",
+                    "unit": "year"
+                }],
             },
             {
                 "biologicalSex": [
@@ -666,14 +661,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "x",
                     "y"
                 ],
-                "organismAge": [
-                    "x",
-                    "y"
-                ],
-                "organismAgeUnit": [
-                    "x",
-                    "y"
-                ]
+                "organismAge": [{
+                    "value": "60",
+                    "unit": "year"
+                }]
             }
         ],
         "organoids": [],
@@ -794,8 +785,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
                 "genusSpecies": [],
                 "donorCount": 1,
                 "id": [],
-                "organismAge": [],
-                "organismAgeUnit": []
+                "organismAge": []
             }
         ],
         "organoids": [],
@@ -876,8 +866,7 @@ export const PROJECT_ROW_NULL_VALUES =
                 "donorCount": null,
                 "genusSpecies": null,
                 "id": null,
-                "organismAge": null,
-                "organismAgeUnit": null,
+                "organismAge": null
             }
         ],
         "organoids": null,
@@ -914,6 +903,105 @@ export const PROJECT_ROW_NULL_VALUES =
                 "fileType": "csv",
                 "count": null,
                 "totalSize": null
+            }
+        ]
+    };
+
+// Example of project with null array values
+export const PROJECT_ROW_NULL_ARRAY_VALUES =
+    {
+        "protocols": [
+            {
+                "libraryConstructionApproach": [null],
+                "nucleicAcidSource": [null],
+                "instrumentManufacturerModel": [null],
+                "pairedEnd": [null],
+                "workflow": [null],
+                "assayType": [null]
+            }
+        ],
+        "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
+        "projects": [
+            {
+                "projectTitle": [null],
+                "projectShortname": [null],
+                "laboratory": [null],
+                "arrayExpressAccessions": [null],
+                "geoSeriesAccessions": [null],
+                "insdcProjectAccessions": [null],
+                "insdcStudyAccessions": [null],
+                "supplementaryLinks": [null]
+            }
+        ],
+        "samples": [
+            {
+                "sampleEntityType": [null],
+                "id": [null],
+                "organ": [null],
+                "organPart": [null],
+                "disease": [null],
+                "preservationMethod": [null],
+                "source": [null]
+            }
+        ],
+        "specimens": [
+            {
+                "id": [null],
+                "organ": [null],
+                "organPart": [null],
+                "disease": [null],
+                "preservationMethod": [null],
+                "source": [null]
+            }
+        ],
+        "cellLines": [
+            [null]
+        ],
+        "donorOrganisms": [
+            {
+                "biologicalSex": [null],
+                "developmentStage": [null],
+                "disease": [null],
+                "donorCount": [null],
+                "genusSpecies": [null],
+                "id": [null],
+                "organismAge": [null]
+            }
+        ],
+        "organoids": [null],
+        "cellSuspensions": [
+            {
+                "organ": [null],
+                "organPart": [null],
+                "selectedCellType": [null],
+                "totalCells": [null]
+            }
+        ],
+        "fileTypeSummaries": [
+            {
+                "fileType": "fastq.gz",
+                "count": [null],
+                "totalSize": [null]
+            },
+            {
+                "fileType": "unknown",
+                "count": [null],
+                "totalSize": [null]
+            },
+            {
+                "fileType": "bam",
+                "count": [null],
+                "totalSize": [null]
+            },
+            {
+                "fileType": "matrix",
+                "count": [null],
+                "totalSize": [null]
+            },
+            {
+                "fileType": "csv",
+                "count": [null],
+                "totalSize": [null]
             }
         ]
     };

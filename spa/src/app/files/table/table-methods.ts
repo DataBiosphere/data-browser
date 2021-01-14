@@ -278,25 +278,6 @@ tableColumns.forEach((column) => {
 });
 
 /**
- * Returns age and ageUnit, truncated at first character.
- *
- * @param age
- * @param ageUnit
- * @returns {string}
- */
-export function getAge(age: string, ageUnit: string): string {
-
-    let ageUnitTruncated = ageUnit ? ageUnit.charAt(0) : null;
-
-    if ( age && age !== "Unspecified" ) {
-
-        return `${age} ${ageUnitTruncated}`;
-    }
-
-    return "Unspecified";
-}
-
-/**
  * Returns column alignment for specified column.
  *
  * @param {string} column
@@ -583,7 +564,7 @@ export function isElementUnspecified(element: string): boolean {
 }
 
 /**
- * Returns a single object that is a concatenation of all elements in the specified array. For example, given
+ * Returns a single string that is a concatenation of all elements in the specified array. For example, given
  *
  * [{one: "1", two: "2"}, {one: "11", two: "22", three: 3}]
  *
@@ -623,13 +604,8 @@ export function rollUpMetadata(v2: boolean, array: any[]): any {
                 // flatten arrays
                 if ( value instanceof Array ) {
                     
-                    // Convert any null or undefined values in array to Unspecified - only for v2 environments
-                    if ( v2 ) {
-                        value = value.map((elementVal) => getUnspecifiedIfNullValue(elementVal));
-                    }
-                    value = value.join(", ");
+                    value = rollupMetadataArray(v2, key, value);
                 }
-
 
                 if ( key === "totalCells" || key === "donorCount" ) {
 
@@ -676,4 +652,56 @@ export function rollUpMetadata(v2: boolean, array: any[]): any {
     }, {});
 
     return rollup;
+}
+
+/**
+ * Returns a single string value for the specified array, converting null values to Unspecified.
+ * 
+ * Function is exported to facilitate access in specs.
+ *
+ * @param {boolean} v2
+ * @param {string} key
+ * @param {any} value
+ */
+export function rollupMetadataArray(v2: boolean, key: string, value: any): string {
+
+    // Convert nested objects into comma-separated values
+    if ( key === "organismAge" ) {
+
+        value = flattenOrganismAge(value);
+    }
+
+    // Convert any null or undefined values in array to Unspecified - only for v2 environments
+    if ( v2 ) {
+        value = value.map((elementVal) => getUnspecifiedIfNullValue(elementVal));
+    }
+    
+    return value.join(", ");
+}
+
+/**
+ * Flatten age and age unit object values into string values.
+ * 
+ * @param {any} organismAge - {value: "50 - 55", unit: "year"}
+ * @returns {string}
+ */
+function flattenOrganismAge(value): string {
+
+    return (value || []).reduce((accum, age) => {
+
+        // If age is null, add to accum as is and this will be converted to "Unspecified"
+        if ( !age ) {
+            accum.push(null);
+            return accum;
+        }
+
+        let formattedAge = getUnspecifiedIfNullValue(age.value);
+        if ( age.unit ) { // Only add unit if there is a value
+            const truncatedUnit = age.unit.charAt(0); // For example, convert year to y
+            formattedAge += ` ${truncatedUnit}`;
+        }
+
+        accum.push(formattedAge);
+        return accum;
+    }, []);
 }

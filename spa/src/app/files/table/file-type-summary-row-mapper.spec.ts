@@ -11,14 +11,14 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 
 // App components
-import { EntitiesDataSource } from "./entities.data-source";
-import { getFileTypeSummary } from "./entity-row-mapper.spec";
+import { EntitiesDataSource } from "../entities/entities.data-source";
+import { getFileTypeSummary } from "../entities/entity-row-mapper.spec";
 import { FileTypeSummariesRowMapper } from "./file-type-summaries-row-mapper";
 import {
     PROJECT_ROW_NULL_TOP_LEVEL_VALUES,
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES
-} from "../hca-table-projects/project-row-mapper.mock";
+} from "../projects/project-row-mapper.mock";
 
 describe("FileTypeSummaryRowMapper:", () => {
 

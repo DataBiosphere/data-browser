@@ -7,8 +7,8 @@
  */
 
 // App dependencies
-import { EntityRow } from "../table/entity-row.model";
-import { ProjectRowMapper } from "../hca-table-projects/project-row-mapper";
+import { EntityRow } from "../entities/entity-row.model";
+import { ProjectRowMapper } from "../projects/project-row-mapper";
 import { Project } from "../shared/project.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 import { Contributor } from "../shared/contributor.model";

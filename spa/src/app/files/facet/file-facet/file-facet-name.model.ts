@@ -16,7 +16,6 @@ export enum FileFacetName {
     "ORGAN" = "organ",
     "ORGAN_PART" = "organPart",
     "ORGANISM_AGE" = "organismAge",
-    "ORGANISM_AGE_UNIT" = "organismAgeUnit",
     "PAIRED_END" = "pairedEnd",
     "PROJECT" = "project",
     "PROJECT_ID" = "projectId"

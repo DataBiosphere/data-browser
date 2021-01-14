@@ -7,7 +7,6 @@
  */
 
 export interface EntityRow {
-    ageUnit: string;
     biologicalSex: string;
     developmentStage: string;
     disease: string; // Specimen disease

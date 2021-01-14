@@ -49,8 +49,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["H1", "H2", "H3", "H4", "M_C57BL/6_1", "M_C57BL/6_2", "M_C57BL/6_3", "M_C57BL/6_4", "M_C57BL/6_5", "M_ICR_1", "M_ICR_2", "M_ICR_3", "M_ICR_4", "M_ICR_5"],
             "donorCount": 14,
             "genusSpecies": ["Homo sapiens", "Mus musculus"],
-            "organismAge": ["17", "38", "51", "59", null],
-            "organismAgeUnit": ["year", null],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 536112000.0, "lte": 536112000.0}, {
                 "gte": 1198368000.0,
                 "lte": 1198368000.0
@@ -108,8 +107,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["Blood_donor_A", "Blood_donor_B", "Tissue_donor_1", "Tissue_donor_2"],
             "donorCount": 4,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["50-55", "52", "65"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 1639872000.0, "lte": 1639872000.0}, {
                 "gte": 1576800000.0,
                 "lte": 1734480000.0
@@ -190,8 +188,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["17-010", "17-011", "SC"],
             "donorCount": 3,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["42", "53", "80"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 1324512000.0, "lte": 1324512000.0}, {
                 "gte": 1671408000.0,
                 "lte": 1671408000.0
@@ -258,8 +255,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["HPSI0214i-kucg", "HPSI0214i-wibj", "HPSI0314i-hoik", "HPSI0314i-sojd"],
             "donorCount": 4,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["40-44", "45-49", "55-59", "65-69"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 1261440000.0, "lte": 1387584000.0}, {
                 "gte": 1419120000.0,
                 "lte": 1545264000.0
@@ -333,8 +329,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["Hip10", "Hip11", "Hip12", "Hip13", "Hip15", "Hip16", "Hip17", "Hip5", "Hip6", "Hip7", "Hip8", "Hip9"],
             "donorCount": 12,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["49", "50", "53", "63", "68", "69", "73", "76", "78", "80", "85"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 1545264000.0, "lte": 1545264000.0}, {
                 "gte": 1576800000.0,
                 "lte": 1576800000.0
@@ -409,7 +404,6 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "donorCount": 8,
             "genusSpecies": ["Homo sapiens"],
             "organismAge": [null],
-            "organismAgeUnit": [null],
             "organismAgeRange": null,
             "biologicalSex": ["unknown"],
             "disease": ["normal"]
@@ -464,8 +458,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["BM1", "BM2", "BM3", "BM4", "BM5", "BM6", "BM7", "BM8", "CB1", "CB2", "CB3", "CB4", "CB5", "CB6", "CB7", "CB8"],
             "donorCount": 16,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["0", "26", "29", "32", "36", "39", "50", "52"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 0.0, "lte": 0.0}, {
                 "gte": 819936000.0,
                 "lte": 819936000.0
@@ -548,7 +541,6 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "donorCount": 2,
             "genusSpecies": ["Homo sapiens"],
             "organismAge": [null],
-            "organismAgeUnit": [null],
             "organismAgeRange": null,
             "biologicalSex": ["female"],
             "disease": ["normal"]
@@ -603,8 +595,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["P1TLH", "P2TLH", "P3TLH", "P4TLH", "P5TLH"],
             "donorCount": 5,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["21", "26", "41", "44", "65"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 662256000.0, "lte": 662256000.0}, {
                 "gte": 819936000.0,
                 "lte": 819936000.0
@@ -673,8 +664,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["CBTM-284C", "CBTM-296C", "CBTM-302C", "CBTM-325C", "CBTM-328C", "CBTM-337C", "CBTM-343B", "CBTM-356C", "CBTM-362C", "CBTM-367C", "CBTM-368C", "CBTM-376C", "CBTM-386C", "CBTM-390C"],
             "donorCount": 14,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["20-25", "30-35", "35-40", "40-45", "50-55", "55-60", "60-65", "65-70", "70-75"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 630720000.0, "lte": 788400000.0}, {
                 "gte": 946080000.0,
                 "lte": 1103760000.0
@@ -767,8 +757,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["Subject1", "Subject10", "Subject11", "Subject12", "Subject13", "Subject14", "Subject15", "Subject16", "Subject2", "Subject3", "Subject4", "Subject5", "Subject6", "Subject7", "Subject8", "Subject9"],
             "donorCount": 16,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["18-60"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 567648000.0, "lte": 1892160000.0}],
             "biologicalSex": ["unknown"],
             "disease": ["asymptomatic dengue", "normal"]
@@ -824,8 +813,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["HS_BM_1", "HS_BM_2", "HS_BM_3"],
             "donorCount": 3,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["19", "28", "35"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 599184000.0, "lte": 599184000.0}, {
                 "gte": 883008000.0,
                 "lte": 883008000.0
@@ -892,7 +880,6 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "donorCount": 16,
             "genusSpecies": ["Homo sapiens"],
             "organismAge": [null],
-            "organismAgeUnit": [null],
             "organismAgeRange": null,
             "biologicalSex": ["female", "male", "unknown"],
             "disease": ["normal", "orofaciodigital syndrome VIII"]
@@ -973,8 +960,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "id": ["donor_BxA14"],
             "donorCount": 1,
             "genusSpecies": ["Homo sapiens"],
-            "organismAge": ["21"],
-            "organismAgeUnit": ["year"],
+            "organismAge": [{"value": "80", "unit": "year"}],
             "organismAgeRange": [{"gte": 662256000.0, "lte": 662256000.0}],
             "biologicalSex": ["male"],
             "disease": ["end stage renal failure", "hemolytic-uremic syndrome"]
@@ -1040,7 +1026,6 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "donorCount": 1,
             "genusSpecies": ["Homo sapiens"],
             "organismAge": [null],
-            "organismAgeUnit": [null],
             "organismAgeRange": null,
             "biologicalSex": ["unknown"],
             "disease": ["normal"]
@@ -1372,12 +1357,6 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             }, {"term": "ventricular tachycardia", "count": 1}, {"term": null, "count": 1}],
             "total": 23,
             "type": "terms"
-        },
-        "organismAgeUnit": {
-            "terms": [{"term": "year", "count": 16}, {"term": null, "count": 8}, {
-                "term": "month",
-                "count": 2
-            }, {"term": "week", "count": 2}], "total": 23, "type": "terms"
         },
         "organismAge": {
             "terms": [{"term": null, "count": 7}, {"term": "52", "count": 4}, {

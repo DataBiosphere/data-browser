@@ -19,8 +19,8 @@ import {
     SAMPLE_SINGLE_VALUES,
     SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "./samples-row-mapper.mock";
-import { EntitiesDataSource } from "../table/entities.data-source";
-import { getFileTypeSummary, mapMultipleValues } from "../table/entity-row-mapper.spec";
+import { EntitiesDataSource } from "../entities/entities.data-source";
+import { getFileTypeSummary, mapMultipleValues } from "../entities/entity-row-mapper.spec";
 
 describe("SampleRowMapper:", () => {
 
@@ -176,7 +176,7 @@ describe("SampleRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedSample = rows[0];
-            const expectedValue = mapMultipleValues(sampleToMap.protocols, "libraryConstructionApproach");
+            const expectedValue = mapMultipleValues(v2, sampleToMap.protocols, "libraryConstructionApproach");
             expect(mappedSample.libraryConstructionApproach).toEqual(expectedValue);
             done();
         })

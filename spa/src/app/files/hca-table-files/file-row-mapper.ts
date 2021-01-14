@@ -7,8 +7,8 @@
  */
 
 // App dependencies
-import { EntityRow } from "../table/entity-row.model";
-import { EntityRowMapper } from "../table/entity-row-mapper";
+import { EntityRow } from "../entities/entity-row.model";
+import { EntityRowMapper } from "../entities/entity-row-mapper";
 import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-methods";
 
 export class FileRowMapper extends EntityRowMapper {

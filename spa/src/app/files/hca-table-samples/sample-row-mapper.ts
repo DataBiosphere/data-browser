@@ -7,9 +7,9 @@
  */
 
 // App dependencies
-import { EntityRow } from "../table/entity-row.model";
+import { EntityRow } from "../entities/entity-row.model";
 import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
-import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-methods";
+import { getSelfOrFirst } from "../table/table-methods";
 
 export class SampleRowMapper extends FileTypeSummariesRowMapper {
 
