@@ -7,10 +7,9 @@
 
 // App dependencies
 import {
-    PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT,
     PROJECT_ROW_SINGLE_VALUES,
     PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
-} from "./project-row-mapper.mock";
+} from "../projects/project-row-mapper.mock";
 
 // Example of project with single values (eg disease, genusSpecies)
 const singleProjectProjects = [

@@ -9,7 +9,7 @@
 // App dependencies
 import { ProjectMatrixMapper } from "../project-matrix/project-matrix-mapper";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
-import { EntityRow } from "../table/entity-row.model";
+import { EntityRow } from "../entities/entity-row.model";
 import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
 
 export class ProjectRowMapper extends FileTypeSummariesRowMapper {

@@ -21,16 +21,16 @@ import {
     PROJECT_ROW_NULL_TOP_LEVEL_VALUES,
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES, PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
-} from "../hca-table-projects/project-row-mapper.mock";
+} from "../projects/project-row-mapper.mock";
 
 import {
     PROJECT_SINGLE_VALUES,
     PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS
-} from "../hca-table-projects/project-mapper.mock";
+} from "../project/project-mapper.mock";
 import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { Project } from "../shared/project.model";
-import { mapMultipleValues } from "../table/entity-row-mapper.spec";
+import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
 
 describe("ProjectService:", () => {
 
@@ -97,11 +97,12 @@ describe("ProjectService:", () => {
          */
         it("should map multiple array express accession values across multiple objects", (done: DoneFn) => {
 
+            const v2 = true;
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
             projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "arrayExpressAccessions");
+                const expectedValue = mapMultipleValues(v2, projectToMap.projects, "arrayExpressAccessions");
                 expect(mappedProject.arrayExpressAccessions).toEqual(expectedValue);
                 return done();
             });
@@ -199,11 +200,12 @@ describe("ProjectService:", () => {
          */
         it("should map multiple geo series accession values across multiple objects", (done: DoneFn) => {
 
+            const v2 = true;
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
             projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "geoSeriesAccessions");
+                const expectedValue = mapMultipleValues(v2, projectToMap.projects, "geoSeriesAccessions");
                 expect(mappedProject.geoSeriesAccessions).toEqual(expectedValue);
                 return done();
             });
@@ -270,11 +272,12 @@ describe("ProjectService:", () => {
          */
         it("should map multiple insdc project accession values across multiple objects", (done: DoneFn) => {
 
+            const v2 = true;
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
             projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "insdcProjectAccessions");
+                const expectedValue = mapMultipleValues(v2, projectToMap.projects, "insdcProjectAccessions");
                 expect(mappedProject.insdcProjectAccessions).toEqual(expectedValue);
                 return done();
             });
@@ -342,11 +345,12 @@ describe("ProjectService:", () => {
          */
         it("should map multiple insdc study accession values across multiple objects", (done: DoneFn) => {
 
+            const v2 = true;
             const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
             projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "insdcStudyAccessions");
+                const expectedValue = mapMultipleValues(v2, projectToMap.projects, "insdcStudyAccessions");
                 expect(mappedProject.insdcStudyAccessions).toEqual(expectedValue);
                 return done();
             });
@@ -399,11 +403,12 @@ describe("ProjectService:", () => {
          */
         it("should map multiple project descriptions across multiple objects", (done: DoneFn) => {
 
+            const v2 = true;
             const projectToMap = PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS;
             httpClientSpy.get.and.returnValue(of(projectToMap));
             projectService.fetchProjectById(Catalog.NONE, "123abc", {} as Project).subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "projectDescription");
+                const expectedValue = mapMultipleValues(v2, projectToMap.projects, "projectDescription");
 
                 expect(mappedProject.projectDescription).toEqual(expectedValue);
                 return done();

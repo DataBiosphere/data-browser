@@ -36,7 +36,6 @@ import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
-    getAge,
     getColumnClass,
     getColumnDisplayName,
     getColumnSortKey,
@@ -44,7 +43,7 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { EntitiesDataSource } from "../table/entities.data-source";
+import { EntitiesDataSource } from "../entities/entities.data-source";
 
 @Component({
     selector: "hca-table-files",
@@ -65,7 +64,6 @@ export class HCATableFilesComponent implements OnInit {
         "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
-    public getAge = getAge;
     public getColumnClass = getColumnClass;
     public getColumnDisplayName = getColumnDisplayName;
     public getColumnStyle = getColumnStyle;

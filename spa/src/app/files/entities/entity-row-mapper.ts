@@ -7,7 +7,7 @@
  */
 
 // App dependencies
-import { getUnspecifiedIfEmpty, getUnspecifiedIfNullValue, rollUpMetadata } from "./table-methods";
+import { getUnspecifiedIfEmpty, getUnspecifiedIfNullValue, rollUpMetadata } from "../table/table-methods";
 import { EntityRow } from "./entity-row.model";
 
 export class EntityRowMapper {
@@ -55,38 +55,29 @@ export class EntityRowMapper {
     public mapRow(): EntityRow {
 
         // Library construction approach should be displayed as "Unspecified" if it is null, or empty array
-        const libraryConstructionApproach = this.protocols.libraryConstructionApproach;
-        const mappedLibraryConstructionApproach = Array.isArray(libraryConstructionApproach) ?
-            getUnspecifiedIfEmpty(libraryConstructionApproach) :
-            getUnspecifiedIfNullValue(libraryConstructionApproach);
+        const libraryConstructionApproach =
+            this.bindLibraryConstructionApproach(this.protocols.libraryConstructionApproach);
+
+        // Model organ should only display a value when sampleEntityType is cellLines or organoids
+        const modelOrgan = this.bindModelOrgan(this.samples.modelOrgan);
 
         // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array - always map but 
         // only displayed in v2 environments
-        const nucleicAcidSource = this.protocols.nucleicAcidSource;
-        const mappedNucleicAcidSource = Array.isArray(nucleicAcidSource) ?
-            getUnspecifiedIfEmpty(nucleicAcidSource) :
-            getUnspecifiedIfNullValue(nucleicAcidSource);
+        const nucleicAcidSource = this.bindNucleicAcidSource(this.protocols.nucleicAcidSource);
 
         // Workflow "Analysis Protocol" should be displayed as "Unspecified" if it is null, or empty array
-        const workflow = this.protocols.workflow;
-        const mappedWorkflow = Array.isArray(workflow) ?
-            getUnspecifiedIfEmpty(workflow) :
-            getUnspecifiedIfNullValue(workflow);
-
-        // Model organ should only display a value when sampleEntityType is cellLines or organoids
-        const modelOrgan = this.samples.modelOrgan ? this.samples.modelOrgan : null;
+        const workflow = this.bindWorkflow(this.protocols.workflow);
 
         return {
-            ageUnit: getUnspecifiedIfNullValue(this.donorOrganisms.organismAgeUnit),
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
             developmentStage: getUnspecifiedIfNullValue(this.donorOrganisms.developmentStage), //  Always map but only displayed in v2 environments
             disease: getUnspecifiedIfNullValue(this.specimens.disease),
             donorDisease: getUnspecifiedIfNullValue(this.donorOrganisms.disease),
             donorCount: getUnspecifiedIfNullValue(this.donorOrganisms.donorCount),
             genusSpecies: getUnspecifiedIfNullValue(this.donorOrganisms.genusSpecies),
-            libraryConstructionApproach: mappedLibraryConstructionApproach,
-            modelOrgan: modelOrgan,
-            nucleicAcidSource: mappedNucleicAcidSource,
+            libraryConstructionApproach,
+            modelOrgan,
+            nucleicAcidSource,
             organ: getUnspecifiedIfNullValue(this.organs),
             organismAge: getUnspecifiedIfNullValue(this.donorOrganisms.organismAge),
             organPart: getUnspecifiedIfNullValue(this.specimens.organPart),
@@ -95,7 +86,61 @@ export class EntityRowMapper {
             sampleEntityType: getUnspecifiedIfNullValue(this.samples.sampleEntityType),
             selectedCellType: getUnspecifiedIfNullValue(this.cellSuspensions.selectedCellType),
             totalCells: getUnspecifiedIfNullValue(this.cellSuspensions.totalCells),
-            workflow: mappedWorkflow
+            workflow
         };
+    }
+
+    /**
+     * Bind library construction approach response value. Library construction approach should be displayed as
+     * "Unspecified" if it is null, or empty array
+     * 
+     * @param {string} libraryConstructionApproach
+     * @returns {string}
+     */
+    private bindLibraryConstructionApproach(libraryConstructionApproach: string): string {
+
+        return Array.isArray(libraryConstructionApproach) ?
+            getUnspecifiedIfEmpty(libraryConstructionApproach) :
+            getUnspecifiedIfNullValue(libraryConstructionApproach);
+    }
+
+    /**
+     * Bind model organ response value. Model organ should only display a value when sampleEntityType is cellLines or
+     * organoids.
+     *
+     * @param {string} modelOrgan
+     * @returns {string}
+     */
+    private bindModelOrgan(modelOrgan: string): string {
+
+        return modelOrgan ? modelOrgan : null
+    }
+
+    /**
+     * Bind nucleic acid source response value. Nucleic acid source should be displayed as "Unspecified"
+     * if it is null, or empty array - always map but only displayed in v2 environments
+     *
+     * @param {string} nucleicAcidSource
+     * @returns {string}
+     */
+    private bindNucleicAcidSource(nucleicAcidSource: string): string {
+
+        return Array.isArray(nucleicAcidSource) ?
+            getUnspecifiedIfEmpty(nucleicAcidSource) :
+            getUnspecifiedIfNullValue(nucleicAcidSource);
+    }
+
+    /**
+     * Bind workflow response value. Workflow "Analysis Protocol" should be displayed as "Unspecified" if it is null,
+     * or empty array.
+     * 
+     * @param {string} workflow
+     * @returns {string}
+     */
+    private bindWorkflow(workflow: string): string {
+
+        return Array.isArray(workflow) ?
+            getUnspecifiedIfEmpty(workflow) :
+            getUnspecifiedIfNullValue(workflow);
     }
 }

@@ -11,7 +11,7 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 
 // App components
-import { EntitiesDataSource } from "../table/entities.data-source";
+import { EntitiesDataSource } from "../entities/entities.data-source";
 import { FileRowMapper } from "./file-row-mapper";
 import {
     FILE_EMPTY_ARRAY_VALUES,
@@ -20,7 +20,8 @@ import {
     FILE_NULL_VALUES,
     FILE_SINGLE_VALUES, FILE_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "./file-row-mapper.mock";
-import { mapMultipleValues } from "../table/entity-row-mapper.spec";
+import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
+import { rollupMetadataArray } from "../table/table-methods";
 
 describe("FileRowMapper:", () => {
 
@@ -62,7 +63,8 @@ describe("FileRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.organismAge).toEqual(fileToMap.donorOrganisms[0].organismAge[0]);
+            const expected = rollupMetadataArray(v2, "organismAge", fileToMap.donorOrganisms[0].organismAge);
+            expect(mappedFile.organismAge).toEqual(expected);
             done();
         })
     });
@@ -173,7 +175,7 @@ describe("FileRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            const expectedValue = mapMultipleValues(fileToMap.protocols, "libraryConstructionApproach");
+            const expectedValue = mapMultipleValues(v2, fileToMap.protocols, "libraryConstructionApproach");
             expect(mappedFile.libraryConstructionApproach).toEqual(expectedValue);
             done();
         })
@@ -224,20 +226,20 @@ describe("FileRowMapper:", () => {
         })
     });
 
-    // /**
-    //  * Mapper should handle null files value. Use file format as the check for this. TODO ****
-    //  */
-    // it(`should map file format to "Unspecified" when files is null`, (done: DoneFn) => {
-    //
-    //     const fileToMap = FILE_NULL_TOP_LEVEL_VALUES;
-    //     dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
-    //     dataSource.connect().subscribe((rows) => {
-    //
-    //         const mappedFile = rows[0];
-    //         expect(mappedFile.fileFormat).toEqual("Unspecified");
-    //         done();
-    //     })
-    // });
+    /**
+     * Mapper should handle null files value. Use file format as the check for this.
+     */
+    xit(`should map file format to "Unspecified" when files is null`, (/*done: DoneFn*/) => {
+
+        // const fileToMap = FILE_NULL_TOP_LEVEL_VALUES;
+        // dataSource = new EntitiesDataSource<FileRowMapper>(v2, of([fileToMap]), FileRowMapper);
+        // dataSource.connect().subscribe((rows) => {
+        //
+        //     const mappedFile = rows[0];
+        //     expect(mappedFile.fileFormat).toEqual("Unspecified");
+        //     done();
+        // })
+    });
     
     /**
      * File format should be included in mapping

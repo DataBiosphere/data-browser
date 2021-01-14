@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { EntityRow } from "../table/entity-row.model";
+import { EntityRow } from "../entities/entity-row.model";
 
 export interface FileRow extends EntityRow {
     fileFormat: string;

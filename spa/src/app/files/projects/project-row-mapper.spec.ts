@@ -18,8 +18,8 @@ import {
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES, PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "./project-row-mapper.mock";
-import { EntitiesDataSource } from "../table/entities.data-source";
-import { getFileTypeSummary, mapMultipleValues } from "../table/entity-row-mapper.spec";
+import { EntitiesDataSource } from "../entities/entities.data-source";
+import { getFileTypeSummary, mapMultipleValues } from "../entities/entity-row-mapper.spec";
 
 describe("ProjectRowMapper:", () => {
 
@@ -190,7 +190,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            const expectedValue = mapMultipleValues(projectToMap.projects, "projectShortname");
+            const expectedValue = mapMultipleValues(v2, projectToMap.projects, "projectShortname");
             expect(mappedProject.projectShortname).toEqual(expectedValue);
             done();
         })
@@ -238,7 +238,7 @@ describe("ProjectRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedProject = rows[0];
-            const expectedValue = mapMultipleValues(projectToMap.donorOrganisms, "donorCount");
+            const expectedValue = mapMultipleValues(v2, projectToMap.donorOrganisms, "donorCount");
             expect(mappedProject.donorCount).toEqual(expectedValue);
             done();
         })

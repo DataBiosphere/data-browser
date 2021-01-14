@@ -39,10 +39,9 @@ import { SampleRowMapper } from "./sample-row-mapper";
 import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { SearchTerm } from "../search/search-term.model";
-import { EntitiesDataSource } from "../table/entities.data-source";
+import { EntitiesDataSource } from "../entities/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
-    getAge,
     getColumnClass,
     getColumnDisplayName,
     getColumnSortKey,
@@ -71,7 +70,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
-    public getAge = getAge;
     public getColumnClass = getColumnClass;
     public getColumnDisplayName = getColumnDisplayName;
     public getColumnStyle = getColumnStyle;

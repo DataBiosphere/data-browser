@@ -34,13 +34,13 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
-import { ProjectRowMapper } from "./project-row-mapper";
+import { ProjectRowMapper } from "../projects/project-row-mapper";
 import { SearchTerm } from "../search/search-term.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { EntityName } from "../shared/entity-name.model";
 import { GAIndex } from "../../shared/analytics/ga-index.model";
-import { EntitiesDataSource } from "../table/entities.data-source";
+import { EntitiesDataSource } from "../entities/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
     getColumnClass,
@@ -51,7 +51,7 @@ import {
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { ProjectRow } from "./project-row.model";
+import { ProjectRow } from "../projects/project-row.model";
 
 @Component({
     selector: "hca-table-projects",

@@ -90,10 +90,10 @@ export const FILE_SINGLE_VALUES =
                     "Homo sapiens"
                 ],
                 "organismAge": [
-                    "a"
-                ],
-                "organismAgeUnit": [
-                    "a"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "male"
@@ -242,12 +242,14 @@ export const FILE_MULTIPLE_VALUES_SINGLE_OBJECT =
                     "a"
                 ],
                 "organismAge": [
-                    "a",
-                    "b"
-                ],
-                "organismAgeUnit": [
-                    "a",
-                    "b"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    },
+                    {
+                        "value": "60",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "male",
@@ -439,10 +441,10 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "Homo sapiens"
                 ],
                 "organismAge": [
-                    "a"
-                ],
-                "organismAgeUnit": [
-                    "a"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "male"
@@ -461,12 +463,10 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "y"
                 ],
                 "organismAge": [
-                    "x",
-                    "y"
-                ],
-                "organismAgeUnit": [
-                    "x",
-                    "y"
+                    {
+                        "value": "60",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "x",
@@ -575,7 +575,6 @@ export const FILE_EMPTY_ARRAY_VALUES =
                 "id": [],
                 "genusSpecies": [],
                 "organismAge": [],
-                "organismAgeUnit": [],
                 "biologicalSex": [],
                 "disease": [],
             }
@@ -670,7 +669,6 @@ export const FILE_NULL_VALUES =
                 "id": null,
                 "genusSpecies": null,
                 "organismAge": null,
-                "organismAgeUnit": null,
                 "biologicalSex": null,
                 "disease": null
             }

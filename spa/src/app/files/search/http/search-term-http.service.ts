@@ -28,7 +28,6 @@ export class SearchTermHttpService {
         "effectiveOrgan",
         "laboratory",
         "organismAge", 
-        "organismAgeUnit",
         "project",
         "projectDescription"
     ];

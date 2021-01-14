@@ -92,10 +92,10 @@ export const SAMPLE_SINGLE_VALUES =
                     "Mus musculus"
                 ],
                 "organismAge": [
-                    "6-12"
-                ],
-                "organismAgeUnit": [
-                    "week"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "female"
@@ -263,12 +263,14 @@ export const SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT =
                     "b"
                 ],
                 "organismAge": [
-                    "6-12",
-                    "b"
-                ],
-                "organismAgeUnit": [
-                    "week",
-                    "b"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    },
+                    {
+                        "value": "60",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "female",
@@ -501,12 +503,10 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "b"
                 ],
                 "organismAge": [
-                    "6-12",
-                    "b"
-                ],
-                "organismAgeUnit": [
-                    "week",
-                    "b"
+                    {
+                        "value": "56",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "female",
@@ -525,10 +525,10 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "x"
                 ],
                 "organismAge": [
-                    "x"
-                ],
-                "organismAgeUnit": [
-                    "x"
+                    {
+                        "value": "60",
+                        "unit": "year"
+                    }
                 ],
                 "biologicalSex": [
                     "x"
@@ -652,7 +652,6 @@ export const SAMPLE_EMPTY_ARRAY_VALUES =
                 "id": [],
                 "genusSpecies": [],
                 "organismAge": [],
-                "organismAgeUnit": [],
                 "biologicalSex": [],
                 "disease": []
             }
@@ -731,7 +730,6 @@ export const SAMPLE_NULL_VALUES =
                 "id": null,
                 "genusSpecies": null,
                 "organismAge": null,
-                "organismAgeUnit": null,
                 "biologicalSex": null,
                 "disease": null
             }

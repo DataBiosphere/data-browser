@@ -7,9 +7,9 @@
  */
 
 // App dependencies
-import { EntityRowMapper } from "./entity-row-mapper";
+import { EntityRowMapper } from "../entities/entity-row-mapper";
 import { getFileCountDisplay, getFileTypeCounts } from "./table-methods";
-import { EntityRow } from "./entity-row.model";
+import { EntityRow } from "../entities/entity-row.model";
 
 export class FileTypeSummariesRowMapper extends EntityRowMapper {
 

@@ -11,7 +11,7 @@ import {
     MOCK_PROJECT_MATRIX_FILE_0,
     MOCK_PROJECT_MATRIX_FILE_1,
     PROJECT_ROW_SINGLE_VALUES
-} from "../hca-table-projects/project-row-mapper.mock";
+} from "../projects/project-row-mapper.mock";
 import { ProjectMatrixMapper } from "./project-matrix-mapper";
 import { ProjectMatrixFileShortNamePipe } from "../project-matrix-file-short-name/project-matrix-file-short-name.pipe";
 import { GenusSpecies } from "../shared/genus-species.model";
