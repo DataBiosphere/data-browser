@@ -104,19 +104,21 @@ mat-table {
 
     mat-table {
 
-        /** File name */
-        .mat-column-fileName, .mat-cell-fileName {
-            min-width: 200px;
+        mat-header-cell, mat-cell {
+            min-width: unset; /* Prevent scroll on table */
         }
     }
 }
 
 /**
- * Custom breakpoint - overflow on table no longer needed
+ * Custom breakpoint - allow for larger cells
  */
-@media (min-width: 644px) {
-    
+@media (min-width: 843px) {
+
     mat-table {
-        overflow: visible;
+
+        mat-header-cell.mat-column-fileName, mat-cell.mat-column-fileName {
+            flex-grow: 1.5; /* Assign more free space to file name than to other cells */
+        }
     }
 }
