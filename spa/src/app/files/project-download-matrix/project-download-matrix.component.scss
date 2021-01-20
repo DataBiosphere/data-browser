@@ -39,3 +39,27 @@ no-hits p.fontsize-s {
         max-width: unset;
     }
 }
+
+@media (min-width: 857px) {
+
+    /** Matrix download displayed on project detail **/
+    :host.project-matrices {
+
+        project-matrix-table {
+            min-width: 100%; /* Table can be wider than 600px text */
+        }
+    }
+}
+
+@media (min-width: 960px) {
+
+    /** Matrix download displayed on project detail **/
+    :host.project-matrices {
+
+        project-matrix-table {
+            min-width: unset;
+            max-width: 792px; /* Snap table - matches max width of project matrix download table in modal */
+        }
+    }
+}
+
