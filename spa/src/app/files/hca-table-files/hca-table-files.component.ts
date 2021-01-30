@@ -19,7 +19,7 @@ import { ConfigService } from "../../config/config.service";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
-import { FileDownloadEvent } from "../hca-download-file/file-download.event";
+import { FileDownloadRequestEvent } from "../hca-download-file/file-download-request.event";
 import { AppState } from "../../_ngrx/app.state";
 import { DownloadFileAction } from "../_ngrx/download-file.action";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
@@ -145,11 +145,11 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Dispatch action to track file download.
+     * Dispatch action to track click on file download.
      * 
-     * @param {FileDownloadEvent} event
+     * @param {FileDownloadRequestEvent} event
      */
-    public onFileDownloaded(event: FileDownloadEvent) {
+    public onFileDownloadRequested(event: FileDownloadRequestEvent) {
 
         const action = new DownloadFileAction(event.fileUrl, event.fileName, event.fileFormat);
         this.store.dispatch(action);

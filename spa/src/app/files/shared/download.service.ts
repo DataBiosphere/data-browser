@@ -3,6 +3,8 @@
  * https://www.humancellatlas.org/
  *
  * Service for coordinating file download-related functionality.
+ * 
+ * TODO superceded by FileLocationService. See #1495.
  */
 
 // Core dependencies

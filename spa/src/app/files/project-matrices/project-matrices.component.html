@@ -2,9 +2,10 @@
     <ng-container [ngSwitch]="isV2()">
         <ng-container *ngSwitchCase="true">
             <h2 class="fontsize-xl">Project Matrices</h2>
-            <project-download-matrix
+            <project-matrix-download
                     class="project-matrices"
-                    [project]="state.project"></project-download-matrix>
+                    [project]="state.project"
+                    [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
         </ng-container>
         <ng-container *ngSwitchDefault>
             <h2 class="fontsize-xl">Expression Matrices</h2>
@@ -16,3 +17,4 @@
         </ng-container>
     </ng-container>
 </ng-container>
+projectMatrixFileLocationRequested

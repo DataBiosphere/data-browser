@@ -14,8 +14,12 @@ import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap,
 
 // App dependencies
 import { selectCatalog } from "../catalog/catalog.selectors";
+import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
 import { FetchProjectTSVUrlRequestAction } from "./fetch-project-tsv-url-request.action";
 import { FetchProjectTSVUrlSuccessAction } from "./fetch-project-tsv-url-success.action";
+import { FetchProjectMatrixFileLocationRequestAction } from "./fetch-project-matrix-file-location-request.action";
+import { FetchProjectMatrixFileLocationSuccessAction } from "./fetch-project-matrix-file-location-success.action";
+import { FileLocationService } from "../../file-location/file-location.service";
 import { AppState } from "../../../_ngrx/app.state";
 import { ProjectService } from "../../project/project.service";
 import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
@@ -36,12 +40,14 @@ import { ViewProjectWithdrawnAction } from "../table/view-project-withdrawn.acti
 export class ProjectEffects {
 
     /**
+     * @param {FileLocationService} fileLocationService
      * @param {GTMService} gtmService
      * @param {ProjectService} projectService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
+    constructor(private fileLocationService: FileLocationService,
+                private gtmService: GTMService,
                 private projectService: ProjectService,
                 private store: Store<AppState>,
                 private actions$: Actions) {}
@@ -70,6 +76,47 @@ export class ProjectEffects {
                 this.projectService.fetchProjectById(catalog, action.projectId, updatedProject)),
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
+        );
+
+    /**
+     * Trigger fetch of project matrix file location.
+     */
+    @Effect()
+    fetchProjectMatrixFileLocation: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectMatrixFileLocationRequestAction.ACTION_TYPE),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1))
+                )
+            )),
+            mergeMap(([action, catalog]) => {
+                
+                // Track request
+                this.gtmService.trackEvent((action as FetchProjectMatrixFileLocationRequestAction).asEvent({
+                    catalog
+                }));
+
+                // Create kill switch for request polling: kill when clear action is triggered.
+                const killSwitch$ = this.actions$.pipe(
+                    ofType(ClearProjectMatrixFileLocationsAction.ACTION_TYPE),
+                    map(_ => true),
+                    take(1)
+                );
+
+                // Kick off request for file location
+                const { fileUrl } = action as FetchProjectMatrixFileLocationRequestAction;
+                const fileLocation$ = this.fileLocationService.fetchFileLocation(fileUrl, killSwitch$);
+                return fileLocation$.pipe(
+                    withLatestFrom(of(action))
+                );
+            }),
+            filter(args => !!args), // Skip success action if file location is already in store for this file
+            map(([fileLocation, action]) => {
+
+                const {fileUrl, project} = action as FetchProjectMatrixFileLocationRequestAction;
+                return new FetchProjectMatrixFileLocationSuccessAction(project.entryId, fileUrl, fileLocation);
+            })
         );
 
     /**

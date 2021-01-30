@@ -14,7 +14,6 @@ import { concatMap, filter, map, mergeMap, skip, switchMap, take, tap, withLates
 
 // App dependencies
 import { selectCatalog } from "../catalog/catalog.selectors";
-import { DownloadProjectMatrixAction } from "./download-project-matrix.action";
 import { FetchMatrixFileFormatsRequestAction } from "./fetch-matrix-file-formats-request.action";
 import { FetchMatrixFileFormatsSuccessAction } from "./fetch-matrix-file-formats-success.action";
 import { FetchMatrixPartialQueryMatchSuccessAction } from "./fetch-matrix-partial-query-match-success.action";
@@ -55,22 +54,6 @@ export class MatrixEffects {
                 private matrixService: MatrixService) {
     }
 
-    /**
-     * Trigger tracking of project matrix download.
-     */
-    @Effect({dispatch: false})
-    downloadProjectMatrix$ = this.actions$.pipe(
-        ofType(DownloadProjectMatrixAction.ACTION_TYPE),
-        concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectCatalog), take(1)))
-        )),
-        tap(([action, catalog]) => {
-            this.gtmService.trackEvent((action as DownloadProjectMatrixAction).asEvent({
-                catalog
-            }));
-        })
-    );
-    
     /**
      * Trigger fetch and display of matrix file formats.
      */

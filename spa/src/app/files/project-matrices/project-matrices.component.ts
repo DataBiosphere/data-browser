@@ -18,6 +18,7 @@ import { ConfigService } from "../../config/config.service";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectAnalyticsService } from "../project/project-analytics.service";
 import { ProjectMatricesComponentState } from "./project-matrices.component.state";
@@ -87,6 +88,10 @@ export class ProjectMatricesComponent {
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
 
+        // Get any resolved matrix file locations for the selected projects
+        const projectMatrixFileLocationsByFileUrl$ = 
+            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
+
         // Grab the project matrix URLs, if any, for this project
         const projectMatrixUrls$ = v2 ? of({} as any) : this.store.pipe(
             select(selectProjectMatrixUrlsByProjectId),
@@ -95,13 +100,15 @@ export class ProjectMatricesComponent {
 
         this.state$ = combineLatest(
             project$,
+            projectMatrixFileLocationsByFileUrl$,
             projectMatrixUrls$,
         )
             .pipe(
-                map(([project, projectMatrixUrls]) => {
+                map(([project, projectMatrixFileLocationsByFileUrl, projectMatrixUrls]) => {
 
                     return {
                         project,
+                        projectMatrixFileLocationsByFileUrl,
                         projectMatrixUrls
                     };
                 })

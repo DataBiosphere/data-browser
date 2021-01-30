@@ -1,0 +1,11 @@
+<ng-container *ngIf="viewState$ | async as viewState">
+    <ng-container [ngSwitch]="viewState">
+        <img  *ngSwitchCase="fileLocationStatus.NOT_STARTED" (click)="onFileLocationRequested(fileUrl, filename)"
+             class="download-not-started"
+             src="assets/images/icon/download-primary.png">
+        <mat-spinner *ngSwitchCase="fileLocationStatus.IN_PROGRESS" class="download-in-progress" diameter="14"></mat-spinner>
+        <div *ngSwitchCase="fileLocationStatus.FAILED" class="download-error">x</div>
+        <img *ngSwitchCase="fileLocationStatus.COMPLETED" class="download-complete" src="assets/images/icon/check-black.png">
+    </ng-container>
+</ng-container>
+<a class="hidden" #download></a>

@@ -16,9 +16,9 @@
         <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
-                          [projectMatrixType]="projectMatrixType.DCP"
+                          [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
                           [projectMatrixViews]="project.matrices"
-                          (projectMatrixFileDownloaded)="onProjectMatrixFileDownloaded($event)"></project-matrix-table>
+                          (projectMatrixFileLocationRequested)="onProjectMatrixFileLocationRequested($event, projectMatrixType.DCP)"></project-matrix-table>
 </ng-container>
 <h2 class="fontsize-xl">
     Contributor Generated Matrices
@@ -34,9 +34,9 @@
     </no-hits>
     <project-matrix-table *ngSwitchDefault
                           class="project-matrix-table-contributor-generated"
-                          [projectMatrixType]="projectMatrixType.CGM"
+                          [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
                           [projectMatrixViews]="project.contributorMatrices"
-                          (projectMatrixFileDownloaded)="onProjectMatrixFileDownloaded($event)"></project-matrix-table>
+                          (projectMatrixFileLocationRequested)="onProjectMatrixFileLocationRequested($event, projectMatrixType.CGM)"></project-matrix-table>
 </ng-container>
 <section-bar [position]="'top'">
     <data-use-notification></data-use-notification>

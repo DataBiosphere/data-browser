@@ -63,7 +63,7 @@ export class ReleaseVisualizationsModalComponent implements OnDestroy, OnInit {
      * @param {ConfigService} configService
      * @param {GTMService} gtmService
      * @param {ReleaseService} releaseService
-     * @param {MatDialogRef<ProjectDownloadMatrixModalComponent>} dialogRef
+     * @param {MatDialogRef<ProjectMatrixDownloadModalComponent>} dialogRef
      * @param {any} data
      * @param {Router} router
      */

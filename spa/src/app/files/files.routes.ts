@@ -14,7 +14,7 @@ import { FilesComponent } from "./files.component";
 import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
-import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
+import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
@@ -88,7 +88,7 @@ export const routes: Route[] = [
             },
             {
                 path: ":id/m/expression-matrices",
-                component: ProjectDownloadMatrixModalContainerComponent
+                component: ProjectMatrixDownloadModalContainerComponent
             }
         ]
     }

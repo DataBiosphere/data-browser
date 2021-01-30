@@ -32,6 +32,7 @@ export class ProjectService {
 
     /**
      * @param {ConfigService} configService
+     * @param {HttpService} httpService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */

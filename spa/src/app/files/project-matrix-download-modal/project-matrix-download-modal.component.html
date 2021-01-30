@@ -5,9 +5,10 @@
     <ng-container subtitle *ngIf="state.loaded">{{state.project.projectTitle}}</ng-container>
     <ng-container content *ngIf="state.loaded">
         <ng-container [ngSwitch]="isV2()">
-            <project-download-matrix *ngSwitchCase="true"
-                                               class="project-download-matrix-modal-view"
-                                               [project]="state.project"></project-download-matrix>
+            <project-matrix-download *ngSwitchCase="true" 
+                                     class="project-matrix-download-modal-view" 
+                                     [project]="state.project"
+                                     [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
             <project-download-expression-matrix
                     *ngSwitchDefault
                     [classFontName]="'fontsize-m'"

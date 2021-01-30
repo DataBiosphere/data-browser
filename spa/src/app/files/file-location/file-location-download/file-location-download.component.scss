@@ -1,0 +1,52 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for file location copy to clipboard functionality.
+ */
+
+@import "../../../site/theme/hca.vars";
+
+:host {
+
+    align-items: baseline;
+    display: flex;
+
+    /* Check mark */
+    .download-complete {
+        cursor: pointer;
+        opacity: 0.4;
+        width: 14px;
+    }
+
+    /* Spinner */
+    .download-in-progress {
+        flex: none;
+    }
+
+    /* Error */
+    .download-error {
+        color: red;
+        font-size: 12px;
+        line-height: 18px;
+        margin-right: 16px;
+        text-align: center;
+        width: 14px;
+    }
+
+    /* Download */
+    .download-not-started {
+        cursor: pointer;
+        width: 14px;        
+        opacity: 0.8;
+        transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &:hover {
+            opacity: 0.4;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+}

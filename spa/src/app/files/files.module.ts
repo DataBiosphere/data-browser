@@ -51,6 +51,9 @@ import { FacetMenuOptionTitleComponent } from "./facet/facet-menu-option-title/f
 import { FacetTermListComponent } from "./facet/facet-term-list/facet-term-list.component";
 import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";
 import { FileFacetComponent } from "./facet/file-facet/file-facet.component";
+import { FileLocationCopyComponent } from "./file-location/file-location-copy/file-location-copy.component";
+import { FileLocationDownloadComponent } from "./file-location/file-location-download/file-location-download.component";
+import { FileLocationService } from "./file-location/file-location.service";
 import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
 import { FilesComponent } from "./files.component";
 import { routes } from "./files.routes";
@@ -99,9 +102,9 @@ import { ProjectDownloadExpressionMatrixComponent } from "./project-download-exp
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
-import { ProjectDownloadMatrixComponent } from "./project-download-matrix/project-download-matrix.component";
-import { ProjectDownloadMatrixModalComponent } from "./project-download-matrix-modal/project-download-matrix-modal.component";
-import { ProjectDownloadMatrixModalContainerComponent } from "./project-download-matrix-modal-container/project-download-matrix-modal-container.component";
+import { ProjectMatrixDownloadComponent } from "./project-matrix-download/project-matrix-download.component";
+import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-modal/project-matrix-download-modal.component";
+import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectDownloadTSVComponent } from "./project-download-tsv/project-download-tsv.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
@@ -199,6 +202,8 @@ const v2 = environment.version === "2.0";
         FacetTermListComponent,
         FacetToolbarComponent,
         FileFacetComponent,
+        FileLocationCopyComponent,
+        FileLocationDownloadComponent,
         FileManifestSummaryComponent,
         FileNameShortenerPipe,
         FileTypeSummaryListComponent,
@@ -236,19 +241,19 @@ const v2 = environment.version === "2.0";
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
-        ProjectDownloadMatrixComponent,
         ProjectDownloadManifestComponent,
         ProjectDownloadManifestModalComponent,
         ProjectDownloadManifestModalContainerComponent,
         ProjectDownloadExpressionMatrixComponent,
-        ProjectDownloadMatrixModalComponent,
-        ProjectDownloadMatrixModalContainerComponent,
         ProjectDownloadTSVComponent,
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
         ProjectMatricesComponent,
+        ProjectMatrixDownloadComponent,
+        ProjectMatrixDownloadModalComponent,
+        ProjectMatrixDownloadModalContainerComponent,
         ProjectMatrixFileShortNamePipe,
         ProjectMatrixTableComponent,
         ProjectMetadataComponent,
@@ -279,6 +284,7 @@ const v2 = environment.version === "2.0";
             useClass: v2 ? EntityRequestService20 : EntityRequestService
         },
         FacetDisplayService,
+        FileLocationService,
         FileManifestService,
         FilesService,
         HttpService,
