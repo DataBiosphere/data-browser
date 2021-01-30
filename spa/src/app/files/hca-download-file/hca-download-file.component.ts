@@ -13,10 +13,11 @@ import { take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { FileDownloadEvent } from "./file-download.event";
+import { FileDownloadRequestEvent } from "./file-download-request.event";
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadResponse } from "../shared/download-response.model";
 import { FileDownloadStatus } from "../shared/file-download-status.model";
+import { FileDownloadEvent } from "./file-download.event";
 
 @Component({
     selector: "hca-download-file",
@@ -34,6 +35,7 @@ export class HCADownloadFileComponent {
     @Input() fileName: string;
     @Input() fileFormat: string = "";
     @Input() fileUrl: string;
+    @Output() fileDownloadRequested = new EventEmitter<FileDownloadRequestEvent>();
     @Output() fileDownloaded = new EventEmitter<FileDownloadEvent>();
 
     // View child/ren
@@ -118,8 +120,8 @@ export class HCADownloadFileComponent {
      */
     public onFileRequested() {
         
-        const event = new FileDownloadEvent(this.fileUrl, this.fileName, this.fileFormat);
-        this.fileDownloaded.emit(event);
+        const requestEvent = new FileDownloadRequestEvent(this.fileUrl, this.fileName, this.fileFormat);
+        this.fileDownloadRequested.emit(requestEvent);
         
         // Update file download status to indicate user has initiated file download.
         this.downloadResponse$.next({
@@ -134,6 +136,9 @@ export class HCADownloadFileComponent {
                 }
                 else if ( this.isDownloadComplete(response) ) {
                     this.downloadFile(response.fileUrl);
+                    const downloadedEvent =
+                        new FileDownloadEvent(this.fileUrl, this.fileName, this.fileFormat);
+                    this.fileDownloaded.emit(downloadedEvent);
                 }
             });
 

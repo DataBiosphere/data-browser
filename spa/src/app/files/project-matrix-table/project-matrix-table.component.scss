@@ -94,8 +94,12 @@ mat-table {
 
     /** Actions */
     .mat-column-actions, .mat-cell-actions {
-        justify-content: flex-end;
-        max-width: 14px;
+        flex-basis: 36px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        justify-content: space-between;
+        max-width: 36px;
+        min-width: 36px;
     }
 }
 

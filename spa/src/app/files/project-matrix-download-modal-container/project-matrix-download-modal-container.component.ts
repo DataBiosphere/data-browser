@@ -13,16 +13,16 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ProjectDownloadMatrixModalComponent } from "../project-download-matrix-modal/project-download-matrix-modal.component";
+import { ProjectMatrixDownloadModalComponent } from "../project-matrix-download-modal/project-matrix-download-modal.component";
 
 
 @Component({
-    selector: "project-download-matrix-modal-container",
+    selector: "project-matrix-download-modal-container",
     template: "",
-    styleUrls: ["./project-download-matrix-modal-container.component.scss"],
+    styleUrls: ["./project-matrix-download-modal-container.component.scss"],
     encapsulation: ViewEncapsulation.None
 })
-export class ProjectDownloadMatrixModalContainerComponent implements OnDestroy {
+export class ProjectMatrixDownloadModalContainerComponent implements OnDestroy {
 
     private CSS_BACKDROP = "backdrop-white";
     private CSS_PANEL = "panel-invisible";
@@ -39,7 +39,7 @@ export class ProjectDownloadMatrixModalContainerComponent implements OnDestroy {
             takeUntil(this.ngDestroy$)
         ).subscribe(params => {
 
-            dialog.open(ProjectDownloadMatrixModalComponent, {
+            dialog.open(ProjectMatrixDownloadModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {

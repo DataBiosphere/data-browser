@@ -12,6 +12,7 @@ export enum GAAction {
     "DESELECT" = "Deselect",
     "DOWNLOAD" = "Download",
     "DOWNLOAD_PROJECT_MATRIX" = "Download Project Matrix",
+    "COPY_PROJECT_MATRIX" = "Copy Project Matrix",
     "EXCEPTION" = "Exception",
     "LAUNCH" = "Launch",
     "NEXT_PAGE" = "Next Page",

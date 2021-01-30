@@ -423,6 +423,27 @@ button {
 }
 
 /**
+ * Styles for tooltip - must be global. Usage:
+ *
+ * <...matTooltip="tooltip text" matTooltipClass="tooltip".../>
+ */
+.tooltip.mat-tooltip {
+    background-color: $hca-black;
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18px;
+    line-height: 16px;
+    padding: 8px;
+    z-index: 3;
+}
+
+.tooltip.tooltip-small.mat-tooltip {
+    line-height: 12px;
+    padding: 6px;
+}
+
+/**
  * Material overrides
  */
 

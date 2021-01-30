@@ -29,38 +29,39 @@ import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
+import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ProjectMatrixDownloadModalState } from "./project-matrix-download-modal.state";
 import { EntityName } from "../shared/entity-name.model";
 import { Project } from "../shared/project.model";
 import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
-import { ProjectDownloadMatrixModalState } from "./project-download-matrix-modal.state";
 
 @Component({
-    selector: "project-download-matrix-modal",
-    templateUrl: "./project-download-matrix-modal.component.html",
-    styleUrls: ["./project-download-matrix-modal.component.scss"]
+    selector: "project-matrix-download-modal",
+    templateUrl: "./project-matrix-download-modal.component.html",
+    styleUrls: ["./project-matrix-download-modal.component.scss"]
 })
-export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
+export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
     
     // Template variables
-    public state$ = new BehaviorSubject<ProjectDownloadMatrixModalState>({
+    public state$ = new BehaviorSubject<ProjectMatrixDownloadModalState>({
         loaded: false
     });
 
     /**
      * @param {ConfigService} configService
      * @param {Store<AppState>} store
-     * @param {MatDialogRef<ProjectDownloadMatrixModalComponent>} dialogRef
+     * @param {MatDialogRef<ProjectMatrixDownloadModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
     constructor(
         private configService: ConfigService,
         private store: Store<AppState>,
-        private dialogRef: MatDialogRef<ProjectDownloadMatrixModalComponent>,
+        private dialogRef: MatDialogRef<ProjectMatrixDownloadModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private router: Router) {
 
@@ -174,18 +175,24 @@ export class ProjectDownloadMatrixModalComponent implements OnDestroy, OnInit {
         if ( !v2 ) {
             this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
         }
+
+        // Get any resolved matrix file locations for the selected projects
+        const projectMatrixFileLocationsByFileUrl$ =
+            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
         
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest(
             this.selectProject(projectId),
-            v2 ? of({}) : this.selectProjectMatrixUrls(projectId) 
+            projectMatrixFileLocationsByFileUrl$,
+            v2 ? of({}) : this.selectProjectMatrixUrls(projectId)
         ).pipe(
-            map(([project, projectMatrixUrls]) => {
+            map(([project, projectMatrixFileLocationsByFileUrl, projectMatrixUrls]) => {
 
                 return {
                     loaded: !!project && (!!projectMatrixUrls || v2),
                     project,
-                    projectMatrixUrls,
+                    projectMatrixFileLocationsByFileUrl,
+                    projectMatrixUrls
                 }
             }),
             takeUntil(this.ngDestroy$)

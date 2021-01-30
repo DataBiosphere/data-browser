@@ -19,7 +19,7 @@
                             <hca-download-file [fileName]="element.fileName"
                                                [fileFormat]="element.fileFormat"
                                                [fileUrl]="element.url"
-                                               (fileDownloaded)="onFileDownloaded($event)"></hca-download-file>
+                                               (fileDownloadRequested)="onFileDownloadRequested($event)"></hca-download-file>
                             <span class="fontsize-xxs">{{element.fileName}}</span>
                         </div>
                     </mat-cell>

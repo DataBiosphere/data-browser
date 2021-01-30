@@ -7,15 +7,15 @@
 
 // Core dependencies
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { FileDownloadEvent } from "../hca-download-file/file-download.event";
-import { ProjectMatrixDownloadEvent } from "../project-matrix/project-matrix-download.event";
-import { ProjectMatrixType } from "../project-matrix/project-matrix-type.model";
+import { FileLocation } from "../file-location/file-location.model";
+import { FileLocationRequestEvent } from "../file-location/file-location-request.event";
+import { AppState } from "../../_ngrx/app.state";
 import { ProjectMatrixTableView } from "./project-matrix-table-view.model";
 import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
-import { FileDownloadLink } from "../../shared/file-download/file-download.model";
 import { GenusSpecies } from "../shared/genus-species.model";
 
 @Component({
@@ -26,29 +26,33 @@ import { GenusSpecies } from "../shared/genus-species.model";
 export class ProjectMatrixTableComponent {
 
     // Template variables 
-    public columnsToDisplay = ["fileName", "genusSpecies", "organ", "libraryConstructionApproach", "actions"];
+    public columnsToDisplay = ["actions", "fileName", "genusSpecies", "organ", "libraryConstructionApproach"];
 
     // Inputs/Outputs
-    @Input() projectMatrixType: ProjectMatrixType;
+    @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
     @Input() projectMatrixViews: ProjectMatrixView[];
-    @Output() projectMatrixFileDownloaded = new EventEmitter<ProjectMatrixDownloadEvent>();
+    @Output() projectMatrixFileLocationRequested = new EventEmitter<FileLocationRequestEvent>();
 
     /**
-     * Return the file download spec for the specified matrix file - this is used by the FileDownload component to 
-     * display/handle download and copy to clipboard functionality.
-     * 
-     * @param {ProjectMatrixView} projectMatrixView
+     * @param {Store<AppState>} store
      */
-    public getFileDownloadLink(projectMatrixView: ProjectMatrixView): FileDownloadLink {
+    constructor(private store: Store<AppState>) {}
 
-        return {
-            url: projectMatrixView.url
-        };
+    /**
+     * Return the file location for the specified file, or return a not started status if not yet requested file
+     * location has not yet been requested.
+     *
+     * @param {string} fileUrl
+     * @returns {FileLocation}
+     */
+    public getFileLocationByFileUrl(fileUrl: string): FileLocation {
+
+        return this.projectMatrixFileLocationsByFileUrl.get(fileUrl);
     }
 
     /**
      * Return the display text for the specified set of species.
-     * 
+     *
      * @param {GenusSpecies[]} species
      * @returns {string}
      */
@@ -77,51 +81,23 @@ export class ProjectMatrixTableComponent {
                 });
             }
             accum.get(speciesKey).projectMatrixViews.push(projectMatrixView);
-            
+
             return accum;
         }, new Map<string, ProjectMatrixTableView>());
-        
+
         const groupedViews = Array.from(viewsBySpecies.values());
         this.sortProjectMatrixTableViews(groupedViews);
         return groupedViews;
     }
 
-
     /**
-     * Track click on matrix download URL.
+     * Initiate request for file location of specified file.
      *
-     * @param {FileDownloadEvent} fileDownloadEvent
+     * @param {FileLocationRequestEvent} fileLocationRequestEvent
      */
-    public onProjectMatrixFileDownloaded(fileDownloadEvent: FileDownloadEvent) {
+    public onFileLocationRequested(fileLocationRequestEvent: FileLocationRequestEvent) {
 
-        const projectMatrixDownloadEvent = new ProjectMatrixDownloadEvent(
-            fileDownloadEvent.fileName, fileDownloadEvent.fileUrl, this.projectMatrixType
-        );
-        this.projectMatrixFileDownloaded.emit(projectMatrixDownloadEvent);
-    }
-
-    /**
-     * Return the value to track project matrix views.
-     * 
-     * @param {number} index
-     * @param {ProjectMatrixView} projectMatrixView
-     * @returns {string}
-     */
-    public trackProjectMatrixViews(index: number, projectMatrixView: ProjectMatrixView): string {
-
-        return projectMatrixView.url;
-    }
-
-    /**
-     * Return the value to track table views.
-     *
-     * @param {number} index
-     * @param {ProjectMatrixTableView} projectMatrixTableView
-     * @returns {string}
-     */
-    public trackProjectMatrixTableView(index: number, projectMatrixTableView: ProjectMatrixTableView): string {
-
-        return projectMatrixTableView.species.join("");
+        this.projectMatrixFileLocationRequested.emit(fileLocationRequestEvent);
     }
 
     /**
@@ -143,5 +119,29 @@ export class ProjectMatrixTableComponent {
 
             return 0;
         });
+    }
+
+    /**
+     * Return the value to track project matrix views.
+     *
+     * @param {number} index
+     * @param {ProjectMatrixView} projectMatrixView
+     * @returns {string}
+     */
+    public trackProjectMatrixViews(index: number, projectMatrixView: ProjectMatrixView): string {
+
+        return projectMatrixView.url;
+    }
+
+    /**
+     * Return the value to track table views.
+     *
+     * @param {number} index
+     * @param {ProjectMatrixTableView} projectMatrixTableView
+     * @returns {string}
+     */
+    public trackProjectMatrixTableView(index: number, projectMatrixTableView: ProjectMatrixTableView): string {
+
+        return projectMatrixTableView.species.join("");
     }
 }

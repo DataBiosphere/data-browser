@@ -3,6 +3,8 @@
  * https://www.humancellatlas.org/
  *
  * Possible values of file download status.
+ * 
+ * TODO superseded by FileLocationStatus. See #1495.
  */
 
 export enum FileDownloadStatus {
