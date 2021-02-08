@@ -3,11 +3,14 @@
  * https://www.humancellatlas.org/
  *
  * State containing HTTP-related information (eg HTTP errors).
+ * 
+ * TODO Update to reflect handling of client-side errors (#1504)
  */
-import { ErrorResponseAction } from "./http-error-response.actions";
-import { ClearErrorStateAction } from "./http-clear-state-error.actions";
 
 // App dependencies
+import { ErrorAction } from "./error.action";
+import { ErrorResponseAction } from "./http-error-response.actions";
+import { ClearErrorStateAction } from "./http-clear-state-error.actions";
 
 export class HttpState {
 
@@ -50,5 +53,16 @@ export class HttpState {
     public receiveErrorResponse(action: ErrorResponseAction): HttpState {
 
         return new HttpState(action.requestUrl, action.statusCode, action.errorMessage);
+    }
+
+    /**
+     * Handle client-side error.
+     *
+     * @param {ErrorAction} action
+     * @returns {HttpState}
+     */
+    public setErrorMessage(action: ErrorAction): HttpState {
+
+        return new HttpState("", 0, action.errorMessage);
     }
 }

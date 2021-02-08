@@ -10,6 +10,7 @@ import { CatalogEffects } from "../files/_ngrx/catalog/catalog.effects";
 import { ConfigEffects } from "../config/_ngrx/config.effects";
 import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
 import { EntityEffects } from "../files/_ngrx/entity/entity.effects";
+import { ErrorEffects } from "../files/_ngrx/error/error.effects";
 import { FileEffects } from "../files/_ngrx/file.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
 import { InitEffects } from "../files/_ngrx/init/init.effects";
@@ -30,6 +31,7 @@ export const AppEffects = [
     CatalogEffects,
     ConfigEffects,
     EntityEffects,
+    ErrorEffects,
     FileEffects,
     FileManifestEffects,
     InitEffects,

@@ -7,9 +7,9 @@
 
 export class Config {
 
+    public readonly atlas: string;
     public readonly dataURL: string;
     public readonly dcpHealthCheckUrl: string;
-    public readonly defaultCatalog: string;
     public readonly deployment: string;
     public readonly matrixURL: string;
     public readonly portalURL: string;
@@ -19,9 +19,9 @@ export class Config {
     public readonly zendeskURL: string;
 
     /**
+     * @param {string} atlas
      * @param {string} dataURL
      * @param {string} dcpHealthCheckUrl
-     * @param {string} defaultCatalog
      * @param {string} deployment
      * @param {string} matrixURL
      * @param {string} portalURL
@@ -30,9 +30,9 @@ export class Config {
      * @param {string} version
      * @param {string} zendeskURL
      */
-    constructor(dataURL: string,
+    constructor(atlas: string,
+                dataURL: string,
                 dcpHealthCheckUrl: string,
-                defaultCatalog: string,
                 deployment: string,
                 matrixURL: string,
                 portalURL: string,
@@ -41,9 +41,9 @@ export class Config {
                 version: string,
                 zendeskURL: string) {
 
+        this.atlas = atlas;
         this.dataURL = dataURL;
         this.dcpHealthCheckUrl = dcpHealthCheckUrl;
-        this.defaultCatalog = defaultCatalog;
         this.matrixURL = matrixURL;
         this.deployment = deployment;
         this.portalURL = portalURL;

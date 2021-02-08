@@ -10,7 +10,7 @@ import { async, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
@@ -88,7 +88,7 @@ describe("FileManifestService:", () => {
             }));
 
             fileManifestService.requestFileManifestUrl(
-                Catalog.NONE,
+                "",
                 [],
                 new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
                 ManifestDownloadFormat.COMPACT,
@@ -115,7 +115,7 @@ describe("FileManifestService:", () => {
                 status: ManifestStatus.NOT_STARTED
             }));
 
-            const catalog = Catalog.DCP1;
+            const catalog = DCPCatalog.DCP1;
             fileManifestService.requestFileManifestUrl(
                 catalog,
                 [],

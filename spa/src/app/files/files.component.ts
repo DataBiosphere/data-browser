@@ -18,7 +18,7 @@ import { Catalog } from "./catalog/catalog.model";
 import { ConfigService } from "../config/config.service";
 import { FilesComponentState } from "./files.component.state";
 import { AppState } from "../_ngrx/app.state";
-import { selectCatalog } from "./_ngrx/catalog/catalog.selectors";
+import { selectCatalog, selectCatalogs } from "./_ngrx/catalog/catalog.selectors";
 import { SelectEntityAction } from "./_ngrx/entity/select-entity.action";
 import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
@@ -83,13 +83,19 @@ export class FilesComponent implements OnInit, OnDestroy {
 
 
     /**
-     * Returns true if the catalog feature is enabled. Currently true for all v2 environments exception dcp2 and production.
+     * Returns true if the catalog feature is enabled. Currently true when:
+     * - current environment is v2, except dcp2 and production
+     * - there's more than one catalog for the current atlas
      *
+     * @param {Catalog[]} catalogs
      * @returns {boolean}
      */
-    public isCatalogEnabled(): boolean {
+    public isCatalogEnabled(catalogs: Catalog[]): boolean {
 
-        return this.configService.isV2() && !this.configService.isEnvDCP2() && !this.configService.isEnvProd();
+        return this.configService.isV2() && 
+            !this.configService.isEnvDCP2() &&
+            !this.configService.isEnvProd() && 
+            catalogs && catalogs.length > 1;
     }
 
     /**
@@ -147,7 +153,8 @@ export class FilesComponent implements OnInit, OnDestroy {
                 select(selectSelectedProjectSearchTerms),
                 map(this.mapSearchTermsToProjectIds)
             ),
-            this.store.pipe(select(selectCatalog))
+            this.store.pipe(select(selectCatalog)),
+            this.store.pipe(select(selectCatalogs))
         )
             .pipe(
                 takeUntil(this.ngDestroy$),
@@ -159,10 +166,12 @@ export class FilesComponent implements OnInit, OnDestroy {
                          selectedSearchTerms,
                          searchTerms,
                          selectedProjectIds,
-                         catalog]) => {
+                         catalog,
+                         catalogs]) => {
 
                     return {
                         catalog,
+                        catalogs,
                         entities,
                         facets,
                         fileSummary,

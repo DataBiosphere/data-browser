@@ -17,6 +17,16 @@ import { CatalogState } from "./catalog.state";
 export const selectCatalogState = createFeatureSelector<CatalogState>("catalog");
 
 /**
- * Return the current catalog value.
+ * Returns true if catalogs response has been returned from Azul, either success or failure.
+ */
+export const selectCatalogsInit = createSelector(selectCatalogState, state => state.init);
+
+/**
+ * Return the set of catalogs for this instance/atlas.
+ */
+export const selectCatalogs = createSelector(selectCatalogState, state => state.atlas.catalogs);
+
+/**
+ * Return the current selected catalog value.
  */
 export const selectCatalog = createSelector(selectCatalogState, state => state.catalog);

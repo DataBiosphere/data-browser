@@ -15,6 +15,7 @@ import EntitySpec from "./shared/entity-spec";
 export interface FilesComponentState {
 
     catalog: Catalog;
+    catalogs: Catalog[];
     entities: EntitySpec[];
     facets: Facet[];
     fileSummary: FileSummary;

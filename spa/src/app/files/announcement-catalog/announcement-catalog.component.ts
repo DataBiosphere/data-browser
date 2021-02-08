@@ -10,7 +10,7 @@ import { Component, Inject, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { EntityName } from "../shared/entity-name.model";
@@ -24,7 +24,7 @@ import { ViewCatalogAction } from "../_ngrx/catalog/view-catalog.action";
 export class AnnouncementCatalogComponent {
 
     // Inputs
-    @Input() catalog: Catalog;
+    @Input() catalog: DCPCatalog;
 
     /**
      * @param {ConfigService} configService
@@ -48,13 +48,13 @@ export class AnnouncementCatalogComponent {
      */
     public isCatalogDCP2(): boolean {
 
-        return this.catalog === Catalog.DCP2;
+        return this.catalog === DCPCatalog.DCP2;
     }
 
     /**
      * Handle select of catalog - dispatch event to track click on catalog, then redirect to catalog.
      */
-    public onCatalogSelected(catalog: Catalog) {
+    public onCatalogSelected(catalog: DCPCatalog) {
 
         this.store.dispatch(new ViewCatalogAction(catalog));
         this.window.location.href = `/explore/${EntityName.PROJECTS}?catalog=${catalog}`;

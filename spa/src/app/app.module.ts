@@ -26,6 +26,7 @@ import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { environment } from "../environments/environment";
+import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
@@ -98,16 +99,15 @@ const v2 = environment.version === "2.0";
             provide: "SYSTEM_SERVICE",
             useClass: v2 ? SystemService20 : SystemService
         },
-        // Bootstrap config from API end point, must return function from useFactory method, when function is invoked,
-        // must return promise to ensure Angular "pauses" until config is resolved from API end point.
+        // Init config and catalog states; both must resolve before app can be initialized.
         {
             provide: APP_INITIALIZER,
-            useFactory: (configService: ConfigService) => {
+            useFactory: (catalogService: CatalogService, configService: ConfigService) => {
                 return () => {
-                    return configService.initConfig();
+                    return configService.initConfig().then(() => catalogService.initCatalogs());
                 };
             },
-            deps: [ConfigService],
+            deps: [CatalogService, ConfigService, Store],
             multi: true
         },
         {

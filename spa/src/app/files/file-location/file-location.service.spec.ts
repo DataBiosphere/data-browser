@@ -6,13 +6,13 @@
  */
 
 // Core dependencies
+import { HttpClient } from "@angular/common/http";
 import { async, TestBed } from "@angular/core/testing";
 import { combineLatest, of, Subject } from "rxjs";
 import { filter, take } from "rxjs/operators";
 
 // App dependencies
 import { FileLocationService } from "./file-location.service";
-import { HttpClient } from "@angular/common/http";
 import { FileLocationStatus } from "./file-location-status.model";
 
 describe("FileLocationService", () => {

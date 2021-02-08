@@ -6,13 +6,9 @@
                     Catalog:
                 </div>
             </label>
-            <mat-radio-button value="dcp2">DCP2</mat-radio-button>
-            <mat-radio-button value="dcp2ebi">DCP2EBI</mat-radio-button>
-            <label *ngIf="catalog" class="mat-radio-label clear-label" (click)="onCatalogCleared($event)">
-                <div class="mat-radio-label-content">
-                    Clear
-                </div>
-            </label>
+            <mat-radio-button *ngFor="let catalog of catalogs" [value]="catalog">
+                {{catalog}}
+            </mat-radio-button>
         </mat-radio-group>
     </label>
 </form>

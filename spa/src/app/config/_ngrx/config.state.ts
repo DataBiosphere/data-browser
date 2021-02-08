@@ -25,19 +25,19 @@ export class ConfigState {
     /**
      * Create default config state - set default data URL.
      *
-     * @returns {ConfigState}
+     * @returns {ErrorState}
      */
     public static getDefaultState() {
 
         return new ConfigState(
-            new Config("", "", "", "", "", "", "", "", "", ""));
+            new Config("",  "", "", "", "", "", "", "", "", ""));
     }
 
     /**
      * Handle updated config that has been returned from the server end point.
      *
      * @param {FetchConfigRequestSuccessAction} action
-     * @returns {ConfigState}
+     * @returns {ErrorState}
      */
     public receiveConfig(action: FetchConfigRequestSuccessAction): ConfigState {
 

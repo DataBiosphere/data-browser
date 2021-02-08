@@ -12,7 +12,7 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { AnnouncementCatalogComponent } from "./announcement-catalog.component";
-import { Catalog } from "../catalog/catalog.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { AnnouncementComponent } from "../../shared/announcement/announcement.component";
 import { WindowStub } from "../../test/window.stub";
@@ -56,14 +56,14 @@ describe("AnnouncementCatalogComponent", () => {
      */
     it("dispatches action on click of view DCP2 catalog", () => {
 
-        component.catalog = Catalog.DCP1;
+        component.catalog = DCPCatalog.DCP1;
         fixture.detectChanges();
         const onExportToTerra = spyOn(component, "onCatalogSelected");
         const catalogLink = fixture.debugElement.query(By.css(".announcement-catalog-link"));
 
         // Execute click on link
         catalogLink.triggerEventHandler("click", null);
-        expect(onExportToTerra).toHaveBeenCalledWith(Catalog.DCP2);
+        expect(onExportToTerra).toHaveBeenCalledWith(DCPCatalog.DCP2);
     });
 
     /**
@@ -71,14 +71,14 @@ describe("AnnouncementCatalogComponent", () => {
      */
     it("dispatches action on click of view DCP1 catalog", () => {
 
-        component.catalog = Catalog.DCP2;
+        component.catalog = DCPCatalog.DCP2;
         fixture.detectChanges();
         const onExportToTerra = spyOn(component, "onCatalogSelected");
         const catalogLink = fixture.debugElement.query(By.css(".announcement-catalog-link"));
 
         // Execute click on link
         catalogLink.triggerEventHandler("click", null);
-        expect(onExportToTerra).toHaveBeenCalledWith(Catalog.DCP1);
+        expect(onExportToTerra).toHaveBeenCalledWith(DCPCatalog.DCP1);
     });
 
     /**
@@ -86,7 +86,7 @@ describe("AnnouncementCatalogComponent", () => {
      */
     it("dispatches action on click of DCP1 catalog", () => {
 
-        const catalog = Catalog.DCP1;
+        const catalog = DCPCatalog.DCP1;
         fixture.detectChanges();
         component.onCatalogSelected(catalog);
         expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
@@ -99,7 +99,7 @@ describe("AnnouncementCatalogComponent", () => {
      */
     it("dispatches action on click of DCP2 catalog", () => {
 
-        const catalog = Catalog.DCP2;
+        const catalog = DCPCatalog.DCP2;
         fixture.detectChanges();
         component.onCatalogSelected(catalog);
         expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({

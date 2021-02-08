@@ -6,6 +6,7 @@
  */
 
 export enum APIEndpoints {
+    "CATALOGS" = "/catalogs",
     "INDEX_STATUS" = "/health/progress",
     "INTEGRATIONS" = "/integrations",
     "FILE_MANIFEST_SUMMARY" = "/fetch/manifest/files",

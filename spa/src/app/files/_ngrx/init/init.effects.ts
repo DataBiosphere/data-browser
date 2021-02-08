@@ -91,8 +91,8 @@ export class InitEffects {
             const params = this.activatedRoute.snapshot.queryParams;
             let filter = this.searchTermUrlService.parseQueryStringSearchTerms(params);
 
-            // Set catalog to none if not specified in params
-            const catalog = params.catalog ? params.catalog : Catalog.NONE;
+            // Catalog is added by guard on all routes and is always included in query string at this point.
+            const catalog = params.catalog;
 
             return new SetViewStateAction(catalog, selectedEntity, filter);
         })

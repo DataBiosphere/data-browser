@@ -95,7 +95,7 @@ describe("FilesComponent:", () => {
             of([]), // Selected search terms
             of([]), // Search terms
             of([]), // Selected project search terms
-            of(Catalog.NONE) // Selected catalog
+            of("") // Selected catalog
         );
 
         fixture.detectChanges();

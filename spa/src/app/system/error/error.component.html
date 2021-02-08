@@ -5,8 +5,10 @@
                 <ng-container *ngSwitchCase="true">
                     <p class="fontsize-m">An error occurred processing your request.</p>
                     <p class="fontsize-m link" (click)="onReturnToExplore()">Return to Explore.</p>
-                    <h4 class="fontsize-m">Request URL</h4>
-                    <p class="fontsize-s inline-code">{{state.requestUrl}}</p>
+                    <ng-container *ngIf="state.requestUrl">
+                        <h4 class="fontsize-m">Request URL</h4>
+                        <p class="fontsize-s inline-code">{{state.requestUrl}}</p>
+                    </ng-container>
                     <h4 class="fontsize-m">Error Message</h4>
                     <pre class="fontsize-s inline-code">{{state.errorMessage}}</pre>
                 </ng-container>
