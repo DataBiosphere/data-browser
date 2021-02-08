@@ -227,7 +227,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -252,7 +252,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -291,7 +291,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -348,7 +348,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -377,7 +377,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -408,7 +408,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -441,7 +441,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -472,7 +472,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -505,7 +505,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
@@ -534,7 +534,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -563,7 +563,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
@@ -594,7 +594,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -625,7 +625,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -657,7 +657,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -685,7 +685,7 @@ describe("HCATableProjectsComponent", () => {
             of(PROJECTS_TABLE_MODEL.termCountsByFacetName),
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -714,7 +714,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -743,7 +743,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -770,7 +770,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -797,7 +797,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -824,7 +824,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -851,7 +851,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -878,7 +878,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -907,7 +907,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -938,7 +938,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -970,7 +970,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -1001,7 +1001,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -1031,7 +1031,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -1060,7 +1060,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];
@@ -1089,7 +1089,7 @@ describe("HCATableProjectsComponent", () => {
             of(DEFAULT_FILE_SUMMARY),
             of(new Map()), // project matrix URLs
 
-            of(Catalog.NONE)
+            of("")
         );
 
         component.selectedProjectIds = [];

@@ -14,7 +14,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of, ReplaySubject } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "../facet/set-view-state.action";
@@ -377,7 +377,7 @@ describe("Init Effects", () => {
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
 
             // Return empty query string params (this mocking is required for pulling catalog value from params)
-            const catalog = Catalog.DCP1;
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
                 queryParams: {
                     catalog
@@ -396,37 +396,9 @@ describe("Init Effects", () => {
 
         /**
          * Catalog not set if not specified from query string param.
+         * 
+         * TODO Update initSearchState$ to throw error if catalog is not specified in query string.
          */
-        it("catalog set to NONE when not specified in query string", (done: DoneFn) => {
-
-            // Return true if isActive is called with "samples"
-            routerMock.isActive
-                .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
-                .withArgs(EntityName.FILES, false).and.returnValue(false)
-                .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
-
-            // Return empty array, representing no filter currently selected 
-            const queryStringSearchTerms = [
-                new QueryStringSearchTerm(FileFacetName.PROJECT, ["123abc"])
-            ];
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
-
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
-            const catalog = Catalog.NONE;
-            spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {
-                    catalog
-                }
-            });
-
-            // Navigate to /files
-            navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
-
-            // Confirm project ID is added to action
-            effects.initSearchState$.subscribe((dispatchedAction) => {
-                expect((dispatchedAction as SetViewStateAction).catalog).toEqual(catalog);
-                done();
-            });
-        });
+        xit(`throws error if catalog not specified in query string`, () => {});
     });
 });

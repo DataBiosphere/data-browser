@@ -35,6 +35,7 @@ import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.compo
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { DataUseNotificationComponent } from "./data-use-notification/data-use-notification.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
+import { CatalogService } from "./catalog/catalog.service";
 import { ConfigService } from "../config/config.service";
 import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
 import { EntityRequestService } from "./entity/entity-request.service";
@@ -277,6 +278,7 @@ const v2 = environment.version === "2.0";
     ],
     providers: [
         CatalogCanActivateGuard,
+        CatalogService,
         ConfigService,
         DownloadService,
         {

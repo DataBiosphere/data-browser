@@ -10,8 +10,8 @@ import { async, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { PROJECTS_ENTITY_API_RESPONSE } from "./entity-api-response.mock";
 import { EntityName } from "./entity-name.model";
 import { EntityRequestService } from "../entity/entity-request.service";
@@ -246,7 +246,7 @@ describe("FileService:", () => {
                 termFacets: []
             }));
 
-            fileService.fetchIsMatrixSupported(Catalog.NONE, new Map(), DEFAULT_TABLE_PARAMS).subscribe((response: boolean) => {
+            fileService.fetchIsMatrixSupported("", new Map(), DEFAULT_TABLE_PARAMS).subscribe((response: boolean) => {
 
                 expect(response).toEqual(false);
                 return done();
@@ -267,7 +267,7 @@ describe("FileService:", () => {
                 termFacets: []
             }));
 
-            fileService.fetchIsMatrixSupported(Catalog.NONE, new Map(), DEFAULT_TABLE_PARAMS).subscribe((response: boolean) => {
+            fileService.fetchIsMatrixSupported("", new Map(), DEFAULT_TABLE_PARAMS).subscribe((response: boolean) => {
 
                 expect(response).toEqual(true);
                 return done();
@@ -568,7 +568,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.TRUE, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -598,7 +598,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -620,7 +620,7 @@ describe("FileService:", () => {
                     new Term(GenusSpecies.DANIO_RERIO, 90, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(true);
                     done();
@@ -644,7 +644,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.INDROP, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(true);
                     done();
@@ -668,7 +668,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.TENX_V2, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -692,7 +692,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.TENX_3PRIME_V2, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -716,7 +716,7 @@ describe("FileService:", () => {
                     new Term(LibraryConstructionApproach.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -743,7 +743,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.TRUE, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -771,7 +771,7 @@ describe("FileService:", () => {
                     new Term(PairedEnd.UNSPECIFIED, 100, false)
                 ])
             } as MatrixableFileFacets;
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(partialQuery => {
                     expect(partialQuery).toBe(false);
                     done();
@@ -806,7 +806,7 @@ describe("FileService:", () => {
             const fetchIsSmartSeq2False = 
                 spyOn<any>(fileService, "fetchIsSmartSeq2False").and.returnValue(of(true));
 
-            fileService["isMatrixPartialQueryMatch"](Catalog.NONE, new Map(), {} as TableParams, matrixableFileFacets)
+            fileService["isMatrixPartialQueryMatch"]("", new Map(), {} as TableParams, matrixableFileFacets)
                 .subscribe(() => {
                     expect(fetchIsSmartSeq2False).toHaveBeenCalled();
                     done();
@@ -879,7 +879,7 @@ describe("FileService:", () => {
             }));
 
             fileService.fetchEntitySearchResults(
-                Catalog.NONE,
+                "",
                 new Map(),
                 DEFAULT_TABLE_PARAMS,
                 EntityName.PROJECTS,
@@ -907,7 +907,7 @@ describe("FileService:", () => {
                 termFacets: []
             }));
 
-            const catalog = Catalog.DCP1;
+            const catalog = DCPCatalog.DCP1;
             fileService.fetchEntitySearchResults(
                 catalog,
                 new Map(),
@@ -945,7 +945,7 @@ describe("FileService:", () => {
                 totalFileSize: 0
             }));
 
-            fileService.fetchFileSummary(Catalog.NONE, []);
+            fileService.fetchFileSummary("", []);
 
             expect(httpClientSpy.get).toHaveBeenCalled();
             expect(httpClientSpy.get).not.toHaveBeenCalledWith(
@@ -974,7 +974,7 @@ describe("FileService:", () => {
                 totalFileSize: 0
             }));
 
-            const catalog = Catalog.DCP1;
+            const catalog = DCPCatalog.DCP1;
             fileService.fetchFileSummary(catalog, []);
 
             expect(httpClientSpy.get).toHaveBeenCalledWith(

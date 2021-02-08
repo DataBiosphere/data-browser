@@ -10,7 +10,7 @@ import { async, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
@@ -92,7 +92,7 @@ describe("TerraService:", () => {
         }));
 
         terraService.exportToTerra(
-            Catalog.NONE, 
+            "", 
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
             of());
@@ -116,7 +116,7 @@ describe("TerraService:", () => {
             status: ExportToTerraStatus.IN_PROGRESS
         }));
 
-        const catalog = Catalog.DCP1;
+        const catalog = DCPCatalog.DCP1;
         terraService.exportToTerra(
             catalog,
             [],

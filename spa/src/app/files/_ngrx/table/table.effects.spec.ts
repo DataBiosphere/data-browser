@@ -15,7 +15,8 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of, ReplaySubject } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
+import { CatalogState } from "../catalog/catalog.state";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
@@ -196,7 +197,13 @@ describe("Table Effects", () => {
             spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
 
             // Update selected tab to be files
-            store.setState(DEFAULT_FILES_STATE);
+            const selectedCatalog = DCPCatalog.DCP1;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP2
+                }, selectedCatalog, true)
+            }));
 
             const action = new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName);
             actions$ = of(action);
@@ -205,7 +212,7 @@ describe("Table Effects", () => {
             effects.fetchTableData$.subscribe();
 
             expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
-                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                selectedCatalog,
                 jasmine.any(Object),
                 jasmine.any(Object)
             );
@@ -249,7 +256,13 @@ describe("Table Effects", () => {
             spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
 
             // Update selected tab to be files
-            store.setState(DEFAULT_FILES_STATE);
+            const selectedCatalog = DCPCatalog.DCP2;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP1
+                }, selectedCatalog, true)
+            }));
 
             const action = new TableNextPageAction({
                 "search_after": "10x 1 Run Integration Test",
@@ -264,7 +277,7 @@ describe("Table Effects", () => {
             effects.fetchNextPagedTableData$.subscribe();
 
             expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
-                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                selectedCatalog,
                 jasmine.any(Object),
                 jasmine.any(Object)
             );
@@ -308,7 +321,13 @@ describe("Table Effects", () => {
             spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
 
             // Update selected tab to be files
-            store.setState(DEFAULT_FILES_STATE);
+            const selectedCatalog = DCPCatalog.DCP1;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP2
+                }, selectedCatalog, true)
+            }));
 
             const action = new TablePreviousPageAction({
                 "search_before": "Assessing the relevance of organoids to model inter-individual variation",
@@ -323,7 +342,7 @@ describe("Table Effects", () => {
             effects.fetchPreviousPagedTableData$.subscribe();
 
             expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
-                Catalog.DCP2, // Default catalog of DEFAULT_FILES_STATE is DCP2
+                selectedCatalog,
                 jasmine.any(Object),
                 jasmine.any(Object)
             );
@@ -371,7 +390,13 @@ describe("Table Effects", () => {
             spyOn<any>(effects, "fetchEntitySearchResults").and.callThrough();
 
             // Update selected tab to be files
-            store.setState(DEFAULT_FILES_STATE);
+            const selectedCatalog = DCPCatalog.DCP1;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP2
+                }, selectedCatalog, true)
+            }));
 
             const action = new FetchSortedTableDataRequestAction(
                 {
@@ -389,7 +414,7 @@ describe("Table Effects", () => {
             effects.fetchSortedTableData$.subscribe();
 
             expect(effects["fetchEntitySearchResults"]).toHaveBeenCalledWith(
-                Catalog.DCP2,  // Default catalog of DEFAULT_FILES_STATE is DCP2
+                selectedCatalog,
                 jasmine.any(Object),
                 jasmine.any(Object)
             );

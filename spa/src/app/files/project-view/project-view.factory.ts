@@ -11,6 +11,7 @@ import { Injectable } from "@angular/core";
 // App dependencies
 import { Accession } from "./accession.model";
 import { Catalog } from "../catalog/catalog.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
@@ -73,14 +74,14 @@ export class ProjectViewFactory {
     /**
      * Returns project related information, including formatted contact, contributor and organizations lists.
      *
+     * @param {Catalog} catalog
      * @param {Project} project
-     * @param catalog
      * @returns {ProjectView}
      */
-    public getProjectView(project: Project, catalog: Catalog): ProjectView {
+    public getProjectView(catalog: Catalog, project: Project): ProjectView {
 
         return {
-            citationLink: this.buildCitationUrl(project.entryId, catalog),
+            citationLink: this.buildCitationUrl(catalog, project.entryId),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),
             contributors: this.buildContributors(project.contributors),
@@ -96,18 +97,18 @@ export class ProjectViewFactory {
     /**
      * Returns project detail page url.
      *
+     * @param {Catalog} catalog
      * @param {string} projectId
-     * @param catalog
      * @returns {string}
      */
-    private buildCitationUrl(projectId: string, catalog: Catalog): string {
+    private buildCitationUrl(catalog: Catalog, projectId: string): string {
 
         // Add selected project to state - grab the project ID from the URL.
         const portalURL = this.configService.getPortalUrl();
         const citationURL = `${portalURL}/explore/projects/${projectId}`;
 
         // Return citation with catalog param, if in DCP2 mode.
-        if ( catalog === Catalog.DCP2 ) {
+        if ( catalog === DCPCatalog.DCP2 ) {
 
             return `${citationURL}?catalog=${catalog}`;
         }

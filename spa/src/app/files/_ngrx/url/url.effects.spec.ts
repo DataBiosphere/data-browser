@@ -15,7 +15,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable } from "rxjs";
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { SelectCatalogAction } from "../catalog/select-catalog.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
 import { AgeUnit } from "../../facet/facet-age-range/age-unit.model";
@@ -94,7 +94,7 @@ describe("URL Effects", () => {
 
         effects = TestBed.inject(UrlEffects);
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
-        store = TestBed.inject(Store) as MockStore<AppState>; /* TODO revisit "as xxx" after upgrade to 10 */
+        store = TestBed.inject(Store) as MockStore<AppState>;
         urlService = TestBed.inject(UrlService);
 
         mockSelectUrlSpecState = store.overrideSelector(selectUrlSpecState, defaultSelectUrlSpecState);
@@ -444,36 +444,17 @@ describe("URL Effects", () => {
 
         /**
          * Catalog param cleared from filter if not specified.
+         * 
+         * TODO add throw code to corresponding effect
          */
-        it("catalog cleared from filter if not specified", () => {
-
-            actions$ = hot("-a", {
-                a: new SelectCatalogAction(Catalog.NONE)
-            });
-
-            // Dispatch false - straight pass-through of actions
-            expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
-
-            // Smoke test of navigate
-            expect(routerMock.navigate).toHaveBeenCalled();
-
-            // Empty array for URL segments param, null filter param
-            expect(routerMock.navigate).toHaveBeenCalledWith(
-                [],
-                jasmine.objectContaining({
-                    queryParams: {
-                        catalog: null // Null is an explicit clear of the catalog filter
-                    }
-                })
-            );
-        });
+        xit("throws error if catalog not specified to update query string", () => {});
 
         /**
-         * Catalog param set on filter if not specified.
+         * Catalog param set in query string.
          */
-        it("catalog set on filter if specified", () => {
+        it("updates query stirng with new catalog value", () => {
 
-            const selectedCatalog = Catalog.DCP1;
+            const selectedCatalog = DCPCatalog.DCP1;
             actions$ = hot("-a", {
                 a: new SelectCatalogAction(selectedCatalog)
             });

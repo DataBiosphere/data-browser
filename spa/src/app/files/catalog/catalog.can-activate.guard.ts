@@ -17,14 +17,16 @@ import {
     UrlTree
 } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { Observable, of } from "rxjs";
+import { combineLatest, Observable, of } from "rxjs";
 import { switchMap, take } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
-import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
-import { Catalog } from "./catalog.model";
+ import { AtlasName } from "../atlas/atlas-name.model";
+ import { Catalog } from "./catalog.model";
+ import { ConfigService } from "../../config/config.service";
+ import { DCPCatalog } from "./dcp-catalog.model";
+ import { AppState } from "../../_ngrx/app.state";
+ import { selectCatalog, selectCatalogs } from "../_ngrx/catalog/catalog.selectors";
 
 @Injectable()
 export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
@@ -81,27 +83,55 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
             return true;
         }
 
-        return this.store.pipe(
-            select(selectCatalog),
-            take(1),
-            switchMap((selectedCatalog) => {
+        return combineLatest(
+            this.store.pipe(select(selectCatalogs)),
+            this.store.pipe(select(selectCatalog))
+        )
+            .pipe(
+                take(1),
+                switchMap(([catalogs, selectedCatalog]) => {
 
-                // If there's no catalog param specified in the query string add it and return a new URL tree (which
-                // cancels the current navigation and initiates a new navigation event to the updated URL).
-                const catalogParam = currentQueryParams.catalog;
-                if ( !catalogParam ) {
+                    // If there's no catalog param specified in the query string add it and return a new URL tree (which
+                    // cancels the current navigation and initiates a new navigation event to the updated URL).
+                    const catalogParam = currentQueryParams.catalog;
+                    if ( !catalogParam ) {
 
-                    // Add the catalog param - if there's a selected catalog in the state, use the selected catalog. If
-                    // not, default to catalog for the current environment.
-                    const urlTree = this.router.parseUrl(nextUrl);
-                    urlTree.queryParams["catalog"] =
-                        selectedCatalog ? selectedCatalog : this.configService.getDefaultCatalog();
-                    return of(urlTree);
-                }
-                
-                // Otherwise there is currently a catalog query string param, continue navigation as is. 
-                return of(true);
-            })
-        );
+                        // Determine which catalog to use going forward
+                        const redirectToCatalogParam = this.getRedirectToCatalogParam(catalogs, selectedCatalog);
+
+                        // If there's no selected catalog in the store, a catalog-related error has occurred. Allow
+                        // navigation to continue as is through to error page.
+                        if ( !redirectToCatalogParam && nextUrl === "/error" ) {
+                            return of(true);
+                        }
+
+                        // Add catalog to query string and restart navigation 
+                        const urlTree = this.router.parseUrl(nextUrl);
+                        urlTree.queryParams["catalog"] = redirectToCatalogParam;
+                        return of(urlTree);
+                    }
+
+                    // Otherwise there is currently a catalog query string param, continue navigation as is. 
+                    return of(true);
+                })
+            );
+    }
+
+    /**
+     * Returns the catalog to use if catalog is not specified in query string. If the atlas for the current environment
+     * is "hca" and DCP1 is in the set of possible catalogs for the current environment, default to DCP1. Otherwise
+     * return the selected catalog (which is the Azul-specified default catalog on load) for this environment.
+     * 
+     * @param {Catalog[]} catalogs
+     * @param {Catalog} selectedCatalog
+     * @returns {string}
+     */
+    private getRedirectToCatalogParam(catalogs: Catalog[], selectedCatalog: Catalog): string {
+
+        if ( this.configService.getAtlas() === AtlasName.HCA && catalogs.indexOf(DCPCatalog.DCP1) >= 0 ) {
+            return DCPCatalog.DCP1;
+        }
+        
+        return selectedCatalog;
     }
 }

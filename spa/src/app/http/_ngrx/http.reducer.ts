@@ -9,6 +9,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { ErrorAction } from "./error.action";
 import { HttpState } from "./http.state";
 import { ErrorResponseAction } from "./http-error-response.actions";
 import { ClearErrorStateAction } from "./http-clear-state-error.actions";
@@ -25,6 +26,10 @@ export function reducer(state: HttpState = HttpState.getDefaultState(), action: 
         // Handle case where error state is to be cleared.
         case ClearErrorStateAction.ACTION_TYPE:
             return state.clearErrorState(action as ClearErrorStateAction);
+
+        // Handle client-side errors
+        case ErrorAction.ACTION_TYPE:
+            return state.setErrorMessage(action as ErrorAction);
 
         // Handle case where error has been returned from the server.
         case ErrorResponseAction.ACTION_TYPE:

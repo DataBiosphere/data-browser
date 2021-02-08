@@ -185,7 +185,7 @@ export class ProjectOverviewComponent implements OnDestroy {
             takeUntil(this.ngDestroy$),
             map(([project, catalog]) => {
 
-                const projectView = this.projectFactory.getProjectView(project, catalog);
+                const projectView = this.projectFactory.getProjectView(catalog, project);
 
                 return {
                     project: projectView,

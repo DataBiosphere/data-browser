@@ -23,9 +23,9 @@ export class ConfigService {
     public readonly VERSION_2_0 = "2.0";
 
     // Locals
+    protected atlas: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
     protected dcpHealthCheckUrl: string;
-    protected defaultCatalog: string;
     protected matrixURL: string;
     protected portalURL: string;
     protected deployment: string;
@@ -41,6 +41,27 @@ export class ConfigService {
     constructor(store: Store<AppState>) {
 
         this.store = store;
+    }
+
+    /**
+     * Returns the atlas for the current environment.
+     * 
+     * @returns {string}
+     */
+    public getAtlas(): string {
+        
+        return this.atlas;
+    }
+
+    /**
+     * Returns the URL for the catalogs endpoint.
+     *
+     * @returns {string}
+     */
+    public getCatalogsUrl(): string {
+
+        const pathBase = this.getIndexBasePath();
+        return `${this.dataURL}${pathBase}${APIEndpoints.CATALOGS}`;
     }
 
     /**
@@ -95,14 +116,6 @@ export class ConfigService {
     public getDataUrl(): string {
 
         return this.dataURL;
-    }
-
-    /**
-     * Returns the default catalog for this environment.
-     */
-    public getDefaultCatalog(): string {
-        
-        return this.defaultCatalog;
     }
 
     /**
@@ -236,14 +249,10 @@ export class ConfigService {
     }
 
     /**
-     * Hit API end point to retrieve configuration information for this HCA instance. Must return promise here
-     * as this method is called during Angular's app initialization and we need to resolve the config details (eg
-     * data URL) before any components are instantiated. The config details returned from the server are saved on
-     * this config service as local state (for easy access from calling classes where we don't want to handle
-     * Observables) as well as in the store.
-     *
-     * Note: if we add a fetch method at a later stage (eg to retrieve updated config), the local data URL value on this
-     * service must be updated as well as the value in the store.
+     * Initialize config on app init. Must return promise here as this method is called during Angular's app
+     * initialization and we need to resolve the config details before any components are instantiated. The config
+     * details are saved on this config service as local state (for easy access from calling classes where we don't
+     * want to handle Observables) as well as in the store.
      *
      * @returns {Promise<Config>}
      */
@@ -347,16 +356,17 @@ export class ConfigService {
     }
 
     /**
-     * Save the data URL as a local variable ogetAPIURLn this instance, and update the corresponding config value in the store.
+     * Config is saved on this config service as local state (for easy access from calling classes where we don't
+     * want to handle Observables) as well as in the store.
      *
      * @param config {Config}
      */
     private storeConfig(config: Config): void {
 
+        this.atlas = config.atlas;
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
         this.dcpHealthCheckUrl = config.dcpHealthCheckUrl;
-        this.defaultCatalog = config.defaultCatalog || Catalog.DCP2;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;

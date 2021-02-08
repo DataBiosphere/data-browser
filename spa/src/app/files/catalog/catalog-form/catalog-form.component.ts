@@ -27,27 +27,19 @@ export class CatalogFormComponent implements OnChanges {
     public catalogFormGroup: FormGroup;
 
     // Inputs
-    @Input() catalog: Catalog;
+    @Input() catalog: Catalog; // Selected catalog
+    @Input() catalogs: Catalog[];
 
     /**
      * Set up form group and form control backing catalog form.
      * 
      * @param {Store<AppState>} store
      */
-    constructor( private store: Store<AppState>) {
+    constructor(private store: Store<AppState>) {
 
         this.catalogFormGroup = new FormGroup({
-            catalog: new FormControl(Catalog.NONE),
+            catalog: new FormControl(this.catalog),
         });
-    }
-
-    /**
-     * Clear selected catalog value.
-     */
-    public onCatalogCleared(event: MouseEvent) {
-        
-        event.preventDefault();
-        this.store.dispatch(new SelectCatalogAction(Catalog.NONE));
     }
 
     /**

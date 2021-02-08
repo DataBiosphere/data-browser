@@ -1,5 +1,5 @@
 <div class="layout-column" *ngIf="state$ | async as state">
-    <catalog-form *ngIf="isCatalogEnabled()" [catalog]="state.catalog"></catalog-form>
+    <catalog-form *ngIf="isCatalogEnabled(state.catalogs)" [catalog]="state.catalog" [catalogs]="state.catalogs"></catalog-form>
     <hca-section-title>{{getExploreTitle(state.catalog)}}</hca-section-title>
     <facet-toolbar
             [facets]="state.facets"
