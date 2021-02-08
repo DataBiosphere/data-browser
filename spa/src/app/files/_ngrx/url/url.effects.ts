@@ -55,7 +55,7 @@ export class UrlEffects {
             const catalog = action.catalog;
             this.router.navigate([], {
                 queryParams: {
-                    catalog: catalog ? catalog : null // Handle possible clear of catalog value
+                    catalog
                 },
                 queryParamsHandling: "merge"
             });

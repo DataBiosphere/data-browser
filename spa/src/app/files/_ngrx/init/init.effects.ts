@@ -14,9 +14,9 @@ import { Observable } from "rxjs";
 import { filter, map, take, tap } from "rxjs/operators";
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
 import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
+import { ErrorAction } from "../../../http/_ngrx/error.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
@@ -93,6 +93,9 @@ export class InitEffects {
 
             // Catalog is added by guard on all routes and is always included in query string at this point.
             const catalog = params.catalog;
+            if ( !catalog ) {
+                return new ErrorAction("Catalog not found for view initialization.");
+            }
 
             return new SetViewStateAction(catalog, selectedEntity, filter);
         })

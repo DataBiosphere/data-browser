@@ -443,13 +443,6 @@ describe("URL Effects", () => {
     describe("updateCatalogQueryParam$", () => {
 
         /**
-         * Catalog param cleared from filter if not specified.
-         * 
-         * TODO add throw code to corresponding effect
-         */
-        xit("throws error if catalog not specified to update query string", () => {});
-
-        /**
          * Catalog param set in query string.
          */
         it("updates query stirng with new catalog value", () => {
