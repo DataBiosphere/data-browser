@@ -5,11 +5,11 @@
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
                 <file-location-download [fileLocation]="getFileLocationByFileUrl(element.url)"
-                                        [fileName]="element.shortName"
+                                        [fileName]="element.fileName"
                                         [fileUrl]="element.url"
                                         (fileLocationRequested)="onFileLocationRequested($event)"></file-location-download>
                 <file-location-copy [fileLocation]="getFileLocationByFileUrl(element.url)" 
-                                                 [fileName]="element.shortName" [fileUrl]="element.url" 
+                                                 [fileName]="element.fileName" [fileUrl]="element.url" 
                                                  (fileLocationRequested)="onFileLocationRequested($event)"></file-location-copy>
             </mat-cell>
         </ng-container>
@@ -18,7 +18,7 @@
                 <span class="fontsize-xxs bold">File Name</span>
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs column-file-name">
-                <span>{{element.shortName}}</span>
+                <span>{{element.fileName}}</span>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="genusSpecies">

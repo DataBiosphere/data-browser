@@ -8,15 +8,11 @@
 
 // App dependencies
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { ProjectMatrixFileShortNamePipe } from "../project-matrix-file-short-name/project-matrix-file-short-name.pipe";
 import { MatrixResponseFile } from "./project-matrix-response-file.model";
 import { ProjectMatrixView } from "./project-matrix-view.model";
 
 export class ProjectMatrixMapper {
 
-    // Locals
-    private projectMatrixFileShortNamePipe = new ProjectMatrixFileShortNamePipe();
-    
     /**
      * Convert matrices tree structure into set of rows representing matrix files and their corresponding values.
      * 
@@ -46,7 +42,6 @@ export class ProjectMatrixMapper {
         const {url, name} = file;
         const matrixView =  {
             fileName: name,
-            shortName: this.projectMatrixFileShortNamePipe.transform(name),
             url
         };
 
@@ -125,14 +120,13 @@ export class ProjectMatrixMapper {
         // Create new view - for immutability - to hold merged values.
         const mergedView = {
             fileName: mergeWithView.fileName,
-            shortName: mergeWithView.shortName,
             url: mergeWithView.url
         };
         
         for ( let [key, value] of Object.entries(viewToMerge) ) {
 
             // Ignore core, non-meta, file values: these values are constant across all files and don't need to be merged.
-            // That is, fileName, shortName and url. We can assume non-array values are core values.
+            // That is, fileName and url. We can assume non-array values are core values.
             if ( !Array.isArray(value) ) {
                 continue;
             }
@@ -215,16 +209,6 @@ export class ProjectMatrixMapper {
                 return -1;
             }
 
-            // Sort by file short name
-            const shortName0 = view0.shortName;
-            const shortName1 = view1.shortName;
-            if ( shortName0 > shortName1 ) {
-                return 1;
-            }
-            else if ( shortName0 < shortName1 ) {
-                return -1;
-            }
-            
             return 0;
         });
     }

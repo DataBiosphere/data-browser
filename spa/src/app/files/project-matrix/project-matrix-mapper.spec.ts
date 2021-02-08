@@ -13,13 +13,10 @@ import {
     PROJECT_ROW_SINGLE_VALUES
 } from "../projects/project-row-mapper.mock";
 import { ProjectMatrixMapper } from "./project-matrix-mapper";
-import { ProjectMatrixFileShortNamePipe } from "../project-matrix-file-short-name/project-matrix-file-short-name.pipe";
 import { GenusSpecies } from "../shared/genus-species.model";
 import { LibraryConstructionApproach } from "../shared/library-construction-approach.model";
 
 describe("MatrixMapper", () => {
-
-    const projectMatrixFileShortNamePipe = new ProjectMatrixFileShortNamePipe();
 
     /**
      * Converts returns matrices tree format into a row for each file specified in the tree. 
@@ -115,7 +112,6 @@ describe("MatrixMapper", () => {
         const rowMapper = new ProjectMatrixMapper();
         const viewModels = [{
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_0.name),
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             url: MOCK_PROJECT_MATRIX_FILE_0.url
@@ -125,18 +121,6 @@ describe("MatrixMapper", () => {
         expect(viewModels[0].libraryConstructionApproach[1]).toEqual(LibraryConstructionApproach.SMART_SEQ2);
         expect(viewModels[0].organ[0]).toEqual("large intestine");
         expect(viewModels[0].organ[1]).toEqual("lymph node");
-    });
-
-    /**
-     * Confirm file short name is parsed from file name.
-     */
-    it("parses file short name from file name", () => {
-
-        const rowMapper = new ProjectMatrixMapper();
-        const contributorMatrices = PROJECT_ROW_SINGLE_VALUES.projects[0].contributorMatrices;
-        const matrixViews = rowMapper.bindMatrices(contributorMatrices);
-        matrixViews.forEach(matrixView =>
-            expect(matrixView.shortName).toEqual(projectMatrixFileShortNamePipe.transform(matrixView.fileName)));
     });
 
     /**
@@ -196,14 +180,12 @@ describe("MatrixMapper", () => {
 
         const viewModels = [{
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_0.name),
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             genusSpecies: [GenusSpecies.MUS_MUSCULUS],
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_1.name),
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
@@ -224,14 +206,12 @@ describe("MatrixMapper", () => {
 
         const viewModels = [{
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_0.name),
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_1.name),
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["large intestine"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
@@ -252,14 +232,12 @@ describe("MatrixMapper", () => {
 
         const viewModels = [{
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_0.name),
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2],
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_1.name),
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2], // "10x .."
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
@@ -271,34 +249,6 @@ describe("MatrixMapper", () => {
 
         expect(viewModels[0].fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_1.name);
         expect(viewModels[1].fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_0.name);
-    });
-
-    /**
-     * Confirm views are sorted by species, organ, library construction approach then short nam
-     */
-    it("sorts views by species, organ, library construction approach then short name", () => {
-
-        const viewModels = [{
-            fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_1.name),
-            libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
-            organ: ["lymph node"],
-            genusSpecies: [GenusSpecies.HOMO_SAPIENS],
-            url: MOCK_PROJECT_MATRIX_FILE_1.url
-        }, {
-            fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
-            shortName: projectMatrixFileShortNamePipe.transform(MOCK_PROJECT_MATRIX_FILE_0.name),
-            libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2], // "10x .."
-            organ: ["lymph node"],
-            genusSpecies: [GenusSpecies.HOMO_SAPIENS],
-            url: MOCK_PROJECT_MATRIX_FILE_0.url
-        }];
-
-        const rowMapper = new ProjectMatrixMapper();
-        rowMapper["sortMatrixViews"](viewModels);
-
-        expect(viewModels[0].fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_0.name);
-        expect(viewModels[1].fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_1.name);
     });
     
     /**
