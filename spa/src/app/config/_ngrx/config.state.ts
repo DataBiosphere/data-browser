@@ -25,7 +25,7 @@ export class ConfigState {
     /**
      * Create default config state - set default data URL.
      *
-     * @returns {ErrorState}
+     * @returns {ConfigState}
      */
     public static getDefaultState() {
 
@@ -37,7 +37,7 @@ export class ConfigState {
      * Handle updated config that has been returned from the server end point.
      *
      * @param {FetchConfigRequestSuccessAction} action
-     * @returns {ErrorState}
+     * @returns {ConfigState}
      */
     public receiveConfig(action: FetchConfigRequestSuccessAction): ConfigState {
 

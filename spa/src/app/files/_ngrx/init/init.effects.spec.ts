@@ -20,6 +20,7 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { FileState } from "../file.state";
 import { DEFAULT_PROJECTS_STATE } from "../file.state.mock";
+import { ErrorAction } from "../../../http/_ngrx/error.action";
 import { InitEffects } from "./init.effects";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
@@ -164,9 +165,12 @@ describe("Init Effects", () => {
             // Return empty array, representing no filter currently selected 
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
 
             // Navigate to /, which redirects to /projects
@@ -193,11 +197,13 @@ describe("Init Effects", () => {
             // Return empty array, representing no filter currently selected 
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
-
             // Navigate to /samples
             navigation$.next(new NavigationEnd(1, `/${EntityName.SAMPLES}`, `/${EntityName.SAMPLES}`));
 
@@ -222,11 +228,13 @@ describe("Init Effects", () => {
             // Return empty array, representing no filter currently selected 
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
-
             // Navigate to /files
             navigation$.next(new NavigationEnd(1, `/${EntityName.FILES}`, `/${EntityName.FILES}`));
 
@@ -240,7 +248,7 @@ describe("Init Effects", () => {
         /**
          * Default search state (genus species / homo sapiens) not set if on files tab.
          */
-        it("default search state not set if filter not specified on files", (done: DoneFn) => {
+        it("doesn't set default search state if filter not specified on files", (done: DoneFn) => {
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -251,9 +259,12 @@ describe("Init Effects", () => {
             // Return empty array, representing no filter currently selected 
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
 
             // Navigate to /files
@@ -269,7 +280,7 @@ describe("Init Effects", () => {
         /**
          * Default search state (genus species / homo sapiens) not set if on samples tab.
          */
-        it("default search state not set if filter not specified on samples", (done: DoneFn) => {
+        it("doesn't set default search state if filter not specified on samples", (done: DoneFn) => {
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -280,9 +291,12 @@ describe("Init Effects", () => {
             // Return empty array, representing no filter currently selected 
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
 
             // Navigate to /samples
@@ -298,7 +312,7 @@ describe("Init Effects", () => {
         /**
          * Search state (genus species / homo sapiens) set from filter.
          */
-        it("set search state from filter", (done: DoneFn) => {
+        it("sets search state from filter", (done: DoneFn) => {
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -312,9 +326,12 @@ describe("Init Effects", () => {
             ];
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
 
             // Navigate to /files
@@ -330,7 +347,7 @@ describe("Init Effects", () => {
         /**
          * Search state (project / uuid) set from filter.
          */
-        it("set project ID search state from filter", (done: DoneFn) => {
+        it("sets project ID search state from filter", (done: DoneFn) => {
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -344,9 +361,12 @@ describe("Init Effects", () => {
             ];
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
+            const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
-                queryParams: {}
+                queryParams: {
+                    catalog
+                }
             });
 
             // Navigate to /files
@@ -362,7 +382,7 @@ describe("Init Effects", () => {
         /**
          * Catalog is set correctly from query string param.
          */
-        it("init catalog when specified in query string", (done: DoneFn) => {
+        it("inits catalog when specified in query string", (done: DoneFn) => {
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -376,7 +396,7 @@ describe("Init Effects", () => {
             ];
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
 
-            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            // Set catalog param
             const catalog = DCPCatalog.DCP1;
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
                 queryParams: {
@@ -396,9 +416,34 @@ describe("Init Effects", () => {
 
         /**
          * Catalog not set if not specified from query string param.
-         * 
-         * TODO Update initSearchState$ to throw error if catalog is not specified in query string.
          */
-        xit(`throws error if catalog not specified in query string`, () => {});
+        it(`dispatches error if catalog not specified in query string`, (doneFn: DoneFn) => {
+
+            // Return true if isActive is called with "samples"
+            routerMock.isActive
+                .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
+                .withArgs(EntityName.FILES, false).and.returnValue(false)
+                .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
+
+            // Return empty array, representing no filter currently selected 
+            const queryStringSearchTerms = [
+                new QueryStringSearchTerm(FileFacetName.PROJECT, ["123abc"])
+            ];
+            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
+
+            // Return empty query string params (this mocking is required for pulling catalog value from params)
+            spyOnProperty(activatedRoute, "snapshot").and.returnValue({
+                queryParams: {}
+            });
+
+            // Navigate to /files
+            navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
+
+            // Confirm project ID is added to action
+            effects.initSearchState$.subscribe((dispatchedAction) => {
+                expect(dispatchedAction).toEqual(new ErrorAction("Catalog not found for view initialization."));
+                doneFn();
+            });
+        });
     });
 });
