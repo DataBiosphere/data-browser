@@ -112,7 +112,6 @@ import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
-import { ProjectMatrixFileShortNamePipe } from "./project-matrix-file-short-name/project-matrix-file-short-name.pipe";
 import { ProjectMatrixTableComponent } from "./project-matrix-table/project-matrix-table.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
@@ -255,7 +254,6 @@ const v2 = environment.version === "2.0";
         ProjectMatrixDownloadComponent,
         ProjectMatrixDownloadModalComponent,
         ProjectMatrixDownloadModalContainerComponent,
-        ProjectMatrixFileShortNamePipe,
         ProjectMatrixTableComponent,
         ProjectMetadataComponent,
         ProjectNavComponent,
