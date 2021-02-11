@@ -89,7 +89,16 @@ describe("CatalogCanActivateGuard", () => {
         /**
          * Navigation continues as is if catalog is currently specified in URL.
          */
-        it("allows navigation to continue if catalog specified in query string", (doneFn: DoneFn) => {
+        it("allows navigation to continue if valid catalog specified in query string", (doneFn: DoneFn) => {
+
+            // Set up default state
+            const selectedCatalog = DCPCatalog.DCP2;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP1
+                }, selectedCatalog, true)
+            }));
 
             spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP1});
 
@@ -236,7 +245,7 @@ describe("CatalogCanActivateGuard", () => {
 
             // Re-spy
             routerStateSnapshotUrl.and.returnValue("/error");
-            
+
             spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
 
             // Set up default state - mimic error state where catalog values are empty/string but state has been
@@ -252,6 +261,35 @@ describe("CatalogCanActivateGuard", () => {
             (canActivate as Observable<boolean>).subscribe((returnValue) => {
 
                 expect(returnValue).toEqual(true);
+                doneFn();
+            });
+        });
+
+        /**
+         * Navigates to error page if catalog param is not in set of catalogs for the current atlas.
+         */
+        it("navigates to error page if catalog is invalid", (doneFn: DoneFn) => {
+
+            // Re-spy
+            routerStateSnapshotUrl.and.returnValue("/error");
+
+            spyOn(store, "dispatch").and.callThrough();
+            spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: "foo"});
+
+            // Set up default state
+            const selectedCatalog = DCPCatalog.DCP2;
+            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+                catalog: new CatalogState({
+                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
+                    defaultCatalog: DCPCatalog.DCP1
+                }, selectedCatalog, true)
+            }));
+
+            const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+            (canActivate as Observable<boolean>).subscribe((returnValue) => {
+
+                expect(returnValue).toEqual(false);
+                expect(store.dispatch).toHaveBeenCalled();
                 doneFn();
             });
         });

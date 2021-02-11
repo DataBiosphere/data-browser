@@ -11,7 +11,7 @@ import { provideMockActions } from "@ngrx/effects/testing";
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from "@angular/router";
 import {  Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { Observable, of, ReplaySubject } from "rxjs";
+import { EMPTY, Observable, of, ReplaySubject } from "rxjs";
 
 // App dependencies
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
@@ -314,13 +314,13 @@ describe("Init Effects", () => {
          */
         it("sets search state from filter", (done: DoneFn) => {
 
-            // Return true if isActive is called with "samples"
+            // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
                 .withArgs(EntityName.FILES, false).and.returnValue(false)
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
-            // Return empty array, representing no filter currently selected 
+            // Set up search terms in query string
             const queryStringSearchTerms = [
                 new QueryStringSearchTerm(FileFacetName.GENUS_SPECIES, [GenusSpecies.MUS_MUSCULUS])
             ];
@@ -334,10 +334,10 @@ describe("Init Effects", () => {
                 }
             });
 
-            // Navigate to /files
+            // Navigate to /projects
             navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
 
-            // Confirm projects is the selected entity
+            // Confirm search terms are added to the action
             effects.initSearchState$.subscribe((dispatchedAction) => {
                 expect((dispatchedAction as SetViewStateAction).selectedSearchTerms).toEqual(queryStringSearchTerms);
                 done();
@@ -349,15 +349,15 @@ describe("Init Effects", () => {
          */
         it("sets project ID search state from filter", (done: DoneFn) => {
 
-            // Return true if isActive is called with "samples"
+            // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
                 .withArgs(EntityName.FILES, false).and.returnValue(false)
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
-            // Return empty array, representing no filter currently selected 
+            // Set up project ID in query string 
             const queryStringSearchTerms = [
-                new QueryStringSearchTerm(FileFacetName.PROJECT, ["123abc"])
+                new QueryStringSearchTerm(FileFacetName.PROJECT_ID, ["123abc"])
             ];
             searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
 
@@ -369,7 +369,7 @@ describe("Init Effects", () => {
                 }
             });
 
-            // Navigate to /files
+            // Navigate to /projects
             navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
 
             // Confirm project ID is added to action
@@ -384,17 +384,14 @@ describe("Init Effects", () => {
          */
         it("inits catalog when specified in query string", (done: DoneFn) => {
 
-            // Return true if isActive is called with "samples"
+            // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
                 .withArgs(EntityName.FILES, false).and.returnValue(false)
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            const queryStringSearchTerms = [
-                new QueryStringSearchTerm(FileFacetName.PROJECT, ["123abc"])
-            ];
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
+            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -404,10 +401,10 @@ describe("Init Effects", () => {
                 }
             });
 
-            // Navigate to /files
+            // Navigate to /projects
             navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
 
-            // Confirm project ID is added to action
+            // Confirm catalog is added to action
             effects.initSearchState$.subscribe((dispatchedAction) => {
                 expect((dispatchedAction as SetViewStateAction).catalog).toEqual(catalog);
                 done();
@@ -419,31 +416,33 @@ describe("Init Effects", () => {
          */
         it(`dispatches error if catalog not specified in query string`, (doneFn: DoneFn) => {
 
-            // Return true if isActive is called with "samples"
+            // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
                 .withArgs(EntityName.FILES, false).and.returnValue(false)
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            const queryStringSearchTerms = [
-                new QueryStringSearchTerm(FileFacetName.PROJECT, ["123abc"])
-            ];
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
+            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
 
             // Return empty query string params (this mocking is required for pulling catalog value from params)
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
                 queryParams: {}
             });
 
-            // Navigate to /files
+            // Navigate to /projects
             navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
 
-            // Confirm project ID is added to action
+            // Confirm error is dispatched
             effects.initSearchState$.subscribe((dispatchedAction) => {
                 expect(dispatchedAction).toEqual(new ErrorAction("Catalog not found for view initialization."));
                 doneFn();
             });
         });
+
+        /**
+         * Prevent view init (eg hits to entities endpoint and summary endpoint) if an error has occurred during init. 
+         */
+        xit("prevents view init on error", () => {});
     });
 });

@@ -8,10 +8,10 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect } from "@ngrx/effects";
+import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { filter, map, take, tap } from "rxjs/operators";
+import { filter, map, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
 import { DefaultFilterInitAction } from "./default-filter-init.action";
@@ -71,6 +71,7 @@ export class InitEffects {
      */
     @Effect()
     initSearchState$: Observable<Action> = this.router.events.pipe(
+        takeUntil(this.actions$.pipe(ofType(ErrorAction.ACTION_TYPE))),
         filter(evt => evt instanceof NavigationEnd),
         take(1),
         map(() => {

@@ -25,6 +25,7 @@ import { switchMap, take } from "rxjs/operators";
  import { Catalog } from "./catalog.model";
  import { ConfigService } from "../../config/config.service";
  import { DCPCatalog } from "./dcp-catalog.model";
+ import { ErrorAction } from "../../http/_ngrx/error.action";
  import { AppState } from "../../_ngrx/app.state";
  import { selectCatalog, selectCatalogs } from "../_ngrx/catalog/catalog.selectors";
 
@@ -109,6 +110,13 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
                         const urlTree = this.router.parseUrl(nextUrl);
                         urlTree.queryParams["catalog"] = redirectToCatalogParam;
                         return of(urlTree);
+                    }
+                    
+                    // Confirm the catalog param is valid. If it's not valid, dispatch error action to trigger redirect
+                    // to error page.
+                    if ( catalogs.indexOf(catalogParam) === -1 ) {
+                        this.store.dispatch(new ErrorAction(`Catalog ${catalogParam} is invalid.`));
+                        return of(false);
                     }
 
                     // Otherwise there is currently a catalog query string param, continue navigation as is. 
