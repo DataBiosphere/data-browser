@@ -44,7 +44,7 @@ export class FileLocationCopyComponent implements OnChanges, OnDestroy, OnInit {
 
     // View child/ren
     private matTooltip: MatTooltip;
-    @ViewChild("tooltip", { static: false }) set tooltip(tooltip: MatTooltip) {
+    @ViewChild("tooltipCopied", { static: false }) set tooltip(tooltip: MatTooltip) {
         if ( tooltip ) {
             this.matTooltip = tooltip;
         }
