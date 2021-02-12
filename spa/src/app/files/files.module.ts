@@ -95,10 +95,10 @@ import { HttpService } from "./http/http.service";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
-import { ProjectAnalyticsService } from "./project/project-analytics.service";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
+import { ProjectDetailService } from "./project-detail/project-detail.service";
 import { ProjectDownloadExpressionMatrixComponent } from "./project-download-expression-matrix/project-download-expression-matrix.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
@@ -295,7 +295,7 @@ const v2 = environment.version === "2.0";
           provide: "PAGINATION_SERVICE",
           useClass: v2 ? PaginationService20 : PaginationService
         },
-        ProjectAnalyticsService,
+        ProjectDetailService,
         ProjectService,
         ProjectEditsService,
         ProjectsCanActivateGuard,

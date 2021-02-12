@@ -20,12 +20,12 @@ import { of } from "rxjs/index";
 import { ConfigService } from "../../config/config.service";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
+import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
 import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { FileManifestService } from "../shared/file-manifest.service";
-import { ProjectAnalyticsService } from "../project/project-analytics.service";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -83,8 +83,10 @@ describe("ProjectMetadataComponent", () => {
                     ])
                 },
                 {
-                    provide: ProjectAnalyticsService,
-                    useValue: jasmine.createSpyObj("ProjectAnalyticsService", [
+                    provide: ProjectDetailService,
+                    useValue: jasmine.createSpyObj("ProjectDetailService", [
+                        "addProjectMeta",
+                        "removeProjectMeta",
                         "trackTabView"
                     ])
                 },

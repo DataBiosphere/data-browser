@@ -18,7 +18,7 @@ import { selectReleaseByProjectId } from "../_ngrx/release/release.selectors";
 import { ReleaseState } from "../releases/release.state";
 import { ReleaseName } from "../releases/release-name.model";
 import { ReleaseOrganView } from "../releases/release-organ-view.model";
-import { ProjectAnalyticsService } from "../project/project-analytics.service";
+import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { ReleaseService } from "../shared/release.service";
 import { ConfigService } from "../../config/config.service";
@@ -43,13 +43,13 @@ export class ProjectReleaseComponent implements OnDestroy, OnInit {
     });
 
     /**
-     * @param {ProjectAnalyticsService} projectAnalyticsService
+     * @param {ProjectDetailService} projectAnalyticsService
      * @param {ConfigService} configService
      * @param {ReleaseService} releaseService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      */
-    constructor(private projectAnalyticsService: ProjectAnalyticsService,
+    constructor(private projectAnalyticsService: ProjectDetailService,
                 private configService: ConfigService,
                 private releaseService: ReleaseService,
                 private store: Store<AppState>,

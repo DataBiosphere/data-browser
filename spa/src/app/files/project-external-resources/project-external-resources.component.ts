@@ -6,14 +6,15 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { take } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { ProjectAnalyticsService } from "../project/project-analytics.service";
+import { ProjectDetailService } from "../project-detail/project-detail.service";
+import { ProjectTab } from "../project-detail/project-tab.model";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 
 @Component({
@@ -21,18 +22,18 @@ import { GAAction } from "../../shared/analytics/ga-action.model";
     templateUrl: "./project-external-resources.component.html",
     styleUrls: ["./project-external-resources.component.scss"]
 })
-export class ProjectExternalResourcesComponent {
+export class ProjectExternalResourcesComponent implements OnDestroy, OnInit {
 
     /**
-     * @param {ProjectAnalyticsService} projectAnalyticsService
+     * @param {ProjectDetailService} projectDetailService
      * @param {Store<AppState>} store
      */
-    constructor(private projectAnalyticsService: ProjectAnalyticsService, private store: Store<AppState>) {}
+    constructor(private projectDetailService: ProjectDetailService, private store: Store<AppState>) {}
 
     /**
-     * Set up tracking of tab.
+     * Set up tracking of tab. Set project meta tags.
      */
-    private initTracking() {
+    private initTab() {
 
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
@@ -40,8 +41,18 @@ export class ProjectExternalResourcesComponent {
         project$.pipe(
             take(1)
         ).subscribe((project) => {
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_EXTERNAL_RESOURCES, project.entryId, project.projectShortname);
+            this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.EXTERNAL_RESOURCES);
+            this.projectDetailService.trackTabView(GAAction.VIEW_EXTERNAL_RESOURCES, project.entryId, project.projectShortname);
         });
+    }
+
+    /**
+     * Clear project meta tags.
+     */
+    public ngOnDestroy() {
+
+        // Set up tracking of project tab
+        this.projectDetailService.removeProjectMeta();
     }
 
     /**
@@ -50,6 +61,6 @@ export class ProjectExternalResourcesComponent {
     public ngOnInit() {
 
         // Set up tracking of project tab
-        this.initTracking();
+        this.initTab();
     }
 }
