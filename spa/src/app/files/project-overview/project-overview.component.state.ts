@@ -13,4 +13,5 @@ export interface ProjectOverviewComponentState {
     project: ProjectView;
     projectId: string;
     projectShortname: string;
+    projectTitle: string;
 }

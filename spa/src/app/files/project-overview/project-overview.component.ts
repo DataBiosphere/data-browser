@@ -20,7 +20,7 @@ import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
-import { ProjectAnalyticsService } from "../project/project-analytics.service";
+import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
 import { ContactView } from "../project-view/contact-view.model";
 import { ContributorView } from "../project-view/contributor-view.model";
@@ -41,12 +41,12 @@ export class ProjectOverviewComponent implements OnDestroy {
     public state$: Observable<ProjectOverviewComponentState>;
 
     /**
-     * @param {ProjectAnalyticsService} projectAnalyticsService
+     * @param {ProjectDetailService} projectDetailService
      * @param {ProjectViewFactory} projectFactory
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      */
-    constructor(private projectAnalyticsService: ProjectAnalyticsService, 
+    constructor(private projectDetailService: ProjectDetailService, 
                 private projectFactory: ProjectViewFactory,
                 private store: Store<AppState>, 
                 private activatedRoute: ActivatedRoute) {}
@@ -139,29 +139,33 @@ export class ProjectOverviewComponent implements OnDestroy {
     }
 
     /**
-     * Set up tracking of tab.
+     * Set up tracking of tab as well as project meta tags.
      */
-    private initTracking() {
+    private initTab() {
 
         this.state$.pipe(
             take(1)
         ).subscribe((state) => {
 
-            this.projectAnalyticsService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectId, state.projectShortname);
+            this.projectDetailService.addProjectMeta(state.projectTitle);
+            this.projectDetailService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectId, state.projectShortname);
         });
     }
 
     /**
-     * Kill subscriptions on destroy of component.
+     * Kill subscriptions on destroy of component. Clear project meta.
      */
     public ngOnDestroy() {
+        
+        // Clear meta tag
+        this.projectDetailService.removeProjectMeta();
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
 
     /**
-     * Update state with selected project.
+     * Update state with selected project. Set project meta.
      */
     public ngOnInit() {
 
@@ -190,12 +194,12 @@ export class ProjectOverviewComponent implements OnDestroy {
                 return {
                     project: projectView,
                     projectId: project.entryId,
-                    projectShortname: project.projectShortname
+                    projectShortname: project.projectShortname,
+                    projectTitle: project.projectTitle
                 };
             })
         );
 
-        // Set up tracking of project tab
-        this.initTracking();
+        this.initTab();
     }
 }
