@@ -8,7 +8,6 @@
 // Core dependencies
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
-import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
@@ -33,7 +32,6 @@ describe("FileLocationCopyComponent", () => {
             imports: [
                 BrowserAnimationsModule,
                 ClipboardModule,
-                MatIconModule,
                 MatProgressSpinnerModule,
                 MatTooltipModule
             ],

@@ -1,14 +1,16 @@
 <ng-container *ngIf="viewState$ | async as viewState">
     <ng-container [ngSwitch]="viewState">
-        <mat-icon *ngSwitchCase="fileLocationStatus.NOT_STARTED"
-                  [inline]="true"
-                  (click)="onFileLocationRequested(fileUrl, filename)"
-                  class="copy-not-started">assignment</mat-icon>
+        <img  *ngSwitchCase="fileLocationStatus.NOT_STARTED"
+              (click)="onFileLocationRequested(fileUrl, filename)"
+              matTooltip="Copy download link"
+              matTooltipClass="tooltip tooltip-small"
+              class="copy-not-started"
+              src="assets/images/icon/copy-primary.png">
         <mat-spinner *ngSwitchCase="fileLocationStatus.IN_PROGRESS" class="copy-in-progress" diameter="14"></mat-spinner>
         <div *ngSwitchCase="fileLocationStatus.FAILED" class="copy-error">x</div>
         <img *ngSwitchCase="fileLocationStatus.COMPLETED"
              class="copy-complete"
-             #tooltip="matTooltip"
+             #tooltipCopied="matTooltip"
              matTooltip="Copied!"
              matTooltipClass="tooltip tooltip-small"
              src="assets/images/icon/check-black.png">

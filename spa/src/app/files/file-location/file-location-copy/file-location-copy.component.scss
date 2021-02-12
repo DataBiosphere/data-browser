@@ -36,14 +36,10 @@
 
     /* Clipboard */
     .copy-not-started {
-        color: $hca-primary;
         cursor: pointer;
-        font-size: 17px;
-        height: 17px;
-        line-height: 17px;
+        width: 14px;
         opacity: 0.8;
         transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-        width: 17px;
 
         &:hover {
             opacity: 0.4;
