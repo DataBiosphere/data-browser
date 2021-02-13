@@ -111,21 +111,6 @@ export class HCATableProjectsComponent implements OnInit {
     }
 
     /**
-     * Return the set of query params required when generating the link to a project detail page. Currently, "catalog"
-     * is the only query string parameter required for displaying a project detail page (that is, filters are dropped).
-     *
-     * @param {Catalog} catalog
-     * @returns {{[key: string]: string}}
-     */
-    public getProjectQueryParams(catalog: Catalog): { [key: string]: string } {
-
-        return {
-            filter: null, // With the merge query param handling, we want to drop the filter param  
-            catalog: catalog ? catalog : null // Don't include a catalog param if catalog is not specified 
-        };
-    }
-
-    /**
      * v2 only - returns true if the specified project has at least one contributed or DCP-generated matrix.
      * 
      * @param {ProjectRow} project

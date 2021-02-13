@@ -122,7 +122,7 @@ ul, ol {
     line-height: 28px;
     margin: 0 0 18px;
 }
-p.fontsize-m, ul.fontsize-m, ol.fontsize-m, span.fontsize-m {
+p.fontsize-m, ul.fontsize-m, ol.fontsize-m, span.fontsize-m, a.fontsize-m {
     @include fontsize-m;
 }
 

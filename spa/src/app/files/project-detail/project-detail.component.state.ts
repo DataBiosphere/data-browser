@@ -6,12 +6,10 @@
  */
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
 import { Project } from "../shared/project.model";
 
 export interface ProjectDetailComponentState {
 
-    catalog?: Catalog;
     externalResourcesExist?: boolean;
     loaded: boolean;
     project?: Project;

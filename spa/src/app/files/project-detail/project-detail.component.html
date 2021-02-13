@@ -2,7 +2,6 @@
     <pop-layout [tabs]="getProjectDetailTabs()" *ngIf="state.loaded">
         <ng-container title>Explore Project</ng-container>
         <project-nav nav
-                     [catalog]="state.catalog"
                      [externalResourcesExist]="state.externalResourcesExist"
                      [projectInRelease]="state.projectInRelease"
                      [releaseFeatureEnabled]="isReleaseFeatureEnabled()"

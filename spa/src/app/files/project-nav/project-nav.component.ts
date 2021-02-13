@@ -13,7 +13,6 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { Catalog } from "../catalog/catalog.model";
 import { ProjectNav } from "./project-nav.model";
 import { EntityName } from "../shared/entity-name.model";
 import { NavItem } from "../../shared/nav/nav-item.model";
@@ -26,7 +25,6 @@ import { NavItem } from "../../shared/nav/nav-item.model";
 export class ProjectNavComponent {
 
     // Inputs
-    @Input() catalog: Catalog;
     @Input() externalResourcesExist: boolean;
     @Input() projectInRelease: boolean;
     @Input() releaseFeatureEnabled: boolean;
@@ -143,13 +141,9 @@ export class ProjectNavComponent {
             const projectId = params.id;
             
             // Determine whether catalog param should be added to project detail links
-            const navigationExtras = this.catalog ?
-                {
-                    queryParams: {
-                        catalog: this.catalog 
-                    },
-                    queryParamsHandling: "merge"
-                } : {};
+            const navigationExtras = {
+                    queryParamsHandling: "preserve"
+            };
 
             this.projectInformation = {
                 disabled: false,

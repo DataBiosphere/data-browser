@@ -7,14 +7,16 @@
                routerLinkActive="active"
                [routerLinkActiveOptions]="{exact: true}"
                [queryParams]="navItem.queryParams"
-               queryParamsHandling="navItem.queryParamsHandling">{{navItem.display}}</a>
+               queryParamsHandling="{{navItem.queryParamsHandling}}">{{navItem.display}}</a>
             <span *ngSwitchDefault [ngClass]="{nav:true, 'no-link': true, 'sub-nav': navItem.subNavItems}">{{navItem.display}}</span>
             <ng-container *ngIf="navItem.subNavItems">
                 <ng-container *ngFor="let subNavItem of navItem.subNavItems">
                     <a [ngClass]="{nav: true, 'sub-nav-item': true, disabled: subNavItem.disabled}"
                        [routerLink]="subNavItem.routerLink"
                        routerLinkActive="active"
-                       [routerLinkActiveOptions]="{exact: true}">{{subNavItem.display}}</a>
+                       [routerLinkActiveOptions]="{exact: true}"
+                       [queryParams]="subNavItem.queryParams"
+                       queryParamsHandling="{{subNavItem.queryParamsHandling}}">{{subNavItem.display}}</a>
                 </ng-container>
             </ng-container>
         </ng-container>
