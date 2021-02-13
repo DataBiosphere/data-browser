@@ -124,7 +124,9 @@ export class ProjectDetailComponent {
     public onProjectSelected(projectSelected: boolean, projectId: string, projectShortname: string) {
 
         this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !projectSelected, GASource.PROJECT));
-        this.router.navigate(["/projects"]);
+        this.router.navigate(["/projects"], {
+            queryParamsHandling: "preserve"
+        });
     }
 
     /**

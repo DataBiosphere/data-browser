@@ -81,6 +81,8 @@ export class PopLayoutComponent {
         this.store.dispatch(new BackToEntityAction(selectedEntity));
         
         // Navigate to specified tab key
-        this.router.navigate(["/" + tab.key]);
+        this.router.navigate(["/" + tab.key], {
+            queryParamsHandling: "preserve"
+        });
     }
 }

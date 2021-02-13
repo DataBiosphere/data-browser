@@ -200,8 +200,9 @@ export class HCATableProjectsComponent implements OnInit {
      */
     public onProjectDownloadManifestClicked(projectId: string) {
 
-        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/project-metadata`;
-        this.router.navigateByUrl(redirectUrl);
+        this.router.navigate([EntityName.PROJECTS, projectId, "m", "project-metadata"], {
+            queryParamsHandling: "preserve"
+        });
     }
 
     /**
@@ -211,8 +212,9 @@ export class HCATableProjectsComponent implements OnInit {
      */
     public onProjectDownloadMatrixClicked(projectId: string) {
 
-        const redirectUrl = `/${EntityName.PROJECTS}/${projectId}/m/expression-matrices`;
-        this.router.navigateByUrl(redirectUrl);
+        this.router.navigate([EntityName.PROJECTS, projectId, "m", "expression-matrices"], {
+            queryParamsHandling: "preserve"
+        });
     }
 
     /**
