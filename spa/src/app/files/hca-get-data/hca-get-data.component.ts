@@ -229,7 +229,9 @@ export class HCAGetDataComponent implements OnInit {
         }
         else {
             this.store.dispatch(new BackToEntityAction(tab.key));
-            this.router.navigate(["/" + tab.key]);
+            this.router.navigate(["/" + tab.key], {
+                queryParamsHandling: "preserve"
+            });
         }
     }
 
