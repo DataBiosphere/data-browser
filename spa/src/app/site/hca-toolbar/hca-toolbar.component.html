@@ -3,14 +3,14 @@
         <a href="{{portalUrl}}" *ngIf="!state.modalOpen">
             <img src="assets/images/logos/logo-hca.png"/>
         </a>
-        <a [routerLink]="['/projects']" *ngIf="state.modalOpen">
+        <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
             <img src="assets/images/logos/logo-hca.png"/>
         </a>
         <div menu-open hamburger class="menu-dropdown fontsize-s semi-bold" (click)="isMenuOpen(true)">Menu</div>
         <div menu-close hamburger class="menu-dropdown-close fontsize-s semi-bold" (click)="isMenuOpen(false)">Menu</div>
         <toolbar-nav>
             <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
-                <a class="link" [routerLink]="['/projects']" (click)="onExploreLinkClicked()">
+                <a class="link" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
                     <span class="fontsize-xs">Explore</span>
                     <span class="fontsize-xxs">Search for data in the HCA</span>
                 </a>

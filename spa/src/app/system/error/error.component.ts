@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -35,17 +35,8 @@ export class ErrorComponent implements OnDestroy, OnInit {
 
     /**
      * @param {Store<AppState>} store
-     * @param {Window} window
      */
-    public constructor(private store: Store<AppState>, @Inject("Window") private window: Window) {}
-
-    /**
-     * Return user back to projects tab.
-     */
-    public onReturnToExplore() {
-
-        this.window.location.href = "/explore";
-    }
+    public constructor(private store: Store<AppState>) {}
 
     /**
      * Clear error message on exit of error page.
