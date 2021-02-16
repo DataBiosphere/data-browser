@@ -151,7 +151,6 @@ describe("CatalogCanActivateGuard", () => {
                 configService.getAtlas.and.returnValue("foo");
 
                 spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-                // spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([]);
 
                 // Set up default state
                 const selectedCatalog = DCPCatalog.DCP2;
