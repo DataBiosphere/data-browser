@@ -24,7 +24,7 @@
                                 <mat-icon *ngIf="isProjectSelected(element)">check</mat-icon>
                             </div>
                             <a [routerLink]="['/projects', element.entryId]"
-                               queryParamsHandling="preserve"
+                               [queryParams]="{catalog: catalog$ | async}"
                                class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
                         </div>
                     </mat-cell>
@@ -255,12 +255,14 @@
                         <hca-table-cell class="cell-split">
                             <download-button [downloadAvailable]="true" (downloadClicked)="onProjectDownloadManifestClicked(element.entryId)"></download-button>
                             <ng-container [ngSwitch]="isV2()">
-                                <download-button *ngSwitchCase="true"
-                                                 [downloadAvailable]="isAnyMatrixAvailable(element)"
-                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>
-                                <download-button *ngSwitchDefault
-                                                 [downloadAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
-                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId)"></download-button>
+                                <ng-container *ngIf="catalog$ | async as catalog">
+                                    <download-button *ngSwitchCase="true"
+                                                     [downloadAvailable]="isAnyMatrixAvailable(element)"
+                                                     (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
+                                    <download-button *ngSwitchDefault
+                                                     [downloadAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
+                                                     (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
+                                </ng-container>
                             </ng-container>
                         </hca-table-cell>
                     </mat-cell>

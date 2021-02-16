@@ -151,6 +151,7 @@ describe("CatalogCanActivateGuard", () => {
                 configService.getAtlas.and.returnValue("foo");
 
                 spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
+                // spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([]);
 
                 // Set up default state
                 const selectedCatalog = DCPCatalog.DCP2;
@@ -221,6 +222,7 @@ describe("CatalogCanActivateGuard", () => {
             }));
 
             spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
+            spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([]);
             
             const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
             (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
@@ -247,6 +249,9 @@ describe("CatalogCanActivateGuard", () => {
             routerStateSnapshotUrl.and.returnValue("/error");
 
             spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
+            spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([{
+                path: "error"
+            }]);
 
             // Set up default state - mimic error state where catalog values are empty/string but state has been
             // initialized.

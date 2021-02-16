@@ -10,16 +10,16 @@ import { TestBed } from "@angular/core/testing";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Router, RouterEvent } from "@angular/router";
 import { Store } from "@ngrx/store";
+import { ReplaySubject } from "rxjs";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { FileState } from "../_ngrx/file.state";
-import { DEFAULT_PROJECTS_STATE } from "../_ngrx/file.state.mock";
-import { SearchTermUrlService } from "../search/url/search-term-url.service";
-import { ReplaySubject } from "rxjs/index";
-import { ProjectsCanActivateGuard } from "./projects.can-activate.guard";
+import { FilterCanActivateGuard } from "./filter-can-activate.guard";
+import { AppState } from "../../../_ngrx/app.state";
+import { FileState } from "../../_ngrx/file.state";
+import { DEFAULT_PROJECTS_STATE } from "../../_ngrx/file.state.mock";
+import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 
-describe("ProjectsCanActivateGuard", () => {
+describe("FilterCanActivateGuard", () => {
 
     let guard;
     let searchTermUrlService; // No type to enable jasmine mocking (eg .and.returnValue)
@@ -42,7 +42,7 @@ describe("ProjectsCanActivateGuard", () => {
             imports: [
             ],
             providers: [
-                ProjectsCanActivateGuard,
+                FilterCanActivateGuard,
                 {
                     provide: SearchTermUrlService,
                     useValue: jasmine.createSpyObj("SearchTermUrlService", [
@@ -58,7 +58,7 @@ describe("ProjectsCanActivateGuard", () => {
             ]
         });
 
-        guard = TestBed.inject(ProjectsCanActivateGuard);
+        guard = TestBed.inject(FilterCanActivateGuard);
         
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
         store = TestBed.inject(Store) as MockStore<AppState>; /* TODO revisit "as xxx" after upgrade to 10 */

@@ -13,7 +13,7 @@ import {
     CanActivate,
     CanActivateChild, Params,
     Router,
-    RouterStateSnapshot,
+    RouterStateSnapshot, UrlSegment,
     UrlTree
 } from "@angular/router";
 import { select, Store } from "@ngrx/store";
@@ -52,8 +52,9 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
                 routerStateSnapshot: RouterStateSnapshot): boolean | Observable<boolean | UrlTree> {
 
         const nextUrl = routerStateSnapshot.url;
+        const urlSegments = activatedRouteSnapshot.url;
         const currentQueryParams = activatedRouteSnapshot.queryParams;
-        return this.getCanActive(nextUrl, currentQueryParams);
+        return this.getCanActive(nextUrl, urlSegments, currentQueryParams);
     }
 
     /**
@@ -73,10 +74,11 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
      * Adds catalog param to query string.
      * 
      * @param {string} nextUrl - the URL the user is attempting to navigate to
+     * @param {UrlSegment[]} urlSegments
      * @param {Params} currentQueryParams - the current set of query string params
      * @returns {boolean | Observable<boolean | UrlTree>}
      */
-    private getCanActive(nextUrl: string, currentQueryParams: Params): boolean | Observable<boolean | UrlTree> {
+    private getCanActive(nextUrl: string, urlSegments: UrlSegment[], currentQueryParams: Params): boolean | Observable<boolean | UrlTree> {
 
         // Catalog is only applicable to v2 environments
         const v2 = this.configService.isV2();
@@ -102,7 +104,8 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
 
                         // If there's no selected catalog in the store, a catalog-related error has occurred. Allow
                         // navigation to continue as is through to error page.
-                        if ( !redirectToCatalogParam && nextUrl === "/error" ) {
+                        const path = urlSegments[0]?.path;
+                        if ( !redirectToCatalogParam && path === "error" ) {
                             return of(true);
                         }
 
