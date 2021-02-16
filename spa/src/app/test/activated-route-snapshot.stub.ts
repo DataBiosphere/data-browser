@@ -19,4 +19,11 @@ export class ActivatedRouteSnapshotStub {
     get queryParams() {
         return {};
     }
+
+    /**
+     * @returns {{}}
+     */
+    get url() {
+        return {};
+    }
 }

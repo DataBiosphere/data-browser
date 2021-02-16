@@ -182,11 +182,14 @@ export class HCATableProjectsComponent implements OnInit {
      * Display the prepared manifest downloads modal.
      *
      * @param {string} projectId
+     * @param {Catalog} catalog
      */
-    public onProjectDownloadManifestClicked(projectId: string) {
+    public onProjectDownloadManifestClicked(projectId: string, catalog: Catalog) {
 
         this.router.navigate([EntityName.PROJECTS, projectId, "m", "project-metadata"], {
-            queryParamsHandling: "preserve"
+            queryParams: {
+                catalog
+            }
         });
     }
 
@@ -194,11 +197,14 @@ export class HCATableProjectsComponent implements OnInit {
      * Display the prepared matrix downloads modal.
      *
      * @param {string} projectId
+     * @param {Catalog} catalog
      */
-    public onProjectDownloadMatrixClicked(projectId: string) {
+    public onProjectDownloadMatrixClicked(projectId: string, catalog: Catalog) {
 
         this.router.navigate([EntityName.PROJECTS, projectId, "m", "expression-matrices"], {
-            queryParamsHandling: "preserve"
+            queryParams: {
+                catalog
+            }
         });
     }
 

@@ -52,6 +52,7 @@ import { FacetMenuOptionTitleComponent } from "./facet/facet-menu-option-title/f
 import { FacetTermListComponent } from "./facet/facet-term-list/facet-term-list.component";
 import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";
 import { FileFacetComponent } from "./facet/file-facet/file-facet.component";
+import { FilterCanActivateGuard } from "./facet/filter/filter-can-activate.guard";
 import { FileLocationCopyComponent } from "./file-location/file-location-copy/file-location-copy.component";
 import { FileLocationDownloadComponent } from "./file-location/file-location-download/file-location-download.component";
 import { FileLocationService } from "./file-location/file-location.service";
@@ -117,7 +118,6 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
-import { ProjectsCanActivateGuard } from "./project/projects.can-activate.guard";
 import { ProjectService } from "./project/project.service";
 import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
@@ -287,6 +287,7 @@ const v2 = environment.version === "2.0";
         FileLocationService,
         FileManifestService,
         FilesService,
+        FilterCanActivateGuard,
         HttpService,
         IntegrationService,
         SearchTermUrlService,
@@ -298,7 +299,6 @@ const v2 = environment.version === "2.0";
         ProjectDetailService,
         ProjectService,
         ProjectEditsService,
-        ProjectsCanActivateGuard,
         ProjectViewFactory,
         ReleaseService,
         SearchTermHttpService,
