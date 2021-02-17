@@ -90,7 +90,13 @@ export class InitEffects {
 
             // Parse the current filter from the URL, if any.
             const params = this.activatedRoute.snapshot.queryParams;
-            let filter = this.searchTermUrlService.parseQueryStringSearchTerms(params);
+            let filter;
+            try {
+                filter = this.searchTermUrlService.parseQueryStringSearchTerms(params);
+            }
+            catch(e) {
+                return new ErrorAction(e.message);
+            }
 
             // Catalog is added by guard on all routes and is always included in query string at this point.
             const catalog = params.catalog;

@@ -11,7 +11,7 @@ import { provideMockActions } from "@ngrx/effects/testing";
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from "@angular/router";
 import {  Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { EMPTY, Observable, of, ReplaySubject } from "rxjs";
+import { Observable, ReplaySubject } from "rxjs";
 
 // App dependencies
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
@@ -63,14 +63,7 @@ describe("Init Effects", () => {
                         "trackEvent"
                     ])
                 },
-                {
-                    provide: SearchTermUrlService,
-                    useValue: jasmine.createSpyObj("SearchTermUrlService", [
-                        "getDefaultSearchState",
-                        "parseQueryStringSearchTerms",
-                        "stringifySearchTerms"
-                    ])
-                },
+                SearchTermUrlService,
                 provideMockActions(() => actions$), {
                     provide: Router,
                     useValue: routerMock
@@ -163,7 +156,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -195,7 +188,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(true);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -226,7 +219,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -257,7 +250,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -289,7 +282,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(true);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -324,7 +317,7 @@ describe("Init Effects", () => {
             const queryStringSearchTerms = [
                 new QueryStringSearchTerm(FileFacetName.GENUS_SPECIES, [GenusSpecies.MUS_MUSCULUS])
             ];
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue(queryStringSearchTerms);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -357,9 +350,9 @@ describe("Init Effects", () => {
 
             // Set up project ID in query string 
             const queryStringSearchTerms = [
-                new QueryStringSearchTerm(FileFacetName.PROJECT_ID, ["123abc"])
+                new QueryStringSearchTerm(FileFacetName.PROJECT_ID, ["foo"])
             ];
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue(queryStringSearchTerms);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue(queryStringSearchTerms);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -391,7 +384,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Set catalog param
             const catalog = DCPCatalog.DCP1;
@@ -412,7 +405,7 @@ describe("Init Effects", () => {
         });
 
         /**
-         * Catalog not set if not specified from query string param.
+         * Error action dispatched if catalog not specified in query string. 
          */
         it(`dispatches error if catalog not specified in query string`, (doneFn: DoneFn) => {
 
@@ -423,7 +416,7 @@ describe("Init Effects", () => {
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
 
             // Return empty array, representing no filter currently selected 
-            searchTermUrlService.parseQueryStringSearchTerms.and.returnValue([]);
+            spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
 
             // Return empty query string params (this mocking is required for pulling catalog value from params)
             spyOnProperty(activatedRoute, "snapshot").and.returnValue({
@@ -437,6 +430,92 @@ describe("Init Effects", () => {
             effects.initSearchState$.subscribe((dispatchedAction) => {
                 expect(dispatchedAction).toEqual(new ErrorAction("Catalog not found for view initialization."));
                 doneFn();
+            });
+        });
+
+        describe("filter parse error", () => {
+
+            const parseErrorFilters = [
+                "foo",
+                "{}",
+                "[]"
+            ];
+            
+            parseErrorFilters.forEach(filter => {
+
+                /**
+                 * Error action dispatched on non JSON filter is specified in query string.
+                 */
+                it(`dispatches error for invalid filter: ${filter}`, (doneFn: DoneFn) => {
+
+                    // Return true if isActive is called with "projects"
+                    routerMock.isActive
+                        .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
+                        .withArgs(EntityName.FILES, false).and.returnValue(false)
+                        .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
+
+                    // Set up invalid filter in query string params
+                    spyOnProperty(activatedRoute, "snapshot").and.returnValue({
+                        queryParams: {
+                            filter
+                        }
+                    });
+
+                    // Navigate to /projects
+                    navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
+
+                    // Confirm error is dispatched
+                    const expectedErrorMessage =
+                        `${searchTermUrlService["ERROR_TEXT_PARSE"]} "${searchTermUrlService["PARAM_FILTER"]}": ${filter}`;
+                    effects.initSearchState$.subscribe((dispatchedAction) => {
+                        expect(dispatchedAction).toEqual(new ErrorAction(expectedErrorMessage));
+                        doneFn();
+                    });
+                });
+            });
+        });
+
+        describe("filter syntax error", () => {
+
+            const syntaxErrorFilters = [
+                `[{"terms":""}]`,
+                `[{"facetName":"foo"}]`,
+                `[{"facetName":"foo","terms":"bar"}]`,
+                `[{"facetName":"foo", "terms": [{}]}]`,
+                `[{"facetName":"foo","terms":[{"ageMin":0}]}]`
+            ];
+
+            syntaxErrorFilters.forEach(filter => {
+
+                /**
+                 * Error action dispatched on non JSON filter is specified in query string.
+                 */
+                it(`dispatches error for invalid filter: ${filter}`, (doneFn: DoneFn) => {
+
+                    // Return true if isActive is called with "projects"
+                    routerMock.isActive
+                        .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
+                        .withArgs(EntityName.FILES, false).and.returnValue(false)
+                        .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
+
+                    // Set up invalid filter in query string params
+                    spyOnProperty(activatedRoute, "snapshot").and.returnValue({
+                        queryParams: {
+                            filter
+                        }
+                    });
+
+                    // Navigate to /projects
+                    navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
+
+                    // Confirm error is dispatched
+                    const expectedErrorMessage =
+                        `${searchTermUrlService["ERROR_TEXT_SYNTAX"]} "${searchTermUrlService["PARAM_FILTER"]}": ${filter}`;
+                    effects.initSearchState$.subscribe((dispatchedAction) => {
+                        expect(dispatchedAction).toEqual(new ErrorAction(expectedErrorMessage));
+                        doneFn();
+                    });
+                });
             });
         });
 
