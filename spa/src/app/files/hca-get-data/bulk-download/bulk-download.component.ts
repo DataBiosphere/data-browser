@@ -6,10 +6,11 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 
 // App dependencies
 import { BaseGetManifestComponent } from "../base-get-manifest.component.ts/base-get-manifest.component";
+import { DownloadViewState } from "../download-view-state.model";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
@@ -26,6 +27,9 @@ export class BulkDownloadComponent extends BaseGetManifestComponent implements O
     // Template variables
     public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH; // Default to bash for now as this is currently the only option
 
+    // Outputs
+    @Output() manifestDownloadSelected = new EventEmitter<DownloadViewState>();
+    
     /**
      * Return the curl command for the generated manifest.
      * 
@@ -99,5 +103,13 @@ export class BulkDownloadComponent extends BaseGetManifestComponent implements O
 
         // this.fileManifestService.trackRequestCohortManifest(selectedSearchTerms); TODO (mim) - add tracking of bulk download, review providers in spec
         this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL));
+    }
+
+    /**
+     * Let parent components know related manifest has been requested.
+     */
+    public onDownloadManifestClicked() {
+
+        this.manifestDownloadSelected.emit(DownloadViewState.MANIFEST);
     }
 }
