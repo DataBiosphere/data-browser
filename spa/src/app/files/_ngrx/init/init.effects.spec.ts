@@ -433,6 +433,11 @@ describe("Init Effects", () => {
             });
         });
 
+        /**
+         * Error action not dispatched if catalog not specified in query string but navigating to error page.
+         */
+        xit(`does not dispatch error if catalog not specified in query string on navigate to error page`, () => {});
+
         describe("filter parse error", () => {
 
             const parseErrorFilters = [
