@@ -72,7 +72,7 @@ export class InitEffects {
     @Effect()
     initSearchState$: Observable<Action> = this.router.events.pipe(
         takeUntil(this.actions$.pipe(ofType(ErrorAction.ACTION_TYPE))),
-        filter(evt => evt instanceof NavigationEnd),
+        filter(evt => evt instanceof NavigationEnd && evt.url !== "/error" && evt.url !== "/not-found"), // Exit init if routing to error or not found pages
         take(1),
         map(() => {
 
