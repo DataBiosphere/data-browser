@@ -200,8 +200,8 @@ describe("ProjectViewFactory:", () => {
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");
             expect(arrayExpressAccessions.value.length).toEqual(2);
             const values = arrayExpressAccessions.value;
-            expect(arrayExpressAccessions.value[0].key).toEqual("abc");
-            expect(arrayExpressAccessions.value[1].key).toEqual("mno");
+            expect(values[0].key).toEqual("abc");
+            expect(values[1].key).toEqual("mno");
         });
 
         /**
@@ -214,5 +214,32 @@ describe("ProjectViewFactory:", () => {
 
             return result.find(keyValuePair => keyValuePair.key === accessionKey);
         }
+    });
+
+    describe("buildCitationUrl", () => {
+
+        it("adds non default catalog to citation url", () => {
+            
+            const portalUrl = "https://foo.com";
+            configService.getPortalUrl.and.returnValue(portalUrl);
+            
+            const catalog = "foo";
+            const defaultCatalog = "bar";
+            const projectId = "baz";
+            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, defaultCatalog, projectId);
+            expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}?catalog=${catalog}`)
+        });
+
+        it("doesn't add default catalog to citation url", () => {
+
+            const portalUrl = "https://foo.com";
+            configService.getPortalUrl.and.returnValue(portalUrl);
+
+            const catalog = "foo";
+            const defaultCatalog = catalog;
+            const projectId = "baz";
+            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, defaultCatalog, projectId);
+            expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}`)
+        });
     });
 });

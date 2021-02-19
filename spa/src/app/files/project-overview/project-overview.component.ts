@@ -16,7 +16,7 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { selectCatalog, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
@@ -173,9 +173,13 @@ export class ProjectOverviewComponent implements OnDestroy {
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Grab the current catalog value - we need this for the citation link.
+        // Grab the current and default catalog values - we need these for the citation link.
         const catalog$ = this.store.pipe(
             select(selectCatalog),
+            takeUntil(this.ngDestroy$)
+        );
+        const defaultCatalog$ = this.store.pipe(
+            select(selectDefaultCatalog),
             takeUntil(this.ngDestroy$)
         );
 
@@ -185,11 +189,11 @@ export class ProjectOverviewComponent implements OnDestroy {
             filter(project => !!project)
         );
         
-        this.state$ = combineLatest(project$, catalog$).pipe(
+        this.state$ = combineLatest(project$, catalog$, defaultCatalog$).pipe(
             takeUntil(this.ngDestroy$),
-            map(([project, catalog]) => {
+            map(([project, catalog, defaultCatalog]) => {
 
-                const projectView = this.projectFactory.getProjectView(catalog, project);
+                const projectView = this.projectFactory.getProjectView(catalog, defaultCatalog, project);
 
                 return {
                     project: projectView,
