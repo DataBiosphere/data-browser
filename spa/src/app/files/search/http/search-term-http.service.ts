@@ -22,14 +22,25 @@ import { SearchAgeRange } from "../search-age-range.model";
 @Injectable()
 export class SearchTermHttpService {
 
-    // Search deny list - exclude from set of search terms
-    private SEARCH_TERM_DENY_LIST = [
-        "contactName",
-        "effectiveOrgan",
-        "laboratory",
-        "organismAge", 
-        "project",
-        "projectDescription"
+    // Facet search allow list
+    private ALLOW_SEARCH_FACETS = [
+        "biologicalSex",
+        "developmentStage",
+        "donorDisease",
+        "fileFormat",
+        "genusSpecies",
+        "instrumentManufacturerModel",
+        "libraryConstructionApproach",
+        "modelOrgan",
+        "nucleicAcidSource",
+        "pairedEnd",
+        "preservationMethod",
+        "sampleEntityType",
+        "selectedCellType",
+        "specimenDisease",
+        "specimenOrgan",
+        "specimenOrganPart",
+        "workflow"
     ];
 
     /**
@@ -50,17 +61,16 @@ export class SearchTermHttpService {
 
         return Object.keys(responseFacetsByName).reduce((accum, facetName) => {
 
-            // Do not create search terms for file facets on the deny list
-            if ( this.SEARCH_TERM_DENY_LIST.indexOf(facetName) >= 0 ) {
-                return accum;
-            }
+            // Only create search terms for the allowed file facets
+            if ( this.ALLOW_SEARCH_FACETS.indexOf(facetName) >= 0 ) {
 
-            // Search entities (ie terms for project facet) are handled separately as we do not want to search over
-            // these values and are on the deny list
-            const responseFacet = responseFacetsByName[facetName];
-            responseFacet.terms.forEach((termResponse: ResponseTerm) => {
-                accum.push(this.createSearchFacetTerm(facetName, termResponse));
-            });
+                // Search entities (ie terms for project facet) are handled separately as we do not want to search over
+                // these values
+                const responseFacet = responseFacetsByName[facetName];
+                responseFacet.terms.forEach((termResponse: ResponseTerm) => {
+                    accum.push(this.createSearchFacetTerm(facetName, termResponse));
+                });
+            }
 
             return accum;
         }, []);
