@@ -42,6 +42,38 @@ describe("ProjectViewFactory:", () => {
     describe("buildDataSummaries", () => {
 
         /**
+         * Confirm selected cell type is added to project view if value is Unspecified.
+         */
+        it(`includes selected cell type with value "Unspecified"`, () => {
+
+            configService.isV2.and.returnValue(true);
+
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                selectedCellType: "Unspecified"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedSelectedCellType = result.find(keyValuePair => keyValuePair.key === "selectedCellType");
+            expect(mappedSelectedCellType).toBeTruthy();
+        });
+
+        /**
+         * Confirm selected cell type is added to project view if value is "neural cell".
+         */
+        it(`includes selected cell type with value "neural cell"`, () => {
+
+            configService.isV2.and.returnValue(true);
+
+            // Create model of project that has been parsed by the project mapper
+            const mappedProject = {
+                selectedCellType: "neural cell"
+            };
+            const result = projectViewFactory["buildDataSummaries"](mappedProject as any);
+            const mappedSelectedCellType = result.find(keyValuePair => keyValuePair.key === "selectedCellType");
+            expect(mappedSelectedCellType.value).toEqual(mappedProject.selectedCellType);
+        });
+
+        /**
          * Confirm nucleic acid source is added to project view if value is Unspecified.
          */
         it(`includes nucleic acid source with value "Unspecified"`, () => {
