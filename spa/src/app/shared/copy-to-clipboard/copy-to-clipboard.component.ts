@@ -22,9 +22,34 @@ export class CopyToClipboardComponent {
 
     // Inputs
     @Input() copyToClipboardLink: string;
+    @Input() copyToClipboardLabel: string = "link";
     
     // Outputs 
     @Output() copyClicked = new EventEmitter<any>();
+
+    /**
+     * Returns the displayable copied text.
+     *
+     * @returns {string}
+     */
+    public getCopiedText(): string {
+
+        const copyText = this.copyToClipboardLabel.charAt(0).toUpperCase() + this.copyToClipboardLabel.slice(1);
+
+        return `${copyText} copied`;
+    }
+
+    /**
+     * Returns the displayable copy text.
+     *
+     * @returns {string}
+     */
+    public getCopyText(): string {
+
+        const copyText = this.copyToClipboardLabel.toLowerCase();
+
+        return `Copy ${copyText}`;
+    }
 
     /**
      * Returns true, when copy to clipboard is successful.

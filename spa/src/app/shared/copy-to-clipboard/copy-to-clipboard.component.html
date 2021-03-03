@@ -1,5 +1,5 @@
 <div class="clipboard-copy" ngxClipboard (click)="onCopy($event)" [cbContent]="copyToClipboardLink">
     <mat-icon>assignment</mat-icon>
-    <span class="fontsize-xxs" *ngIf="!isCopied(copied | async)">Copy link</span>
-    <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">Link copied</span>
+    <span class="fontsize-xxs" *ngIf="!isCopied(copied | async)">{{getCopyText()}}</span>
+    <span class="fontsize-xxs" *ngIf="isCopied(copied | async)">{{getCopiedText()}}</span>
 </div>

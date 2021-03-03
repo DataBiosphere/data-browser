@@ -47,6 +47,7 @@
                 {{getCurlCommand(state.manifestResponse, executionEnvironment)}}
             </p>
             <copy-to-clipboard [copyToClipboardLink]="getCurlCommand(state.manifestResponse, executionEnvironment)"
+                               [copyToClipboardLabel]="'command'"
                                (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
             <warning>
                 <warning-content>
