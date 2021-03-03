@@ -52,6 +52,7 @@ export class ProjectViewFactory {
         "sampleEntityType": "",
         "organ": "",
         "organPart": "",
+        "selectedCellType": "",
         "modelOrgan": "",
         "disease": "",
         "donorDisease" :"",
