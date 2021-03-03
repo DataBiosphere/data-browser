@@ -20,9 +20,10 @@
     }
 
     /* Copy icon */
-    mat-icon {
-        color: $hca-gray-dark;
+    img {
+        opacity: 0.54;
         padding-right: 8px;
+        width: 14px;
     }
 }
 
@@ -42,7 +43,7 @@
 
     /* Display - none */
     /* Copy icon */
-    .clipboard-copy mat-icon {
+    .clipboard-copy img {
         display: none;
     }
 
