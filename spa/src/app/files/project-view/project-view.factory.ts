@@ -11,7 +11,6 @@ import { Injectable } from "@angular/core";
 // App dependencies
 import { Accession } from "./accession.model";
 import { Catalog } from "../catalog/catalog.model";
-import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
@@ -274,7 +273,7 @@ export class ProjectViewFactory {
 
     /**
      * Returns the list of contributors for the project.
-     * Will exclude corresponding contributors and any contributor with role "data curator".
+     * Will exclude any contributor with role "data curator".
      *
      * @param {Contributor[]} contributors
      * @returns {Contributor[]}
@@ -282,7 +281,6 @@ export class ProjectViewFactory {
     private filterContributorsWithProjectContributors(contributors: Contributor[]): Contributor[] {
 
         return contributors
-            .filter(contributor => !contributor.correspondingContributor)
             .filter(contributor => !this.isContributorDataCurator(contributor.projectRole));
     }
 
