@@ -20,6 +20,9 @@ describe("CopyToClipboardComponent", () => {
     let component: CopyToClipboardComponent;
     let fixture: ComponentFixture<CopyToClipboardComponent>;
 
+    // Test values
+    const TEST_VALUE_COPY_TO_CLIPBOARD_LABEL = "link";
+
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
@@ -46,6 +49,28 @@ describe("CopyToClipboardComponent", () => {
     });
 
     /**
+     * Confirm get copied text method returns "Link copied".
+     */
+    it(`should get copied text method return "Link copied"`, () => {
+
+        // Set up initial component state
+        component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
+
+        expect(component.getCopiedText()).toEqual("Link copied");
+    });
+
+    /**
+     * Confirm get copy text method returns "Copy link".
+     */
+    it(`should get copy text method return "Copy link"`, () => {
+
+        // Set up initial component state
+        component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
+
+        expect(component.getCopyText()).toEqual("Copy link");
+    });
+
+    /**
      * Confirm copied method returns true when copied is true.
      */
     it("should copied method return true when copied is true", () => {
@@ -67,6 +92,9 @@ describe("CopyToClipboardComponent", () => {
     it(`displays "Copy link" when copied is false`, () => {
 
         // Set up initial component state
+        component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
+
+        // Set up initial component state
         component.copied.next(false);
 
         // Trigger change detection so template updates accordingly
@@ -81,6 +109,9 @@ describe("CopyToClipboardComponent", () => {
      * Confirm "Linked copied" is displayed when copied is true.
      */
     it(`displays "Link copied" when copied is true`, () => {
+
+        // Set up initial component state
+        component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
 
         // Set up initial component state
         component.copied.next(true);
