@@ -263,48 +263,6 @@ describe("CatalogService", () => {
                 doneFn();
             });
         }));
-
-        /**
-         * Catalogs marked as internal are excluded in production.
-         */
-        it("excludes internal catalogs in production", (doneFn: DoneFn) => {
-
-            // Filter catalogs for the current atlas, and only those not marked as internal
-            const atlasName = configService.getAtlas();
-            const expectedCatalogs = createExpectedBoundCatalogs(atlasName, API_RESPONSE_WITH_INTERNAL, true);
-
-            catalogService["bindCatalogsAPIResponse"](API_RESPONSE_WITH_INTERNAL).subscribe(atlas => {
-
-                const catalogs = atlas.catalogs;
-                expect(catalogs.length).toEqual(expectedCatalogs.length);
-                expectedCatalogs.forEach(expectedCatalog => {
-                    expect(catalogs.indexOf(expectedCatalog)).not.toEqual(-1);
-                });
-                doneFn();
-            });
-        });
-
-        /**
-         * Catalogs marked as internal are included in dev.
-         */
-        it("includes internal catalogs in dev", (doneFn: DoneFn) => {
-            
-            configService.isEnvDCP2.and.returnValue(false);
-
-            // Filter catalogs for the current atlas
-            const atlasName = configService.getAtlas();
-            const expectedCatalogs = createExpectedBoundCatalogs(atlasName, API_RESPONSE_WITH_INTERNAL, false);
-
-            catalogService["bindCatalogsAPIResponse"](API_RESPONSE_WITH_INTERNAL).subscribe(atlas => {
-
-                const catalogs = atlas.catalogs;
-                expect(catalogs.length).toEqual(expectedCatalogs.length);
-                expectedCatalogs.forEach(expectedCatalog => {
-                    expect(catalogs.indexOf(expectedCatalog)).not.toEqual(-1);
-                });
-                doneFn();
-            });
-        });
     });
 
     describe("Catalog initialization", () => {

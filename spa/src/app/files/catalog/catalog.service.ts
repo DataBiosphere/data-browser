@@ -118,7 +118,7 @@ export class CatalogService {
         return Array.from(Object.keys(allCatalogs).reduce((accum, catalogKey) => {
 
             const catalog = allCatalogs[catalogKey];
-            if ( catalog.atlas === atlas && this.isCatalogAvailable(catalog.internal) ) {
+            if ( catalog.atlas === atlas ) {
                 accum.push(catalogKey);
             }
             return accum;
@@ -137,20 +137,5 @@ export class CatalogService {
             catalogs: [],
             default_catalog: ""
         });
-    }
-
-    /**
-     * Returns true if the specified catalog is available for the current environment. If a catalog is flagged as
-     * internal, hide in production.
-     * 
-     * @param {boolean} internal
-     */
-    private isCatalogAvailable(internal: boolean): boolean {
-        
-        if ( !internal ) {
-            return true;
-        }
-
-        return !this.configService.isEnvDCP2();
     }
 }
