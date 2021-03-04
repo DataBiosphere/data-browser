@@ -12,8 +12,8 @@ The HCA Data Browser is an [AngularJs](http://angular.io), built with the [Angul
 
 ## Prerequisites
 
-1. node 10.16.0
-1. npm 6.9.0
+1. node 14.16.0
+1. npm 6.14.11
 1. [git-secrets] must be installed
 
 ### 1. Clone the Repo
