@@ -81,7 +81,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         return `${title}: ${catalogDisplayName}`;
     }
 
-
     /**
      * Returns true if the catalog feature is enabled. Currently true when:
      * - current environment is v2, except dcp2 and production
