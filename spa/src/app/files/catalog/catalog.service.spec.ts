@@ -27,7 +27,7 @@ describe("CatalogService", () => {
     let configService: { getAtlas: jasmine.Spy, isEnvDCP2: jasmine.Spy };
     let httpClientSpy: { get: jasmine.Spy };
     let store: MockStore;
-    
+
     const API_RESPONSE = {
         "default_catalog": "dcp2",
         "catalogs": {
@@ -62,6 +62,20 @@ describe("CatalogService", () => {
             "lungmap": {
                 "atlas": "lungmap",
                 "internal": false,
+                "plugins": [
+                    {
+                        "type": "repository",
+                        "name": "tdr"
+                    },
+                    {
+                        "type": "metadata",
+                        "name": "hca_lungmap"
+                    }
+                ]
+            },
+            "lungmapinternal": {
+                "atlas": "lungmap",
+                "internal": true,
                 "plugins": [
                     {
                         "type": "repository",
@@ -196,7 +210,7 @@ describe("CatalogService", () => {
 
             const atlasName = configService.getAtlas();
             const apiResponseDummyDefault = Object.assign({}, API_RESPONSE, {
-                default_catalog: "abc"
+                default_catalog: "foo"
             });
 
             catalogService["bindCatalogsAPIResponse"](apiResponseDummyDefault)
@@ -211,16 +225,16 @@ describe("CatalogService", () => {
         });
 
         /**
-         * Response catalogs are bound when default catalog is in the set of catalogs for the current atlas.
+         * Bind single external catalog of atlas that doesn't contain the default catalog.
          */
-        it("binds single catalog of atlas without the response default catalog", (doneFn: DoneFn) => {
+        it("binds single (external) catalog of atlas without the response default catalog", (doneFn: DoneFn) => {
 
             // Set atlas name to lungmup
             const lungMapAtlasName = "lungmap";
             configService.getAtlas.and.returnValue(lungMapAtlasName);
 
             const expectedCatalogs = createExpectedBoundCatalogs(lungMapAtlasName, API_RESPONSE);
-            
+
             catalogService["bindCatalogsAPIResponse"](API_RESPONSE).subscribe(atlas => {
 
                 const catalogs = atlas.catalogs;
@@ -268,7 +282,7 @@ describe("CatalogService", () => {
     describe("Catalog initialization", () => {
 
         /**
-         * Action to trigger fetch of catalogs is dispatched. 
+         * Action to trigger fetch of catalogs is dispatched.
          */
         it("dispatches action to trigger fetch of catalogs", (() => {
 
@@ -286,7 +300,7 @@ describe("CatalogService", () => {
                 expect(true).toBeTruthy(); // Dummy expect to trigger pass (no value is passed from resolve)
                 doneFn();
             });
-            
+
             // Trigger resolve of promise in init
             store.setState({
                 catalog: {
@@ -300,7 +314,7 @@ describe("CatalogService", () => {
 
     /**
      * Create the expected response catalogs from the specified catalogs.
-     * 
+     *
      * @param {string} atlasName
      * @param {CatalogsAPIResponse} apiResponse
      * @param {boolean} excludeInternal
@@ -313,7 +327,7 @@ describe("CatalogService", () => {
             if ( catalog.atlas !== atlasName ) {
                 return false;
             }
-            
+
             return !excludeInternal || (excludeInternal && !catalog.internal);
         });
     }
