@@ -97,7 +97,6 @@ deploy_cgl-dev:
     - aws cloudfront create-invalidation --distribution-id E3562WJBOLN8W8 --paths "/*"
   only:
     - develop
-    -
 # Lungmap Dev Deploy
 deploy_lungmap-dev:
   <<: *deploy_template
