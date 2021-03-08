@@ -60,6 +60,16 @@ build_cgl-dev:
     - npm run build-cgl-dev
   only:
     - develop
+    -
+build_lungmap-dev:
+  <<: *build_template
+  environment:
+    name: lungmap-dev
+  script:
+    - cd spa
+    - npm run build-lungmap-dev
+  only:
+    - develop
 
 
 ########################################
@@ -87,4 +97,19 @@ deploy_cgl-dev:
     - aws cloudfront create-invalidation --distribution-id E3562WJBOLN8W8 --paths "/*"
   only:
     - develop
+    -
+# Lungmap Dev Deploy
+deploy_lungmap-dev:
+  <<: *deploy_template
+  environment:
+    name: lungmap-dev
+  script:
+    - export BUCKET=s3://dev.explore.lungmap.net
+    - if [ "$MAINTENANCE" = "true" ];then export SRCDIR=maintenance/; else export SRCDIR=dist/; fi
+    - aws s3 sync --acl public-read $SRCDIR $BUCKET --delete
+    - aws s3 cp $BUCKET/explore/index.html $BUCKET/explore/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read
+    - aws cloudfront create-invalidation --distribution-id E21CJFOUWO9Q7X --paths "/*"
+  only:
+    - develop
+
 

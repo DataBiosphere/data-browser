@@ -8,6 +8,7 @@
     "build": "ng build --prod  ---outputPath ../dist",
     "build-develop": "ng build --prod  --outputPath ../dist/explore --configuration=develop  --base-href=/explore/",
     "build-cgl-dev": "ng build --prod  --outputPath ../dist/explore --configuration=cgl-dev --base-href=/explore/",
+    "build-lungmap-dev": "ng build --prod  --outputPath ../dist/explore --configuration=lungmap-dev --base-href=/explore/",
     "build-ux-dev": "ng build --prod  --outputPath ../dist/explore --configuration=ux-dev --base-href=/explore/",
     "build-integration": "ng build --prod  --outputPath ../dist/explore --configuration=integration --base-href=/explore/",
     "build-staging": "ng build --prod  --outputPath ../dist/explore --configuration=staging --base-href=/explore/",
