@@ -49,7 +49,7 @@ export class CatalogService {
     /**
      * Control flow of catalog init during app init. Kick of request for catalog values from Azul and wait for response
      * before allowing app init to continue.
-     * 
+     *
      * @returns {Promise<void>}
      */
     public initCatalogs(): Promise<void> {
@@ -77,7 +77,7 @@ export class CatalogService {
 
         const atlasName = this.configService.getAtlas();
         const { catalogs: allCatalogs, default_catalog: azulDefaultCatalog} = response;
-        const atlasCatalogs = this.bindCatalogs(atlasName, allCatalogs);
+        const atlasCatalogs = this.bindAtlasCatalogs(atlasName, allCatalogs);
 
         // Error if no catalogs are returned for the current atlas.
         if ( atlasCatalogs.length === 0 ) {
@@ -85,41 +85,46 @@ export class CatalogService {
         }
 
         // If the returned default catalog is in the set of catalogs for the atlas for this instance, return as is.
-        const atlasDefaultCatalog = atlasCatalogs.find(atlasCatalog => atlasCatalog === azulDefaultCatalog);
+        const atlasDefaultCatalog = atlasCatalogs.find(atlasCatalog => atlasCatalog.catalog === azulDefaultCatalog);
         if ( !!atlasDefaultCatalog ) {
             return of({
-                catalogs: atlasCatalogs,
-                defaultCatalog: atlasDefaultCatalog
+                catalogs: atlasCatalogs.map(atlasCatalog => atlasCatalog.catalog),
+                defaultCatalog: atlasDefaultCatalog.catalog
             });
         }
 
         // Otherwise the Azul default catalog is not applicable to the atlas for this instance. If there is more than
-        // one catalog for this atlas, throw an error. If there is only a single catalog for the current atlas, use it
-        // as the default.
-        if ( atlasCatalogs.length > 1 ) {
+        // one catalog that's not marked as internal for this atlas, throw an error. If there is only a single
+        // non-internal catalog for the current atlas, use it as the default.
+        const externalAtlasCatalogs = atlasCatalogs.filter(atlasCatalog => !atlasCatalog.internal);
+        if ( externalAtlasCatalogs.length > 1 ) {
             return throwError(`Default catalog not specified for atlas "${atlasName}".`);
         }
-        
+
         return of({
-            catalogs: atlasCatalogs,
-            defaultCatalog: atlasCatalogs[0]
+            catalogs: atlasCatalogs.map(atlasCatalog => atlasCatalog.catalog),
+            defaultCatalog: externalAtlasCatalogs[0].catalog
         });
     }
 
     /**
      * Remove catalogs that do not apply to the current atlas. Convert catalog API response format to string values
      * containing catalog name only.
-     * 
+     *
      * @param {string} atlas
      * @param {any} allCatalogs
+     * @returns {any[]}
      */
-    private bindCatalogs(atlas: string, allCatalogs: any): string[] {
+    private bindAtlasCatalogs(atlas: string, allCatalogs: any): any[] {
 
         return Array.from(Object.keys(allCatalogs).reduce((accum, catalogKey) => {
 
             const catalog = allCatalogs[catalogKey];
             if ( catalog.atlas === atlas ) {
-                accum.push(catalogKey);
+                accum.push({
+                    catalog: catalogKey,
+                    internal: catalog.internal
+                });
             }
             return accum;
         }, []));
