@@ -60,7 +60,6 @@ build_cgl-dev:
     - npm run build-cgl-dev
   only:
     - develop
-    -
 build_lungmap-dev:
   <<: *build_template
   environment:
@@ -70,7 +69,6 @@ build_lungmap-dev:
     - npm run build-lungmap-dev
   only:
     - develop
-
 
 ########################################
 # Deploy Jobs
