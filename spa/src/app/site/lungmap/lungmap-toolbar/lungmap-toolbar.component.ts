@@ -1,47 +1,45 @@
 /**
- * Human Cell Atlas
- * https://www.humancellatlas.org/
+ * LungMAP
+ * https://lungmap.net/
  *
- * Core toolbar component for HCA, displays HCA logo and HCA-related menu items.
+ * Core toolbar component for LungMAP, displays LungMAP logo and LungMAP-related menu items.
  */
 
 // Core dependencies
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
-import { SelectEntityAction } from "../../files/_ngrx/entity/select-entity.action";
-import { EntityName } from "../../files/shared/entity-name.model";
-import { ReleaseService } from "../../files/shared/release.service";
-import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
-import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
-import { AppState } from "../../_ngrx/app.state";
+import { ConfigService } from "../../../config/config.service";
+import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.action";
+import { EntityName } from "../../../files/shared/entity-name.model";
+import { ReleaseService } from "../../../files/shared/release.service";
+import { LungMAPToolbarComponentState } from "./lungmap-toolbar.component.state";
+import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
+import { AppState } from "../../../_ngrx/app.state";
+import { HeaderComponent } from "../../site-config/header.component";
 
 @Component({
-    selector: "hca-toolbar",
-    templateUrl: "hca-toolbar.component.html",
-    styleUrls: ["hca-toolbar.component.scss"]
+    selector: "lungmap-toolbar",
+    templateUrl: "lungmap-toolbar.component.html",
+    styleUrls: ["lungmap-toolbar.component.scss"]
 })
 
-export class HCAToolbarComponent implements OnDestroy, OnInit {
+export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
 
     // Template variables
     public dropDownMenuOpen = false;
     public portalUrl: string;
-    public state$ = new BehaviorSubject<HCAToolbarComponentState>({
+    public state$ = new BehaviorSubject<LungMAPToolbarComponentState>({
         modalOpen: false
     });
 
     // Locals
     private currentUrl: string;
     private ngDestroy$ = new Subject();
-
-    // Output
-    @Output() menuOpen = new EventEmitter<boolean>();
 
     /**
      * @param {Store<AppState>} store
@@ -52,6 +50,7 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     constructor(private store: Store<AppState>,
                 private configService: ConfigService,
                 private releaseService: ReleaseService,
+                private renderer: Renderer2,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalUrl();
     }
@@ -81,14 +80,6 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
 
             return explorePathExists || homePathExists;
         }
-    }
-
-    /**
-     * Event emitted when mobile navigation menu is open - to prevent body scroll.
-     */
-    public isMenuOpen(value) {
-
-        this.menuOpen.emit(value);
     }
 
     /**
@@ -127,6 +118,22 @@ export class HCAToolbarComponent implements OnDestroy, OnInit {
     public onExploreLinkClicked() {
 
         this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
+    }
+
+    /**
+     * Prevent body scroll when menu is opened.
+     * Adds class no-scroll to body tag.
+     * Class defined in hca.global.scss.
+     * TODO move to effects with #1541.
+     */
+    public onMenuToggled(opened) {
+
+        if ( opened ) {
+            this.renderer.addClass(document.body, "no-scroll");
+        }
+        else {
+            this.renderer.removeClass(document.body, "no-scroll");
+        }
     }
 
     /**

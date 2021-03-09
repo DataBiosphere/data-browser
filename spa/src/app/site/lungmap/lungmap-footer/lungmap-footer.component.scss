@@ -1,0 +1,119 @@
+/*
+ * LungMAP
+ * https://lungmap.net/
+ *
+ * LungMAP footer styles.
+ */
+
+@import "../../theme/hca.vars";
+
+:host {
+    display: block;
+
+    footer {
+        background-color: $hca-blue-background;
+
+        /* Wrapper */
+        .wrapper {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px 0;
+
+            /* Logo and back arrow */
+            .logo {
+                position: relative;
+
+                /* Back arrow */
+                mat-icon {
+                    color: $hca-white;
+                    cursor: pointer;
+                    font-size: 24px;
+                    left: -24px;
+                    padding: 0;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                /* Logo image */
+                img {
+                    cursor: pointer;
+                    height: 32px;
+                    margin-bottom: 0;
+                    padding: 12px 0;
+                }
+            }
+        }
+
+        /** Footer behind modal - hide when modal is open(ing) to prevent visible jump around of content */
+        &.modal-open {
+            display: none;
+        }
+    }
+}
+/**
+ * Medium +
+ */
+@media screen and (min-width: 768px) {
+
+    :host {
+
+        /* Footer */
+        footer {
+            height: 96px;
+
+            /* Wrapper */
+            .wrapper {
+                flex-direction: row;
+                height: inherit;
+                justify-content: space-between;
+                margin: 0 auto;
+                padding: 0 16px; /* Gutter 16px */
+
+                /* Logo */
+                .logo {
+                    align-items: center;
+                    display: flex;
+
+                    /* Left arrow */
+                    mat-icon {
+                        left: unset;
+                        margin: 0 8px 0 -8px;
+                        position: relative;
+                        top: unset;
+                        transform: none;
+                    }
+
+                    /* Logo image */
+                    img {
+                        cursor: pointer;
+                        margin-bottom: 0;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * HCA specific breakpoint
+ */
+@media screen and (min-width: 1200px) {
+
+    :host {
+
+        footer {
+
+            /* Wrapper */
+            .wrapper {
+                margin: 0 auto;
+                //max-width: 1140px; /* Snap to 1200px, gutter 30px */
+                padding: 0 30px;
+            }
+        }
+    }
+}
+

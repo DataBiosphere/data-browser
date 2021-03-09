@@ -6,7 +6,16 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
+import {
+    Component,
+    ComponentFactoryResolver, HostBinding,
+    Inject,
+    OnDestroy,
+    OnInit,
+    Type,
+    ViewChild,
+    ViewContainerRef
+} from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Subject, BehaviorSubject, combineLatest } from "rxjs";
@@ -22,7 +31,8 @@ import { ReleaseService } from "./files/shared/release.service";
 import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AppState } from "./_ngrx/app.state";
-import { UpdateSupportRequestActiveAction } from "./support-request/_ngrx/update-support-request-active.action";
+import { SiteConfigService } from "./site/site-config/site-config.service";
+import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 import { selectSystemStatus } from "./system/_ngrx/system.selectors";
 import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.action";
 
@@ -34,26 +44,36 @@ import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.
 
 export class AppComponent implements OnInit, OnDestroy {
 
+    @HostBinding("class") className = "";
+
     // Template/public variables
     public state$ = new BehaviorSubject<AppComponentState>({});
 
     // Locals
     private ngDestroy$ = new Subject();
+    
+    // View child/ren
+    @ViewChild("footer", {static: true, read: ViewContainerRef}) footerRef: ViewContainerRef;
+    @ViewChild("header", {static: true, read: ViewContainerRef}) headerRef: ViewContainerRef;
 
     /**
      * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      * @param {ReleaseService} releaseService
+     * @param {SiteConfigService} siteConfigService
      * @param {Store<AppState>} store
+     * @param {ComponentFactoryResolver} componentFactoryResolver
      * @param {Router} router
-     * @param {Renderer2} renderer
      */
     constructor(private configService: ConfigService,
                 private deviceService: DeviceDetectorService,
                 private releaseService: ReleaseService,
+                @Inject(SITE_CONFIG_SERVICE) private siteConfigService: SiteConfigService,
                 private store: Store<AppState>,
-                private router: Router,
-                private renderer: Renderer2) {
+                private componentFactoryResolver: ComponentFactoryResolver,
+                private router: Router) {
+        
+        this.className = this.configService.getAtlas();
     }
 
     /**
@@ -96,28 +116,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Handle click on feedback link in footer - display support request form.
+     * Returns true if support requests are enbled for this site.
+     * 
+     * @returns {boolean}
      */
-    public onFeedbackClicked() {
-
-        this.store.dispatch(new UpdateSupportRequestActiveAction(true));
-    }
-
-    /**
-     * Remove scroll on body when menu is open.
-     * Adds class no-scroll to body tag.
-     * Class defined in hca.global.scss.
-     *
-     * @param opened: boolean
-     */
-    public onMenuOpen(opened: boolean) {
-
-        if ( opened ) {
-            this.renderer.addClass(document.body, "no-scroll");
-        }
-        else {
-            this.renderer.removeClass(document.body, "no-scroll");
-        }
+    public isSupportRequestEnabled(): boolean {
+        
+        return this.siteConfigService.isSupportRequestEnabled();
     }
 
     /**
@@ -209,6 +214,32 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Set up header and footer components depending on the site config.
+     */
+    private initViewContainers() {
+
+        const headerComponent = this.siteConfigService.getHeader();
+        this.insertComponent(headerComponent, this.headerRef);
+        
+        const footerComponent = this.siteConfigService.getFooter();
+        this.insertComponent(footerComponent, this.footerRef);
+    }
+
+    /**
+     * Insert the specified component into the specified view container.
+     * 
+     * @param {Type<any>} component
+     * @param {ViewContainerRef} viewContainerRef
+     */
+    private insertComponent(component: Type<any>, viewContainerRef: ViewContainerRef) {
+
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+
+        viewContainerRef.clear();
+        viewContainerRef.createComponent(componentFactory);
+    }
+
+    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -223,6 +254,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     public ngOnInit() {
 
+        this.initViewContainers();
         this.initState();
         this.loadReleaseData();
         this.loadProjectEditsData();

@@ -1,0 +1,246 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * HCA-specific overrides of Material Design toolbar.
+ */
+
+@import "../../theme/hca.vars";
+
+/**
+ * Custom HCA-specific overrides of MD toolbar.
+ */
+
+:host {
+    display: block;
+}
+
+mat-toolbar {
+    background-color: $hca-off-white;
+    min-height: 60px !important; /* HCA specific */
+    position: relative; /* Positions overlay, nav-toolbar */
+
+    mat-toolbar-row {
+        align-items: center;
+        display: flex;
+        height: 60px !important; /* HCA specific */
+        justify-content: space-between; /* RHS menu */
+        margin: 0 auto;
+        padding: 0 16px; /* Gutter 16px */
+
+        /* Wrapper around logo */
+        > a {
+            line-height: 0;
+        }
+    }
+
+    // Menu is hidden by default
+    [menu-close] {
+        display: none;
+    }
+
+    /* Logo */
+    img {
+        height: 30px;
+    }
+    
+    toolbar-nav {
+        padding: 12px 0;
+        z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
+    }
+
+    /* Drop down menu */
+    .drop-down-menu {
+        flex-direction: column;
+        position: relative; /* Positions drop down */
+    }
+
+    /* Active navigation */
+    toolbar-nav-item.active .link {
+        color: $hca-black;
+        text-decoration: none;
+    }
+
+    /* Nav link - wrapper */
+    toolbar-nav-item .link {
+        align-items: flex-start;
+        color: $hca-black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 24px;
+        text-transform: capitalize;
+
+        /* Nav link - hover state */
+        &:hover {
+            color: $hca-black;
+        }
+
+        /* Title */
+        .fontsize-xs {
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+
+        /* Sub title */
+        .fontsize-xxs {
+            letter-spacing: 1.2px;
+            margin: 0;
+            text-align: left;
+            text-transform: none;
+            white-space: pre-wrap;
+        }
+    }
+
+    /* Nav drop down button */
+    toolbar-nav-item button.link {
+        background-color: transparent;
+        border: none;
+        cursor: default;
+        padding: 0;
+        pointer-events: none;
+    }
+
+    /** Logo in modal */
+    &.modal-open {
+
+        background-color: $hca-white;
+        position: fixed;
+        top: 0;
+        z-index: 1001;
+
+        mat-toolbar-row > *:not(a) {
+            display: none;
+        }
+    }
+}
+
+// No overlay when menu closed
+.hca-toolbar-nav-overlay {
+    display: none;
+}
+
+/* Menu drop down */
+.menu-dropdown, .menu-dropdown-close {
+    align-items: center;
+    color: $hca-black;
+    cursor: pointer;
+    display: flex;
+    margin: 0; /* Overrides font class */
+}
+
+/* Drop down icon */
+.menu-dropdown::before, .menu-dropdown-close::before {
+    color: $hca-gray-dark;
+    content: "\E313";
+    font-family: "Material Icons";
+    font-size: 18px; // HCA specific
+    font-weight: 400;
+    margin: 0 4px;
+}
+
+/* Menu drop down - close */
+.menu-dropdown-close {
+    display: none;
+}
+
+/* Drop down icon */
+.menu-dropdown-close::before {
+    display: none;
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    mat-toolbar {
+
+        // Hide menu
+        [menu-open] {
+            display: none;
+        }
+
+        // Menu is hidden by default
+        [menu-close] {
+            display: none !important;
+        }
+
+        /* Menu drop down */
+        .menu-dropdown, .menu-dropdown-close {
+            display: none;
+        }
+
+        /* Drop down icon */
+        .menu-dropdown::before, .menu-dropdown-close::before {
+            display: none;
+        }
+
+        toolbar-nav {
+            padding: 0;
+        }
+
+        /* Link wrapper */
+        toolbar-nav-item {
+            padding: 0 10px;
+
+            /* Link */
+            .link {
+                color: $hca-gray-dark;
+                text-transform: capitalize;
+                margin: 0;
+
+                /* Title */
+                .fontsize-xs {
+                    font-size: 14px;
+                    line-height: 60px;
+                    margin: 0;
+                    white-space: nowrap;
+                }
+
+                /* Sub title - hide */
+                .fontsize-xxs {
+                    display: none;
+                }
+            }
+        }
+
+        /* Nav drop down button */
+        toolbar-nav-item button.link {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+    }
+}
+
+/**
+ * Medium +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1024px) {
+
+    mat-toolbar {
+
+        img {
+            height: 40px;
+        }
+
+        toolbar-nav-item {
+            padding: 0 12px;
+        }
+    }
+}
+
+/**
+ * Large
+ */
+@media (min-width: 1200px) {
+
+    mat-toolbar {
+
+        mat-toolbar-row {
+            padding: 0 30px; /* Gutter 30px */
+        }
+    }
+}

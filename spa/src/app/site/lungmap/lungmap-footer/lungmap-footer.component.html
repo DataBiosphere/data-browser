@@ -1,0 +1,9 @@
+<footer *ngIf="state$ | async as state" [ngClass]="{'modal-open': state.modalOpen}">
+    <div class="wrapper">
+        <a href="https://lungmap.net/" class="logo">
+            <mat-icon>chevron_left</mat-icon>
+            <img src="assets/lungmap/images/logos/logo-lungmap-white.png"
+                 srcset="assets/lungmap/images/logos/logo-lungmap-white@2x.png 2x, assets/lungmap/images/logos/logo-lungmap-white@3x.png 3x">
+        </a>
+    </div>
+</footer>

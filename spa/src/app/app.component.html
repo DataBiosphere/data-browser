@@ -1,10 +1,10 @@
+<announcement *ngIf="isMaintenanceModeWarningVisible()" class="data-re-ingestion">
+    <p class="fontsize-s">Warning: in maintenance mode for data re-ingestion</p>
+</announcement>
+<header>
+    <ng-template #header viewContainer></ng-template>
+</header>
 <ng-container *ngIf="state$ | async as state">
-    <announcement *ngIf="isMaintenanceModeWarningVisible()" class="data-re-ingestion">
-        <p class="fontsize-s">Warning: in maintenance mode for data re-ingestion</p>
-    </announcement>
-    <header>
-        <hca-toolbar (menuOpen)="onMenuOpen($event)"></hca-toolbar>
-    </header>
     <announcement-catalog *ngIf="isAnnouncementCatalogVisible()" [catalog]="state.catalog"></announcement-catalog>
     <announcement-dcp2-coming-soon *ngIf="isAnnouncementDCP2ComingSoonVisible()"></announcement-dcp2-coming-soon>
     <release-banner *ngIf="showRelease()"></release-banner>
@@ -20,11 +20,10 @@
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>
     </announcement>
 </ng-container>
-<support-request></support-request>
+<support-request *ngIf="isSupportRequestEnabled()"></support-request>
 <router-outlet></router-outlet>
 <sticky-footer>
     <desktop-footer *ngIf="isDeviceHandheld()"></desktop-footer>
     <data-policy-footer></data-policy-footer>
 </sticky-footer>
-<hca-footer (feedbackClicked)="onFeedbackClicked()"></hca-footer>
-
+<ng-template #footer viewContainer></ng-template>

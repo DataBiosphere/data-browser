@@ -29,11 +29,12 @@ import { ToolbarNavSubMenuItemComponent } from "./shared/toolbar-nav-sub-menu-it
 import { ToolbarNavSubMenuComponent } from "./shared/toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
 import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
-import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
-import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
+import { HCAFooterComponent } from "./site/hca/hca-footer/hca-footer.component";
+import { HCAToolbarComponent } from "./site/hca/hca-toolbar/hca-toolbar.component";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
 import { SupportRequestComponent } from "./support-request/support-request.component";
+import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 
 
 describe("AppComponent:", () => {
@@ -84,13 +85,16 @@ describe("AppComponent:", () => {
                 useValue: routerMock
             }, {
                 provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["isV2", "isEnvLocal", "isEnvUxDev", "getPortalUrl"])
+                useValue: jasmine.createSpyObj("ConfigService", ["getAtlas", "isV2", "isEnvLocal", "isEnvUxDev", "getPortalUrl"])
             }, {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
             }, {
                 provide: ReleaseService,
                 useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseFeatureEnabled"])
+            }, {
+                provide: SITE_CONFIG_SERVICE,
+                useValue: jasmine.createSpyObj("SiteConfigService", ["getFooter", "getHeader", "isSupportRequestEnabled"])
             }, {
                 provide: UrlService,
                 useValue: jasmine.createSpyObj("ReleaseService", ["isViewingEntities", "isViewingFiles", "isViewingProjects", "isViewingSamples"])

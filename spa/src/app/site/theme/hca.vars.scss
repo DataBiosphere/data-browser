@@ -6,22 +6,42 @@
  */
 
 /**
+ * CSS variables allowing for environment-specific overrides.
+ */
+:root {
+    --color-blue-background: #F4F7F9;
+    --color-primary: #1C7CC7;
+    --color-secondary: #00D0F4;
+    --color-secondary-hover: #00B7DB;
+}
+
+/** 
+ * LungMAP-specific overrides.
+ */
+.lungmap {
+    --color-blue-background: #003662;
+    --color-primary: #005295;
+    --color-secondary: #00A8BA;
+    --color-secondary-hover: #007E8A;
+}
+
+/**
  * HCA-specific colors
  */
 $hca-black: #000000;
-$hca-blue-background: #F4F7F9;
+$hca-blue-background: var(--color-blue-background);
 $hca-blue-light: #DAF0F6;
 $hca-orange: #E8AA45;
 $hca-orange-hover: #CF912C;
-$hca-secondary: #00D0F4;
-$hca-secondary-hover: #00B7DB;
+$hca-secondary: var(--color-secondary);
+$hca-secondary-hover: var(--color-secondary-hover);
 $hca-gray-darkest: #333333;
 $hca-gray-dark: #666666;
 $hca-gray-medium: #999999;
 $hca-gray-light: #CCCCCC;
 $hca-gray-lightest: #EAEAEA;
 $hca-off-white: #F8F8F8;
-$hca-primary: #1C7CC7;
+$hca-primary: var(--color-primary);
 $hca-primary-hover: #0363AE;
 $hca-white: #FFFFFF;
 

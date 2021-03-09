@@ -1,11 +1,11 @@
 /*
- * Human Cell Atlas
- * https://www.humancellatlas.org/
+ * LungMAP
+ * https://lungmap.net/
  *
  * HCA-specific overrides of Material Design toolbar.
  */
 
-@import "../theme/hca.vars";
+@import "../../theme/hca.vars";
 
 /**
  * Custom HCA-specific overrides of MD toolbar.
@@ -16,7 +16,7 @@
 }
 
 mat-toolbar {
-    background-color: $hca-off-white;
+    background-color: $hca-primary;
     min-height: 60px !important; /* HCA specific */
     position: relative; /* Positions overlay, nav-toolbar */
 
@@ -57,7 +57,8 @@ mat-toolbar {
 
     /* Active navigation */
     toolbar-nav-item.active .link {
-        color: $hca-black;
+        color: $hca-secondary;
+        opacity: 1;
         text-decoration: none;
     }
 
@@ -73,7 +74,8 @@ mat-toolbar {
 
         /* Nav link - hover state */
         &:hover {
-            color: $hca-black;
+            color: $hca-secondary;
+            opacity: 1;
         }
 
         /* Title */
@@ -104,7 +106,7 @@ mat-toolbar {
     /** Logo in modal */
     &.modal-open {
 
-        background-color: $hca-white;
+        background-color: $hca-primary;
         position: fixed;
         top: 0;
         z-index: 1001;
@@ -123,7 +125,7 @@ mat-toolbar {
 /* Menu drop down */
 .menu-dropdown, .menu-dropdown-close {
     align-items: center;
-    color: $hca-black;
+    color: $hca-white;
     cursor: pointer;
     display: flex;
     margin: 0; /* Overrides font class */
@@ -131,7 +133,7 @@ mat-toolbar {
 
 /* Drop down icon */
 .menu-dropdown::before, .menu-dropdown-close::before {
-    color: $hca-gray-dark;
+    color: $hca-white;
     content: "\E313";
     font-family: "Material Icons";
     font-size: 18px; // HCA specific
@@ -185,9 +187,14 @@ mat-toolbar {
         toolbar-nav-item {
             padding: 0 10px;
 
+            &.active .link {
+                color: $hca-white;
+            }
+
             /* Link */
             .link {
-                color: $hca-gray-dark;
+                color: $hca-white;
+                opacity: .8;
                 text-transform: capitalize;
                 margin: 0;
 
@@ -202,6 +209,10 @@ mat-toolbar {
                 /* Sub title - hide */
                 .fontsize-xxs {
                     display: none;
+                }
+                
+                &:hover {
+                    color: $hca-white;
                 }
             }
         }

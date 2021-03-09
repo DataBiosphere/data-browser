@@ -6,16 +6,18 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Output } from "@angular/core";
-import { ConfigService } from "../../config/config.service";
+import { Component } from "@angular/core";
+import { ConfigService } from "../../../config/config.service";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { select, Store } from "@ngrx/store";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { selectModalOpen } from "../../modal/_ngrx/modal.selectors";
 import { HCAFooterState } from "./hca-footer.state";
+import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
+import { AppState } from "../../../_ngrx/app.state";
+import { FooterComponent } from "../../site-config/footer.component";
+import { UpdateSupportRequestActiveAction } from "../../../support-request/_ngrx/update-support-request-active.action";
 
 @Component({
     selector: "hca-footer",
@@ -23,7 +25,7 @@ import { HCAFooterState } from "./hca-footer.state";
     styleUrls: ["hca-footer.component.scss"]
 })
 
-export class HCAFooterComponent {
+export class HCAFooterComponent implements FooterComponent {
 
     // Template variables
     public portalUrl: string;
@@ -33,9 +35,6 @@ export class HCAFooterComponent {
 
     // Locals
     private ngDestroy$ = new Subject<boolean>();
-    
-    // Outputs
-    @Output() feedbackClicked = new EventEmitter<boolean>();
 
     /**
      * @param {Store<AppState>} store
@@ -51,7 +50,7 @@ export class HCAFooterComponent {
      */
     public onFeedbackClicked() {
 
-        this.feedbackClicked.emit(true);
+        this.store.dispatch(new UpdateSupportRequestActiveAction(true));
     }
 
     /**

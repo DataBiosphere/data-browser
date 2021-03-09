@@ -1,0 +1,74 @@
+<mat-toolbar *ngIf="state$ | async as state" [ngClass]="{'modal-open': state.modalOpen}">
+    <mat-toolbar-row>
+        <a href="https://lungmap.net/" *ngIf="!state.modalOpen">
+            <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
+        </a>
+        <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
+            <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
+        </a>
+        <div menu-open hamburger class="menu-dropdown fontsize-s semi-bold" (click)="onMenuToggled(true)">Menu</div>
+        <div menu-close hamburger class="menu-dropdown-close fontsize-s semi-bold" (click)="onMenuToggled(false)">Menu</div>
+        <toolbar-nav>
+            <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
+                <a class="link" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
+                    <span class="fontsize-xs">Explore</span>
+                    <span class="fontsize-xxs">Search for data in the HCA</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/guides">
+                    <span class="fontsize-xs">Guides</span>
+                    <span class="fontsize-xxs">Find user guides and how-to’s here</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/metadata">
+                    <span class="fontsize-xs">Metadata</span>
+                    <span class="fontsize-xxs">Fields used to describe datasets in the Human Cell Atlas</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/pipelines">
+                    <span class="fontsize-xs">Pipelines</span>
+                    <span class="fontsize-xxs">Pipelines</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/analyze">
+                    <span class="fontsize-xs">Analysis Tools</span>
+                    <span class="fontsize-xxs">Find a list of Apps</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/contribute">
+                    <span class="fontsize-xs">Contribute</span>
+                    <span class="fontsize-xxs">Submit your data to the HCA</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/apis">
+                    <span class="fontsize-xs">APIs</span>
+                    <span class="fontsize-xxs">APIs</span>
+                </a>
+            </toolbar-nav-item>
+            <toolbar-nav-item *ngIf="isReleaseFeatureEnabled()"
+                              [ngClass]="{'active': isReleasesActiveUrl(), 'drop-down-menu': true}">
+                <button class="link" (click)="toggleDropDownMenu($event)">
+                    <span class="fontsize-xs">March 2020 Release</span>
+                    <span class="fontsize-xxs">Explore, visualize, and interact with 24 annotated datasets</span>
+                </button>
+                <toolbar-nav-drop-down *ngIf="dropDownMenuOpen" (dropDownMenuOpened)="onDropDownMenuOpened($event)">
+                    <ng-container *ngTemplateOutlet="releasesMenu"></ng-container>
+                </toolbar-nav-drop-down>
+                <toolbar-nav-sub-menu>
+                    <ng-container *ngTemplateOutlet="releasesMenu"></ng-container>
+                </toolbar-nav-sub-menu>
+            </toolbar-nav-item>
+        </toolbar-nav>
+        <div menu-open class="hca-toolbar-nav-overlay"></div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<ng-template #releasesMenu>
+    <toolbar-nav-sub-menu-item [link]="'releases/2020-mar'">Datasets</toolbar-nav-sub-menu-item>
+    <toolbar-nav-sub-menu-item [link]="getReleasesDocumentationUrl()">Documentation</toolbar-nav-sub-menu-item>
+</ng-template>
