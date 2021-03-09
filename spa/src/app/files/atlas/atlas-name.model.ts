@@ -6,5 +6,6 @@
  */
 
 export enum AtlasName {
-    "HCA" = "hca"
+    "HCA" = "hca",
+    "LUNGMAP" = "lungmap"
 }

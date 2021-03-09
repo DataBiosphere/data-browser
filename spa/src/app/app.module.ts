@@ -26,6 +26,7 @@ import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { environment } from "../environments/environment";
+import { AtlasName } from "./files/atlas/atlas-name.model";
 import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
@@ -37,8 +38,14 @@ import { SharedModule } from "./shared/shared.module";
 import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
 import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
 import { HamburgerDirective } from "./site/hamburger/hamburger.directive";
-import { HCAFooterComponent } from "./site/hca-footer/hca-footer.component";
-import { HCAToolbarComponent } from "./site/hca-toolbar/hca-toolbar.component";
+import { HCAFooterComponent } from "./site/hca/hca-footer/hca-footer.component";
+import { HCASiteConfigService } from "./site/hca/hca-site-config.service";
+import { HCAToolbarComponent } from "./site/hca/hca-toolbar/hca-toolbar.component";
+import { LungMAPFooterComponent } from "./site/lungmap/lungmap-footer/lungmap-footer.component";
+import { LungMAPSiteConfigService } from "./site/lungmap/lungmap-site-config.service";
+import { LungMAPToolbarComponent } from "./site/lungmap/lungmap-toolbar/lungmap-toolbar.component";
+import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
+import { ViewContainerDirective } from "./site/site-config/view-conatainer.directive";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
 import { LocalStorageService } from "./storage/local-storage.service";
 import { SupportRequestModule } from "./support-request/support-request.module";
@@ -90,15 +97,13 @@ const v2 = environment.version === "2.0";
         HamburgerDirective,
         HCAFooterComponent,
         HCAToolbarComponent,
+        LungMAPFooterComponent,
+        LungMAPToolbarComponent,
         ReleaseBannerComponent,
-        StickyFooterComponent
+        StickyFooterComponent,
+        ViewContainerDirective
     ],
     providers: [
-        LocalStorageService,
-        {
-            provide: "SYSTEM_SERVICE",
-            useClass: v2 ? SystemService20 : SystemService
-        },
         // Init config and catalog states; both must resolve before app can be initialized.
         {
             provide: APP_INITIALIZER,
@@ -120,6 +125,27 @@ const v2 = environment.version === "2.0";
             useClass: HCAHttpResponseErrorInterceptor,
             deps: [ConfigService, Router, Store],
             multi: true
+        },
+        LocalStorageService,
+        {
+            provide: SITE_CONFIG_SERVICE,
+            useFactory: (configService: ConfigService) => {
+                const atlas = configService.getAtlas();
+                if ( atlas === AtlasName.HCA ) {
+                    return new HCASiteConfigService();
+                }
+                else if ( atlas === AtlasName.LUNGMAP ) {
+                    return new LungMAPSiteConfigService();
+                }
+                else {
+                    throw `SiteConfigService not configured for atlas: '${atlas}'`;
+                }
+            },
+            deps: [ConfigService]
+        },
+        {
+            provide: "SYSTEM_SERVICE",
+            useClass: v2 ? SystemService20 : SystemService
         }
     ]
 })
