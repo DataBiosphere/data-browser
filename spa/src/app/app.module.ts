@@ -30,6 +30,7 @@ import { AtlasName } from "./files/atlas/atlas-name.model";
 import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
 import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
+import { HamburgerModule } from "./hamburger/hamburger.module";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
 import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
 import { AppEffects } from "./_ngrx/app.effects";
@@ -37,7 +38,6 @@ import { AppReducers } from "./_ngrx/app.reducer";
 import { SharedModule } from "./shared/shared.module";
 import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
 import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
-import { HamburgerDirective } from "./site/hamburger/hamburger.directive";
 import { HCAFooterComponent } from "./site/hca/hca-footer/hca-footer.component";
 import { HCASiteConfigService } from "./site/hca/hca-site-config.service";
 import { HCAToolbarComponent } from "./site/hca/hca-toolbar/hca-toolbar.component";
@@ -79,6 +79,7 @@ const v2 = environment.version === "2.0";
         SharedModule,
         ConfigModule,
         FilesModule,
+        HamburgerModule,
         SupportRequestModule,
 
         DeviceDetectorModule.forRoot()
@@ -94,7 +95,6 @@ const v2 = environment.version === "2.0";
         // Site components
         DataPolicyFooterComponent,
         DesktopFooterComponent,
-        HamburgerDirective,
         HCAFooterComponent,
         HCAToolbarComponent,
         LungMAPFooterComponent,

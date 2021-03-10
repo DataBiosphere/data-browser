@@ -42,6 +42,7 @@ import { UtilService } from "./util/util.service";
 import { WarningComponent } from "./warning/warning.component";
 import { WarningContentComponent } from "./warning/warning-content.component";
 import { WarningTitleComponent } from "./warning/warning-title.component";
+import { RoutingService } from "./routing/routing.service";
 
 @NgModule({
     imports: [
@@ -80,6 +81,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         BrowserCanActivateGuard,
         GTMService,
         ResponsiveService,
+        RoutingService,
         UtilService
     ],
     exports: [

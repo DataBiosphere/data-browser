@@ -6,8 +6,7 @@
         <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
             <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
         </a>
-        <div menu-open hamburger class="menu-dropdown fontsize-s semi-bold" (click)="onMenuToggled(true)">Menu</div>
-        <div menu-close hamburger class="menu-dropdown-close fontsize-s semi-bold" (click)="onMenuToggled(false)">Menu</div>
+        <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
         <toolbar-nav>
             <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
                 <a class="link" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
@@ -65,7 +64,6 @@
                 </toolbar-nav-sub-menu>
             </toolbar-nav-item>
         </toolbar-nav>
-        <div menu-open class="hca-toolbar-nav-overlay"></div>
     </mat-toolbar-row>
 </mat-toolbar>
 <ng-template #releasesMenu>

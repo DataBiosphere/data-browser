@@ -1,0 +1,64 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying hamburger.
+ */
+
+@import "../../site/theme/hca.vars";
+
+/* Open/close button */
+.hamburger-toggle {
+
+    align-items: center;
+    color: $hca-black;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Open/close button - caret */
+.hamburger-toggle::before {
+
+    color: $hca-gray-dark;
+    content: "\E313";
+    font-family: "Material Icons";
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0 4px;
+}
+
+/* Overlay */
+.hamburger-toggle-overlay {
+
+    display: none;
+}
+
+/* Overlay - hamburger open */
+:host-context(.hamburger-open) {
+
+    .hamburger-toggle-overlay {
+
+        background-color: rgba($hca-white, 0.9);
+        bottom: 0;
+        content: "";
+        display: block;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 60px;
+        z-index: 100; /* Positioned above all sticky components etc, below toolbar-nav-item */
+    }
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    // Hide hamburger and overlay
+    :host {
+        display: none;
+    }
+}

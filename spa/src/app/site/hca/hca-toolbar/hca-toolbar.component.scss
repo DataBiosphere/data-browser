@@ -34,11 +34,6 @@ mat-toolbar {
         }
     }
 
-    // Menu is hidden by default
-    [menu-close] {
-        display: none;
-    }
-
     /* Logo */
     img {
         height: 30px;
@@ -46,13 +41,12 @@ mat-toolbar {
     
     toolbar-nav {
         padding: 12px 0;
-        z-index: 101; /* Positioned above hca-toolbar-nav-overlay */
+        z-index: 101; /* Positioned above hamburger-overlay */
     }
-
-    /* Drop down menu */
-    .drop-down-menu {
-        flex-direction: column;
-        position: relative; /* Positions drop down */
+    
+    /* Hamburger */
+    hamburger .fontsize-s {
+        margin-bottom: 0;
     }
 
     /* Active navigation */
@@ -115,40 +109,6 @@ mat-toolbar {
     }
 }
 
-// No overlay when menu closed
-.hca-toolbar-nav-overlay {
-    display: none;
-}
-
-/* Menu drop down */
-.menu-dropdown, .menu-dropdown-close {
-    align-items: center;
-    color: $hca-black;
-    cursor: pointer;
-    display: flex;
-    margin: 0; /* Overrides font class */
-}
-
-/* Drop down icon */
-.menu-dropdown::before, .menu-dropdown-close::before {
-    color: $hca-gray-dark;
-    content: "\E313";
-    font-family: "Material Icons";
-    font-size: 18px; // HCA specific
-    font-weight: 400;
-    margin: 0 4px;
-}
-
-/* Menu drop down - close */
-.menu-dropdown-close {
-    display: none;
-}
-
-/* Drop down icon */
-.menu-dropdown-close::before {
-    display: none;
-}
-
 /**
  * Large Tablet +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
@@ -156,26 +116,6 @@ mat-toolbar {
 @media screen and (min-width: 840px) {
 
     mat-toolbar {
-
-        // Hide menu
-        [menu-open] {
-            display: none;
-        }
-
-        // Menu is hidden by default
-        [menu-close] {
-            display: none !important;
-        }
-
-        /* Menu drop down */
-        .menu-dropdown, .menu-dropdown-close {
-            display: none;
-        }
-
-        /* Drop down icon */
-        .menu-dropdown::before, .menu-dropdown-close::before {
-            display: none;
-        }
 
         toolbar-nav {
             padding: 0;

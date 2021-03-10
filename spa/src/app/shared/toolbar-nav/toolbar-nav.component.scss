@@ -36,9 +36,9 @@
     }
 
     /**
-     * Open menu state - display nav
+     * Hamburger is open - display nav
      */
-    .toolbar-menu-open {
+    .hamburger-open {
 
         :host, toolbar-nav {
             display: flex;
