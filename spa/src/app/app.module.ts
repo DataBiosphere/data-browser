@@ -26,6 +26,8 @@ import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { environment } from "../environments/environment";
+import { FaviconService } from "./favicon/favicon.service";
+import { FaviconModule } from "./favicon/favicon.module";
 import { AtlasName } from "./files/atlas/atlas-name.model";
 import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
@@ -76,6 +78,7 @@ const v2 = environment.version === "2.0";
         }),
 
         // CHILD MODULES SETUP
+        FaviconModule,
         SharedModule,
         ConfigModule,
         FilesModule,
@@ -115,6 +118,20 @@ const v2 = environment.version === "2.0";
             deps: [CatalogService, ConfigService, Store],
             multi: true
         },
+        // Init favicon.
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (configService: ConfigService, faviconService: FaviconService) => {
+
+                return () => {
+                    const faviconPath = configService.getFaviconPath();
+                    faviconService.setFaviconPaths(faviconPath);
+                    return Promise.resolve();
+                };
+            },
+            deps: [ConfigService, FaviconService],
+            multi: true
+        },        
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAEncodeHttpParamsInterceptor,
