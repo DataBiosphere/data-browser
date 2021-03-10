@@ -16,6 +16,7 @@
 }
 
 mat-toolbar {
+    color: $hca-white;
     background-color: $hca-primary;
     min-height: 60px !important; /* HCA specific */
     position: relative; /* Positions overlay, nav-toolbar */
