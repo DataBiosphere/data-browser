@@ -13,7 +13,7 @@ import { Store } from "@ngrx/store";
 import { APIEndpoints } from "./api-endpoints.model";
 import { Config } from "./config.model";
 import { environment } from "../../environments/environment";
-import { Catalog } from "../files/catalog/catalog.model";
+import { AtlasName } from "../files/atlas/atlas-name.model";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 
@@ -74,6 +74,18 @@ export class ConfigService {
 
         const pathBase = this.getIndexBasePath();
         return `${this.dataURL}${pathBase}/${entityName}`;
+    }
+
+    /**
+     * Returns the favicon path for the current environment.
+     * 
+     * @returns {string}
+     */
+    public getFaviconPath(): string {
+
+        const atlas = this.getAtlas();
+        const atlasFaviconPath = atlas === AtlasName.HCA ? "" : `${atlas}/` ;
+        return `assets/${atlasFaviconPath}images/favicon/`;
     }
 
     /**

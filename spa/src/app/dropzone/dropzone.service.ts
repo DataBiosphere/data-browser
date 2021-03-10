@@ -10,7 +10,6 @@ import { Injectable } from "@angular/core";
 
 // App dependencies
 import { DropErrorCode } from "./drop-error-code.model";
-import { P } from "@angular/cdk/keycodes";
 
 @Injectable()
 export class DropzoneService {
