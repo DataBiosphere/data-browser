@@ -277,36 +277,7 @@ button {
 }
 
 /**
- * Open menu state - adding this here to override component-specific CSS (hca-toolbar.component.scss)
- */
-.toolbar-menu-open {
-
-    // Hide open menu
-    .menu-dropdown[menu-open] {
-        display: none !important;
-    }
-
-    // Display close menu
-    .menu-dropdown-close[menu-close], .menu-dropdown-close[menu-close]::before {
-        display: flex !important;
-    }
-
-    // Display overlay
-    .hca-toolbar-nav-overlay[menu-open] {
-        background-color: rgba($hca-white, 0.9);
-        bottom: 0;
-        content: "";
-        display: block !important;
-        left: 0;
-        position: fixed;
-        right: 0;
-        top: 60px;
-        z-index: 100; /* Positioned above all sticky components etc, below toolbar-nav-item */
-    }
-}
-
-/**
- * Prevents scroll on body when menu is open.
+ * Prevents scroll on body when facet is open, or hamburger is open. 
  */
 .no-scroll {
     left: 0;
@@ -397,16 +368,4 @@ button {
 /* Term radio button label */
 .hca-radio.term .mat-radio-label {
     font-size: 13px;
-}
-
-/**
- * Large Tablet +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 840px) {
-
-    // Display overlay
-    .toolbar-menu-open .hca-toolbar-nav-overlay[menu-open] {
-        display: none !important;
-    }
 }
