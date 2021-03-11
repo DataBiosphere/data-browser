@@ -25,7 +25,6 @@ export class ConfigService {
     // Locals
     protected atlas: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
-    protected dcpHealthCheckUrl: string;
     protected matrixURL: string;
     protected portalURL: string;
     protected deployment: string;
@@ -128,16 +127,6 @@ export class ConfigService {
     public getDataUrl(): string {
 
         return this.dataURL;
-    }
-
-    /**
-     * Return the DCP health check path.
-     *
-     * @returns {string}
-     */
-    public getDCPHealthCheckUrl(): string {
-
-        return this.dcpHealthCheckUrl;
     }
 
     /**
@@ -378,7 +367,6 @@ export class ConfigService {
         this.atlas = config.atlas;
         this.dataURL = config.dataURL;
         this.matrixURL = config.matrixURL;
-        this.dcpHealthCheckUrl = config.dcpHealthCheckUrl;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;

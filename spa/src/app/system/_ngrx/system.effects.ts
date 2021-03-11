@@ -15,9 +15,8 @@ import { map, switchMap, take } from "rxjs/operators";
 // App dependencies
 import { selectCatalog } from "../../files/_ngrx/catalog/catalog.selectors";
 import { AppState } from "../../_ngrx/app.state";
-import { AbstractSystemService } from "../shared/abstract.system.service";
-import { SystemService } from "../shared/system.service";
 import { SystemStatusResponse } from "../shared/system-status-response.model";
+import { SystemService20 } from "../shared/system.2.0.service";
 import { SystemStatusRequestAction } from "./system-status-request.action";
 import { SystemStatusSuccessAction } from "./system-status-success.action";
 
@@ -27,11 +26,11 @@ export class SystemEffects {
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
-     * @param {SystemService} systemService
+     * @param {SystemService20} systemService
      */
     constructor(private store: Store<AppState>,
                 private actions$: Actions,
-                @Inject("SYSTEM_SERVICE") private systemService: AbstractSystemService) {
+                private systemService: SystemService20) {
     }
 
     /**
