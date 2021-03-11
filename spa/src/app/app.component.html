@@ -7,7 +7,6 @@
 <ng-container *ngIf="state$ | async as state">
     <announcement-catalog *ngIf="isAnnouncementCatalogVisible()" [catalog]="state.catalog"></announcement-catalog>
     <announcement-dcp2-coming-soon *ngIf="isAnnouncementDCP2ComingSoonVisible()"></announcement-dcp2-coming-soon>
-    <release-banner *ngIf="showRelease()"></release-banner>
     <announcement *ngIf="!state.systemStatus.ok" class="status">
         <mat-icon>warning</mat-icon>
         <p class="fontsize-s">One or more of the systems composing the HCA DCP is currently unavailable.

@@ -13,6 +13,5 @@ export interface ProjectDetailComponentState {
     externalResourcesExist?: boolean;
     loaded: boolean;
     project?: Project;
-    projectInRelease?: boolean;
     projectSelected?: boolean;
 }

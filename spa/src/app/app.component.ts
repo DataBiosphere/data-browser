@@ -25,10 +25,7 @@ import { filter, takeUntil } from "rxjs/operators";
 import { AppComponentState } from "./app.component.state";
 import { ConfigService } from "./config/config.service";
 import { selectCatalog } from "./files/_ngrx/catalog/catalog.selectors";
-import { ClearReleaseReferrerAction } from "./files/_ngrx/release/clear-release-referrer.action";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
-import { ReleaseService } from "./files/shared/release.service";
-import { FetchReleasesRequestAction } from "./files/_ngrx/release/fetch-releases-request.action";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AppState } from "./_ngrx/app.state";
 import { SiteConfigService } from "./site/site-config/site-config.service";
@@ -59,7 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
     /**
      * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
-     * @param {ReleaseService} releaseService
      * @param {SiteConfigService} siteConfigService
      * @param {Store<AppState>} store
      * @param {ComponentFactoryResolver} componentFactoryResolver
@@ -67,7 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     constructor(private configService: ConfigService,
                 private deviceService: DeviceDetectorService,
-                private releaseService: ReleaseService,
                 @Inject(SITE_CONFIG_SERVICE) private siteConfigService: SiteConfigService,
                 private store: Store<AppState>,
                 private componentFactoryResolver: ComponentFactoryResolver,
@@ -126,21 +121,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true when the url path is not the releases or project detail pages, and if we're currently on an
-     * environment where release is visible.
-     *
-     * @returns {boolean}
-     */
-    public showRelease() {
-        
-        if ( !this.releaseService.isReleaseFeatureEnabled() ) {
-            return false;
-        }
-
-        return !( this.router.url.includes("/releases/") || this.router.url.includes("/projects/") );
-    }
-
-    /**
      * Returns true if this isn't a v2.0 environment (DCP-wide system status is only available in pre v2.0 environments).
      * 
      * @returns {boolean}
@@ -156,30 +136,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadProjectEditsData(): void {
 
         this.store.dispatch(new FetchProjectEditsRequestAction());
-    }
-    
-    /**
-     * Load release data from local JSON files.
-     */
-    private loadReleaseData(): void {
-
-        this.store.dispatch(new FetchReleasesRequestAction());
-    }
-
-    /**
-     * Clear release referrer if the user is no longer in the context of viewing release information. This is used
-     * by the project detail to determine where the back button should navigate to; either the release page if the
-     * referrer flag is set, otherwise the project tab.
-     */
-    private initReleaseReferrerListener(): void {
-
-        this.router.events.pipe(
-            filter(evt => evt instanceof NavigationEnd),
-            filter(evt => (evt as NavigationEnd).url.indexOf("releases") === -1),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
-            this.store.dispatch(new ClearReleaseReferrerAction());
-        });
     }
 
     /**
@@ -256,9 +212,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.initViewContainers();
         this.initState();
-        this.loadReleaseData();
         this.loadProjectEditsData();
-        this.initReleaseReferrerListener();
     }
 }
 

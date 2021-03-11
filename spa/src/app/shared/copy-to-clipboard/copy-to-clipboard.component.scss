@@ -32,14 +32,12 @@
 /* ProjectDownloadMatrixComponent */
 /* ProjectMatrixTable */
 /* ProjectSupplementaryLinksComponent */
-/* ReleaseFileDownloadComponent */
 :host-context(project-overview),
 :host-context(project-download-expression-matrix),
 :host-context(project-download-manifest),
 :host-context(project-matrix-download),
 :host-context(project-matrix-table),
-:host-context(project-supplementary-links),
-:host-context(release-files-modal) {
+:host-context(project-supplementary-links) {
 
     /* Display - none */
     /* Copy icon */

@@ -16,7 +16,6 @@ import { filter, takeUntil } from "rxjs/operators";
 import { ConfigService } from "../../../config/config.service";
 import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.action";
 import { EntityName } from "../../../files/shared/entity-name.model";
-import { ReleaseService } from "../../../files/shared/release.service";
 import { CloseHamburgerAction } from "../../../hamburger/_ngrx/close-hamburger.action";
 import { LungMAPToolbarComponentState } from "./lungmap-toolbar.component.state";
 import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
@@ -46,26 +45,14 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
-     * @param {ReleaseService} releaseService
      * @param {RoutingService} routingService
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private configService: ConfigService,
-                private releaseService: ReleaseService,
                 private routingService: RoutingService,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalUrl();
-    }
-
-    /**
-     * Return the data portal release documentation url.
-     *
-     * @returns {string}
-     */
-    public getReleasesDocumentationUrl(): string {
-
-        return `${this.portalUrl}/releases/2020-mar`;
     }
 
     /**
@@ -83,26 +70,6 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
 
             return explorePathExists || homePathExists;
         }
-    }
-
-    /**
-     * Returns true if the current navigation is "March 2020 Release".
-     *
-     * @returns {boolean}
-     */
-    public isReleasesActiveUrl(): boolean {
-
-        return this.currentUrl && this.currentUrl.includes("releases");
-    }
-
-    /**
-     * Returns true if release functionality is available on the current environment.
-     *
-     * @returns {boolean}
-     */
-    public isReleaseFeatureEnabled(): boolean {
-
-        return this.releaseService.isReleaseFeatureEnabled();
     }
 
     /**

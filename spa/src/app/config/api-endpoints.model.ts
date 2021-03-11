@@ -14,6 +14,5 @@ export enum APIEndpoints {
     "PROJECT_MATRICES" = "/project-assets/project-matrices",
     "PROJECT_METADATA" = "/project-assets/project-metadata",
     "PROJECTS" = "/projects",
-    "RELEASES" = "/release-files/releases/2020-mar",
     "SUMMARY" = "/summary"
 }

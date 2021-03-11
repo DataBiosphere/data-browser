@@ -17,7 +17,7 @@ import { Project } from "./project.model";
 export class ProjectEditsService {
 
     /**
-     * Fetch the data for the March 2020 release.
+     * Fetch project overrides specified in local project-edits file.
      *
      * @returns {Observable<Portal[]>}
      */

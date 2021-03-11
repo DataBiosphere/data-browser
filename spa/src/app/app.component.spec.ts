@@ -18,8 +18,6 @@ import { ReplaySubject } from "rxjs";
 // App dependencies
 import { AppComponent } from "./app.component";
 import { ConfigService } from "./config/config.service";
-import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
-import { ReleaseService } from "./files/shared/release.service";
 import { UrlService } from "./files/url/url.service";
 import { AnnouncementComponent } from "./shared/announcement/announcement.component";
 import { ToolbarNavComponent } from "./shared/toolbar-nav/toolbar-nav.component";
@@ -65,7 +63,6 @@ describe("AppComponent:", () => {
                 ToolbarNavItemComponent,
                 ToolbarNavSubMenuComponent,
                 ToolbarNavSubMenuItemComponent,
-                ReleaseBannerComponent,
                 SupportRequestComponent
             ],
             imports: [
@@ -90,14 +87,11 @@ describe("AppComponent:", () => {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
             }, {
-                provide: ReleaseService,
-                useValue: jasmine.createSpyObj("ReleaseService", ["buildReleaseView", "createReleaseDatasetView", "fetch2020MarchRelease", "isReleaseFeatureEnabled"])
-            }, {
                 provide: SITE_CONFIG_SERVICE,
                 useValue: jasmine.createSpyObj("SiteConfigService", ["getFooter", "getHeader", "isSupportRequestEnabled"])
             }, {
                 provide: UrlService,
-                useValue: jasmine.createSpyObj("ReleaseService", ["isViewingEntities", "isViewingFiles", "isViewingProjects", "isViewingSamples"])
+                useValue: jasmine.createSpyObj("UrlService", ["isViewingEntities", "isViewingFiles", "isViewingProjects", "isViewingSamples"])
             }]
         });
 

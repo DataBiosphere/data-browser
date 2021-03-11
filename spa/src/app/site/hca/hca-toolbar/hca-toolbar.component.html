@@ -50,23 +50,6 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </toolbar-nav-item>
-            <toolbar-nav-item *ngIf="isReleaseFeatureEnabled()"
-                              [ngClass]="{'active': isReleasesActiveUrl(), 'drop-down-menu': true}">
-                <button class="link" (click)="toggleDropDownMenu($event)">
-                    <span class="fontsize-xs">March 2020 Release</span>
-                    <span class="fontsize-xxs">Explore, visualize, and interact with 24 annotated datasets</span>
-                </button>
-                <toolbar-nav-drop-down *ngIf="dropDownMenuOpen" (dropDownMenuOpened)="onDropDownMenuOpened($event)">
-                    <ng-container *ngTemplateOutlet="releasesMenu"></ng-container>
-                </toolbar-nav-drop-down>
-                <toolbar-nav-sub-menu>
-                    <ng-container *ngTemplateOutlet="releasesMenu"></ng-container>
-                </toolbar-nav-sub-menu>
-            </toolbar-nav-item>
         </toolbar-nav>
     </mat-toolbar-row>
 </mat-toolbar>
-<ng-template #releasesMenu>
-    <toolbar-nav-sub-menu-item [link]="'releases/2020-mar'">Datasets</toolbar-nav-sub-menu-item>
-    <toolbar-nav-sub-menu-item [link]="getReleasesDocumentationUrl()">Documentation</toolbar-nav-sub-menu-item>
-</ng-template>

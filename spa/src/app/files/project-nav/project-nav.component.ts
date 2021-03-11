@@ -26,8 +26,6 @@ export class ProjectNavComponent {
 
     // Inputs
     @Input() externalResourcesExist: boolean;
-    @Input() projectInRelease: boolean;
-    @Input() releaseFeatureEnabled: boolean;
     @Input() v2: boolean;
 
     // Locals
@@ -38,16 +36,13 @@ export class ProjectNavComponent {
     private ngDestroy$ = new Subject();
     private projectInformation: NavItem;
     private projectMetadata: NavItem;
-    private projectReleases: NavItem;
     private summaryStats: NavItem;
 
     /**
      * @param {ActivatedRoute} route
      * @param {DeviceDetectorService} deviceService
      */
-    constructor(private route: ActivatedRoute,
-                private deviceService: DeviceDetectorService) {
-    }
+    constructor(private route: ActivatedRoute, private deviceService: DeviceDetectorService) {}
 
     /**
      * Build up list of navigation items for the project detail page.
@@ -74,12 +69,6 @@ export class ProjectNavComponent {
                 this.projectMatrices,
                 this.externalResources
             ];
-
-            // Check if project is a part of the release and add "releases" to the nav accordingly
-            if ( this.releaseFeatureEnabled && this.projectInRelease ) {
-
-                navItemList.push(this.projectReleases);
-            }
         }
 
         return navItemList;
@@ -187,19 +176,6 @@ export class ProjectNavComponent {
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_CITATION),
                 ...navigationExtras
             };
-
-            if ( this.releaseFeatureEnabled ) {
-                this.projectReleases = {
-                    disabled: false,
-                    display: "Releases",
-                    subNavItems: [{
-                        disabled: false,
-                        display: "2020 March Data Release",
-                        routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.DATA_RELEASE_2020_MAR),
-                        ...navigationExtras
-                    }]
-                }
-            }
         });
     }
 }

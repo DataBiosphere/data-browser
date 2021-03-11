@@ -31,7 +31,6 @@ import { FaviconModule } from "./favicon/favicon.module";
 import { AtlasName } from "./files/atlas/atlas-name.model";
 import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
-import { ReleaseBannerComponent } from "./files/releases/release-banner/release-banner.component";
 import { HamburgerModule } from "./hamburger/hamburger.module";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
 import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
@@ -101,7 +100,6 @@ const v2 = environment.version === "2.0";
         HCAToolbarComponent,
         LungMAPFooterComponent,
         LungMAPToolbarComponent,
-        ReleaseBannerComponent,
         StickyFooterComponent,
         ViewContainerDirective
     ],

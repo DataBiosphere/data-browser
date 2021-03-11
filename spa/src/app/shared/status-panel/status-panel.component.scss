@@ -9,7 +9,6 @@
 
 .status-panel {
     padding: 0 0 24px;
-    position: relative; /* Positions separator and release title overline */
 
     /* Separator */
     &:before, &.loading:after {
@@ -46,31 +45,5 @@
     /* Separator - error */
     &.error:before {
         background-color: $hca-orange;
-    }
-}
-
-/* Component release */
-:host-context(release) {
-
-    .status-panel {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-/**
- * Large tablet +, small window +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 1024px) {
-
-    /* Component release */
-    :host-context(release) {
-
-        .status-panel {
-            flex-direction: row;
-            justify-content: space-between;
-        }
     }
 }

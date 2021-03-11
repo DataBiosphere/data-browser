@@ -16,8 +16,7 @@
     "build-prod": "ng build --prod  --outputPath ../dist/explore --configuration=production --base-href=/explore/",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "contributors": "node ../script/release-contributors.js"
+    "e2e": "ng e2e"
   },
   "husky": {
     "hooks": {

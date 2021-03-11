@@ -74,8 +74,8 @@ export class PopLayoutComponent {
      */
     public onTabSelected(tab: EntitySpec) {
 
-        // Only update state if we have a tab key that corresponds to an entity. There are cases, for example the "back
-        // to releases" tab key that does not correspond to an entity. In this case, we use projects as the default.
+        // Only update state if we have a tab key that corresponds to an entity. In the case that the tab key that does
+        // not correspond to an entity, use projects as the default.
         const tabKey = tab.key;
         const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
         this.store.dispatch(new BackToEntityAction(selectedEntity));
