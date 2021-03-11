@@ -19,7 +19,6 @@ import { ProjectMapper } from "./project-mapper";
 import { ProjectTSVUrlHttpResponse } from "./project-tsv-url-http-response.model";
 import { ProjectTSVUrlResponse } from "./project-tsv-url-response.model";
 import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
-import { ReleaseProject } from "../releases/release-project.model";
 import { SearchEntity } from "../search/search-entity.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { ICGCQuery } from "../shared/icgc-query";
@@ -95,7 +94,7 @@ export class ProjectService {
      * Bind the raw response to Project object.
      *
      * @param {any} response
-     * @param {ReleaseProject} projectOverrides
+     * @param {Project} projectOverrides
      * @returns {Project}
      */
     private bindProject(response: any, projectOverrides: Project): Project {

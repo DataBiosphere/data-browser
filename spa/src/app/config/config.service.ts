@@ -216,18 +216,7 @@ export class ConfigService {
     }
 
     /**
-     * Return the full URL for the specified release file URL.
-     * 
-     * @param {string} releaseFileUrl
-     * @returns {string}
-     */
-    public getReleaseFileUrl(releaseFileUrl: string): string {
-
-        return `${this.getProjectMetaUrl()}${APIEndpoints.RELEASES}/${releaseFileUrl}`;
-    }
-
-    /**
-     * Return the full URL for the specified release file URL.
+     * Return the full URL for the specified Terra export URL.
      *
      * @param {string} encdodedExportUrl
      * @returns {string}

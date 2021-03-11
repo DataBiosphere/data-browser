@@ -17,7 +17,6 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - `relatedEntityId` (previously `fileName`)
 - `relatedEntityType` (previously `fileFormat`)
 - `relatedEntityUrl`
-- `releaseName`
 - `source`
 - `term`
 - `toolName`
@@ -299,50 +298,6 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Entity URL: `http://path/to/terra`
 - Tool Name: "Terra"
 
-##### Release Events
-
-###### Dataset Download
-
-- Category: "Dataset"
-- Action: "Download"
-- Label: `datasetName`
-
-
-- Entity URL: `http://path/to/download`
-- File Format: `relatedEntityType`
-- File Name: `relatedEntityId`
-- File Type: `fileType`
-- Release Name: `releaseName`
-
-###### Dataset Copy to Clipboard
-
-Copy to Clipboard events are configured as:
-
-- Category: "Dataset"
-- Action: "Copy to Clipboard"
-- Label: `datasetName`
-
-
-- Entity URL: `http://path/to/download`
-- File Format: `relatedEntityType`
-- File Name: `relatedEntityId`
-- File Type: `fileType`
-- Release Name: `releaseName`
-
-###### Dataset Visualize
-
-Visualize events are configured as:
-
-- Category: "Dataset"
-- Action: "Visualize"
-- Label: `datasetName`
-
-
-- Entity URL: `http://path/to/visualization-tool`
-- Release Name: `releaseName`
-- Tool Name: `toolName`
-
-
 ### Front End Data Layer Event Configuration
 
 ```
@@ -359,5 +314,5 @@ where:
 - `event` is the Category value sent to Google Analytics, always "Dataset".
 - `eventAction` is the Action value sent to Google Analytics, either "Download" or "Visualize".
 - `eventLabel` is the Label value sent to Google Analytics, always the full URL to the file or visualization tool.
-- `dimension0` represents a dimension to be included in the event values sent to Google Analytics (eg `datasetName`, `toolName`, `releaseName`).
+- `dimension0` represents a dimension to be included in the event values sent to Google Analytics (eg `datasetName`, `toolName`).
 

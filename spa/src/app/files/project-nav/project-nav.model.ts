@@ -11,6 +11,5 @@ export enum ProjectNav {
     "PROJECT_METADATA" = "project-metadata",
     "EXPRESSION_MATRICES" = "expression-matrices",
     "SUMMARY_STATS" = "summary-stats",
-    "DATA_CITATION" = "data-citation",
-    "DATA_RELEASE_2020_MAR" = "releases/2020-mar"
+    "DATA_CITATION" = "data-citation"
 }

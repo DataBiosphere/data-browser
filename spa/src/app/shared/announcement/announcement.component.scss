@@ -12,8 +12,8 @@
     padding: 14px 16px; /* Site gutter */
 }
 
-/* Component release-banner, announcement-catalog */
-:host-context(release-banner), :host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon) {
+/* announcement-catalog */
+:host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon) {
     background-color: $hca-blue-light;
 }
 
@@ -73,10 +73,9 @@
     /* Center align content - for banners at the top of site */
     /* Component announcement-dcp2-coming-soon */
     /* Component announcement-catalog */
-    /* Component release-banner */
     /* Component app with class "status" */
     /* Component app with class "data-re-ingestion" */
-    :host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon), :host-context(release-banner), :host-context(.status), :host-context(.data-re-ingestion) {
+    :host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon), :host-context(.status), :host-context(.data-re-ingestion) {
         display: flex;
         justify-content: center;
     }

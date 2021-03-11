@@ -119,18 +119,10 @@ import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectService } from "./project/project.service";
-import { ProjectReleaseComponent } from "./project-release/project-release.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
 import { ProjectWithdrawnComponent } from "./project-withdrawn/project-withdrawn.component";
-import { ReleaseComponent } from "./releases/release.component";
-import { ReleaseFilesModalContainerComponent } from "./releases/release-files-modal-container/release-files-modal-container.component";
-import { ReleaseFilesModalComponent } from "./releases/release-files-modal/release-files-modal.component";
-import { ReleaseTableComponent } from "./releases/release-table/release-table.component";
-import { ReleaseTitleOverlineComponent } from "./releases/release-title-overline/release-title-overline.component";
-import { ReleaseVisualizationsModalContainerComponent } from "./releases/visualizations-modal-container/release-visualizations-modal-container.component";
-import { ReleaseVisualizationsModalComponent } from "./releases/release-visualizations-modal/release-visualizations-modal.component";
 import { SearchTermHttpService } from "./search/http/search-term-http.service";
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
 import { SearchTermUrlService } from "./search/url/search-term-url.service";
@@ -142,7 +134,6 @@ import { FilesService } from "./shared/files.service";
 import { IntegrationService } from "./shared/integration.service";
 import { MatrixService } from "./shared/matrix.service";
 import { ProjectEditsService } from "./shared/project-edits.service";
-import { ReleaseService } from "./shared/release.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermSortService } from "./sort/term-sort.service";
@@ -259,17 +250,9 @@ const v2 = environment.version === "2.0";
         ProjectNavComponent,
         ProjectOverviewComponent,
         ProjectOverviewDataSummaryComponent,
-        ProjectReleaseComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
         ProjectWithdrawnComponent,
-        ReleaseComponent,
-        ReleaseFilesModalComponent,
-        ReleaseFilesModalContainerComponent,
-        ReleaseVisualizationsModalComponent,
-        ReleaseVisualizationsModalContainerComponent,
-        ReleaseTableComponent,
-        ReleaseTitleOverlineComponent,
         SectionBarComponent,
         SelectedSearchTermsComponent,
         TableScroll
@@ -300,7 +283,6 @@ const v2 = environment.version === "2.0";
         ProjectService,
         ProjectEditsService,
         ProjectViewFactory,
-        ReleaseService,
         SearchTermHttpService,
         TableRendererService,
         ResponseTermService,

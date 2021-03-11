@@ -21,7 +21,6 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "getProjectMetaDownloadUrl",
     "getProjectPreparedMatrixDownloadUrl",
     "getProjectUrl",
-    "getReleaseFileUrl",
     "getTerraExportUrl",
     "getSummaryUrl",
     "initConfig",

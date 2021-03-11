@@ -30,7 +30,6 @@ export enum GAAction {
     "VIEW_MATRICES" = "View Matrices", // View project matrices tab
     "VIEW_METADATA" = "View Metadata", // View project metadata tab
     "VIEW_OVERVIEW" = "View Overview", // View project overview tab
-    "VIEW_RELEASES" = "View Releases", // View project releases tab
     "VIEW_SUMMARY_STATS" = "View Summary Stats", // View project summary stats tab - not implemented
     "VIEW_WITHDRAWN_PROJECT" = "View Withdrawn Project", // View withdrawn project
     "VISUALIZE" = "Visualize"

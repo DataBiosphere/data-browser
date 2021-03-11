@@ -15,25 +15,3 @@
     border-radius: 4px;
     padding: 16px;
 }
-
-/* Component release */
-:host-context(release) {
-    max-width: 688px; /* 720 - 16 - 16 */
-}
-
-/* ReleaseFilesModalComponent */
-:host-context(release-files-modal), :host-context(release-visualizations-modal) {
-    margin: 0 0 24px;
-}
-
-/**
- * Small +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 720px) {
-
-    /* Component release */
-    :host-context(release) {
-        margin: 0;
-    }
-}
