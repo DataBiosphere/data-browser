@@ -53,7 +53,6 @@ import { LocalStorageService } from "./storage/local-storage.service";
 import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
-import { SystemService } from "./system/shared/system.service";
 import { SystemService20 } from "./system/shared/system.2.0.service";
 
 // True if current environment is running v2.0 code.
@@ -160,10 +159,7 @@ const v2 = environment.version === "2.0";
             },
             deps: [ConfigService]
         },
-        {
-            provide: "SYSTEM_SERVICE",
-            useClass: v2 ? SystemService20 : SystemService
-        }
+        SystemService20
     ]
 })
 export class AppModule {

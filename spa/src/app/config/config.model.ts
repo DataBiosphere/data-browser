@@ -9,7 +9,6 @@ export class Config {
 
     public readonly atlas: string;
     public readonly dataURL: string;
-    public readonly dcpHealthCheckUrl: string;
     public readonly deployment: string;
     public readonly matrixURL: string;
     public readonly portalURL: string;
@@ -21,7 +20,6 @@ export class Config {
     /**
      * @param {string} atlas
      * @param {string} dataURL
-     * @param {string} dcpHealthCheckUrl
      * @param {string} deployment
      * @param {string} matrixURL
      * @param {string} portalURL
@@ -32,7 +30,6 @@ export class Config {
      */
     constructor(atlas: string,
                 dataURL: string,
-                dcpHealthCheckUrl: string,
                 deployment: string,
                 matrixURL: string,
                 portalURL: string,
@@ -43,7 +40,6 @@ export class Config {
 
         this.atlas = atlas;
         this.dataURL = dataURL;
-        this.dcpHealthCheckUrl = dcpHealthCheckUrl;
         this.matrixURL = matrixURL;
         this.deployment = deployment;
         this.portalURL = portalURL;

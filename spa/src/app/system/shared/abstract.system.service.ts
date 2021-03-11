@@ -41,24 +41,6 @@ export abstract class AbstractSystemService {
     public abstract fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse>;
 
     /**
-     * Fetch the current DCP-wide health status.
-     *
-     * @param {Catalog} catalog
-     * @returns {Observable<HealthResponse>}
-     */
-    protected checkHealth(catalog: Catalog): Observable<HealthResponse> {
-
-        const url = this.configService.getDCPHealthCheckUrl();
-        const params = this.httpService.createIndexParams(catalog, {});
-        return this.httpClient
-            .get<HealthHttpResponse>(url, {params})
-            .pipe(
-                catchError(this.handleHealthError.bind(this)),
-                switchMap(this.bindHealthResponse.bind(this))
-            );
-    }
-
-    /**
      * Fetch the current Azul system status and index status.
      *
      * @param {Catalog} catalog
