@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Determines if current route is complete, in that it contains a catalog param for v2 environments. If catalog param is
+ * Determines if current route is complete, in that it contains a catalog param. If catalog param is
  * missing, cancel navigation and return new URL containing catalog param. Otherwise let navigation continue as is.
  */
 
@@ -42,7 +42,7 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
                 private store: Store<AppState>) {}
 
     /**
-     * For v2 environments, ensure catalog param is specified in query string.
+     * Ensure catalog param is specified in query string.
      *
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
      * @param {RouterStateSnapshot} routerStateSnapshot
@@ -58,7 +58,7 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
     }
 
     /**
-     * For v2 environments, ensure catalog param is specified in query string.
+     * Ensure catalog param is specified in query string.
      * 
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
      * @param {RouterStateSnapshot} routerStateSnapshot
@@ -79,12 +79,6 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
      * @returns {boolean | Observable<boolean | UrlTree>}
      */
     private getCanActive(nextUrl: string, urlSegments: UrlSegment[], currentQueryParams: Params): boolean | Observable<boolean | UrlTree> {
-
-        // Catalog is only applicable to v2 environments
-        const v2 = this.configService.isV2();
-        if ( !v2 ) {
-            return true;
-        }
 
         return combineLatest(
             this.store.pipe(select(selectCatalogs)),

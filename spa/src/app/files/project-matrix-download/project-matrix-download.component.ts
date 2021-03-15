@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying project contributor and DCP-generated matrices downloads for v2 environments.
+ * Component for displaying project contributor and DCP-generated matrices downloads.
  */
 
 // Core dependencies

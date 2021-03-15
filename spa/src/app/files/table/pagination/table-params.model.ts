@@ -8,7 +8,9 @@
 export interface TableParams {
     size: number;  // Number of results to return
     sort?: string;  // Facet to sort on.
+    next?: string;
     order?: string; // Sort order asc or desc
+    previous?: string;
     search_after?: string;
     search_after_uid?: string;
     search_before?: string;

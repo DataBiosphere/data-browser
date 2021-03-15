@@ -53,7 +53,6 @@ describe("HCATableFilesComponent", () => {
 
     let component: HCATableFilesComponent;
     let fixture: ComponentFixture<HCATableFilesComponent>;
-    let configService;
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
@@ -79,9 +78,6 @@ describe("HCATableFilesComponent", () => {
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
     beforeEach(async(() => {
-
-        configService =
-            jasmine.createSpyObj("ConfigService", ["getPortalUrl", "getProjectMetaUrl", "getProjectMetaDownloadUrl", "isV2"]);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -115,14 +111,8 @@ describe("HCATableFilesComponent", () => {
                 PipeModule,
                 RouterTestingModule
             ],
-            providers: [{
-                provide: Store,
-                useValue: testStore
-                },
-                {
-                    provide: ConfigService,
-                    useValue: configService
-                },
+            providers: [
+                ConfigService,
                 {
                     provide: DownloadService,
                     useValue: jasmine.createSpyObj("DownloadService", [
@@ -135,22 +125,20 @@ describe("HCATableFilesComponent", () => {
                         "requestFileDownload"
                     ])
                 },
-                {
-                    provide: "ENTITY_REQUEST_SERVICE",
-                    useClass: EntityRequestService
-                },
+                EntityRequestService,
                 {
                     provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
                     useValue: () => new Promise(() => {
                     })
                 },
-                {
-                    provide: "PAGINATION_SERVICE",
-                    useClass: PaginationService
-                },
+                PaginationService,
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                },
+                {
+                    provide: Store,
+                    useValue: testStore
                 },
                 {
                     provide: TableRendererService,
@@ -277,37 +265,9 @@ describe("HCATableFilesComponent", () => {
     });
 
     /**
-     * Confirm development stage column is hidden for non-v2 environments.
+     * Confirm development stage column labeled as "Development Stage" is displayed.
      */
-    it(`hides column "Development Stage" column in non-v2 environments`, () => {
-
-        configService.isV2.and.returnValue(false);
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeFalsy();
-    });
-
-    /**
-     * Confirm development stage column labeled as "Development Stage" is displayed for v2 environments.
-     */
-    it(`displays column "Development Stage" column in v2 environments`, () => {
-
-        configService.isV2.and.returnValue(true);
+    it(`displays column "Development Stage" column`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -330,37 +290,9 @@ describe("HCATableFilesComponent", () => {
     });
 
     /**
-     * Confirm nucleic acid source column is hidden for non-v2 environments.
+     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed..
      */
-    it(`hides column "Nucleic Acid Source" column in non-v2 environments`, () => {
-
-        configService.isV2.and.returnValue(false);
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeFalsy();
-    });
-
-    /**
-     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed for v2 environments.
-     */
-    it(`displays column "Nucleic Acid Source" column in v2 environments`, () => {
-
-        configService.isV2.and.returnValue(true);
+    it(`displays column "Nucleic Acid Source" column`, () => {
 
         testStore.pipe
             .and.returnValues(

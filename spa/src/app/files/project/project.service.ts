@@ -99,8 +99,7 @@ export class ProjectService {
      */
     private bindProject(response: any, projectOverrides: Project): Project {
 
-        const v2 = this.configService.isV2();
-        const mapper = new ProjectMapper(v2, response, projectOverrides);
+        const mapper = new ProjectMapper(response, projectOverrides);
         return mapper.mapRow() as Project;
     }
 

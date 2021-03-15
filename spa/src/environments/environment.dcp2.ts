@@ -7,6 +7,5 @@ export const environment = {
     projectMetaURL: "https://data.humancellatlas.org",
     terraExportURL: "https://app.terra.bio",
     deployment: "dcp2",
-    version: "2.0",
     zendeskURL: "https://support.terra.bio"
 };

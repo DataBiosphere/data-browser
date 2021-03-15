@@ -254,15 +254,9 @@
                               [ngStyle]="getColumnStyle('getData')">
                         <hca-table-cell class="cell-split">
                             <download-button [downloadAvailable]="true" (downloadClicked)="onProjectDownloadManifestClicked(element.entryId)"></download-button>
-                            <ng-container [ngSwitch]="isV2()">
-                                <ng-container *ngIf="catalog$ | async as catalog">
-                                    <download-button *ngSwitchCase="true"
-                                                     [downloadAvailable]="isAnyMatrixAvailable(element)"
-                                                     (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
-                                    <download-button *ngSwitchDefault
-                                                     [downloadAvailable]="isAnyProjectMatrixUrlAvailable(projectsMatrixUrls$ | async, element.entryId)"
-                                                     (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
-                                </ng-container>
+                            <ng-container *ngIf="catalog$ | async as catalog">
+                                <download-button [downloadAvailable]="isAnyMatrixAvailable(element)"
+                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
                             </ng-container>
                         </hca-table-cell>
                     </mat-cell>

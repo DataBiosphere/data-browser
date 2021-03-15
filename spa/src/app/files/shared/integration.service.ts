@@ -42,8 +42,8 @@ export class IntegrationService {
      */
     public fetchIntegrationsByProjectId(catalog: Catalog, projectId: string): Observable<Portal[]> {
 
-        // Disable integrations for v2. See DB-1415.
-        if ( this.configService.isV2() ) {
+        // Disable integrations - see #1415.
+        if ( true ) {
             return of([]);
         }
         

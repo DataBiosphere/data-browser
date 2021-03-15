@@ -20,8 +20,10 @@ import { IndexResponse } from "./index/index-response.model";
 import { IndexHttpResponse } from "./index/index-http-response.model";
 import { IndexRequestStatus } from "./index/index-request-status.model";
 import { SystemStatusResponse } from "./system-status-response.model";
+import { Injectable } from "@angular/core";
 
-export abstract class AbstractSystemService {
+@Injectable()
+export class SystemService {
 
     /**
      * @param {ConfigService} configService
@@ -34,11 +36,22 @@ export abstract class AbstractSystemService {
         protected httpClient: HttpClient) {}
 
     /**
-     * Fetch the current system status.
-     * 
+     * Fetch the current system status; uses Azul API to determine overall system status as well as indexing status.
+     *
      * @param {Catalog} catalog
      */
-    public abstract fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse>;
+    public fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse> {
+
+        return this.checkIndexStatus(catalog).pipe(
+            switchMap(indexResponse => {
+                return of({
+                    ok: indexResponse.ok,
+                    indexing: indexResponse.indexing,
+                    indexingStatus: indexResponse.status
+                });
+            })
+        )
+    }
 
     /**
      * Fetch the current Azul system status and index status.
@@ -46,7 +59,7 @@ export abstract class AbstractSystemService {
      * @param {Catalog} catalog
      * @returns {Observable<IndexResponse>}
      */
-    protected checkIndexStatus(catalog: Catalog): Observable<IndexResponse> {
+    private checkIndexStatus(catalog: Catalog): Observable<IndexResponse> {
 
         const url = this.configService.getIndexStatusUrl();
         const params = this.httpService.createIndexParams(catalog, {});
@@ -64,7 +77,7 @@ export abstract class AbstractSystemService {
      * @param {HealthHttpResponse} response
      * @returns {HealthResponse}
      */
-    protected bindHealthResponse(response: HealthHttpResponse): Observable<HealthResponse> {
+    private bindHealthResponse(response: HealthHttpResponse): Observable<HealthResponse> {
 
         return of({
             serviceName: response.service_name,
@@ -78,7 +91,7 @@ export abstract class AbstractSystemService {
      * @param {IndexHttpResponse} response
      * @returns {IndexResponse}
      */
-    protected bindIndexResponse(response: IndexHttpResponse): Observable<IndexResponse> {
+    private bindIndexResponse(response: IndexHttpResponse): Observable<IndexResponse> {
 
         return of({
             ok: response.up,
@@ -94,7 +107,7 @@ export abstract class AbstractSystemService {
      * @param {HttpErrorResponse} error
      * @returns {IndexHttpResponse}
      */
-    protected handleIndexError(error: HttpErrorResponse): Observable<IndexHttpResponse> {
+    private handleIndexError(error: HttpErrorResponse): Observable<IndexHttpResponse> {
 
         return of({
             up: false,
@@ -111,7 +124,7 @@ export abstract class AbstractSystemService {
      * @param {HttpErrorResponse} error
      * @returns {IndexHttpResponse}
      */
-    protected handleHealthError(error: HttpErrorResponse): Observable<HealthResponse> {
+    private handleHealthError(error: HttpErrorResponse): Observable<HealthResponse> {
 
         return of({
             serviceName: "",
@@ -125,7 +138,7 @@ export abstract class AbstractSystemService {
      * @param {IndexHttpResponse} response
      * @returns {boolean}
      */
-    protected isIndexing(response: IndexHttpResponse): boolean {
+    private isIndexing(response: IndexHttpResponse): boolean {
 
         return response.progress.unindexed_bundles > 0 || response.progress.unindexed_documents > 0;
     }

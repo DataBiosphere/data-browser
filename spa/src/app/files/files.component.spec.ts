@@ -51,17 +51,7 @@ describe("FilesComponent:", () => {
             imports: [
             ],
             providers: [
-                {
-                    provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", [
-                        "isV2",
-                        "isEnvDCP2",
-                        "isEnvLocal",
-                        "isEnvProd",
-                        "isEnvUxDev",
-                        "getPortalUrl"
-                    ])
-                },
+                ConfigService,
                 {
                     provide: DeviceDetectorService,
                     useValue: jasmine.createSpyObj("DeviceDetectorService", ["isMobile", "isTablet"])
@@ -82,9 +72,9 @@ describe("FilesComponent:", () => {
     }));
 
     /**
-     * Confirm catalog is displayed correctly in explore title for v2 environments
+     * Confirm catalog is displayed correctly in explore title
      */
-    xit("displays catalog in explore title in v2", () => {
+    xit("displays catalog in explore title", () => {
 
         storeSpy.pipe
             .and.returnValues(
@@ -103,24 +93,9 @@ describe("FilesComponent:", () => {
     });
 
     /**
-     * Confirm catalog is hidden in explore title for v1 environments
+     * Confirm catalog choose is displayed.
      */
-    xit("hides catalog in explore title in v1", () => {
-
-    });
-
-    /**
-     * Confirm catalog choose is not displayed in v1 environments.
-     */
-    xit("hides catalog chooser in v1 environments", () => {
-
-    });
-
-
-    /**
-     * Confirm catalog choose is displayed in v2 environments.
-     */
-    xit("displays catalog chooser in v2 environments", () => {
+    xit("displays catalog chooser", () => {
 
     });
 });

@@ -16,12 +16,11 @@ export class FileRowMapper extends EntityRowMapper {
     private file;
 
     /**
-     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(v2: boolean, row: any) {
+    constructor(row: any) {
 
-        super(v2, row);
+        super(row);
 
         // Always take the first value in the files array. This is a summary value and there should only ever be 
         // single value here. Also protect against null and empty array values.

@@ -25,7 +25,6 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
-import { environment } from "../environments/environment";
 import { FaviconService } from "./favicon/favicon.service";
 import { FaviconModule } from "./favicon/favicon.module";
 import { AtlasName } from "./files/atlas/atlas-name.model";
@@ -52,10 +51,7 @@ import { LocalStorageService } from "./storage/local-storage.service";
 import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
-import { SystemService20 } from "./system/shared/system.2.0.service";
-
-// True if current environment is running v2.0 code.
-const v2 = environment.version === "2.0";
+import { SystemService } from "./system/shared/system.service";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -157,7 +153,7 @@ const v2 = environment.version === "2.0";
             },
             deps: [ConfigService]
         },
-        SystemService20
+        SystemService
     ]
 })
 export class AppModule {

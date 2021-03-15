@@ -14,7 +14,7 @@ import { By } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
-import { of } from "rxjs/index";
+import { of } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";

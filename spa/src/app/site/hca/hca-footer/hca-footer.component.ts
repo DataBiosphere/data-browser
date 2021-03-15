@@ -54,16 +54,6 @@ export class HCAFooterComponent implements FooterComponent {
     }
 
     /**
-     * Returns true when environment is not v2.
-     *
-     * @returns {boolean}
-     */
-    public showSystemStatus(): boolean {
-
-        return !this.configService.isV2();
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {

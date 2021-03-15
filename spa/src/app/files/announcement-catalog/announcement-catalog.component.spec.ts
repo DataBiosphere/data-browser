@@ -32,10 +32,7 @@ describe("AnnouncementCatalogComponent", () => {
             ],
             imports: [],
             providers: [
-                {
-                    provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["isV2", "isEnvLocal", "isEnvUxDev", "getPortalUrl"])
-                },
+                ConfigService,
                 {
                     provide: Store,
                     useValue: testStore

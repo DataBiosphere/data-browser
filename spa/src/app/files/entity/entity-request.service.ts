@@ -2,9 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Service for building entity-related HTTP request values, including API URLs and corresponding parameters. Serves
- * both version 2.0 and functionality before 2.0, with the exception of handling next/previous pagination values that
- * are returned from the API. See EntitySearchService20 for 2.0-specific functionality.
+ * Service for building entity-related HTTP request values, including API URLs and corresponding parameters.
  */
 
 // Core dependencies
@@ -33,7 +31,7 @@ export class EntityRequestService {
     constructor(protected configService: ConfigService,
                 protected httpService: HttpService,
                 protected searchTermHttpService: SearchTermHttpService,
-                @Inject("PAGINATION_SERVICE") protected paginationService: PaginationService) {}
+                protected paginationService: PaginationService) {}
 
     /**
      * @param {Catalog} catalog
@@ -48,6 +46,12 @@ export class EntityRequestService {
                               tableParams: TableParams,
                               selectedEntity: string,
                               filterableByProject): EntityRequest {
+
+        if ( tableParams.next || tableParams.previous ) {
+            return {
+                url: tableParams.next || tableParams.previous
+            };
+        }
 
         // Build API URL
         const url = this.buildEntitySearchResultsUrl(selectedEntity);

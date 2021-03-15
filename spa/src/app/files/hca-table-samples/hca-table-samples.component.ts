@@ -23,8 +23,6 @@ import { filter, map } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { AppState } from "../../_ngrx/app.state";
-import { ConfigService } from "../../config/config.service";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileSummary } from "../file-summary/file-summary";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -90,33 +88,23 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
-     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
-    constructor(private configService: ConfigService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {
     }
 
     /**
-     * Return the list of columns to be displayed. Remove columns only visible in v2 environments.
+     * Return the list of columns to be displayed.
      *
      * @returns {string[]}
      */
     public listColumns(): string[] {
 
-        return this.displayedColumns.filter(columnName => {
-
-            if ( !this.configService.isV2() &&
-                (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
-                return false;
-            }
-
-            return true;
-        });
+        return this.displayedColumns;
     }
 
     /**
@@ -140,11 +128,8 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      */
     public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
 
-        // Determine the environment - required for overriding certain sort keys in v2.
-        const v2 = this.configService.isV2();
-
         // Get column sort key, when sort key is specified by table config.
-        const tableConfigColumnSortKey = getColumnSortKey(v2, sort.active);
+        const tableConfigColumnSortKey = getColumnSortKey(sort.active);
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
         if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
@@ -194,9 +179,8 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
-        const v2 = this.configService.isV2();
         this.dataSource =
-            new EntitiesDataSource<SampleRowMapper>(v2, this.store.pipe(select(selectTableData)), SampleRowMapper);
+            new EntitiesDataSource<SampleRowMapper>(this.store.pipe(select(selectTableData)), SampleRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));

@@ -289,8 +289,6 @@ export class ProjectViewFactory {
      *
      * Workflow will not display if "Unspecified".
      * Analysis Protocol "modelOrgan" will not display if the sampleEntityType is "specimens".
-     *
-     * Development stage and nucleic acid source are only available in v2 environments.
      * 
      * @param {Project} project
      * @returns {string[]}
@@ -308,11 +306,6 @@ export class ProjectViewFactory {
                 if ( key === "workflow" ) {
 
                     return this.isWorkflowNotUnspecified(project.workflow);
-                }
-                
-                if ( !this.configService.isV2() &&
-                    (key === FileFacetName.DEVELOMENT_STAGE || key === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
-                    return false;
                 }
 
                 return true;

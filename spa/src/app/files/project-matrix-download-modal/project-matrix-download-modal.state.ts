@@ -15,5 +15,4 @@ export interface ProjectMatrixDownloadModalState {
     loaded: boolean;
     project?: Project;
     projectMatrixFileLocationsByFileUrl?:  Map<string, FileLocation>;
-    projectsMatrixUrls?: ProjectMatrixUrls;
 }

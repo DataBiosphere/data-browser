@@ -99,20 +99,15 @@ export class DownloadService {
      *  Request the file with the specified URL - returns location of either retry URL if file is not yet ready for
      *  download, or the final file location if ready for download.
      *
-     * @param {boolean} v2
      * @param {string} url - either initial file download URL, or URL to retrieve status of file download
      * @param {string} fileName
      * @returns {Subject<FileDownloadResponse>}
      *
      */
-    public requestFileDownload(v2: boolean, url: string, fileName?: string): Observable<FileDownloadResponse> {
+    public requestFileDownload(url: string, fileName?: string): Observable<FileDownloadResponse> {
 
-        const params = {};
-        if ( !v2 && fileName ) {
-            params["fileName"] = fileName;
-        }
         return this.httpClient
-            .get<FileDownloadHttpResponse>(url, {params})
+            .get<FileDownloadHttpResponse>(url)
             .pipe(
                 retry(3),
                 catchError(this.handleFileDownloadError.bind(this)),

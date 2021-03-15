@@ -1,19 +1,7 @@
 <ng-container *ngIf="state$ | async as state">
-    <ng-container [ngSwitch]="isV2()">
-        <ng-container *ngSwitchCase="true">
-            <h2 class="fontsize-xl">Project Matrices</h2>
-            <project-matrix-download
-                    class="project-matrices"
-                    [project]="state.project"
-                    [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <h2 class="fontsize-xl">Expression Matrices</h2>
-            <project-download-expression-matrix
-                    class="max600"
-                    [classFontName]="'fontsize-s'"
-                    [projectMatrixUrls]="state.projectMatrixUrls"
-                    [projectTitle]="state.project.projectTitle"></project-download-expression-matrix>            
-        </ng-container>
-    </ng-container>
+    <h2 class="fontsize-xl">Project Matrices</h2>
+    <project-matrix-download
+            class="project-matrices"
+            [project]="state.project"
+            [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
 </ng-container>

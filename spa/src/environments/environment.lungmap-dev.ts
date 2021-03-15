@@ -7,6 +7,5 @@ export const environment = {
     projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
     terraExportURL: "https://bvdp-saturn-dev.appspot.com",
     deployment: "lungmap-dev",
-    version: "2.0",
     zendeskURL: ""
 };

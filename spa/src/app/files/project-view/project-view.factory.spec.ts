@@ -7,35 +7,35 @@
 
 // Core dependencies
 import { async, TestBed } from "@angular/core/testing";
+import { provideMockStore } from "@ngrx/store/testing";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
+import { ConfigState } from "../../config/_ngrx/config.state";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 
-describe("ProjectViewFactory:", () => {
+describe("ProjectViewFactory", () => {
 
     let projectViewFactory: ProjectViewFactory;
     let configService;
 
     beforeEach(async(() => {
 
-        configService = jasmine.createSpyObj("ConfigService", [
-            "getPortalUrl",
-            "isV2"
-        ]);
-
         TestBed.configureTestingModule({
             declarations: [],
             imports: [],
             providers: [
-                {
-                    provide: ConfigService,
-                    useValue: configService
-                }
+                ConfigService,
+                provideMockStore({
+                    initialState: {
+                        catalog: ConfigState.getDefaultState()
+                    }
+                })
             ]
         });
 
+        configService = TestBed.inject(ConfigService);
         projectViewFactory = new ProjectViewFactory(configService);
     }));
 
@@ -45,8 +45,6 @@ describe("ProjectViewFactory:", () => {
          * Confirm selected cell type is added to project view if value is Unspecified.
          */
         it(`includes selected cell type with value "Unspecified"`, () => {
-
-            configService.isV2.and.returnValue(true);
 
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
@@ -62,8 +60,6 @@ describe("ProjectViewFactory:", () => {
          */
         it(`includes selected cell type with value "neural cell"`, () => {
 
-            configService.isV2.and.returnValue(true);
-
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
                 selectedCellType: "neural cell"
@@ -77,8 +73,6 @@ describe("ProjectViewFactory:", () => {
          * Confirm nucleic acid source is added to project view if value is Unspecified.
          */
         it(`includes nucleic acid source with value "Unspecified"`, () => {
-
-            configService.isV2.and.returnValue(true);
 
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
@@ -94,8 +88,6 @@ describe("ProjectViewFactory:", () => {
          */
         it(`includes nucleic acid source with value "Unspecified"`, () => {
 
-            configService.isV2.and.returnValue(true);
-            
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
                 nucleicAcidSource: "single cell"
@@ -110,8 +102,6 @@ describe("ProjectViewFactory:", () => {
          */
         it(`includes development stage with value "Unspecified"`, () => {
 
-            configService.isV2.and.returnValue(true);
-            
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
                 developmentStage: "Unspecified"
@@ -125,8 +115,6 @@ describe("ProjectViewFactory:", () => {
          * Confirm development stage is added to project view if value is "adult".
          */
         it(`includes development stage with value "Unspecified"`, () => {
-
-            configService.isV2.and.returnValue(true);
 
             // Create model of project that has been parsed by the project mapper
             const mappedProject = {
@@ -253,7 +241,7 @@ describe("ProjectViewFactory:", () => {
         it("adds non default catalog to citation url", () => {
             
             const portalUrl = "https://foo.com";
-            configService.getPortalUrl.and.returnValue(portalUrl);
+            spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
             
             const catalog = "foo";
             const defaultCatalog = "bar";
@@ -265,7 +253,7 @@ describe("ProjectViewFactory:", () => {
         it("doesn't add default catalog to citation url", () => {
 
             const portalUrl = "https://foo.com";
-            configService.getPortalUrl.and.returnValue(portalUrl);
+            spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
 
             const catalog = "foo";
             const defaultCatalog = catalog;

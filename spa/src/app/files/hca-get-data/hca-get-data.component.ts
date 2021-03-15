@@ -19,7 +19,7 @@ import { DownloadViewState } from "./download-view-state.model";
 import { Facet } from "../facet/facet.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { HcaGetDataComponentState } from "./hca-get-data.component.state";
+import { HCAGetDataComponentState } from "./hca-get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { ClearFilesFacetsAction } from "../_ngrx/facet/clear-files-facets.action";
@@ -54,7 +54,7 @@ export class HCAGetDataComponent implements OnInit {
     private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
-    public state$: Observable<HcaGetDataComponentState>;
+    public state$: Observable<HCAGetDataComponentState>;
     public viewState = DownloadViewState.NONE;
 
     /**
@@ -341,19 +341,15 @@ export class HCAGetDataComponent implements OnInit {
             .pipe(
                 map(([selectedEntity, filesFacets, matrixSupported, selectedSearchTerms]) => {
 
-                    const v2 = this.configService.isV2();
                     const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(filesFacets);
 
                     return {
-                        bulkDownloadFeatureDisabled: !v2,
-                        matrixFeatureDisabled: v2,
                         filesFacets,
                         matrixSpeciesSelectionRequired,
                         matrixSupported,
                         matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
                         selectedEntity,
                         selectedSearchTerms,
-                        v2
                     };
                 })
             );

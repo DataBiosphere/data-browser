@@ -14,10 +14,7 @@ import { combineLatest, Observable, of } from "rxjs";
 import { map, take } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
-import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
@@ -36,26 +33,13 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
     public state$: Observable<ProjectMatricesComponentState>;
 
     /**
-     * @param {ConfigService} configService
      * @param {ProjectDetailService} projectDetailService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      */
-    constructor(private configService: ConfigService,
-                private projectDetailService: ProjectDetailService,
+    constructor(private projectDetailService: ProjectDetailService,
                 private store: Store<AppState>,
                 private activatedRoute: ActivatedRoute) {}
-
-
-    /**
-     * Returns true if environment is v2 - used to switch out matrix download functionality in template.
-     *
-     * @returns {boolean}
-     */
-    public isV2(): boolean {
-
-        return this.configService.isV2();
-    }
 
     /**
      * Clear project meta tags.
@@ -89,13 +73,6 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
         const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Determine which matrix formats, if any, are available for download for this project.  Not required for
-        // v2 environments as Azul returns contributor and generated matrices values with project.
-        const v2 = this.isV2(); 
-        if ( !v2 ) {
-            this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
-        }
-
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
 
@@ -103,24 +80,16 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
         const projectMatrixFileLocationsByFileUrl$ = 
             this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
 
-        // Grab the project matrix URLs, if any, for this project
-        const projectMatrixUrls$ = v2 ? of({} as any) : this.store.pipe(
-            select(selectProjectMatrixUrlsByProjectId),
-            map(projectMatrixUrlsByProjectId => projectMatrixUrlsByProjectId.get(projectId))
-        );
-
         this.state$ = combineLatest(
             project$,
-            projectMatrixFileLocationsByFileUrl$,
-            projectMatrixUrls$,
+            projectMatrixFileLocationsByFileUrl$
         )
             .pipe(
-                map(([project, projectMatrixFileLocationsByFileUrl, projectMatrixUrls]) => {
+                map(([project, projectMatrixFileLocationsByFileUrl]) => {
 
                     return {
                         project,
-                        projectMatrixFileLocationsByFileUrl,
-                        projectMatrixUrls
+                        projectMatrixFileLocationsByFileUrl
                     };
                 })
             );

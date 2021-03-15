@@ -53,7 +53,7 @@ export class FilesService {
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
-                @Inject("ENTITY_REQUEST_SERVICE") private entityRequestService: EntityRequestService,
+                private entityRequestService: EntityRequestService,
                 private httpService: HttpService,
                 private searchTermHttpService: SearchTermHttpService,
                 private responseTermService: ResponseTermService,
@@ -218,7 +218,7 @@ export class FilesService {
         
         const tableModel = {
             data: apiResponse.hits,
-            pagination: apiResponse.pagination, // This can be either v1 or v2 pagination model
+            pagination: apiResponse.pagination,
             tableName: selectedEntity,
             termCountsByFacetName
         };

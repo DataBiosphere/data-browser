@@ -21,23 +21,20 @@ export class EntityRowMapper {
     protected row;
     protected samples;
     protected specimens;
-    protected v2;
 
     /**
-     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(v2: boolean, row: any) {
+    constructor(row: any) {
 
-        this.cellSuspensions = rollUpMetadata(v2, row.cellSuspensions);
-        this.donorOrganisms = rollUpMetadata(v2, row.donorOrganisms);
-        this.samples = rollUpMetadata(v2, row.samples);
-        this.specimens = rollUpMetadata(v2, row.specimens);
+        this.cellSuspensions = rollUpMetadata(row.cellSuspensions);
+        this.donorOrganisms = rollUpMetadata(row.donorOrganisms);
+        this.samples = rollUpMetadata(row.samples);
+        this.specimens = rollUpMetadata(row.specimens);
         this.organs = this.specimens.organ;
-        this.projects = rollUpMetadata(v2, row.projects);
-        this.protocols = rollUpMetadata(v2, row.protocols);
+        this.projects = rollUpMetadata(row.projects);
+        this.protocols = rollUpMetadata(row.protocols);
         this.row = row;
-        this.v2 = v2;
     }
 
     /**
@@ -61,8 +58,7 @@ export class EntityRowMapper {
         // Model organ should only display a value when sampleEntityType is cellLines or organoids
         const modelOrgan = this.bindModelOrgan(this.samples.modelOrgan);
 
-        // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array - always map but 
-        // only displayed in v2 environments
+        // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array
         const nucleicAcidSource = this.bindNucleicAcidSource(this.protocols.nucleicAcidSource);
 
         // Workflow "Analysis Protocol" should be displayed as "Unspecified" if it is null, or empty array
@@ -70,7 +66,7 @@ export class EntityRowMapper {
 
         return {
             biologicalSex: getUnspecifiedIfNullValue(this.donorOrganisms.biologicalSex),
-            developmentStage: getUnspecifiedIfNullValue(this.donorOrganisms.developmentStage), //  Always map but only displayed in v2 environments
+            developmentStage: getUnspecifiedIfNullValue(this.donorOrganisms.developmentStage),
             disease: getUnspecifiedIfNullValue(this.specimens.disease),
             donorDisease: getUnspecifiedIfNullValue(this.donorOrganisms.disease),
             donorCount: getUnspecifiedIfNullValue(this.donorOrganisms.donorCount),
@@ -118,8 +114,8 @@ export class EntityRowMapper {
 
     /**
      * Bind nucleic acid source response value. Nucleic acid source should be displayed as "Unspecified"
-     * if it is null, or empty array - always map but only displayed in v2 environments
-     *
+     * if it is null, or empty array.
+     * 
      * @param {string} nucleicAcidSource
      * @returns {string}
      */

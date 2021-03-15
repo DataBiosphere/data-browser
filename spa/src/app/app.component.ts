@@ -80,14 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true if environment is not v2.
-     */
-    public isAnnouncementDCP2ComingSoonVisible(): boolean {
-
-        return !this.configService.isV2();
-    }
-
-    /**
      * Returns true if device is either mobile or tablet.
      * @returns {boolean}
      */
@@ -118,16 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public isSupportRequestEnabled(): boolean {
         
         return this.siteConfigService.isSupportRequestEnabled();
-    }
-
-    /**
-     * Returns true if this isn't a v2.0 environment (DCP-wide system status is only available in pre v2.0 environments).
-     * 
-     * @returns {boolean}
-     */
-    public isStatusPageFeatureEnabled(): boolean {
-
-        return !this.configService.isV2();
     }
 
     /**
