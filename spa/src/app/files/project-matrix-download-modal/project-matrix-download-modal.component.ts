@@ -8,9 +8,6 @@
  * 1. Hitting escape
  * 2. Clicking the close icon
  * 3. Clicking the HCA logo
- * 
- * This component switches out version-specific download components. For v1, ProjectDownloadExpressionMatrix. For v2, 
- * ProjectDownloadMatrix.
  */
 
 // Core dependencies
@@ -22,12 +19,10 @@ import { combineLatest, BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { FetchProjectMatrixUrlsRequestAction } from "../_ngrx/matrix/fetch-project-matrix-urls-request.action";
 import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
@@ -52,14 +47,12 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
     });
 
     /**
-     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {MatDialogRef<ProjectMatrixDownloadModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
     constructor(
-        private configService: ConfigService,
         private store: Store<AppState>,
         private dialogRef: MatDialogRef<ProjectMatrixDownloadModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -81,20 +74,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return environment-specific title for modal.
-     * 
-     * @returns {string}
-     */
-    private getModalTitle(): string {
-
-        if ( this.isV2() ) {
-            return "Project Matrices";
-        }
-
-        return "Download Project Expression Matrices";
-    }
-
-    /**
      * Close the modal on any navigation event.
      */
     private initCloseOnNavigation() {
@@ -107,16 +86,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
-    }
-
-    /**
-     * Returns true if environment is v2 - used to switch out matrix download functionality in template.
-     *
-     * @returns {boolean}
-     */
-    public isV2(): boolean {
-
-        return this.configService.isV2();
     }
 
     /**
@@ -171,13 +140,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         // Request project details so we can display the project title
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Determine which matrix formats, if any, are available for download for the current project. Not required for
-        // v2 environments as Azul returns contributor and generated matrices values with project.
-        const v2 = this.isV2(); 
-        if ( !v2 ) {
-            this.store.dispatch(new FetchProjectMatrixUrlsRequestAction(projectId));
-        }
-
         // Get any resolved matrix file locations for the selected projects
         const projectMatrixFileLocationsByFileUrl$ =
             this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
@@ -185,16 +147,14 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest(
             this.selectProject(projectId),
-            projectMatrixFileLocationsByFileUrl$,
-            v2 ? of({}) : this.selectProjectMatrixUrls(projectId)
+            projectMatrixFileLocationsByFileUrl$
         ).pipe(
-            map(([project, projectMatrixFileLocationsByFileUrl, projectMatrixUrls]) => {
+            map(([project, projectMatrixFileLocationsByFileUrl]) => {
 
                 return {
-                    loaded: !!project && (!!projectMatrixUrls || v2),
+                    loaded: !!project,
                     project,
-                    projectMatrixFileLocationsByFileUrl,
-                    projectMatrixUrls
+                    projectMatrixFileLocationsByFileUrl
                 }
             }),
             takeUntil(this.ngDestroy$)

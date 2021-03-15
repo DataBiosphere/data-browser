@@ -1,34 +1,4 @@
-<hca-get-data-panel [loading]="isMatrixSupportedLoading(matrixEnabled)" *ngIf="!matrixFeatureDisabled">
-    <h4 class="fontsize-m semi-bold">Create Concatenated Expression Matrix</h4>
-    <ng-container *ngIf="!isMatrixSupportedLoading(matrixEnabled)">
-        <ng-container [ngSwitch]="matrixEnabled">
-            <p class="fontsize-m" *ngSwitchCase="true">Request an expression matrix for the selected data from the HCA
-                Matrix service.</p>
-            <warning *ngSwitchDefault>
-                <warning-content>
-                    <p class="fontsize-m">
-                        The data types selected are not currently available in the HCA Matrix Service. To obtain an expression
-                        matrix, please select data that matches:
-                    </p>
-                    <ol class="fontsize-m">
-                        <li>Human, Smart Seq2, paired end true, or</li>
-                        <li>Human, 10X v2 sequencing</li>
-                        <li>Human, 10X 3' v2 sequencing</li>
-                    </ol>
-                </warning-content>
-            </warning>
-        </ng-container>
-        <div class="start">
-            <button class="button secondary"
-                    type="button"
-                    (click)="onStartGetData(getMatrixDownloadAction())"
-                    [disabled]="!matrixEnabled">Start
-            </button>
-            <!--<p class="fontsize-m delimiter">|</p><a><p class="fontsize-m">Help</p></a>-->
-        </div>
-    </ng-container>
-</hca-get-data-panel>
-<hca-get-data-panel *ngIf="!bulkDownloadFeatureDisabled">
+<hca-get-data-panel>
     <h4 class="fontsize-m semi-bold">Download Selected Data Using "curl"</h4>
     <p class="fontsize-m">Obtain a curl command for downloading the selected data.</p>
     <div class="start">
@@ -37,17 +7,8 @@
     </div>
 </hca-get-data-panel>
 <hca-get-data-panel>
-    <ng-container [ngSwitch]="v2">
-        <ng-container *ngSwitchCase="true">
-            <h4 class="fontsize-m semi-bold">Download a File Manifest with Metadata for the Selected Data</h4>
-            <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and the metadata for each file.</p>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <h4 class="fontsize-m semi-bold">Request a File Manifest (for downloading files via the HCA CLI)</h4>
-            <p class="fontsize-m">Request a file manifest for the current query for use with the HCA
-                Command Line Interface (HCA CLI) to download the selected data (e.g. fastqs, BAMs) and metadata.</p>
-        </ng-container>
-    </ng-container>
+    <h4 class="fontsize-m semi-bold">Download a File Manifest with Metadata for the Selected Data</h4>
+    <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and the metadata for each file.</p>
     <div class="start">
         <button class="button secondary" type="button" (click)="onStartGetData('MANIFEST')">Start</button>
         <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/intro-to-downloading-and-analyzing" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>

@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Service for coordinating pagination-related functionality specific to the entity API before version 2.0.
+ * Service for coordinating pagination-related functionality specific to the entity API.
  */
 
 // Core dependencies
@@ -19,7 +19,7 @@ export class PaginationService {
      * Return the values pagination request param values to be included in a request to the entity API.
      *
      * @param {TableParams} tableParams
-     * @returns { {[key: string]: string}}
+     * @returns {{[key: string]: string}}
      */
     public buildFetchSearchResultsPaginationParams(tableParams: TableParams): {[key: string]: string} {
 
@@ -47,6 +47,17 @@ export class PaginationService {
             params["search_before_uid"] = tableParams.search_before_uid;
         }
 
+        // Check if there is paging
+        if ( tableParams.next) {
+
+            params["next"] = tableParams.next;
+        }
+
+        if ( tableParams.previous ) {
+
+            params["previous"] = tableParams.previous;
+        }
+
         return params;
     }
 
@@ -59,9 +70,8 @@ export class PaginationService {
     buildNextPageTableParams(pagination: Pagination): TableParams {
 
         return {
+            next: pagination.next,
             order: pagination.order,
-            search_after: pagination.search_after,
-            search_after_uid: pagination.search_after_uid,
             size: pagination.size,
             sort: pagination.sort
         };
@@ -77,12 +87,12 @@ export class PaginationService {
 
         return {
             order: pagination.order,
-            search_before: pagination.search_before,
-            search_before_uid: pagination.search_before_uid,
+            previous: pagination.previous,
             size: pagination.size,
             sort: pagination.sort
         };
     }
+
 
     /**
      * Returns true if the current page is the first page.
@@ -92,7 +102,7 @@ export class PaginationService {
      */
     isFirstPage(pagination: Pagination): boolean {
 
-        return pagination.search_before_uid === null
+        return pagination.previous === null
     }
 
     /**
@@ -103,6 +113,6 @@ export class PaginationService {
      */
     isLastPage(pagination: Pagination): boolean {
 
-        return pagination.search_after_uid === null
+        return pagination.next === null
     }
 }

@@ -18,12 +18,11 @@ export class ProjectRowMapper extends FileTypeSummariesRowMapper {
     private matrixMapper = new ProjectMatrixMapper();
 
     /**
-     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(v2: boolean, row: any) {
+    constructor(row: any) {
 
-        super(v2, row);
+        super(row);
     }
 
     /**
@@ -32,8 +31,8 @@ export class ProjectRowMapper extends FileTypeSummariesRowMapper {
     public mapRow(): EntityRow {
 
         // Bind contributor and CDP generated matrices 
-        const contributorMatrices = this.v2 ? this.matrixMapper.bindMatrices(this.projects.contributorMatrices) : [];
-        const matrices = this.v2 ? this.matrixMapper.bindMatrices(this.projects.matrices) : [];
+        const contributorMatrices = this.matrixMapper.bindMatrices(this.projects.contributorMatrices);
+        const matrices = this.matrixMapper.bindMatrices(this.projects.matrices);
         
         return Object.assign({}, super.mapRow(), {
             contributorMatrices,

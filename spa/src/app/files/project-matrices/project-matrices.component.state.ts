@@ -14,5 +14,4 @@ export interface ProjectMatricesComponentState {
 
     project: Project;
     projectMatrixFileLocationsByFileUrl:  Map<string, FileLocation>;
-    projectMatrixUrls: ProjectMatrixUrls;
 }

@@ -11,7 +11,6 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "getFileManifestUrl",
     "getIndexStatusUrl",
     "getIntegrationsUrl",
-    "getDataUrl",
     "getDefaultCatalog",
     "getMatrixUrl",
     "getMatrixFormatsUrl",
@@ -29,7 +28,6 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "isEnvUxDev",
     "isEnvDCP2",
     "isEnvProd",
-    "isV2",
     "isCurrentVersion",
     "getZendeskUrl"
 ]);

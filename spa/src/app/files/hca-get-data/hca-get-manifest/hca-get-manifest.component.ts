@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 // App dependencies
 import { BaseGetManifestComponent } from "../base-get-manifest.component.ts/base-get-manifest.component";
@@ -20,9 +20,6 @@ import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fet
 })
 export class HCAGetManifestComponent extends BaseGetManifestComponent implements OnDestroy, OnInit {
     
-    // Inputs
-    @Input() v2: boolean;
-
     /**
      * Track click on copy of manifest data link.
      *

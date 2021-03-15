@@ -10,29 +10,29 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
+import { By } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
+import { of } from "rxjs";
 
 // App dependencies
-import { SupportRequestFormComponent } from "./support-request-form.component";
-import { SharedModule } from "../../shared/shared.module";
-import { DropzoneModule } from "../../dropzone/dropzone.module";
-import { Store } from "@ngrx/store";
-import { of } from "rxjs/index";
-import { SupportRequestState } from "../_ngrx/support-request.state";
-import { By } from "@angular/platform-browser";
-import { CreateSupportRequestRequestAction } from "../_ngrx/create-support-request-request.action";
-import { SupportRequestType } from "../support-request-type.model";
-import { ResetSupportRequestAction } from "../_ngrx/reset-support-request.action";
-import { DropErrorCode } from "../../dropzone/drop-error-code.model";
-import { AttachmentDropRejectAction } from "../_ngrx/attachment-drop-reject.action";
-import { SupportRequestService } from "../support-request.service";
-import { DropzoneComponent } from "../../dropzone/dropzone.component";
-import { SupportRequestErrorComponent } from "../support-request-error/support-request-error.component";
 import { AttachmentErrorComponent } from "../attachment-error/attachment-error.component";
-import { SupportRequestButtonComponent } from "../support-request-button/support-request-button.component";
-import { SupportRequestSubmittedComponent } from "../support-request-submitted/support-request-submitted.component";
-import { SupportRequestComponent } from "../support-request.component";
+import { DropzoneComponent } from "../../dropzone/dropzone.component";
+import { DropErrorCode } from "../../dropzone/drop-error-code.model";
+import { DropzoneModule } from "../../dropzone/dropzone.module";
+import { AttachmentDropRejectAction } from "../_ngrx/attachment-drop-reject.action";
+import { CreateSupportRequestRequestAction } from "../_ngrx/create-support-request-request.action";
 import { DeleteAttachmentAction } from "../_ngrx/delete-attachment.action";
+import { ResetSupportRequestAction } from "../_ngrx/reset-support-request.action";
+import { SupportRequestState } from "../_ngrx/support-request.state";
 import { UploadAttachmentRequestAction } from "../_ngrx/upload-attachment-request.action";
+import { SharedModule } from "../../shared/shared.module";
+import { SupportRequestComponent } from "../support-request.component";
+import { SupportRequestButtonComponent } from "../support-request-button/support-request-button.component";
+import { SupportRequestErrorComponent } from "../support-request-error/support-request-error.component";
+import { SupportRequestFormComponent } from "./support-request-form.component";
+import { SupportRequestService } from "../support-request.service";
+import { SupportRequestSubmittedComponent } from "../support-request-submitted/support-request-submitted.component";
+import { SupportRequestType } from "../support-request-type.model";
 
 describe("SupportRequestForm", () => {
 

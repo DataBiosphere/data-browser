@@ -12,7 +12,6 @@ import { BehaviorSubject, interval } from "rxjs";
 import { take } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
 import { FileDownloadRequestEvent } from "./file-download-request.event";
 import { DownloadService } from "../shared/download.service";
 import { FileDownloadResponse } from "../shared/download-response.model";
@@ -42,10 +41,9 @@ export class HCADownloadFileComponent {
     @ViewChild("download") downloadEl: ElementRef; // Static false: must wait for ng switch to resolve 
 
     /**
-     * @param {ConfigService} configService
      * @param {DownloadService} downloadService
      */
-    constructor(private configService: ConfigService, private downloadService: DownloadService) {}
+    constructor(private downloadService: DownloadService) {}
 
     /**
      * Returns true if download has completed.
@@ -203,7 +201,7 @@ export class HCADownloadFileComponent {
      */
     private requestFileDownload(fileUrl: string, fileName?: string) {
 
-        this.downloadService.requestFileDownload(this.configService.isV2(), fileUrl, fileName)
+        this.downloadService.requestFileDownload(fileUrl, fileName)
             .subscribe((response) => {
                 this.downloadResponse$.next(response);
             });

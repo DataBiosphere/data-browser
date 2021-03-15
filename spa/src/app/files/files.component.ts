@@ -61,8 +61,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Return the catalog for the explore header. For example, "Explore Data: DCP 1.0" or "Explore Data: DCP 2.0", or
-     * "Explore Data" for v1 environments.
+     * Return the catalog for the explore header. For example, "Explore Data: DCP 1.0" or "Explore Data: DCP 2.0".
      *
      * @param {Catalog} catalog
      * @returns {string}
@@ -70,9 +69,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     public getExploreTitle(catalog: Catalog): string {
 
         const title = "Explore Data";
-        if ( !this.configService.isV2() ) {
-            return title;
-        }
 
         const catalogDisplayName = CatalogDisplayName[catalog];
         if ( !catalogDisplayName ) {
@@ -83,7 +79,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     /**
      * Returns true if the catalog feature is enabled. Currently true when:
-     * - current environment is v2, except dcp2 and production
+     * - current environment is not dcp2
      * - there's more than one catalog for the current atlas
      *
      * @param {Catalog[]} catalogs
@@ -91,9 +87,7 @@ export class FilesComponent implements OnInit, OnDestroy {
      */
     public isCatalogEnabled(catalogs: Catalog[]): boolean {
 
-        return this.configService.isV2() && 
-            !this.configService.isEnvDCP2() &&
-            !this.configService.isEnvProd() && 
+        return !this.configService.isEnvDCP2() && 
             catalogs && catalogs.length > 1;
     }
 

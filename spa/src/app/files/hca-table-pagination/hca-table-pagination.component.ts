@@ -38,7 +38,7 @@ export class HCATablePaginationComponent implements OnInit {
      * @param {PaginationService} paginationService
      * @param {Store<AppState>} store
      */
-    constructor(@Inject("PAGINATION_SERVICE") private paginationService: PaginationService,
+    constructor(private paginationService: PaginationService,
                 private store: Store<AppState>) {}
 
     /**

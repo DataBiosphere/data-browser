@@ -368,14 +368,13 @@ export function getColumnFlexDirection(column: string): string {
 /**
  * Returns column sort key for column sort.
  *
- * @param {boolean} v2 - true if environment is running v2
  * @param {string} column
  * @returns {string}
  */
-export function getColumnSortKey(v2: boolean, column: string): string {
+export function getColumnSortKey(column: string): string {
     
-    // For v2 environments, if column is disease, return "donorDisease". TODO remove this once v2 is deployed to production. See #1448.
-    if ( v2 && column === "disease" ) {
+    // If column is disease, return "donorDisease"
+    if ( column === "disease" ) {
         return "specimenDisease";
     }
 
@@ -579,13 +578,13 @@ export function isElementUnspecified(element: string): boolean {
  *
  * Note, all flattened values - with the exception of totalCells and donorCount - are cast to string values.
  * 
- * TODO move table methods to service structure during refactor of tables (#1245), allowing us to use dependency injection of service versions rather than an explicit version argument here 
+ * TODO move table methods to service structure during refactor of tables (#1245)
+ * TODO fix immutability of array values (#1579)
  *
- * @param {boolean} v2 - true if running in v2 environment 
  * @param {any[]} array
  * @returns {any}
  */
-export function rollUpMetadata(v2: boolean, array: any[]): any {
+export function rollUpMetadata(array: any[]): any {
 
     // Return empty object if no array is specified
     if ( !array ) {
@@ -605,7 +604,7 @@ export function rollUpMetadata(v2: boolean, array: any[]): any {
                 // flatten arrays
                 if ( value instanceof Array ) {
                     
-                    value = rollupMetadataArray(v2, key, value);
+                    value = rollupMetadataArray(key, value);
                 }
 
                 if ( key === "totalCells" || key === "donorCount" ) {
@@ -660,11 +659,12 @@ export function rollUpMetadata(v2: boolean, array: any[]): any {
  * 
  * Function is exported to facilitate access in specs.
  *
- * @param {boolean} v2
+ * TODO fix immutability of value arg (#1579)
+ *
  * @param {string} key
  * @param {any} value
  */
-export function rollupMetadataArray(v2: boolean, key: string, value: any): string {
+export function rollupMetadataArray(key: string, value: any): string {
 
     // Convert nested objects into comma-separated values
     if ( key === "organismAge" ) {
@@ -672,10 +672,8 @@ export function rollupMetadataArray(v2: boolean, key: string, value: any): strin
         value = flattenOrganismAge(value);
     }
 
-    // Convert any null or undefined values in array to Unspecified - only for v2 environments
-    if ( v2 ) {
-        value = value.map((elementVal) => getUnspecifiedIfNullValue(elementVal));
-    }
+    // Convert any null or undefined values in array to Unspecified
+    value = value.map((elementVal) => getUnspecifiedIfNullValue(elementVal));
     
     return value.join(", ");
 }

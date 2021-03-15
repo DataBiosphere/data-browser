@@ -15,8 +15,6 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
-import { ConfigService } from "../../config/config.service";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileRowMapper } from "./file-row-mapper";
 import { FileSummary } from "../file-summary/file-summary";
 import { FileDownloadRequestEvent } from "../hca-download-file/file-download-request.event";
@@ -85,13 +83,11 @@ export class HCATableFilesComponent implements OnInit {
     @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
 
     /**
-     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
-    constructor(private configService: ConfigService,
-                private store: Store<AppState>,
+    constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef) {}
 
@@ -115,21 +111,13 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Return the list of columns to be displayed. Remove columns only visible in v2 environments.
+     * Return the list of columns to be displayed.
      *
      * @returns {string[]}
      */
     public listColumns(): string[] {
-
-        return this.displayedColumns.filter(columnName => {
-            
-            if ( !this.configService.isV2() &&
-                (columnName === FileFacetName.DEVELOMENT_STAGE || columnName === FileFacetName.NUCLEIC_ACID_SOURCE) ) {
-                return false;
-            }
-
-            return true;
-        });
+        
+        return this.displayedColumns;
     }
 
     /**
@@ -163,11 +151,8 @@ export class HCATableFilesComponent implements OnInit {
      */
     public sortTable(pm: Pagination, sort: Sort) {
 
-        // Determine the environment - required for overriding certain sort keys in v2.
-        const v2 = this.configService.isV2();
-
         // Get column sort key, when sort key is specified by table config.
-        const tableConfigColumnSortKey = getColumnSortKey(v2, sort.active);
+        const tableConfigColumnSortKey = getColumnSortKey(sort.active);
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
         if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
@@ -217,9 +202,8 @@ export class HCATableFilesComponent implements OnInit {
     ngOnInit() {
 
         // Initialize the new data source with an observable of the table data.
-        const v2 = this.configService.isV2();
         this.dataSource =
-            new EntitiesDataSource<FileRowMapper>(v2, this.store.pipe(select(selectTableData)), FileRowMapper);
+            new EntitiesDataSource<FileRowMapper>(this.store.pipe(select(selectTableData)), FileRowMapper);
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));

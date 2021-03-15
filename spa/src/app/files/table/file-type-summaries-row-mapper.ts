@@ -16,12 +16,11 @@ export class FileTypeSummariesRowMapper extends EntityRowMapper {
     private fileTypeCounts;
 
     /**
-     * @param {boolean} v2 - true if running in v2 environment
      * @param {any} row - data modelling row in current selected table.
      */
-    constructor(v2: boolean, row: any) {
+    constructor(row: any) {
 
-        super(v2, row);
+        super(row);
 
         // Protect against a null file type summaries value here by defaulting to empty array. This would only occur
         // in an error / bad data case.

@@ -6,14 +6,9 @@
 </header>
 <ng-container *ngIf="state$ | async as state">
     <announcement-catalog *ngIf="isAnnouncementCatalogVisible()" [catalog]="state.catalog"></announcement-catalog>
-    <announcement-dcp2-coming-soon *ngIf="isAnnouncementDCP2ComingSoonVisible()"></announcement-dcp2-coming-soon>
     <announcement *ngIf="!state.systemStatus.ok" class="status">
         <mat-icon>warning</mat-icon>
-        <p class="fontsize-s">One or more of the systems composing the HCA DCP is currently unavailable.
-            <ng-container *ngIf="isStatusPageFeatureEnabled()">Please try again later, or monitor the full system status
-                <a href="/status">here</a>.
-            </ng-container>
-        </p>
+        <p class="fontsize-s">One or more of the systems composing the HCA DCP is currently unavailable.</p>
     </announcement>
     <announcement *ngIf="state.systemStatus.ok && state.systemStatus.indexing" class="status">
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>

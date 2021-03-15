@@ -381,6 +381,7 @@ describe("HCAGetManifestComponent", () => {
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
             of({
+                fileUrl: "https://foo.com/bar",
                 status: ManifestStatus.COMPLETE
             }) // manifest response
         );
@@ -388,9 +389,9 @@ describe("HCAGetManifestComponent", () => {
         fixture.detectChanges();
 
         // Confirm link text is added to href attribute
-        const copyToClipboardEl = fixture.debugElement.nativeElement.querySelector("p a");
-
-        expect(copyToClipboardEl.getAttribute("href")).not.toBe(null);
+        const anchorEl = fixture.debugElement.nativeElement.querySelector("display-data-link a");
+        expect(anchorEl).toBeTruthy();
+        expect(anchorEl.getAttribute("href")).not.toBe(null);
     });
 
     /**

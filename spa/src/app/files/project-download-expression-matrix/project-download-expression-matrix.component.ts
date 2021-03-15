@@ -3,8 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Component for displaying project prepared expression matrices downloads. Contains description of download, and the
- * set of matrix downloads for each species, for the given project. This component is v1-specific. For v2, see
- * ProjectFDownloadMatrix.
+ * set of matrix downloads for each species, for the given project. This component is v1-specific.
  */
 
 // Core dependencies

@@ -71,7 +71,9 @@ describe("AppComponent:", () => {
                 MatToolbarModule,
                 RouterModule
             ],
-            providers: [{
+            providers: [
+            ConfigService,
+                {
                 provide: DeviceDetectorService,
                 useValue: jasmine.createSpyObj("DeviceDetectorService", ["isMobile", "isTablet"])
             }, {
@@ -80,9 +82,6 @@ describe("AppComponent:", () => {
             }, {
                 provide: Router,
                 useValue: routerMock
-            }, {
-                provide: ConfigService,
-                useValue: jasmine.createSpyObj("ConfigService", ["getAtlas", "isV2", "isEnvLocal", "isEnvUxDev", "getPortalUrl"])
             }, {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])

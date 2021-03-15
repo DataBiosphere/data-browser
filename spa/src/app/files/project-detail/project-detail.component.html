@@ -1,7 +1,7 @@
 <ng-container *ngIf="state$ | async as state"> 
     <pop-layout [tabs]="getProjectDetailTabs()" *ngIf="state.loaded">
         <ng-container title>Explore Project</ng-container>
-        <project-nav nav [externalResourcesExist]="state.externalResourcesExist" [v2]="isV2()"></project-nav>
+        <project-nav nav [externalResourcesExist]="state.externalResourcesExist"></project-nav>
         <div content>
             <status-panel class="project-title">
                 <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>

@@ -15,7 +15,6 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
@@ -45,13 +44,11 @@ export class ProjectDetailComponent {
     });
 
     /**
-     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    public constructor(private configService: ConfigService,
-                       private store: Store<AppState>,
+    public constructor(private store: Store<AppState>,
                        private activatedRoute: ActivatedRoute,
                        private router: Router) {}
 
@@ -77,16 +74,6 @@ export class ProjectDetailComponent {
     public getProjectDetailTabs(): EntitySpec[] {
 
         return [{key: EntityName.PROJECTS, displayName: "Back"}];
-    }
-
-    /**
-     * Returns true if the current environment is running v2 code.
-     *
-     * @returns {boolean}
-     */
-    public isV2(): boolean {
-
-        return this.configService.isV2();
     }
 
     /**

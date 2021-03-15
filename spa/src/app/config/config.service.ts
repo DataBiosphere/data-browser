@@ -20,8 +20,6 @@ import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 @Injectable()
 export class ConfigService {
     
-    public readonly VERSION_2_0 = "2.0";
-
     // Locals
     protected atlas: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
@@ -59,8 +57,8 @@ export class ConfigService {
      */
     public getCatalogsUrl(): string {
 
-        const pathBase = this.getIndexBasePath();
-        return `${this.dataURL}${pathBase}${APIEndpoints.CATALOGS}`;
+        const path = this.getIndexPath();
+        return `${path}${APIEndpoints.CATALOGS}`;
     }
 
     /**
@@ -71,8 +69,8 @@ export class ConfigService {
      */
     public getEntitiesUrl(entityName: string): string {
 
-        const pathBase = this.getIndexBasePath();
-        return `${this.dataURL}${pathBase}/${entityName}`;
+        const path = this.getIndexPath();
+        return `${path}/${entityName}`;
     }
 
     /**
@@ -117,16 +115,6 @@ export class ConfigService {
 
         const integrationsPath = APIEndpoints.INTEGRATIONS;
         return `${this.dataURL}${integrationsPath}`;
-    }
-
-    /**
-     * Return the data URL.
-     *
-     * @returns {string}
-     */
-    public getDataUrl(): string {
-
-        return this.dataURL;
     }
 
     /**
@@ -210,9 +198,9 @@ export class ConfigService {
      */
     public getProjectUrl(projectId: string): string {
 
-        const pathBase = this.getIndexBasePath();
+        const basePath = this.getIndexPath();
         const projectsPath = APIEndpoints.PROJECTS;
-        return `${this.dataURL}${pathBase}${projectsPath}/${projectId}`;
+        return `${basePath}${projectsPath}/${projectId}`;
     }
 
     /**
@@ -233,9 +221,9 @@ export class ConfigService {
      */
     public getSummaryUrl(): string {
 
-        const pathBase = this.getIndexBasePath();
+        const basePath = this.getIndexPath();
         const summaryPath = APIEndpoints.SUMMARY;
-        return `${this.dataURL}${pathBase}${summaryPath}`;
+        return `${basePath}${summaryPath}`;
     }
 
     /**
@@ -303,16 +291,6 @@ export class ConfigService {
     }
 
     /**
-     * Returns true if the current environment is a version 2.0 environment.
-     * 
-     * @returns {boolean}
-     */
-    public isV2(): boolean {
-
-        return this.version === this.VERSION_2_0;
-    }
-
-    /**
      * Returns true if the specified version matches the version running in the current environment.
      *
      * @param {string} version
@@ -334,15 +312,11 @@ export class ConfigService {
     }
     
     /**
-     * Returns the "base path" for index/repository API calls.
+     * Returns the "base path" for index API calls.
      */
-    private getIndexBasePath(): string {
+    private getIndexPath(): string {
 
-        if ( this.isV2() ){
-            return "/index";
-        }
-        
-        return "/repository";
+        return `${this.dataURL}/index`;
     }
 
     /**
@@ -360,7 +334,6 @@ export class ConfigService {
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
         this.terraExportURL = config.terraExportURL;
-        this.version = config.version;
         this.zendeskURL = config.zendeskURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }

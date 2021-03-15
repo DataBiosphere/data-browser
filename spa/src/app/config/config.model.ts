@@ -14,7 +14,6 @@ export class Config {
     public readonly portalURL: string;
     public readonly projectMetaURL: string;
     public readonly terraExportURL: string;
-    public readonly version: string;
     public readonly zendeskURL: string;
 
     /**
@@ -25,7 +24,6 @@ export class Config {
      * @param {string} portalURL
      * @param {string} projectMetaURL
      * @param {string} terraExportURL
-     * @param {string} version
      * @param {string} zendeskURL
      */
     constructor(atlas: string,
@@ -35,7 +33,6 @@ export class Config {
                 portalURL: string,
                 projectMetaURL: string,
                 terraExportURL: string,
-                version: string,
                 zendeskURL: string) {
 
         this.atlas = atlas;
@@ -45,7 +42,6 @@ export class Config {
         this.portalURL = portalURL;
         this.projectMetaURL = projectMetaURL;
         this.terraExportURL = terraExportURL;
-        this.version = version;
         this.zendeskURL = zendeskURL;
     }
 }

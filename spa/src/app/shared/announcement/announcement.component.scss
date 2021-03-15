@@ -13,12 +13,12 @@
 }
 
 /* announcement-catalog */
-:host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon) {
+:host-context(announcement-catalog) {
     background-color: $hca-blue-light;
 }
 
 /* Component announcement-catalog */
-:host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon) {
+:host-context(announcement-catalog) {
     padding: 20px 16px;
 }
 
@@ -71,11 +71,10 @@
     }
 
     /* Center align content - for banners at the top of site */
-    /* Component announcement-dcp2-coming-soon */
     /* Component announcement-catalog */
     /* Component app with class "status" */
     /* Component app with class "data-re-ingestion" */
-    :host-context(announcement-catalog), :host-context(announcement-dcp2-coming-soon), :host-context(.status), :host-context(.data-re-ingestion) {
+    :host-context(announcement-catalog), :host-context(.status), :host-context(.data-re-ingestion) {
         display: flex;
         justify-content: center;
     }

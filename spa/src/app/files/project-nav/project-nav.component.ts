@@ -26,7 +26,6 @@ export class ProjectNavComponent {
 
     // Inputs
     @Input() externalResourcesExist: boolean;
-    @Input() v2: boolean;
 
     // Locals
     private dataCitation: NavItem;
@@ -150,7 +149,7 @@ export class ProjectNavComponent {
 
             this.projectMatrices = {
                 disabled: false,
-                display: this.v2 ? "Project Matrices" : "Expression Matrices",
+                display: "Project Matrices",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES),
                 ...navigationExtras
             };

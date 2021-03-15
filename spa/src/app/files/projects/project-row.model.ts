@@ -10,8 +10,8 @@ import { EntityRow } from "../entities/entity-row.model";
 import { FileTypeSummariesRow } from "../table/file-type-summaries-row.model";
 
 export interface ProjectRow extends EntityRow, FileTypeSummariesRow {
-    contributorMatrices?: any; // v2 only
+    contributorMatrices?: any;
     entryId: string;
-    matrices?: any; // v2 only
+    matrices?: any;
     projectShortname: string;
 }

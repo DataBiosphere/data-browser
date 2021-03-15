@@ -30,16 +30,13 @@ import { RouterModule } from "@angular/router";
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
-import { AnnouncementDCP2ComingSoonComponent } from "./announcement-dcp2-coming-soon/announcement-dcp2-coming-soon.component";
 import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { DataUseNotificationComponent } from "./data-use-notification/data-use-notification.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { CatalogService } from "./catalog/catalog.service";
 import { ConfigService } from "../config/config.service";
-import { EntityRequestService20 } from "./entity/entity-request.2.0.service";
 import { EntityRequestService } from "./entity/entity-request.service";
-import { environment } from "../../environments/environment";
 import { AgeInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-in-age-unit.pipe";
 import { AgeUnitInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-unit-in-age-unit.pipe";
 import { AgeUnitInSeconds } from "./facet/facet-age-range/facet-age-range-form/age-unit-in-seconds.pipe";
@@ -138,13 +135,9 @@ import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermSortService } from "./sort/term-sort.service";
 import { PaginationService } from "./table/pagination/pagination.service";
-import { PaginationService20 } from "./table/pagination/pagination.2.0.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
 import { UrlService } from "./url/url.service";
-
-// True if current environment is running v2.0 code.
-const v2 = environment.version === "2.0";
 
 @NgModule({
     imports: [
@@ -179,7 +172,6 @@ const v2 = environment.version === "2.0";
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
         AnnouncementCatalogComponent,
-        AnnouncementDCP2ComingSoonComponent,
         BaseGetManifestComponent,
         BulkDownloadComponent,
         CatalogFormComponent,
@@ -262,10 +254,7 @@ const v2 = environment.version === "2.0";
         CatalogService,
         ConfigService,
         DownloadService,
-        {
-            provide: "ENTITY_REQUEST_SERVICE",
-            useClass: v2 ? EntityRequestService20 : EntityRequestService
-        },
+        EntityRequestService,
         FacetDisplayService,
         FileLocationService,
         FileManifestService,
@@ -275,10 +264,7 @@ const v2 = environment.version === "2.0";
         IntegrationService,
         SearchTermUrlService,
         MatrixService,
-        {
-          provide: "PAGINATION_SERVICE",
-          useClass: v2 ? PaginationService20 : PaginationService
-        },
+        PaginationService,
         ProjectDetailService,
         ProjectService,
         ProjectEditsService,
@@ -292,8 +278,7 @@ const v2 = environment.version === "2.0";
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     exports: [
-        AnnouncementCatalogComponent,
-        AnnouncementDCP2ComingSoonComponent
+        AnnouncementCatalogComponent
     ]
 })
 export class FilesModule {
