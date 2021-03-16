@@ -54,19 +54,3 @@
         display: none;
     }
 }
-
-/** Parent-driven style configuration of file download */
-:host.project-matrix-view-table-file-download {
-    
-    img {
-        margin-right: 0;
-    }
-    
-    .download-spinner {
-        margin-right: 0;
-    }
-    
-    .download-error {
-        margin-right: 0;
-    }
-}

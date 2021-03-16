@@ -9,12 +9,9 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { ClearIsMatrixSupportedAction } from "./clear-is-matrix-supported.action";
 import { InitEntityStateAction } from "../entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
-import { FetchIsMatrixSupportedRequestAction } from "./fetch-is-matrix-supported-request.action";
-import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FacetState } from "./facet.state";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
@@ -39,12 +36,8 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         // Clear all search terms
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FacetState.getDefaultState();
-            
-        // Handle clear of matrixable search results
-        case ClearIsMatrixSupportedAction.ACTION_TYPE:
-            return  state.clearMatrixableSearchResults();
-            
-        // Reset files facets (facets fetched from files endpoint for display on get data pages)
+        
+            // Reset files facets (facets fetched from files endpoint for display on get data pages)
         case ClearFilesFacetsAction.ACTION_TYPE:
             return state.clearFilesFacets();
 
@@ -57,14 +50,6 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         case FetchFilesFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFilesFacets(action as FetchFilesFacetsSuccessAction);
 
-        // Request matrixable data from the server
-        case FetchIsMatrixSupportedRequestAction.ACTION_TYPE:
-            return state.requestMatrixSupported();
-
-        // Matrixable data has been successfully returned from server
-        case FetchIsMatrixSupportedSuccessAction.ACTION_TYPE:
-            return state.receiveMatrixSupported(action as FetchIsMatrixSupportedSuccessAction);
-            
         // Set up data for selected entity (eg projects, samples, files)
         case InitEntityStateAction.ACTION_TYPE:
             return state.requestFileFacets();            

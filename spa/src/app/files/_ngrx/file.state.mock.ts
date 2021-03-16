@@ -11,7 +11,6 @@ import { FacetState } from "./facet/facet.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { FileState } from "./file.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
-import { MatrixState } from "./matrix/matrix.state";
 import { ProjectState } from "./project/project.state";
 import { SearchState } from "./search/search.state";
 import { TerraState } from "./terra/terra.state";
@@ -31,7 +30,6 @@ export const DEFAULT_PROJECTS_STATE = {
     facet: FacetState.getDefaultState(),
     fileManifest: FileManifestState.getDefaultState(),
     integration: IntegrationState.getDefaultState(),
-    matrix: MatrixState.getDefaultState(),
     project: ProjectState.getDefaultState(),
     projectEdits: ProjectEditsState.getDefaultState(),
     search: SearchState.getDefaultState(),

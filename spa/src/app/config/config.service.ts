@@ -23,7 +23,6 @@ export class ConfigService {
     // Locals
     protected atlas: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
-    protected matrixURL: string;
     protected portalURL: string;
     protected deployment: string;
     protected projectMetaURL: string;
@@ -118,37 +117,6 @@ export class ConfigService {
     }
 
     /**
-     * Returns the matrix URL.
-     *
-     * @returns {string}
-     */
-    public getMatrixUrl(): string {
-
-        return this.matrixURL;
-    }
-
-    /**
-     * Returns the matrix formats URL.
-     *
-     * @returns {string}
-     */
-    public getMatrixFormatsUrl(): string {
-
-        return `${this.matrixURL}${APIEndpoints.MATRIX_FORMATS}`;
-    }
-
-    /**
-     * Returns the matrix request URL.
-     *
-     * @param {string} requestId
-     * @returns {string}
-     */
-    public getMatrixRequestUrl(requestId: string): string {
-
-        return `${this.matrixURL}/${requestId}`;
-    }
-
-    /**
      * Returns the portal URL.
      *
      * @returns {string}
@@ -177,17 +145,6 @@ export class ConfigService {
     public getProjectMetaDownloadUrl(projectId: string): string {
 
         return `${this.getProjectMetaUrl()}${APIEndpoints.PROJECT_METADATA}/${projectId}.tsv`;
-    }
-
-    /**
-     * Returns the complete URL for the download of the prepared matrix for the specified project.
-     *
-     * @param {string} fileName
-     * @returns {string}
-     */
-    public getProjectPreparedMatrixDownloadUrl(fileName: string): string {
-
-        return `${this.getProjectMetaUrl()}${APIEndpoints.PROJECT_MATRICES}/${fileName}`;
     }
 
     /**
@@ -329,7 +286,6 @@ export class ConfigService {
 
         this.atlas = config.atlas;
         this.dataURL = config.dataURL;
-        this.matrixURL = config.matrixURL;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;

@@ -9,7 +9,6 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 // App dependencies
-import { DownloadViewState } from "../download-view-state.model";
 import { FileSummary } from "../../file-summary/file-summary";
 import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../../pipe/locale-string/locale-string.pipe";
@@ -33,7 +32,6 @@ export class HCAGetDataFileSummaryComponent {
     @Input() selectedOrganParts: Term[];
     @Input() selectedPairedEnds: Term[];
     @Input() summary: FileSummary;
-    @Input() viewState: DownloadViewState;
 
     /**
      * Returns a concatenation of all terms in the specified array.
@@ -49,16 +47,6 @@ export class HCAGetDataFileSummaryComponent {
         else {
             return "Unspecified";
         }
-    }
-
-    /**
-     * Returns true if the download view state is "Matrix".
-     *
-     * @param {DownloadViewState} downloadViewState
-     * @returns {boolean}
-     */
-    public isDownloadViewStateMatrix(downloadViewState: DownloadViewState): boolean {
-        return downloadViewState === DownloadViewState.MATRIX;
     }
 
     /**

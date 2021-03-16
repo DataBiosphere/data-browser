@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying project prepared expression matrices downloads inside modal. The modal closes automatically
+ * Component for displaying project prepared project matrices downloads inside modal. The modal closes automatically
  * on NavigationStart event. The following actions causes a redirect to the projects page (and therefore closes the modal):
  * 
  * 1. Hitting escape
@@ -23,13 +23,11 @@ import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
-import { selectProjectMatrixUrlsByProjectId } from "../_ngrx/matrix/matrix.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectMatrixDownloadModalState } from "./project-matrix-download-modal.state";
 import { EntityName } from "../shared/entity-name.model";
 import { Project } from "../shared/project.model";
-import { ProjectMatrixUrls } from "../shared/project-matrix-urls.model";
 
 @Component({
     selector: "project-matrix-download-modal",
@@ -97,25 +95,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             select(selectSelectedProject),
             filter(project => !!project && project.entryId === projectId)
         );
-    }
-
-    /**
-     * Grab the matrix URLs for the selected project.
-     * 
-     * @param {string} projectId
-     * @returns {Observable<ProjectMatrixUrls>}
-     */
-    private selectProjectMatrixUrls(projectId: string): Observable<ProjectMatrixUrls> {
-
-        return this.store.pipe(
-            select(selectProjectMatrixUrlsByProjectId),
-            filter((matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>) => {
-                return !!matrixUrlsByProjectId.get(projectId);
-            }),
-            map((matrixUrlsByProjectId: Map<string, ProjectMatrixUrls>) => {
-                return matrixUrlsByProjectId.get(projectId);
-            })
-        )
     }
 
     /**

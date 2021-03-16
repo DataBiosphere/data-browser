@@ -11,7 +11,6 @@ import { FacetState } from "./facet/facet.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
 import { IntegrationState } from "./integration/integration.state";
-import { MatrixState } from "./matrix/matrix.state";
 import { ProjectState } from "./project/project.state";
 import { ProjectEditsState } from "./project-edits/project-edits.state";
 import { SearchState } from "./search/search.state";
@@ -25,7 +24,6 @@ export interface FileState {
     facet: FacetState;
     fileManifest: FileManifestState;
     integration: IntegrationState,
-    matrix: MatrixState;
     project: ProjectState;
     projectEdits: ProjectEditsState,
     search: SearchState;

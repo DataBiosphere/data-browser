@@ -44,7 +44,7 @@ export class SearchEffects {
         ofType(
             ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
             ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
-            SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
+            SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "bam"
             SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
         ),
         concatMap(action => of(action).pipe(

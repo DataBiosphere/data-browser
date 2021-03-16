@@ -91,7 +91,6 @@ describe("HCAGetDataDownloadsComponent", () => {
      */
     it(`emits "BULK_DOWNLOAD" on click of bulk download start button`, () => {
 
-        component.matrixEnabled = true;
         fixture.detectChanges();
 
         let selectedDownload: string;
@@ -111,7 +110,6 @@ describe("HCAGetDataDownloadsComponent", () => {
      */
     it(`emits "MANIFEST" on click of manifest start button`, () => {
 
-        component.matrixEnabled = true;
         fixture.detectChanges();
 
         let selectedDownload: string;
@@ -131,7 +129,6 @@ describe("HCAGetDataDownloadsComponent", () => {
      */
     it(`emits "TERRA" on click of terra start button`, () => {
 
-        component.matrixEnabled = true;
         fixture.detectChanges();
 
         let selectedDownload: string;

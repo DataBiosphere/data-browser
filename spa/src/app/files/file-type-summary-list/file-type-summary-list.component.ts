@@ -51,7 +51,7 @@ export class FileTypeSummaryListComponent implements OnInit {
      */
     public getDisplayList(): FileTypeSummaryView[] {
 
-        // Return fileTypeSummary, excluding matrix file type
+        // Return view model of file type summary
         const fileTypeSummaryViews = this.fileTypeSummaries
             .map(fileTypeSummary => {
 

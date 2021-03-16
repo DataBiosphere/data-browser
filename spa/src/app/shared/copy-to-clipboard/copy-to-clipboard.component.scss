@@ -28,12 +28,10 @@
 }
 
 /* ProjectOverviewComponent */
-/* ProjectDownloadManifestComponent */
 /* ProjectDownloadMatrixComponent */
 /* ProjectMatrixTable */
 /* ProjectSupplementaryLinksComponent */
 :host-context(project-overview),
-:host-context(project-download-expression-matrix),
 :host-context(project-download-manifest),
 :host-context(project-matrix-download),
 :host-context(project-matrix-table),

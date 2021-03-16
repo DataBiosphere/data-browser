@@ -6,7 +6,6 @@
  */
 
 // Core dependencies
-import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
@@ -22,11 +21,8 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { HCAGetDataComponentState } from "./hca-get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
-import { ClearFilesFacetsAction } from "../_ngrx/facet/clear-files-facets.action";
-import { ClearIsMatrixSupportedAction } from "../_ngrx/facet/clear-is-matrix-supported.action";
-import { selectFilesFacets, selectMatrixSupported } from "../_ngrx/facet/facet.selectors";
+import { selectFilesFacets } from "../_ngrx/facet/facet.selectors";
 import { FetchFilesFacetsRequestAction } from "../_ngrx/facet/fetch-files-facets-request.action";
-import { FetchIsMatrixSupportedRequestAction } from "../_ngrx/facet/fetch-is-matrix-supported-request.action";
 import { selectSelectedEntitySpec } from "../_ngrx/file.selectors";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
@@ -37,15 +33,7 @@ import { SearchTermUrlService } from "../search/url/search-term-url.service";
     selector: "hca-get-data",
     templateUrl: "./hca-get-data.component.html",
     styleUrls: ["./hca-get-data.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger("fadeIn", [
-            transition(":enter", [
-                style({opacity: 0}),
-                animate("750ms ease-out", style({opacity: 1}))
-            ])
-        ])
-    ]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HCAGetDataComponent implements OnInit {
@@ -119,10 +107,6 @@ export class HCAGetDataComponent implements OnInit {
         
         if ( this.viewState === DownloadViewState.TERRA ) {
             return "Export to Terra";
-        }
-        
-        if ( this.viewState === DownloadViewState.MATRIX || this.viewState === DownloadViewState.MATRIX_SPECIES_SELECTION ) {
-            return "Request Expression Matrix";
         }
 
         return "Export Selected Data";
@@ -236,52 +220,6 @@ export class HCAGetDataComponent implements OnInit {
     }
 
     /**
-     * Returns true if user must select the set of species to be included in a matrix download.
-     * 
-     * For the set of species present in the current data:
-     * 
-     * - one species, human, not selected, species selection required
-     * - one species, non-human, not selected, species selection required
-     * - one species, either human or non-human, selected, species selection not required
-     * - more than one species, none selected, species selection required
-     * - more than one species, at least one selected (either human or non-human), species selection not required 
-     * 
-     * @param {Facet[]} fileFacets
-     * @returns {boolean}
-     */
-    private isMatrixSpeciesSelectionRequired(fileFacets: Facet[]): boolean {
-
-        const speciesFileFacet = this.getSpeciesFileFacet(fileFacets);
-        if ( !speciesFileFacet ) {
-            return false;
-        }
-
-        const effectiveTerms = speciesFileFacet.getEffectiveTerms();
-
-        // There's only one species in our data set, species selection is required if the species is not currently
-        // selected
-        if ( effectiveTerms.length === 1 ) {
-            return !effectiveTerms[0].selected;
-        }
-
-        // There's more than one species in our data set, species selection is required if non species is currently
-        // selected
-        const selectedTerms = effectiveTerms.filter(term => term.selected);
-        return selectedTerms.length === 0;
-    }
-
-    /**
-     * Returns true if whether matrix is supported or not, has been determined.
-     *
-     * @param {boolean} supported
-     * @returns {boolean}
-     */
-    private isMatrixSupportedLoaded(supported: boolean): boolean {
-
-        return (supported === true || supported === false);
-    }
-
-    /**
      * Returns the effective terms for the specified facet
      *
      * @param {FileFacet[]} fileFacets
@@ -307,8 +245,6 @@ export class HCAGetDataComponent implements OnInit {
      */
     public ngOnDestroy() {
 
-        this.store.dispatch(new ClearIsMatrixSupportedAction());
-        this.store.dispatch(new ClearFilesFacetsAction());
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -328,26 +264,16 @@ export class HCAGetDataComponent implements OnInit {
         // Grab the current set of selected search terms
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
         
-        // Determine if Matrix files are included in the current files result set.
-        this.store.dispatch(new FetchIsMatrixSupportedRequestAction());
-        const matrixSupported$ = this.store.pipe(select(selectMatrixSupported));
-
         this.state$ = combineLatest(
             selectedEntity$,
             filesFacets$,
-            matrixSupported$,
             selectedSearchTerms$
         )
             .pipe(
-                map(([selectedEntity, filesFacets, matrixSupported, selectedSearchTerms]) => {
-
-                    const matrixSpeciesSelectionRequired = this.isMatrixSpeciesSelectionRequired(filesFacets);
+                map(([selectedEntity, filesFacets, selectedSearchTerms]) => {
 
                     return {
                         filesFacets,
-                        matrixSpeciesSelectionRequired,
-                        matrixSupported,
-                        matrixSupportedLoaded: this.isMatrixSupportedLoaded(matrixSupported),
                         selectedEntity,
                         selectedSearchTerms,
                     };

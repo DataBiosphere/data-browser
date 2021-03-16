@@ -13,9 +13,6 @@ import EntitySpec from "../shared/entity-spec";
 export interface HCAGetDataComponentState {
 
     filesFacets: Facet[]; // Facets returned from the files endpoint
-    matrixSpeciesSelectionRequired: boolean;
-    matrixSupported: boolean;
-    matrixSupportedLoaded: boolean;
     selectedEntity: EntitySpec;
     selectedSearchTerms: SearchTerm[];
 }

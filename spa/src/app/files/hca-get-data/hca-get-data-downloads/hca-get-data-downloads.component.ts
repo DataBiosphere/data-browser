@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from "@angular/core";
+import { Component, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
@@ -24,10 +24,6 @@ export class HCAGetDataDownloadsComponent {
     // Template variables
     public portalURL: string;
 
-    // Inputs
-    @Input() matrixEnabled: boolean;
-    @Input() matrixSpeciesSelectionRequired: boolean;
-
     // Outputs
     @Output() downloadSelected = new EventEmitter<string>();
 
@@ -35,36 +31,8 @@ export class HCAGetDataDownloadsComponent {
      * @param {ConfigService} configService
      */
     constructor(private configService: ConfigService) {
+
         this.portalURL = this.configService.getPortalUrl();
-    }
-
-    /**
-     * Returns the download action for matrix - either MATRIX_SPECIES_SELECTION if species selection is required for
-     * the current data, or MATRIX if species selection is not required.
-     * 
-     * Note, this functionality will no longer be required once deep-linking to download related modes (matrix,
-     * manifest, terra) is added.
-     * 
-     * @returns {string}
-     */
-    public getMatrixDownloadAction(): string {
-
-        if ( this.matrixSpeciesSelectionRequired ) {
-            return DownloadViewState.MATRIX_SPECIES_SELECTION;
-        }
-
-        return DownloadViewState.MATRIX;
-    }
-
-    /**
-     * Returns true if whether matrix is supported or not, is not yet determined.
-     *
-     * @param {boolean} supported
-     * @returns {boolean}
-     */
-    public isMatrixSupportedLoading(supported: boolean): boolean {
-
-        return !(supported === true || supported === false);
     }
 
     /**
@@ -73,6 +41,7 @@ export class HCAGetDataDownloadsComponent {
      * @param {string} download
      */
     public onStartGetData(download: string) {
+
         this.downloadSelected.emit(download);
     }
 }

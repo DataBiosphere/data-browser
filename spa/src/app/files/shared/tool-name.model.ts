@@ -7,6 +7,5 @@
 
 export enum ToolName {
     "TERRA" = "Terra",
-    "MANIFEST" = "Manifest",
-    "MATRIX" = "Matrix"
+    "MANIFEST" = "Manifest"
 }

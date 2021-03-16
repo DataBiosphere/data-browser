@@ -150,7 +150,7 @@ export class ProjectNavComponent {
             this.projectMatrices = {
                 disabled: false,
                 display: "Project Matrices",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXPRESSION_MATRICES),
+                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_MATRICES),
                 ...navigationExtras
             };
 

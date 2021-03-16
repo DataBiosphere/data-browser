@@ -45,10 +45,3 @@ export const selectFilesFacets = createSelector(selectFacet, (state) => {
 export const selectFileFormatsFileFacet = createSelector(selectFacet, (state) => {
     return state.fileFacets.find((facet) => facet.name === FileFacetName.FILE_FORMAT);
 });
-
-/**
- * Returns true if current search terms yield matrixable data.
- */
-export const selectMatrixSupported = createSelector(selectFacet, (state) => {
-    return state.matrixSupported;
-});

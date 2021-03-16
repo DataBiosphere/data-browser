@@ -34,7 +34,6 @@ import { LocalStorageService } from "./storage/local-storage.service";
 import { SupportRequestComponent } from "./support-request/support-request.component";
 import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 
-
 describe("AppComponent:", () => {
 
     let component: AppComponent;
