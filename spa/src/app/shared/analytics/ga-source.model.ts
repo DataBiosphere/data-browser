@@ -8,7 +8,6 @@
 export enum GASource {
     "COHORT_EXPORT" = "Cohort Export",
     "COHORT_MANIFEST" = "Cohort Manifest",
-    "COHORT_MATRIX" = "Cohort Matrix",
     "FACET_BROWSER" = "Facet Browser",
     "PROJECT" = "Project",
     "SEARCH" = "Search",

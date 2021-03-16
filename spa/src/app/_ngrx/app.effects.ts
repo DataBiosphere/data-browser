@@ -15,7 +15,6 @@ import { FileEffects } from "../files/_ngrx/file.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
 import { InitEffects } from "../files/_ngrx/init/init.effects";
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
-import { MatrixEffects } from "../files/_ngrx/matrix/matrix.effects";
 import { ProjectEffects } from "../files/_ngrx/project/project.effects";
 import { ProjectEditsEffects } from "../files/_ngrx/project-edits/project-edits.effects";
 import { SearchEffects } from "../files/_ngrx/search/search.effects";
@@ -35,7 +34,6 @@ export const AppEffects = [
     FileManifestEffects,
     InitEffects,
     IntegrationEffects,
-    MatrixEffects,
     ProjectEffects,
     ProjectEditsEffects,
     SearchEffects,

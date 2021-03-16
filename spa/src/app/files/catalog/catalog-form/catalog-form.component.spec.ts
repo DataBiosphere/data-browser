@@ -17,6 +17,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { CatalogFormComponent } from "./catalog-form.component";
 import { CatalogState } from "../../_ngrx/catalog/catalog.state";
 import { SelectCatalogAction } from "../../_ngrx/catalog/select-catalog.action";
+import { ReactiveFormsModule } from "@angular/forms";
 
 describe("CatalogFormComponent", () => {
 
@@ -31,7 +32,8 @@ describe("CatalogFormComponent", () => {
                 CatalogFormComponent
             ],
             imports: [
-                MatRadioModule
+                MatRadioModule,
+                ReactiveFormsModule
             ],
             providers: [
                 provideMockStore({

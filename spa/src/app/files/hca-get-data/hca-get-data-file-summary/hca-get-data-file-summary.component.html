@@ -7,7 +7,7 @@
     </hca-tooltip>
     <span class="fontsize-xxs label">Estimated Cells</span>
 </div>
-<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
+<div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                  [tooltipContent]="summary.totalFileSize | localeString"
                  [tooltipPosition]="'above'">
@@ -15,7 +15,7 @@
     </hca-tooltip>
     <span class="fontsize-xxs label">File Size</span>
 </div>
-<div class="summary" *ngIf="!isDownloadViewStateMatrix(viewState)">
+<div class="summary">
     <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
                  [tooltipContent]="summary.fileCount | localeString"
                  [tooltipDisabled]="isTooltipDisabled(summary.fileCount)"

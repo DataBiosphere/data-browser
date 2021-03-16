@@ -3,8 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Model of facet state and related selected facet terms states. Facet state includes all facet types: file facets a 
- * well as age range facets. Also contains convenience maps for querying state and a boolean indicating if current
- * search terms yield any results that are matrixable.
+ * well as age range facets.
  */
 
 // App dependencies
@@ -14,7 +13,6 @@ import { FacetAgeRange } from "../../facet/facet-age-range/facet-age-range.model
 import { AgeRange } from "../../facet/facet-age-range/age-range.model";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
-import { FetchIsMatrixSupportedSuccessAction } from "./fetch-is-matrix-supported-success.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
 import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.action";
@@ -30,7 +28,6 @@ export class FacetState {
     public readonly fileFacets: FileFacet[]; // Subset of facets, containing only facets of type file facet
     public readonly filesFacets: Facet[]; // Set of facets from files endpoint, used to display facet values on get data flow
     public readonly selectedFacet: Facet; // Facet currently being edited.
-    public readonly matrixSupported: boolean;
     public readonly paginationModel: Pagination;
 
     private readonly facetNames: string[];
@@ -42,14 +39,12 @@ export class FacetState {
      * @param {Facet[]} filesFacets
      * @param {Facet} selectedFacet
      * @param {Pagination} paginationModel
-     * @param {boolean} matrixSupported
      */
     constructor(facetNames: string[],
                 facetsByName: Map<string, Facet>,
                 filesFacets: Facet[],
                 selectedFacet: Facet,
-                paginationModel: Pagination,
-                matrixSupported: boolean) {
+                paginationModel: Pagination) {
 
         this.facetNames = facetNames;
         this.facetsByName = facetsByName; // Facets specifically fetched from files endpoint
@@ -65,9 +60,7 @@ export class FacetState {
         
         // Set up subset of facets containing only file facets. Used mainly by matrix functionality when checking set
         // of selected terms for specific file facets (species, library construction approach etc).
-        this.fileFacets = this.facets.filter(facet => facet instanceof FileFacet) as FileFacet[];
-
-        this.matrixSupported = matrixSupported;
+        this.fileFacets = this.facets.filter(facet => facet instanceof FileFacet) as FileFacet[]; // TODO ****************************************************************************************************
     }
 
     /**
@@ -80,7 +73,6 @@ export class FacetState {
             [],
             new Map<string, FileFacet>(),
             [],
-            undefined,
             undefined,
             undefined);
     }
@@ -114,7 +106,7 @@ export class FacetState {
         const selectedFacet = this.determineSelectedFacet(this.selectedFacet, newSelectedFacet);
 
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel, this.matrixSupported);
+            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -125,19 +117,8 @@ export class FacetState {
     public clearFilesFacets(): FacetState {
 
         return new FacetState(
-            this.facetNames, this.facetsByName, [], this.selectedFacet, this.paginationModel, this.matrixSupported);
+            this.facetNames, this.facetsByName, [], this.selectedFacet, this.paginationModel);
     } 
-
-    /**
-     * Clear the matrixable search results.
-     * 
-     * @returns {FacetState}
-     */
-    public clearMatrixableSearchResults(): FacetState {
-
-        return new FacetState(
-            this.facetNames, this.facetsByName, this.filesFacets, this.selectedFacet, this.paginationModel, undefined);
-    }
 
     /**
      * Return model of the current state of the file facet list (including pagination)
@@ -147,7 +128,7 @@ export class FacetState {
     public requestFileFacets(): FacetState {
 
         return new FacetState(
-            this.facetNames, this.facetsByName, this.filesFacets, this.selectedFacet, this.paginationModel, this.matrixSupported);
+            this.facetNames, this.facetsByName, this.filesFacets, this.selectedFacet, this.paginationModel);
     }
 
     /**
@@ -163,8 +144,7 @@ export class FacetState {
             FacetState.createFacetsMap(action.facets),
             this.filesFacets,
             this.selectedFacet,
-            this.paginationModel,
-            this.matrixSupported);
+            this.paginationModel);
     }
 
 
@@ -181,38 +161,7 @@ export class FacetState {
             this.facetsByName,
             action.fileFileFacets,
             this.selectedFacet,
-            this.paginationModel,
-            this.matrixSupported);
-    }
-
-    /**
-     * Matrixable state of data has been returned from server.
-     *
-     * @param {FetchIsMatrixSupportedSuccessAction} action
-     */
-    public receiveMatrixSupported(action: FetchIsMatrixSupportedSuccessAction): FacetState {
-
-        return new FacetState(
-            this.facetNames,
-            this.facetsByName,
-            this.filesFacets,
-            this.selectedFacet,
-            this.paginationModel,
-            action.matrixableSearchResults);
-    }
-
-    /**
-     * Matrixable search results has been requested from server.
-     */
-    public requestMatrixSupported(): FacetState {
-
-        return new FacetState(
-            this.facetNames,
-            this.facetsByName,
-            this.filesFacets,
-            this.selectedFacet,
-            this.paginationModel,
-            this.matrixSupported)
+            this.paginationModel);
     }
 
     /**
@@ -256,7 +205,7 @@ export class FacetState {
         // Return new state of file facet list (ie with newly selected/deselected term and potentially newly selected
         // facet).
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel, this.matrixSupported);
+            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -289,7 +238,7 @@ export class FacetState {
         const selectedFacet = this.determineSelectedFacet(this.selectedFacet, newSelectedFacet);
         
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel, this.matrixSupported);
+            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -324,7 +273,7 @@ export class FacetState {
             return accum;
         }, new Map<string, Facet>());
 
-        return new FacetState(fileFacetNames, fileFacetsMap, [], null, null, undefined);
+        return new FacetState(fileFacetNames, fileFacetsMap, [], null, null);
     }
     
     /*

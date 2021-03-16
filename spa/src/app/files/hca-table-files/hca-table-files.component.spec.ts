@@ -37,7 +37,6 @@ import { HCATableFilesComponent } from "./hca-table-files.component";
 import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-pagination.component";
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
-import { ProjectDownloadTSVComponent } from "../project-download-tsv/project-download-tsv.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadService } from "../shared/download.service";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
@@ -88,7 +87,6 @@ describe("HCATableFilesComponent", () => {
                 HCAEllipsisTextComponent,
                 HCADownloadFileComponent,
                 DownloadButtonComponent,
-                ProjectDownloadTSVComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,

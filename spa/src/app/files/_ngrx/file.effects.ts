@@ -19,8 +19,6 @@ import { DownloadFileAction } from "./download-file.action";
 import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
-import { FetchIsMatrixSupportedRequestAction } from "./facet/fetch-is-matrix-supported-request.action";
-import { FetchIsMatrixSupportedSuccessAction } from "./facet/fetch-is-matrix-supported-success.action";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
 import { FetchFilesFacetsRequestAction } from "./facet/fetch-files-facets-request.action";
@@ -95,7 +93,7 @@ export class FileEffects {
                 ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
                 InitEntityStateAction.ACTION_TYPE, // Init table data for newly selected tab, if table data isn't cached
                 SetViewStateAction.ACTION_TYPE, // Setting up app state from URL params
-                SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "matrix"
+                SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "bam"
                 SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
             ),
             mergeMap(() => {
@@ -237,29 +235,6 @@ export class FileEffects {
                 
                 return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
             })
-        );
-
-    /**
-     * Determine if the current set of data is matrixable.
-     */
-    @Effect()
-    fetchIsMatrixSupported: Observable<Action> = this.actions$
-        .pipe(
-            ofType(
-                FetchIsMatrixSupportedRequestAction.ACTION_TYPE
-            ),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectTableQueryParams), take(1))
-                )
-            )),
-            switchMap(([action, catalog, tableQueryParams]) => {
-
-                return this.fileService.fetchIsMatrixSupported(
-                    catalog, tableQueryParams.selectedSearchTermsBySearchKey, DEFAULT_TABLE_PARAMS);
-            }),
-            map((matrixableSearchResults: boolean) => new FetchIsMatrixSupportedSuccessAction(matrixableSearchResults))
         );
 
     /**

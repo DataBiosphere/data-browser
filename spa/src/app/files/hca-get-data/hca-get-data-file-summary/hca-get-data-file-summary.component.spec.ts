@@ -12,7 +12,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { By, HAMMER_LOADER } from "@angular/platform-browser";
 
 // App dependencies
-import { DownloadViewState } from "../download-view-state.model";
 import { HCAGetDataFileSummaryComponent } from "./hca-get-data-file-summary.component";
 import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
 import { FileSizePipe } from "../../../pipe/file-size/file-size.pipe";
@@ -70,14 +69,6 @@ describe("HCAGetDataFileSummaryComponent", () => {
     }));
 
     /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
-
-    /**
      * Confirm display terms method returns "Unspecified" when terms is undefined.
      */
     it(`should return "Unspecified" when terms is undefined`, () => {
@@ -106,28 +97,6 @@ describe("HCAGetDataFileSummaryComponent", () => {
     });
 
     /**
-     * Confirm download view state matrix returns true, when view mode is "MATRIX".
-     */
-    it(`should return true when view mode is download view state "MATRIX"`, () => {
-
-        // Confirm download view state matrix returns true when view mode is "MATRIX" - first execute the method
-        // and then confirm the returned value is true.
-        const downloadViewState = component.isDownloadViewStateMatrix(DownloadViewState.MATRIX);
-        expect(downloadViewState).toEqual(true);
-    });
-
-    /**
-     * Confirm download view state matrix returns false, when view mode is not "MATRIX".
-     */
-    it(`should return false when view mode is download view state is not "MATRIX"`, () => {
-
-        // Confirm download view state matrix returns false when view mode is not "MATRIX" - first execute the method
-        // and then confirm the returned value is false.
-        const downloadViewState = component.isDownloadViewStateMatrix(DownloadViewState.TERRA);
-        expect(downloadViewState).toEqual(false);
-    });
-
-    /**
      * Confirm tooltip disabled returns true, when count size pipe is the same value as locale string pipe.
      */
     it("should return true when count size pipe is the same value as locale string pipe", () => {
@@ -150,17 +119,11 @@ describe("HCAGetDataFileSummaryComponent", () => {
     });
 
     /**
-     * Confirm all summary labels are displayed, when view mode is "NONE".
+     * Confirm all summary labels are displayed.
      */
-    it(`should display all summary labels when view mode is "NONE"`, () => {
+    it(`should display all summary labels`, () => {
 
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm all summary labels are displayed, when view mode is "NONE" - first execute a query
+        // Confirm all summary labels are displayed - first execute a query
         // to find all the elements with the class "summary" and then for each element find the element
         // with the class "label" then confirm the label is displayed in the correct order.
         getSummaryEls().forEach((el, index) => {
@@ -169,95 +132,23 @@ describe("HCAGetDataFileSummaryComponent", () => {
     });
 
     /**
-     * Confirm all summary labels are displayed, when view mode is "MANIFEST".
+     * Confirm summary project count is displayed.
      */
-    it(`should display all summary labels when view mode is "MANIFEST"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.MANIFEST;
+    it(`should display summary project count`, () => {
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm all summary labels are displayed, when view mode is "MANIFEST" - first execute a query
-        // to find all the elements with the class "summary" and then for each element find the element
-        // with the class "label" then confirm the label is displayed in the correct order.
-        getSummaryEls().forEach((el, index) => {
-            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[index]));
-        });
-    });
-
-    /**
-     * Confirm all summary labels are displayed, when view mode is "TERRA".
-     */
-    it(`should display all summary labels when view mode is "TERRA"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.TERRA;
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm all summary labels are displayed, when view mode is "TERRA" - first execute a query
-        // to find all the elements with the class "summary" and then for each element find the element
-        // with the class "label" then confirm the label is displayed in the correct order.
-        getSummaryEls().forEach((el, index) => {
-            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[index]));
-        });
-    });
-
-    /**
-     * Confirm all summary labels are displayed, excluding files and file size, when view mode is "MATRIX".
-     */
-    it(`should display all summary labels when view mode is "MATRIX"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.MATRIX;
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm all summary labels are displayed, excluding files and file size, when view mode is "MATRIX" -
-        // first execute a query to find all the elements with the class "summary" and then for each element find the element
-        // with the class "label" then confirm the labels are displayed in the correct order and confirm the exclusion of
-        // labels "Files" and "File Size".
-        getSummaryEls().forEach((el, index) => {
-
-            // We need to skip file size and count
-            let elementIndex = index;
-            if ( index > 0 ) {
-                elementIndex = elementIndex + 2;
-            }
-            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[elementIndex]));
-            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILES_COUNT]);
-            expect(getSummaryLabelInnerHTML(el)).not.toEqual(SUMMARY_DISPLAY_ORDER[INDEX_FILE_SIZE_COUNT]);
-        });
-    });
-
-    /**
-     * Confirm summary project count is displayed, when view mode is "NONE".
-     */
-    it(`should display summary project count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm project count value is displayed, when view mode is "NONE" - first execute a query
+        // Confirm project count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Projects"
         // and confirm the value is equal to project count.
         expect(getCountInnerHTML(INDEX_PROJECT_COUNT)).toEqual(component.summary.projectCount.toLocaleString());
     });
 
     /**
-     * Confirm summary donor count is displayed, when view mode is "NONE".
+     * Confirm summary donor count is displayed.
      */
     it(`should display summary donor count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
@@ -269,77 +160,65 @@ describe("HCAGetDataFileSummaryComponent", () => {
     });
 
     /**
-     * Confirm summary specimen count is displayed, when view mode is "NONE".
+     * Confirm summary specimen count is displayed.
      */
-    it(`should display summary specimen count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
+    it(`should display summary specimen count`, () => {
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm specimen count value is displayed, when view mode is "NONE" - first execute a query
+        // Confirm specimen count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Specimens"
         // and confirm the value is equal to specimen count.
         expect(getCountInnerHTML(INDEX_SPECIMENS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.specimenCount));
     });
 
     /**
-     * Confirm summary total cell count is displayed, when view mode is "NONE".
+     * Confirm summary total cell count is displayed.
      */
-    it(`should display summary total cell count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
+    it(`should display summary total cell count`, () => {
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm total cell count value is displayed, when view mode is "NONE" - first execute a query
+        // Confirm total cell count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Estimated Cells"
         // and confirm the value is equal to total cell count.
         expect(getCountInnerHTML(INDEX_ESTIMATED_CELLS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.totalCellCount));
     });
 
     /**
-     * Confirm summary file count is displayed, when view mode is "NONE".
+     * Confirm summary file count is displayed.
      */
-    it(`should display summary file count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
+    it(`should display summary file count`, () => {
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm file count value is displayed, when view mode is "NONE" - first execute a query
+        // Confirm file count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Files"
         // and confirm the value is equal to file count.
         expect(getCountInnerHTML(INDEX_FILES_COUNT)).toEqual(new CountSizePipe().transform(component.summary.fileCount));
     });
 
     /**
-     * Confirm summary file size count is displayed, when view mode is "NONE".
+     * Confirm summary file size count is displayed.
      */
-    it(`should display summary file size count when view mode is "NONE"`, () => {
-
-        // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
+    it(`should display summary file size count`, () => {
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm file size count value is displayed, when view mode is "NONE" - first execute a query
+        // Confirm file size count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "File Size"
         // and confirm the value is equal to file size count.
         expect(getCountInnerHTML(INDEX_FILE_SIZE_COUNT)).toEqual(new FileSizePipe().transform(component.summary.totalFileSize));
     });
 
     /**
-     * Confirm selected genus species is displayed, when view mode is "NONE".
+     * Confirm selected genus species is displayed.
      */
-    it(`should display selected genus species when view mode is "NONE"`, () => {
+    it(`should display selected genus species`, () => {
 
         const selectedTerms = [
             new Term("Homo sapiens", 22, true),
@@ -347,22 +226,21 @@ describe("HCAGetDataFileSummaryComponent", () => {
         ];
 
         // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
         component.selectedGenusSpecies = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm selected genus species is displayed, when view mode is "NONE" - first execute a query
+        // Confirm selected genus species is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Species"
         // and confirm the value is equal to the concatenated term names.
         expect(getTermInnerHTML(INDEX_GENUS_SPECIES)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
-     * Confirm selected library construction approaches is displayed, when view mode is "NONE".
+     * Confirm selected library construction approaches is displayed.
      */
-    it(`should display selected library construction approaches when view mode is "NONE"`, () => {
+    it(`should display selected library construction approaches`, () => {
 
         const selectedTerms = [
             new Term("Drop-seq", 22, true),
@@ -371,22 +249,21 @@ describe("HCAGetDataFileSummaryComponent", () => {
         ];
 
         // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
         component.selectedLibraryConstructionApproaches = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm selected library construction approaches is displayed, when view mode is "NONE" - first execute a query
+        // Confirm selected library construction approaches is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Library Construction Method"
         // and confirm the value is equal to the concatenated term names.
         expect(getTermInnerHTML(INDEX_LIBRARY_CONSTRUCTION_METHOD)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
-     * Confirm selected organs is displayed, when view mode is "NONE".
+     * Confirm selected organs is displayed.
      */
-    it(`should display selected organs when view mode is "NONE"`, () => {
+    it(`should display selected organs`, () => {
 
         const selectedTerms = [
             new Term("blood", 22, true),
@@ -394,22 +271,21 @@ describe("HCAGetDataFileSummaryComponent", () => {
         ];
 
         // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
         component.selectedOrgans = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm selected organs is displayed, when view mode is "NONE" - first execute a query
+        // Confirm selected organs is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Organ"
         // and confirm the value is equal to the concatenated term names.
         expect(getTermInnerHTML(INDEX_ORGAN)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
-     * Confirm selected organ parts is displayed, when view mode is "NONE".
+     * Confirm selected organ parts is displayed.
      */
-    it(`should display selected organ parts when view mode is "NONE"`, () => {
+    it(`should display selected organ parts`, () => {
 
         const selectedTerms = [
             new Term("amygdala", 22, true),
@@ -417,35 +293,33 @@ describe("HCAGetDataFileSummaryComponent", () => {
         ];
 
         // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
         component.selectedOrganParts = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm selected organ parts is displayed, when view mode is "NONE" - first execute a query
+        // Confirm selected organ parts is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Organ Parts"
         // and confirm the value is equal to the concatenated term names.
         expect(getTermInnerHTML(INDEX_ORGAN_PART)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
-     * Confirm selected paired ends is displayed, when view mode is "NONE".
+     * Confirm selected paired ends is displayed.
      */
-    it(`should display selected paired ends when view mode is "NONE"`, () => {
+    it(`should display selected paired ends`, () => {
 
         const selectedTerms = [
             new Term("true", 234, true)
         ];
 
         // Set up initial component state
-        component.viewState = DownloadViewState.NONE;
         component.selectedPairedEnds = selectedTerms;
 
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        // Confirm selected paired Ends is displayed, when view mode is "NONE" - first execute a query
+        // Confirm selected paired Ends is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Paired End"
         // and confirm the value is equal to the concatenated term names.
         expect(getTermInnerHTML(INDEX_PAIRED_END)).toEqual(component.displayTerms(selectedTerms));

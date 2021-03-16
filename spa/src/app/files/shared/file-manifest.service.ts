@@ -53,7 +53,7 @@ export class FileManifestService {
 
     /**
      * Build up set of search terms for manifest-related requests. If not file format is currently selected in the set
-     * of search terms, add all file types. Always remove file type of "matrix".
+     * of search terms, add all file types.
      *
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormat
@@ -68,12 +68,12 @@ export class FileManifestService {
     }
 
     /**
-     * Request file manifest. Removes "matrix" search term, if selected.
+     * Request file manifest.
      * 
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
-     * @param {ManifestDownloadFormat} format
+     * @param {ManifestDownloadFormat} manifestFormat
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
@@ -85,23 +85,6 @@ export class FileManifestService {
 
         const manifestSearchTerms = this.buildManifestSearchTerms(searchTerms, fileFormats);
         return this.sendFileManifestUrlRequest(catalog, manifestSearchTerms, manifestFormat, killSwitch$);
-    }
-
-    /**
-     * Get the file manifest URL for generating a matrix request.
-     * 
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} searchTerms
-     * @param {ManifestDownloadFormat} manifestFormat
-     * @param {Observable<boolean>} killSwitch$
-     * @returns {Observable<ManifestResponse>}
-     */
-    public requestMatrixFileManifestUrl(catalog: Catalog,
-                                        searchTerms: SearchTerm[],
-                                        manifestFormat: ManifestDownloadFormat,
-                                        killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
-
-        return this.sendFileManifestUrlRequest(catalog, searchTerms, manifestFormat, killSwitch$);
     }
 
     /**
@@ -295,8 +278,7 @@ export class FileManifestService {
     }
 
     /**
-     * Returns true if there if any file format is in the current set of selected search terms, excluding "matrix", as
-     * this is not a valid file format when requesting a manifest.
+     * Returns true if there if any file format is in the current set of selected search terms.
      *
      * @param {SearchTerm[]} searchTerms
      * @returns {boolean}
@@ -305,24 +287,6 @@ export class FileManifestService {
 
         return searchTerms.some((searchTerm) =>
             searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT);
-    }
-
-    /**
-     * Remove matrix file format from the set of file formats, if specified.
-     *
-     * @param {SearchTerm[]} searchTerms
-     * @returns {SearchTerm[]}
-     */
-    private removeMatrixFileFormat(searchTerms: SearchTerm[]): SearchTerm[] {
-
-        return searchTerms.reduce((accum, searchTerm) => {
-
-            if ( !(searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT &&
-                searchTerm.getSearchValue() === FileFormat.MATRIX) ) {
-                accum.push(searchTerm);
-            }
-            return accum;
-        }, []);
     }
 
     /**

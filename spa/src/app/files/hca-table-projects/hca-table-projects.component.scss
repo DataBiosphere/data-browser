@@ -37,26 +37,6 @@
                 border-bottom: 1px solid $hca-gray-lightest;
             }
 
-            /* Active row */
-            /* Positions relevant overlays/shade */
-            /* Activated by project matrix download event [open/close] */
-            mat-row.active {
-                position: relative;
-            }
-
-            /* Row - active style */
-            mat-row.active:before {
-                background-color: rgba(0, 0, 0, 0.03);
-                bottom: 0;
-                content: "";
-                left: -30px;
-                pointer-events: none;
-                position: absolute;
-                right: -30px;
-                top: 0;
-                width: auto;
-            }
-
             /* Cell - header and cell */
             mat-header-cell, mat-cell {
                 flex: 1;

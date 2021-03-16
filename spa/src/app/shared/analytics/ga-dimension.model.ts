@@ -17,7 +17,7 @@ export enum GADimension {
     "MAX" = "max",
     "MIN" = "min",
     "RELATED_ENTITY_ID" = "relatedEntityId", // File download from files tab (previously fileName)
-    "RELATED_ENTITY_TYPE" = "relatedEntityType", // eg csv, loom - file download from files tab, matrix service (previously fileFormat)
+    "RELATED_ENTITY_TYPE" = "relatedEntityType", // eg csv, loom - file download from files tab (previously fileFormat)
     "RELATED_ENTITY_URL" = "relatedEntityUrl",
     "SOURCE" = "source", // UI element eg search bar
     "TERM" = "term",

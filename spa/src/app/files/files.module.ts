@@ -70,11 +70,6 @@ import { HCAGetDataFileSummaryComponent } from "./hca-get-data/hca-get-data-file
 import { HCAGetDataPanelComponent } from "./hca-get-data/hca-get-data-panel/hca-get-data-panel.component";
 import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
 import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
-import { HCAGetMatrixComponent } from "./hca-get-data/hca-get-matrix/hca-get-matrix.component";
-import { HCAGetMatrixSpeciesSelectionComponent } from "./hca-get-data/hca-get-matrix-species-selection/hca-get-matrix-species-selection.component";
-import { MatrixPartialQueryMatchWarningComponent } from "./hca-get-data/matrix-partial-query-match-warning/matrix-partial-query-match-warning.component";
-import { MatrixUrlRequestCompletedComponent } from "./hca-get-data/matrix-url-request-completed/matrix-url-request-completed.component";
-import { MatrixUrlRequestFormComponent } from "./hca-get-data/matrix-url-request-form/matrix-url-request-form.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCASearchComponent } from "./hca-search/hca-search.component";
 import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
@@ -97,14 +92,12 @@ import { ProjectDataCitationComponent } from "./project-data-citation/project-da
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
 import { ProjectDetailService } from "./project-detail/project-detail.service";
-import { ProjectDownloadExpressionMatrixComponent } from "./project-download-expression-matrix/project-download-expression-matrix.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
 import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
 import { ProjectMatrixDownloadComponent } from "./project-matrix-download/project-matrix-download.component";
 import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-modal/project-matrix-download-modal.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
-import { ProjectDownloadTSVComponent } from "./project-download-tsv/project-download-tsv.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
@@ -129,7 +122,6 @@ import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
 import { IntegrationService } from "./shared/integration.service";
-import { MatrixService } from "./shared/matrix.service";
 import { ProjectEditsService } from "./shared/project-edits.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
@@ -203,8 +195,6 @@ import { UrlService } from "./url/url.service";
         HCAGetDataPanelComponent,
         HCAGetDataSummaryComponent,
         HCAGetManifestComponent,
-        HCAGetMatrixComponent,
-        HCAGetMatrixSpeciesSelectionComponent,
         HCASearchComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
@@ -217,9 +207,6 @@ import { UrlService } from "./url/url.service";
         HCATableProjectsComponent,
         HCATableSamplesComponent,
         HCATableSortComponent,
-        MatrixPartialQueryMatchWarningComponent,
-        MatrixUrlRequestCompletedComponent,
-        MatrixUrlRequestFormComponent,
         ProjectAnalysisPortalsComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
@@ -227,8 +214,6 @@ import { UrlService } from "./url/url.service";
         ProjectDownloadManifestComponent,
         ProjectDownloadManifestModalComponent,
         ProjectDownloadManifestModalContainerComponent,
-        ProjectDownloadExpressionMatrixComponent,
-        ProjectDownloadTSVComponent,
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
@@ -263,7 +248,6 @@ import { UrlService } from "./url/url.service";
         HttpService,
         IntegrationService,
         SearchTermUrlService,
-        MatrixService,
         PaginationService,
         ProjectDetailService,
         ProjectService,

@@ -38,7 +38,7 @@ The following custom dimensions are configured in Google Analytics, allowing add
 - Index: `index`
 - Max: `max`
 - Min: `min`
-- Source: "Cohort Export", "Manifest Export", "Cohort Matrix", "Facet Browser", "Search" or "Selected Terms"
+- Source: "Cohort Export", "Manifest Export", "Facet Browser", "Search" or "Selected Terms"
 - Term: `termName` or `between 0 and 100 years`
 
 ###### Clear Search Terms
@@ -196,58 +196,6 @@ The following custom dimensions are configured in Google Analytics, allowing add
 
 
 - Entity Type: "Project Manifest Link"
-- Entity URL: `http://path/to/download`
-
-##### Matrix Events
-
-###### Cohort Matrix Request
-
-- Category: "Matrix"
-- Action: "Request"
-- Label: `query`
-
-
-- Entity Type: "Cohort Matrix"
-- File Format: `relatedEntityType`
-
-###### Cohort Matrix Download
-
-- Category: "Matrix"
-- Action: "Download"
-- Label: `query`
-
-
-- Entity Type: "Cohort Matrix Link"
-- Entity URL: `http://path/to/download`
-
-###### Cohort Matrix Download Link Copy to Clipboard
-
-- Category: "Matrix"
-- Action: "Copy to Clipboard"
-- Label: `query`
-
-
-- Entity Type: "Cohort Matrix Link"
-- Entity URL: `http://path/to/download`
-
-###### Cohort Matrix Download
-
-- Category: "Matrix"
-- Action: "Download"
-- Label: `projectTitle`
-
-
-- Entity Type: "Project Matrix Link"
-- Entity URL: `http://path/to/download`
-
-###### Cohort Matrix Download Link Copy to Clipboard
-
-- Category: "Matrix"
-- Action: "Copy to Clipboard"
-- Label: `projectTitle`
-
-
-- Entity Type: "Project Matrix Link"
 - Entity URL: `http://path/to/download`
 
 ##### Table Events

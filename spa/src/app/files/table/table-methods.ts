@@ -132,26 +132,6 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
-        key: "metadataDownload", // TODO remove
-        userFriendly: "Metadata",
-        description: "Full project metadata download in .tsv format.",
-        alignment: ColumnAlignment.CENTER,
-        columnMaxWidth: 76,
-        columnMinWidth: 76,
-        columnSort: false,
-        countType: CountType.NONE
-    },
-    {
-        key: "matrixExpressions",
-        userFriendly: "Matrix",
-        description: "Available matrix expressions.",
-        alignment: ColumnAlignment.CENTER,
-        columnMaxWidth: 76,
-        columnMinWidth: 76,
-        columnSort: false,
-        countType: CountType.NONE
-    },
-    {
         key: "modelOrgan",
         userFriendly: "Model Organ",
         description: "Organ for which the cell line / organoid is a model.",
