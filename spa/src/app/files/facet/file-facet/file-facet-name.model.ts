@@ -18,5 +18,6 @@ export enum FileFacetName {
     "ORGANISM_AGE" = "organismAge",
     "PAIRED_END" = "pairedEnd",
     "PROJECT" = "project",
-    "PROJECT_ID" = "projectId"
+    "PROJECT_ID" = "projectId",
+    "PUBLICATION_TITLE" = "publicationTitle"
 }

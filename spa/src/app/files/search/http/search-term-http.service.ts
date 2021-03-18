@@ -35,6 +35,7 @@ export class SearchTermHttpService {
         "nucleicAcidSource",
         "pairedEnd",
         "preservationMethod",
+        "publicationTitle",
         "sampleEntityType",
         "selectedCellType",
         "specimenDisease",
