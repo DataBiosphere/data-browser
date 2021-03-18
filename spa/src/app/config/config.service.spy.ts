@@ -7,6 +7,7 @@
 
 export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "getAtlas",
+    "getDefaultCatalog",
     "getEntitiesUrl",
     "getFileManifestUrl",
     "getIndexStatusUrl",

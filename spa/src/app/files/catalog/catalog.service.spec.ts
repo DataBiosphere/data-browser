@@ -20,11 +20,12 @@ import { CatalogState } from "../_ngrx/catalog/catalog.state";
 import { AtlasName } from "../atlas/atlas-name.model";
 import { Catalog } from "./catalog.model";
 import { CatalogsAPIResponse } from "./catalogs-api-response.model";
+import { DCPCatalog } from "./dcp-catalog.model";
 
 describe("CatalogService", () => {
 
     let catalogService: CatalogService;
-    let configService: { getAtlas: jasmine.Spy, isEnvDCP2: jasmine.Spy };
+    let configService: ConfigService;
     let httpClientSpy: { get: jasmine.Spy };
     let store: MockStore;
 
@@ -89,29 +90,13 @@ describe("CatalogService", () => {
             }
         }
     };
-    const API_RESPONSE_WITH_INTERNAL = Object.assign({}, API_RESPONSE, {
-        catalogs: {
-            ...API_RESPONSE.catalogs,
-            "it2": {
-                "atlas": "hca",
-                "internal": true,
-                "plugins": [
-                    {
-                        "type": "repository",
-                        "name": "tdr"
-                    },
-                    {
-                        "type": "metadata",
-                        "name": "hca"
-                    }
-                ]
-            }
-        }
-    });
     const ATLAS = {
         defaultCatalog: "dcp2",
         catalogs: ["dc1", "dc2"]
     };
+    const CONFIG_ATLAS_NAME = AtlasName.HCA;
+    const CONFIG_DEFAULT_CATALOG = DCPCatalog.DCP2;
+
 
     beforeEach(async(() => {
 
@@ -120,10 +105,7 @@ describe("CatalogService", () => {
             imports: [],
             providers: [
                 CatalogService,
-                {
-                    provide: ConfigService,
-                    useValue: ConfigServiceSpy
-                },
+                ConfigService,
                 {
                     provide: HttpClient,
                     useValue: jasmine.createSpyObj("HttpClient", ["get"])
@@ -138,9 +120,8 @@ describe("CatalogService", () => {
 
         catalogService = TestBed.inject(CatalogService);
 
-        // Set default atlas to "hca"
+        // Set default atlas to "hca" and default catalog to "dcp2"
         configService = TestBed.inject(ConfigService) as jasmine.SpyObj<ConfigService>;
-        configService.getAtlas.and.returnValue(AtlasName.HCA);
 
         httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
         store = TestBed.inject(MockStore);
@@ -148,26 +129,50 @@ describe("CatalogService", () => {
 
     describe("Catalog request/response", () => {
 
-        beforeEach(async(() => {
-
-            configService.isEnvDCP2.and.returnValue(true);
-        }));
-
         /**
-         * Response value default_catalog is bound to defaultCatalog.
+         * Valid default catalog specified in config is set as default catalog
          */
-        it("bind default catalog from response value", (doneFn: DoneFn) => {
+        it("sets valid default catalog from config", (doneFn: DoneFn) => {
+
+            spyOn(configService, "getAtlas").and.returnValue(CONFIG_ATLAS_NAME);
+            spyOn(configService, "getDefaultCatalog").and.returnValue(CONFIG_DEFAULT_CATALOG);
 
             catalogService["bindCatalogsAPIResponse"](API_RESPONSE).subscribe(atlas => {
-                expect(atlas.defaultCatalog).toEqual(API_RESPONSE["default_catalog"]);
+                expect(atlas.defaultCatalog).toEqual(CONFIG_DEFAULT_CATALOG);
                 doneFn();
             });
+        });
+
+        /**
+         * An error is thrown when configured default catalog is not in the set of catalogs returned from Azul.
+         */
+        it("throws error on invalid default catalog in config", (doneFn: DoneFn) => {
+
+            spyOn(configService, "getAtlas").and.returnValue(CONFIG_ATLAS_NAME);
+            
+            const invalidDefaultCatalog = "foo";
+            spyOn(configService, "getDefaultCatalog").and.returnValue(invalidDefaultCatalog);
+
+            catalogService["bindCatalogsAPIResponse"](API_RESPONSE)
+                .pipe(
+                    catchError(e => of(e))
+                )
+                .subscribe(errorMessage => {
+
+                    const expectedErrorMessage =
+                        `Invalid default catalog "${invalidDefaultCatalog}" for atlas "${CONFIG_ATLAS_NAME}".`;
+                    expect(errorMessage as any).toEqual(expectedErrorMessage);
+                    doneFn();
+                });
         });
 
         /**
          * Response catalogs are bound when default catalog is in the set of catalogs for the current atlas.
          */
         it("binds catalogs from response value", (doneFn: DoneFn) => {
+
+            spyOn(configService, "getAtlas").and.returnValue(CONFIG_ATLAS_NAME);
+            spyOn(configService, "getDefaultCatalog").and.returnValue(CONFIG_DEFAULT_CATALOG);
 
             // Filter catalogs for the current atlas
             const atlasName = configService.getAtlas();
@@ -189,8 +194,10 @@ describe("CatalogService", () => {
          */
         it("throws error when no catalogs found for atlas", (doneFn: DoneFn) => {
 
-            const dummyAtlasName = "abc";
-            configService.getAtlas.and.returnValue(dummyAtlasName);
+            const dummyAtlasName = "foo";
+            spyOn(configService, "getAtlas").and.returnValue(dummyAtlasName);
+
+            spyOn(configService, "getDefaultCatalog").and.returnValue(CONFIG_DEFAULT_CATALOG);
 
             catalogService["bindCatalogsAPIResponse"](API_RESPONSE)
                 .pipe(
@@ -201,66 +208,6 @@ describe("CatalogService", () => {
                     expect(errorMessage as any).toEqual(`No catalogs found for atlas "${dummyAtlasName}".`);
                     doneFn();
                 });
-        });
-
-        /**
-         * Error thrown when default catalog is not in the current atlas, and there are more than one catalogs returned.
-         */
-        it("throws error for atlas with multiple catalogs but without the response default catalog", (doneFn: DoneFn) => {
-
-            const atlasName = configService.getAtlas();
-            const apiResponseDummyDefault = Object.assign({}, API_RESPONSE, {
-                default_catalog: "foo"
-            });
-
-            catalogService["bindCatalogsAPIResponse"](apiResponseDummyDefault)
-                .pipe(
-                    catchError(e => of(e))
-                )
-                .subscribe(errorMessage => {
-
-                    expect(errorMessage as any).toEqual(`Default catalog not specified for atlas "${atlasName}".`);
-                    doneFn();
-                });
-        });
-
-        /**
-         * Bind single external catalog of atlas that doesn't contain the default catalog.
-         */
-        it("binds single (external) catalog of atlas without the response default catalog", (doneFn: DoneFn) => {
-
-            // Set atlas name to lungmup
-            const lungMapAtlasName = "lungmap";
-            configService.getAtlas.and.returnValue(lungMapAtlasName);
-
-            const expectedCatalogs = createExpectedBoundCatalogs(lungMapAtlasName, API_RESPONSE);
-
-            catalogService["bindCatalogsAPIResponse"](API_RESPONSE).subscribe(atlas => {
-
-                const catalogs = atlas.catalogs;
-                expect(catalogs.length).toEqual(expectedCatalogs.length);
-                expect(catalogs.indexOf(expectedCatalogs[0])).not.toEqual(-1);
-                doneFn();
-            });
-        });
-
-        /**
-         * Sets default catalog of atlas that doesn't contain the default catalog, to be the single catalog returned
-         * for the atlas.
-         */
-        it("sets default catalog of atlas without the response default catalog", (doneFn: DoneFn) => {
-
-            // Set atlas name to lungmup
-            const lungMapAtlasName = "lungmap";
-            configService.getAtlas.and.returnValue(lungMapAtlasName);
-
-            const responseCatalogs = createExpectedBoundCatalogs(lungMapAtlasName, API_RESPONSE);
-
-            catalogService["bindCatalogsAPIResponse"](API_RESPONSE).subscribe(atlas => {
-
-                expect(atlas.defaultCatalog).toEqual(responseCatalogs[0]);
-                doneFn();
-            });
         });
 
         /**

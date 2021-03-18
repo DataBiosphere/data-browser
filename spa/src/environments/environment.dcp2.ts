@@ -1,7 +1,8 @@
 export const environment = {
-    atlas: "hca",
     production: true,
+    atlas: "hca",
     dataURL: "https://service.azul.data.humancellatlas.org",
+    defaultCatalog: "dcp1",
     portalURL: "https://data.humancellatlas.org",
     projectMetaURL: "https://data.humancellatlas.org",
     terraExportURL: "https://app.terra.bio",

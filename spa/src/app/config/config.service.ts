@@ -14,6 +14,7 @@ import { APIEndpoints } from "./api-endpoints.model";
 import { Config } from "./config.model";
 import { environment } from "../../environments/environment";
 import { AtlasName } from "../files/atlas/atlas-name.model";
+import { Catalog } from "../files/catalog/catalog.model";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 
@@ -23,8 +24,9 @@ export class ConfigService {
     // Locals
     protected atlas: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
-    protected portalURL: string;
+    protected defaultCatalog: Catalog;
     protected deployment: string;
+    protected portalURL: string;
     protected projectMetaURL: string;
     protected terraExportURL: string;
     protected store: Store<AppState>;
@@ -47,6 +49,16 @@ export class ConfigService {
     public getAtlas(): string {
         
         return this.atlas;
+    }
+
+    /**
+     * Returns the default catalog for the current environment.
+     * 
+     * @returns {Catalog}
+     */
+    public getDefaultCatalog(): Catalog {
+
+        return this.defaultCatalog;
     }
 
     /**
@@ -286,6 +298,7 @@ export class ConfigService {
 
         this.atlas = config.atlas;
         this.dataURL = config.dataURL;
+        this.defaultCatalog = config.defaultCatalog;
         this.deployment = config.deployment;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;

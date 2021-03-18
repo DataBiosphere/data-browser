@@ -76,34 +76,24 @@ export class CatalogService {
     private bindCatalogsAPIResponse(response: CatalogsAPIResponse): Observable<Atlas> {
 
         const atlasName = this.configService.getAtlas();
-        const { catalogs: allCatalogs, default_catalog: azulDefaultCatalog} = response;
+        const { catalogs: allCatalogs } = response;
         const atlasCatalogs = this.bindAtlasCatalogs(atlasName, allCatalogs);
 
         // Error if no catalogs are returned for the current atlas.
         if ( atlasCatalogs.length === 0 ) {
             return throwError(`No catalogs found for atlas "${atlasName}".`);
         }
-
-        // If the returned default catalog is in the set of catalogs for the atlas for this instance, return as is.
-        const atlasDefaultCatalog = atlasCatalogs.find(atlasCatalog => atlasCatalog.catalog === azulDefaultCatalog);
-        if ( !!atlasDefaultCatalog ) {
-            return of({
-                catalogs: atlasCatalogs.map(atlasCatalog => atlasCatalog.catalog),
-                defaultCatalog: atlasDefaultCatalog.catalog
-            });
-        }
-
-        // Otherwise the Azul default catalog is not applicable to the atlas for this instance. If there is more than
-        // one catalog that's not marked as internal for this atlas, throw an error. If there is only a single
-        // non-internal catalog for the current atlas, use it as the default.
-        const externalAtlasCatalogs = atlasCatalogs.filter(atlasCatalog => !atlasCatalog.internal);
-        if ( externalAtlasCatalogs.length > 1 ) {
-            return throwError(`Default catalog not specified for atlas "${atlasName}".`);
+        
+        // Confirm the default catalog for the environment is included in the set of returned catalogs for the atlas
+        const defaultCatalog = this.configService.getDefaultCatalog();
+        const validCatalog = atlasCatalogs.some(atlasCatalog => atlasCatalog.catalog === defaultCatalog);
+        if ( !validCatalog ) {
+            return throwError(`Invalid default catalog "${defaultCatalog}" for atlas "${atlasName}".`);
         }
 
         return of({
             catalogs: atlasCatalogs.map(atlasCatalog => atlasCatalog.catalog),
-            defaultCatalog: externalAtlasCatalogs[0].catalog
+            defaultCatalog
         });
     }
 
