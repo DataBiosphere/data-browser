@@ -16,10 +16,10 @@ import {
     ViewChild,
     ViewContainerRef
 } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Subject, BehaviorSubject, combineLatest } from "rxjs";
-import { filter, takeUntil } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppComponentState } from "./app.component.state";
@@ -31,7 +31,6 @@ import { AppState } from "./_ngrx/app.state";
 import { SiteConfigService } from "./site/site-config/site-config.service";
 import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 import { selectSystemStatus } from "./system/_ngrx/system.selectors";
-import { SystemStatusRequestAction } from "./system/_ngrx/system-status-request.action";
 
 @Component({
     selector: "app-root",
@@ -132,8 +131,6 @@ export class AppComponent implements OnInit, OnDestroy {
         );
 
         // Grab the system status
-        this.store.dispatch(new SystemStatusRequestAction());
-
         const systemStatus$ = this.store.pipe(
             select(selectSystemStatus),
             takeUntil(this.ngDestroy$));

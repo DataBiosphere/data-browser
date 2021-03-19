@@ -4,7 +4,10 @@
             <div class="error" [ngClass]="{'error-wide': !!state.errorMessage}" [ngSwitch]="!!state.errorMessage">
                 <ng-container *ngSwitchCase="true">
                     <p class="fontsize-m">An error occurred processing your request.</p>
-                    <a class="fontsize-m link" [routerLink]="['/projects']" queryParamsHandling="preserve">Return to Explore.</a>
+                    <a class="fontsize-m link"
+                       [routerLink]="['/projects']"
+                       queryParamsHandling="preserve"
+                       (click)="onExploreLinkClicked()">Return to Explore.</a>
                     <ng-container *ngIf="state.requestUrl">
                         <h4 class="fontsize-m">Request URL</h4>
                         <p class="fontsize-s inline-code">{{state.requestUrl}}</p>
@@ -14,7 +17,10 @@
                 </ng-container>
                 <ng-container *ngSwitchDefault>
                     <p class="fontsize-m">An error occurred processing your request.</p>
-                    <a class="fontsize-m link" [routerLink]="['/projects']" queryParamsHandling="preserve">Return to Explore.</a>
+                    <a class="fontsize-m link"
+                       [routerLink]="['/projects']"
+                       queryParamsHandling="preserve"
+                       (click)="onExploreLinkClicked()">Return to Explore.</a>
                 </ng-container>
             </div>
         </ng-container>

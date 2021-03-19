@@ -8,12 +8,13 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, Effect, ofType, OnInitEffects } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { filter, map, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
+import { ConfigService } from "../../../config/config.service";
 import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
@@ -22,11 +23,13 @@ import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
+import { SystemStatusRequestAction } from "../../../system/_ngrx/system-status-request.action";
 
 @Injectable()
 export class InitEffects {
 
     /**
+     * @param {ConfigService} configService
      * @param {GTMService} gtmService
      * @param {SearchTermUrlService} searchTermUrlService
      * @param {Store<AppState>} store
@@ -34,7 +37,8 @@ export class InitEffects {
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    constructor(private gtmService: GTMService,
+    constructor(private configService: ConfigService,
+                private gtmService: GTMService,
                 private searchTermUrlService: SearchTermUrlService,
                 private store: Store<AppState>,
                 private actions$: Actions,
@@ -62,12 +66,14 @@ export class InitEffects {
      * - Set selected entity
      * - Set default search terms if user has arrived at site with no previous search terms selected, and user is
      * currently viewing the projects tab.
+     * - Set selected catalog
      *
      * The dispatched SetViewStateAction triggers the following:
      * - Sets the selected entity in the store
      * - Sets search terms in the store
      * - Sets the selected term facets in the store
      * - Updates the filter query string parameter, if a filter is specified
+     * - Sets the selected catalog
      */
     @Effect()
     initSearchState$: Observable<Action> = this.router.events.pipe(
@@ -75,7 +81,7 @@ export class InitEffects {
         filter(evt => evt instanceof NavigationEnd && evt.url !== "/error" && evt.url !== "/not-found"), // Exit init if routing to error or not found pages
         take(1),
         map(() => {
-
+            
             // Determine the current selected entity
             let selectedEntity;
             if ( this.router.isActive(EntityName.FILES, false) ) {
@@ -98,13 +104,24 @@ export class InitEffects {
                 return new ErrorAction(e.message);
             }
 
-            // Catalog is added by guard on all routes and is always included in query string at this point.
-            const catalog = params.catalog;
-            if ( !catalog ) {
-                return new ErrorAction("Catalog not found for view initialization.");
-            }
+            // If no catalog is specified in the query string, use the default catalog
+            const catalog = params.catalog || this.configService.getDefaultCatalog();
 
             return new SetViewStateAction(catalog, selectedEntity, filter);
+        })
+    );
+
+    /**
+     * Fetch system status. 
+     * 
+     * TODO Must be declared after initSearchState as the selected catalog is required on the system status fetch. See #1599.
+     */
+    @Effect()
+    fetchSystemStatus$: Observable<Action> = this.router.events.pipe(
+        filter(evt => evt instanceof NavigationEnd),
+        take(1),
+        map(() => {
+            return new SystemStatusRequestAction();
         })
     );
 

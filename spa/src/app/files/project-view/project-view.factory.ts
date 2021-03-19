@@ -12,10 +12,10 @@ import { Injectable } from "@angular/core";
 import { Accession } from "./accession.model";
 import { Catalog } from "../catalog/catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
 import { ContributorView } from "./contributor-view.model";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { AccessionUrlPipe } from "../../pipe/accession-url/accession-url.pipe";
 import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
@@ -75,14 +75,13 @@ export class ProjectViewFactory {
      * Returns project related information, including formatted contact, contributor and organizations lists.
      *
      * @param {Catalog} catalog
-     * @param {Catalog} defaultCatalog
      * @param {Project} project
      * @returns {ProjectView}
      */
-    public getProjectView(catalog: Catalog, defaultCatalog: Catalog, project: Project): ProjectView {
+    public getProjectView(catalog: Catalog, project: Project): ProjectView {
 
         return {
-            citationLink: this.buildCitationUrl(catalog, defaultCatalog, project.entryId),
+            citationLink: this.buildCitationUrl(catalog, project.entryId),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),
             contributors: this.buildContributors(project.contributors),
@@ -99,18 +98,17 @@ export class ProjectViewFactory {
      * Returns project detail page url.
      *
      * @param {Catalog} catalog
-     * @param {Catalog} defaultCatalog
      * @param {string} projectId
      * @returns {string}
      */
-    private buildCitationUrl(catalog: Catalog, defaultCatalog: Catalog, projectId: string): string {
+    private buildCitationUrl(catalog: Catalog, projectId: string): string {
 
         // Add selected project to state - grab the project ID from the URL.
         const portalURL = this.configService.getPortalUrl();
         const citationURL = `${portalURL}/explore/projects/${projectId}`;
 
-        // Return citation with catalog param, if not viewing default catalog for the current environment
-        if ( catalog !== defaultCatalog ) {
+        // Return citation with catalog param if viewing dcp1.
+        if ( catalog === DCPCatalog.DCP1 ) {
 
             return `${citationURL}?catalog=${catalog}`;
         }

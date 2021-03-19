@@ -72,190 +72,6 @@ describe("CatalogCanActivateGuard", () => {
         // Set up router state snapshot to return dummy URL value.
         routerStateSnapshotUrl = spyOnProperty(routerStateSnapshot, "url");
         routerStateSnapshotUrl.and.returnValue("/foo/bar");
-        
-    });
-
-    /**
-     * Navigation continues as is if catalog is currently specified in URL.
-     */
-    it("allows navigation to continue if valid catalog specified in query string", (doneFn: DoneFn) => {
-
-        // Set up default state
-        const selectedCatalog = DCPCatalog.DCP2;
-        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-            catalog: new CatalogState({
-                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
-                defaultCatalog: DCPCatalog.DCP1
-            }, selectedCatalog, true)
-        }));
-
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP1});
-
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-        (canActivate as Observable<boolean>).subscribe((returnValue) => {
-
-            expect(returnValue).toEqual(true);
-            doneFn();
-        });
-    });
-
-    /**
-     * DCP1 is added to the query string if:
-     * - catalog is not currently specified in query string
-     * - atlas is HCA
-     * - DCP1 is in the specified set of catalogs
-     */
-    it(`redirects with "dcp1" if hca atlas, atlas contains "dcp1" and catalog not specified in query string`,
-        (doneFn: DoneFn) => {
-
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-
-        // Set up default state
-        const selectedCatalog = DCPCatalog.DCP2;
-        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-            catalog: new CatalogState({
-                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
-                defaultCatalog: DCPCatalog.DCP1
-            }, selectedCatalog, true)
-        }));
-
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-        (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
-            
-            const catalogParam = urlTree.queryParams["catalog"];
-            expect(catalogParam).toBeTruthy();
-            expect(catalogParam).toEqual(DCPCatalog.DCP1);
-            doneFn();
-        });
-    });
-
-    /**
-     * Selected catalog is added to the query string if:
-     * - catalog is not currently specified in query string
-     * - atlas is not HCA
-     */
-    it("redirects with selected catalog if not hca atlas and catalog not specified in query string",
-        (doneFn: DoneFn) => {
-
-            configService.getAtlas.and.returnValue("foo");
-
-            spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-
-            // Set up default state
-            const selectedCatalog = DCPCatalog.DCP2;
-            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-                catalog: new CatalogState({
-                    catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
-                    defaultCatalog: DCPCatalog.DCP1
-                }, selectedCatalog, true)
-            }));
-
-            const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-            (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
-
-                const catalogParam = urlTree.queryParams["catalog"];
-                expect(catalogParam).toBeTruthy();
-                expect(catalogParam).toEqual(selectedCatalog);
-                doneFn();
-            });
-        });
-    
-    /**
-     * Selected catalog is added to the query string if:
-     * - catalog is not currently specified in query string
-     * - atlas is HCA
-     * - DCP1 is not in the specified set of catalogs
-     */
-    it(`redirects with selected catalog if hca atlas, atlas doesn't contain "dcp1" and catalog not specified in query string`,
-        (doneFn: DoneFn) => {
-
-            spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-
-            // Set up default state
-            const selectedCatalog = DCPCatalog.DCP2;
-            store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-                catalog: new CatalogState({
-                    catalogs: [DCPCatalog.DCP2],
-                    defaultCatalog: DCPCatalog.DCP1
-                }, selectedCatalog, true)
-            }));
-
-            const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-            (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
-
-                const catalogParam = urlTree.queryParams["catalog"];
-                expect(catalogParam).toBeTruthy();
-                expect(catalogParam).toEqual(selectedCatalog);
-                doneFn();
-            });
-        });
-
-    /**
-     * Merges catalog with existing params if catalog not specified in query string.
-     */
-    it("merges catalog with existing params if catalog not specified in query string", (doneFn: DoneFn) => {
-
-        // Update router to return filter on parseUrl - we will check that filter param is maintained in UrlTree
-        // object that is returned from canActivate
-        const filterValue = "any";
-        router.parseUrl.and.returnValue({queryParams: {"filter": filterValue} as Params} as UrlTree);
-
-        // Set up default state
-        const selectedCatalog = DCPCatalog.DCP2;
-        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-            catalog: new CatalogState({
-                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
-                defaultCatalog: DCPCatalog.DCP1
-            }, selectedCatalog, true)
-        }));
-
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-        spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([]);
-        
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-        (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
-
-            const catalogParam = urlTree.queryParams["catalog"];
-            expect(catalogParam).toBeTruthy();
-            expect(catalogParam).toEqual(DCPCatalog.DCP1); // dcp1 due to atlas = hca, dcp1 is in set of catalogs and catalog not specified in query string
-            
-            const filterParam = urlTree.queryParams["filter"];
-            expect(filterParam).toBeTruthy();
-            expect(filterParam).toEqual(filterValue);
-            
-            doneFn();
-        });
-    });
-
-    /**
-     * If there's no selected catalog in the store, then we've reached an error state. If navigation is to error
-     * page, then allow it to continue as is.
-     */
-    it("allows navigation to error page to continue if there's no selected catalog", (doneFn: DoneFn) => {
-
-        // Re-spy
-        routerStateSnapshotUrl.and.returnValue("/error");
-
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-        spyOnProperty(activatedRouteSnapshot, "url").and.returnValue([{
-            path: "error"
-        }]);
-
-        // Set up default state - mimic error state where catalog values are empty/string but state has been
-        // initialized.
-        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
-            catalog: new CatalogState({
-                catalogs: [],
-                defaultCatalog: ""
-            }, "", true)
-        }));
-
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
-        (canActivate as Observable<boolean>).subscribe((returnValue) => {
-
-            expect(returnValue).toEqual(true);
-            doneFn();
-        });
     });
 
     /**
@@ -273,8 +89,8 @@ describe("CatalogCanActivateGuard", () => {
         const selectedCatalog = DCPCatalog.DCP2;
         store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
             catalog: new CatalogState({
-                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
-                defaultCatalog: DCPCatalog.DCP1
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
+                defaultCatalog: DCPCatalog.DCP3
             }, selectedCatalog, true)
         }));
 
@@ -283,6 +99,129 @@ describe("CatalogCanActivateGuard", () => {
 
             expect(returnValue).toEqual(false);
             expect(store.dispatch).toHaveBeenCalled();
+            doneFn();
+        });
+    });
+
+    /**
+     * Navigation continues if no catalog is specified in URL.
+     */
+    it("allows navigation to continue if no catalog specified in query string", (doneFn: DoneFn) => {
+
+        // Set up default state
+        const selectedCatalog = DCPCatalog.DCP2;
+        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+            catalog: new CatalogState({
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
+                defaultCatalog: DCPCatalog.DCP3
+            }, selectedCatalog, true)
+        }));
+
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
+
+        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        (canActivate as Observable<boolean>).subscribe((returnValue) => {
+
+            expect(returnValue).toEqual(true);
+            doneFn();
+        });
+    });
+
+    /**
+     * Navigation continues if dcp1 is specified in the catalog query string parameter.
+     */
+    it(`allows navigation to continue if "dcp1" is specified in query string`, (doneFn: DoneFn) => {
+
+        // Set up default state
+        const selectedCatalog = DCPCatalog.DCP2;
+        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+            catalog: new CatalogState({
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
+                defaultCatalog: DCPCatalog.DCP3
+            }, selectedCatalog, true)
+        }));
+
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP1});
+
+        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        (canActivate as Observable<boolean>).subscribe((returnValue) => {
+
+            expect(returnValue).toEqual(true);
+            doneFn();
+        });
+    });
+
+    /**
+     * A catalog query string parameter of value "dcp2" is removed.
+     */
+    it(`redirects if "dcp2" is specified in query string`, (doneFn: DoneFn) => {
+
+        // Set up default state
+        const selectedCatalog = DCPCatalog.DCP2;
+        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+            catalog: new CatalogState({
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
+                defaultCatalog: DCPCatalog.DCP3
+            }, selectedCatalog, true)
+        }));
+
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP2});
+
+        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
+
+            const catalogParam = urlTree.queryParams["catalog"];
+            expect(catalogParam).toBeFalsy();
+            doneFn();
+        });
+    });
+
+    /**
+     * A catalog query string parameter that is equal to the default catalog is removed.
+     */
+    it("removes default catalog from in query string", (doneFn: DoneFn) => {
+
+        // Set up default state
+        const selectedCatalog = DCPCatalog.DCP2;
+        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+            catalog: new CatalogState({
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
+                defaultCatalog: DCPCatalog.DCP3
+            }, selectedCatalog, true)
+        }));
+
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP3});
+
+        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
+
+            const catalogParam = urlTree.queryParams["catalog"];
+            expect(catalogParam).toBeFalsy();
+            doneFn();
+        });
+    });
+
+    /**
+     * Navigation continues if no catalog is specified in URL.
+     */
+    it(`allows navigation to continue with if "dcpN" is specified in query string`, (doneFn: DoneFn) => {
+
+        // Set up default state
+        const catalogDCP4 = "dcp4";
+        const selectedCatalog = DCPCatalog.DCP2;
+        store.setState(Object.assign({}, DEFAULT_FILES_STATE, {
+            catalog: new CatalogState({
+                catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3, catalogDCP4],
+                defaultCatalog: DCPCatalog.DCP3
+            }, selectedCatalog, true)
+        }));
+
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: catalogDCP4});
+
+        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        (canActivate as Observable<boolean>).subscribe((returnValue) => {
+
+            expect(returnValue).toEqual(true);
             doneFn();
         });
     });

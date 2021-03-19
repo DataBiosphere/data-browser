@@ -42,13 +42,13 @@ export class AnnouncementCatalogComponent {
     }
 
     /**
-     * Returns true if the catalog is DCP2.
+     * Returns true if the catalog is dcp1.
      *
      * @returns {boolean}
      */
-    public isCatalogDCP2(): boolean {
+    public isCatalogDCP1(): boolean {
 
-        return this.catalog === DCPCatalog.DCP2;
+        return this.catalog === DCPCatalog.DCP1;
     }
 
     /**
