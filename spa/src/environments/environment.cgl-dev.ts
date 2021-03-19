@@ -1,11 +1,11 @@
 export const environment = {
     production: true,
     atlas: "hca",
-    dataURL: "https://service.dev.singlecell.gi.ucsc.edu",
-    defaultCatalog: "dcp2",
-    portalURL: "https://dev.singlecell.gi.ucsc.edu",
-    projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
-    terraExportURL: "https://bvdp-saturn-dev.appspot.com",
+    dataURL: "https://service.azul.data.humancellatlas.org",
+    defaultCatalog: "dcp3",
+    portalURL: "https://data.humancellatlas.org",
+    projectMetaURL: "https://data.humancellatlas.org",
+    terraExportURL: "https://app.terra.bio",
     deployment: "cgl-dev",
     zendeskURL: "https://support.terra.bio"
 };

@@ -178,10 +178,6 @@ export class ProjectOverviewComponent implements OnDestroy {
             select(selectCatalog),
             takeUntil(this.ngDestroy$)
         );
-        const defaultCatalog$ = this.store.pipe(
-            select(selectDefaultCatalog),
-            takeUntil(this.ngDestroy$)
-        );
 
         // Grab reference to selected project
         const project$ = this.store.pipe(
@@ -189,11 +185,11 @@ export class ProjectOverviewComponent implements OnDestroy {
             filter(project => !!project)
         );
         
-        this.state$ = combineLatest(project$, catalog$, defaultCatalog$).pipe(
+        this.state$ = combineLatest(project$, catalog$).pipe(
             takeUntil(this.ngDestroy$),
-            map(([project, catalog, defaultCatalog]) => {
+            map(([project, catalog]) => {
 
-                const projectView = this.projectFactory.getProjectView(catalog, defaultCatalog, project);
+                const projectView = this.projectFactory.getProjectView(catalog, project);
 
                 return {
                     project: projectView,

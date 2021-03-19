@@ -14,6 +14,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, ReplaySubject } from "rxjs";
 
 // App dependencies
+import { ConfigService } from "../../../config/config.service";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
@@ -28,12 +29,14 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { ActivatedRouteStub } from "../../../test/activated-route.stub";
+import { SystemStatusRequestAction } from "../../../system/_ngrx/system-status-request.action";
 
 describe("Init Effects", () => {
 
     let actions$: Observable<any>;
     let activatedRoute;  // No type to enable jasmine mocking (eg .and.returnValue)
     let effects: InitEffects;
+    let configService;
     let gtmService; // No type to enable jasmine mocking (eg .and.returnValue)
     let searchTermUrlService; // No type to enable jasmine mocking (eg .and.returnValue)
     let store: MockStore<FileState>;
@@ -56,6 +59,7 @@ describe("Init Effects", () => {
                 // any modules needed
             ],
             providers: [
+                ConfigService,
                 InitEffects,
                 {
                     provide: GTMService,
@@ -78,7 +82,8 @@ describe("Init Effects", () => {
 
         activatedRoute = TestBed.inject(ActivatedRoute);
         effects = TestBed.inject(InitEffects);
-        
+
+        configService = TestBed.inject(ConfigService);
         gtmService = TestBed.inject(GTMService);
 
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
@@ -405,15 +410,19 @@ describe("Init Effects", () => {
         });
 
         /**
-         * Error action dispatched if catalog not specified in query string. 
+         * Default catalog is set when no catalog is specified in query string. 
          */
-        it(`dispatches error if catalog not specified in query string`, (doneFn: DoneFn) => {
+        it(`inits with default catalog if catalog not specified in query string`, (doneFn: DoneFn) => {
 
             // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
                 .withArgs(EntityName.FILES, false).and.returnValue(false)
                 .withArgs(EntityName.SAMPLES, false).and.returnValue(false);
+            
+            // Return default catalog from config
+            const defaultCatalog = DCPCatalog.DCP3;
+            spyOn(configService, "getDefaultCatalog").and.returnValue(defaultCatalog);
 
             // Return empty array, representing no filter currently selected 
             spyOn(searchTermUrlService, "parseQueryStringSearchTerms").and.returnValue([]);
@@ -426,9 +435,9 @@ describe("Init Effects", () => {
             // Navigate to /projects
             navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
 
-            // Confirm error is dispatched
+            // Confirm catalog is added to action
             effects.initSearchState$.subscribe((dispatchedAction) => {
-                expect(dispatchedAction).toEqual(new ErrorAction("Catalog not found for view initialization."));
+                expect((dispatchedAction as SetViewStateAction).catalog).toEqual(defaultCatalog);
                 doneFn();
             });
         });
@@ -528,5 +537,23 @@ describe("Init Effects", () => {
          * Prevent view init (eg hits to entities endpoint and summary endpoint) if an error has occurred during init. 
          */
         xit("prevents view init on error", () => {});
+    });
+
+    describe("fetchSystemStatus$", () => {
+
+        /**
+         * Fetches system status on initial load of app.
+         */
+        it("fetches system status", (done: DoneFn) => {
+
+            // Navigate to /projects
+            navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
+
+            // Confirm catalog is added to action
+            effects.fetchSystemStatus$.subscribe((dispatchedAction) => {
+                expect(dispatchedAction).toEqual(new SystemStatusRequestAction());
+                done();
+            });
+        });
     });
 });

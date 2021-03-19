@@ -14,6 +14,7 @@ import { ConfigService } from "../../config/config.service";
 import { ConfigState } from "../../config/_ngrx/config.state";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 
 describe("ProjectViewFactory", () => {
 
@@ -238,15 +239,14 @@ describe("ProjectViewFactory", () => {
 
     describe("buildCitationUrl", () => {
 
-        it("adds non default catalog to citation url", () => {
+        it("adds dcp1 catalog to citation url", () => {
             
             const portalUrl = "https://foo.com";
             spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
             
-            const catalog = "foo";
-            const defaultCatalog = "bar";
+            const catalog = DCPCatalog.DCP1;
             const projectId = "baz";
-            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, defaultCatalog, projectId);
+            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, projectId);
             expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}?catalog=${catalog}`)
         });
 
@@ -256,9 +256,8 @@ describe("ProjectViewFactory", () => {
             spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
 
             const catalog = "foo";
-            const defaultCatalog = catalog;
             const projectId = "baz";
-            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, defaultCatalog, projectId);
+            const citationUrl = projectViewFactory["buildCitationUrl"](catalog, projectId);
             expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}`)
         });
     });

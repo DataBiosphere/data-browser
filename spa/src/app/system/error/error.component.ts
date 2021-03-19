@@ -13,6 +13,8 @@ import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ErrorComponentState } from "./error.component.state";
+import { SelectEntityAction } from "../../files/_ngrx/entity/select-entity.action";
+import { EntityName } from "../../files/shared/entity-name.model";
 import { ClearErrorStateAction } from "../../http/_ngrx/http-clear-state-error.actions";
 import { selectErrorMessage, selectRequestUrl } from "../../http/_ngrx/http.selectors";
 import { AppState } from "../../_ngrx/app.state";
@@ -37,6 +39,14 @@ export class ErrorComponent implements OnDestroy, OnInit {
      * @param {Store<AppState>} store
      */
     public constructor(private store: Store<AppState>) {}
+
+    /**
+     * Set projects as selected entity in store. 
+     */
+    public onExploreLinkClicked() {
+
+        this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
+    }
 
     /**
      * Clear error message on exit of error page.

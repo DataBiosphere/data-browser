@@ -2,8 +2,9 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Determines if current route is complete, in that it contains a catalog param. If catalog param is
- * missing, cancel navigation and return new URL containing catalog param. Otherwise let navigation continue as is.
+ * Determines if current route is complete, in that the catalog query string parameter is correct for the atlas and
+  * default catalog. If catalog param is corrected, cancel current navigation event and return new URL tree to trigger
+  * navigation to correct URL. Otherwise let navigation continue as is.
  */
 
 // Core dependencies
@@ -21,13 +22,12 @@ import { combineLatest, Observable, of } from "rxjs";
 import { switchMap, take } from "rxjs/operators";
 
 // App dependencies
- import { AtlasName } from "../atlas/atlas-name.model";
  import { Catalog } from "./catalog.model";
  import { ConfigService } from "../../config/config.service";
  import { DCPCatalog } from "./dcp-catalog.model";
  import { ErrorAction } from "../../http/_ngrx/error.action";
  import { AppState } from "../../_ngrx/app.state";
- import { selectCatalog, selectCatalogs } from "../_ngrx/catalog/catalog.selectors";
+ import { selectCatalogs, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
 
 @Injectable()
 export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
@@ -42,7 +42,7 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
                 private store: Store<AppState>) {}
 
     /**
-     * Ensure catalog param is specified in query string.
+     * Ensure catalog param is either removed or maintained, depending on atlas and default catalog, in query string.
      *
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
      * @param {RouterStateSnapshot} routerStateSnapshot
@@ -58,7 +58,7 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
     }
 
     /**
-     * Ensure catalog param is specified in query string.
+     * Ensure catalog param is either removed or maintained, depending on atlas and default catalog, in query string.
      * 
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
      * @param {RouterStateSnapshot} routerStateSnapshot
@@ -71,7 +71,7 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
     }
 
     /**
-     * Adds catalog param to query string.
+     * Determine if catalog param needs to be removed or maintained in query string.
      * 
      * @param {string} nextUrl - the URL the user is attempting to navigate to
      * @param {UrlSegment[]} urlSegments
@@ -82,61 +82,73 @@ export class CatalogCanActivateGuard implements CanActivate, CanActivateChild {
 
         return combineLatest(
             this.store.pipe(select(selectCatalogs)),
-            this.store.pipe(select(selectCatalog))
+            this.store.pipe(select(selectDefaultCatalog))
         )
-            .pipe(
-                take(1),
-                switchMap(([catalogs, selectedCatalog]) => {
+        .pipe(
+            take(1),
+            switchMap(([catalogs, defaultCatalog]) => {
 
-                    // If there's no catalog param specified in the query string add it and return a new URL tree (which
-                    // cancels the current navigation and initiates a new navigation event to the updated URL).
-                    const catalogParam = currentQueryParams.catalog;
-                    if ( !catalogParam ) {
+                const catalogParam = currentQueryParams.catalog;
 
-                        // Determine which catalog to use going forward
-                        const redirectToCatalogParam = this.getRedirectToCatalogParam(catalogs, selectedCatalog);
-
-                        // If there's no selected catalog in the store, a catalog-related error has occurred. Allow
-                        // navigation to continue as is through to error page.
-                        const path = urlSegments[0]?.path;
-                        if ( !redirectToCatalogParam && path === "error" ) {
-                            return of(true);
-                        }
-
-                        // Add catalog to query string and restart navigation 
-                        const urlTree = this.router.parseUrl(nextUrl);
-                        urlTree.queryParams["catalog"] = redirectToCatalogParam;
-                        return of(urlTree);
-                    }
-                    
-                    // Confirm the catalog param is valid. If it's not valid, dispatch error action to trigger redirect
-                    // to error page.
-                    if ( catalogs.indexOf(catalogParam) === -1 ) {
-                        this.store.dispatch(new ErrorAction(`Catalog ${catalogParam} is invalid.`));
-                        return of(false);
-                    }
-
-                    // Otherwise there is currently a catalog query string param, continue navigation as is. 
+                // If there is no catalog param specified, continue as is.
+                if ( !catalogParam ) {
                     return of(true);
-                })
-            );
+                }
+
+                // Confirm the catalog param is valid. If it's not valid, dispatch error action to trigger redirect
+                // to error page.
+                if ( this.isCatalogValid(catalogs, catalogParam) ) {
+                    this.store.dispatch(new ErrorAction(`Catalog ${catalogParam} is invalid.`));
+                    return of(false);
+                }
+
+                // Catalog param is not required - remove from URL. This is true for catalog param "dcp2".
+                if ( this.isRemoveCatalogParam(defaultCatalog, catalogParam) ) {
+                    return of(this.buildRedirectUrlTree(nextUrl));
+                }
+
+                // Allow all other catalogs to remain in URL.
+                return of(true);
+            })
+        );
     }
 
     /**
-     * Returns the catalog to use if catalog is not specified in query string. If the atlas for the current environment
-     * is "hca" and DCP1 is in the set of possible catalogs for the current environment, default to DCP1. Otherwise
-     * return the selected catalog (which is the Azul-specified default catalog on load) for this environment.
+     * Build a URL tree from the current URL, removing the catalog param.
+     * 
+     * @param {string} nextUrl
+     */
+    private buildRedirectUrlTree(nextUrl: string): UrlTree {
+
+        const urlTree = this.router.parseUrl(nextUrl);
+        const queryParams = Object.assign({}, urlTree.queryParams);
+        delete queryParams["catalog"];
+        urlTree.queryParams = queryParams;
+        return urlTree;
+    }
+
+    /**
+     * Returns true if the catalog param is specified in the set of catalogs for this atlas.
      * 
      * @param {Catalog[]} catalogs
-     * @param {Catalog} selectedCatalog
+     * @param {string} catalogParam
+     */
+    private isCatalogValid(catalogs: Catalog[], catalogParam: string): boolean {
+
+        return catalogs.indexOf(catalogParam) === -1;
+    }
+
+    /**
+     * Returns true if catalog param is to be removed from the query string. True if the catalog param is dcp2, or
+     * the catalog param is the same as the default catalog.
+     *
+     * @param {string} defaultCatalog
+     * @param {string} catalogParam
      * @returns {string}
      */
-    private getRedirectToCatalogParam(catalogs: Catalog[], selectedCatalog: Catalog): string {
+    private isRemoveCatalogParam(defaultCatalog: Catalog, catalogParam: string): boolean {
 
-        if ( this.configService.getAtlas() === AtlasName.HCA && catalogs.indexOf(DCPCatalog.DCP1) >= 0 ) {
-            return DCPCatalog.DCP1;
-        }
-        
-        return selectedCatalog;
+        return catalogParam === DCPCatalog.DCP2 ||
+            catalogParam === defaultCatalog;
     }
 }

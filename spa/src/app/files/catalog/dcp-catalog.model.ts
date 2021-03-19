@@ -7,5 +7,7 @@
 
 export enum DCPCatalog {
     "DCP1" = "dcp1",
-    "DCP2" = "dcp2"
+    "DCP2" = "dcp2",
+    "DCP3" = "dcp3"
+    
 }

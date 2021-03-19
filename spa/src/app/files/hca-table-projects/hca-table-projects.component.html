@@ -253,8 +253,9 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('getData')"
                               [ngStyle]="getColumnStyle('getData')">
                         <hca-table-cell class="cell-split">
-                            <download-button [downloadAvailable]="true" (downloadClicked)="onProjectDownloadManifestClicked(element.entryId)"></download-button>
                             <ng-container *ngIf="catalog$ | async as catalog">
+                                <download-button [downloadAvailable]="true" 
+                                             (downloadClicked)="onProjectDownloadManifestClicked(element.entryId, catalog)"></download-button>
                                 <download-button [downloadAvailable]="isAnyMatrixAvailable(element)"
                                                  (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
                             </ng-container>
