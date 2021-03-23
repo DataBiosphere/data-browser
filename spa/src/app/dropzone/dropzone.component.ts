@@ -82,7 +82,7 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
     /**
      * @param {DragEvent} evt
      */
-    @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent) {
+    @HostListener("dragleave", ["$event"]) public onDragLeave(evt) {
 
         evt.preventDefault();
         evt.stopPropagation();
@@ -99,7 +99,7 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
     /**
      * @param {DragEvent} evt
      */
-    @HostListener("dragover", ["$event"]) onDragOver(evt: DragEvent) {
+    @HostListener("dragover", ["$event"]) onDragOver(evt) {
 
         evt.preventDefault();
         evt.stopPropagation();
@@ -108,7 +108,7 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
     /**
      * @param {DragEvent | Event} evt - handles either drop of file or change in value of file input.
      */
-    @HostListener("drop", ["$event"]) onDrop(evt: DragEvent | Event) {
+    @HostListener("drop", ["$event"]) onDrop(evt) {
 
         evt.preventDefault();
         evt.stopPropagation();
@@ -122,7 +122,7 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
 
         let files;
         if ( this.dropzoneService.isDragEvent(evt) ) {
-            files = this.dropzoneService.getDraggedFiles(evt as DragEvent);
+            files = this.dropzoneService.getDraggedFiles(evt);
         }
         else {
             files = this.dropzoneService.getInputFiles(evt);

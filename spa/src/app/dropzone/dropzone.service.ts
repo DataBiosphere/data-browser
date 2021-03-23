@@ -30,7 +30,7 @@ export class DropzoneService {
      * @param {any} evt
      * @returns {boolean}
      */
-    public fromEvent(evt: any): File[] {
+    public fromEvent(evt): File[] {
 
         if ( this.isDragEvent(evt) ) {
             return this.getDraggedFiles(evt);
@@ -45,9 +45,9 @@ export class DropzoneService {
      * @param {DragEvent} evt
      * @returns {File[]}
      */
-    public getDraggedFiles(evt: DragEvent) {
+    public getDraggedFiles(evt) {
 
-        return Array.from(evt.dataTransfer.files);
+        return Array.from(evt.dataTransfer.files) as File[];
     }
 
     /**
