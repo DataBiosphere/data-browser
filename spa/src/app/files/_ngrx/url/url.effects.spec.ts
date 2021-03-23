@@ -29,6 +29,7 @@ import { SelectProjectIdAction } from "../search/select-project-id.action";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { EntityName } from "../../shared/entity-name.model";
+import { RoutingService } from "../../../shared/routing/routing.service";
 import { UrlEffects } from "./url.effects";
 import { selectUrlSpecState } from "./url.selectors";
 import { UrlService } from "../../url/url.service";
@@ -67,6 +68,7 @@ describe("URL Effects", () => {
             ],
             providers: [
                 provideMockActions(() => actions$),
+                RoutingService,
                 provideMockStore({initialState: DEFAULT_PROJECTS_STATE}), {
                     provide: Router,
                     useValue: routerMock
@@ -83,6 +85,7 @@ describe("URL Effects", () => {
                     provide: UrlService,
                     useValue: jasmine.createSpyObj("UrlService", [
                         "isViewingEntities",
+                        "isViewingGetData",
                         "isViewingFiles",
                         "isViewingProjects",
                         "isViewingSamples"
@@ -129,12 +132,39 @@ describe("URL Effects", () => {
         });
 
         /**
-         * Location is not updated unless user is currently viewing /projects, /samples or /files.
+         * Location is updated if user currently viewing /get-data.
          */
-        it("location not updated if not viewing entity data table", () => {
+        it("location updated if viewing entity data table", () => {
+
+            // Return true from isViewingEntities to pass filter in effect
+            urlService.isViewingGetData.and.returnValue(true);
+
+            // Create clear action
+            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS); // Use any matching action here 
+
+            actions$ = hot("-a", {
+                a: action
+            });
+
+            const expected = hot("-b", {
+                b: [action, defaultSelectUrlSpecState]
+            });
+
+            // Pass through of URL spec state from concatMap/combineWithLatest before tap
+            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
+
+            // Smoke test of navigate
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Location is not updated unless user is currently viewing /projects, /samples or /files, or /get-data.
+         */
+        it("location not updated if not viewing entity data table or get data", () => {
 
             // Return false from isViewingEntities to fail filter in effect
             urlService.isViewingEntities.and.returnValue(false);
+            urlService.isViewingGetData.and.returnValue(false);
 
             actions$ = hot("-a", {
                 a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here

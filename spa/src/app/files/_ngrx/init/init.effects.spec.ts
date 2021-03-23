@@ -16,7 +16,6 @@ import { Observable, ReplaySubject } from "rxjs";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
-import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { FileState } from "../file.state";
@@ -89,23 +88,6 @@ describe("Init Effects", () => {
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
         
         store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
-    });
-
-    describe("updateDefaultFilterInit$", () => {
-
-        /**
-         * Default filter init flag is set to true after initial navigation event
-         */
-        it("initializes default filter init flag after initial navigation event", (done: DoneFn) => {
-
-            navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
-            
-            // Confirm default filter init action is dispatched
-            effects.updateDefaultFilterInit$.subscribe((dispatchedAction) => {
-                expect(dispatchedAction.type).toEqual(DefaultFilterInitAction.ACTION_TYPE);
-                done();
-            });
-        });
     });
 
     describe("initPageview$", () => {

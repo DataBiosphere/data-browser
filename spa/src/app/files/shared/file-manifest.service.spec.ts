@@ -16,7 +16,7 @@ import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileManifestService } from "./file-manifest.service";
 import { FilesService } from "./files.service";
-import { BulkDownloadExecutionEnvironment } from "../hca-get-data/bulk-download/bulk-download-execution-environment.model";
+import { BulkDownloadExecutionEnvironment } from "../get-data/bulk-download/bulk-download-execution-environment.model";
 import { ResponseTermService } from "../http/response-term.service";
 import { HttpService } from "../http/http.service";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";

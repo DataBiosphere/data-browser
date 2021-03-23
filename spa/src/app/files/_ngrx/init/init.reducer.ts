@@ -9,16 +9,11 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { InitState } from "./init.state";
 
 export function reducer(state: InitState = InitState.getDefaultState(), action: Action): InitState {
 
     switch (action.type) {
-
-        // Update state to indicate default app filter has been initialized
-        case DefaultFilterInitAction.ACTION_TYPE:
-            return state.setDefaultFilterInit();
 
         default:
             return state;

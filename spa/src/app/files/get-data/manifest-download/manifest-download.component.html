@@ -1,0 +1,38 @@
+<div *ngIf="state$ | async as state">
+    <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
+        <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+            <h4 class="fontsize-m semi-bold">Select Manifest File Types</h4>
+            <p class="fontsize-m">A file manifest contains a list of data files matching your search criteria along with
+                a subset of the metadata.</p>
+            <p class="fontsize-m">Please select the file types for inclusion in the manifest.</p>
+        </get-data-panel>
+        <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+            <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                    [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
+                                    (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+            <button class="button primary"
+                    type="button"
+                    (click)="onRequestManifest(state.selectedSearchTerms)"
+                    [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Prepare Manifest</button>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
+        <get-data-panel [loading]="isDownloadInProgress(state.manifestResponse)">
+            <h4 class="fontsize-m semi-bold">Your File Manifest is Being Prepared</h4>
+            <p class="fontsize-m">Your manifest will be ready shortly.</p>
+        </get-data-panel>
+    </ng-container>
+    <ng-container *ngIf="isDownloadComplete(state.manifestResponse)">
+        <get-data-panel>
+            <h4 class="fontsize-m semi-bold">Your File Manifest is Ready</h4>
+        </get-data-panel>
+        <p class="fontsize-m">Select the link below to download your manifest.</p>
+        <p class="fontsize-m">This link expires in 24 hours.</p>
+        <div class="download">
+            <data-link [link]="state.manifestResponse.fileUrl"
+                               (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, state.manifestResponse.fileUrl)"></data-link>
+            <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"
+                               (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
+        </div>
+    </ng-container>
+</div>

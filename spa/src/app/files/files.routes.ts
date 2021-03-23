@@ -12,7 +12,7 @@ import { Route } from "@angular/router";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { FilterCanActivateGuard } from "./facet/filter/filter-can-activate.guard";
 import { FilesComponent } from "./files.component";
-import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
+import { GetDataComponent } from "./get-data/get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
@@ -33,7 +33,8 @@ export const routes: Route[] = [
     {
         path: "get-data",
         canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard, FilterCanActivateGuard],
-        component: HCAGetDataComponent
+        component: GetDataComponent,
+        
     },
     {
         path: "samples",

@@ -1,0 +1,66 @@
+/*!
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for selected data summary.
+ */
+
+@import "../../../site/theme/hca.vars";
+
+:host {
+
+    display: flex;
+    flex-direction: column;
+
+    /* Summary -  container */
+    .summary {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+
+        /* Text - count, label, terms */
+        /* Mimics HCA paragraph font class "fontsize-xs" */
+        .count, .label, .terms {
+            font-family: "Montserrat", sans-serif;
+            font-size: 13px;
+            letter-spacing: normal;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .count, .terms {
+            font-weight: 400;
+        }
+
+        .terms {
+            max-width: 400px;
+        }
+
+        .label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            width: 220px;
+        }
+    }
+}
+
+/**
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1280px) {
+
+    /* Summary - container */
+    :host .summary {
+        flex-direction: row-reverse;
+        margin-bottom: 8px;
+
+        /* Label */
+        .label {
+            flex: none;
+            margin-bottom: 0;
+        }
+    }
+}

@@ -30,7 +30,7 @@ import { RouterModule } from "@angular/router";
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
-import { BaseGetManifestComponent } from "./hca-get-data/base-get-manifest.component.ts/base-get-manifest.component";
+import { BaseManifestDownloadComponent } from "./get-data/base-manifest-download.component.ts/base-manifest-download.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { DataUseNotificationComponent } from "./data-use-notification/data-use-notification.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
@@ -61,15 +61,16 @@ import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
-import { BulkDownloadComponent } from "./hca-get-data/bulk-download/bulk-download.component";
-import { DisplayDataLinkComponent } from "./hca-get-data/display-data-link/display-data-link.component";
-import { HCAExportToTerraComponent } from "./hca-get-data/hca-export-to-terra/hca-export-to-terra.component";
-import { HCAGetDataComponent } from "./hca-get-data/hca-get-data.component";
-import { HCAGetDataDownloadsComponent } from "./hca-get-data/hca-get-data-downloads/hca-get-data-downloads.component";
-import { HCAGetDataFileSummaryComponent } from "./hca-get-data/hca-get-data-file-summary/hca-get-data-file-summary.component";
-import { HCAGetDataPanelComponent } from "./hca-get-data/hca-get-data-panel/hca-get-data-panel.component";
-import { HCAGetDataSummaryComponent } from "./hca-get-data/hca-get-data-summary/hca-get-data-summary.component";
-import { HCAGetManifestComponent } from "./hca-get-data/hca-get-manifest/hca-get-manifest.component";
+import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.component";
+import { DataLinkComponent } from "./get-data/data-link/data-link.component";
+import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
+import { GetDataComponent } from "./get-data/get-data.component";
+import { GetDataOptionsComponent } from "./get-data/get-data-options/get-data-options.component";
+import { GetDataPanelComponent } from "./get-data/get-data-panel/get-data-panel.component";
+import { GetDataSummaryComponent } from "./get-data/get-data-summary/get-data-summary.component";
+import { ManifestDownloadComponent } from "./get-data/manifest-download/manifest-download.component";
+import { SelectedDataSummaryComponent } from "./get-data/selected-data-summary/selected-data-summary.component";
+import { SpeciesFormComponent } from "./get-data/species-form/species-form.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
 import { HCASearchComponent } from "./hca-search/hca-search.component";
 import { HCATableCellComponent } from "./hca-table-cell/hca-table-cell.component";
@@ -164,11 +165,12 @@ import { UrlService } from "./url/url.service";
         AgeUnitInSeconds,
         AnalysisProtocolPipelineLinkerComponent,
         AnnouncementCatalogComponent,
-        BaseGetManifestComponent,
+        BaseManifestDownloadComponent,
         BulkDownloadComponent,
         CatalogFormComponent,
         DataUseNotificationComponent,
-        DisplayDataLinkComponent,
+        DataLinkComponent,
+        ExportToTerraComponent,
         FacetAgeRangeFormComponent,
         FacetMenuComponent,
         FacetMenuOptionComponent,
@@ -183,18 +185,15 @@ import { UrlService } from "./url/url.service";
         FileNameShortenerPipe,
         FileTypeSummaryListComponent,
         FilesComponent,
+        GetDataComponent,
+        GetDataOptionsComponent,
+        GetDataPanelComponent,
+        GetDataSummaryComponent,
         HCAContentEllipsisComponent,
         HCAContentUnspecifiedDashComponent,
         HCADownloadFileComponent,
         HCAEllipsisTextComponent,
-        HCAExportToTerraComponent,
         HCAFileSummaryComponent,
-        HCAGetDataComponent,
-        HCAGetDataDownloadsComponent,
-        HCAGetDataFileSummaryComponent,
-        HCAGetDataPanelComponent,
-        HCAGetDataSummaryComponent,
-        HCAGetManifestComponent,
         HCASearchComponent,
         HCATableCellComponent,
         HCATableColumnHeaderComponent,
@@ -207,6 +206,7 @@ import { UrlService } from "./url/url.service";
         HCATableProjectsComponent,
         HCATableSamplesComponent,
         HCATableSortComponent,
+        ManifestDownloadComponent,
         ProjectAnalysisPortalsComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
@@ -231,7 +231,9 @@ import { UrlService } from "./url/url.service";
         ProjectSupplementaryLinksComponent,
         ProjectWithdrawnComponent,
         SectionBarComponent,
+        SelectedDataSummaryComponent,
         SelectedSearchTermsComponent,
+        SpeciesFormComponent,
         TableScroll
     ],
     providers: [

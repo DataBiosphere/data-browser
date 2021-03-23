@@ -15,7 +15,6 @@ import { filter, map, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
-import { DefaultFilterInitAction } from "./default-filter-init.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
 import { AppState } from "../../../_ngrx/app.state";
@@ -122,18 +121,6 @@ export class InitEffects {
         take(1),
         map(() => {
             return new SystemStatusRequestAction();
-        })
-    );
-
-    /**
-     * After initial router has completed, trigger action to update state indicating default filter has been applied.
-     */
-    @Effect()
-    updateDefaultFilterInit$ = this.router.events.pipe(
-        filter(evt => evt instanceof NavigationEnd),
-        take(1),
-        map(() => {
-            return new DefaultFilterInitAction();
         })
     );
 }

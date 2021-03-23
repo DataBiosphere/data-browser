@@ -47,7 +47,7 @@ export class FacetState {
                 paginationModel: Pagination) {
 
         this.facetNames = facetNames;
-        this.facetsByName = facetsByName; // Facets specifically fetched from files endpoint
+        this.facetsByName = facetsByName; // Facets specifically fetched from files endpoint, used for displaying data summary on get data functionality 
         this.filesFacets = filesFacets;
         this.selectedFacet = selectedFacet;
         
@@ -58,9 +58,8 @@ export class FacetState {
             return this.facetsByName.get(facetName);
         });
         
-        // Set up subset of facets containing only file facets. Used mainly by matrix functionality when checking set
-        // of selected terms for specific file facets (species, library construction approach etc).
-        this.fileFacets = this.facets.filter(facet => facet instanceof FileFacet) as FileFacet[]; // TODO ****************************************************************************************************
+        // Set up subset of facets containing only file facets.
+        this.fileFacets = this.facets.filter(facet => facet instanceof FileFacet) as FileFacet[];
     }
 
     /**
@@ -147,9 +146,8 @@ export class FacetState {
             this.paginationModel);
     }
 
-
     /**
-     * Handle set of file facets returned from the files end point, used to poplate data summary on get data pages.
+     * Handle set of file facets returned from the files end point, used to populate data summary on get data pages.
      *
      * @param {SelectFacetAgeRangeAction} action
      * @returns {FacetState}

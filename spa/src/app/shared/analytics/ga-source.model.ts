@@ -12,5 +12,6 @@ export enum GASource {
     "PROJECT" = "Project",
     "SEARCH" = "Search",
     "SEARCH_RESULTS" = "Search Results",
-    "SELECTED_TERMS" = "Selected Terms"
+    "SELECTED_TERMS" = "Selected Terms",
+    "SPECIES_SELECTION" = "Species Selection"
 }
