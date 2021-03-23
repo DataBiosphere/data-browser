@@ -132,6 +132,7 @@ export const FILE_SINGLE_VALUES =
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
                 "size": 148,
+                "source": "foo",
                 "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
                 "version": "2019-05-16T020707.744487Z",
                 "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
@@ -522,6 +523,7 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
                 "size": 148,
+                "source": "foo",
                 "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
                 "version": "2019-05-16T020707.744487Z",
                 "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
@@ -600,6 +602,7 @@ export const FILE_EMPTY_ARRAY_VALUES =
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
                 "size": 148,
+                "source": "foo",
                 "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
                 "version": "2019-05-16T020707.744487Z",
                 "url": "https:\/\/service.explore.data.humancellatlas.org\/fetch\/dss\/files\/86f5c1f3-7575-42cf-863c-ced4c2f4e475?version=2019-05-16T020707.744487Z&replica=aws"
@@ -696,6 +699,7 @@ export const FILE_NULL_VALUES =
                 "name": null,
                 "sha256": null,
                 "size": 148,
+                "source": null,
                 "uuid": null,
                 "version": null,
                 "url": null

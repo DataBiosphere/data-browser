@@ -80,7 +80,6 @@ let tableColumns: TableColumn[] = [
         columnMinWidth: 80,
         columnSort: true,
         countType: CountType.DOMAIN_COUNT
-
     },
     {
         key: "fileName",
@@ -99,6 +98,16 @@ let tableColumns: TableColumn[] = [
         columnMaxWidth: 112,
         columnSort: true,
         countType: CountType.SUMMARY_COUNT
+    },
+    {
+        key: "fileSource",
+        userFriendly: "File Source",
+        description: "The source of the file.",
+        alignment: ColumnAlignment.LEFT,
+        columnMaxWidth: 120,
+        columnMinWidth: 120,
+        columnSort: true,
+        countType: CountType.DOMAIN_COUNT
     },
     {
         key: "genusSpecies",

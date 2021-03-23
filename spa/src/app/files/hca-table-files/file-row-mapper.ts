@@ -36,6 +36,7 @@ export class FileRowMapper extends EntityRowMapper {
             fileFormat: this.file.format,
             fileName: this.file.name,
             fileSize: getUnspecifiedIfNullValue(this.file.size),
+            fileSource: getUnspecifiedIfNullValue(this.file.source),
             url: this.file.url
         });
     }
