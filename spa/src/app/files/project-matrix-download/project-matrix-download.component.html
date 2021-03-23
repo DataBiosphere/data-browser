@@ -8,8 +8,8 @@
     <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">metrics</a>.
 </p>
 <p class="fontsize-s">
-    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs. Matrices are in CSV, MTX, and Loom
-    formats.
+    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs and estimated counts. Matrices are in Loom
+    file format.
 </p>
 <ng-container [ngSwitch]="project.matrices.length === 0">
     <no-hits *ngSwitchCase="true">
