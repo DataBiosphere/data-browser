@@ -61,12 +61,14 @@ describe("HCATableFilesComponent", () => {
 
     // Column titles
     const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
+    const COLUMN_TITLE_FILE_SOURCE = "File Source";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
+    const COLUMN_NAME_FILE_SOURCE = "fileSource";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_WORKFLOW = "workflow";
     const COLUMN_NAME_TOTALCELLS = "totalCells";
@@ -156,14 +158,6 @@ describe("HCATableFilesComponent", () => {
         fixture = TestBed.createComponent(HCATableFilesComponent);
         component = fixture.componentInstance;
     }));
-
-    /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
 
     /**
      * Confirm sort functionality is set up in component.
@@ -333,6 +327,29 @@ describe("HCATableFilesComponent", () => {
 
         // Confirm column title is displayed
         expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+    });
+
+    /**
+     * Confirm "File Source" column is displayed.
+     */
+    it(`displays column "File Source"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.data),
+            of(FILES_TABLE_MODEL.loading),
+            of(FILES_TABLE_MODEL.pagination),
+            of(FILES_TABLE_MODEL.termCountsByFacetName),
+            of(DEFAULT_FILE_SUMMARY)
+        );
+
+        fixture.detectChanges();
+
+        const columnHeaderDE = findHeader(COLUMN_NAME_FILE_SOURCE);
+
+        // Confirm column title is displayed
+        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_FILE_SOURCE);
     });
 
     /**

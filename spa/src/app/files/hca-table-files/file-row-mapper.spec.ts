@@ -288,4 +288,20 @@ describe("FileRowMapper:", () => {
             done();
         })
     });
+
+
+    /**
+     * File Source should be included in mapping
+     */
+    it("maps file source", (done: DoneFn) => {
+
+        const fileToMap = FILE_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<FileRowMapper>( of([fileToMap]), FileRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedFile = rows[0];
+            expect(mappedFile.fileSource).toEqual(fileToMap.files[0].source);
+            done();
+        })
+    });
 });

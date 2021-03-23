@@ -56,6 +56,22 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="fileSource">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('fileSource')"
+                                     [ngStyle]="getColumnStyle('fileSource')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'fileSource'">{{getColumnDisplayName('fileSource')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'fileSource'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileSource')"
+                              [ngStyle]="getColumnStyle('fileSource')">
+                        <hca-table-cell>
+                            <span class="fontsize-xxs">{{element.fileSource}}</span>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="projectTitle">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('projectTitle')"
                                      [ngStyle]="getColumnStyle('projectTitle')">
