@@ -11,14 +11,16 @@ import { Router } from "@angular/router";
 
 // App dependencies
 import { EntityName } from "../shared/entity-name.model";
+import { RoutingService } from "../../shared/routing/routing.service";
 
 @Injectable()
 export class UrlService {
 
     /**
+     * @param {RoutingService} routingService
      * @param {Router} router
      */
-    constructor(private router: Router) {}
+    constructor(private routingService: RoutingService, private router: Router) {}
 
     /**
      * Returns true if user is currently viewing one of /projects, /files or /samples.
@@ -64,6 +66,14 @@ export class UrlService {
 
         const path = this.router.url.split("?")[0];
         return path === `/${EntityName.SAMPLES}`;
+    }
+
+    /**
+     * Returns true if user is currently viewing /get-data
+     */
+    public isViewingGetData(): boolean {
+
+        return this.routingService.isPathActive(["/get-data"]);
     }
 }
 

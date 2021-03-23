@@ -24,7 +24,6 @@ import { FilterCanActivateGuard } from "./filter-can-activate.guard";
 import { AppState } from "../../../_ngrx/app.state";
 import { FileState } from "../../_ngrx/file.state";
 import { DEFAULT_PROJECTS_STATE } from "../../_ngrx/file.state.mock";
-import { selectDefaultFilterInit } from "../../_ngrx/init/init.selectors";
 import { selectSelectedSearchTermsBySearchKey } from "../../_ngrx/search/search.selectors";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
@@ -85,7 +84,6 @@ describe("FilterCanActivateGuard", () => {
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
         
         store = TestBed.inject(Store) as MockStore<AppState>;
-        store.overrideSelector(selectDefaultFilterInit, true);
 
         // Set up router state snapshot to return dummy URL value.
         routerStateSnapshotUrl = spyOnProperty(routerStateSnapshot, "url");
