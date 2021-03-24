@@ -8,18 +8,17 @@
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
-            <div *ngIf="isShellOptionsVisible()" class="execution-environment fontsize-s">
+            <div class="execution-environment fontsize-s">
                 <p class="fontsize-s">Select Shell:</p>
                 <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
-                    <mat-radio-button *ngFor="let option of getShellOptions()" [value]="option">
-                        {{option}}
-                    </mat-radio-button>
+                    <mat-radio-button value="bash">Bash</mat-radio-button>
+                    <mat-radio-button value="cmd.exe">cmd.exe</mat-radio-button>
                 </mat-radio-group>
             </div>
             <warning>
                 <warning-content>
-                    <p class="fontsize-m">The generated curl command is compatible with the bash shell on Mac and Linux
-                        systems and will remain valid for one hour. Support for Windows systems is coming soon.</p>
+                    <p class="fontsize-m">The generated curl command is compatible with the Bash shell on Mac and Linux
+                        systems, and the Command shell on Windows systems, and will remain valid for one hour.</p>
                 </warning-content>
             </warning>
             <button class="button primary"
@@ -52,7 +51,10 @@
             <warning>
                 <warning-content>
                     <p class="fontsize-m">The curl command downloads data files only. To download the matching metadata,
-                        select "Prepare Manifest" on the  <a [routerLink]="" queryParamsHandling="preserve" (click)="onDownloadManifestClicked()">Request File Manifest</a> page.</p>
+                        select "Prepare Manifest" on the <a [routerLink]=""
+                                                            queryParamsHandling="preserve"
+                                                            (click)="onDownloadManifestClicked()">Request File
+                            Manifest</a> page.</p>
                 </warning-content>
             </warning>
         </div>
