@@ -43,22 +43,6 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
     }
 
     /**
-     * Returns the set of radio button options representing the supported shells that the bulk download curl command can
-     * run on.
-     * 
-     * TODO not currently visible (see isShellOptionsVisible)
-     *
-     * @returns {BulkDownloadExecutionEnvironment[]}
-     */
-    public getShellOptions(): BulkDownloadExecutionEnvironment[] {
-
-        return [
-            BulkDownloadExecutionEnvironment.BASH,
-            BulkDownloadExecutionEnvironment.CMD_EXE
-        ];
-    }
-
-    /**
      * Returns true if bulk download request form is valid. That is, at least one file format as well as the operating
      * system (for the curl command) are selected.
      * 
@@ -69,18 +53,6 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
     public isRequestFormValid(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment): boolean {
         
         return this.isAnyFileFormatSelected(selectedSearchTerms) && !!os;
-    }
-
-    /**
-     * Shell options are currently disabled until exe curl is implemented.
-     * 
-     * TODO disable radio buttons once Windows option is available (and remove default value for executionEnvironment)
-     * 
-     * @returns {boolean}
-     */
-    public isShellOptionsVisible(): boolean {
-        
-        return false;
     }
 
     /**

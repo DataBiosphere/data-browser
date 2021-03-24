@@ -136,32 +136,6 @@ describe("BulkDownloadComponent", () => {
     });
 
     /**
-     * Confirm request button is disabled if an execution environment has not yet been selected.
-     */
-   xit("disables button if execution environment is not selected", () => {
-       
-       // TODO revisit for 1354
-
-       const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
-       testStore.pipe
-           .and.returnValues(
-           of([selectedSearchTerm]), // selected search terms
-           of(DEFAULT_FILE_SUMMARY), // manifest file summary
-           of({
-               status: ManifestStatus.NOT_STARTED // manifest download status
-           })
-       );
-
-        fixture.detectChanges();
-
-        // Confirm the request button is disabled
-       console.log(fixture.debugElement.nativeElement);
-       const buttonDE = fixture.debugElement.query(By.css("button"));
-       expect(buttonDE).toBeTruthy();
-       expect(buttonDE.nativeElement.disabled).toBe(true);
-    });
-
-    /**
      * Confirm request button is disabled if file type has not been selected
      */
     it("disables button if file type has not been selected", () => {
@@ -208,5 +182,29 @@ describe("BulkDownloadComponent", () => {
         const buttonDE = fixture.debugElement.query(By.css("button"));
         expect(buttonDE).toBeTruthy();
         expect(buttonDE.nativeElement.disabled).toBe(false);
+    });
+
+
+    /**
+     * Confirm both bash and cmd.exe radio buttons are displayed.
+     */
+    it("displays bash and cmd.exe radio options", () => {
+
+        const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
+        testStore.pipe
+            .and.returnValues(
+            of([selectedSearchTerm]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                status: ManifestStatus.NOT_STARTED // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm the request button is disabled
+        console.log(fixture.debugElement.nativeElement);
+        const buttonDEs = fixture.debugElement.queryAll(By.css("mat-radio-button"));
+        expect(buttonDEs.length).toBe(2);
     });
 });
