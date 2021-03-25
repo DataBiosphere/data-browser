@@ -20,7 +20,7 @@
             },
             {
                 "facetName": "developmentStage",
-                "versions": ["2.0"]
+                "versions": []
             }
         ]
     },
@@ -75,7 +75,7 @@
             },
             {
                 "facetName": "nucleicAcidSource",
-                "versions": ["2.0"]
+                "versions": []
             },
             {
                 "facetName": "pairedEnd",
