@@ -30,7 +30,6 @@ export class ConfigService {
     protected projectMetaURL: string;
     protected terraExportURL: string;
     protected store: Store<AppState>;
-    protected version: string;
     protected zendeskURL: string;
 
     /**
@@ -257,17 +256,6 @@ export class ConfigService {
     public isEnvProd(): boolean {
 
         return this.deployment === "prod";
-    }
-
-    /**
-     * Returns true if the specified version matches the version running in the current environment.
-     *
-     * @param {string} version
-     * @returns {boolean}
-     */
-    public isCurrentVersion(version: string): boolean {
-
-        return version === this.version;
     }
 
     /**

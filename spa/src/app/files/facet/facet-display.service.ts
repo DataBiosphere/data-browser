@@ -57,7 +57,7 @@ export class FacetDisplayService {
     }
 
     /**
-     * Build the set of facet groups for the current environment.
+     * Build the set of facet groups.
      * 
      * @param {FacetGroupDisplayConfig} facetGroupDisplayConfigs
      * @returns {FacetGroup[]}
@@ -66,34 +66,16 @@ export class FacetDisplayService {
 
         return facetGroupDisplayConfigs.reduce((accum, facetGroupConfig: FacetGroupDisplayConfig) => {
 
-            const facetsInVersion = this.filterFacetsInVersion(facetGroupConfig.facets);
-
-            if ( facetsInVersion.length ) {
+            const facets = facetGroupConfig.facets;
+            if ( facets.length ) {
                 accum.push({
                     facetGroupName: facetGroupConfig.facetGroupName,
-                    facetNames: facetsInVersion.map(facetConfig => facetConfig.facetName)
+                    facetNames: facets.map(facetConfig => facetConfig.facetName)
                 });
             }
 
             return accum;
         }, []);
-    }
-
-    /**
-     * Return the set of facets applicable to the current environment, for the specified facet group config.
-     * 
-     * @param {FacetDisplayConfig[]} facetDisplayConfigs
-     */
-    private filterFacetsInVersion(facetDisplayConfigs: FacetDisplayConfig[]): FacetDisplayConfig[] {
-
-        return facetDisplayConfigs.filter((facetDisplayConfig) => {
-
-            // Check facet version against the version for the current environment - only include facet if it
-            // has the current version specified in its list of versions. If there are no versions specified for this
-            // facet, include it.
-            const versions = facetDisplayConfig.versions || [];
-            return versions.length === 0 || !!versions.find(version => this.configService.isCurrentVersion(version));
-        });
     }
 }
 
