@@ -35,6 +35,7 @@ import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
 import { TermSortService } from "../../sort/term-sort.service";
+import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
 
 describe("BulkDownloadComponent", () => {
 
@@ -184,7 +185,6 @@ describe("BulkDownloadComponent", () => {
         expect(buttonDE.nativeElement.disabled).toBe(false);
     });
 
-
     /**
      * Confirm both bash and cmd.exe radio buttons are displayed.
      */
@@ -206,5 +206,53 @@ describe("BulkDownloadComponent", () => {
         console.log(fixture.debugElement.nativeElement);
         const buttonDEs = fixture.debugElement.queryAll(By.css("mat-radio-button"));
         expect(buttonDEs.length).toBe(2);
+    });
+    
+    describe("onRequestManifest", () => {
+
+        /**
+         * Confirm action is dispatched to request manifest.
+         */
+        it("dispatches action to request manifest", () => {
+
+            const manifestFormat = ManifestDownloadFormat.CURL;
+            const shell = BulkDownloadExecutionEnvironment.BASH;
+            component.onRequestManifest([], shell);
+            expect(testStore.dispatch).toHaveBeenCalled();
+            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+                manifestFormat
+            }))
+        });
+        
+        /**
+         * Confirm action is triggered to track request of manifest when manifest is requested.
+         */
+        it("dispatches action to track manifest request", () => {
+
+            const shell = BulkDownloadExecutionEnvironment.BASH;
+            component.onRequestManifest([], shell);
+            expect(testStore.dispatch).toHaveBeenCalled();
+            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+                shell
+            }))
+        });
+    });
+
+    describe("onDataLinkCopied", () => {
+
+        /**
+         * Confirm action is triggered to track request of copy to clipboard of curl command.
+         */
+        it("dispatches action to track manifest request", () => {
+
+            const manifestUrl = "http://foo.com";
+            const shell = BulkDownloadExecutionEnvironment.BASH;
+            component.onDataLinkCopied([], shell, manifestUrl);
+            expect(testStore.dispatch).toHaveBeenCalled();
+            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+                manifestUrl,
+                shell
+            }))
+        });
     });
 });

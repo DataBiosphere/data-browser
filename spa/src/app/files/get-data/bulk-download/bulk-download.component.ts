@@ -12,6 +12,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/cor
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { GetDataViewState } from "../get-data-view-state.model";
+import { CopyToClipboardBulkDownloadAction } from "../../_ngrx/get-data/copy-to-clipboard-bulk-download.action";
+import { RequestBulkDownloadAction } from "../../_ngrx/get-data/request-bulk-download.action";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
 import { SearchTerm } from "../../search/search-term.model";
 import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
@@ -59,22 +61,24 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * Track click on copy of bulk download data link.
      *
      * @param {SearchTerm[]} selectedSearchTerms
+     * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} manifestUrl
      */
-    public onDataLinkCopied(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+    public onDataLinkCopied(selectedSearchTerms: SearchTerm[],  shell: BulkDownloadExecutionEnvironment, manifestUrl: string) {
 
-        // this.fileManifestService.trackCopyToClipboardCohortManifestLink(selectedSearchTerms, manifestUrl); TODO (mim) - add tracking of copy to clipboard, review providers in spec
+        this.store.dispatch(new CopyToClipboardBulkDownloadAction(shell, manifestUrl));
     }
 
     /**
      * Dispatch action to generate bulk download URL. Also track export action with GA.
      *
      * @param {SearchTerm[]} selectedSearchTerms
+     * @param {BulkDownloadExecutionEnvironment} shell
      */
-    public onRequestManifest(selectedSearchTerms: SearchTerm[]) {
+    public onRequestManifest(selectedSearchTerms: SearchTerm[], shell: BulkDownloadExecutionEnvironment) {
 
-        // this.fileManifestService.trackRequestCohortManifest(selectedSearchTerms); TODO (mim) - add tracking of bulk download, review providers in spec
         this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL));
+        this.store.dispatch(new RequestBulkDownloadAction(shell));
     }
 
     /**

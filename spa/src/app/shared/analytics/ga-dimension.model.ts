@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Possible values of Google Analytic dimensions.
+ * Possible values of Google Analytics dimensions.
  */
 
 export enum GADimension {
@@ -21,5 +21,5 @@ export enum GADimension {
     "RELATED_ENTITY_URL" = "relatedEntityUrl",
     "SOURCE" = "source", // UI element eg search bar
     "TERM" = "term",
-    "TOOL_NAME" = "toolName"
+    "TOOL_NAME" = "toolName" // eg "bash" for bulk download, "Terra" for export
 }
