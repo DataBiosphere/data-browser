@@ -9,6 +9,7 @@ export enum GAAction {
     "CLEAR" = "Clear",
     "CLICK" = "Click",
     "COPY_TO_CLIPBOARD" = "Copy to Clipboard",
+    "CREATE" = "Create",
     "DESELECT" = "Deselect",
     "DOWNLOAD" = "Download",
     "DOWNLOAD_PROJECT_MATRIX" = "Download Project Matrix",

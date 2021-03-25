@@ -12,11 +12,12 @@ import { BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies 
+import { UrlService } from "../files/url/url.service";
 import { AppState } from "../_ngrx/app.state";
 import { selectSupportRequestActive } from "./_ngrx/support-request.selectors";
 import { UpdateSupportRequestActiveAction } from "./_ngrx/update-support-request-active.action";
+import { GASource } from "../shared/analytics/ga-source.model";
 import { SupportRequestState } from "./support-request.state";
-import { UrlService } from "../files/url/url.service";
 
 @Component({
     selector: "support-request",
@@ -52,7 +53,7 @@ export class SupportRequestComponent implements OnInit {
      */
     public onButtonClicked() {
 
-        this.store.dispatch(new UpdateSupportRequestActiveAction(true));
+        this.store.dispatch(new UpdateSupportRequestActiveAction(true, GASource.SUPPORT_REQUEST_BUTTON));
     }
 
     /**
@@ -60,7 +61,7 @@ export class SupportRequestComponent implements OnInit {
      */
     public onFormDismissed() {
 
-        this.store.dispatch(new UpdateSupportRequestActiveAction(false));
+        this.store.dispatch(new UpdateSupportRequestActiveAction(false, GASource.SUPPORT_REQUEST_FORM));
     }
 
     /**

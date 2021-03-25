@@ -17,6 +17,7 @@ import { HCAFooterState } from "./hca-footer.state";
 import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { FooterComponent } from "../../site-config/footer.component";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 import { UpdateSupportRequestActiveAction } from "../../../support-request/_ngrx/update-support-request-active.action";
 
 @Component({
@@ -50,7 +51,7 @@ export class HCAFooterComponent implements FooterComponent {
      */
     public onFeedbackClicked() {
 
-        this.store.dispatch(new UpdateSupportRequestActiveAction(true));
+        this.store.dispatch(new UpdateSupportRequestActiveAction(true, GASource.FOOTER));
     }
 
     /**

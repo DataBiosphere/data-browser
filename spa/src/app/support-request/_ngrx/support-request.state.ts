@@ -173,9 +173,18 @@ export class SupportRequestState {
      */
     public setActive(action: UpdateSupportRequestActiveAction): SupportRequestState {
 
-        return new SupportRequestState({
+        const updatedSupportRequest = {
             ...this.supportRequest,
             active: action.active
-        });
+        };
+        
+        if ( action.active ) {
+            updatedSupportRequest.source = action.source;
+        }
+        else {
+            delete updatedSupportRequest.source;
+        }
+
+        return new SupportRequestState(updatedSupportRequest);
     }
 }
