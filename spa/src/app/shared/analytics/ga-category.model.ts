@@ -17,4 +17,5 @@ export enum GACategory {
     "PORTAL_LINK" = "Portal Link",
     "SEARCH" = "Search",
     "SEARCH_RESULTS" = "Search Results",
+    "SUPPORT_REQUEST" = "Support Request"
 }
