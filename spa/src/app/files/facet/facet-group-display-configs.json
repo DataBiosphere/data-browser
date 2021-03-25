@@ -3,24 +3,19 @@
         "facetGroupName": "Donor",
         "facets": [
             {
-                "facetName": "genusSpecies",
-                "versions": []
+                "facetName": "genusSpecies"
             },
             {
-                "facetName": "organismAgeRange",
-                "versions": []
+                "facetName": "organismAgeRange"
             },
             {
-                "facetName": "biologicalSex",
-                "versions": []
+                "facetName": "biologicalSex"
             },
             {
-                "facetName": "donorDisease",
-                "versions": []
+                "facetName": "donorDisease"
             },
             {
-                "facetName": "developmentStage",
-                "versions": []
+                "facetName": "developmentStage"
             }
         ]
     },
@@ -28,24 +23,19 @@
         "facetGroupName": "Tissue Type",
         "facets": [
             {
-                "facetName": "sampleEntityType",
-                "versions": []
+                "facetName": "sampleEntityType"
             },
             {
-                "facetName": "specimenOrgan",
-                "versions": []
+                "facetName": "specimenOrgan"
             },
             {
-                "facetName": "specimenOrganPart",
-                "versions": []
+                "facetName": "specimenOrganPart"
             },
             {
-                "facetName": "modelOrgan",
-                "versions": []
+                "facetName": "modelOrgan"
             },
             {
-                "facetName": "selectedCellType",
-                "versions": []
+                "facetName": "selectedCellType"
             }
         ]
     },
@@ -53,8 +43,7 @@
         "facetGroupName": "Specimen",
         "facets": [
             {
-                "facetName": "specimenDisease",
-                "versions": []
+                "facetName": "specimenDisease"
             }
         ]
     },
@@ -62,28 +51,22 @@
         "facetGroupName": "Method",
         "facets": [
             {
-                "facetName": "instrumentManufacturerModel",
-                "versions": []
+                "facetName": "instrumentManufacturerModel"
             },
             {
-                "facetName": "preservationMethod",
-                "versions": []
+                "facetName": "preservationMethod"
             },
             {
-                "facetName": "libraryConstructionApproach",
-                "versions": []
+                "facetName": "libraryConstructionApproach"
             },
             {
-                "facetName": "nucleicAcidSource",
-                "versions": []
+                "facetName": "nucleicAcidSource"
             },
             {
-                "facetName": "pairedEnd",
-                "versions": []
+                "facetName": "pairedEnd"
             },
             {
-                "facetName": "workflow",
-                "versions": []
+                "facetName": "workflow"
             }
         ]
     },
@@ -91,8 +74,7 @@
         "facetGroupName": "File",
         "facets": [
             {
-                "facetName": "fileFormat",
-                "versions": []
+                "facetName": "fileFormat"
             }
         ]
     }
