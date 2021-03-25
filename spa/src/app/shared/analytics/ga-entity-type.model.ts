@@ -6,6 +6,8 @@
  */
 
 export enum GAEntityType {
+    "BULK_DOWNLOAD" = "Bulk Download",
+    "BULK_DOWNLOAD_LINK" = "Bulk Download Link",
     "CATALOG" = "Catalog",
     "COHORT_EXPORT" = "Cohort Export", // eg Request export to Terra
     "COHORT_EXPORT_LINK" = "Cohort Export Link", // eg Click on generated Terra link, click on copy to clipboard for generated Terra link

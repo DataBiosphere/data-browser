@@ -6,13 +6,14 @@
  */
 
 // App dependencies
+import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
 import { CatalogEffects } from "../files/_ngrx/catalog/catalog.effects";
 import { ConfigEffects } from "../config/_ngrx/config.effects";
-import { AnalysisProtocolEffects } from "../files/_ngrx/analysis-protocol/analysis-protocol.effects";
 import { EntityEffects } from "../files/_ngrx/entity/entity.effects";
 import { ErrorEffects } from "../files/_ngrx/error/error.effects";
 import { FileEffects } from "../files/_ngrx/file.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
+import { GetDataEffects } from "../files/_ngrx/get-data/get-data.effects";
 import { InitEffects } from "../files/_ngrx/init/init.effects";
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
 import { ProjectEffects } from "../files/_ngrx/project/project.effects";
@@ -32,6 +33,7 @@ export const AppEffects = [
     ErrorEffects,
     FileEffects,
     FileManifestEffects,
+    GetDataEffects,
     InitEffects,
     IntegrationEffects,
     ProjectEffects,
