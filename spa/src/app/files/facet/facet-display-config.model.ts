@@ -2,11 +2,10 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of facet config, including spec for environments where facet is applicable.
+ * Model of facet config.
  */
 
 export interface FacetDisplayConfig {
 
     facetName: string,
-    versions: string[];
 }
