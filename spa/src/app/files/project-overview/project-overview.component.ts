@@ -16,8 +16,9 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { ViewProjectAccessionAction } from "../_ngrx/project/view-project-accession.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
@@ -28,6 +29,7 @@ import { ProjectViewFactory } from "../project-view/project-view.factory";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 import { Publication } from "../shared/publication.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
+import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 
 @Component({
     selector: "project-overview",
@@ -150,6 +152,18 @@ export class ProjectOverviewComponent implements OnDestroy {
             this.projectDetailService.addProjectMeta(state.projectTitle);
             this.projectDetailService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectId, state.projectShortname);
         });
+    }
+
+    /**
+     * Track click on accession.
+     * 
+     * @param {string} projectId
+     * @param {string} projectTitle
+     * @param {KeyValuePair} pair
+     */
+    public onAccessionClicked(projectId: string, projectTitle: string, pair: KeyValuePair) {
+
+        this.store.dispatch(new ViewProjectAccessionAction(projectId, projectTitle, pair.key, pair.value));
     }
 
     /**

@@ -35,6 +35,7 @@ import { ViewProjectIntegrationAction } from "../table/view-project-integration.
 import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
 import { ViewProjectTabAction } from "../table/view-project-tab.action";
 import { ViewProjectWithdrawnAction } from "../table/view-project-withdrawn.action";
+import { ViewProjectAccessionAction } from "./view-project-accession.action";
 
 @Injectable()
 export class ProjectEffects {
@@ -119,6 +120,17 @@ export class ProjectEffects {
             })
         );
 
+    /**
+     * Track click on project accession.
+     */
+    @Effect({dispatch: false})
+    trackProjectAccessionClicked$ = this.actions$.pipe(
+        ofType(ViewProjectAccessionAction.ACTION_TYPE),
+        tap((action) => {
+            this.gtmService.trackEvent((action as ViewProjectAccessionAction).asEvent());
+        })
+    );
+    
     /**
      * Trigger tracking of view of a deprecated project.
      */

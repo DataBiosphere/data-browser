@@ -6,7 +6,9 @@
         <p class="fontsize-xxs rhs" [ngSwitch]="isMultiValue(keyValuePair.value)">
             <ng-container *ngSwitchCase="true">
                 <ng-container *ngFor="let pairValue of keyValuePair.value ; last as lastPair">
-                    <a [href]="pairValue.value" target="_blank">{{pairValue.key}}</a><span *ngIf="!lastPair">, </span>
+                    <a [href]="pairValue.value"
+                       target="_blank"
+                       (click)="onValueClicked(pairValue)">{{pairValue.key}}</a><span *ngIf="!lastPair">, </span>
                 </ng-container>
             </ng-container>
             <ng-container *ngSwitchDefault>{{keyValuePair.value}}</ng-container>
