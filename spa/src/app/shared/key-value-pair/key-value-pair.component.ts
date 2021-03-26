@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
 import { KeyValuePair } from "./key-value-pair.model";
@@ -18,9 +18,10 @@ import { KeyValuePair } from "./key-value-pair.model";
 })
 export class KeyValuePairComponent {
 
-    // Inputs
+    // Inputs/Outputs
     @Input() keyValuePairs: KeyValuePair[];
     @Input() title: string;
+    @Output() valueClicked = new EventEmitter<KeyValuePair>();
 
     /**
      * Returns display text when there are no key value pairs.
@@ -43,5 +44,15 @@ export class KeyValuePairComponent {
     public isMultiValue(value: string | string[]): boolean {
 
         return Array.isArray(value);
+    }
+
+    /**
+     * Let parent components know value has been clicked.
+     * 
+     * @param {KeyValuePair} pair
+     */
+    public onValueClicked(pair: KeyValuePair) {
+
+        this.valueClicked.emit(pair);
     }
 }
