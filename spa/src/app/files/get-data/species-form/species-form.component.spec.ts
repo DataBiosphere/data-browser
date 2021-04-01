@@ -21,7 +21,7 @@ import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
-fdescribe("SpeciesSelectionComponent", () => {
+describe("SpeciesSelectionComponent", () => {
 
     let component: SpeciesFormComponent;
     let fixture: ComponentFixture<SpeciesFormComponent>;

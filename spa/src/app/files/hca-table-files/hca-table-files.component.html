@@ -84,7 +84,9 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('sampleId')"
                               [ngStyle]="getColumnStyle('sampleId')">
                         <hca-table-cell>
-                            <span class="fontsize-xxs">{{element.sampleId}}</span>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.sampleId}}</span>
+                            </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
