@@ -10,7 +10,7 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
-import { BulkDownloadExecutionEnvironment } from "../../hca-get-data/bulk-download/bulk-download-execution-environment.model";
+import { BulkDownloadExecutionEnvironment } from "../../get-data/bulk-download/bulk-download-execution-environment.model";
 import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
