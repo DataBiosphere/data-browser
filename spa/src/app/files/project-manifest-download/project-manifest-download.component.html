@@ -1,0 +1,17 @@
+<ng-container *ngIf="state$ | async as state">
+    <p class={{classFontName}}>Metadata for the specified project is available for download below.</p>
+    <div class="downloads-and-data-use">
+        <div class="downloads">
+            <div class="download-actions">
+                <file-location-download [fileLocation]="state.fileLocation"
+                                        (fileLocationRequested)="onFileLocationRequested($event)"></file-location-download>
+                <file-location-copy [fileLocation]="state.fileLocation"
+                                    (fileLocationRequested)="onFileLocationRequested($event)"></file-location-copy>
+            </div>
+            <span class="fontsize-s">tsv</span>
+        </div>
+        <section-bar [position]="'left'">
+            <data-use-notification></data-use-notification>
+        </section-bar>
+    </div>
+</ng-container>

@@ -1,0 +1,10 @@
+<modal-layout *ngIf="state$ | async as state"
+              [loaded]="state.loaded"
+              (closed)="redirectToProjects()">
+    <ng-container title *ngIf="state.loaded">Download Project Metadata</ng-container>
+    <ng-container subtitle *ngIf="state.loaded">{{state.project.projectTitle}}</ng-container>
+    <ng-container content *ngIf="state.loaded">
+        <project-manifest-download [classFontName]="'fontsize-m'"
+                                   [project]="state.project"></project-manifest-download>
+    </ng-container>
+</modal-layout>

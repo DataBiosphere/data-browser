@@ -20,11 +20,11 @@ import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-
 import { FetchFileManifestUrlRequestAction } from "./fetch-file-manifest-url-request.action";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { selectFileManifestManifestResponse } from "./file-manifest.selectors";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
+import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileSummary } from "../../file-summary/file-summary";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms } from "../search/search.selectors";
-import { FileManifestService } from "../../shared/file-manifest.service";
-import { ManifestStatus } from "../../shared/manifest-status.model";
 
 @Injectable()
 export class FileManifestEffects {

@@ -16,7 +16,7 @@ import { ExportToTerraStatus } from "./export-to-terra-status.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FilesService } from "./files.service";
-import { FileManifestService } from "./file-manifest.service";
+import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";

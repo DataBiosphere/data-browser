@@ -15,7 +15,7 @@ import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -24,35 +24,35 @@ import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ProjectManifestDownloadModalComponentState } from "./project-manifest-download-modal.component.state";
 import { EntityName } from "../shared/entity-name.model";
 import { Project } from "../shared/project.model";
-import { ProjectDownloadManifestModalState } from "./project-download-manifest-modal.state";
 
 @Component({
-    selector: "project-download-manifest-modal",
-    templateUrl: "./project-download-manifest-modal.component.html",
-    styleUrls: ["./project-download-manifest-modal.component.scss"]
+    selector: "project-manifest-download-modal",
+    templateUrl: "./project-manifest-download-modal.component.html",
+    styleUrls: ["./project-manifest-download-modal.component.scss"]
 })
-export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit {
+export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit {
 
     // Locals
     private ngDestroy$ = new Subject();
-    
+
     // Template variables
-    public state$ = new BehaviorSubject<ProjectDownloadManifestModalState>({
+    public state$ = new BehaviorSubject<ProjectManifestDownloadModalComponentState>({
         loaded: false
     });
 
     /**
      * @param {Store<AppState>} store
-     * @param {MatDialogRef<ProjectDownloadManifestModalComponent>} dialogRef
+     * @param {MatDialogRef<ProjectManifestDownloadModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
-        private dialogRef: MatDialogRef<ProjectDownloadManifestModalComponent>,
-        @Inject(MAT_DIALOG_DATA) private data: any,
-        private router: Router) {
+                private dialogRef: MatDialogRef<ProjectManifestDownloadModalComponent>,
+                @Inject(MAT_DIALOG_DATA) private data: any,
+                private router: Router) {
 
         this.store.dispatch(new ModalOpenedAction());
     }
@@ -85,17 +85,6 @@ export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit 
     }
 
     /**
-     * Grab the selected project from the store.
-     */
-    private selectProject(projectId: string): Observable<Project> {
-
-        return this.store.pipe(
-            select(selectSelectedProject),
-            filter(project => !!project && project.entryId === projectId)
-        );
-    }
-
-    /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
@@ -116,22 +105,22 @@ export class ProjectDownloadManifestModalComponent implements OnDestroy, OnInit 
         const projectId = this.data.projectId;
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Grab the current project
-        combineLatest(
-            this.selectProject(projectId),
+        // Grab the current project and set up component state
+        this.store
+            .pipe(
+                select(selectSelectedProject),
+                takeUntil(this.ngDestroy$),
+                filter(project => !!project && project.entryId === projectId),
+                map((project) => {
 
-        ).pipe(
-            map(([project]) => {
-
-                return {
-                    loaded: !!project,
-                    projectId: project.entryId,
-                    projectTitle: project.projectTitle
-                }
-            }),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((state) => {
-            this.state$.next(state);
-        });
+                    return {
+                        loaded: !!project,
+                        project
+                    }
+                })
+            )
+            .subscribe((state) => {
+                this.state$.next(state);
+            });
     }
 }

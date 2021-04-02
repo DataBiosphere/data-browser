@@ -20,7 +20,6 @@ import { SupportRequestResponse } from "./support-request-response.model";
 import { SupportRequestAPIResponse } from "./support-request-api-response.model";
 import { AttachmentResponse } from "./attachment-response.model";
 import { AttachmentAPIResponse } from "./attachment-api-response.model";
-import { HCAHttpParameterCodec } from "../http/hca-http-parameter-codec";
 
 @Injectable()
 export class SupportRequestService {

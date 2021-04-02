@@ -7,7 +7,7 @@
 
 // App dependencies
 import { FileSummary } from "../../file-summary/file-summary";
-import { ManifestResponse } from "../../shared/manifest-response.model";
+import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 
 export interface FileManifest {
     manifestResponse: ManifestResponse;

@@ -1,0 +1,83 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project prepared manifest download functionality.
+ */
+
+/* Initial paragraph */
+p:first-of-type {
+    margin-top: 24px;
+}
+
+/* Container for downloads and section bar */
+.downloads-and-data-use {
+    align-items: flex-start; /* Required to prevent left-bar component stretching with flex */
+    display: flex;
+}
+
+/* Sizing for downloads and section bar */
+.downloads-and-data-use > * {
+    box-sizing: border-box;
+    flex: 1;
+    flex-basis: 50%;
+}
+
+/* Download list */
+.downloads {
+    display: flex;
+    align-items: baseline;
+}
+
+/* Download actions for list element */
+.download-actions {
+    display: flex;
+    flex-basis: 37px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: space-between;
+    margin-right: 8px;
+    max-width: 37px;
+    min-width: 37px;
+}
+
+/* Component project-metadata - project detail view */
+:host-context(project-metadata) {
+
+    /* Initial paragraph */
+    p:first-of-type {
+        margin: 0 0 24px;
+    }
+}
+
+/* Manifest*/
+.manifest {
+    align-items: baseline;
+    display: flex;
+
+    /* Download label */
+    > span {
+        padding: 0 16px 0 8px;
+    }
+
+    /* Download label, error state on download */
+    > span  {
+        margin: 0;
+    }
+}
+
+/**
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 840px) {
+
+    /* Component project-download-manifest-modal */
+    :host-context(project-download-manifest-modal) {
+
+        /* Citation wrapper */
+        section-bar {
+            flex-basis: 33%;
+        }
+    }
+}

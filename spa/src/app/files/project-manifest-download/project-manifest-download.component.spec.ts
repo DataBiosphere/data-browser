@@ -16,14 +16,13 @@ import { ClipboardModule } from "ngx-clipboard";
 import { ConfigService } from "../../config/config.service";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { ProjectDownloadManifestComponent } from "./project-download-manifest.component";
+import { ProjectManifestDownloadComponent } from "./project-manifest-download.component";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
-import { FileManifestService } from "../shared/file-manifest.service";
 
 describe("ProjectDownloadManifestComponent", () => {
 
-    let component: ProjectDownloadManifestComponent;
-    let fixture: ComponentFixture<ProjectDownloadManifestComponent>;
+    let component: ProjectManifestDownloadComponent;
+    let fixture: ComponentFixture<ProjectManifestDownloadComponent>;
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
@@ -34,7 +33,7 @@ describe("ProjectDownloadManifestComponent", () => {
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
                 SectionBarComponent,
-                ProjectDownloadManifestComponent,
+                ProjectManifestDownloadComponent,
             ],
             imports: [
                 ClipboardModule,
@@ -48,29 +47,17 @@ describe("ProjectDownloadManifestComponent", () => {
                     useValue: testStore
                 },
                 {
-                    provide: FileManifestService,
-                    useValue: jasmine.createSpyObj("FileManifestService", [
-                        "trackRequestCohortManifest",
-                        "trackDownloadCohortManifest",
-                        "trackCopyToClipboardCohortManifestLink",
-                        "trackDownloadProjectManifest",
-                        "trackCopyToClipboardProjectManifestLink"
-                    ])
+                    provide: "Window",
+                    useFactory: (() => {
+                        return window;
+                    })
                 }
             ]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ProjectDownloadManifestComponent);
+        fixture = TestBed.createComponent(ProjectManifestDownloadComponent);
         component = fixture.componentInstance;
 
         component.classFontName = "fontsize-m";
     }));
-
-    /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
 });
