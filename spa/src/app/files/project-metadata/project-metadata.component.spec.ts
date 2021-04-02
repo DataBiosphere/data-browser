@@ -18,14 +18,14 @@ import { of } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
-import { ProjectDetailService } from "../project-detail/project-detail.service";
+import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
-import { ProjectDownloadManifestComponent } from "../project-download-manifest/project-download-manifest.component";
+import { ProjectDetailService } from "../project-detail/project-detail.service";
+import { ProjectManifestDownloadComponent } from "../project-manifest-download/project-manifest-download.component";
 import { ProjectMetadataComponent } from "./project-metadata.component";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
-import { FileManifestService } from "../shared/file-manifest.service";
+import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -38,12 +38,11 @@ describe("ProjectMetadataComponent", () => {
     const HEADING_PROJECT_METADATA = "Project Metadata";
 
     // Component input property
-    const INPUT_PROPERTY_PROJECT_ID = "projectId";
-    const INPUT_PROPERTY_PROJECT_TITLE = "projectTitle";
+    const INPUT_PROPERTY_PROJECT = "project";
 
     // Selectors
     const SELECTOR_H2 = "h2.fontsize-xl";
-    const SELECTOR_PROJECT_DOWNLOAD_MANIFEST = "project-download-manifest";
+    const SELECTOR_PROJECT_DOWNLOAD_MANIFEST = "project-manifest-download";
 
     beforeEach(async(() => {
 
@@ -52,7 +51,7 @@ describe("ProjectMetadataComponent", () => {
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
                 SectionBarComponent,
-                ProjectDownloadManifestComponent,
+                ProjectManifestDownloadComponent,
                 ProjectMetadataComponent,
             ],
             imports: [
@@ -93,6 +92,12 @@ describe("ProjectMetadataComponent", () => {
                 {
                     provide: Store,
                     useValue: testStore
+                },
+                {
+                    provide: "Window",
+                    useFactory: (() => {
+                        return window;
+                    })
                 }
             ]
         }).compileComponents();
@@ -102,21 +107,14 @@ describe("ProjectMetadataComponent", () => {
     }));
 
     /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
-
-    /**
      * Confirm "Project Metadata" is displayed.
      */
-    it(`displays "Project Metadata"`, () => {
+   it(`displays "Project Metadata"`, () => {
 
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of({}) // file location - required for nested ProjectManifestDownloadComponent
         );
 
         fixture.detectChanges();
@@ -128,11 +126,12 @@ describe("ProjectMetadataComponent", () => {
     /**
      * Confirm component project-download-manifest is displayed.
      */
-    it("displays component project download manifest", () => {
+    it("displays component project-download-manifest", () => {
 
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of({}) // file location - required for nested ProjectManifestDownloadComponent
         );
 
         fixture.detectChanges();
@@ -142,35 +141,38 @@ describe("ProjectMetadataComponent", () => {
     });
 
     /**
-     * Confirm component project-download-manifest input property project id is the project id.
+     * Confirm project ID is displayed.
      */
-    it("displays component project download manifest input property project id is the project id", () => {
+    it("displays input property project id", () => {
 
         testStore.pipe
             .and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of({}) // file location - required for nested ProjectManifestDownloadComponent
         );
 
         fixture.detectChanges();
 
         // Confirm input property value
-        expect(getComponentInputPropertyValue(SELECTOR_PROJECT_DOWNLOAD_MANIFEST, INPUT_PROPERTY_PROJECT_ID)).toEqual(PROJECT_DETAIL_SINGLE_VALUES.entryId);
+        const projectInput = getComponentInputPropertyValue(SELECTOR_PROJECT_DOWNLOAD_MANIFEST, INPUT_PROPERTY_PROJECT); 
+        expect(projectInput.entryId).toEqual(PROJECT_DETAIL_SINGLE_VALUES.entryId);
     });
 
     /**
-     * Confirm component project-download-manifest input property project title is the project title.
+     * Confirm project title is displayed.
      */
-    it("displays component project download manifest input property project title is the project title", () => {
+    it("displays input property project title", () => {
 
-        testStore.pipe
-            .and.returnValues(
+        testStore.pipe.and.returnValues(
             of(PROJECT_DETAIL_SINGLE_VALUES), // selected project detail
+            of({}) // file location - required for nested ProjectManifestDownloadComponent
         );
 
         fixture.detectChanges();
 
         // Confirm input property value
-        expect(getComponentInputPropertyValue(SELECTOR_PROJECT_DOWNLOAD_MANIFEST, INPUT_PROPERTY_PROJECT_TITLE)).toEqual(PROJECT_DETAIL_SINGLE_VALUES.projectTitle);
+        const projectInput = getComponentInputPropertyValue(SELECTOR_PROJECT_DOWNLOAD_MANIFEST, INPUT_PROPERTY_PROJECT);
+        expect(projectInput.projectTitle).toEqual(PROJECT_DETAIL_SINGLE_VALUES.projectTitle);
     });
 
     /**

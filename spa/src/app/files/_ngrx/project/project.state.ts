@@ -6,31 +6,49 @@
  */
 
 // App dependencies
-import { ClearProjectTSVUrlAction } from "./clear-project-tsv-url.action";
+import { ClearProjectManifestFileLocationAction } from "./clear-project-manifest-file-location.action";
+import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
+import { FetchProjectManifestFileLocationRequestAction } from "./fetch-project-manifest-file-location-request.action";
+import { FetchProjectManifestFileLocationSuccessAction } from "./fetch-project-manifest-file-location-success.action";
 import { FetchProjectMatrixFileLocationRequestAction } from "./fetch-project-matrix-file-location-request.action";
 import { FetchProjectMatrixFileLocationSuccessAction } from "./fetch-project-matrix-file-location-success.action";
-import { FetchProjectTSVUrlSuccessAction } from "./fetch-project-tsv-url-success.action";
 import { FileLocation } from "../../file-location/file-location.model";
-import { Project } from "./project.model";
-import { ProjectTSVUrlResponse } from "../../project/project-tsv-url-response.model";
 import { FileLocationStatus } from "../../file-location/file-location-status.model";
-import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
+import { Project } from "./project.model";
 
 const DEFAULT_PROJECT = {
     matrixFileLocationsByProjectId: new Map<string, Map<string, FileLocation>>(),
-    projectTSVUrlResponsesByProjectId: new Map<string, ProjectTSVUrlResponse>()
+    manifestFileLocationsByProjectId: new Map<string, FileLocation>()
 };
 
 export class ProjectState implements Project {
 
     matrixFileLocationsByProjectId: Map<string, Map<string, FileLocation>>; // File locations keyed by project then file URL
-    projectTSVUrlResponsesByProjectId: Map<string, ProjectTSVUrlResponse>;
+    manifestFileLocationsByProjectId: Map<string, FileLocation>;
 
     /**
      * @param {ProjectState} state
      */
     constructor(state: Project = DEFAULT_PROJECT) {
+
         Object.assign(this, state);
+    }
+
+    /**
+     * Remove the specified project manifest file location from the store.
+     *
+     * @param {ClearProjectManifestFileLocationAction} action
+     * @returns {ProjectState}
+     */
+    public clearProjectManifestFileLocation(action: ClearProjectManifestFileLocationAction): ProjectState {
+
+        const updatedResponsesByProjectId = new Map(this.manifestFileLocationsByProjectId);
+        updatedResponsesByProjectId.delete(action.projectId);
+
+        return new ProjectState({
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
+            manifestFileLocationsByProjectId: updatedResponsesByProjectId
+        });
     }
 
     /**
@@ -47,24 +65,46 @@ export class ProjectState implements Project {
         
         return new ProjectState({
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
-            projectTSVUrlResponsesByProjectId: this.projectTSVUrlResponsesByProjectId
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });
     }
 
     /**
-     * Remove the specified project TSV URL from the state.
-     * 
-     * @param {ClearProjectTSVUrlAction} action
+     * Create default project manifest file location in state for the specified file location request, if a request
+     * hasn't already been created for the selected file.
+     *
+     * @param {FetchProjectManifestFileLocationRequestAction} action
      * @returns {ProjectState}
      */
-    public clearProjectTSVUrl(action: ClearProjectTSVUrlAction): ProjectState {
+    public fetchProjectManifestFileLocationRequest(action: FetchProjectManifestFileLocationRequestAction): ProjectState {
 
-        const updatedResponsesByProjectId = new Map(this.projectTSVUrlResponsesByProjectId);
-        updatedResponsesByProjectId.delete(action.projectId);
+        const {project} = action;
+
+        const updatedLocationsByProjectId = new Map(this.manifestFileLocationsByProjectId);
+        updatedLocationsByProjectId.set(project.entryId, {
+            status: FileLocationStatus.NOT_STARTED
+        });
 
         return new ProjectState({
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
-            projectTSVUrlResponsesByProjectId: updatedResponsesByProjectId
+            manifestFileLocationsByProjectId: updatedLocationsByProjectId
+        });
+    }
+
+    /**
+     * Project manifest file location successfully been retrieved from server - store in state.
+     *
+     * @param {FetchProjectManifestFileLocationSuccessAction} action
+     * @returns {ProjectState}
+     */
+    public fetchProjectManifestFileLocationSuccess(action: FetchProjectManifestFileLocationSuccessAction): ProjectState {
+
+        const updatedResponsesByProjectId =
+            new Map(this.manifestFileLocationsByProjectId).set(action.projectId, action.fileLocation);
+
+        return new ProjectState({
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
+            manifestFileLocationsByProjectId: updatedResponsesByProjectId
         });
     }
 
@@ -93,7 +133,7 @@ export class ProjectState implements Project {
 
         return new ProjectState({
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
-            projectTSVUrlResponsesByProjectId: this.projectTSVUrlResponsesByProjectId
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });
     }
 
@@ -119,26 +159,7 @@ export class ProjectState implements Project {
 
         return new ProjectState({
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
-            projectTSVUrlResponsesByProjectId: this.projectTSVUrlResponsesByProjectId
-        });
-    }
-
-    /**
-     * Project TSV URL has successfully been retrieved from server - store in state.
-     * 
-     * @param {FetchProjectTSVUrlSuccessAction} action
-     * @returns {ProjectState}
-     */
-    public fetchProjectTSVUrlSuccess(action: FetchProjectTSVUrlSuccessAction): ProjectState {
-
-        const response = action.response;
-
-        const updatedResponsesByProjectId =
-            new Map(this.projectTSVUrlResponsesByProjectId).set(response.projectId, response);
-
-        return new ProjectState({
-            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
-            projectTSVUrlResponsesByProjectId: updatedResponsesByProjectId
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });
     }
 
@@ -146,6 +167,7 @@ export class ProjectState implements Project {
      * @returns {ProjectState}
      */
     public static getDefaultState() {
+
         return new ProjectState();
     }
 }

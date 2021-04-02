@@ -14,6 +14,9 @@ import { map } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
+import { ManifestResponse } from "../../file-manifest/manifest-response.model";
+import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileSummary } from "../../file-summary/file-summary";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { ManifestDownloadState } from "./manifest-download.state";
@@ -26,9 +29,6 @@ import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SearchTerm } from "../../search/search-term.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
-import { FileManifestService } from "../../shared/file-manifest.service";
-import { ManifestResponse } from "../../shared/manifest-response.model";
-import { ManifestStatus } from "../../shared/manifest-status.model";
 
 @Component({
     selector: "base-manifest-download",

@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
-import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
+import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 
 export class FetchFileManifestUrlRequestAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_REQUEST";

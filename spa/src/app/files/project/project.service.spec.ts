@@ -29,7 +29,6 @@ import {
     PROJECT_SINGLE_VALUES,
     PROJECT_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "../project/project-mapper.mock";
-import { ProjectTSVUrlRequestStatus } from "./project-tsv-url-request-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { Project } from "../shared/project.model";
 import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
@@ -534,75 +533,5 @@ describe("ProjectService", () => {
                 return done();
             });
         });
-    });
-
-    describe("fetchProjectTSVUrl:", () => {
-
-        /**
-         * Confirm catalog param is not included if catalog is not specified.
-         */
-        it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
-
-            const projectId = "123abc";
-            httpClientSpy.get.and.returnValue(of({
-                projectId: projectId,
-                status: ProjectTSVUrlRequestStatus.IN_PROGRESS
-            }));
-
-            const catalog = "";
-            projectService.fetchProjectTSVUrl(catalog, projectId, "project name", of())
-                .pipe(
-                    // Skip initial value returned from fetch method
-                    filter(response => response.status !== ProjectTSVUrlRequestStatus.INITIATED)
-                )
-                .subscribe(() => {
-
-                expect(httpClientSpy.get).toHaveBeenCalled();
-                expect(httpClientSpy.get).not.toHaveBeenCalledWith(
-                    jasmine.anything(),
-                    {
-                        params: jasmine.objectContaining({
-                            catalog
-                        })
-                    }
-                );
-
-                return done();
-            });
-        });
-
-        /**
-         * Confirm catalog param if catalog is specified.
-         */
-        it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
-
-            const projectId = "123abc";
-            httpClientSpy.get.and.returnValue(of({
-                projectId: projectId,
-                status: ProjectTSVUrlRequestStatus.IN_PROGRESS
-            }));
-
-            const catalog = DCPCatalog.DCP1;
-            projectService.fetchProjectTSVUrl(catalog, projectId, "project name", of())
-                .pipe(
-                    // Skip initial value returned from fetch method
-                    filter(response => response.status !== ProjectTSVUrlRequestStatus.INITIATED)
-                )
-                .subscribe(() => {
-
-                    expect(httpClientSpy.get).toHaveBeenCalled();
-                    expect(httpClientSpy.get).not.toHaveBeenCalledWith(
-                        jasmine.anything(),
-                        {
-                            params: jasmine.objectContaining({
-                                catalog
-                            })
-                        }
-                    );
-
-                    return done();
-                });
-        });
-
     });
 });

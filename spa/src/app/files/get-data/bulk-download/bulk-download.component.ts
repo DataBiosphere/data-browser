@@ -12,12 +12,12 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/cor
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { GetDataViewState } from "../get-data-view-state.model";
+import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
+import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { CopyToClipboardBulkDownloadAction } from "../../_ngrx/get-data/copy-to-clipboard-bulk-download.action";
 import { RequestBulkDownloadAction } from "../../_ngrx/get-data/request-bulk-download.action";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
 import { SearchTerm } from "../../search/search-term.model";
-import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
-import { ManifestResponse } from "../../shared/manifest-response.model";
 
 @Component({
     selector: "bulk-download",

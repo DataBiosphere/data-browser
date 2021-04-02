@@ -17,6 +17,8 @@ import { of } from "rxjs";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
+import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { ManifestDownloadComponent } from "./manifest-download.component";
@@ -25,9 +27,7 @@ import { SearchTermHttpService } from "../../search/http/search-term-http.servic
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { FileManifestService } from "../../shared/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { ManifestStatus } from "../../shared/manifest-status.model";
 import { TermSortService } from "../../sort/term-sort.service";
 
 describe("ManifestDownloadComponent", () => {

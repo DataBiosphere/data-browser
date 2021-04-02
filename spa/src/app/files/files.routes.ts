@@ -14,7 +14,7 @@ import { FilterCanActivateGuard } from "./facet/filter/filter-can-activate.guard
 import { FilesComponent } from "./files.component";
 import { GetDataComponent } from "./get-data/get-data.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
-import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
+import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
@@ -85,7 +85,7 @@ export const routes: Route[] = [
             },
             {
                 path: ":id/m/project-metadata",
-                component: ProjectDownloadManifestModalContainerComponent
+                component: ProjectManifestDownloadModalContainerComponent
             },
             {
                 path: ":id/m/expression-matrices",

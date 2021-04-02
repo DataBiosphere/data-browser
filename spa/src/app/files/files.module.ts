@@ -53,7 +53,7 @@ import { FilterCanActivateGuard } from "./facet/filter/filter-can-activate.guard
 import { FileLocationCopyComponent } from "./file-location/file-location-copy/file-location-copy.component";
 import { FileLocationDownloadComponent } from "./file-location/file-location-download/file-location-download.component";
 import { FileLocationService } from "./file-location/file-location.service";
-import { FileManifestSummaryComponent } from "./file-manifest-summary/file-manifest-summary.component";
+import { FileManifestService } from "./file-manifest/file-manifest.service";
 import { FilesComponent } from "./files.component";
 import { routes } from "./files.routes";
 import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
@@ -93,9 +93,9 @@ import { ProjectDataCitationComponent } from "./project-data-citation/project-da
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
 import { ProjectDetailService } from "./project-detail/project-detail.service";
-import { ProjectDownloadManifestModalContainerComponent } from "./project-download-manifest-modal-container/project-download-manifest-modal-container.component";
-import { ProjectDownloadManifestModalComponent } from "./project-download-manifest-modal/project-download-manifest-modal.component";
-import { ProjectDownloadManifestComponent } from "./project-download-manifest/project-download-manifest.component";
+import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
+import { ProjectManifestDownloadModalComponent } from "./project-manifest-download-modal/project-manifest-download-modal.component";
+import { ProjectManifestDownloadComponent } from "./project-manifest-download/project-manifest-download.component";
 import { ProjectMatrixDownloadComponent } from "./project-matrix-download/project-matrix-download.component";
 import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-modal/project-matrix-download-modal.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
@@ -119,7 +119,6 @@ import { SelectedSearchTermsComponent } from "./search/selected-search-terms/sel
 import { SearchTermUrlService } from "./search/url/search-term-url.service";
 import { SectionBarComponent } from "./section-bar/section-bar.component";
 import { DownloadService } from "./shared/download.service";
-import { FileManifestService } from "./shared/file-manifest.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
 import { IntegrationService } from "./shared/integration.service";
@@ -181,7 +180,6 @@ import { UrlService } from "./url/url.service";
         FileFacetComponent,
         FileLocationCopyComponent,
         FileLocationDownloadComponent,
-        FileManifestSummaryComponent,
         FileNameShortenerPipe,
         FileTypeSummaryListComponent,
         FilesComponent,
@@ -211,9 +209,9 @@ import { UrlService } from "./url/url.service";
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
-        ProjectDownloadManifestComponent,
-        ProjectDownloadManifestModalComponent,
-        ProjectDownloadManifestModalContainerComponent,
+        ProjectManifestDownloadComponent,
+        ProjectManifestDownloadModalComponent,
+        ProjectManifestDownloadModalContainerComponent,
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
