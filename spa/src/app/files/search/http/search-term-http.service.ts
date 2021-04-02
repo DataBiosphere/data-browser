@@ -23,19 +23,29 @@ import { SearchAgeRange } from "../search-age-range.model";
 export class SearchTermHttpService {
 
     // Facet search allow list
-    private ALLOW_SEARCH_FACETS = [
+    private ACCEPT_SEARCH_FACETS = [
+        "assayType",
         "biologicalSex",
+        "cellLineType",
         "developmentStage",
         "donorDisease",
         "fileFormat",
+        "fileSource",
         "genusSpecies",
+        "institution",
         "instrumentManufacturerModel",
         "libraryConstructionApproach",
         "modelOrgan",
+        "modelOrganPart",
         "nucleicAcidSource",
+        "organ",
+        "organismAgeValue",
+        "organPart",
         "pairedEnd",
         "preservationMethod",
+        "projectTitle",
         "publicationTitle",
+        "sampleDisease",
         "sampleEntityType",
         "selectedCellType",
         "specimenDisease",
@@ -63,7 +73,7 @@ export class SearchTermHttpService {
         return Object.keys(responseFacetsByName).reduce((accum, facetName) => {
 
             // Only create search terms for the allowed file facets
-            if ( this.ALLOW_SEARCH_FACETS.indexOf(facetName) >= 0 ) {
+            if ( this.ACCEPT_SEARCH_FACETS.indexOf(facetName) >= 0 ) {
 
                 // Search entities (ie terms for project facet) are handled separately as we do not want to search over
                 // these values
