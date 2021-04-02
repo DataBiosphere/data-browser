@@ -13,16 +13,16 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { ProjectDownloadManifestModalComponent } from "../project-download-manifest-modal/project-download-manifest-modal.component";
+import { ProjectManifestDownloadModalComponent } from "../project-manifest-download-modal/project-manifest-download-modal.component";
 
 
 @Component({
-    selector: "project-download-manifest-modal-container",
+    selector: "project-manifest-download-modal-container",
     template: "",
-    styleUrls: ["./project-download-manifest-modal-container.component.scss"],
+    styleUrls: ["./project-manifest-download-modal-container.component.scss"],
     encapsulation: ViewEncapsulation.None
 })
-export class ProjectDownloadManifestModalContainerComponent implements OnDestroy {
+export class ProjectManifestDownloadModalContainerComponent implements OnDestroy {
 
     private CSS_BACKDROP = "backdrop-white";
     private CSS_PANEL = "panel-invisible";
@@ -37,7 +37,7 @@ export class ProjectDownloadManifestModalContainerComponent implements OnDestroy
 
         route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
 
-            dialog.open(ProjectDownloadManifestModalComponent, {
+            dialog.open(ProjectManifestDownloadModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {

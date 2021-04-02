@@ -34,7 +34,7 @@ export class FetchProjectMatrixFileLocationRequestAction implements Action, Trac
     /**
      * Return the file location request action as a GA event.
      *
-     * param {{[key: string]: any}} dimensions
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
     public asEvent({catalog}): GAEvent {

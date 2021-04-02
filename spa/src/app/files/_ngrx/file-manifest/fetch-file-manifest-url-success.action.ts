@@ -10,7 +10,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { ManifestResponse } from "../../shared/manifest-response.model";
+import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 
 export class FetchFileManifestUrlSuccessAction implements Action {
     public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_SUCCESS";

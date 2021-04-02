@@ -8,9 +8,9 @@
 // App dependencies
 import { FileManifest } from "./file-manifest.model";
 import { FileSummaryState } from "../file-summary/file-summary.state";
-import { ManifestStatus } from "../../shared/manifest-status.model";
+import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
-import { ManifestResponse } from "../../shared/manifest-response.model";
+import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { ClearFileManifestUrlAction } from "./clear-file-manifest-url.action";
 

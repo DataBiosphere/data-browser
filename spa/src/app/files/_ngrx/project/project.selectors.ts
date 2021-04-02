@@ -33,8 +33,7 @@ export const selectProjectMatrixFileLocation =
     });
 
 /**
- * Returns the current status (ProjectTSVUrlResponse) of the TSV download for the specified project.
+ * Returns the manifest file location for the specified project. 
  */
-export const selectProjectTSVUrlResponseByProjectId =
-    createSelector(selectProject, (state, props) =>
-        state.projectTSVUrlResponsesByProjectId.get(props.projectId));
+export const selectProjectManifestFileLocation =
+    createSelector(selectProject, (state, props) => state.manifestFileLocationsByProjectId.get(props.projectId));

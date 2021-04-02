@@ -16,10 +16,9 @@ import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { FileFormat } from "./file-format.model";
 import { FileSummary } from "../file-summary/file-summary";
-import { FilesService } from "./files.service";
-import { ICGCQuery } from "./icgc-query";
+import { FilesService } from "../shared/files.service";
+import { ICGCQuery } from "../shared/icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
@@ -164,45 +163,6 @@ export class FileManifestService {
             }
         };
         
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on the pre-generated, project-specific manifest download link.
-     *
-     * @param {string} projectTitle
-     */
-    public trackDownloadProjectManifest(projectTitle: string) {
-
-        const event = {
-            category: GACategory.MANIFEST,
-            action: GAAction.DOWNLOAD,
-            label: projectTitle,
-            dimensions: {
-                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on copy to clipboard of the pre-generated, project-specific manifest download link.
-     *
-     * @param {string} projectTitle
-     * @param {string} manifestUrl
-     */
-    public trackCopyToClipboardProjectManifestLink(projectTitle: string, manifestUrl: string) {
-
-        const event = {
-            category: GACategory.MANIFEST,
-            action: GAAction.COPY_TO_CLIPBOARD,
-            label: projectTitle,
-            dimensions: {
-                [GADimension.ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST_LINK,
-                [GADimension.ENTITY_URL]: manifestUrl
-            }
-        };
         this.gtmService.trackEvent(event);
     }
 

@@ -15,7 +15,7 @@ import { EntityRequestService } from "../entity/entity-request.service";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileManifestService } from "./file-manifest.service";
-import { FilesService } from "./files.service";
+import { FilesService } from "../shared/files.service";
 import { BulkDownloadExecutionEnvironment } from "../get-data/bulk-download/bulk-download-execution-environment.model";
 import { ResponseTermService } from "../http/response-term.service";
 import { HttpService } from "../http/http.service";
@@ -26,7 +26,7 @@ import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 
-describe("FileManifestService:", () => {
+describe("FileManifestService", () => {
 
     let httpClientSpy: { get: jasmine.Spy };
     let fileManifestService: FileManifestService;

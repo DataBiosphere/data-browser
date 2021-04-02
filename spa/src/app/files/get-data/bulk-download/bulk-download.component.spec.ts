@@ -20,6 +20,8 @@ import { BulkDownloadComponent } from "./bulk-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { DataLinkComponent } from "../data-link/data-link.component";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
+import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { PipeModule } from "../../../pipe/pipe.module";
@@ -28,14 +30,12 @@ import { SearchTermHttpService } from "../../search/http/search-term-http.servic
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileFormat } from "../../shared/file-format.model";
-import { FileManifestService } from "../../shared/file-manifest.service";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
-import { ManifestStatus } from "../../shared/manifest-status.model";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
 import { TermSortService } from "../../sort/term-sort.service";
-import { ManifestDownloadFormat } from "../../shared/manifest-download-format.model";
 
 describe("BulkDownloadComponent", () => {
 

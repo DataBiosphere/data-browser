@@ -10,16 +10,17 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable } from "rxjs";
-import { filter, map, take } from "rxjs/operators";
+import { BehaviorSubject, Subject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/file.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
+import { ProjectTab } from "../project-detail/project-tab.model";
 import { ProjectMetadataComponentState } from "./project-metadata.component.state";
 import { GAAction } from "../../shared/analytics/ga-action.model";
-import { ProjectTab } from "../project-detail/project-tab.model";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-metadata",
@@ -29,7 +30,12 @@ import { ProjectTab } from "../project-detail/project-tab.model";
 export class ProjectMetadataComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public state$: Observable<ProjectMetadataComponentState>;
+    public state$ = new BehaviorSubject<ProjectMetadataComponentState>({
+        loaded: false
+    });
+
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
 
     /**
      * @param {ProjectDetailService} projectDetailService
@@ -38,19 +44,18 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      */
     public constructor(private projectDetailService: ProjectDetailService,
                        private store: Store<AppState>,
-                       private activatedRoute: ActivatedRoute) {}
+                       private activatedRoute: ActivatedRoute) {
+    }
 
     /**
      * Set up tracking of tab. Set project meta tags.
+     * 
+     * @param {Project} project
      */
-    private initTab() {
+    private initTab(project: Project) {
 
-        this.state$.pipe(
-            take(1)
-        ).subscribe((state) => {
-            this.projectDetailService.addProjectMeta(state.projectTitle, ProjectTab.PROJECT_METADATA);
-            this.projectDetailService.trackTabView(GAAction.VIEW_METADATA, state.projectId, state.projectShortname);
-        });
+        this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_METADATA);
+        this.projectDetailService.trackTabView(GAAction.VIEW_METADATA, project.entryId, project.projectShortname);
     }
 
     /**
@@ -60,8 +65,11 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
 
         // Set up tracking of project tab
         this.projectDetailService.removeProjectMeta();
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
-    
+
     /**
      * Update state with selected project.
      */
@@ -72,24 +80,21 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
-        const project$ = this.store.pipe(select(selectSelectedProject));
+        this.store
+            .pipe(
+                select(selectSelectedProject),
+                takeUntil(this.ngDestroy$),
+                filter((project) => !!project)
+            )
+            .subscribe(project => {
 
-        this.state$ = combineLatest(
-            project$,
-        )
-        .pipe(
-            filter(([project]) => !!project),
-            map(([project]) => {
+                this.state$.next({
+                    loaded: true,
+                    project
+                });
 
-                return {
-                    projectId: project.entryId,
-                    projectShortname: project.projectShortname,
-                    projectTitle: project.projectTitle
-                };
-            })
-        );
-
-        // Set up tracking of project tab
-        this.initTab();
+                // Set up tracking of project tab
+                this.initTab(project);
+            });
     }
 }
