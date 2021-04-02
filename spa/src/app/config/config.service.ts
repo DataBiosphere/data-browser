@@ -51,16 +51,6 @@ export class ConfigService {
     }
 
     /**
-     * Returns the default catalog for the current environment.
-     * 
-     * @returns {Catalog}
-     */
-    public getDefaultCatalog(): Catalog {
-
-        return this.defaultCatalog;
-    }
-
-    /**
      * Returns the URL for the catalogs endpoint.
      *
      * @returns {string}
@@ -69,6 +59,16 @@ export class ConfigService {
 
         const path = this.getIndexPath();
         return `${path}${APIEndpoints.CATALOGS}`;
+    }
+    
+    /**
+     * Returns the default catalog for the current environment.
+     * 
+     * @returns {Catalog}
+     */
+    public getDefaultCatalog(): Catalog {
+
+        return this.defaultCatalog;
     }
 
     /**
@@ -81,6 +81,20 @@ export class ConfigService {
 
         const path = this.getIndexPath();
         return `${path}/${entityName}`;
+    }
+
+    /**
+     * Returns the base path for the DB
+     * 
+     * @returns {string}
+     */
+    public getExploreBasePath(): string {
+        
+        if ( this.isEnvLocal() ) {
+            return "";
+        }
+
+        return "/explore";
     }
 
     /**

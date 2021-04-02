@@ -55,8 +55,14 @@ export class AnnouncementCatalogComponent {
      * Handle select of catalog - dispatch event to track click on catalog, then redirect to catalog.
      */
     public onCatalogSelected(catalog: DCPCatalog) {
-
+        
         this.store.dispatch(new ViewCatalogAction(catalog));
-        this.window.location.href = `/explore/${EntityName.PROJECTS}?catalog=${catalog}`;
+        
+        const urlTokens = [this.configService.getExploreBasePath()];
+        urlTokens.push(`/${EntityName.PROJECTS}`);
+        if ( catalog === DCPCatalog.DCP1 ) {
+            urlTokens.push(`?catalog=${catalog}`);
+        }
+        this.window.location.href = urlTokens.join("");
     }
 }

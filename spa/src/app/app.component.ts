@@ -71,11 +71,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true for environments where dcp1 catalog is available. This is currently only the dcp2 environment.
+     * Returns true for environments where dcp1 catalog is available. This is currently only local and the dcp2
+     * environment.
      */
     public isAnnouncementCatalogVisible(): boolean {
-        
-        return this.configService.isEnvDCP2();
+
+        return this.configService.isEnvLocal() || this.configService.isEnvDCP2();
     }
 
     /**
