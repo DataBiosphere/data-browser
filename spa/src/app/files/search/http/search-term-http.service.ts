@@ -24,7 +24,6 @@ export class SearchTermHttpService {
 
     // Facet search allow list
     private ACCEPT_SEARCH_FACETS = [
-        "assayType",
         "biologicalSex",
         "cellLineType",
         "developmentStage",
