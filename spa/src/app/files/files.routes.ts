@@ -66,8 +66,12 @@ export const routes: Route[] = [
                         component: ProjectMetadataComponent,
                     },
                     {
-                        path: "expression-matrices",
+                        path: "project-matrices",
                         component: ProjectMatricesComponent
+                    },
+                    {
+                        path: "expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
+                        redirectTo: "project-matrices"
                     },
                     {
                         path: "external-resources",
@@ -88,8 +92,12 @@ export const routes: Route[] = [
                 component: ProjectManifestDownloadModalContainerComponent
             },
             {
-                path: ":id/m/expression-matrices",
+                path: ":id/m/project-matrices",
                 component: ProjectMatrixDownloadModalContainerComponent
+            },
+            {
+                path: ":id/m/expression-matrices",  // Deprecated; maintained for backwards compatibility of bookmarks.
+                redirectTo: ":id/m/project-matrices"
             }
         ]
     }

@@ -41,7 +41,7 @@ describe("NavComponent", () => {
         },
         {
             "display": "Project Matrices",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "expression-matrices"]
+            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "project-matrices"]
         },
         {
             "display": "Summary Stats",
