@@ -28,7 +28,7 @@ import {
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
-} from "../_ngrx/file.selectors";
+} from "../_ngrx/files.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { ProjectRowMapper } from "../projects/project-row-mapper";

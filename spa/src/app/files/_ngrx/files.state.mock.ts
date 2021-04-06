@@ -9,7 +9,7 @@
 import { CatalogState } from "./catalog/catalog.state";
 import { FacetState } from "./facet/facet.state";
 import { FileSummaryState } from "./file-summary/file-summary.state";
-import { FileState } from "./file.state";
+import { FilesState } from "./files.state";
 import { FileManifestState } from "./file-manifest/file-manifest.state";
 import { ProjectState } from "./project/project.state";
 import { SearchState } from "./search/search.state";
@@ -19,7 +19,6 @@ import * as searchStateMock from "./search/search.state.mock";
 import { IntegrationState } from "./integration/integration.state";
 import { ProjectEditsState } from "./project-edits/project-edits.state";
 import { getDefaultTableState } from "./table/table.state";
-import { Catalog } from "../catalog/catalog.model";
 
 /**
  * Default project state - current tab is projects, no selected search terms
@@ -65,10 +64,10 @@ export const FILES_STATE_WITH_SEARCH_TERM = selectProject(DEFAULT_FILES_STATE);
 /**
  * Add a project search term to the specified state.
  * 
- * @param {FileState} fromState
- * @returns {FileState}
+ * @param {FilesState} fromState
+ * @returns {FilesState}
  */
-function selectProject(fromState: FileState): FileState {
+function selectProject(fromState: FilesState): FilesState {
 
     const updatedState = Object.assign({}, fromState);
     updatedState.search = searchStateMock.selectProject();
@@ -78,11 +77,11 @@ function selectProject(fromState: FileState): FileState {
 /**
  * Set the specified tab as the selected.
  *
- * @param {FileState} fromState
+ * @param {FilesState} fromState
  * @param {string} selectedEntity
- * @returns {FileState}
+ * @returns {FilesState}
  */
-function selectEntity(fromState: FileState, selectedEntity: string): FileState {
+function selectEntity(fromState: FilesState, selectedEntity: string): FilesState {
 
     const updatedState = Object.assign({}, fromState, {
         tableState: getDefaultTableState()

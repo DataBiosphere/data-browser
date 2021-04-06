@@ -24,7 +24,7 @@ import { AppState } from "../../_ngrx/app.state";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { selectFilesFacets } from "../_ngrx/facet/facet.selectors";
 import { FetchFilesFacetsRequestAction } from "../_ngrx/facet/fetch-files-facets-request.action";
-import { selectFileSummary, selectSelectedEntitySpec } from "../_ngrx/file.selectors";
+import { selectFileSummary, selectSelectedEntitySpec } from "../_ngrx/files.selectors";
 import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { Term } from "../shared/term.model";

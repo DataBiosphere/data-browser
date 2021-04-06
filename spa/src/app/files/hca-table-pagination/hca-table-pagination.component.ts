@@ -14,7 +14,7 @@ import { Observable } from "rxjs";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectPagination } from "../_ngrx/file.selectors";
+import { selectPagination } from "../_ngrx/files.selectors";
 import { TableNextPageAction } from "../_ngrx/table/table-next-page.action";
 import { TablePreviousPageAction } from "../_ngrx/table/table-previous-page.action";
 import { Pagination } from "../table/pagination/pagination.model";

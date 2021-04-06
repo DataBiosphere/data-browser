@@ -9,7 +9,7 @@
 import { createSelector } from "@ngrx/store";
 
 // App dependencies
-import { selectSelectedEntitySpec } from "../file.selectors";
+import { selectSelectedEntitySpec } from "../files.selectors";
 import { selectSelectedSearchTermsBySearchKey } from "../search/search.selectors";
 
 /**

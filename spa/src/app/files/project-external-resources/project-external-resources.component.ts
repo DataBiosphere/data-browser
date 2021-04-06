@@ -12,7 +12,7 @@ import { take } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectTab } from "../project-detail/project-tab.model";
 import { GAAction } from "../../shared/analytics/ga-action.model";

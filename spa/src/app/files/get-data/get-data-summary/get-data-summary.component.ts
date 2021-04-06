@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 // App dependencies
 import { GetDataViewState } from "../get-data-view-state.model";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectFileSummary } from "../../_ngrx/file.selectors";
+import { selectFileSummary } from "../../_ngrx/files.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { FileSummary } from "../../file-summary/file-summary";
 import { SearchTerm } from "../../search/search-term.model";

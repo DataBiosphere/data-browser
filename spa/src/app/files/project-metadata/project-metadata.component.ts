@@ -14,7 +14,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectTab } from "../project-detail/project-tab.model";

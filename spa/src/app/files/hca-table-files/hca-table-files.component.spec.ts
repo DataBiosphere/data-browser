@@ -24,10 +24,10 @@ import { of } from "rxjs";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { ConfigService } from "../../config/config.service";
 import { EntityRequestService } from "../entity/entity-request.service";
+import { FileLocationDownloadComponent } from "../file-location/file-location-download/file-location-download.component";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "../hca-content-unspecified-bar/hca-content-unspecified-dash.component";
-import { HCADownloadFileComponent } from "../hca-download-file/hca-download-file.component";
 import { HCATableCellComponent } from "../hca-table-cell/hca-table-cell.component";
 import { HCATableColumnHeaderComponent } from "../hca-table-column-header/hca-table-column-header.component";
 import { HCATableColumnHeaderCountComponent } from "../hca-table-column-header-count/hca-table-column-header-count.component";
@@ -38,7 +38,6 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DownloadService } from "../shared/download.service";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
@@ -68,6 +67,7 @@ describe("HCATableFilesComponent", () => {
 
     // Column names
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
+    const COLUMN_NAME_FILE_NAME = "fileName";
     const COLUMN_NAME_FILE_SOURCE = "fileSource";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_WORKFLOW = "workflow";
@@ -75,6 +75,7 @@ describe("HCATableFilesComponent", () => {
 
     // Component names
     const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
+    const COMPONENT_NAME_FILE_LOCATION_DOWNLOAD = "file-location-download";
     const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
@@ -87,8 +88,8 @@ describe("HCATableFilesComponent", () => {
                 HCAContentEllipsisComponent,
                 HCAContentUnspecifiedDashComponent,
                 HCAEllipsisTextComponent,
-                HCADownloadFileComponent,
                 DownloadButtonComponent,
+                FileLocationDownloadComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
                 HCATableColumnHeaderCountComponent,
@@ -113,18 +114,6 @@ describe("HCATableFilesComponent", () => {
             ],
             providers: [
                 ConfigService,
-                {
-                    provide: DownloadService,
-                    useValue: jasmine.createSpyObj("DownloadService", [
-                        "isFileDownloading",
-                        "isFileDownloadRequestCompleted",
-                        "isFileDownloadRequestFailed",
-                        "isFileDownloadInitiated",
-                        "isFileDownloadRequestInProgress",
-                        "isFileDownloadRequestNotStarted",
-                        "requestFileDownload"
-                    ])
-                },
                 EntityRequestService,
                 {
                     provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
@@ -159,367 +148,471 @@ describe("HCATableFilesComponent", () => {
         component = fixture.componentInstance;
     }));
 
-    /**
-     * Confirm sort functionality is set up in component.
-     */
-    it("should set up sort functionality on init", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
-        );
+    describe("Sort", () => {
 
-        fixture.detectChanges();
+        /**
+         * Confirm sort functionality is set up in component.
+         */
+        it("should set up sort functionality on init", () => {
 
-        // Confirm data was loaded - table should be visible including sort column headers
-        expect(component.matSort).toBeTruthy();
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm data was loaded - table should be visible including sort column headers
+            expect(component.matSort).toBeTruthy();
+        });
+
+        /**
+         * Confirm sort function is called on click of sort header.
+         */
+        it("should call sort on click of sort header", () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm data was loaded - table should be visible including sort column headers
+            expect(component.matSort).toBeTruthy();
+
+            // Find the sort header for the project name column
+            const columnName = "projectTitle";
+            const columnHeaderDE = findHeader(columnName);
+            expect(columnHeaderDE).toBeTruthy();
+            const sortHeaderDE = findSortHeader(columnHeaderDE);
+            expect(sortHeaderDE).toBeTruthy();
+
+            // Execute click on sort header
+            const onSortTable = spyOn(component, "sortTable");
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(onSortTable).toHaveBeenCalled();
+        });
+
+        /**
+         * Confirm sort order is returned to default if no sort direction is specified (sort direction is not specified
+         * when the user has clicked on a column header three times in a row; the first time sets the sort direction to asc,
+         * the second to desc and the third clears the direction.
+         */
+        it("should reset sort order to default on clear of sort", () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Mimic clear of sort order and confirm it is reset back to default - grab the project name column header
+            const columnName = "projectTitle";
+            const columnHeaderDE = findHeader(columnName);
+            const sortHeaderDE = findSortHeader(columnHeaderDE);
+
+            // Execute first click to sort by sample entity type sort header
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(component.matSort.active).toEqual(columnName);
+            expect(component.matSort.direction).toEqual("asc");
+
+            // Execute second click to sort by sample entity type descending
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(component.matSort.active).toEqual(columnName);
+            expect(component.matSort.direction).toEqual("desc");
+
+            // Execute third click to clear sort
+            sortHeaderDE.triggerEventHandler("click", null);
+            fixture.detectChanges();
+            expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
+            expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+        });
+
+        /**
+         * Confirm component <hca-table-sort> is displayed in totalCells header.
+         */
+        it("should display component hca-table-sort in totalCells header", () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm column header displays component
+            expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+        });
+    });
+    
+    describe("Columns", () => {
+
+        /**
+         * Confirm development stage column labeled as "Development Stage" is displayed.
+         */
+        it(`displays column "Development Stage" column`, () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+        });
+
+        /**
+         * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed..
+         */
+        it(`displays column "Nucleic Acid Source" column`, () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
+        });
+
+        /**
+         * Confirm workflow column labeled as "Analysis Protocol" is displayed.
+         */
+        it(`should display column "Analysis Protocol"`, () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+        });
+
+        /**
+         * Confirm "File Source" column is displayed.
+         */
+        it(`displays column "File Source"`, () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            const columnHeaderDE = findHeader(COLUMN_NAME_FILE_SOURCE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_FILE_SOURCE);
+        });
+
+        /**
+         * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
+         */
+        it(`should display column "Cell Count Estimate"`, () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            const columnHeaderDE = findHeader(COLUMN_NAME_TOTALCELLS);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
+        });
     });
 
-    /**
-     * Confirm sort function is called on click of sort header.
-     */
-    it("should call sort on click of sort header", () => {
+    describe("File Location Download", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY),
-            of([])
-        );
+        /**
+         * Confirm file location download component is displayed for non-matrix file.
+         */
+        it("displays file download for non-matrix file", () => {
 
-        fixture.detectChanges();
+            const filesData = [{
+                files: [{
+                    "format": "zip",
+                    "name": "foo.zip",
+                    "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
+                    "size": 148,
+                    "source": "bar",
+                    "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
+                    "version": "2019-05-16T020707.744487Z",
+                    "url": "baz"
+                }]
+            }];
 
-        // Confirm data was loaded - table should be visible including sort column headers
-        expect(component.matSort).toBeTruthy();
+            testStore.pipe
+                .and.returnValues(
+                of(filesData),
+                of(filesData),
+                of(false), // Loading
+                of({}), // Pagination
+                of(new Map()), // Term counts by term
+                of({}), // File summary
+                of(new Map()) // file locations by file URL
+            );
 
-        // Find the sort header for the project name column
-        const columnName = "projectTitle";
-        const columnHeaderDE = findHeader(columnName);
-        expect(columnHeaderDE).toBeTruthy();
-        const sortHeaderDE = findSortHeader(columnHeaderDE);
-        expect(sortHeaderDE).toBeTruthy();
+            fixture.detectChanges();
 
-        // Execute click on sort header
-        const onSortTable = spyOn(component, "sortTable");
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(onSortTable).toHaveBeenCalled();
+            // Confirm file download is displayed
+            const fileLocationDownloadComponent =
+                findColumnCellComponent(0, COLUMN_NAME_FILE_NAME, COMPONENT_NAME_FILE_LOCATION_DOWNLOAD);
+            expect(fileLocationDownloadComponent).not.toBeNull();
+        });
+
+        /**
+         * Confirm file location download component is hidden for matrix file.
+         */
+        it("disables file download for matrix file", () => {
+
+            const filesData = [{
+                files: [{
+                    "format": "matrix",
+                    "name": "foo.matrix",
+                    "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
+                    "size": 148,
+                    "source": "bar",
+                    "uuid": "86f5c1f3-7575-42cf-863c-ced4c2f4e475",
+                    "version": "2019-05-16T020707.744487Z",
+                    "url": "baz"
+                }]
+            }];
+
+            testStore.pipe
+                .and.returnValues(
+                of(filesData),
+                of(filesData),
+                of(false), // Loading
+                of({}), // Pagination
+                of(new Map()), // Term counts by term
+                of({}), // File summary
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm file download is displayed
+            const fileLocationDownloadComponent =
+                findColumnCellComponent(0, COLUMN_NAME_FILE_NAME, COMPONENT_NAME_FILE_LOCATION_DOWNLOAD);
+            expect(fileLocationDownloadComponent).toBeNull();
+        });
     });
 
-    /**
-     * Confirm sort order is returned to default if no sort direction is specified (sort direction is not specified
-     * when the user has clicked on a column header three times in a row; the first time sets the sort direction to asc,
-     * the second to desc and the third clears the direction.
-     */
-    it("should reset sort order to default on clear of sort", () => {
+    describe("Workflow Column", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
+        /**
+         * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
+         */
+        it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
 
-        fixture.detectChanges();
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
 
-        // Mimic clear of sort order and confirm it is reset back to default - grab the project name column header
-        const columnName = "projectTitle";
-        const columnHeaderDE = findHeader(columnName);
-        const sortHeaderDE = findSortHeader(columnHeaderDE);
+            fixture.detectChanges();
 
-        // Execute first click to sort by sample entity type sort header
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(component.matSort.active).toEqual(columnName);
-        expect(component.matSort.direction).toEqual("asc");
+            // Confirm row with empty array values in column "Analysis Protocol" displays component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+        });
 
-        // Execute second click to sort by sample entity type descending
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(component.matSort.active).toEqual(columnName);
-        expect(component.matSort.direction).toEqual("desc");
+        /**
+         * Confirm <hca-content-unspecified-dash> is displayed when workflow value is null.
+         */
+        it("should display component hca-content-unspecified-dash when workflow value is null", () => {
 
-        // Execute third click to clear sort
-        sortHeaderDE.triggerEventHandler("click", null);
-        fixture.detectChanges();
-        expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
-        expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm row with null values in column "Analysis Protocol" displays component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+        });
+
+        /**
+         * Confirm <hca-content-unspecified-dash> is not displayed when workflow value is single value.
+         */
+        it("should not display component hca-content-unspecified-dash when workflow value is single value", () => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
+
+            fixture.detectChanges();
+
+            // Confirm row with single values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
+        });
     });
 
-    /**
-     * Confirm development stage column labeled as "Development Stage" is displayed.
-     */
-    it(`displays column "Development Stage" column`, () => {
+    describe("Analysis Protocol Pipeline Column", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
+         */
+        it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
 
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
 
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
-    });
+            fixture.detectChanges();
 
-    /**
-     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed..
-     */
-    it(`displays column "Nucleic Acid Source" column`, () => {
+            // Confirm row with empty values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+        });
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
+         */
+        it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
 
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+            fixture.detectChanges();
 
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
-    });
+            // Confirm row with null values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+        });
 
-    /**
-     * Confirm workflow column labeled as "Analysis Protocol" is displayed.
-     */
-    it(`should display column "Analysis Protocol"`, () => {
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
+         */
+        it("should display component analysis protocol pipeline linker when workflow is single value", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
+            testStore.pipe
+                .and.returnValues(
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.data),
+                of(FILES_TABLE_MODEL.loading),
+                of(FILES_TABLE_MODEL.pagination),
+                of(FILES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of(new Map()) // file locations by file URL
+            );
 
-        fixture.detectChanges();
+            fixture.detectChanges();
 
-        const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
-    });
-
-    /**
-     * Confirm "File Source" column is displayed.
-     */
-    it(`displays column "File Source"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeader(COLUMN_NAME_FILE_SOURCE);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_FILE_SOURCE);
-    });
-
-    /**
-     * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
-     */
-    it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with empty array values in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
-    });
-
-    /**
-     * Confirm <hca-content-unspecified-dash> is displayed when workflow value is null.
-     */
-    it("should display component hca-content-unspecified-dash when workflow value is null", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with null values in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
-     */
-    it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with empty values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
-     */
-    it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with null values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
-     */
-    it("should display component analysis protocol pipeline linker when workflow is single value", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with single values in column "Analysis Protocol" does display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
-    });
-
-    /**
-     * Confirm <hca-content-unspecified-dash> is not displayed when workflow value is single value.
-     */
-    it("should not display component hca-content-unspecified-dash when workflow value is single value", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm row with single values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
-    });
-
-    /**
-     * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
-     */
-    it(`should display column "Cell Count Estimate"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeader(COLUMN_NAME_TOTALCELLS);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
-    });
-
-    /**
-     * Confirm component <hca-table-sort> is displayed in totalCells header.
-     */
-    it("should display component hca-table-sort in totalCells header", () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.data),
-            of(FILES_TABLE_MODEL.loading),
-            of(FILES_TABLE_MODEL.pagination),
-            of(FILES_TABLE_MODEL.termCountsByFacetName),
-            of(DEFAULT_FILE_SUMMARY)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm column header displays component
-        expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+            // Confirm row with single values in column "Analysis Protocol" does display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
+        });
     });
 
     /**

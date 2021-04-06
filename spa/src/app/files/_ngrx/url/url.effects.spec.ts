@@ -20,7 +20,7 @@ import { SelectCatalogAction } from "../catalog/select-catalog.action";
 import { SelectEntityAction } from "../entity/select-entity.action";
 import { AgeUnit } from "../../facet/facet-age-range/age-unit.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { DEFAULT_PROJECTS_STATE } from "../file.state.mock";
+import { DEFAULT_PROJECTS_STATE } from "../files.state.mock";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";

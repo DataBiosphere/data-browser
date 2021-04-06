@@ -15,7 +15,7 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
 import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";

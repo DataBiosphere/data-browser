@@ -48,6 +48,8 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
     @Input() fileLocation: FileLocation;
     @Input() fileName: string;
     @Input() fileUrl: string;
+    // True if view state is reset on completion of download, so download can be clicked agains
+    @Input() repeatable: boolean = true;
 
     // Outputs
     @Output() fileLocationRequested = new EventEmitter<FileLocationRequestEvent>();
@@ -93,8 +95,14 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
             filter(state => state === FileLocationStatus.COMPLETED),
             delay(0), // Allow view to update such that download is visible
         ).subscribe(() => {
+
+            // Trigger download of file by browser
             this.downloadFile(this.fileLocation.fileUrl);
-            this.resetViewState();
+
+            // Reset view state
+            if ( this.repeatable ) {
+                this.resetViewState();
+            }
         });
     }
 

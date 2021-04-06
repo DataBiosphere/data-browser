@@ -22,8 +22,8 @@ import { Observable } from "rxjs";
 import { FileFacetName } from "../file-facet/file-facet-name.model";
 import { FilterCanActivateGuard } from "./filter-can-activate.guard";
 import { AppState } from "../../../_ngrx/app.state";
-import { FileState } from "../../_ngrx/file.state";
-import { DEFAULT_PROJECTS_STATE } from "../../_ngrx/file.state.mock";
+import { FilesState } from "../../_ngrx/files.state";
+import { DEFAULT_PROJECTS_STATE } from "../../_ngrx/files.state.mock";
 import { selectSelectedSearchTermsBySearchKey } from "../../_ngrx/search/search.selectors";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
@@ -40,7 +40,7 @@ describe("FilterCanActivateGuard", () => {
     let routerStateSnapshot: jasmine.SpyObj<RouterStateSnapshot>; // Required for canActivate
     let routerStateSnapshotUrl: jasmine.Spy;
     let searchTermUrlService; // No type to enable jasmine mocking (eg .and.returnValue)
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
     
     const selectedSearchTermsByKey = new Map([
         [FileFacetName.GENUS_SPECIES, new Set([

@@ -20,8 +20,8 @@ import { ConfigServiceSpy } from "../../config/config.service.spy";
 import { DCPCatalog } from "./dcp-catalog.model";
 import { AppState } from "../../_ngrx/app.state";
 import { CatalogState } from "../_ngrx/catalog/catalog.state";
-import { FileState } from "../_ngrx/file.state";
-import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE } from "../_ngrx/file.state.mock";
+import { FilesState } from "../_ngrx/files.state";
+import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE } from "../_ngrx/files.state.mock";
 import { ActivatedRouteStub } from "../../test/activated-route.stub";
 import { ActivatedRouteSnapshotStub } from "../../test/activated-route-snapshot.stub";
 import { RouterStateSnapshotStub } from "../../test/router-state-snapshot.stub";
@@ -34,7 +34,7 @@ describe("CatalogCanActivateGuard", () => {
     let router: jasmine.SpyObj<Router>;
     let routerStateSnapshot: jasmine.SpyObj<RouterStateSnapshot>; // Required for canActivate
     let routerStateSnapshotUrl: jasmine.Spy;
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
 
     /**
      * Top-level set up.
