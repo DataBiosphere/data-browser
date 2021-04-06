@@ -12,6 +12,7 @@ import { combineLatest, of, Subject } from "rxjs";
 import { filter, take } from "rxjs/operators";
 
 // App dependencies
+import { APIEndpoints } from "../../config/api-endpoints.model";
 import { FileLocationService } from "./file-location.service";
 import { FileLocationStatus } from "./file-location-status.model";
 
@@ -28,7 +29,7 @@ describe("FileLocationService", () => {
         Status: 302
     };
     let killSwitch$;
-    const fileUrl = "fileUrl";
+    const fileUrl = "http://foo.com";
     
     let httpClientSpy: { get: jasmine.Spy };
     let fileLocationService: FileLocationService;
@@ -222,6 +223,27 @@ describe("FileLocationService", () => {
                 expect(fileLocation.status).toEqual(FileLocationStatus.COMPLETED);
                 doneFn();
             });
+        });
+    });
+    
+    describe("buildFetchFileUrl", () => {
+        
+        const ORIGIN = "https://foo.com";
+        const PATH = "/repository/files/12345";
+        const SEARCH = "?catalog=dcp3";
+
+        it(`adds "/fetch" to "/path`, () => {
+
+            const fileUrl = `${ORIGIN}${PATH}${SEARCH}`;
+            const fetchFileUrl = fileLocationService["buildFetchFileUrl"](fileUrl);
+            expect(fetchFileUrl).toEqual(`${ORIGIN}${APIEndpoints.FETCH}${PATH}${SEARCH}`)
+        });
+
+        it(`doesn't adds "/fetch" to "/fetch/path"`, () => {
+
+            const fileUrl = `${ORIGIN}${APIEndpoints.FETCH}${PATH}${SEARCH}`;
+            const fetchFileUrl = fileLocationService["buildFetchFileUrl"](fileUrl);
+            expect(fetchFileUrl).toEqual(fileUrl)
         });
     });
 });
