@@ -165,7 +165,7 @@ export class HCATableProjectsComponent implements OnInit {
      */
     public onProjectDownloadMatrixClicked(projectId: string, catalog: Catalog) {
 
-        this.router.navigate([EntityName.PROJECTS, projectId, "m", "expression-matrices"], {
+        this.router.navigate([EntityName.PROJECTS, projectId, "m", "project-matrices"], {
             queryParams: {
                 catalog
             }
