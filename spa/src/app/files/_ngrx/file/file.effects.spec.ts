@@ -80,7 +80,7 @@ describe("FileEffects", () => {
 
             spyOn(fileLocationService, "fetchFileLocation").and.callThrough();
 
-            const fileUrl = "foo";
+            const fileUrl = "http://foo.com";
             actions$ = of(new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz"));
             effects.fetchFileFileLocation$.subscribe();
             expect(fileLocationService.fetchFileLocation).toHaveBeenCalledWith(
@@ -99,7 +99,7 @@ describe("FileEffects", () => {
             };
             spyOn(fileLocationService, "fetchFileLocation").and.returnValue(of(fileLocation));
 
-            const fileUrl = "foo";
+            const fileUrl = "http://foo.com";
             actions$ = hot("--a-", {
                 a: new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz")
             });
@@ -117,7 +117,7 @@ describe("FileEffects", () => {
 
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new FetchFileFileLocationRequestAction("foo", "bar", "baz");
+            const action = new FetchFileFileLocationRequestAction("http://foo.com", "bar", "baz");
             actions$ = of(action);
             effects.fetchFileFileLocation$.subscribe();
             expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({currentQuery: mockSelectPreviousQuery}));

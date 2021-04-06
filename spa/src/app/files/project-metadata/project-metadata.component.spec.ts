@@ -19,6 +19,8 @@ import { of } from "rxjs";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
+import { FileLocationCopyComponent } from "../file-location/file-location-copy/file-location-copy.component";
+import { FileLocationDownloadComponent } from "../file-location/file-location-download/file-location-download.component";
 import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
@@ -50,6 +52,8 @@ describe("ProjectMetadataComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
+                FileLocationCopyComponent,
+                FileLocationDownloadComponent,
                 SectionBarComponent,
                 ProjectManifestDownloadComponent,
                 ProjectMetadataComponent,
