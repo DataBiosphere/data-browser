@@ -17,7 +17,7 @@ import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linke
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { ViewProjectAccessionAction } from "../_ngrx/project/view-project-accession.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";

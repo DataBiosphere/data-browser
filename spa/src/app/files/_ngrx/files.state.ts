@@ -17,7 +17,7 @@ import { SearchState } from "./search/search.state";
 import { TableState } from "./table/table.state";
 import { TerraState } from "./terra/terra.state";
 
-export interface FileState {
+export interface FilesState {
     catalog: CatalogState,
     terra: TerraState;
     fileSummary: FileSummaryState;

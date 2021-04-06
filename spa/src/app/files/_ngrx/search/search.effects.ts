@@ -21,7 +21,7 @@ import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 import { SelectFileFacetTermAction } from "./select-file-facet-term.action";
 import { selectPreviousQuery } from "./search.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
-import { selectSelectedEntitySpec } from "../file.selectors";
+import { selectSelectedEntitySpec } from "../files.selectors";
 import { GAIndex } from "../../../shared/analytics/ga-index.model";
 
 @Injectable()

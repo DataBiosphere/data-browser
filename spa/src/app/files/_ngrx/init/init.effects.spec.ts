@@ -18,8 +18,8 @@ import { ConfigService } from "../../../config/config.service";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "../facet/set-view-state.action";
-import { FileState } from "../file.state";
-import { DEFAULT_PROJECTS_STATE } from "../file.state.mock";
+import { FilesState } from "../files.state";
+import { DEFAULT_PROJECTS_STATE } from "../files.state.mock";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
 import { InitEffects } from "./init.effects";
 import { SearchTermUrlService } from "../../search/url/search-term-url.service";
@@ -38,7 +38,7 @@ describe("Init Effects", () => {
     let configService;
     let gtmService; // No type to enable jasmine mocking (eg .and.returnValue)
     let searchTermUrlService; // No type to enable jasmine mocking (eg .and.returnValue)
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
 
     const navigation$ = new ReplaySubject<RouterEvent>(1);
     const routerMock = {
@@ -87,7 +87,7 @@ describe("Init Effects", () => {
 
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
         
-        store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
+        store = TestBed.inject(Store) as MockStore<FilesState>; /* TODO revisit "as xxx" after upgrade to 10 */
     });
 
     describe("initPageview$", () => {

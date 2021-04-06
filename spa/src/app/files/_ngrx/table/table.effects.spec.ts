@@ -21,8 +21,8 @@ import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
-import { FileState } from "../file.state";
-import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../file.state.mock";
+import { FilesState } from "../files.state";
+import { DEFAULT_FILES_STATE, DEFAULT_PROJECTS_STATE, DEFAULT_SAMPLES_STATE } from "../files.state.mock";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { ProjectService } from "../../project/project.service";
 import { PROJECT_1M_NEURONS } from "../search/search.state.mock";
@@ -45,7 +45,7 @@ describe("Table Effects", () => {
 
     let actions$: Observable<any>;
     let effects: TableEffects;
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
     let urlService; // No type to enable jasmine mocking (eg .and.returnValue)
 
     const navigation$ = new ReplaySubject<RouterEvent>(1);
@@ -103,7 +103,7 @@ describe("Table Effects", () => {
         effects = TestBed.inject(TableEffects);
         
         urlService = TestBed.inject(UrlService);
-        store = TestBed.inject(Store) as MockStore<FileState>;
+        store = TestBed.inject(Store) as MockStore<FilesState>;
     });
 
     describe("selectProject$", () => {

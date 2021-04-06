@@ -44,15 +44,15 @@ import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action"
 import { PipeModule } from "../../pipe/pipe.module";
 import { AppState } from "../../_ngrx/app.state";
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
-import { FileState } from "../_ngrx/file.state";
+import { FilesState } from "../_ngrx/files.state";
 import {
     selectFileSummary,
     selectPagination,
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
-} from "../_ngrx/file.selectors";
-import { DEFAULT_PROJECTS_STATE } from "../_ngrx/file.state.mock";
+} from "../_ngrx/files.selectors";
+import { DEFAULT_PROJECTS_STATE } from "../_ngrx/files.state.mock";
 import { FileSummaryState } from "../_ngrx/file-summary/file-summary.state";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
@@ -72,7 +72,7 @@ describe("HCATableProjectsComponent", () => {
     let component: HCATableProjectsComponent;
     let fixture: ComponentFixture<HCATableProjectsComponent>;
 
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
 
     const selectedCatalog = DCPCatalog.DCP2;
 

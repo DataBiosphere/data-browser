@@ -16,10 +16,15 @@
                     <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileName')"
                               [ngStyle]="getColumnStyle('fileName')">
                         <div [ngClass]="getFileDownloadClass(element.fileName)">
-                            <hca-download-file [fileName]="element.fileName"
-                                               [fileFormat]="element.fileFormat"
-                                               [fileUrl]="element.url"
-                                               (fileDownloadRequested)="onFileDownloadRequested($event)"></hca-download-file>
+                            <ng-container [ngSwitch]="isFileLocationDownloadEnabled(element.fileFormat)">
+                                <file-location-download *ngSwitchCase="true"
+                                                        [fileLocation]="getFileLocationByFileUrl(fileFileLocationsByFileUrls$ | async, element.url)"
+                                                        [fileName]="element.fileName"
+                                                        [fileUrl]="element.url"
+                                                        [repeatable]="false"
+                                                        (fileLocationRequested)="onFileLocationRequested(element)"></file-location-download>
+                                <img *ngSwitchDefault class="file-location-download-disabled" src="assets/images/icon/no-result.png">
+                            </ng-container>
                             <span class="fontsize-xxs">{{element.fileName}}</span>
                         </div>
                     </mat-cell>

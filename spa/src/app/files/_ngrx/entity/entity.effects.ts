@@ -16,7 +16,7 @@ import { concatMap, withLatestFrom } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../../_ngrx/app.state";
 import { SelectEntityAction } from "./select-entity.action";
-import { selectTableQueryParams } from "../file.selectors";
+import { selectTableQueryParams } from "../files.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
 import { BackToEntityAction } from "./back-to-entity.action";

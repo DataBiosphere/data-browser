@@ -16,14 +16,14 @@ import { Observable, of } from "rxjs";
 // App dependencies
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
-import { FileEffects } from "./file.effects";
-import { FileState } from "./file.state";
+import { FilesEffects } from "./files.effects";
+import { FilesState } from "./files.state";
 import {
     DEFAULT_FILES_STATE,
     DEFAULT_PROJECTS_STATE,
     DEFAULT_SAMPLES_STATE, FILES_STATE_WITH_SEARCH_TERM,
     PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM, SAMPLES_STATE_WITH_SEARCH_TERM
-} from "./file.state.mock";
+} from "./files.state.mock";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
@@ -33,11 +33,11 @@ import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
 
-describe("File Effects", () => {
+describe("FilesEffects", () => {
 
-    let effects: FileEffects;
+    let effects: FilesEffects;
     let actions: Observable<any>;
-    let store: MockStore<FileState>;
+    let store: MockStore<FilesState>;
 
     /**
      * Setup for each test in suite.
@@ -53,7 +53,7 @@ describe("File Effects", () => {
                 // any modules needed
             ],
             providers: [
-                FileEffects,
+                FilesEffects,
                 provideMockActions(() => actions),
                 {
                     provide: FilesService,
@@ -69,8 +69,8 @@ describe("File Effects", () => {
             ]
         });
 
-        effects = TestBed.inject(FileEffects);
-        store = TestBed.inject(Store) as MockStore<FileState>; /* TODO revisit "as xxx" after upgrade to 10 */
+        effects = TestBed.inject(FilesEffects);
+        store = TestBed.inject(Store) as MockStore<FilesState>; /* TODO revisit "as xxx" after upgrade to 10 */
     });
 
     /**

@@ -15,11 +15,13 @@ import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { EntitiesDataSource } from "../entities/entities.data-source";
+import { FileLocation } from "../file-location/file-location.model";
+import { FileRow } from "./file-row.model";
 import { FileRowMapper } from "./file-row-mapper";
+import { ClearFileFileLocationsAction } from "../_ngrx/file/clear-file-file-locations.action";
 import { FileSummary } from "../file-summary/file-summary";
-import { FileDownloadRequestEvent } from "../hca-download-file/file-download-request.event";
 import { AppState } from "../../_ngrx/app.state";
-import { DownloadFileAction } from "../_ngrx/download-file.action";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,
@@ -27,7 +29,7 @@ import {
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
-} from "../_ngrx/file.selectors";
+} from "../_ngrx/files.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { SearchTerm } from "../search/search-term.model";
 import { GAIndex } from "../../shared/analytics/ga-index.model";
@@ -41,7 +43,9 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { EntitiesDataSource } from "../entities/entities.data-source";
+import { selectFileFileLocations } from "../_ngrx/file/file.selectors";
+import { FetchFileFileLocationRequestAction } from "../_ngrx/file/fetch-file-file-location-request.action";
+import { FileFormat } from "../shared/file-format.model";
 
 @Component({
     selector: "hca-table-files",
@@ -62,6 +66,7 @@ export class HCATableFilesComponent implements OnInit {
         "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
+    public fileFileLocationsByFileUrls$: Observable<Map<string, FileLocation>>;
     public getColumnClass = getColumnClass;
     public getColumnDisplayName = getColumnDisplayName;
     public getColumnStyle = getColumnStyle;
@@ -80,7 +85,7 @@ export class HCATableFilesComponent implements OnInit {
 
     // View child/ren
     @ViewChild(MatSort) matSort: MatSort;
-    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
+    @ViewChild(MatTable, {read: ElementRef}) matTableElementRef: ElementRef;
 
     /**
      * @param {Store<AppState>} store
@@ -89,7 +94,8 @@ export class HCATableFilesComponent implements OnInit {
      */
     constructor(private store: Store<AppState>,
                 private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef) {}
+                private elementRef: ElementRef) {
+    }
 
     /**
      * Returns class download and class truncate (if table data is not spaced).
@@ -111,12 +117,36 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
+     * Return the file location for the specified file, or return a not started status if not yet requested file
+     * location has not yet been requested.
+     *
+     * @param {Map<string, FileLocation>} fileFileLocationsByFileUrl
+     * @param {string} fileUrl
+     * @returns {FileLocation}
+     */
+    public getFileLocationByFileUrl(fileFileLocationsByFileUrl, fileUrl: string): FileLocation {
+
+        return fileFileLocationsByFileUrl.get(fileUrl);
+    }
+
+    /**
+     * Returns true if file format is not matrix.
+     * 
+     * @param {string} fileFormat
+     * @returns {boolean}
+     */
+    public isFileLocationDownloadEnabled(fileFormat: string): boolean {
+
+        return fileFormat !== FileFormat.MATRIX;
+    }
+
+    /**
      * Return the list of columns to be displayed.
      *
      * @returns {string[]}
      */
     public listColumns(): string[] {
-        
+
         return this.displayedColumns;
     }
 
@@ -133,13 +163,14 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Dispatch action to track click on file download.
-     * 
-     * @param {FileDownloadRequestEvent} event
+     * Initiate request for file location of specified file.
+     *
+     * @param {FileRow} fileRow
      */
-    public onFileDownloadRequested(event: FileDownloadRequestEvent) {
+    public onFileLocationRequested(fileRow: FileRow) {
 
-        const action = new DownloadFileAction(event.fileUrl, event.fileName, event.fileFormat);
+        const {url: fileUrl, fileName, fileFormat} = fileRow;
+        const action = new FetchFileFileLocationRequestAction(fileUrl, fileName, fileFormat);
         this.store.dispatch(action);
     }
 
@@ -188,9 +219,11 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Kill subscriptions on destroy of component.
+     * Kill subscriptions on destroy of component. Clear file locations.
      */
     public ngOnDestroy() {
+
+        this.store.dispatch(new ClearFileFileLocationsAction());
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
@@ -220,6 +253,9 @@ export class HCATableFilesComponent implements OnInit {
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
+
+        // Get the file locations
+        this.fileFileLocationsByFileUrls$ = this.store.pipe(select(selectFileFileLocations));
 
         this.dataLoaded$ = this.data$.pipe(
             filter(data => !!data.length),
