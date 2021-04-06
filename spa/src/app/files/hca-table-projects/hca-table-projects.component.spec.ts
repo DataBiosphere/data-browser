@@ -88,18 +88,22 @@ describe("HCATableProjectsComponent", () => {
 
     // Column titles
     const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
-    const COLUMN_TITLE_DONORCOUNT = "Donor Count";
+    const COLUMN_TITLE_DONOR_COUNT = "Donor Count";
+    const COLUMN_TITLE_DONOR_DISEASE = "Disease Status (Donor)";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
-    const COLUMN_TITLE_PROJECTTITLE = "Project Title";
-    const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
+    const COLUMN_TITLE_PROJECT_TITLE = "Project Title";
+    const COLUMN_TITLE_SPECIMEN_DISEASE = "Disease Status (Specimen)";
+    const COLUMN_TITLE_TOTAL_CELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
 
     // Column names
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
-    const COLUMN_NAME_DONORCOUNT = "donorCount";
+    const COLUMN_NAME_DONOR_COUNT = "donorCount";
+    const COLUMN_NAME_DONOR_DISEASE = "donorDisease";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
-    const COLUMN_NAME_PROJECTTITLE = "projectTitle";
-    const COLUMN_NAME_TOTALCELLS = "totalCells";
+    const COLUMN_NAME_PROJECT_TITLE = "projectTitle";
+    const COLUMN_NAME_SPECIMEN_DISEASE = "disease";
+    const COLUMN_NAME_TOTAL_CELLS = "totalCells";
     const COLUMN_NAME_WORKFLOW = "workflow";
 
     // Component names
@@ -201,481 +205,498 @@ describe("HCATableProjectsComponent", () => {
         store.overrideSelector(selectFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
         store.overrideSelector(selectCatalog, selectedCatalog);
     }));
+    
+    describe("Sort", () => {
 
-    /**
-     * Confirm sort functionality is set up in component.
-     */
-    it("should set up sort functionality on init", () => {
+        /**
+         * Confirm sort functionality is set up in component.
+         */
+        it("should set up sort functionality on init", () => {
 
-        component.selectedProjectIds = [];
-        fixture.detectChanges();
+            component.selectedProjectIds = [];
+            fixture.detectChanges();
 
-        // Confirm data was loaded - table should be visible including sort column headers
-        expect(component.matSort).toBeTruthy();
+            // Confirm data was loaded - table should be visible including sort column headers
+            expect(component.matSort).toBeTruthy();
+        });
+
+        /**
+         * Confirm sort function is called on click of sort header.
+         */
+        it("should call sort on click of sort header", () => {
+
+            component.selectedProjectIds = [];
+            fixture.detectChanges();
+
+            // Confirm data was loaded - table should be visible including sort column headers
+            expect(component.matSort).toBeTruthy();
+
+            // Find the sort header for the sample entity type column
+            const columnName = "sampleEntityType";
+            const columnHeaderDE = findHeaderTitle(columnName);
+            expect(columnHeaderDE).toBeTruthy();
+            const sortHeaderDE = findSortHeader(columnHeaderDE);
+            expect(sortHeaderDE).toBeTruthy();
+
+            // Execute click on sort header
+            const onSortTable = spyOn(component, "sortTable");
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(onSortTable).toHaveBeenCalled();
+        });
+
+        /**
+         * Confirm sort order is returned to default if no sort direction is specified (sort direction is not specified
+         * when the user has clicked on a column header three times in a row; the first time sets the sort direction to asc,
+         * the second to desc and the third clears the direction.
+         */
+        it("should reset sort order to default on clear of sort", () => {
+
+            component.selectedProjectIds = [];
+            fixture.detectChanges();
+
+            // Mimic clear of sort order and confirm it is reset back to default - grab the sample entity type column header
+            const columnName = "sampleEntityType";
+            const columnHeaderDE = findHeaderTitle(columnName);
+            const sortHeaderDE = findSortHeader(columnHeaderDE);
+
+            // Execute first click to sort by sample entity type sort header
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(component.matSort.active).toEqual(columnName);
+            expect(component.matSort.direction).toEqual("asc");
+
+            // Execute second click to sort by sample entity type descending
+            sortHeaderDE.triggerEventHandler("click", null);
+            expect(component.matSort.active).toEqual(columnName);
+            expect(component.matSort.direction).toEqual("desc");
+
+            // Execute third click to clear sort
+            sortHeaderDE.triggerEventHandler("click", null);
+            fixture.detectChanges();
+            expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
+            expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+        });
+
+        /**
+         * Confirm component <hca-table-sort> is displayed in totalCells header.
+         */
+        it("should display component hca-table-sort in totalCells header", () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            // Confirm column header displays component
+            expect(isComponentDisplayed(findHeaderTitle(COLUMN_NAME_TOTAL_CELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+        });
     });
 
-    /**
-     * Confirm sort function is called on click of sort header.
-     */
-    it("should call sort on click of sort header", () => {
+    describe("Columns", () => {
+        
+        beforeEach(async(() => {
 
-        component.selectedProjectIds = [];
-        fixture.detectChanges();
+            component.selectedProjectIds = [];
 
-        // Confirm data was loaded - table should be visible including sort column headers
-        expect(component.matSort).toBeTruthy();
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+        }));
 
-        // Find the sort header for the sample entity type column
-        const columnName = "sampleEntityType";
-        const columnHeaderDE = findHeaderTitle(columnName);
-        expect(columnHeaderDE).toBeTruthy();
-        const sortHeaderDE = findSortHeader(columnHeaderDE);
-        expect(sortHeaderDE).toBeTruthy();
+        /**
+         * Confirm project title column labeled as "Project Title" is displayed.
+         */
+        it(`displays column "Project Title"`, () => {
 
-        // Execute click on sort header
-        const onSortTable = spyOn(component, "sortTable");
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(onSortTable).toHaveBeenCalled();
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_PROJECT_TITLE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_PROJECT_TITLE);
+        });
+
+        /**
+         * Confirm workflow column labeled as "Analysis Protocol" is displayed.
+         */
+        it(`should display column "Analysis Protocol"`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_WORKFLOW);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+        });
+
+        /**
+         * Confirm development stage column labeled as "Development Stage" is displayed.
+         */
+        it(`displays column "Development Stage" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+        });
+
+        /**
+         * Confirm specimen disease column labeled as "Disease Status (Specimen)" is displayed.
+         */
+        it(`displays column "Disease Status (Specimen)" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_SPECIMEN_DISEASE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_SPECIMEN_DISEASE);
+        });
+
+        /**
+         * Confirm specimen disease column labeled as "Disease Status (Donor)" is displayed.
+         */
+        it(`displays column "Disease Status (Donor)" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_DISEASE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_DISEASE);
+        });
+
+        /**
+         * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed.
+         */
+        it(`displays column "Nucleic Acid Source" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
+        });
+
+        /**
+         * Confirm donorCount column labeled as "Donor Count" is displayed.
+         */
+        it(`should display column "Donor Count"`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_COUNT);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_COUNT);
+        });
+
+        /**
+         * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
+         */
+        it(`should display column "Cell Count Estimate"`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_TOTAL_CELLS);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTAL_CELLS);
+        });
     });
 
-    /**
-     * Confirm sort order is returned to default if no sort direction is specified (sort direction is not specified
-     * when the user has clicked on a column header three times in a row; the first time sets the sort direction to asc,
-     * the second to desc and the third clears the direction.
-     */
-    it("should reset sort order to default on clear of sort", () => {
+    describe("Project Selection", () => {
 
-        component.selectedProjectIds = [];
-        fixture.detectChanges();
+        /**
+         * Confirm store dispatch is called when on project selected.
+         */
+        it("dispatches action to store, to select project id action, when project selected", () => {
 
-        // Mimic clear of sort order and confirm it is reset back to default - grab the sample entity type column header
-        const columnName = "sampleEntityType";
-        const columnHeaderDE = findHeaderTitle(columnName);
-        const sortHeaderDE = findSortHeader(columnHeaderDE);
+            spyOn(store, "dispatch").and.callThrough();
 
-        // Execute first click to sort by sample entity type sort header
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(component.matSort.active).toEqual(columnName);
-        expect(component.matSort.direction).toEqual("asc");
+            const projectId = PROJECTS_TABLE_MODEL.data[0].entryId;
+            const projectName = PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
+            const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true, GASource.SEARCH_RESULTS);
 
-        // Execute second click to sort by sample entity type descending
-        sortHeaderDE.triggerEventHandler("click", null);
-        expect(component.matSort.active).toEqual(columnName);
-        expect(component.matSort.direction).toEqual("desc");
+            // Confirm store dispatch is called
+            component.onProjectSelected(projectId, projectName, false);
+            expect(store.dispatch).toHaveBeenCalledWith(selectProjectIdAction);
+        });
 
-        // Execute third click to clear sort
-        sortHeaderDE.triggerEventHandler("click", null);
-        fixture.detectChanges();
-        expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
-        expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+        /**
+         * Confirm project title cell class "selected" is true when project is selected.
+         */
+        it(`displays project title cell with class "selected" when project is selected`, () => {
+
+            component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+            // Confirm class is displayed
+            expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(true);
+        });
+
+        /**
+         * Confirm project title cell class "selected" is false when project is not selected.
+         */
+        it(`displays project title cell with class "selected" is false when project is not selected`, () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+            // Confirm class is not displayed
+            expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toBeFalsy();
+        });
+
+        /**
+         * Confirm component <mat-icon> is displayed when project is selected.
+         */
+        it("displays component mat icon when project is selected", () => {
+
+            component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+            const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+
+            // Confirm component is displayed
+            expect(matIconDE.name).toEqual(COMPONENT_NAME_MAT_ICON);
+        });
+
+        /**
+         * Confirm component <mat-icon> is not displayed when project is not selected.
+         */
+        it("should not display component mat icon when project is not selected", () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+            const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+
+            // Confirm component is not displayed
+            expect(matIconDE).toBeUndefined();
+        });
+
+        /**
+         * Confirm on project selected is called on click of project title check box.
+         */
+        it("on project selected is called on click of project title check box", () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+
+            const projectSelected = spyOn(component, "onProjectSelected");
+
+            // Execute click on check box
+            projectTitleCheckBoxDE.triggerEventHandler("click", null);
+            expect(projectSelected).toHaveBeenCalled();
+        });
     });
 
-    /**
-     * Confirm store dispatch is called when on project selected.
-     */
-    it("dispatches action to store, to select project id action, when project selected", () => {
+    describe("Project Title Column", () => {
 
-        spyOn(store, "dispatch").and.callThrough();
+        /**
+         * Confirm cell text project title is displayed.
+         */
+        it("displays project title", () => {
 
-        const projectId = PROJECTS_TABLE_MODEL.data[0].entryId;
-        const projectName = PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
-        const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true, GASource.SEARCH_RESULTS);
+            component.selectedProjectIds = [];
 
-        // Confirm store dispatch is called
-        component.onProjectSelected(projectId, projectName, false);
-        expect(store.dispatch).toHaveBeenCalledWith(selectProjectIdAction);
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+
+            // Confirm cell text is displayed
+            expect(projectTitleDE.nativeElement.innerText).toEqual(PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle);
+        });
+
+        /**
+         * Confirm project title entry id is added to router link.
+         */
+        it("displays router link with project title entry id", () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+
+            // Confirm project title entry id is added router link
+            const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${selectedCatalog}`;
+            expect(projectTitleDE.properties.href).toEqual(expected);
+        });
+
+        /**
+         * Confirm ngClass "center", "flex-column" and "right" on project title mat header cell are false.
+         */
+        it(`returns false values for classes "center", "flex-column" and "right" on project title mat header cell`, () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECT_TITLE);
+
+            // Confirm classes are false
+            expect(projectTitleHeaderDE.classes[CLASSNAME_CENTER]).toBeFalsy();
+            expect(projectTitleHeaderDE.classes[CLASSNAME_FLEXCOLUMN]).toBeFalsy();
+            expect(projectTitleHeaderDE.classes[CLASSNAME_RIGHT]).toBeFalsy();
+        });
+
+        /**
+         * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat header cell return empty and "min-width" returns "300px".
+         */
+        it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat header cell`, () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECT_TITLE);
+
+            // Confirm all styles are empty, except for min width which is "300px"
+            expect(projectTitleHeaderDE.styles[STYLE_FLEX]).toEqual("");
+            expect(projectTitleHeaderDE.styles[STYLE_MAX_WIDTH]).toEqual("");
+            expect(projectTitleHeaderDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
+            expect(projectTitleHeaderDE.styles[STYLE_OVERFLOW]).toEqual("");
+            expect(projectTitleHeaderDE.styles[STYLE_POSITION]).toEqual("");
+        });
+
+        /**
+         * Confirm ngClass "center", "flex-column" and "right" on project title mat cell are false.
+         */
+        it(`returns false values for classes "center", "flex-column" and "right" on project title mat cell`, () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECT_TITLE)[0];
+
+            // Confirm classes are false
+            expect(projectTitleDE.classes[CLASSNAME_CENTER]).toBeFalsy();
+            expect(projectTitleDE.classes[CLASSNAME_FLEXCOLUMN]).toBeFalsy();
+            expect(projectTitleDE.classes[CLASSNAME_RIGHT]).toBeFalsy();
+        });
+
+        /**
+         * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat cell return empty and "min-width" returns "300px".
+         */
+        it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat cell`, () => {
+
+            component.selectedProjectIds = [];
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECT_TITLE)[0];
+
+            // Confirm all styles are empty, except for min width which is "300px"
+            expect(projectTitleDE.styles[STYLE_FLEX]).toEqual("");
+            expect(projectTitleDE.styles[STYLE_MAX_WIDTH]).toEqual("");
+            expect(projectTitleDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
+            expect(projectTitleDE.styles[STYLE_OVERFLOW]).toEqual("");
+            expect(projectTitleDE.styles[STYLE_POSITION]).toEqual("");
+        });
     });
 
-    /**
-     * Confirm project title column labeled as "Project Title" is displayed.
-     */
-    it(`displays column "Project Title"`, () => {
+    describe("Workflow Column", () => {
 
-        component.selectedProjectIds = [];
+        /**
+         * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
+         */
+        it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+            component.selectedProjectIds = [];
 
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_PROJECTTITLE);
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_PROJECTTITLE);
-    });
+            // Confirm row with empty array values in column "Analysis Protocol" displays component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+        });
 
-    /**
-     * Confirm ngClass "center", "flex-column" and "right" on project title mat header cell are false.
-     */
-    it(`returns false values for classes "center", "flex-column" and "right" on project title mat header cell`, () => {
+        /**
+         * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is null.
+         */
+        it("should display component hca-content-unspecified-dash when workflow value is null", () => {
 
-        component.selectedProjectIds = [];
+            component.selectedProjectIds = [];
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-        const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECTTITLE);
+            // Confirm row with null values in column "Analysis Protocol" displays component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+        });
 
-        // Confirm classes are false
-        expect(projectTitleHeaderDE.classes[CLASSNAME_CENTER]).toBeFalsy();
-        expect(projectTitleHeaderDE.classes[CLASSNAME_FLEXCOLUMN]).toBeFalsy();
-        expect(projectTitleHeaderDE.classes[CLASSNAME_RIGHT]).toBeFalsy();
-    });
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
+         */
+        it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
 
-    /**
-     * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat header cell return empty and "min-width" returns "300px".
-     */
-    it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat header cell`, () => {
+            component.selectedProjectIds = [];
 
-        component.selectedProjectIds = [];
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+            // Confirm row with empty array values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+        });
 
-        const projectTitleHeaderDE = findHeader(COLUMN_NAME_PROJECTTITLE);
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
+         */
+        it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
 
-        // Confirm all styles are empty, except for min width which is "300px"
-        expect(projectTitleHeaderDE.styles[STYLE_FLEX]).toEqual("");
-        expect(projectTitleHeaderDE.styles[STYLE_MAX_WIDTH]).toEqual("");
-        expect(projectTitleHeaderDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
-        expect(projectTitleHeaderDE.styles[STYLE_OVERFLOW]).toEqual("");
-        expect(projectTitleHeaderDE.styles[STYLE_POSITION]).toEqual("");
-    });
+            component.selectedProjectIds = [];
 
-    /**
-     * Confirm ngClass "center", "flex-column" and "right" on project title mat cell are false.
-     */
-    it(`returns false values for classes "center", "flex-column" and "right" on project title mat cell`, () => {
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-        component.selectedProjectIds = [];
+            // Confirm row with null values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+        });
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+        /**
+         * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
+         */
+        it("should display component analysis protocol pipeline linker when workflow is single value", () => {
 
-        const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECTTITLE)[0];
+            component.selectedProjectIds = [];
 
-        // Confirm classes are false
-        expect(projectTitleDE.classes[CLASSNAME_CENTER]).toBeFalsy();
-        expect(projectTitleDE.classes[CLASSNAME_FLEXCOLUMN]).toBeFalsy();
-        expect(projectTitleDE.classes[CLASSNAME_RIGHT]).toBeFalsy();
-    });
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-    /**
-     * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat cell return empty and "min-width" returns "300px".
-     */
-    it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat cell`, () => {
+            // Confirm row with single values in column "Analysis Protocol" does display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
+        });
 
-        component.selectedProjectIds = [];
+        /**
+         * Confirm component <hca-content-unspecified-dash> is not displayed when workflow is single value.
+         */
+        it("should not display component hca-content-unspecified-dash when workflow is single value", () => {
 
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
+            component.selectedProjectIds = [];
 
-        const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECTTITLE)[0];
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
 
-        // Confirm all styles are empty, except for min width which is "300px"
-        expect(projectTitleDE.styles[STYLE_FLEX]).toEqual("");
-        expect(projectTitleDE.styles[STYLE_MAX_WIDTH]).toEqual("");
-        expect(projectTitleDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
-        expect(projectTitleDE.styles[STYLE_OVERFLOW]).toEqual("");
-        expect(projectTitleDE.styles[STYLE_POSITION]).toEqual("");
-    });
-
-    /**
-     * Confirm project title cell class "selected" is true when project is selected.
-     */
-    it(`displays project title cell with class "selected" when project is selected`, () => {
-
-        component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
-
-        // Confirm class is displayed
-        expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(true);
-    });
-
-    /**
-     * Confirm project title cell class "selected" is false when project is not selected.
-     */
-    it(`displays project title cell with class "selected" is false when project is not selected`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
-
-        // Confirm class is not displayed
-        expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toBeFalsy();
-    });
-
-    /**
-     * Confirm component <mat-icon> is displayed when project is selected.
-     */
-    it("displays component mat icon when project is selected", () => {
-
-        component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
-
-        const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
-
-        // Confirm component is displayed
-        expect(matIconDE.name).toEqual(COMPONENT_NAME_MAT_ICON);
-    });
-
-    /**
-     * Confirm component <mat-icon> is not displayed when project is not selected.
-     */
-    it("should not display component mat icon when project is not selected", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
-
-        const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
-
-        // Confirm component is not displayed
-        expect(matIconDE).toBeUndefined();
-    });
-
-    /**
-     * Confirm on project selected is called on click of project title check box.
-     */
-    it("on project selected is called on click of project title check box", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
-
-        const projectSelected = spyOn(component, "onProjectSelected");
-
-        // Execute click on check box
-        projectTitleCheckBoxDE.triggerEventHandler("click", null);
-        expect(projectSelected).toHaveBeenCalled();
-    });
-
-    /**
-     * Confirm cell text project title is displayed.
-     */
-    it("displays project title", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
-
-        // Confirm cell text is displayed
-        expect(projectTitleDE.nativeElement.innerText).toEqual(PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle);
-    });
-
-    /**
-     * Confirm project title entry id is added to router link.
-     */
-    it("displays router link with project title entry id", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
-
-        // Confirm project title entry id is added router link
-        const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${selectedCatalog}`;
-        expect(projectTitleDE.properties.href).toEqual(expected);
-    });
-
-    /**
-     * Confirm workflow column labeled as "Analysis Protocol" is displayed.
-     */
-    it(`should display column "Analysis Protocol"`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_WORKFLOW);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
-    });
-
-    /**
-     * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
-     */
-    it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with empty array values in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
-    });
-
-    /**
-     * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is null.
-     */
-    it("should display component hca-content-unspecified-dash when workflow value is null", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with null values in column "Analysis Protocol" displays component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
-     */
-    it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with empty array values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
-     */
-    it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with null values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
-    });
-
-    /**
-     * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
-     */
-    it("should display component analysis protocol pipeline linker when workflow is single value", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with single values in column "Analysis Protocol" does display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
-    });
-
-    /**
-     * Confirm component <hca-content-unspecified-dash> is not displayed when workflow is single value.
-     */
-    it("should not display component hca-content-unspecified-dash when workflow is single value", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm row with single values in column "Analysis Protocol" does not display component
-        expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
-    });
-
-    /**
-     * Confirm development stage column labeled as "Development Stage" is displayed.
-     */
-    it(`displays column "Development Stage" column`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
-    });
-
-    /**
-     * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed.
-     */
-    it(`displays column "Nucleic Acid Source" column`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE).toBeTruthy();
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
-    });
-
-    /**
-     * Confirm donorCount column labeled as "Donor Count" is displayed.
-     */
-    it(`should display column "Donor Count"`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONORCOUNT);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONORCOUNT);
-    });
-
-    /**
-     * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
-     */
-    it(`should display column "Cell Count Estimate"`, () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        const columnHeaderDE = findHeaderTitle(COLUMN_NAME_TOTALCELLS);
-
-        // Confirm column title is displayed
-        expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
-    });
-
-    /**
-     * Confirm component <hca-table-sort> is displayed in totalCells header.
-     */
-    it("should display component hca-table-sort in totalCells header", () => {
-
-        component.selectedProjectIds = [];
-
-        // Trigger change detection so template updates accordingly
-        fixture.detectChanges();
-
-        // Confirm column header displays component
-        expect(isComponentDisplayed(findHeaderTitle(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+            // Confirm row with single values in column "Analysis Protocol" does not display component
+            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
+        });        
     });
 
     /**

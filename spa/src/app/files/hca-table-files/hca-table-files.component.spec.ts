@@ -60,18 +60,22 @@ describe("HCATableFilesComponent", () => {
 
     // Column titles
     const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
+    const COLUMN_TITLE_DONOR_DISEASE = "Disease Status (Donor)";
     const COLUMN_TITLE_FILE_SOURCE = "File Source";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
-    const COLUMN_TITLE_TOTALCELLS = "Cell Count Estimate";
+    const COLUMN_TITLE_SPECIMEN_DISEASE = "Disease Status (Specimen)";
+    const COLUMN_TITLE_TOTAL_CELLS = "Cell Count Estimate";
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
-
+    
     // Column names
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
+    const COLUMN_NAME_DONOR_DISEASE = "donorDisease";
     const COLUMN_NAME_FILE_NAME = "fileName";
     const COLUMN_NAME_FILE_SOURCE = "fileSource";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
+    const COLUMN_NAME_SPECIMEN_DISEASE = "disease";
     const COLUMN_NAME_WORKFLOW = "workflow";
-    const COLUMN_NAME_TOTALCELLS = "totalCells";
+    const COLUMN_NAME_TOTAL_CELLS = "totalCells";
 
     // Component names
     const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
@@ -268,16 +272,13 @@ describe("HCATableFilesComponent", () => {
             fixture.detectChanges();
 
             // Confirm column header displays component
-            expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTALCELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+            expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTAL_CELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
         });
     });
     
     describe("Columns", () => {
 
-        /**
-         * Confirm development stage column labeled as "Development Stage" is displayed.
-         */
-        it(`displays column "Development Stage" column`, () => {
+        beforeEach(async(() => {
 
             testStore.pipe
                 .and.returnValues(
@@ -292,6 +293,12 @@ describe("HCATableFilesComponent", () => {
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
+        }));
+
+        /**
+         * Confirm development stage column labeled as "Development Stage" is displayed.
+         */
+        it(`displays column "Development Stage" column`, () => {
 
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
 
@@ -301,23 +308,33 @@ describe("HCATableFilesComponent", () => {
         });
 
         /**
+         * Confirm specimen disease column labeled as "Disease Status (Specimen)" is displayed.
+         */
+        it(`displays column "Disease Status (Specimen)" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_SPECIMEN_DISEASE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_SPECIMEN_DISEASE);
+        });
+
+        /**
+         * Confirm specimen disease column labeled as "Disease Status (Donor)" is displayed.
+         */
+        it(`displays column "Disease Status (Donor)" column`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_DISEASE);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE).toBeTruthy();
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_DISEASE);
+        });
+
+        /**
          * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed..
          */
         it(`displays column "Nucleic Acid Source" column`, () => {
-
-            testStore.pipe
-                .and.returnValues(
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.loading),
-                of(FILES_TABLE_MODEL.pagination),
-                of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
-                of(new Map()) // file locations by file URL
-            );
-
-            // Trigger change detection so template updates accordingly
-            fixture.detectChanges();
 
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
 
@@ -331,19 +348,6 @@ describe("HCATableFilesComponent", () => {
          */
         it(`should display column "Analysis Protocol"`, () => {
 
-            testStore.pipe
-                .and.returnValues(
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.loading),
-                of(FILES_TABLE_MODEL.pagination),
-                of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
-                of(new Map()) // file locations by file URL
-            );
-
-            fixture.detectChanges();
-
             const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
 
             // Confirm column title is displayed
@@ -354,19 +358,6 @@ describe("HCATableFilesComponent", () => {
          * Confirm "File Source" column is displayed.
          */
         it(`displays column "File Source"`, () => {
-
-            testStore.pipe
-                .and.returnValues(
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.data),
-                of(FILES_TABLE_MODEL.loading),
-                of(FILES_TABLE_MODEL.pagination),
-                of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
-                of(new Map()) // file locations by file URL
-            );
-
-            fixture.detectChanges();
 
             const columnHeaderDE = findHeader(COLUMN_NAME_FILE_SOURCE);
 
@@ -392,10 +383,10 @@ describe("HCATableFilesComponent", () => {
 
             fixture.detectChanges();
 
-            const columnHeaderDE = findHeader(COLUMN_NAME_TOTALCELLS);
+            const columnHeaderDE = findHeader(COLUMN_NAME_TOTAL_CELLS);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTALCELLS);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTAL_CELLS);
         });
     });
 
@@ -543,10 +534,6 @@ describe("HCATableFilesComponent", () => {
             // Confirm row with single values in column "Analysis Protocol" does not display component
             expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
         });
-    });
-
-    describe("Analysis Protocol Pipeline Column", () => {
-
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.

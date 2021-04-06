@@ -63,7 +63,7 @@ export class HCATableFilesComponent implements OnInit {
     public displayedColumns = [
         "fileName", "fileFormat", "fileSize", "fileSource", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ",
         "organPart", "selectedCellType", "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
-        "organismAge", "biologicalSex", "disease", "developmentStage", "totalCells"
+        "organismAge", "biologicalSex", "disease", "donorDisease", "developmentStage", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public fileFileLocationsByFileUrls$: Observable<Map<string, FileLocation>>;

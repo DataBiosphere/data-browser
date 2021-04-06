@@ -211,12 +211,28 @@
                               [ngStyle]="getColumnStyle('disease')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
-                                <span class="fontsize-xxs">{{element.disease}}<span
-                                        *ngIf="element.donorDisease"> /</span></span>
+                                <span class="fontsize-xxs">{{element.disease}}</span>
                             </hca-content-ellipsis>
-                            <hca-content-ellipsis *ngIf="element.donorDisease">
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="donorDisease">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('donorDisease')"
+                                     [ngStyle]="getColumnStyle('donorDisease')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'donorDisease'">
+                                {{getColumnDisplayName('donorDisease')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'donorDisease'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('donorDisease')"
+                              [ngStyle]="getColumnStyle('donorDisease')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
                                 <span class="fontsize-xxs">{{element.donorDisease}}</span>
-                            </hca-content-ellipsis>                            
+                            </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
