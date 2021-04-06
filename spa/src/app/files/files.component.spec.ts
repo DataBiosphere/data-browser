@@ -13,7 +13,6 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { of } from "rxjs";
 
 // App dependencies
-import { Catalog } from "./catalog/catalog.model";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { ConfigService } from "../config/config.service";
 import { FacetToolbarComponent } from "./facet/facet-toolbar/facet-toolbar.component";

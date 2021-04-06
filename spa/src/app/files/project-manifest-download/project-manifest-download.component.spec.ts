@@ -15,6 +15,8 @@ import { ClipboardModule } from "ngx-clipboard";
 // App dependencies
 import { ConfigService } from "../../config/config.service";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
+import { FileLocationCopyComponent } from "../file-location/file-location-copy/file-location-copy.component";
+import { FileLocationDownloadComponent } from "../file-location/file-location-download/file-location-download.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { ProjectManifestDownloadComponent } from "./project-manifest-download.component";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
@@ -32,6 +34,8 @@ describe("ProjectDownloadManifestComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
+                FileLocationCopyComponent,
+                FileLocationDownloadComponent,
                 SectionBarComponent,
                 ProjectManifestDownloadComponent,
             ],

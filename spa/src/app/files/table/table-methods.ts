@@ -37,7 +37,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Disease Status (Specimen)",
         description: "Short description of known disease(s) of the specimen.",
         alignment: ColumnAlignment.LEFT,
-        columnFlexDirection: ColumnFlexDirection.COLUMN,
         columnMinWidth: 120,
         columnSort: true,
         columnSortKey: "specimenDisease",
@@ -50,7 +49,8 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Disease Status (Donor)",
         description: "Short description of known disease(s) of the organism.",
         alignment: ColumnAlignment.LEFT,
-        columnSort: false,
+        columnMinWidth: 120,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
 
     },
@@ -362,7 +362,7 @@ export function getColumnFlexDirection(column: string): string {
  */
 export function getColumnSortKey(column: string): string {
     
-    // If column is disease, return "donorDisease"
+    // If column is disease, return "specimenDisease"
     if ( column === "disease" ) {
         return "specimenDisease";
     }
