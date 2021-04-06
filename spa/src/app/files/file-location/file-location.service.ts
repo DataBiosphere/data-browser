@@ -15,6 +15,7 @@ import { catchError, retry, skip, switchMap, take, takeUntil } from "rxjs/operat
 import { FileLocation } from "./file-location.model";
 import { FileLocationAPIResponse } from "./file-location-api-response.model";
 import { FileLocationStatus } from "./file-location-status.model";
+import { APIEndpoints } from "../../config/api-endpoints.model";
 
 @Injectable()
 export class FileLocationService {
@@ -50,12 +51,32 @@ export class FileLocationService {
             // Unsubscribe for all other status - downloading, completed, failed etc.
             polling$.unsubscribe();
         });
+        
+        // Update file URL to include "/fetch", if necessary.
+        const fetchFileUrl = this.buildFetchFileUrl(fileUrl);
 
         // Kick off initial request for file location
-        this.requestFileLocation(fileUrl, fileLocation$, killSwitch$);
+        this.requestFileLocation(fetchFileUrl, fileLocation$, killSwitch$);
 
         // Give listeners access to current stats
         return fileLocation$.asObservable();
+    }
+
+    /**
+     * Prepend "/fetch" to the path of the specified file URL, if not already included. See #1596.
+     * 
+     * @param {string} fileUrl
+     * @returns {string}
+     */
+    private buildFetchFileUrl(fileUrl: string): string {
+        
+        const url = new URL(fileUrl);
+        const path = url.pathname;
+        if ( path.indexOf(APIEndpoints.FETCH) !== 0 ) {
+            url.pathname = `${APIEndpoints.FETCH}${path}`;
+        }
+        
+        return url.toString();
     }
 
     /**
