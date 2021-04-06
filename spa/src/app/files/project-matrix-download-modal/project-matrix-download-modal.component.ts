@@ -22,7 +22,7 @@ import { filter, map, takeUntil } from "rxjs/operators";
 import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectMatrixDownloadModalState } from "./project-matrix-download-modal.state";

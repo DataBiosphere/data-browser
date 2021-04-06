@@ -19,7 +19,7 @@ import { AppState } from "../../../_ngrx/app.state";
 import { RequestBulkDownloadAction } from "./request-bulk-download.action";
 import { selectPreviousQuery } from "../search/search.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
-import { selectSelectedEntitySpec } from "../file.selectors";
+import { selectSelectedEntitySpec } from "../files.selectors";
 
 @Injectable()
 export class GetDataEffects {

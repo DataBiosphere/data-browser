@@ -31,7 +31,7 @@ import {
     selectTableData,
     selectTableLoading,
     selectTermCountsByFacetName
-} from "../_ngrx/file.selectors";
+} from "../_ngrx/files.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { SampleRowMapper } from "./sample-row-mapper";
 import { GAIndex } from "../../shared/analytics/ga-index.model";

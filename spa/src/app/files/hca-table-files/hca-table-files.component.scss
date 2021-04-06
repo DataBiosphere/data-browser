@@ -72,6 +72,17 @@
                     }
                 }
             }
+
+            /* File name column - file location download icon */
+            file-location-download {
+                margin-right: 16px;
+            }
+
+            /* File name column - file location download disabled image */
+            .file-location-download-disabled {
+                margin-right: 16px;
+                width: 14px;
+            }
         }
     }
 }

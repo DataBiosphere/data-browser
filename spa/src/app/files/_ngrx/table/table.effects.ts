@@ -17,7 +17,7 @@ import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators"
 import { Catalog } from "../../catalog/catalog.model";
 import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
-import { selectTableQueryParams } from "../file.selectors";
+import { selectTableQueryParams } from "../files.selectors";
 import { FetchFileSummaryRequestAction } from "../file-summary/file-summary.actions";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";

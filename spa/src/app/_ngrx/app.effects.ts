@@ -11,7 +11,8 @@ import { CatalogEffects } from "../files/_ngrx/catalog/catalog.effects";
 import { ConfigEffects } from "../config/_ngrx/config.effects";
 import { EntityEffects } from "../files/_ngrx/entity/entity.effects";
 import { ErrorEffects } from "../files/_ngrx/error/error.effects";
-import { FileEffects } from "../files/_ngrx/file.effects";
+import { FileEffects } from "../files/_ngrx/file/file.effects";
+import { FilesEffects } from "../files/_ngrx/files.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
 import { GetDataEffects } from "../files/_ngrx/get-data/get-data.effects";
 import { InitEffects } from "../files/_ngrx/init/init.effects";
@@ -32,6 +33,7 @@ export const AppEffects = [
     EntityEffects,
     ErrorEffects,
     FileEffects,
+    FilesEffects,
     FileManifestEffects,
     GetDataEffects,
     InitEffects,

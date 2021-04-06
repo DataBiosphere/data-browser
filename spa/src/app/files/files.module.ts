@@ -60,7 +60,6 @@ import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
-import { HCADownloadFileComponent } from "./hca-download-file/hca-download-file.component";
 import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.component";
 import { DataLinkComponent } from "./get-data/data-link/data-link.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
@@ -118,7 +117,6 @@ import { SearchTermHttpService } from "./search/http/search-term-http.service";
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
 import { SearchTermUrlService } from "./search/url/search-term-url.service";
 import { SectionBarComponent } from "./section-bar/section-bar.component";
-import { DownloadService } from "./shared/download.service";
 import { FileNameShortenerPipe } from "./shared/file-name-shortener";
 import { FilesService } from "./shared/files.service";
 import { IntegrationService } from "./shared/integration.service";
@@ -189,7 +187,6 @@ import { UrlService } from "./url/url.service";
         GetDataSummaryComponent,
         HCAContentEllipsisComponent,
         HCAContentUnspecifiedDashComponent,
-        HCADownloadFileComponent,
         HCAEllipsisTextComponent,
         HCAFileSummaryComponent,
         HCASearchComponent,
@@ -238,7 +235,6 @@ import { UrlService } from "./url/url.service";
         CatalogCanActivateGuard,
         CatalogService,
         ConfigService,
-        DownloadService,
         EntityRequestService,
         FacetDisplayService,
         FileLocationService,

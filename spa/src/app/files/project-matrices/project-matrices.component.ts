@@ -14,7 +14,7 @@ import { combineLatest, Observable, of } from "rxjs";
 import { map, take } from "rxjs/operators";
 
 // App dependencies
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";

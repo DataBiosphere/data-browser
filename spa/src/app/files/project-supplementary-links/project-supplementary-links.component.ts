@@ -14,7 +14,7 @@ import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { selectSelectedProject } from "../_ngrx/file.selectors";
+import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ViewProjectSupplementaryLinkAction } from "../_ngrx/table/view-project-supplementary-link.action";
 import { ProjectSupplementaryLinksState } from "./project-supplementary-links.state";

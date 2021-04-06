@@ -25,7 +25,7 @@ import {
     selectFileSummary,
     selectEntities,
     selectSelectedEntitySpec
-} from "./_ngrx/file.selectors";
+} from "./_ngrx/files.selectors";
 import {
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
