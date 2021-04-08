@@ -145,7 +145,8 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Model Organ",
         description: "Organ for which the cell line / organoid is a model.",
         alignment: ColumnAlignment.LEFT,
-        columnSort: false,
+        columnMinWidth: 100,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -161,7 +162,6 @@ let tableColumns: TableColumn[] = [
         userFriendly: "Organ",
         description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
         alignment: ColumnAlignment.LEFT,
-        columnFlexDirection: ColumnFlexDirection.COLUMN,
         columnMinWidth: 100,
         columnSort: true,
         columnSortKey: "specimenOrgan",
@@ -361,11 +361,6 @@ export function getColumnFlexDirection(column: string): string {
  * @returns {string}
  */
 export function getColumnSortKey(column: string): string {
-    
-    // If column is disease, return "specimenDisease"
-    if ( column === "disease" ) {
-        return "specimenDisease";
-    }
 
     const col = tableColumn.get(column);
     if ( !col ) {

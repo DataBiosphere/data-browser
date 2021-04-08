@@ -64,7 +64,8 @@ export class HCATableProjectsComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "selectedCellType", "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd",
+        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "modelOrgan", "selectedCellType",
+        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd",
         "workflow", "disease", "donorDisease", "developmentStage", "donorCount", "totalCells"
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
@@ -104,7 +105,7 @@ export class HCATableProjectsComponent implements OnInit {
 
     /**
      * Returns true if the specified project has at least one contributed or DCP-generated matrix.
-     * 
+     *
      * @param {ProjectRow} project
      * @returns {boolean}
      */
