@@ -56,7 +56,7 @@ export class EntityRowMapper {
             this.bindLibraryConstructionApproach(this.protocols.libraryConstructionApproach);
 
         // Model organ should only display a value when sampleEntityType is cellLines or organoids
-        const modelOrgan = this.bindModelOrgan(this.samples.modelOrgan);
+        const modelOrgan = getUnspecifiedIfNullValue(this.samples.modelOrgan);
 
         // Nucleic acid source should be displayed as "Unspecified" if it is null, or empty array
         const nucleicAcidSource = this.bindNucleicAcidSource(this.protocols.nucleicAcidSource);
@@ -98,18 +98,6 @@ export class EntityRowMapper {
         return Array.isArray(libraryConstructionApproach) ?
             getUnspecifiedIfEmpty(libraryConstructionApproach) :
             getUnspecifiedIfNullValue(libraryConstructionApproach);
-    }
-
-    /**
-     * Bind model organ response value. Model organ should only display a value when sampleEntityType is cellLines or
-     * organoids.
-     *
-     * @param {string} modelOrgan
-     * @returns {string}
-     */
-    private bindModelOrgan(modelOrgan: string): string {
-
-        return modelOrgan ? modelOrgan : null
     }
 
     /**

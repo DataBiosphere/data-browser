@@ -450,6 +450,127 @@ describe("EntityRowMapper", () => {
     });
 
     /**
+     * modelOrgan
+     */
+    describe("modelOrgan", () => {
+
+        /**
+         * Single model organ value should be mapped.
+         */
+        it("maps model organ value", (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{
+                    modelOrgan: ["foo"]
+                }]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                expect(mappedProject.modelOrgan).toEqual(projectToMap.samples[0].modelOrgan[0]);
+                done();
+            });
+        });
+
+        /**
+         * Multiple model organ values should be rolled up and mapped.
+         */
+        it("rolls up and map multiple model organ values", (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{
+                    modelOrgan: ["foo", "bar"]
+                }]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                expect(mappedProject.modelOrgan).toEqual(projectToMap.samples[0].modelOrgan.join(", "));
+                done();
+            });
+        });
+
+        /**
+         * Multiple model organ values across multiple objects should be rolled up and mapped.
+         */
+        it("maps multiple model organ values across multiple objects", (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{
+                    modelOrgan: ["foo"]
+                }, {
+                    modelOrgan: ["bar"]
+                }]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                const expectedValue = mapMultipleValues(projectToMap.samples, "modelOrgan");
+                expect(mappedProject.modelOrgan).toEqual(expectedValue);
+                done();
+            });
+        });
+
+        /**
+         * A model organ value that is an empty array should be mapped to "Unspecified"
+         */
+        it(`maps an empty model organ array to "Unspecified"`, (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{
+                    modelOrgan: []
+                }]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                expect(mappedProject.modelOrgan).toEqual("Unspecified");
+                done();
+            });
+        });
+
+        /**
+         * A null model organ should be mapped to "Unspecified"
+         */
+        it(`maps null model organ to "Unspecified"`, (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{
+                    modelOrgan: null
+                }]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                expect(mappedProject.modelOrgan).toEqual("Unspecified");
+                done();
+            });
+        });
+
+        /**
+         * An undefined model organ should be mapped to "Unspecified"
+         */
+        it(`maps undefined model organ to "Unspecified"`, (done: DoneFn) => {
+
+            const projectToMap = {
+                samples: [{}]
+            };
+            dataSource = new EntitiesDataSource<EntityRowMapper>(of([projectToMap]), EntityRowMapper);
+            dataSource.connect().subscribe((rows) => {
+
+                const mappedProject = rows[0];
+                expect(mappedProject.modelOrgan).toEqual("Unspecified");
+                done();
+            });
+        });
+    });
+
+    /**
      * organ
      */
     describe("organ", () => {

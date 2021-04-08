@@ -125,6 +125,7 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "disease": [
                     "normal"
                 ],
+                "modelOrgan": ["foo"],
                 "preservationMethod": [
                     "fresh"
                 ],
@@ -307,6 +308,7 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                     "x",
                     "y"
                 ],
+                "modelOrgan": ["foo", "bar"],
                 "disease": [
                     "normal",
                     "H syndrome"
@@ -549,6 +551,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "organPart": [
                     "a"
                 ],
+                "modelOrgan": ["foo"],
                 "disease": [
                     "normal",
                     "H syndrome"
@@ -578,6 +581,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "x",
                     "y"
                 ],
+                "modelOrgan": ["bar"],
                 "disease": [
                     "x",
                     "y"
@@ -761,6 +765,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
                 "id": [],
                 "organ": [],
                 "organPart": [],
+                "modelOrgan": [],
                 "disease": [],
                 "preservationMethod": [],
                 "source": []
@@ -840,6 +845,7 @@ export const PROJECT_ROW_NULL_VALUES =
                 "id": null,
                 "organ": null,
                 "organPart": null,
+                "modelOrgan": null,
                 "disease": null,
                 "preservationMethod": null,
                 "source": null
@@ -939,6 +945,7 @@ export const PROJECT_ROW_NULL_ARRAY_VALUES =
                 "id": [null],
                 "organ": [null],
                 "organPart": [null],
+                "modelOrgan": [null],
                 "disease": [null],
                 "preservationMethod": [null],
                 "source": [null]

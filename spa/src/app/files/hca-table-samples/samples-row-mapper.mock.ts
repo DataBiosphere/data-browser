@@ -6,7 +6,7 @@
  */
 
 // 0 - Example of sample with single values (eg disease, genusSpecies)
-export const SAMPLE_SINGLE_VALUES = 
+export const SAMPLE_SINGLE_VALUES =
     {
         "protocols": [
             {
@@ -45,6 +45,7 @@ export const SAMPLE_SINGLE_VALUES =
             {
                 "sampleEntityType": "specimens",
                 "id": "1104_LN",
+                "modelOrgan": ["foo"],
                 "organ": "lymph node",
                 "organPart": [
                     "a"
@@ -204,6 +205,10 @@ export const SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT =
             {
                 "sampleEntityType": "specimens",
                 "id": "1104_LN",
+                "modelOrgan": [
+                    "foo",
+                    "bar"
+                ],
                 "organ": "lymph node",
                 "organPart": [
                     "a",
@@ -412,6 +417,7 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
             {
                 "sampleEntityType": "specimens",
                 "id": "1104_LN",
+                "modelOrgan": ["foo"],
                 "organ": "lymph node",
                 "organPart": [
                     "x"
@@ -446,6 +452,7 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "1104_LN",
                     "b"
                 ],
+                "modelOrgan": ["bar"],
                 "organ": [
                     "lymph node",
                     "b"
@@ -629,6 +636,7 @@ export const SAMPLE_EMPTY_ARRAY_VALUES =
             {
                 "sampleEntityType": "specimens",
                 "id": "1104_LN",
+                "modelOrgan": [],
                 "organ": "lymph node",
                 "organPart": [],
                 "disease": [],
@@ -707,6 +715,7 @@ export const SAMPLE_NULL_VALUES =
             {
                 "sampleEntityType": null,
                 "id": null,
+                "modelOrgan": null,
                 "organ": null,
                 "organPart": null,
                 "disease": null,

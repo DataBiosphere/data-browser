@@ -49,7 +49,8 @@ export const FILE_SINGLE_VALUES =
                 ],
                 "id": [
                     "cell_line_at_day_26"
-                ]
+                ],
+                "modelOrgan": ["foo"]
             }
         ],
         "specimens": [
@@ -193,7 +194,8 @@ export const FILE_MULTIPLE_VALUES_SINGLE_OBJECT =
                 "id": [
                     "cell_line_at_day_26",
                     "a"
-                ]
+                ],
+                "modelOrgan": ["foo", "bar"]
             }
         ],
         "specimens": [
@@ -359,7 +361,8 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 ],
                 "id": [
                     "cell_line_at_day_26"
-                ]
+                ],
+                "modelOrgan": ["foo"]
             },
             {
                 "sampleEntityType": [
@@ -369,7 +372,8 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "id": [
                     "x",
                     "y"
-                ]
+                ],
+                "modelOrgan": ["bar"]
             }
         ],
         "specimens": [
@@ -554,7 +558,8 @@ export const FILE_EMPTY_ARRAY_VALUES =
         "samples": [
             {
                 "sampleEntityType": [],
-                "id": []
+                "id": [],
+                "modelOrgan": []
             }
         ],
         "specimens": [
@@ -649,7 +654,8 @@ export const FILE_NULL_VALUES =
         "samples": [
             {
                 "sampleEntityType": null,
-                "id": null
+                "id": null,
+                "modelOrgan": null
             }
         ],
         "specimens": [

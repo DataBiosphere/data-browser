@@ -63,7 +63,7 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "selectedCellType", 
+        "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "modelOrgan", "selectedCellType", 
         "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
         "organismAge", "biologicalSex", "disease", "donorDisease", "developmentStage", "totalCells"
     ];

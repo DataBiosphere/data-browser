@@ -60,6 +60,7 @@ describe("HCATableSamplesComponent", () => {
     // Column titles
     const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
     const COLUMN_TITLE_DONOR_DISEASE = "Disease Status (Donor)";
+    const COLUMN_TITLE_MODEL_ORGAN = "Model Organ";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_SPECIMEN_DISEASE = "Disease Status (Specimen)";
     const COLUMN_TITLE_TOTAL_CELLS = "Cell Count Estimate";
@@ -68,6 +69,7 @@ describe("HCATableSamplesComponent", () => {
     // Column names
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
     const COLUMN_NAME_DONOR_DISEASE = "donorDisease";
+    const COLUMN_NAME_MODEL_ORGAN = "modelOrgan";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_SPECIMEN_DISEASE = "disease";
     const COLUMN_NAME_WORKFLOW = "workflow";
@@ -325,6 +327,17 @@ describe("HCATableSamplesComponent", () => {
         });
 
         /**
+         * Confirm modelOrgan column labeled as "Model Organ" is displayed.
+         */
+        it(`should display column "Model Organ"`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_MODEL_ORGAN);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_MODEL_ORGAN);
+        });
+
+        /**
          * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed.
          */
         it(`displays column "Nucleic Acid Source" column`, () => {
@@ -359,6 +372,59 @@ describe("HCATableSamplesComponent", () => {
         });
     });
 
+    describe("Model Organ Column", () => {
+
+        beforeEach(async(() => {
+
+            testStore.pipe
+                .and.returnValues(
+                of(SAMPLES_TABLE_MODEL.data),
+                of(SAMPLES_TABLE_MODEL.data),
+                of(SAMPLES_TABLE_MODEL.loading),
+                of(SAMPLES_TABLE_MODEL.pagination),
+                of(SAMPLES_TABLE_MODEL.termCountsByFacetName),
+                of(DEFAULT_FILE_SUMMARY),
+                of([])
+            );
+
+            fixture.detectChanges();
+        }));
+
+        /**
+         * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is empty.
+         */
+        it("should display component hca-content-unspecified-dash when model organ value is empty", () => {
+
+            // Confirm row with empty array values in column "Model Organ" displays component
+            const actual =
+                findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH);
+            expect(actual).not.toBe(null);
+        });
+
+        /**
+         * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is null.
+         */
+        it("should display component hca-content-unspecified-dash when model organ value is null", () => {
+
+            // Confirm row with null values in column "Model Organ" displays component
+            const actual =
+                findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH);
+            expect(actual).not.toBe(null);
+        });
+
+        /**
+         * Confirm model organ value is displayed.
+         */
+        it("should display model organ", () => {
+
+            // Confirm row with single values in column "Model Organ" does display component
+            const modelOrganDE = findColumnCells(COLUMN_NAME_MODEL_ORGAN)[0];
+            const actual = modelOrganDE.nativeElement.textContent;
+            const expected = SAMPLES_TABLE_MODEL.data[INDEX_TABLE_ROW_SINGLE_VALUES].samples[0].modelOrgan.join(", ");
+            expect(actual).toEqual(expected);
+        });
+    });
+    
     describe("Workflow Column", () => {
 
         /**

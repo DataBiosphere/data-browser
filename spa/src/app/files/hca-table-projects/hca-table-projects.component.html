@@ -64,15 +64,32 @@
                               [ngStyle]="getColumnStyle('organ')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
-                                <span class="fontsize-xxs">{{element.organ}}<span
-                                        *ngIf="element.modelOrgan"> /</span></span>
-                            </hca-content-ellipsis>
-                            <hca-content-ellipsis *ngIf="element.modelOrgan">
-                                <span class="fontsize-xxs">{{element.modelOrgan}}</span>
+                                <span class="fontsize-xxs">{{element.organ}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                    <ng-container matColumnDef="modelOrgan">
+                        <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('modelOrgan')"
+                                         [ngStyle]="getColumnStyle('modelOrgan')">
+                            <hca-table-column-header>
+                                <hca-table-column-header-title columnTitle [columnName]="'modelOrgan'">
+                                    {{getColumnDisplayName('modelOrgan')}}
+                                </hca-table-column-header-title>
+                                <hca-table-column-header-count columnSubTitle [columnName]="'modelOrgan'"
+                                                               [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                            </hca-table-column-header>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('modelOrgan')"
+                                  [ngStyle]="getColumnStyle('modelOrgan')">
+                            <hca-table-cell [ngSwitch]="isElementUnspecified(element.modelOrgan)">
+                                <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
+                                <hca-content-ellipsis>
+                                    <span class="fontsize-xxs">{{element.modelOrgan}}</span>
+                                </hca-content-ellipsis>
+                            </hca-table-cell>
+                        </mat-cell>
+                    </ng-container>
                 <ng-container matColumnDef="selectedCellType">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('selectedCellType')"
                                      [ngStyle]="getColumnStyle('selectedCellType')">
