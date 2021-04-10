@@ -35,16 +35,17 @@ export class ViewProjectAccessionAction implements Action, TrackingAction {
     /**
      * Return the view accession action as a GA event.
      *
-     * param {{[key: string]: any}} dimensions
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent({catalog}): GAEvent {
 
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_PROJECT_ACCESSION,
             label: this.projectTitle,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.RELATED_ENTITY_ID]: this.accession,
                 [GADimension.RELATED_ENTITY_TYPE]: GAEntityType.PROJECT_ACCESSION,

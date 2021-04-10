@@ -10,7 +10,7 @@
                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
             <button class="button primary"
                     type="button"
-                    (click)="onExportToTerra(state.selectedSearchTerms)"
+                    (click)="onExportToTerra(state.catalog, state.selectedSearchTerms)"
                     [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
             </button>
         </ng-container>
@@ -30,9 +30,9 @@
         <div class="download">
             <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
                                [targetBlank]="true"
-                               (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
+                               (dataLinkClicked)="onDataLinkClicked(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
             <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+                               (copyClicked)="onDataLinkCopied(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
         </div>
     </ng-container>
     <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">

@@ -17,6 +17,7 @@ import { AttachmentResponse } from "../attachment-response.model";
 import { CreateSupportRequestErrorAction } from "./create-support-request-error.action";
 import { CreateSupportRequestRequestAction } from "./create-support-request-request.action";
 import { CreateSupportRequestSuccessAction } from "./create-support-request-success.action";
+import { selectCatalog } from "../../files/_ngrx/catalog/catalog.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { SupportRequestService } from "../support-request.service";
@@ -51,17 +52,20 @@ export class SupportRequestEffects {
         .pipe(
             ofType(CreateSupportRequestRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
-                withLatestFrom(this.store.pipe(select(selectSupportRequestSource), take(1)))
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectSupportRequestSource), take(1))
+                )
             )),
-            switchMap(([action, source]) => {
+            switchMap(([action, catalog, source]) => {
 
                 const supportRequest = (action as CreateSupportRequestRequestAction).supportRequest;
                 return this.supportRequestService.createSupportRequest(supportRequest)
                     .pipe(
-                        map(response => ({response, source}))
+                        map(response => ({response, catalog, source}))
                     );
             }),
-            map(({response, source}) => {
+            map(({response, catalog, source}) => {
 
                 if ( response.error ) {
                     return new CreateSupportRequestErrorAction(response.errorMessage);
@@ -73,6 +77,7 @@ export class SupportRequestEffects {
                     action: GAAction.CREATE,
                     label: "",
                     dimensions: {
+                        [GADimension.CATALOG]: catalog,
                         [GADimension.SOURCE]: source
                     }
                 });

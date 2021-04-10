@@ -17,6 +17,7 @@ import { Observable, of, ReplaySubject } from "rxjs";
 // App dependencies
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { CatalogState } from "../catalog/catalog.state";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { FetchFileFacetsRequestAction } from "../facet/fetch-file-facets-request.action";
 import { FetchSortedTableDataRequestAction } from "./fetch-sorted-table-data-request.action";
 import { FetchTableDataRequestAction } from "./fetch-table-data-request.action";
@@ -45,6 +46,7 @@ describe("Table Effects", () => {
 
     let actions$: Observable<any>;
     let effects: TableEffects;
+    let gtmService: GTMService;
     let store: MockStore<FilesState>;
     let urlService; // No type to enable jasmine mocking (eg .and.returnValue)
 
@@ -74,12 +76,7 @@ describe("Table Effects", () => {
                 {
                     provide: FilesService, useValue: filesService
                 },
-                {
-                    provide: GTMService,
-                    useValue: jasmine.createSpyObj("GTMService", [
-                        "trackEvent"
-                    ])
-                },
+                GTMService,
                 {
                     provide: ProjectService, useClass: ProjectMockService
                 },
@@ -96,11 +93,18 @@ describe("Table Effects", () => {
                     provide: Router,
                     useValue: routerMock
                 },
-                provideMockStore({initialState: DEFAULT_PROJECTS_STATE})
+                provideMockStore({initialState: DEFAULT_PROJECTS_STATE}),
+                {
+                    provide: "Window",
+                    useFactory: (() => {
+                        return window;
+                    })
+                }
             ],
         });
 
         effects = TestBed.inject(TableEffects);
+        gtmService = TestBed.inject(GTMService);
         
         urlService = TestBed.inject(UrlService);
         store = TestBed.inject(Store) as MockStore<FilesState>;
@@ -163,6 +167,29 @@ describe("Table Effects", () => {
             });
 
             expect(effects.selectProject$).toBeObservable(expected);
+        });
+
+
+        /**
+         * Tracks next page events, sends catalog dimension.
+         */
+        it("tracks select project with catalog dimension", () => {
+
+            const catalog = "foo";
+            store.overrideSelector(selectCatalog, catalog);
+
+            spyOn(gtmService, "trackEvent").and.callThrough();
+
+            const action = 
+                new SelectProjectIdAction(PROJECT_1M_NEURONS.id, PROJECT_1M_NEURONS.name, true, GASource.SEARCH)
+            actions$ = of(action);
+            
+            effects.selectProject$.subscribe();
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                dimensions: jasmine.objectContaining({
+                    catalog
+                })
+            }));
         });
     });
 
@@ -282,6 +309,33 @@ describe("Table Effects", () => {
                 jasmine.any(Object)
             );
         });
+
+        /**
+         * Tracks next page events, sends catalog dimension.
+         */
+        it("tracks next page with catalog dimension", () => {
+
+            const catalog = "foo";
+            store.overrideSelector(selectCatalog, catalog);
+
+            spyOn(gtmService, "trackEvent").and.callThrough();
+
+            const action = new TableNextPageAction({
+                "search_after": "10x 1 Run Integration Test",
+                "search_after_uid": "doc#1af6d535-81f1-4a3f-8626-830ae8668867",
+                "size": 15,
+                "sort": "projectTitle",
+                "order": "asc"
+            }, 1);
+            actions$ = of(action);
+
+            effects.fetchNextPagedTableData$.subscribe();
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                dimensions: jasmine.objectContaining({
+                    catalog
+                })
+            }));
+        });
     });
 
     describe("fetchPreviousPagedTableData$", () => {
@@ -346,6 +400,33 @@ describe("Table Effects", () => {
                 jasmine.any(Object),
                 jasmine.any(Object)
             );
+        });
+
+        /**
+         * Tracks previous page events, sends catalog dimension.
+         */
+        it("tracks previous page with catalog dimension", () => {
+
+            const catalog = "foo";
+            store.overrideSelector(selectCatalog, catalog);
+
+            spyOn(gtmService, "trackEvent").and.callThrough();
+
+            const action = new TablePreviousPageAction({
+                "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                "size": 15,
+                "sort": "projectTitle",
+                "order": "asc"
+            }, 2);
+            actions$ = of(action);
+            
+            effects.fetchPreviousPagedTableData$.subscribe();
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                dimensions: jasmine.objectContaining({
+                    catalog
+                })
+            }));
         });
     });
 
@@ -418,6 +499,36 @@ describe("Table Effects", () => {
                 jasmine.any(Object),
                 jasmine.any(Object)
             );
+        });
+
+        /**
+         * Tracks sorted events, sends catalog dimension.
+         */
+        it("tracks sorted with catalog dimension", () => {
+
+            const catalog = "foo";
+            store.overrideSelector(selectCatalog, catalog);
+
+            spyOn(gtmService, "trackEvent").and.callThrough();
+
+            const action = new FetchSortedTableDataRequestAction(
+                {
+                    "search_before": "Assessing the relevance of organoids to model inter-individual variation",
+                    "search_before_uid": "doc#2c4724a4-7252-409e-b008-ff5c127c7e89",
+                    "size": 15,
+                    "sort": "projectTitle",
+                    "order": "desc"
+                },
+                GAIndex.PROJECTS,
+                GASource.SEARCH_RESULTS);
+            actions$ = of(action);
+            
+            effects.fetchSortedTableData$.subscribe();
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                dimensions: jasmine.objectContaining({
+                    catalog
+                })
+            }));
         });
     });
 });

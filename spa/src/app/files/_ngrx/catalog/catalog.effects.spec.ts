@@ -19,24 +19,31 @@ import { CatalogEffects } from "./catalog.effects";
 import { CatalogState } from "./catalog.state";
 import { CatalogService } from "../../catalog/catalog.service";
 import { ConfigService } from "../../../config/config.service";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
+import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { FetchCatalogsRequestAction } from "./fetch-catalogs-request.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
-import { GTMService } from "../../../shared/analytics/gtm.service";
-import { GTMServiceSpy } from "../../../shared/analytics/gtm.service.spy";
-import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
+import { ViewCatalogAction } from "./view-catalog.action";
+import { selectCatalog } from "./catalog.selectors";
 
 describe("CatalogEffects", () => {
 
     let catalogService: CatalogService;
+    let gtmService: GTMService;
     let effects: CatalogEffects;
     let actions$: Observable<any>;
     let store: MockStore;
 
     const ATLAS = {
-        defaultCatalog: "dcp2",
-        catalogs: ["dc1", "dc2"]
+        defaultCatalog: DCPCatalog.DCP2,
+        catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2]
     };
+
+    // Override selectors
+    const mockSelectCatalog = DCPCatalog.DCP3;
 
     /**
      * Setup for each test in suite.
@@ -52,6 +59,7 @@ describe("CatalogEffects", () => {
                 CatalogEffects,
                 CatalogService,
                 ConfigService,
+                GTMService,
                 {
                     provide: HttpClient,
                     useValue: jasmine.createSpyObj("HttpClient", ["get"])
@@ -62,15 +70,20 @@ describe("CatalogEffects", () => {
                     }
                 }),
                 {
-                    provide: GTMService,
-                    useValue: GTMServiceSpy
+                    provide: "Window",
+                    useFactory: (() => {
+                        return window;
+                    })
                 }
             ]
         });
 
         catalogService = TestBed.inject(CatalogService);
+        gtmService = TestBed.inject(GTMService);
         effects = TestBed.inject(CatalogEffects);
         store = TestBed.inject(Store) as MockStore;
+
+        store.overrideSelector(selectCatalog, mockSelectCatalog);
     });
 
     describe("fetchCatalogs$", () => {
@@ -126,5 +139,21 @@ describe("CatalogEffects", () => {
         });
     });
 
-    xdescribe("viewCatalog$", () => {});
+    describe("viewCatalog$", () => {
+
+        /**
+         * Confirm tracking is called.
+         */
+        it("tracks view of catalog", () => {
+
+            spyOn(gtmService, "trackEvent").and.callThrough();
+
+            const action = new ViewCatalogAction("foo");
+            actions$ = of(action);
+            effects.viewCatalog$.subscribe();
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
+                catalog: mockSelectCatalog
+            }));
+        });
+    });
 });

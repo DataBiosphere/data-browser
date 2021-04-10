@@ -33,13 +33,14 @@ export class RequestBulkDownloadAction implements Action, TrackingAction {
      * param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery, index}): GAEvent {
+    public asEvent({catalog, currentQuery, index}): GAEvent {
 
         return {
             category: GACategory.BULK_DOWNLOAD,
             action: GAAction.REQUEST,
             label: currentQuery,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.BULK_DOWNLOAD,
                 [GADimension.INDEX]: index,
                 [GADimension.TOOL_NAME]: this.shell

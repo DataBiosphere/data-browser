@@ -80,6 +80,7 @@ export class TableEffects {
                 // Send tracking event of next page action.
                 const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
                 const event = (action as TableNextPageAction).asEvent({
+                    catalog,
                     currentQuery: queryWhenActionTriggered,
                     index
                 });
@@ -111,6 +112,7 @@ export class TableEffects {
 
                 // Send tracking event of sort action.
                 this.gtmService.trackEvent((action as FetchSortedTableDataRequestAction).asEvent({
+                    catalog,
                     currentQuery: queryWhenActionTriggered
                 }));
 
@@ -151,6 +153,7 @@ export class TableEffects {
                 // Send tracking event of previous page action.
                 const index = this.convertSelectedEntityToTrackingIndex(tableQueryParams.tableState.selectedEntity);
                 const event = (action as TablePreviousPageAction).asEvent({
+                    catalog,
                     currentQuery: queryWhenActionTriggered,
                     index
                 });
@@ -243,14 +246,16 @@ export class TableEffects {
             ofType(SelectProjectIdAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog)),
                     this.store.pipe(select(selectTableQueryParams)),
                     this.store.pipe(select(selectPreviousQuery), take(1))
                 )
             )),
-            switchMap(([action, tableQueryParams, queryWhenActionTriggered]) => {
+            switchMap(([action, catalog, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Send tracking event.
-                const event = (action as SelectProjectIdAction).asEvent({currentQuery: queryWhenActionTriggered});
+                const event =
+                    (action as SelectProjectIdAction).asEvent({catalog, currentQuery: queryWhenActionTriggered});
                 this.gtmService.trackEvent(event);
 
                 // Return an array of actions that need to be dispatched - request for file summary and file facets.

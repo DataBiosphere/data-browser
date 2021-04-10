@@ -8,19 +8,21 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
+import { select, Store } from "@ngrx/store";
 import { of } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { catchError, concatMap, map, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { Atlas } from "../../atlas/atlas.model";
+import { selectCatalog } from "./catalog.selectors";
 import { CatalogService } from "../../catalog/catalog.service";
 import { FetchCatalogsRequestAction } from "./fetch-catalogs-request.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewCatalogAction } from "./view-catalog.action";
-import { catchError } from "rxjs/internal/operators";
 import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
+import { AppState } from "../../../_ngrx/app.state";
 
 @Injectable()
 export class CatalogEffects {
@@ -28,9 +30,13 @@ export class CatalogEffects {
     /**
      * @param {CatalogService} catalogService
      * @param {GTMService} gtmService
+     * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private catalogService: CatalogService, private gtmService: GTMService, private actions$: Actions) {}
+    constructor(private catalogService: CatalogService,
+                private gtmService: GTMService,
+                private store: Store<AppState>,
+                private actions$: Actions) {}
 
     /**
      * Fetch catalogs on app init.
@@ -52,8 +58,13 @@ export class CatalogEffects {
     @Effect({dispatch: false})
     viewCatalog$ = this.actions$.pipe(
         ofType(ViewCatalogAction.ACTION_TYPE),
-        tap((action) => {
-            this.gtmService.trackEvent((action as ViewCatalogAction).asEvent());
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1))
+            )
+        )),
+        tap(([action, catalog]) => {
+            this.gtmService.trackEvent((action as ViewCatalogAction).asEvent({catalog}));
         })
     );
 }

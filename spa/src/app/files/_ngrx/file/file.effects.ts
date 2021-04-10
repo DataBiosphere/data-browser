@@ -13,6 +13,7 @@ import { Observable, of } from "rxjs";
 import { concatMap, map, mergeMap, take, withLatestFrom, tap } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { ClearFileFileLocationsAction } from "./clear-file-file-locations.action";
 import { FetchFileFileLocationRequestAction } from "./fetch-file-file-location-request.action";
 import { FetchFileFileLocationSuccessAction } from "./fetch-file-file-location-success.action";
@@ -43,13 +44,17 @@ export class FileEffects {
         .pipe(
             ofType(FetchFileFileLocationRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
-                withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectPreviousQuery), take(1))
+                )
             )),
             // Merge map here as we don't want to cancel any previous requests for separate project manifests
-            mergeMap(([action, queryWhenActionTriggered]) => {
+            mergeMap(([action, catalog, queryWhenActionTriggered]) => {
 
                 // Track request
                 this.gtmService.trackEvent((action as FetchFileFileLocationRequestAction).asEvent({
+                    catalog,
                     currentQuery: queryWhenActionTriggered
                 }));
 

@@ -48,13 +48,14 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.SEARCH,
             action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
             label: this.projectShortname,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,

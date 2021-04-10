@@ -35,13 +35,14 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.PORTAL_LINK,
             action: GAAction.CLICK,
             label: this.workflow,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.url,
                 [GADimension.SOURCE]: this.source

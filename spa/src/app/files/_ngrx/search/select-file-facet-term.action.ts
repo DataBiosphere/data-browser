@@ -43,13 +43,14 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({index, currentQuery}): GAEvent {
+    public asEvent({catalog, index, currentQuery}): GAEvent {
         
         return {
             category: GACategory.SEARCH,
             action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
             label: this.termName,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,

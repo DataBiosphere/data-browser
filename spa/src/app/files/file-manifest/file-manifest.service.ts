@@ -105,9 +105,10 @@ export class FileManifestService {
     /**
      * Build up and send GTM event to track a manifest request from "get data" flow.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      */
-    public trackRequestCohortManifest(selectedSearchTerms: SearchTerm[]) {
+    public trackRequestCohortManifest(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -115,6 +116,7 @@ export class FileManifestService {
             action: GAAction.REQUEST,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: GAEntityType.CATALOG,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
             }
         };
@@ -125,10 +127,11 @@ export class FileManifestService {
     /**
      * Track click on manifest download link from "get data" flow.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
-    public trackDownloadCohortManifest(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+    public trackDownloadCohortManifest(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -136,6 +139,7 @@ export class FileManifestService {
             action: GAAction.DOWNLOAD,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: GAEntityType.CATALOG,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
                 [GADimension.ENTITY_URL]: manifestUrl
             }
@@ -147,10 +151,11 @@ export class FileManifestService {
     /**
      * Track click on copy to clipboard of the generated manifest download link from "get data" flow.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
-    public trackCopyToClipboardCohortManifestLink(selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+    public trackCopyToClipboardCohortManifestLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -158,6 +163,7 @@ export class FileManifestService {
             action: GAAction.COPY_TO_CLIPBOARD,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: GAEntityType.CATALOG,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
                 [GADimension.ENTITY_URL]: manifestUrl
             }

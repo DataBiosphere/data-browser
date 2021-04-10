@@ -30,13 +30,14 @@ export class FetchFileFileLocationRequestAction implements Action, TrackingActio
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.FILE,
             action: GAAction.DOWNLOAD,
             label: this.fileName,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.fileUrl,
                 [GADimension.RELATED_ENTITY_TYPE]: this.fileFormat,
