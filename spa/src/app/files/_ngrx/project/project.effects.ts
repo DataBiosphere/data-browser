@@ -169,8 +169,13 @@ export class ProjectEffects {
     @Effect({dispatch: false})
     trackProjectAccessionClicked$ = this.actions$.pipe(
         ofType(ViewProjectAccessionAction.ACTION_TYPE),
-        tap((action) => {
-            this.gtmService.trackEvent((action as ViewProjectAccessionAction).asEvent());
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1))
+            )
+        )),
+        tap(([action, catalog]) => {
+            this.gtmService.trackEvent((action as ViewProjectAccessionAction).asEvent({catalog}));
         })
     );
     
@@ -181,10 +186,14 @@ export class ProjectEffects {
     viewProjectDeprecated$ = this.actions$.pipe(
         ofType(ViewProjectDeprecatedAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
         )),
-        tap(([action, queryWhenActionTriggered]) => {
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectDeprecatedAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })
@@ -197,10 +206,14 @@ export class ProjectEffects {
     viewProjectIntegration$ = this.actions$.pipe(
         ofType(ViewProjectIntegrationAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
         )),
-        tap(([action, queryWhenActionTriggered]) => {
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectIntegrationAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })
@@ -213,10 +226,14 @@ export class ProjectEffects {
     viewProjectSupplementaryLink$ = this.actions$.pipe(
         ofType(ViewProjectSupplementaryLinkAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
         )),
-        tap(([action, queryWhenActionTriggered]) => {
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectSupplementaryLinkAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })
@@ -229,10 +246,14 @@ export class ProjectEffects {
     viewProjectTab$ = this.actions$.pipe(
         ofType(ViewProjectTabAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
-        )),        
-        tap(([action, queryWhenActionTriggered]) => {
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
+        )),    
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectTabAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })
@@ -245,10 +266,14 @@ export class ProjectEffects {
     viewProjectWithdrawn$ = this.actions$.pipe(
         ofType(ViewProjectWithdrawnAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
         )),
-        tap(([action, queryWhenActionTriggered]) => {
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewProjectWithdrawnAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })

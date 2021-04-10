@@ -8,12 +8,13 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect, ofType, OnInitEffects } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { filter, map, take, takeUntil, tap } from "rxjs/operators";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Action, select, Store } from "@ngrx/store";
+import { Observable, of } from "rxjs";
+import { concatMap, filter, map, take, takeUntil, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { ConfigService } from "../../../config/config.service";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
@@ -22,6 +23,7 @@ import { SearchTermUrlService } from "../../search/url/search-term-url.service";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
+import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { SystemStatusRequestAction } from "../../../system/_ngrx/system-status-request.action";
 
 @Injectable()
@@ -52,10 +54,18 @@ export class InitEffects {
     initPageview$ = this.router.events.pipe(
         filter(evt => evt instanceof NavigationEnd),
         // Filter any "intermediate" paths that are always redirected to another route
-        filter((evt: NavigationEnd) => evt.url !== "/" && evt.url !== "/explore"), 
-        tap(() => {
+        filter((evt: NavigationEnd) => evt.url !== "/" && evt.url !== "/explore"),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1))
+            )
+        )),
+        tap(([action, catalog]) => {
             this.gtmService.trackEvent({
-                category: GACategory.DB_PAGEVIEW
+                category: GACategory.DB_PAGEVIEW,
+                dimensions: {
+                    [GADimension.CATALOG]: catalog
+                }
             });
         })
     );

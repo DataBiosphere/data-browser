@@ -156,9 +156,10 @@ export class TerraService {
     /**
      * Build up and send GTM event to track a export to Terra request.
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      */
-    public trackRequestExportToTerra(selectedSearchTerms: SearchTerm[]) {
+    public trackRequestExportToTerra(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -166,6 +167,7 @@ export class TerraService {
             action: GAAction.REQUEST,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
                 [GADimension.TOOL_NAME]: ToolName.TERRA
             }
@@ -177,10 +179,11 @@ export class TerraService {
     /**
      * Track click on generated Terra link (that opens the Terra workspace).
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
-    public trackLaunchTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
+    public trackLaunchTerraLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -188,6 +191,7 @@ export class TerraService {
             action: GAAction.LAUNCH,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
                 [GADimension.ENTITY_URL]: exportToTerraUrl,
                 [GADimension.TOOL_NAME]: ToolName.TERRA
@@ -200,10 +204,11 @@ export class TerraService {
     /**
      * Track click on copy to clipboard of the generated Terra link (that opens the Terra workspace).
      *
+     * @param {Catalog} catalog
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
-    public trackCopyToClipboardTerraLink(selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
+    public trackCopyToClipboardTerraLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
 
         const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
         const event = {
@@ -211,6 +216,7 @@ export class TerraService {
             action: GAAction.COPY_TO_CLIPBOARD,
             label: query,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
                 [GADimension.ENTITY_URL]: exportToTerraUrl,
                 [GADimension.TOOL_NAME]: ToolName.TERRA

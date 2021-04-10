@@ -38,13 +38,14 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.SEARCH_RESULTS,
             action: GAAction.SORT,
             label: this.tableParams.sort,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.DIRECTION]: this.tableParams.order,
                 [GADimension.INDEX]: this.index,

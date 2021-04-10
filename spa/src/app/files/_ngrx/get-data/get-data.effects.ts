@@ -14,6 +14,7 @@ import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { CopyToClipboardBulkDownloadAction } from "./copy-to-clipboard-bulk-download.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { RequestBulkDownloadAction } from "./request-bulk-download.action";
@@ -42,12 +43,14 @@ export class GetDataEffects {
         ofType(CopyToClipboardBulkDownloadAction.ACTION_TYPE, RequestBulkDownloadAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
                 this.store.pipe(select(selectPreviousQuery), take(1)),
                 this.store.pipe(select(selectSelectedEntitySpec), take(1))
             )
         )),
-        tap(([action, queryWhenActionTriggered, selectedEntitySpec]) => {
+        tap(([action, catalog, queryWhenActionTriggered, selectedEntitySpec]) => {
             this.gtmService.trackEvent((action as TrackingAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered,
                 index: selectedEntitySpec.key
             }));

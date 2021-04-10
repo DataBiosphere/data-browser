@@ -127,11 +127,11 @@ export class FilesEffects {
                     selectedEntity)
                         .pipe(
                             map((entitySearchResults) => {
-                                return {action, entitySearchResults, currentQuery, tableQueryParams};
+                                return {action, catalog, entitySearchResults, currentQuery, tableQueryParams};
                             })
                         );
             }),
-            mergeMap(({action, entitySearchResults, currentQuery, tableQueryParams}) => {
+            mergeMap(({action, catalog, entitySearchResults, currentQuery, tableQueryParams}) => {
                 
                 // Track empty search results, using the tracking event triggered from the original action as a base
                 const emptyResultSet = entitySearchResults.tableModel.data.length === 0;
@@ -144,6 +144,7 @@ export class FilesEffects {
                         action: GAAction.EXCEPTION,
                         label: "Empty Result Set",
                         dimensions: {
+                            [GADimension.CATALOG]: catalog,
                             [GADimension.CURRENT_QUERY]: currentQuery,
                             [GADimension.INDEX]: index
                         }

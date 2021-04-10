@@ -15,6 +15,8 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of } from "rxjs";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { FetchFileFileLocationRequestAction } from "./fetch-file-file-location-request.action";
 import { FetchFileFileLocationSuccessAction } from "./fetch-file-file-location-success.action";
 import { FileEffects } from "./file.effects";
@@ -33,6 +35,7 @@ describe("FileEffects", () => {
     let store: MockStore;
 
     // Override selectors
+    const mockSelectCatalog = DCPCatalog.DCP3;
     const mockSelectPreviousQuery = "";
 
     /**
@@ -51,7 +54,7 @@ describe("FileEffects", () => {
                 GTMService,
                 provideMockStore({
                     initialState: {
-                        catalog: FileState.getDefaultState()
+                        file: FileState.getDefaultState()
                     }
                 }),
                 {
@@ -68,6 +71,7 @@ describe("FileEffects", () => {
         effects = TestBed.inject(FileEffects);
         store = TestBed.inject(Store) as MockStore;
 
+        store.overrideSelector(selectCatalog, mockSelectCatalog);
         store.overrideSelector(selectPreviousQuery, mockSelectPreviousQuery);
     });
 
@@ -120,7 +124,10 @@ describe("FileEffects", () => {
             const action = new FetchFileFileLocationRequestAction("http://foo.com", "bar", "baz");
             actions$ = of(action);
             effects.fetchFileFileLocation$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({currentQuery: mockSelectPreviousQuery}));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
+                catalog: mockSelectCatalog,
+                currentQuery: mockSelectPreviousQuery
+            }));
         });
     });
 });

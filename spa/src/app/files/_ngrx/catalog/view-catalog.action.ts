@@ -27,16 +27,17 @@ export class ViewCatalogAction implements Action, TrackingAction {
     /**
      * Return the catalog view action as a GA event.
      *
-     * param {{[key: string]: any}} dimensions
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent(): GAEvent {
+    public asEvent({catalog}): GAEvent {
 
         return {
             category: GACategory.CATALOG,
             action: GAAction.VIEW_CATALOG,
             label: this.catalog,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.CATALOG,
             }
         };

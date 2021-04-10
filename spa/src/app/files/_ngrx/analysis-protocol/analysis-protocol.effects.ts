@@ -13,10 +13,11 @@ import { of } from "rxjs";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { AppState } from "../../../_ngrx/app.state";
+import { selectPreviousQuery } from "../search/search.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewAnalysisProtocolAction } from "./view-analysis-protocol.action";
-import { selectPreviousQuery } from "../search/search.selectors";
 
 @Injectable()
 export class AnalysisProtocolEffects {
@@ -37,10 +38,14 @@ export class AnalysisProtocolEffects {
     viewAnalysisProtocol$ = this.actions$.pipe(
         ofType(ViewAnalysisProtocolAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectPreviousQuery), take(1)))
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectPreviousQuery), take(1))
+            )
         )),
-        tap(([action, queryWhenActionTriggered]) => {
+        tap(([action, catalog, queryWhenActionTriggered]) => {
             this.gtmService.trackEvent((action as ViewAnalysisProtocolAction).asEvent({
+                catalog,
                 currentQuery: queryWhenActionTriggered
             }));
         })

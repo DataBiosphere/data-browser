@@ -31,16 +31,17 @@ export class CopyToClipboardBulkDownloadAction implements Action, TrackingAction
     /**
      * Return the request bulk download action as a GA event.
      *
-     * param {{[key: string]: any}} dimensions
+     * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery, index}): GAEvent {
+    public asEvent({catalog, currentQuery, index}): GAEvent {
 
         return {
             category: GACategory.BULK_DOWNLOAD,
             action: GAAction.COPY_TO_CLIPBOARD,
             label: currentQuery,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.BULK_DOWNLOAD_LINK,
                 [GADimension.ENTITY_URL]: this.manifestUrl,
                 [GADimension.INDEX]: index,

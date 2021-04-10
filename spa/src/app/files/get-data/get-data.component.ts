@@ -21,6 +21,7 @@ import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { GetDataComponentState } from "./get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { selectFilesFacets } from "../_ngrx/facet/facet.selectors";
 import { FetchFilesFacetsRequestAction } from "../_ngrx/facet/fetch-files-facets-request.action";
@@ -332,6 +333,7 @@ export class GetDataComponent implements OnInit {
         this.store.dispatch(new FetchFilesFacetsRequestAction());
 
         combineLatest(
+            this.store.pipe(select(selectCatalog)),
             this.store.pipe(select(selectFilesFacets)),
             this.store.pipe(select(selectFileSummary)),
             this.store.pipe(select(selectSelectedEntitySpec)),
@@ -344,9 +346,10 @@ export class GetDataComponent implements OnInit {
                     return !!filesFacets.length;
                 })
             )
-            .subscribe(([filesFacets, fileSummary, selectedEntity, selectedSearchTerms]) => {
+            .subscribe(([catalog, filesFacets, fileSummary, selectedEntity, selectedSearchTerms]) => {
 
                 this.state$.next({
+                    catalog,
                     filesFacets,
                     fileSummary,
                     loaded: true,

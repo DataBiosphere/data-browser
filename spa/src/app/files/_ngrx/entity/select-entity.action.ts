@@ -31,14 +31,15 @@ export class SelectEntityAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.ENTITY,
             action: this.getTrackingAction(),
             label: this.entityKey.charAt(0).toUpperCase() + this.entityKey.slice(1), // Capitalize first letter of entity
             dimensions: {
-                [GADimension.CURRENT_QUERY]: currentQuery,
+                [GADimension.CATALOG]: catalog,
+                [GADimension.CURRENT_QUERY]: currentQuery
             }
         };
     }

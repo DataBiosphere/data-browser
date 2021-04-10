@@ -13,10 +13,11 @@ import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 import { of } from "rxjs";
 
 // App dependencies
-import { AppState } from "../../../_ngrx/app.state";
 import { TrackingAction } from "../analytics/tracking.action";
+import { selectCatalog } from "../catalog/catalog.selectors";
 import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
 import { ClearSelectedTermsAction } from "./clear-selected-terms.action";
+import { AppState } from "../../../_ngrx/app.state";
 import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 import { SelectFileFacetTermAction } from "./select-file-facet-term.action";
 import { selectPreviousQuery } from "./search.selectors";
@@ -49,15 +50,17 @@ export class SearchEffects {
         ),
         concatMap(action => of(action).pipe(
             withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
                 this.store.pipe(select(selectSelectedEntitySpec), take(1)),
                 this.store.pipe(select(selectPreviousQuery), take(1))
             )
         )),
-        tap(([action, selectedEntitySpec, queryWhenActionTriggered]) => {
+        tap(([action, catalog, selectedEntitySpec, queryWhenActionTriggered]) => {
 
             const entityKey = selectedEntitySpec.key;
             const index = GAIndex[entityKey.toUpperCase()];
             this.gtmService.trackEvent((action as TrackingAction).asEvent({
+                catalog,
                 index, 
                 currentQuery: queryWhenActionTriggered
             }));

@@ -14,15 +14,17 @@ import { map, take } from "rxjs/operators";
 import { concatMap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../../_ngrx/app.state";
-import { SelectEntityAction } from "./select-entity.action";
+import { TrackingAction } from "../analytics/tracking.action";
+import { BackToEntityAction } from "./back-to-entity.action";
+import { selectCatalog } from "../catalog/catalog.selectors";
+import { NoOpAction } from "../facet/no-op.action";
 import { selectTableQueryParams } from "../files.selectors";
+import { InitEntityStateAction } from "./init-entity-state.action";
+import { AppState } from "../../../_ngrx/app.state";
+import { selectPreviousQuery } from "../search/search.selectors";
+import { SelectEntityAction } from "./select-entity.action";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
-import { BackToEntityAction } from "./back-to-entity.action";
-import { selectPreviousQuery } from "../search/search.selectors";
-import { InitEntityStateAction } from "./init-entity-state.action";
-import { NoOpAction } from "../facet/no-op.action";
 
 @Injectable()
 export class EntityEffects {
@@ -41,7 +43,7 @@ export class EntityEffects {
      * Handle action where tab is selected (ie Projects, Samples, Files).
      */
     @Effect()
-    switchTabs: Observable<Action> = this.actions$
+    switchTabs$: Observable<Action> = this.actions$
         .pipe(
             ofType(
                 SelectEntityAction.ACTION_TYPE,
@@ -49,14 +51,16 @@ export class EntityEffects {
             ),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
                     this.store.pipe(select(selectTableQueryParams), take(1)),
                     this.store.pipe(select(selectPreviousQuery), take(1))
                 )
             )),
-            map(([action, tableQueryParams, queryWhenActionTriggered]) => {
+            map(([action, catalog, tableQueryParams, queryWhenActionTriggered]) => {
 
                 // Track change of tab
-                this.gtmService.trackEvent((action as SelectEntityAction).asEvent({
+                this.gtmService.trackEvent((action as TrackingAction).asEvent({
+                    catalog,
                     currentQuery: queryWhenActionTriggered
                 }));
 

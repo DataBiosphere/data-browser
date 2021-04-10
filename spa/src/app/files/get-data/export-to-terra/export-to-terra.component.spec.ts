@@ -32,6 +32,7 @@ import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TerraService } from "../../shared/terra.service";
 import { TermSortService } from "../../sort/term-sort.service";
+import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 
 describe("ExportToTerraComponent", () => {
 
@@ -137,14 +138,6 @@ describe("ExportToTerraComponent", () => {
     }));
 
     /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
-
-    /**
      * Confirm get file type summaries returns an empty array when file summaries is empty.
      */
     it("should get file type summaries return an empty array when file summaries is empty", () => {
@@ -209,7 +202,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // selected search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -227,7 +221,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -246,7 +241,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -264,7 +260,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -282,7 +279,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -300,7 +298,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -318,7 +317,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -338,7 +338,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -356,7 +357,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -374,7 +376,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -392,7 +395,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -410,7 +414,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -430,7 +435,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -448,7 +454,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -466,7 +473,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -484,7 +492,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.FAILED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.FAILED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -502,7 +511,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.FAILED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.FAILED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -522,7 +532,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.FAILED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.FAILED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -540,7 +551,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.FAILED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.FAILED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -558,7 +570,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.FAILED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.FAILED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -576,7 +589,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of([]), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -596,7 +610,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of(SEARCH_TERMS_WITH_FILE_FORMAT), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();
@@ -619,7 +634,8 @@ describe("ExportToTerraComponent", () => {
             .and.returnValues(
             of(SEARCH_TERMS_WITH_FILE_FORMAT), // search terms
             of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE, exportToTerraUrl: "terraURL"}) // terra response
+            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE, exportToTerraUrl: "terraURL"}), // terra response
+            of(DCPCatalog.DCP3)
         );
 
         fixture.detectChanges();

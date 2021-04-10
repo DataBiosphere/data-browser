@@ -42,13 +42,14 @@ export class ViewProjectIntegrationAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
+    public asEvent({catalog, currentQuery}): GAEvent {
 
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_EXTERNAL_RESOURCE,
             label: this.projectShortname,
             dimensions: {
+                [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_URL]: this.projectUrl,
