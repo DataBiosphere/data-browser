@@ -168,7 +168,7 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('modelOrgan')" [ngStyle]="getColumnStyle('modelOrgan')">
                         <hca-table-cell [ngSwitch]="isElementUnspecified(element.modelOrgan)">
                             <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
-                            <hca-content-ellipsis>
+                            <hca-content-ellipsis *ngSwitchDefault>
                                 <span class="fontsize-xxs">{{element.modelOrgan}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
