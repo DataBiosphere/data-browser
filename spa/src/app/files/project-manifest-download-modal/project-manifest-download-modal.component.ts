@@ -23,10 +23,10 @@ import { AppState } from "../../_ngrx/app.state";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
+import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectManifestDownloadModalComponentState } from "./project-manifest-download-modal.component.state";
 import { EntityName } from "../shared/entity-name.model";
-import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-manifest-download-modal",
@@ -85,9 +85,11 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
     }
 
     /**
-     * Kill subscriptions on destroy of component.
+     * Kill subscriptions on destroy of component. Clear selected project.
      */
     public ngOnDestroy() {
+
+        this.store.dispatch(new ClearSelectedProjectAction());
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();

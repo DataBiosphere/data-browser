@@ -57,13 +57,13 @@ export class ProjectEffects {
      * the store to update publication and contributor details, where specified.
      */
     @Effect()
-    fetchProject: Observable<Action> = this.actions$
+    fetchProject$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchProjectRequestAction.ACTION_TYPE),
-            // Prevent dupe hits to fetch project
-            distinct((action: FetchProjectRequestAction) =>
-                action.projectId,
-                this.actions$.pipe(ofType(ClearSelectedProjectAction.ACTION_TYPE))), // Reset distinct check on clear of project
+            // Prevent dupe hits to fetch project. Reset distinct check on clear of project.
+            distinct((action: FetchProjectRequestAction) => action.projectId,
+                this.actions$.pipe(ofType(ClearSelectedProjectAction.ACTION_TYPE))
+            ),
             // Grab local overrides for the selected project
             concatMap(action => of(action).pipe(
                 withLatestFrom(

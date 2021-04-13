@@ -1,6 +1,4 @@
 import { Action } from "@ngrx/store";
-import { TableModel } from "../../table/table.model";
-import { TableParams } from "../../table/pagination/table-params.model";
 import { Project } from "../../shared/project.model";
 
 export class TableSetPageAction implements Action {
@@ -19,7 +17,9 @@ export class TableOrderByAction implements Action {
 
 /**
  * Action dispatched when a project has been selected from the projects table and the corresponding project details are
- * to be requested from the server.
+ * to be requested from the server. Note the side effect for this action, ProjectEffects.fetchProject$ uses a distinct
+ * operator to ensure duplicate hits to fetch a project are not sent. To reset the distinct operator,
+ * ClearSelectedProjectAction must be called (for example, in ngOnDestroy.
  */
 export class FetchProjectRequestAction implements Action {
     public static ACTION_TYPE = "DEFAULT_PROJECT.FETCH_REQUEST";

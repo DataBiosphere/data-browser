@@ -15,7 +15,7 @@ import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { combineLatest, BehaviorSubject, Observable, of, Subject } from "rxjs";
+import { combineLatest, BehaviorSubject, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -25,9 +25,9 @@ import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { ProjectMatrixDownloadModalState } from "./project-matrix-download-modal.state";
 import { EntityName } from "../shared/entity-name.model";
-import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-matrix-download-modal",
@@ -87,20 +87,11 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Grab the selected project from the store.
-     */
-    private selectProject(projectId: string): Observable<Project> {
-
-        return this.store.pipe(
-            select(selectSelectedProject),
-            filter(project => !!project && project.entryId === projectId)
-        );
-    }
-
-    /**
-     * Kill subscriptions on destroy of component.
+     * Kill subscriptions on destroy of component. Clear selected project.
      */
     public ngOnDestroy() {
+
+        this.store.dispatch(new ClearSelectedProjectAction());
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
@@ -125,7 +116,7 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest(
-            this.selectProject(projectId),
+            this.store.pipe(select(selectSelectedProject)),
             projectMatrixFileLocationsByFileUrl$
         ).pipe(
             map(([project, projectMatrixFileLocationsByFileUrl]) => {
