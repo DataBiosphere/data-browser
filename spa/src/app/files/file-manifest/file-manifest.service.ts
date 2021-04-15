@@ -116,7 +116,7 @@ export class FileManifestService {
             action: GAAction.REQUEST,
             label: query,
             dimensions: {
-                [GADimension.CATALOG]: GAEntityType.CATALOG,
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
             }
         };
@@ -139,7 +139,7 @@ export class FileManifestService {
             action: GAAction.DOWNLOAD,
             label: query,
             dimensions: {
-                [GADimension.CATALOG]: GAEntityType.CATALOG,
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
                 [GADimension.ENTITY_URL]: manifestUrl
             }
@@ -163,7 +163,7 @@ export class FileManifestService {
             action: GAAction.COPY_TO_CLIPBOARD,
             label: query,
             dimensions: {
-                [GADimension.CATALOG]: GAEntityType.CATALOG,
+                [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
                 [GADimension.ENTITY_URL]: manifestUrl
             }
