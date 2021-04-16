@@ -170,6 +170,35 @@ describe("SupportRequestForm", () => {
     });
 
     /**
+     * Send button is disabled if form is submitted.
+     */
+    it("disables send button if form is submitted", () => {
+
+        testStore.pipe.and.returnValues(of({
+            ...SupportRequestState.getDefaultState().supportRequest,
+            submitting: true
+        }));
+
+        const formGroup = component.supportRequestGroup;
+        formGroup.setValue({
+            description: "description",
+            email: "first@last.com",
+            name: "first last",
+            subject: "subject",
+            type: SupportRequestType.QUESTION
+        });
+
+        const formGroupValue = formGroup.value;
+        const attachmentToken = "123";
+
+        component.onSupportRequestSubmitted(formGroup, attachmentToken);
+        fixture.detectChanges();
+
+        const submitBtnDE = fixture.debugElement.query(By.css(".support-request-button-submit"));
+        expect(submitBtnDE.nativeElement.disabled).toBeTruthy();
+    });
+
+    /**
      * Dispatches delete action on delete of attachment.
      */
     it("dispatches delete action on delete of attachment", () => {

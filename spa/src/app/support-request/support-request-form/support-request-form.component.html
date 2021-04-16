@@ -52,7 +52,7 @@
                 <div class="support-request-buttons">
                     <button class="dp-button support-request-button-cancel" (click)="onCancelClicked()">Cancel</button>
                     <button class="dp-button support-request-button-submit"
-                            type="submit" [disabled]="!supportRequestGroup.valid">
+                            type="submit" [disabled]="!supportRequestGroup.valid || state.submitting">
                         <ng-container [ngSwitch]="state.submitting">
                             <mat-spinner *ngSwitchCase="true"
                                          class="hca-spinner"
