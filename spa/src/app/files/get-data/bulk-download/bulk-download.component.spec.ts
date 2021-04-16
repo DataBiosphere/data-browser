@@ -19,6 +19,7 @@ import { ConfigService } from "../../../config/config.service";
 import { BulkDownloadComponent } from "./bulk-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { DataLinkComponent } from "../data-link/data-link.component";
+import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
@@ -27,6 +28,7 @@ import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.componen
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileFormat } from "../../shared/file-format.model";
@@ -53,9 +55,11 @@ describe("BulkDownloadComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
+                DataUseNotificationComponent,
                 FileTypeSummaryListComponent,
                 GetDataPanelComponent,
                 BulkDownloadComponent,
+                SectionBarComponent,
                 WarningComponent,
                 WarningContentComponent,
                 WarningTitleComponent,
@@ -207,7 +211,141 @@ describe("BulkDownloadComponent", () => {
         const buttonDEs = fixture.debugElement.queryAll(By.css("mat-radio-button"));
         expect(buttonDEs.length).toBe(2);
     });
-    
+
+    /**
+     * Confirm <section-bar> is displayed when request status is not started.
+     */
+    it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                status: ManifestStatus.NOT_STARTED // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <section-bar> is displayed
+        const sectionBarEl = expect(fixture.debugElement.nativeElement.querySelector("section-bar"));
+        expect(sectionBarEl).not.toBe(null);
+    });
+
+    /**
+     * Confirm <data-use-notification> is displayed when request status is not started.
+     */
+    it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                status: ManifestStatus.NOT_STARTED // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <data-use-notification> is displayed
+        const dataUseNotificationEl = expect(fixture.debugElement.nativeElement.querySelector("data-use-notification"));
+        expect(dataUseNotificationEl).not.toBe(null);
+    });
+
+    /**
+     * Confirm <section-bar> is not displayed when request status is in progress.
+     */
+    it(`should not display component section-bar when request status is "IN_PROGRESS"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                status: ManifestStatus.IN_PROGRESS // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <section-bar> is not displayed
+        const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
+
+        expect(sectionBarEl).toEqual(null);
+    });
+
+    /**
+     * Confirm <data-use-notification> is not displayed when request status is in progress.
+     */
+    it(`should not display component data-use-notification when request status is "IN_PROGRESS"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                status: ManifestStatus.IN_PROGRESS // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <data-use-notification> is not displayed
+        const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
+
+        expect(dataUseNotificationEl).toEqual(null);
+    });
+
+    /**
+     * Confirm <section-bar> is not displayed when request status is complete.
+     */
+    it(`should not display component section-bar when request status is "COMPLETE"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                commandLine: {bash: ""},
+                fileUrl: "",
+                status: ManifestStatus.COMPLETE // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <section-bar> is not displayed
+        const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
+
+        expect(sectionBarEl).toEqual(null);
+    });
+
+    /**
+     * Confirm <data-use-notification> is not displayed when request status is complete.
+     */
+    it(`should not display component data-use-notification when request status is "COMPLETE"`, () => {
+
+        testStore.pipe
+            .and.returnValues(
+            of([]), // selected search terms
+            of(DEFAULT_FILE_SUMMARY), // manifest file summary
+            of({
+                commandLine: {bash: ""},
+                fileUrl: "",
+                status: ManifestStatus.COMPLETE // manifest download status
+            })
+        );
+
+        fixture.detectChanges();
+
+        // Confirm <data-use-notification> is not displayed
+        const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
+
+        expect(dataUseNotificationEl).toEqual(null);
+    });
+
     describe("onRequestManifest", () => {
 
         /**
