@@ -299,9 +299,9 @@ describe("BulkDownloadComponent", () => {
     });
 
     /**
-     * Confirm <section-bar> is not displayed when request status is complete.
+     * Confirm <section-bar> is displayed when request status is complete.
      */
-    it(`should not display component section-bar when request status is "COMPLETE"`, () => {
+    it(`should display component section-bar when request status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -316,16 +316,16 @@ describe("BulkDownloadComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm <section-bar> is not displayed
+        // Confirm <section-bar> is displayed
         const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
 
-        expect(sectionBarEl).toEqual(null);
+        expect(sectionBarEl).not.toBe(null);
     });
 
     /**
-     * Confirm <data-use-notification> is not displayed when request status is complete.
+     * Confirm <data-use-notification> is displayed when request status is complete.
      */
-    it(`should not display component data-use-notification when request status is "COMPLETE"`, () => {
+    it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -340,10 +340,10 @@ describe("BulkDownloadComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm <data-use-notification> is not displayed
+        // Confirm <data-use-notification> is displayed
         const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
 
-        expect(dataUseNotificationEl).toEqual(null);
+        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     describe("onRequestManifest", () => {

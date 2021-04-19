@@ -400,9 +400,9 @@ describe("ManifestDownloadComponent", () => {
     });
 
     /**
-     * Confirm <section-bar> is not displayed when download status is complete.
+     * Confirm <section-bar> is displayed when download status is complete.
      */
-    it(`hides component section-bar when download status is "COMPLETE"`, () => {
+    it(`displays component section-bar when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -415,16 +415,16 @@ describe("ManifestDownloadComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm <section-bar> is not displayed
+        // Confirm <section-bar> is displayed
         const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
 
-        expect(sectionBarEl).toEqual(null);
+        expect(sectionBarEl).not.toBe(null);
     });
 
     /**
-     * Confirm <data-use-notification> is not displayed when download status is complete.
+     * Confirm <data-use-notification> is displayed when download status is complete.
      */
-    it(`hides component data-use-notification when download status is "COMPLETE"`, () => {
+    it(`displays component data-use-notification when download status is "COMPLETE"`, () => {
 
         testStore.pipe
             .and.returnValues(
@@ -437,10 +437,10 @@ describe("ManifestDownloadComponent", () => {
 
         fixture.detectChanges();
 
-        // Confirm <data-use-notification> is not displayed
+        // Confirm <data-use-notification> is displayed
         const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
 
-        expect(dataUseNotificationEl).toEqual(null);
+        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     /**

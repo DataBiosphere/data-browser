@@ -34,6 +34,7 @@
                                (dataLinkClicked)="onDataLinkClicked(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
             <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
                                (copyClicked)="onDataLinkCopied(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </div>
     </ng-container>
     <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
