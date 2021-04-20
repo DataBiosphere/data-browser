@@ -27,6 +27,7 @@
                     [disabled]="!isRequestFormValid(state.selectedSearchTerms, executionEnvironment)">Request curl
                 Command
             </button>
+            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
@@ -57,6 +58,7 @@
                             Manifest</a> page.</p>
                 </warning-content>
             </warning>
+            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </div>
     </ng-container>
 </div>

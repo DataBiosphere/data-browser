@@ -14,6 +14,7 @@
                     type="button"
                     (click)="onRequestManifest(catalog, state.selectedSearchTerms)"
                     [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Prepare Manifest</button>
+            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
@@ -34,5 +35,6 @@
             <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"
                                (copyClicked)="onDataLinkCopied(catalog, state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
         </div>
+        <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
     </ng-container>
 </div>
