@@ -64,7 +64,7 @@ export class HCATableProjectsComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "modelOrgan", "selectedCellType",
+        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "organPart", "modelOrgan", "selectedCellType",
         "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd",
         "workflow", "disease", "donorDisease", "developmentStage", "donorCount", "totalCells"
     ];
