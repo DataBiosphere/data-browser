@@ -30,8 +30,7 @@ export const selectSelectedSearchTermsBySearchKey = createSelector(selectSearch,
 // Selected project search terms - returns the current set of selected projects
 export const selectSelectedProjectSearchTerms = createSelector(selectSearch, (state) => {
     return state.selectedSearchTerms.filter((searchTerm: SearchTerm) => {
-        return searchTerm.getSearchKey() === FileFacetName.PROJECT ||
-            searchTerm.getSearchKey() === FileFacetName.PROJECT_ID;
+            return searchTerm.getSearchKey() === FileFacetName.PROJECT_ID;
     });
 });
 

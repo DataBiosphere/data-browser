@@ -248,6 +248,6 @@ export class FilesEffects {
      */
     private isAnyProjectSelected(searchTermsByFacetName: Map<string, Set<SearchTerm>>): boolean {
 
-        return searchTermsByFacetName.has(FileFacetName.PROJECT) || searchTermsByFacetName.has(FileFacetName.PROJECT_ID);
+        return searchTermsByFacetName.has(FileFacetName.PROJECT_ID);
     }
 }

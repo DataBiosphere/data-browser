@@ -42,12 +42,12 @@ describe("SearchTermHttpService:", () => {
         /**
          * Confirm project facet is not added as a search term.
          */
-        it("excludes project facet from search terms", () => {
+        it("binds project facet in search terms", () => {
 
             const searchTerms = searchTermHttpService.bindSearchTerms(PROJECTS_ENTITY_API_RESPONSE.termFacets);
             expect(searchTerms).toBeTruthy();
             const projectSearchTerm = searchTerms.find((searchTerm) => searchTerm.facetName === FileFacetName.PROJECT);
-            expect(projectSearchTerm).toBeFalsy();
+            expect(projectSearchTerm).toBeTruthy();
         });
 
 
