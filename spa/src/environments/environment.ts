@@ -6,6 +6,7 @@ export const environment = {
     portalURL: "https://dev.singlecell.gi.ucsc.edu",
     projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
     terraExportURL: "https://bvdp-saturn-dev.appspot.com",
+    title: "HCA Data Browser",
     deployment: "local",
     zendeskURL: "https://support.terra.bio"
 };
