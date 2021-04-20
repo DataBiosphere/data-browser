@@ -109,7 +109,7 @@ export class EntityRequestService {
     }
 
     /**
-     * Remove project facet and/or project IDs from list of search terms as we do not want to restrict the table result
+     * Remove project ID facet from list of search terms as we do not want to restrict the table result
      * set to just the selected project.
      *
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
@@ -120,7 +120,6 @@ export class EntityRequestService {
         searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedEntity: string): Map<string, Set<SearchTerm>> {
 
         const filteredSearchTerms = new Map(searchTermsByFacetName);
-        filteredSearchTerms.delete(FileFacetName.PROJECT);
         filteredSearchTerms.delete(FileFacetName.PROJECT_ID);
         return filteredSearchTerms;
     }

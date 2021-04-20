@@ -40,6 +40,7 @@ export class SearchTermHttpService {
         "organismAgeValue",
         "pairedEnd",
         "preservationMethod",
+        "project",
         "projectTitle",
         "publicationTitle",
         "sampleDisease",
