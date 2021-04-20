@@ -91,6 +91,7 @@ describe("HCATableProjectsComponent", () => {
     const COLUMN_TITLE_DONOR_COUNT = "Donor Count";
     const COLUMN_TITLE_DONOR_DISEASE = "Disease Status (Donor)";
     const COLUMN_TITLE_MODEL_ORGAN = "Model Organ";
+    const COLUMN_TITLE_ORGAN_PART = "Organ Part";
     const COLUMN_TITLE_NUCLEIC_ACID_SOURCE = "Nucleic Acid Source";
     const COLUMN_TITLE_PROJECT_TITLE = "Project Title";
     const COLUMN_TITLE_SPECIMEN_DISEASE = "Disease Status (Specimen)";
@@ -102,6 +103,7 @@ describe("HCATableProjectsComponent", () => {
     const COLUMN_NAME_DONOR_COUNT = "donorCount";
     const COLUMN_NAME_DONOR_DISEASE = "donorDisease";
     const COLUMN_NAME_MODEL_ORGAN = "modelOrgan";
+    const COLUMN_NAME_ORGAN_PART = "organPart";
     const COLUMN_NAME_NUCLEIC_ACID_SOURCE = "nucleicAcidSource";
     const COLUMN_NAME_PROJECT_TITLE = "projectTitle";
     const COLUMN_NAME_SPECIMEN_DISEASE = "disease";
@@ -359,6 +361,17 @@ describe("HCATableProjectsComponent", () => {
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
             expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_DISEASE);
+        });
+
+        /**
+         * Confirm organ part column labeled as "Organ Part" is displayed.
+         */
+        it(`should display column "Organ Part"`, () => {
+
+            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_ORGAN_PART);
+
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_ORGAN_PART);
         });
 
         /**
