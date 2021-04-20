@@ -16,6 +16,7 @@ import {
     ViewChild,
     ViewContainerRef
 } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Subject, BehaviorSubject, combineLatest } from "rxjs";
@@ -59,13 +60,15 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {Store<AppState>} store
      * @param {ComponentFactoryResolver} componentFactoryResolver
      * @param {Router} router
+     * @param {Title} titleService
      */
     constructor(private configService: ConfigService,
                 private deviceService: DeviceDetectorService,
                 @Inject(SITE_CONFIG_SERVICE) private siteConfigService: SiteConfigService,
                 private store: Store<AppState>,
                 private componentFactoryResolver: ComponentFactoryResolver,
-                private router: Router) {
+                private router: Router,
+                private titleService: Title) {
         
         this.className = this.configService.getAtlas();
     }
@@ -150,6 +153,15 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Set document title from config.
+     */
+    private initTitle() {
+
+        const title = this.configService.getTitle();
+        this.titleService.setTitle(title);
+    }
+
+    /**
      * Set up header and footer components depending on the site config.
      */
     private initViewContainers() {
@@ -190,6 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     public ngOnInit() {
 
+        this.initTitle();
         this.initViewContainers();
         this.initState();
         this.loadProjectEditsData();

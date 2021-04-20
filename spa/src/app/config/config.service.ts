@@ -29,6 +29,7 @@ export class ConfigService {
     protected portalURL: string;
     protected projectMetaURL: string;
     protected terraExportURL: string;
+    protected title: string; // Document (application) title
     protected store: Store<AppState>;
     protected zendeskURL: string;
 
@@ -209,6 +210,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns the document title for the current config.
+     * 
+     * @returns {string}
+     */
+    public getTitle(): string {
+
+        return this.title;
+    }
+
+    /**
      * Initialize config on app init. Must return promise here as this method is called during Angular's app
      * initialization and we need to resolve the config details before any components are instantiated. The config
      * details are saved on this config service as local state (for easy access from calling classes where we don't
@@ -305,6 +316,7 @@ export class ConfigService {
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
         this.terraExportURL = config.terraExportURL;
+        this.title = config.title;
         this.zendeskURL = config.zendeskURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));
     }

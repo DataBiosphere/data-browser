@@ -15,6 +15,7 @@ export class Config {
      * @param {string} portalURL
      * @param {string} projectMetaURL
      * @param {string} terraExportURL
+     * @param {string} title
      * @param {string} zendeskURL
      */
     constructor(public readonly atlas: string,
@@ -24,5 +25,6 @@ export class Config {
                 public readonly portalURL: string,
                 public readonly projectMetaURL: string,
                 public readonly terraExportURL: string,
+                public readonly title: string,
                 public readonly zendeskURL: string) {}
 }
