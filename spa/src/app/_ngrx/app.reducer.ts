@@ -17,7 +17,6 @@ export const AppReducers = {
     ...filesReducer.reducer,
     config: configReducer.reducer,
     http: httpReducer.reducer,
-    supportRequest: supportRequestReducer.reducer,
     system: systemReducer.reducer,
     terra: terraReducer.reducer
 };
