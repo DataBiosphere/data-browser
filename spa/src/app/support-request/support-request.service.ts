@@ -9,8 +9,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Observable, of, interval } from "rxjs";
-import { catchError, map, take } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../config/config.service";
