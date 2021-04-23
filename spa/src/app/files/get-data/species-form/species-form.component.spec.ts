@@ -82,7 +82,7 @@ describe("SpeciesSelectionComponent", () => {
 
         spyOn<any>(component, "buildSpeciesCheckboxOptions").and.callThrough();
         
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
+        component.speciesFileFacet = FACET_SINGLE_SPECIES_HUMAN;
         component.ngOnChanges({});
 
         expect(component["buildSpeciesCheckboxOptions"]).toHaveBeenCalled();
@@ -99,6 +99,16 @@ describe("SpeciesSelectionComponent", () => {
         component.ngOnChanges({});
 
         expect(component["buildSpeciesCheckboxOptions"]).toHaveBeenCalled();
+    });
+
+    /**
+     * Selects checkbox by default if there is only one species.
+     */
+    it("selects checkbox for single species", () => {
+
+        const options = component["buildSpeciesCheckboxOptions"](FACET_SINGLE_SPECIES_HUMAN.terms);
+        expect(options.length).toEqual(FACET_SINGLE_SPECIES_HUMAN.terms.length);
+        expect(options[0].selected).toBeTrue();
     });
 
     /**

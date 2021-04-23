@@ -22,6 +22,7 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { GetDataComponentState } from "./get-data.component.state";
 import { AppState } from "../../_ngrx/app.state";
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { ClearFilesFacetsAction } from "../_ngrx/facet/clear-files-facets.action";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { selectFilesFacets } from "../_ngrx/facet/facet.selectors";
 import { FetchFilesFacetsRequestAction } from "../_ngrx/facet/fetch-files-facets-request.action";
@@ -30,6 +31,7 @@ import { selectSelectedSearchTerms } from "../_ngrx/search/search.selectors";
 import EntitySpec from "../shared/entity-spec";
 import { Term } from "../shared/term.model";
 import { SearchTermUrlService } from "../search/url/search-term-url.service";
+
 
 @Component({
     selector: "get-data",
@@ -320,6 +322,8 @@ export class GetDataComponent implements OnInit {
      */
     public ngOnDestroy() {
 
+        this.store.dispatch(new ClearFilesFacetsAction());
+
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -342,7 +346,7 @@ export class GetDataComponent implements OnInit {
             .pipe(
                 takeUntil(this.ngDestroy$),
                 // Only continue if file facets have been fetched from endpoint and set in store
-                filter(([filesFacets]) => {
+                filter(([catalog, filesFacets]) => {
                     return !!filesFacets.length;
                 })
             )
