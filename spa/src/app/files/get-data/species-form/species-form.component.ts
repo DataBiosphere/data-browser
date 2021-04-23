@@ -16,8 +16,6 @@ import { AppState } from "../../../_ngrx/app.state";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
-import { GenusSpecies } from "../../shared/genus-species.model";
-import { SearchTerm } from "../../search/search-term.model";
 import { Term } from "../../shared/term.model";
 
 
@@ -79,7 +77,7 @@ export class SpeciesFormComponent implements OnChanges {
             const termName = option.value;
             const term = speciesFileFacet.terms.find(t => t.name === termName);
             
-            if ( term.selected && option.selected ) {
+            if ( term.selected === option.selected ) {
                 return;
             }
 
@@ -112,14 +110,13 @@ export class SpeciesFormComponent implements OnChanges {
      */
     private buildSpeciesCheckboxOptions(speciesTerms: Term[]): CheckboxOption[] {
 
+        const selectSingleOption = speciesTerms.length === 1; 
         return speciesTerms.reduce((accum, term) => {
 
-            // If there's more than one species and this species is homo sapiens, default it to selected. Otherwise
-            // species is not selected by default.
             const speciesName = term.name;
             accum.push({
                 label: speciesName,
-                selected: term.selected,
+                selected: selectSingleOption || term.selected,
                 value: speciesName
             });
             return accum;
@@ -132,7 +129,7 @@ export class SpeciesFormComponent implements OnChanges {
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges): void {
-        
+
         const speciesTerms = this.speciesFileFacet.terms;
         this.speciesCheckboxOptions = this.buildSpeciesCheckboxOptions(speciesTerms);
     }

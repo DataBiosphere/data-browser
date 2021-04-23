@@ -1,6 +1,6 @@
 <get-data-panel>
-    <h4 class="fontsize-m semi-bold">Select Species</h4>
-    <p class="fontsize-m">Please explicitly select the species to be included in your {{exportDescription}}.</p>
+    <h4 class="fontsize-m semi-bold">Confirm Species Selection</h4>
+    <p class="fontsize-m">Please explicitly select at least one species to be included in your {{exportDescription}}.</p>
 </get-data-panel>
 <div class="species fontsize-s">
     <p class="fontsize-s">Species:</p>
@@ -14,4 +14,4 @@
     </div>
 </div>
 <button class="button primary" (click)="onSpeciesSelected(speciesFileFacet, speciesCheckboxOptions)"
-        [disabled]="!isSpeciesSelected(speciesCheckboxOptions)">Select Species</button>
+        [disabled]="!isSpeciesSelected(speciesCheckboxOptions)">Confirm Species</button>
