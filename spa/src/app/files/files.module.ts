@@ -128,6 +128,7 @@ import { PaginationService } from "./table/pagination/pagination.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
 import { UrlService } from "./url/url.service";
+import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
 
 @NgModule({
     imports: [
@@ -229,7 +230,8 @@ import { UrlService } from "./url/url.service";
         SelectedDataSummaryComponent,
         SelectedSearchTermsComponent,
         SpeciesFormComponent,
-        TableScroll
+        TableScroll,
+        WarningDataNormalizationComponent
     ],
     providers: [
         CatalogCanActivateGuard,

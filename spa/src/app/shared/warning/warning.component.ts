@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component } from "@angular/core";
+import { Component, HostBinding, Input } from "@angular/core";
 
 @Component({
     selector: "warning",
@@ -14,4 +14,7 @@ import { Component } from "@angular/core";
     styleUrls: ["./warning.component.scss"]
 })
 export class WarningComponent {
+
+    // Color of warning box, defaults to blue
+    @HostBinding("class") @Input() color: "orange";
 }

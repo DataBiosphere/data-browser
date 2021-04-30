@@ -10,6 +10,7 @@
  */
 :root {
     --color-blue-background: #F4F7F9;
+    --color-orange: #E8AA45;
     --color-primary: #1C7CC7;
     --color-secondary: #00D0F4;
     --color-secondary-hover: #00B7DB;
@@ -31,7 +32,7 @@
 $hca-black: #000000;
 $hca-blue-background: var(--color-blue-background);
 $hca-blue-light: #DAF0F6;
-$hca-orange: #E8AA45;
+$hca-orange: var(--color-orange);
 $hca-orange-hover: #CF912C;
 $hca-secondary: var(--color-secondary);
 $hca-secondary-hover: var(--color-secondary-hover);
