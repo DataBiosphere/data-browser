@@ -7,12 +7,17 @@
 
 // Core dependencies
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { Catalog } from "../../catalog/catalog.model";
-import { SearchTerm } from "../../search/search-term.model";
+import { ConfigService } from "../../../config/config.service";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
+import { AppState } from "../../../_ngrx/app.state";
+import { SearchTerm } from "../../search/search-term.model";
 
 @Component({
     selector: "manifest-download",
@@ -22,6 +27,29 @@ import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fet
 export class ManifestDownloadComponent extends BaseManifestDownloadComponent implements OnDestroy, OnInit {
 
     @Input() catalog: Catalog;
+
+    /**
+     * @param {ConfigService} configService
+     * @param {FileManifestService} fileManifestService
+     * @param {Store<AppState>} store
+     * @param {Router} router
+     */
+    constructor(protected configService: ConfigService,
+                protected fileManifestService: FileManifestService,
+                protected store: Store<AppState>,
+                private router: Router) {
+        super(configService, fileManifestService, store);
+    }
+
+    /**
+     * Handle click on back button; return user to get data options.
+     */
+    public onBackClicked() {
+
+        this.router.navigate(["/export"], {
+            queryParamsHandling: "preserve"
+        });
+    }
 
     /**
      * Track click on copy of manifest data link.

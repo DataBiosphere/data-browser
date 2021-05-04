@@ -11,7 +11,6 @@ import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 // App dependencies
-import { GetDataViewState } from "../get-data-view-state.model";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectFileSummary } from "../../_ngrx/files.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
@@ -36,7 +35,6 @@ export class GetDataSummaryComponent implements OnInit {
     @Input() selectedOrgans: Term[];
     @Input() selectedOrganParts: Term[];
     @Input() selectedPairedEnds: Term[];
-    @Input() viewState: GetDataViewState;
 
     // Template variables
     public selectFileSummary$: Observable<FileSummary>;

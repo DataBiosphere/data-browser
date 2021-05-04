@@ -24,7 +24,7 @@ import EntitySpec from "../../files/shared/entity-spec";
 export class HCATabComponent {
 
     // Inputs
-    @Input() activeTab: EntitySpec;
+    @Input() activeTab: EntitySpec; // Optional
     @Input() tabs: EntitySpec[];
 
     // Outputs
@@ -33,14 +33,15 @@ export class HCATabComponent {
     /**
      * Return the set of CSS class names that are applicable to the tab.
      *
-     * @param {string} selectedTab
+     * @param {any} selectedTab
      * @param {string} tabKey
      * @returns {{[p: string]: boolean}}
      */
-    public getTabClass(selectedTab: string, tabKey: string): { [className: string]: boolean } {
+    public getTabClass(selectedTab: any, tabKey: string): { [className: string]: boolean } {
 
+        const active = selectedTab ? selectedTab.key == tabKey : false;
         return {
-            "active": selectedTab === tabKey,
+            active,
             "hca-tab": true
         };
     }

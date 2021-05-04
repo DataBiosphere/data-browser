@@ -2,7 +2,7 @@
     <ng-container *ngIf="tabs">
         <div class="hca-tabs">
             <div *ngFor="let tab of tabs;trackBy: trackByFn"
-                 [ngClass]="getTabClass(activeTab.key, tab.key)"
+                 [ngClass]="getTabClass(activeTab, tab.key)"
                  (click)="onClickTab(tab)">
                 {{tab.displayName}}
             </div>

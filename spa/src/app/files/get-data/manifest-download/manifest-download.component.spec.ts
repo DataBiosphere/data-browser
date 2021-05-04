@@ -10,6 +10,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
+import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
 import { of } from "rxjs";
@@ -17,7 +18,6 @@ import { of } from "rxjs";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
 import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
@@ -26,7 +26,6 @@ import { ManifestDownloadComponent } from "./manifest-download.component";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
-import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
@@ -55,17 +54,16 @@ describe("ManifestDownloadComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
-                DataUseNotificationComponent,
                 FileTypeSummaryListComponent,
                 GetDataPanelComponent,
-                ManifestDownloadComponent,
-                SectionBarComponent
+                ManifestDownloadComponent
             ],
             imports: [
                 ClipboardModule,
                 MatIconModule,
                 MatTooltipModule,
-                PipeModule
+                PipeModule,
+                RouterTestingModule
             ],
             providers: [
                 {
@@ -147,48 +145,6 @@ describe("ManifestDownloadComponent", () => {
         // Confirm <file-type-summary-list> is displayed
         const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-list"));
         expect(fileTypeSummaryListEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <section-bar> is displayed when download status is not started.
-     */
-    it(`displays component section-bar when download status is "NOT_STARTED"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({
-                status: ManifestStatus.NOT_STARTED
-            }) // manifest response
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <section-bar> is displayed
-        const sectionBarEl = expect(fixture.debugElement.nativeElement.querySelector("section-bar"));
-        expect(sectionBarEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <data-use-notification> is displayed when download status is not started.
-     */
-    it(`displays component data-use-notification when download status is "NOT_STARTED"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({
-                status: ManifestStatus.NOT_STARTED
-            }) // manifest response
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <data-use-notification> is displayed
-        const dataUseNotificationEl = expect(fixture.debugElement.nativeElement.querySelector("data-use-notification"));
-        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     /**
@@ -397,50 +353,6 @@ describe("ManifestDownloadComponent", () => {
         const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
 
         expect(fileTypeSummaryListEl).toEqual(null);
-    });
-
-    /**
-     * Confirm <section-bar> is displayed when download status is complete.
-     */
-    it(`displays component section-bar when download status is "COMPLETE"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({
-                status: ManifestStatus.COMPLETE
-            }) // manifest response
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <section-bar> is displayed
-        const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
-
-        expect(sectionBarEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <data-use-notification> is displayed when download status is complete.
-     */
-    it(`displays component data-use-notification when download status is "COMPLETE"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({
-                status: ManifestStatus.COMPLETE
-            }) // manifest response
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <data-use-notification> is displayed
-        const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
-
-        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     /**

@@ -1,30 +1,37 @@
-<get-data-panel>
-    <h4 class="fontsize-m semi-bold">Download Selected Data Using "curl"</h4>
-    <p class="fontsize-m">Obtain a curl command for downloading the selected data.</p>
-    <div class="start">
-        <button class="button secondary" type="button" (click)="onStartGetData('BULK_DOWNLOAD')">Start</button>
-        <!--<p class="fontsize-m delimiter">|</p><a><p class="fontsize-m">Help</p></a>-->
-    </div>
-</get-data-panel>
-<get-data-panel>
-    <h4 class="fontsize-m semi-bold">Download a File Manifest with Metadata for the Selected Data</h4>
-    <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and the metadata for each file.</p>
-    <div class="start">
-        <button class="button secondary" type="button" (click)="onStartGetData('MANIFEST')">Start</button>
-        <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/intro-to-downloading-and-analyzing" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>
-    </div>
-</get-data-panel>
-<!--<get-data-panel>-->
-<!--<h4 class="fontsize-m semi-bold">Request Metadata Only</h4>-->
-<!--<p class="fontsize-m">Request the full metadata tsv for the selected data.</p>-->
-<!--<div class="start"><button class="button secondary">Start</button>-->
-<!--<p class="fontsize-m">|</p><a><h4 class="fontsize-m">Help</h4></a></div>-->
-<!--</get-data-panel>-->
-<get-data-panel>
-    <h4 class="fontsize-m semi-bold">Export to Terra</h4>
-    <p class="fontsize-m"><a href="https://terra.bio/" target="_blank" rel="noopener noreferrer">Terra</a> is a scalable cloud platform for biomedical research. Terra offers the ability to use data, tools, and workflows to do interactive analysis in the cloud. To start using Terra, visit <a href="https://app.terra.bio/" target="_blank" rel="noopener noreferrer">https://app.terra.bio.</a></p>
-    <div class="start">
-        <button class="button secondary" (click)="onStartGetData('TERRA')">Start</button>
-        <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/export-to-terra" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>
-    </div>
-</get-data-panel>
+<get-data-layout [speciesSelectionEnabled]="false" (backClicked)="onBackClicked($event)">
+    <ng-container title>Export Selected Data</ng-container>
+    <ng-container content>
+        <get-data-panel>
+            <h4 class="fontsize-m semi-bold">Download Selected Data Using "curl"</h4>
+            <p class="fontsize-m">Obtain a curl command for downloading the selected data.</p>
+            <div class="start">
+                <button class="button secondary"
+                        type="button"
+                        [routerLink]="['/export', 'get-curl-command']"
+                        queryParamsHandling="preserve">Start</button>
+            </div>
+        </get-data-panel>
+        <get-data-panel>
+            <h4 class="fontsize-m semi-bold">Download a File Manifest with Metadata for the Selected Data</h4>
+            <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and the metadata for each file.</p>
+            <div class="start">
+                <button class="button secondary"
+                        type="button"
+                        [routerLink]="['/export', 'download-manifest']"
+                        queryParamsHandling="preserve">Start</button>
+                <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/intro-to-downloading-and-analyzing" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>
+            </div>
+        </get-data-panel>
+        <get-data-panel>
+            <h4 class="fontsize-m semi-bold">Export to Terra</h4>
+            <p class="fontsize-m"><a href="https://terra.bio/" target="_blank" rel="noopener noreferrer">Terra</a> is a scalable cloud platform for biomedical research. Terra offers the ability to use data, tools, and workflows to do interactive analysis in the cloud. To start using Terra, visit <a href="https://app.terra.bio/" target="_blank" rel="noopener noreferrer">https://app.terra.bio.</a></p>
+            <div class="start">
+                <button class="button secondary"
+                        type="button"
+                        [routerLink]="['/export', 'export-to-terra']"
+                        queryParamsHandling="preserve">Start</button>
+                <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/export-to-terra" target="_blank" rel="noopener noreferrer"><p class="fontsize-m">Help</p></a>
+            </div>
+        </get-data-panel>
+    </ng-container>
+</get-data-layout>

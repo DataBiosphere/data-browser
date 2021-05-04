@@ -235,7 +235,7 @@ export class FilesEffects {
                     this.store.pipe(select(selectSelectedSearchTerms), take(1))
                 )
             )),
-            switchMap(([action, catalog, searchTerms]) =>
+            switchMap(([, catalog, searchTerms]) =>
                 this.fileService.fetchFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
         );

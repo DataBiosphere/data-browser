@@ -1,66 +1,68 @@
-<div *ngIf="state$ | async as state">
-    <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
-        <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
-            <h4 class="fontsize-m semi-bold">Select File Types for Download</h4>
-            <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
-        </get-data-panel>
-        <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
-            <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                    [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
-                                    (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
-            <div class="execution-environment fontsize-s">
-                <p class="fontsize-s">Select Shell:</p>
-                <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
-                    <mat-radio-button value="bash">Bash</mat-radio-button>
-                    <mat-radio-button value="cmd.exe">cmd.exe</mat-radio-button>
-                </mat-radio-group>
+<get-data-layout [speciesSelectionEnabled]="true" (backClicked)="onBackClicked()">
+    <ng-container title>Download Selected Data Using curl</ng-container>
+    <ng-container speciesExportText>Please explicitly select at least one species to be included in your curl command.
+    </ng-container>
+    <ng-container content *ngIf="state$ | async as state">
+        <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
+            <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+                <h4 class="fontsize-m semi-bold">Select File Types for Download</h4>
+                <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
+            </get-data-panel>
+            <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+                <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                        [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
+                                        (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                <div class="execution-environment fontsize-s">
+                    <p class="fontsize-s">Select Shell:</p>
+                    <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
+                        <mat-radio-button value="bash">Bash</mat-radio-button>
+                        <mat-radio-button value="cmd.exe">cmd.exe</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <warning>
+                    <warning-content>
+                        <p class="fontsize-m">The generated curl command is compatible with the Bash shell on Mac and
+                            Linux
+                            systems, and the Command shell on Windows systems, and will remain valid for one hour.</p>
+                    </warning-content>
+                </warning>
+                <warning-data-normalization></warning-data-normalization>
+                <button class="button primary"
+                        type="button"
+                        (click)="onRequestCurl(state.selectedSearchTerms, executionEnvironment)"
+                        [disabled]="!isRequestFormValid(state.selectedSearchTerms, executionEnvironment)">Request curl
+                    Command
+                </button>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
+            <get-data-panel [loading]="isDownloadInProgress(state.manifestResponse)">
+                <h4 class="fontsize-m semi-bold">Your curl Command is Being Prepared</h4>
+                <p class="fontsize-m">Your curl command will be ready shortly.</p>
+            </get-data-panel>
+        </ng-container>
+        <ng-container *ngIf="isDownloadComplete(state.manifestResponse)">
+            <get-data-panel>
+                <h4 class="fontsize-m semi-bold">Your curl Command is Ready</h4>
+            </get-data-panel>
+            <p class="fontsize-m">Execute the curl command below in your terminal to download the selected data.</p>
+            <div class="download">
+                <p class="bulk-download-curl fontsize-xs"
+                   (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, state.manifestResponse.fileUrl)">
+                    {{getCurlCommand(state.manifestResponse, executionEnvironment)}}
+                </p>
+                <copy-to-clipboard [copyToClipboardLink]="getCurlCommand(state.manifestResponse, executionEnvironment)"
+                                   [copyToClipboardLabel]="'command'"
+                                   (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, executionEnvironment, state.manifestResponse.fileUrl)"></copy-to-clipboard>
+                <warning>
+                    <warning-content>
+                        <p class="fontsize-m">Next, to download metadata for the data files in your curl command,
+                            see <a [routerLink]="['/export/download-manifest']"
+                                   queryParamsHandling="preserve">Request File Manifest</a> page.
+                    </warning-content>
+                </warning>
+                <warning-data-normalization></warning-data-normalization>
             </div>
-            <warning>
-                <warning-content>
-                    <p class="fontsize-m">The generated curl command is compatible with the Bash shell on Mac and Linux
-                        systems, and the Command shell on Windows systems, and will remain valid for one hour.</p>
-                </warning-content>
-            </warning>
-            <warning-data-normalization></warning-data-normalization>
-            <button class="button primary"
-                    type="button"
-                    (click)="onRequestManifest(state.selectedSearchTerms, executionEnvironment)"
-                    [disabled]="!isRequestFormValid(state.selectedSearchTerms, executionEnvironment)">Request curl
-                Command
-            </button>
-            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </ng-container>
     </ng-container>
-    <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
-        <get-data-panel [loading]="isDownloadInProgress(state.manifestResponse)">
-            <h4 class="fontsize-m semi-bold">Your curl Command is Being Prepared</h4>
-            <p class="fontsize-m">Your curl command will be ready shortly.</p>
-        </get-data-panel>
-    </ng-container>
-    <ng-container *ngIf="isDownloadComplete(state.manifestResponse)">
-        <get-data-panel>
-            <h4 class="fontsize-m semi-bold">Your curl Command is Ready</h4>
-        </get-data-panel>
-        <p class="fontsize-m">Execute the curl command below in your terminal to download the selected data.</p>
-        <div class="download">
-            <p class="bulk-download-curl fontsize-xs"
-               (dataLinkClicked)="onDataLinkClicked(state.selectedSearchTerms, state.manifestResponse.fileUrl)">
-                {{getCurlCommand(state.manifestResponse, executionEnvironment)}}
-            </p>
-            <copy-to-clipboard [copyToClipboardLink]="getCurlCommand(state.manifestResponse, executionEnvironment)"
-                               [copyToClipboardLabel]="'command'"
-                               (copyClicked)="onDataLinkCopied(state.selectedSearchTerms, executionEnvironment, state.manifestResponse.fileUrl)"></copy-to-clipboard>
-            <warning>
-                <warning-content>
-                    <p class="fontsize-m">The curl command downloads data files only. To download the matching metadata,
-                        select "Prepare Manifest" on the <a [routerLink]=""
-                                                            queryParamsHandling="preserve"
-                                                            (click)="onDownloadManifestClicked()">Request File
-                            Manifest</a> page.</p>
-                </warning-content>
-            </warning>
-            <warning-data-normalization></warning-data-normalization>
-            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
-        </div>
-    </ng-container>
-</div>
+</get-data-layout>

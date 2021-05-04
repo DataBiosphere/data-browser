@@ -1,46 +1,48 @@
-<div *ngIf="state$ | async as state">
-    <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
-        <get-data-panel [loading]="getFileTypeSummaries(state.manifestDownloadFileSummary).length === 0">
-            <h4 class="fontsize-m semi-bold">Select Export File Types</h4>
-            <p class="fontsize-m">Export selected files to a Terra workspace.</p>
-        </get-data-panel>
-        <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
-            <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                    [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
-                                    (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
-            <button class="button primary"
-                    type="button"
-                    (click)="onExportToTerra(state.catalog, state.selectedSearchTerms)"
-                    [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
-            </button>
-            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
+<get-data-layout [speciesSelectionEnabled]="true" (backClicked)="onBackClicked()">
+    <ng-container title>Export to Terra</ng-container>
+    <ng-container speciesExportText>Please explicitly select at least one species to be included in your export.</ng-container>
+    <ng-container content *ngIf="state$ | async as state">
+        <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
+            <get-data-panel [loading]="getFileTypeSummaries(state.manifestDownloadFileSummary).length === 0">
+                <h4 class="fontsize-m semi-bold">Select Export File Types</h4>
+                <p class="fontsize-m">Export selected files to a Terra workspace.</p>
+            </get-data-panel>
+            <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
+                <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                                        [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
+                                        (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                <button class="button primary"
+                        type="button"
+                        (click)="onExportToTerra(state.catalog, state.selectedSearchTerms)"
+                        [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
+                </button>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
+            <get-data-panel [loading]="isRequestInProgress(state.exportToTerraStatus)">
+                <h4 class="fontsize-m semi-bold">Your Export is Being Prepared</h4>
+                <p class="fontsize-m">Your export will be ready shortly.</p>
+            </get-data-panel>
+        </ng-container>
+        <ng-container *ngIf="isRequestComplete(state.exportToTerraStatus)">
+            <get-data-panel>
+                <h4 class="fontsize-m semi-bold">Your Export is Ready</h4>
+                <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
+                <p class="fontsize-m">The workspace URL is referenced below.</p>
+            </get-data-panel>
+            <div class="download">
+                <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
+                                   [targetBlank]="true"
+                                   (dataLinkClicked)="onDataLinkClicked(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
+                <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
+                                   (copyClicked)="onDataLinkCopied(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
+            <get-data-panel [downloadError]="isRequestFailed(state.exportToTerraStatus)">
+                <h4 class="fontsize-m semi-bold">Error</h4>
+                <p class="fontsize-m">An error has occurred.</p>
+            </get-data-panel>
         </ng-container>
     </ng-container>
-    <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
-        <get-data-panel [loading]="isRequestInProgress(state.exportToTerraStatus)">
-            <h4 class="fontsize-m semi-bold">Your Export is Being Prepared</h4>
-            <p class="fontsize-m">Your export will be ready shortly.</p>
-        </get-data-panel>
-    </ng-container>
-    <ng-container *ngIf="isRequestComplete(state.exportToTerraStatus)">
-        <get-data-panel>
-            <h4 class="fontsize-m semi-bold">Your Export is Ready</h4>
-            <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
-            <p class="fontsize-m">The workspace URL is referenced below.</p>
-        </get-data-panel>
-        <div class="download">
-            <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               [targetBlank]="true"
-                               (dataLinkClicked)="onDataLinkClicked(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
-            <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               (copyClicked)="onDataLinkCopied(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
-            <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="isRequestFailed(state.exportToTerraStatus)">
-        <get-data-panel [downloadError]="isRequestFailed(state.exportToTerraStatus)">
-            <h4 class="fontsize-m semi-bold">Error</h4>
-            <p class="fontsize-m">An error has occurred.</p>
-        </get-data-panel>
-    </ng-container>
-</div>
+</get-data-layout>

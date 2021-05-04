@@ -6,14 +6,18 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
-import { GetDataViewState } from "../get-data-view-state.model";
+import { ConfigService } from "../../../config/config.service";
+import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
+import { AppState } from "../../../_ngrx/app.state";
 import { CopyToClipboardBulkDownloadAction } from "../../_ngrx/get-data/copy-to-clipboard-bulk-download.action";
 import { RequestBulkDownloadAction } from "../../_ngrx/get-data/request-bulk-download.action";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
@@ -27,10 +31,21 @@ import { SearchTerm } from "../../search/search-term.model";
 export class BulkDownloadComponent extends BaseManifestDownloadComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH; // Default to bash for now as this is currently the only option
+    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
-    // Outputs
-    @Output() manifestDownloadSelected = new EventEmitter<GetDataViewState>();
+    /**
+     * @param {ConfigService} configService
+     * @param {FileManifestService} fileManifestService
+     * @param {Store<AppState>} store
+     * @param {Router} router
+     */
+    constructor(protected configService: ConfigService,
+                protected fileManifestService: FileManifestService,
+                protected store: Store<AppState>,
+                private router: Router) {
+        
+        super(configService, fileManifestService, store);
+    }
     
     /**
      * Return the curl command for the generated manifest.
@@ -58,6 +73,16 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
     }
 
     /**
+     * Handle click on back button; return user to get data options.
+     */
+    public onBackClicked() {
+
+        this.router.navigate(["/export"], {
+            queryParamsHandling: "preserve"
+        });
+    }
+
+    /**
      * Track click on copy of bulk download data link.
      *
      * @param {SearchTerm[]} selectedSearchTerms
@@ -75,17 +100,9 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {BulkDownloadExecutionEnvironment} shell
      */
-    public onRequestManifest(selectedSearchTerms: SearchTerm[], shell: BulkDownloadExecutionEnvironment) {
+    public onRequestCurl(selectedSearchTerms: SearchTerm[], shell: BulkDownloadExecutionEnvironment) {
 
-        this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL));
-        this.store.dispatch(new RequestBulkDownloadAction(shell));
-    }
-
-    /**
-     * Let parent components know related manifest has been requested.
-     */
-    public onDownloadManifestClicked() {
-
-        this.manifestDownloadSelected.emit(GetDataViewState.MANIFEST);
+        this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL)); //  
+        this.store.dispatch(new RequestBulkDownloadAction(shell)); // Tracking action
     }
 }

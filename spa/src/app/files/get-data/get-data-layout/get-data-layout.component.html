@@ -1,27 +1,23 @@
 <ng-container *ngIf="state$ | async as state">
     <hca-section-title>
-        <ng-container title>{{getTitle()}}</ng-container>
+        <ng-container><ng-content select="[title]"></ng-content></ng-container>
     </hca-section-title>
     <hca-tab [tabs]="getDataTabs(state.selectedEntity)"
-             [activeTab]="getActiveTab()"
-             (tabSelected)="onTabSelected($event)"></hca-tab>    
+             (tabSelected)="onTabSelected($event)"></hca-tab>
     <div class="wrapper" *ngIf="state.loaded" [@fadeIn]>
         <div class="get-data-layout">
             <div class="get-data-options">
-                <ng-container [ngSwitch]="viewState">
-                    <ng-container *ngSwitchDefault>
-                        <get-data-options (downloadSelected)="onDownloadSelected($event)"></get-data-options>
-                        <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
-                    </ng-container>
-                    <species-form *ngSwitchCase="'SPECIES_SELECTION'" 
-                                  [exportDescription]="getExportDescription()"
+                <ng-container [ngSwitch]="speciesSelectionFormVisible">
+                    <species-form *ngSwitchCase="true"
                                   [speciesFileFacet]="getSpeciesFileFacet(state.filesFacets)"
-                                  (speciesSelected)="onSpeciesSelected()"></species-form>
-                    <bulk-download *ngSwitchCase="'BULK_DOWNLOAD'"
-                                   (manifestDownloadSelected)="onDownloadSelected($event)"></bulk-download>
-                    <manifest-download *ngSwitchCase="'MANIFEST'" [catalog]="state.catalog"></manifest-download>
-                    <export-to-terra *ngSwitchCase="'TERRA'"></export-to-terra>
+                                  (speciesSelected)="onSpeciesSelected()">
+                        <p class="fontsize-m"><ng-content select="[speciesExportText]"></ng-content></p>
+                    </species-form>
+                    <ng-container *ngSwitchDefault>
+                        <ng-content select="[content]"></ng-content>
+                    </ng-container>
                 </ng-container>
+                <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
             </div>
             <get-data-summary [selectedDiseases]="listSelectedDiseases(state.filesFacets)"
                               [selectedDonorDiseases]="listSelectedDonorDiseases(state.filesFacets)"

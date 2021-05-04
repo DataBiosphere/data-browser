@@ -9,7 +9,7 @@
 import { Action } from "@ngrx/store";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 
-export class FetchFileManifestUrlRequestAction implements Action {
+export class FetchFileManifestUrlRequestAction implements Action { // Note, changing this to a tracking action affects both manifest and bulk downloads
     public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_REQUEST";
     public readonly type = FetchFileManifestUrlRequestAction.ACTION_TYPE;
     constructor(public readonly manifestFormat = ManifestDownloadFormat.COMPACT) {}
