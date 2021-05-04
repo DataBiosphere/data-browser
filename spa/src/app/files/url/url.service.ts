@@ -69,11 +69,11 @@ export class UrlService {
     }
 
     /**
-     * Returns true if user is currently viewing /export
+     * Returns true if user is currently viewing /export, or any of the children paths of /export (eg /export/get-curl-command).
      */
-    public isViewingGetData(): boolean {
+    public isViewingExport(): boolean {
 
-        return this.routingService.isPathActive(["/export"]);
+        return this.routingService.isPathOrParentPathActive(["/export"]);
     }
 }
 
