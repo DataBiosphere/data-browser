@@ -13,6 +13,7 @@ import { filter } from "rxjs/operators";
 
 // Core dependencies
 import { RoutingService } from "./routing.service";
+import { BarComponent } from "../../test/bar.component";
 import { FooComponent } from "../../test/foo.component";
 
 describe("RoutingService", () => {
@@ -24,6 +25,7 @@ describe("RoutingService", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                BarComponent,
                 FooComponent
             ],
             imports: [
@@ -34,7 +36,11 @@ describe("RoutingService", () => {
                     },
                     {
                         path: "foo",
-                        component: FooComponent
+                        component: FooComponent,
+                        children: [{
+                            path: "bar",
+                            component: BarComponent
+                        }]
                     }
                 ])
             ],
@@ -101,6 +107,81 @@ describe("RoutingService", () => {
             });
 
             router.navigate(navigateToCommands);
+        });
+    });
+
+    describe("isPathOrChildPathActive", () => {
+
+        /**
+         * Matches parent path.
+         */
+        it("matches parent path", (doneFn: DoneFn) => {
+
+            const commands = ["/foo", "bar"];
+            const expectedCommands = [commands[0]];
+
+            router.events.pipe(
+                filter(evt => evt instanceof NavigationEnd)
+            ).subscribe(() => {
+                expect(routingService.isPathOrParentPathActive(commands)).toBeTrue();
+                doneFn();
+            });
+
+            router.navigate(commands);
+        });
+
+        /**
+         * Doesn't match "/"
+         */
+        it(`doesn't match "/"`, (doneFn: DoneFn) => {
+
+            const commands = ["/foo", "bar"];
+            const expectedCommands = ["/"];
+
+            router.events.pipe(
+                filter(evt => evt instanceof NavigationEnd)
+            ).subscribe(() => {
+                expect(routingService.isPathOrParentPathActive(expectedCommands)).toBeFalse();
+                doneFn();
+            });
+
+            router.navigate(commands);
+        });
+
+        /**
+         * Doesn't match ""
+         */
+        it(`doesn't match ""`, (doneFn: DoneFn) => {
+
+            const commands = ["/foo", "bar"];
+            const expectedCommands = [""];
+
+            router.events.pipe(
+                filter(evt => evt instanceof NavigationEnd)
+            ).subscribe(() => {
+                expect(routingService.isPathOrParentPathActive(expectedCommands)).toBeFalse();
+                doneFn();
+            });
+
+            router.navigate(commands);
+        });
+
+        /**
+         * No match when path is not a parent of the current path.
+         */
+        it("doesn't match incorrect parent path", (doneFn: DoneFn) => {
+
+            const commands = ["/foo", "bar"];
+            const expectedCommands = ["/bat"];
+
+            router.events.pipe(
+                filter(evt => evt instanceof NavigationEnd)
+            ).subscribe(() => {
+                expect(routingService.isPathOrParentPathActive(expectedCommands)).toBeFalse();
+                doneFn();
+            });
+
+            router.navigate(commands);
         });
     });
 });
