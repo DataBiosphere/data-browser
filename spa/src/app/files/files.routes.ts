@@ -12,7 +12,11 @@ import { Route } from "@angular/router";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { FilterCanActivateGuard } from "./facet/filter/filter-can-activate.guard";
 import { FilesComponent } from "./files.component";
+import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.component";
 import { GetDataComponent } from "./get-data/get-data.component";
+import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
+import { GetDataOptionsComponent } from "./get-data/get-data-options/get-data-options.component";
+import { ManifestDownloadComponent } from "./get-data/manifest-download/manifest-download.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
@@ -31,10 +35,33 @@ export const routes: Route[] = [
         component: FilesComponent
     },
     {
-        path: "get-data",
-        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard, FilterCanActivateGuard],
+        path: "export",
+        canActivate: [BrowserCanActivateGuard],
+        canActivateChild: [CatalogCanActivateGuard, FilterCanActivateGuard],
         component: GetDataComponent,
-        
+        children: [
+            {
+                path: "",
+                pathMatch: "full",
+                component: GetDataOptionsComponent
+            },
+            {
+                path: "get-curl-command",
+                component: BulkDownloadComponent
+            },
+            {
+                path: "download-manifest",
+                component: ManifestDownloadComponent
+            },
+            {
+                path: "export-to-terra",
+                component: ExportToTerraComponent
+            }
+        ]
+    },
+    {
+        path: "get-data", // Deprecated; maintained for backwards compatibility of bookmarks.
+        redirectTo: "export"
     },
     {
         path: "samples",

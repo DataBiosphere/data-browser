@@ -69,11 +69,11 @@ export class UrlService {
     }
 
     /**
-     * Returns true if user is currently viewing /get-data
+     * Returns true if user is currently viewing /export
      */
     public isViewingGetData(): boolean {
 
-        return this.routingService.isPathActive(["/get-data"]);
+        return this.routingService.isPathActive(["/export"]);
     }
 }
 

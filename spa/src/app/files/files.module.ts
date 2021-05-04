@@ -64,6 +64,7 @@ import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.co
 import { DataLinkComponent } from "./get-data/data-link/data-link.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
 import { GetDataComponent } from "./get-data/get-data.component";
+import { GetDataLayoutComponent } from "./get-data/get-data-layout/get-data-layout.component";
 import { GetDataOptionsComponent } from "./get-data/get-data-options/get-data-options.component";
 import { GetDataPanelComponent } from "./get-data/get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "./get-data/get-data-summary/get-data-summary.component";
@@ -183,6 +184,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         FileTypeSummaryListComponent,
         FilesComponent,
         GetDataComponent,
+        GetDataLayoutComponent,
         GetDataOptionsComponent,
         GetDataPanelComponent,
         GetDataSummaryComponent,

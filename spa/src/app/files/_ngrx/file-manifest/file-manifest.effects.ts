@@ -40,7 +40,7 @@ export class FileManifestEffects {
     }
 
     /**
-     * Fetch file summary to populate file type summaries on manifest download pages. Include all selected facets except
+     * Fetch file summary to populate file type summaries on get data pages. Include all selected facets except
      * any selected file types, in request.
      */
     @Effect()
@@ -49,11 +49,11 @@ export class FileManifestEffects {
             ofType(FetchManifestDownloadFileSummaryRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
-                    this.store.pipe(select(selectSelectedSearchTerms), take(1)),
-                    this.store.pipe(select(selectCatalog), take(1))
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectSelectedSearchTerms), take(1))
                 )
             )),
-            switchMap(([action, searchTerms, catalog]) => 
+            switchMap(([action, catalog, searchTerms]) => 
                 this.fileManifestService.fetchFileManifestFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchManifestDownloadFileSummarySuccessAction(fileSummary))
         );

@@ -7,10 +7,15 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
+import { AppState } from "../../../_ngrx/app.state";
+import { BackToEntityAction } from "../../_ngrx/entity/back-to-entity.action";
+import EntitySpec from "../../shared/entity-spec";
 
 @Component({
     selector: "get-data-options",
@@ -24,24 +29,26 @@ export class GetDataOptionsComponent {
     // Template variables
     public portalURL: string;
 
-    // Outputs
-    @Output() downloadSelected = new EventEmitter<string>();
-
     /**
      * @param {ConfigService} configService
+     * @param {Store<AppState>} store
+     * @param {Router} router
      */
-    constructor(private configService: ConfigService) {
+    constructor(private configService: ConfigService, private store: Store<AppState>, private router: Router) {
 
         this.portalURL = this.configService.getPortalUrl();
     }
 
     /**
-     * Handle click on start - emit event to parent.
-     *
-     * @param {string} download
+     * Return user to selected entity.
+     * 
+     * @param {EntitySpec} selectedEntity
      */
-    public onStartGetData(download: string) {
+    public onBackClicked(selectedEntity: EntitySpec) {
 
-        this.downloadSelected.emit(download);
+        this.store.dispatch(new BackToEntityAction(selectedEntity.key));
+        this.router.navigate(["/" + selectedEntity.key], {
+            queryParamsHandling: "preserve"
+        });
     }
 }

@@ -10,6 +10,7 @@ import { HttpClient } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { RouterTestingModule } from "@angular/router/testing";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
@@ -19,7 +20,6 @@ import { of } from "rxjs";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { ExportToTerraComponent } from "./export-to-terra.component";
@@ -28,7 +28,6 @@ import { ResponseTermService } from "../../http/response-term.service";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
-import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
@@ -79,17 +78,16 @@ describe("ExportToTerraComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
-                DataUseNotificationComponent,
                 ExportToTerraComponent,
                 FileTypeSummaryListComponent,
-                GetDataPanelComponent,
-                SectionBarComponent
+                GetDataPanelComponent
             ],
             imports: [
                 ClipboardModule,
                 MatIconModule,
                 MatTooltipModule,
-                PipeModule
+                PipeModule,
+                RouterTestingModule
             ],
             providers: [
                 {
@@ -234,46 +232,6 @@ describe("ExportToTerraComponent", () => {
         // Confirm <file-type-summary-list> is displayed
         const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-list"));
         expect(fileTypeSummaryListEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <section-bar> is displayed when request status is not started.
-     */
-    it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
-            of(DCPCatalog.DCP3)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <section-bar> is displayed
-        const sectionBarEl = expect(fixture.debugElement.nativeElement.querySelector("section-bar"));
-        expect(sectionBarEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <data-use-notification> is displayed when request status is not started.
-     */
-    it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.NOT_STARTED}), // terra response
-            of(DCPCatalog.DCP3)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <data-use-notification> is displayed
-        const dataUseNotificationEl = expect(fixture.debugElement.nativeElement.querySelector("data-use-notification"));
-        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     /**
@@ -510,48 +468,6 @@ describe("ExportToTerraComponent", () => {
         const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
 
         expect(fileTypeSummaryListEl).toEqual(null);
-    });
-
-    /**
-     * Confirm <section-bar> is displayed when request status is complete.
-     */
-    it(`should display component section-bar when request status is "COMPLETE"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
-            of(DCPCatalog.DCP3)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <section-bar> is displayed
-        const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
-
-        expect(sectionBarEl).not.toBe(null);
-    });
-
-    /**
-     * Confirm <data-use-notification> is displayed when request status is complete.
-     */
-    it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
-
-        testStore.pipe
-            .and.returnValues(
-            of([]), // search terms
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of({exportToTerraStatus: ExportToTerraStatus.COMPLETE}), // terra response
-            of(DCPCatalog.DCP3)
-        );
-
-        fixture.detectChanges();
-
-        // Confirm <data-use-notification> is displayed
-        const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
-
-        expect(dataUseNotificationEl).not.toBe(null);
     });
 
     /**

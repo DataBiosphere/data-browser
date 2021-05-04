@@ -7,6 +7,7 @@
 
 // Core dependencies
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
@@ -51,11 +52,13 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param {ConfigService} configService
      * @param {TerraService} terraService
      * @param {Store<AppState>} store
+     * @param {Router} router
      * @param {Window} window
      */
     constructor(private configService: ConfigService,
                 private terraService: TerraService,
                 private store: Store<AppState>,
+                private router: Router,
                 @Inject("Window") window: Window) {
 
         this.store = store;
@@ -142,6 +145,16 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     public isRequestNotStarted(status: ExportToTerraStatus): boolean {
 
         return this.terraService.isExportToTerraRequestNotStarted(status);
+    }
+
+    /**
+     * Handle click on back button; return user to get data options.
+     */
+    public onBackClicked() {
+
+        this.router.navigate(["/export"], {
+            queryParamsHandling: "preserve"
+        });
     }
 
     /**

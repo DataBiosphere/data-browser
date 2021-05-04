@@ -1,57 +1,10 @@
-/*
+/**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * HCA get data styles.
+ * Styles for get data component.
  */
-
-@import "../../site/theme/hca.vars";
 
 :host {
     flex: 1;
-}
-
-/* <hca-tab> nested underneath <hca-section-title> */
-hca-section-title + hca-tab {
-    margin-top: -24px;
-}
-
-/* Wrapper */
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden; /* Required for snap */
-    padding: 0 16px; /* Gutter 16px */
-}
-
-/* Get data - two columns */
-.get-data-layout { /* :host-context in selected-search-terms */
-    display: flex;
-    flex: 1;
-    margin: 30px 0;
-}
-
-/* Left-hand container */
-.get-data-options {
-    flex: 1;
-    margin-right: 60px;
-    max-width: 600px;
-    min-width: 338px; /* Required for snap */
-}
-
-/* Spinner when state is loading */
-mat-spinner {
-    margin: 30px 0 0 30px;
-}
-
-/**
- * HCA-specific breakpoint
- */
-@media screen and (min-width: 1200px) {
-
-    .wrapper {
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 0 30px; /* Gutter 30px */
-    }
 }

@@ -158,7 +158,7 @@ describe("URL Effects", () => {
         });
 
         /**
-         * Location is not updated unless user is currently viewing /projects, /samples or /files, or /get-data.
+         * Location is not updated unless user is currently viewing /projects, /samples or /files, or /export.
          */
         it("location not updated if not viewing entity data table or get data", () => {
 
