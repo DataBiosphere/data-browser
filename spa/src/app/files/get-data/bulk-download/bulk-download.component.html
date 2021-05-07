@@ -26,7 +26,6 @@
                             systems, and the Command shell on Windows systems, and will remain valid for one hour.</p>
                     </warning-content>
                 </warning>
-                <warning-data-normalization></warning-data-normalization>
                 <button class="button primary"
                         type="button"
                         (click)="onRequestCurl(state.selectedSearchTerms, executionEnvironment)"
@@ -45,6 +44,7 @@
             <get-data-panel>
                 <h4 class="fontsize-m semi-bold">Your curl Command is Ready</h4>
             </get-data-panel>
+            <warning-data-normalization></warning-data-normalization>
             <p class="fontsize-m">Execute the curl command below in your terminal to download the selected data.</p>
             <div class="download">
                 <p class="bulk-download-curl fontsize-xs"
@@ -61,7 +61,6 @@
                                    queryParamsHandling="preserve">Request File Manifest</a> page.
                     </warning-content>
                 </warning>
-                <warning-data-normalization></warning-data-normalization>
             </div>
         </ng-container>
     </ng-container>
