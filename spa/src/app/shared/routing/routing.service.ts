@@ -33,15 +33,16 @@ export class RoutingService {
 
     /**
      * Returns true if the specified path, ignoring query string parameters, is either the active path or a parent
-     * of the active path.
+     * of the active path. Note this does not match on "/" or "" as a parent path.
      *
      * @param {string[]} commands
      * @returns {boolean}
      */
     public isPathOrParentPathActive(commands: string[]): boolean {
 
-        // If there is only a single segment in the specified commands, use exact matching on path.
-        if ( commands.length === 1 ) {
+        // If there is only a single segment in the specified commands and the segment is root, use exact matching
+        // on path.
+        if ( this.isRootCommand(commands) ) {
             return this.isPathActive(commands);
         }
 
@@ -49,6 +50,21 @@ export class RoutingService {
             queryParamsHandling: "merge"
         });
         return this.router.isActive(urlTree, false);
+    }
+
+    /**
+     * Returns true if the specified commands is for root.
+     *
+     * @param {string[]} commands
+     * @returns {boolean}
+     */
+    private isRootCommand(commands) {
+
+        if ( commands.length > 1 ) {
+            return false;
+        }
+        const command = commands[0];
+        return command === "/" || command === "";
     }
 }
 
