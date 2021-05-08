@@ -35,6 +35,9 @@ import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TerraService } from "../../shared/terra.service";
 import { TermSortService } from "../../sort/term-sort.service";
+import { WarningComponent } from "../../../shared/warning/warning.component";
+import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
+import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 
 describe("ExportToTerraComponent", () => {
 
@@ -83,7 +86,10 @@ describe("ExportToTerraComponent", () => {
                 ExportToTerraComponent,
                 FileTypeSummaryListComponent,
                 GetDataPanelComponent,
-                SectionBarComponent
+                SectionBarComponent,
+                WarningComponent,
+                WarningContentComponent,
+                WarningDataNormalizationComponent
             ],
             imports: [
                 ClipboardModule,
