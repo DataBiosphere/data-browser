@@ -5,10 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --verbose",
-    "build": "ng build --prod  ---outputPath ../dist",
-    "build-cgl-dev": "ng build --prod  --outputPath ../dist/explore --configuration=cgl-dev --base-href=/explore/",
-    "build-lungmap-dev": "ng build --prod  --outputPath ../dist/explore --configuration=lungmap-dev --base-href=/explore/",
-    "build-cgl-dcp2": "ng build --prod  --outputPath ../dist/explore --configuration=dcp2 --base-href=/explore/",
+    "build": "ng build --outputPath ../dist",
+    "build-cgl-dev": "ng build --outputPath ../dist/explore --configuration=cgl-dev --base-href=/explore/",
+    "build-lungmap-dev": "ng build --outputPath ../dist/explore --configuration=lungmap-dev --base-href=/explore/",
+    "build-cgl-dcp2": "ng build --outputPath ../dist/explore --configuration=dcp2 --base-href=/explore/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
