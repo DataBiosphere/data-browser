@@ -20,6 +20,7 @@
     <ng-container *ngIf="isDownloadInProgress(state.manifestResponse)">
         <get-data-panel [loading]="isDownloadInProgress(state.manifestResponse)">
             <h4 class="fontsize-m semi-bold">Your File Manifest is Being Prepared</h4>
+            <warning-data-normalization></warning-data-normalization>
             <p class="fontsize-m">Your manifest will be ready shortly.</p>
         </get-data-panel>
     </ng-container>
@@ -27,6 +28,7 @@
         <get-data-panel>
             <h4 class="fontsize-m semi-bold">Your File Manifest is Ready</h4>
         </get-data-panel>
+        <warning-data-normalization></warning-data-normalization>
         <p class="fontsize-m">Select the link below to download your manifest.</p>
         <p class="fontsize-m">This link expires in 24 hours.</p>
         <div class="download">
