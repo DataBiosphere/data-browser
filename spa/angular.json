@@ -29,29 +29,6 @@
             "scripts": []
           },
           "configurations": {
-            "ux-dev": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.ux-dev.ts"
-                }
-              ]
-            },
             "cgl-dev": {
               "budgets": [
                 {
@@ -121,52 +98,6 @@
                 }
               ]
             },
-            "integration": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.integration.ts"
-                }
-              ]
-            },
-            "staging": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
-                }
-              ]
-            },
             "dcp2": {
               "budgets": [
                 {
@@ -189,29 +120,6 @@
                   "with": "src/environments/environment.dcp2.ts"
                 }
               ]
-            },
-            "production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
             }
           }
         },
@@ -221,20 +129,8 @@
             "browserTarget": "boardwalk:build"
           },
           "configurations": {
-            "ux-dev": {
-              "browserTarget": "boardwalk:build:ux-dev"
-            },
             "develop": {
               "browserTarget": "boardwalk:build:develop"
-            },
-            "integration": {
-              "browserTarget": "boardwalk:build:integration"
-            },
-            "staging": {
-              "browserTarget": "boardwalk:build:staging"
-            },
-            "production": {
-              "browserTarget": "boardwalk:build:production"
             }
           }
         },
