@@ -129,8 +129,8 @@
             "browserTarget": "boardwalk:build"
           },
           "configurations": {
-            "develop": {
-              "browserTarget": "boardwalk:build:develop"
+            "production": {
+              "browserTarget": "boardwalk:build:production"
             }
           }
         },
