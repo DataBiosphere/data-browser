@@ -254,16 +254,6 @@ export class ConfigService {
     }
 
     /**
-     * Returns true if the current environment is ux-dev.
-     *
-     * @returns {boolean}
-     */
-    public isEnvUxDev(): boolean {
-
-        return this.deployment === "ux-dev";
-    }
-
-    /**
      * Returns true if the current environment is dpc2.
      * 
      * @returns {boolean}
@@ -271,16 +261,6 @@ export class ConfigService {
     public isEnvDCP2(): boolean {
 
         return this.deployment === "dcp2";
-    }
-
-    /**
-     * Returns true if the current environment is prod.
-     *
-     * @returns {boolean}
-     */
-    public isEnvProd(): boolean {
-
-        return this.deployment === "prod";
     }
 
     /**
