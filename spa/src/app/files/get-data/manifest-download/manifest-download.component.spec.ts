@@ -31,6 +31,9 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TermSortService } from "../../sort/term-sort.service";
+import { WarningComponent } from "../../../shared/warning/warning.component";
+import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
+import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 
 describe("ManifestDownloadComponent", () => {
 
@@ -59,7 +62,10 @@ describe("ManifestDownloadComponent", () => {
                 FileTypeSummaryListComponent,
                 GetDataPanelComponent,
                 ManifestDownloadComponent,
-                SectionBarComponent
+                SectionBarComponent,
+                WarningComponent,
+                WarningContentComponent,
+                WarningDataNormalizationComponent
             ],
             imports: [
                 ClipboardModule,
