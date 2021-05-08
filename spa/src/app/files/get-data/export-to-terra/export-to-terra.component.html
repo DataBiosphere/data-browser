@@ -8,6 +8,7 @@
             <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                     [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+            <warning-data-normalization></warning-data-normalization>
             <button class="button primary"
                     type="button"
                     (click)="onExportToTerra(state.catalog, state.selectedSearchTerms)"
@@ -19,12 +20,14 @@
     <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
         <get-data-panel [loading]="isRequestInProgress(state.exportToTerraStatus)">
             <h4 class="fontsize-m semi-bold">Your Export is Being Prepared</h4>
+            <warning-data-normalization></warning-data-normalization>
             <p class="fontsize-m">Your export will be ready shortly.</p>
         </get-data-panel>
     </ng-container>
     <ng-container *ngIf="isRequestComplete(state.exportToTerraStatus)">
         <get-data-panel>
             <h4 class="fontsize-m semi-bold">Your Export is Ready</h4>
+            <warning-data-normalization></warning-data-normalization>
             <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
             <p class="fontsize-m">The workspace URL is referenced below.</p>
         </get-data-panel>
