@@ -8,6 +8,8 @@
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
+import { FormsModule } from "@angular/forms";
+import { MatRadioModule } from "@angular/material/radio";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
@@ -38,6 +40,8 @@ import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
 import { TermSortService } from "../../sort/term-sort.service";
+import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
+
 
 describe("BulkDownloadComponent", () => {
 
@@ -62,11 +66,14 @@ describe("BulkDownloadComponent", () => {
                 SectionBarComponent,
                 WarningComponent,
                 WarningContentComponent,
+                WarningDataNormalizationComponent,
                 WarningTitleComponent,
             ],
             imports: [
                 ClipboardModule,
+                FormsModule,
                 MatIconModule,
+                MatRadioModule,
                 MatTooltipModule,
                 PipeModule
             ],
