@@ -6,6 +6,15 @@
                 "publicationTitle": "Structural Remodeling of the Human Colonic Mesenchyme in Inflammatory Bowel Disease",
                 "publicationUrl": "https://www.sciencedirect.com/science/article/pii/S0092867418311681?via%3Dihub"
             }
+        ],
+        "contributorMatrices": [
+            {
+                "fileName": "GSE114374_Human_UC_expression_matrix.txt.gz",
+                "analysisPortals": [{
+                    "name": "CELLXGENE",
+                    "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
+                }]
+            }
         ]
     },
     {
@@ -74,5 +83,41 @@
         "deprecated": true,
         "projectShortname": "Profiling of CD34+ cells from human bone marrow to understand hematopoiesis",
         "supersededBy": "091cf39b-01bc-42e5-9437-f419a66c8a45"
+    },
+    {
+        "entryId": "2d846095-8a33-4f3c-97d4-585bafac13b4",
+        "contributorMatrices": [
+            {
+                "fileName": "GBM_raw_gene_counts.csv",
+                "analysisPortals": [{
+                    "name": "CELLXGENE",
+                    "url": "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc"
+                }]
+            }
+        ]
+    },
+    {
+        "entryId": "2a64db43-1b55-4639-aabb-8dba0145689d",
+        "contributorMatrices": [
+            {
+                "fileName": "GSE161089_RAW (1).tar",
+                "analysisPortals": [{
+                    "name": "CELLXGENE",
+                    "url": "https://cellxgene.cziscience.com/collections/cdfb9ead-cb58-4a53-879d-5e4ed5329e73"
+                }]
+            }
+        ]
+    },
+    {
+        "entryId": "4bec484d-ca7a-47b4-8d48-8830e06ad6db",
+        "contributorMatrices": [
+            {
+                "fileName": "GSE130636_RAW.tar",
+                "analysisPortals": [{
+                    "name": "CELLXGENE",
+                    "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
+                }]
+            }
+        ]
     }
 ]

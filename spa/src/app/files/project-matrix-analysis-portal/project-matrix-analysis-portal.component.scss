@@ -1,0 +1,25 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying project matrix analysis portal link.
+ */
+
+/* Logos */
+a {
+    display: flex; /* Wrap neatly around img */
+}
+
+/* Analysis portals logos. Matches none icon in parent component. */
+img {
+    height: 16px;
+    padding:8px;
+    width: 16px;
+}
+
+/* Tooltip */
+:host {
+    .mat-tooltip {
+        margin: 0;
+    }
+}

@@ -46,6 +46,13 @@
                         *ngIf="!last">,</ng-container></span>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="analyisPortals">
+            <mat-header-cell *matHeaderCellDef><span class="fontsize-xxs bold">Analysis Portals</span></mat-header-cell>
+            <mat-cell *matCellDef="let element" class="fontsize-xxs">
+                <project-matrix-analysis-portals 
+                        [analysisPortals]="element.analysisPortals"></project-matrix-analysis-portals>
+            </mat-cell>
+        </ng-container>        
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
     </mat-table>
