@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 // App dependencies
 import { ProjectMatrixAnalysisPortal } from "../project-matrix/project-matrix-analysis-portal.model";
@@ -21,11 +21,6 @@ export class ProjectMatrixAnalysisPortalComponent {
     
     // Inputs
     @Input() analysisPortal: ProjectMatrixAnalysisPortal;
-
-    /**
-     * @param {Window} window
-     */
-    constructor(@Inject("Window") private window: Window) {}
 
     /**
      * Returns the display name of the analysis portal.

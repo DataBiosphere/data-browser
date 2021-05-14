@@ -9,10 +9,11 @@
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
 import { ProjectRowMapper } from "../projects/project-row-mapper";
+import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
 import { Project } from "../shared/project.model";
-import { getUnspecifiedIfNullValue } from "../table/table-methods";
 import { Contributor } from "../shared/contributor.model";
 import { Publication } from "../shared/publication.model";
+import { getUnspecifiedIfNullValue } from "../table/table-methods";
 
 export class ProjectMapper extends ProjectRowMapper {
 
@@ -43,7 +44,7 @@ export class ProjectMapper extends ProjectRowMapper {
 
         const entity = Object.assign(
             {},
-            super.mapRow(this.projectOverrides), // Overrides required for project matrix analysis portals
+            super.mapRow(),
             {
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
                 deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
@@ -61,6 +62,12 @@ export class ProjectMapper extends ProjectRowMapper {
             }
         );
 
+        if ( this.projectOverrides && this.projectOverrides.contributorMatrices?.length ) {
+            const mappedContributorMatrices = (entity as any).contributorMatrices;
+            const overrideContributedMatrices = this.projectOverrides.contributorMatrices;
+            this.addContributorMatricesVisualizations(mappedContributorMatrices, overrideContributedMatrices);
+        }
+
         // If the built entity has no project short name, and the project edits does have a short name, apply it to
         // the newly build entity.
         // TODO revisit as any here - why is this necessary? 
@@ -68,6 +75,29 @@ export class ProjectMapper extends ProjectRowMapper {
             (entity as any).projectShortname = this.projectOverrides.projectShortname;
         }
         return entity;
+    }
+
+    /**
+     * Match the contributor matrices visualization tools specified in the project overrides with their
+     * corresponding matrices.
+     *
+     * @param {ProjectMatrixView[]} contributorMatrices
+     * @param {any} matrixOverrides
+     */
+    private addContributorMatricesVisualizations(
+        contributorMatrices: ProjectMatrixView[], matrixOverrides: ProjectMatrixView[]) {
+
+        const matricesById = contributorMatrices.reduce((accum, matrix) => {
+            accum.set(matrix.uuid, matrix);
+            return accum;
+        }, new Map());
+        matrixOverrides.forEach(override => {
+
+            const matrix = matricesById.get(override.uuid);
+            if ( matrix ) {
+                matrix.analysisPortals = override.analysisPortals;
+            }
+        });
     }
 
     /**
