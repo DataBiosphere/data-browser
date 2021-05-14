@@ -39,10 +39,11 @@ export class ProjectMatrixMapper {
     private createMatrixView(file: MatrixResponseFile, meta: {[key: string]: string}): ProjectMatrixView {
 
         // Create matrix view, starting with core file values.
-        const {url, name} = file;
+        const {uuid, url, name} = file;
         const matrixView =  {
             fileName: name,
-            url
+            url,
+            uuid
         };
 
         // Convert meta values into arrays. There may be identical files in separate branches of the tree and we'll
@@ -120,7 +121,8 @@ export class ProjectMatrixMapper {
         // Create new view - for immutability - to hold merged values.
         const mergedView = {
             fileName: mergeWithView.fileName,
-            url: mergeWithView.url
+            url: mergeWithView.url,
+            uuid: mergeWithView.uuid
         };
         
         for ( let [key, value] of Object.entries(viewToMerge) ) {

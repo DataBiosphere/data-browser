@@ -9,4 +9,5 @@ export interface MatrixResponseFile {
 
     name: string;
     url: string;
+    uuid: string;
 }
