@@ -43,7 +43,7 @@ export class ProjectMapper extends ProjectRowMapper {
 
         const entity = Object.assign(
             {},
-            super.mapRow(),
+            super.mapRow(this.projectOverrides), // Overrides required for project matrix analysis portals
             {
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
                 deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated

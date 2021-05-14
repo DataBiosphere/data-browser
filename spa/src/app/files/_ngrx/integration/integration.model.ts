@@ -2,7 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of an integration, that provides visualizations of HCA data.
+ * Model of an integration return from Azul, that provides visualizations of HCA data. Note this specific to the Azul
+ * integrations response, and is separate from the project matrix-specific analysis portal model.
  */
 
 // App dependencies

@@ -70,7 +70,6 @@ mat-table {
 
     /* Override font sizing in file-download component to match table fonts */
     .fontsize-s {
-        color: red !important;
         font-size: inherit;
         line-height: inherit;
     }
@@ -92,7 +91,14 @@ mat-table {
         word-break: break-all;
     }
 
-    /** Actions */
+    /** Organ */
+    .mat-column-organ, .mat-cell-organ,
+    .mat-column-libraryConstructionApproach, .mat-cell-libraryConstructionApproach,
+    .mat-column-genusSpecies, .mat-cell-genusSpecies,{
+        flex-shrink: 1; // Shrink organ, library construction approach and species, equally
+    }
+
+    /** Actions - snap at 37px */
     .mat-column-actions, .mat-cell-actions {
         flex-basis: 37px;
         flex-grow: 0;
@@ -100,6 +106,16 @@ mat-table {
         justify-content: space-between;
         max-width: 37px;
         min-width: 37px;
+    }
+    
+    /* Analysis portals - snap at 75px */
+    .mat-column-analyisPortals {
+        flex-basis: 75px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        justify-content: space-between;
+        max-width: 75px;
+        min-width: 75px;
     }
 }
 

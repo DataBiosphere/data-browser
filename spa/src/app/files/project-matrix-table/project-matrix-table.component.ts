@@ -26,7 +26,8 @@ import { GenusSpecies } from "../shared/genus-species.model";
 export class ProjectMatrixTableComponent {
 
     // Template variables 
-    public columnsToDisplay = ["actions", "fileName", "genusSpecies", "organ", "libraryConstructionApproach"];
+    public columnsToDisplay = 
+        ["actions", "fileName", "genusSpecies", "organ", "libraryConstructionApproach", "analyisPortals"];
 
     // Inputs/Outputs
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
