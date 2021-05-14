@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Spec of a visualization of a project matrix.  
+ * Model of an project matrix analysis portal.  
  */
 
 // App dependencies
@@ -11,4 +11,5 @@ import { ProjectMatrixAnalysisPortalName } from "./project-matrix-analysis-porta
 export interface ProjectMatrixAnalysisPortal {
     name: ProjectMatrixAnalysisPortalName;
     url: string;
+    uuid: string;
 }
