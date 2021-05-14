@@ -60,13 +60,13 @@ export class ProjectRowMapper extends FileTypeSummariesRowMapper {
     private addContributorMatricesVisualizations(
         contributorMatrices: ProjectMatrixView[], matrixOverrides: ProjectMatrixView[]) {
 
-        const matricesByFileName = contributorMatrices.reduce((accum, matrix) => {
-            accum.set(matrix.fileName, matrix);
+        const matricesById = contributorMatrices.reduce((accum, matrix) => {
+            accum.set(matrix.uuid, matrix);
             return accum;
         }, new Map());
         matrixOverrides.forEach(override => {
 
-            const matrix = matricesByFileName.get(override.fileName);
+            const matrix = matricesById.get(override.uuid);
             if ( matrix ) {
                 matrix.analysisPortals = override.analysisPortals;
             }

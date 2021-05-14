@@ -10,6 +10,7 @@
         "contributorMatrices": [
             {
                 "fileName": "GSE114374_Human_UC_expression_matrix.txt.gz",
+                "uuid": "1561c477-9eed-5cf9-bd33-900eae40a9e9",
                 "analysisPortals": [{
                     "name": "CELLXGENE",
                     "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
@@ -89,6 +90,7 @@
         "contributorMatrices": [
             {
                 "fileName": "GBM_raw_gene_counts.csv",
+                "uuid": "667e3333-621b-5a49-a884-8711c3f8bb69",
                 "analysisPortals": [{
                     "name": "CELLXGENE",
                     "url": "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc"
@@ -101,6 +103,7 @@
         "contributorMatrices": [
             {
                 "fileName": "GSE161089_RAW (1).tar",
+                "uuid": "23023247-4da8-54f4-a687-22a7ab39c26f",
                 "analysisPortals": [{
                     "name": "CELLXGENE",
                     "url": "https://cellxgene.cziscience.com/collections/cdfb9ead-cb58-4a53-879d-5e4ed5329e73"
@@ -113,6 +116,7 @@
         "contributorMatrices": [
             {
                 "fileName": "GSE130636_RAW.tar",
+                "uuid": "f02bd26d-9556-5b34-8738-4b57734e7507",
                 "analysisPortals": [{
                     "name": "CELLXGENE",
                     "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
