@@ -126,6 +126,7 @@ import { ProjectEditsService } from "./shared/project-edits.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermSortService } from "./sort/term-sort.service";
+import { SurveyModule } from "../survey/survey.module";
 import { PaginationService } from "./table/pagination/pagination.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
@@ -157,7 +158,8 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
 
         ModalModule,
         PipeModule,
-        SharedModule
+        SharedModule,
+        SurveyModule
     ],
     declarations: [
         AgeInAgeUnit,
