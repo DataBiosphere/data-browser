@@ -20,3 +20,7 @@
     background-color: rgba(232, 170, 69, 0.15);
     border: 1px solid $hca-orange;
 }
+
+:host.cta {
+    padding-bottom: 34px; /* Override content component's margin bottom */
+}
