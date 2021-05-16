@@ -20,6 +20,9 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 // App Dependencies
 import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routes";
+import { AuthModule } from "./auth/auth.module";
+import { AuthService } from "./auth/auth.service";
+import { HttpAuthInterceptor } from "./auth/http-auth.interceptor";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { FaviconService } from "./favicon/favicon.service";
@@ -55,6 +58,7 @@ import { SystemService } from "./system/shared/system.service";
         }),
 
         // CHILD MODULES SETUP
+        AuthModule,
         FaviconModule,
         ConfigModule,
         FilesModule,
@@ -86,6 +90,17 @@ import { SystemService } from "./system/shared/system.service";
             deps: [CatalogService, ConfigService, Store],
             multi: true
         },
+        // Init auth.
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (authService: AuthService) => {
+                return () => {
+                    return authService.init();
+                };
+            },
+            deps: [AuthService, ConfigService, Store],
+            multi: true
+        },
         // Init favicon.
         {
             provide: APP_INITIALIZER,
@@ -98,6 +113,11 @@ import { SystemService } from "./system/shared/system.service";
                 };
             },
             deps: [ConfigService, FaviconService],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpAuthInterceptor,
             multi: true
         },
         {

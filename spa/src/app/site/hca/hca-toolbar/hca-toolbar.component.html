@@ -50,6 +50,19 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </toolbar-nav-item>
+            <toolbar-nav-item *ngIf="isAuthEnabled()">
+                <ng-container [ngSwitch]="state.authenticated">
+                    <a class="link" *ngSwitchCase="true" (click)="onLogoutClicked()">
+                        <span class="fontsize-xs">Hi, {{getGivenName(state.user)}}. Logout</span>
+                        <span class="fontsize-xxs">Hi, {{getGivenName(state.user)}}. Logout</span>
+                    </a>
+                    <a class="link" *ngSwitchDefault (click)="onLoginClicked()">
+                        <span class="fontsize-xs">Login</span>
+                        <span class="fontsize-xxs">Login</span>
+                    </a>
+                </ng-container>
+
+            </toolbar-nav-item>
         </toolbar-nav>
     </mat-toolbar-row>
 </mat-toolbar>
