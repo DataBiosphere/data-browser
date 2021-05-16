@@ -1,0 +1,41 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ * 
+ * Auth reducer, handles actions related to handling auth state.
+ */
+
+// Core dependencies
+import { Action } from "@ngrx/store";
+
+// App dependencies
+import { AuthInitAction } from "./auth-init.action";
+import { AuthState } from "./auth.state";
+import { LoginSuccessAction } from "./login-success.action";
+import { LogoutSuccessAction } from "./logout-success.action";
+
+/**
+ * @param {AuthState} state
+ * @param {Action} action
+ * @returns {AuthState}
+ */
+export function reducer(state: AuthState = AuthState.getDefaultState(), action: Action): AuthState {
+
+    switch (action.type) {
+
+        // Update init to indicate auth has been initialized
+        case AuthInitAction.ACTION_TYPE:
+            return state.onInit(action as LoginSuccessAction);
+
+        // Login successful, update state with user details
+        case LoginSuccessAction.ACTION_TYPE:
+            return state.onLoggedIn(action as LoginSuccessAction);
+
+        // Logout successful, reset auth state
+        case LogoutSuccessAction.ACTION_TYPE:
+            return AuthState.getDefaultState();
+
+        default:
+            return state;
+    }
+}

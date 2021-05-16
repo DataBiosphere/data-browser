@@ -30,6 +30,7 @@ import { RouterModule } from "@angular/router";
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
+import { AuthModule } from "../auth/auth.module";
 import { BaseManifestDownloadComponent } from "./get-data/base-manifest-download.component.ts/base-manifest-download.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
@@ -160,6 +161,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ReactiveFormsModule,
         RouterModule.forChild(routes),
 
+        AuthModule,
         ModalModule,
         PipeModule,
         SharedModule,

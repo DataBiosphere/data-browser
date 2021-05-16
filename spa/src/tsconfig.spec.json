@@ -4,8 +4,10 @@
     "outDir": "../out-tsc/spec",
     "types": [
       "jasmine",
-      "node"
-    ]
+      "node",
+      "gapi",
+      "gapi.auth2"
+    ],
   },
   "files": [
     "test.ts",

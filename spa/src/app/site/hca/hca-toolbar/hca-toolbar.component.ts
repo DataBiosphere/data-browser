@@ -8,11 +8,15 @@
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import GoogleUser = gapi.auth2.GoogleUser;
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { selectAuthenticated, selectUser } from "../../../auth/_ngrx/auth.selectors";
+import { LoginRequestAction } from "../../../auth/_ngrx/login-request.action";
+import { LogoutRequestAction } from "../../../auth/_ngrx/logout-request.action";
 import { ConfigService } from "../../../config/config.service";
 import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.action";
 import { EntityName } from "../../../files/shared/entity-name.model";
@@ -36,6 +40,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     public dropDownMenuOpen = false;
     public portalUrl: string;
     public state$ = new BehaviorSubject<HCAToolbarComponentState>({
+        authenticated: false,
         modalOpen: false
     });
 
@@ -56,6 +61,24 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
                 private urlService: UrlService,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalUrl();
+    }
+
+    /**
+     * Return the given name for the current user.
+     * 
+     * @param {GoogleUser} user
+     */
+    public getGivenName(user: GoogleUser) {
+
+        return user.getBasicProfile().getGivenName()
+    }
+
+    /**
+     * Returns true if auth is enabled.
+     */
+    public isAuthEnabled() {
+        
+        return this.configService.isAuthEnabled();
     }
 
     /**
@@ -92,10 +115,27 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     public onExploreLinkClicked() {
 
         this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
-        
+
         if ( this.routingService.isPathActive([`/${EntityName.PROJECTS}`]) ) {
             this.store.dispatch(new CloseHamburgerAction());
         }
+    }
+
+    /**
+     * Dispatch event to login user via Google.
+     */
+    public onLoginClicked() {
+
+        this.store.dispatch(new LoginRequestAction());
+    }
+
+
+    /**
+     * Dispatch event to logout user via Google.
+     */
+    public onLogoutClicked() {
+
+        this.store.dispatch(new LogoutRequestAction());
     }
 
     /**
@@ -140,11 +180,29 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
         // Sets up the current url
         this.initCurrentUrl();
 
-        this.store.pipe(
+        const modalOpen$ = this.store.pipe(
             select(selectModalOpen),
             takeUntil(this.ngDestroy$)
-        ).subscribe(modalOpen => {
-            this.state$.next({modalOpen});
+        );
+        
+        const authenticated$ = this.store.pipe(
+            select(selectAuthenticated),
+            takeUntil(this.ngDestroy$)
+        );
+
+        const user$ = this.store.pipe(
+            select(selectUser),
+            takeUntil(this.ngDestroy$)
+        );
+
+        combineLatest(
+            authenticated$,
+            modalOpen$,
+            user$
+        ).pipe(
+            takeUntil(this.ngDestroy$),
+        ).subscribe(([authenticated, modalOpen, user]) => {
+            this.state$.next({authenticated, modalOpen, user})
         });
     }
 }

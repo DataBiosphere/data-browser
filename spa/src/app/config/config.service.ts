@@ -245,6 +245,14 @@ export class ConfigService {
     }
 
     /**
+     * Returns true if auth is enabled. Auth is currently only enabled in dev.
+     */
+    public isAuthEnabled() {
+
+        return this.isEnvCGLDev();
+    }
+
+    /**
      * Returns true if the current environment is cgl-dev.
      *
      * @returns {boolean}

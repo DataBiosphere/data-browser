@@ -5,6 +5,11 @@
  * State backing core HCA toolbar component.
  */
 
+// Core dependencies
+import GoogleUser = gapi.auth2.GoogleUser;
+
 export interface HCAToolbarComponentState {
+    authenticated: boolean;
     modalOpen: boolean;
+    user?: GoogleUser;
 }
