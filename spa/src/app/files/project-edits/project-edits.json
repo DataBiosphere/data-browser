@@ -6,16 +6,6 @@
                 "publicationTitle": "Structural Remodeling of the Human Colonic Mesenchyme in Inflammatory Bowel Disease",
                 "publicationUrl": "https://www.sciencedirect.com/science/article/pii/S0092867418311681?via%3Dihub"
             }
-        ],
-        "contributorMatrices": [
-            {
-                "fileName": "GSE114374_Human_UC_expression_matrix.txt.gz",
-                "uuid": "1561c477-9eed-5cf9-bd33-900eae40a9e9",
-                "analysisPortals": [{
-                    "name": "CELLXGENE",
-                    "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
-                }]
-            }
         ]
     },
     {
