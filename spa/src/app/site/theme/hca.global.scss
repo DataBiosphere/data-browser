@@ -187,9 +187,7 @@ hr {
  * Buttons
  */
 
-/** Override MD default focus style of buttons */
-button {
-
+@mixin button() {
     /* HCA Button */
     &.button {
         align-items: center;
@@ -275,6 +273,21 @@ button {
         outline: none;
     }
 }
+
+/** Override MD default focus style of buttons */
+button {
+    @include button();
+}
+
+/** Links styled as buttons */
+a.anchor-button {
+    @include button();
+    /** Override mixin display value to maintain inline flow for anchors */
+    &.button {
+        display: inline-flex;
+    }
+}
+
 
 /**
  * Prevents scroll on body when facet is open, or hamburger is open. 
