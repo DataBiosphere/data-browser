@@ -3,11 +3,20 @@
         <p class="fontsize-m"><strong>Help improve the HCA DCP</strong></p>
     </warning-title>
     <warning-content>
-        <p class="fontsize-m">The HCA DCP product team is conducting user surveys and interviews to help discover how
-            researches are using matrices and ways they can improve their utility. For more information, see
-            <a [href]="portalUrl"
-               target="_blank"
-               rel="noopener">About the Spring 2021 DCP Matrix UX Effort</a>.</p>
-        <button class="button primary" (click)="onTakeSurvey()">Take the Survey</button>
+        <p class="fontsize-m">The HCA DCP product team is recruiting volunteers to participate in a 15 - 20 minute
+            virtual interview to help us understand the usability of the Data Portal, and the
+            <a [href]="getMatrixFileLink()" target="_blank" rel="noopener">matrix file</a> (Contributor and DCP
+            Generated) formats and metadata.</p>
+        <p class="fontsize-m"><strong>To volunteer, please use the sign-up sheet below</strong> to tell us a bit about
+            yourself, your work, and the best way to contact you.</p>
+        <p class="fontsize-m">For more information, read the <a [href]="getSurveyDescriptionLink()"
+                                                                target="_blank"
+                                                                rel="noopener">Spring
+            2021 DCP Matrix UX Study</a> overview.</p>
+        <a class="anchor-button button primary"
+           href="https://docs.google.com/forms/d/e/1FAIpQLSfuX6Xn1KzjURXdPUjBoQGK3fbKQMUuh3JKs2MHS9xCSR2TQw/viewform"
+           target="_blank"
+           rel="noopener"
+           (click)="onTakeSurvey()">Sign Up</a>
     </warning-content>
 </warning>

@@ -34,6 +34,26 @@ export class SurveyMatrixUIComponent {
     }
 
     /**
+     * Return the Portal matrices description link.
+     * 
+     * @returns {string}
+     */
+    public getMatrixFileLink() {
+
+        return `${this.portalUrl}/guides/consumer-vignettes/matrices`;
+    }
+
+    /**
+     * Return the Portal survey description link.
+     *
+     * @returns {string}
+     */
+    public getSurveyDescriptionLink() {
+
+        return `${this.portalUrl}/community-updates/ux-studies/dcp-matrix-ux-study-spring-2021`;
+    }
+
+    /**
      * Redirect user to survey.
      */
     public onTakeSurvey() {
