@@ -14,9 +14,11 @@ import { filter } from "rxjs/operators";
 // Core dependencies
 import { RoutingService } from "./routing.service";
 import { FooComponent } from "../../test/foo.component";
+import { BarComponent } from "../../test/bar.component";
 
 describe("RoutingService", () => {
 
+    let fixture;
     let router;
     let routingService: RoutingService;
 
@@ -30,7 +32,7 @@ describe("RoutingService", () => {
                 RouterTestingModule.withRoutes([
                     {
                         path: "",
-                        component: FooComponent
+                        component: BarComponent
                     },
                     {
                         path: "foo",
@@ -45,6 +47,10 @@ describe("RoutingService", () => {
 
         routingService = TestBed.inject(RoutingService);
         router = TestBed.inject(Router);
+        fixture = TestBed.createComponent(FooComponent);
+        fixture.ngZone.run(() => {
+            router.initialNavigation();
+        });
     }));
 
     describe("isPathActive", () => {
@@ -62,8 +68,10 @@ describe("RoutingService", () => {
                 expect(routingService.isPathActive(commands)).toBeTrue();
                 doneFn();
             });
-            
-            router.navigate(commands);
+
+            fixture.ngZone.run(() => {
+                router.navigate(commands);
+            });
         });
 
         /**
@@ -80,8 +88,10 @@ describe("RoutingService", () => {
                 doneFn();
             });
 
-            router.navigate(commands, {
-                queryParams: { foo: "bar" }
+            fixture.ngZone.run(() => {
+                router.navigate(commands, {
+                    queryParams: { foo: "bar" }
+                });
             });
         });
 
@@ -100,7 +110,9 @@ describe("RoutingService", () => {
                 doneFn();
             });
 
-            router.navigate(navigateToCommands);
+            fixture.ngZone.run(() => {
+                router.navigate(navigateToCommands);
+            });
         });
     });
 });
