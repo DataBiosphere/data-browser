@@ -47,7 +47,7 @@ import { LungMAPToolbarComponent } from "./site/lungmap/lungmap-toolbar/lungmap-
 import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 import { ViewContainerDirective } from "./site/site-config/view-conatainer.directive";
 import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
-import { LocalStorageService } from "./storage/local-storage.service";
+import { LocalStorageModule } from "./storage/local-storage.module";
 import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
@@ -77,6 +77,7 @@ import { SystemService } from "./system/shared/system.service";
         ConfigModule,
         FilesModule,
         HamburgerModule,
+        LocalStorageModule,
         SupportRequestModule,
 
         DeviceDetectorModule.forRoot()
@@ -136,7 +137,6 @@ import { SystemService } from "./system/shared/system.service";
             deps: [ConfigService, Router, Store],
             multi: true
         },
-        LocalStorageService,
         {
             provide: SITE_CONFIG_SERVICE,
             useFactory: (configService: ConfigService) => {
