@@ -12,7 +12,6 @@ import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { Catalog } from "../../catalog/catalog.model";
 import { ConfigService } from "../../../config/config.service";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
 import { FileSummary } from "../../file-summary/file-summary";
@@ -21,10 +20,11 @@ import { ExportToTerraComponentState } from "./export-to-terra.component.state";
 import { AppState } from "../../../_ngrx/app.state";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary } from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { CopyToClipboardTerraUrlAction } from "../../_ngrx/terra/copy-to-clipboard-terra-url.action";
+import { LaunchTerraAction } from "../../_ngrx/terra/launch-terra.action";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
-import { selectCatalog } from "../../_ngrx/catalog/catalog.selectors";
-import { ExportToTerraRequestAction } from "../../_ngrx/terra/export-to-terra-request.action";
+import { ExportToTerraActionRequest } from "../../_ngrx/terra/export-to-terra-action.request";
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
 import { SearchTerm } from "../../search/search-term.model";
@@ -147,37 +147,29 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     /**
      * Track click on Terra data link.
      *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
-    public onDataLinkClicked(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
+    public onDataLinkClicked(exportToTerraUrl: string) {
 
-        this.terraService.trackLaunchTerraLink(catalog, selectedSearchTerms, exportToTerraUrl);
+        this.store.dispatch(new LaunchTerraAction(exportToTerraUrl));
     }
 
     /**
      * Track click on copy of Terra data link.
      *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
-    public onDataLinkCopied(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
-        
-        this.terraService.trackCopyToClipboardTerraLink(catalog, selectedSearchTerms, exportToTerraUrl);
+    public onDataLinkCopied(exportToTerraUrl: string) {
+
+        this.store.dispatch(new CopyToClipboardTerraUrlAction(exportToTerraUrl));
     }
 
     /**
-     * Dispatch action to export to Terra. Also track export action with GA.
-     * 
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
+     * Dispatch action to export to Terra.
      */
-    public onExportToTerra(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
+    public onExportToTerra() {
 
-        this.terraService.trackRequestExportToTerra(catalog, selectedSearchTerms);
-        this.store.dispatch(new ExportToTerraRequestAction());
+        this.store.dispatch(new ExportToTerraActionRequest());
     }
 
     /**
@@ -241,23 +233,18 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
         // Update the UI with any changes in the export to Terra request status and URL
         const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerra));
         
-        // Selected catalog is required for tracking
-        const selectCatalog$ = this.store.pipe(select(selectCatalog));
-
         this.state$ = combineLatest(
-            selectCatalog$,
             selectedSearchTerms$,
             selectManifestDownloadFileSummary$,
             selectExportToTerraStatus$
         )
             .pipe(
-                map(([catalog, selectedSearchTerms, manifestDownloadFileSummary, exportToTerra]) => {
+                map(([selectedSearchTerms, manifestDownloadFileSummary, exportToTerra]) => {
 
                     const selectedSearchTermNames = selectedSearchTerms
                         .map(searchTerm => searchTerm.getDisplayValue());
 
                     return {
-                        catalog,
                         selectedSearchTerms,
                         selectedSearchTermNames,
                         manifestDownloadFileSummary,

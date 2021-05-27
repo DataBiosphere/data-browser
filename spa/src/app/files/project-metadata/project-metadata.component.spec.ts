@@ -21,7 +21,6 @@ import { ConfigService } from "../../config/config.service";
 import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { FileLocationCopyComponent } from "../file-location/file-location-copy/file-location-copy.component";
 import { FileLocationDownloadComponent } from "../file-location/file-location-download/file-location-download.component";
-import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectManifestDownloadComponent } from "../project-manifest-download/project-manifest-download.component";
@@ -75,16 +74,6 @@ describe("ProjectMetadataComponent", () => {
                     }
                 },
                 ConfigService,
-                {
-                    provide: FileManifestService,
-                    useValue: jasmine.createSpyObj("FileManifestService", [
-                        "trackRequestCohortManifest",
-                        "trackDownloadCohortManifest",
-                        "trackCopyToClipboardCohortManifestLink",
-                        "trackDownloadProjectManifest",
-                        "trackCopyToClipboardProjectManifestLink"
-                    ])
-                },
                 {
                     provide: ProjectDetailService,
                     useValue: jasmine.createSpyObj("ProjectDetailService", [

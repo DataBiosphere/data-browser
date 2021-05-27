@@ -11,7 +11,7 @@
             <warning-data-normalization></warning-data-normalization>
             <button class="button primary"
                     type="button"
-                    (click)="onExportToTerra(state.catalog, state.selectedSearchTerms)"
+                    (click)="onExportToTerra()"
                     [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
             </button>
             <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
@@ -34,9 +34,9 @@
         <div class="download">
             <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
                                [targetBlank]="true"
-                               (dataLinkClicked)="onDataLinkClicked(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
+                               (dataLinkClicked)="onDataLinkClicked(getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
             <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                               (copyClicked)="onDataLinkCopied(state.catalog, state.selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+                               (copyClicked)="onDataLinkCopied(getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
             <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </div>
     </ng-container>

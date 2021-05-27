@@ -12,7 +12,7 @@
                                     (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
             <button class="button primary"
                     type="button"
-                    (click)="onRequestManifest(catalog, state.selectedSearchTerms)"
+                    (click)="onRequestManifest()"
                     [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Prepare Manifest</button>
             <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
         </ng-container>
@@ -33,9 +33,9 @@
         <p class="fontsize-m">This link expires in 24 hours.</p>
         <div class="download">
             <data-link [link]="state.manifestResponse.fileUrl"
-                               (dataLinkClicked)="onDataLinkClicked(catalog, state.selectedSearchTerms, state.manifestResponse.fileUrl)"></data-link>
+                               (dataLinkClicked)="onDataLinkClicked(state.manifestResponse.fileUrl)"></data-link>
             <copy-to-clipboard [copyToClipboardLink]="state.manifestResponse.fileUrl"
-                               (copyClicked)="onDataLinkCopied(catalog, state.selectedSearchTerms, state.manifestResponse.fileUrl)"></copy-to-clipboard>
+                               (copyClicked)="onDataLinkCopied(state.manifestResponse.fileUrl)"></copy-to-clipboard>
         </div>
         <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
     </ng-container>
