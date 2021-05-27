@@ -14,7 +14,6 @@ import { map } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
-import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileSummary } from "../../file-summary/file-summary";
@@ -45,12 +44,10 @@ export class BaseManifestDownloadComponent implements OnDestroy, OnInit {
 
     /**
      * @param {ConfigService} configService
-     * @param {FileManifestService} fileManifestService
      * @param {Store<AppState>} store
      */
     constructor(
         protected configService: ConfigService,
-        protected fileManifestService: FileManifestService,
         protected store: Store<AppState>) {
 
         this.portalURL = this.configService.getPortalUrl();

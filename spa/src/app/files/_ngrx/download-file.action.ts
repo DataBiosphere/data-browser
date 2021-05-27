@@ -30,7 +30,7 @@ export class DownloadFileAction implements Action, TrackingAction {
                 public fileFormat: string) {}
 
     /**
-     * Return the clear action as a GA event.
+     * Return the download file action as a GA event.
      *
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}

@@ -23,7 +23,6 @@ import { ManifestDownloadFormat } from "./manifest-download-format.model";
 import { ManifestResponse } from "./manifest-response.model";
 import { ManifestStatus } from "./manifest-status.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GTMService } from "../../shared/analytics/gtm.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 
 describe("FileManifestService", () => {
@@ -36,17 +35,11 @@ describe("FileManifestService", () => {
         TestBed.configureTestingModule({
             declarations: [],
             imports: [],
-            providers: [
-                {
-                    provide: GTMService,
-                    useValue: jasmine.createSpyObj("GTMService", [
-                        "trackEvent"
-                    ])
-                }
-            ]
+            providers: []
         });
 
-        const configService = jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
+        const configService = 
+            jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
         configService.getEntitiesUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getSummaryUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getFileManifestUrl.and.returnValue(""); // Required for testing catalog params on public methods
@@ -71,7 +64,6 @@ describe("FileManifestService", () => {
         fileManifestService = new FileManifestService(
             configService,
             filesService,
-            TestBed.inject(GTMService),
             searchTermHttpService,
             <any>httpClientSpy);
     }));

@@ -34,7 +34,6 @@ import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileFormat } from "../../shared/file-format.model";
-import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
@@ -86,16 +85,6 @@ describe("BulkDownloadComponent", () => {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
                         "trackEvent"
-                    ])
-                },
-                {
-                    provide: FileManifestService,
-                    useValue: jasmine.createSpyObj("FileManifestService", [
-                        "trackRequestCohortManifest",
-                        "trackDownloadCohortManifest",
-                        "trackCopyToClipboardCohortManifestLink",
-                        "trackDownloadProjectManifest",
-                        "trackCopyToClipboardProjectManifestLink"
                     ])
                 },
                 {
