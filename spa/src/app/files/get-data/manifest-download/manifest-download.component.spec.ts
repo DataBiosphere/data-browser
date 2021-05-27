@@ -18,7 +18,6 @@ import { of } from "rxjs";
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
 import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
-import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
@@ -82,16 +81,6 @@ describe("ManifestDownloadComponent", () => {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
                         "trackEvent"
-                    ])
-                },
-                {
-                    provide: FileManifestService,
-                    useValue: jasmine.createSpyObj("FileManifestService", [
-                        "trackRequestCohortManifest",
-                        "trackDownloadCohortManifest",
-                        "trackCopyToClipboardCohortManifestLink",
-                        "trackDownloadProjectManifest",
-                        "trackCopyToClipboardProjectManifestLink"
                     ])
                 },
                 {

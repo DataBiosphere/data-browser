@@ -26,11 +26,6 @@ import { ManifestHttpResponse } from "./manifest-http-response.model";
 import { SearchTerm } from "../search/search-term.model";
 import { SearchFacetTerm } from "../search/search-facet-term.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GAAction } from "../../shared/analytics/ga-action.model";
-import { GACategory } from "../../shared/analytics/ga-category.model";
-import { GADimension } from "../../shared/analytics/ga-dimension.model";
-import { GAEntityType } from "../../shared/analytics/ga-entity-type.model";
-import { GTMService } from "../../shared/analytics/gtm.service";
 
 @Injectable()
 export class FileManifestService {
@@ -38,14 +33,12 @@ export class FileManifestService {
     /**
      * @param {ConfigService} configService
      * @param {FilesService} filesService
-     * @param {GTMService} gtmService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      *
      */
     constructor(private configService: ConfigService,
                 private filesService: FilesService,
-                private gtmService: GTMService,
                 private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
@@ -100,76 +93,6 @@ export class FileManifestService {
             return searchTerm.getSearchKey() !== FileFacetName.FILE_FORMAT;
         });
         return this.filesService.fetchFileSummary(catalog, searchTermsExceptFileTypes);
-    }
-
-    /**
-     * Build up and send GTM event to track a manifest request from "get data" flow.
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     */
-    public trackRequestCohortManifest(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.MANIFEST,
-            action: GAAction.REQUEST,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
-            }
-        };
-
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on manifest download link from "get data" flow.
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     * @param {string} manifestUrl
-     */
-    public trackDownloadCohortManifest(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.MANIFEST,
-            action: GAAction.DOWNLOAD,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-                [GADimension.ENTITY_URL]: manifestUrl
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on copy to clipboard of the generated manifest download link from "get data" flow.
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     * @param {string} manifestUrl
-     */
-    public trackCopyToClipboardCohortManifestLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.MANIFEST,
-            action: GAAction.COPY_TO_CLIPBOARD,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-                [GADimension.ENTITY_URL]: manifestUrl
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
     }
 
     /**

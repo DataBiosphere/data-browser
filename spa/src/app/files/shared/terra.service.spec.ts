@@ -20,7 +20,6 @@ import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
-import { GTMService } from "../../shared/analytics/gtm.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 import { TerraService } from "./terra.service";
 
@@ -34,17 +33,11 @@ describe("TerraService:", () => {
         TestBed.configureTestingModule({
             declarations: [],
             imports: [],
-            providers: [
-                {
-                    provide: GTMService,
-                    useValue: jasmine.createSpyObj("GTMService", [
-                        "trackEvent"
-                    ])
-                }
-            ]
+            providers: []
         });
 
-        const configService = jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
+        const configService =
+            jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
         configService.getEntitiesUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getSummaryUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getFileManifestUrl.and.returnValue(""); // Required for testing catalog params on public methods
@@ -66,18 +59,15 @@ describe("TerraService:", () => {
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
 
-        const gtmService = TestBed.inject(GTMService);
         const fileManifestService = new FileManifestService(
             configService,
             filesService,
-            gtmService,
             searchTermHttpService,
             <any>httpClientSpy);
         
         terraService = new TerraService(
             configService,
             fileManifestService,
-            gtmService,
             searchTermHttpService,
             <any>httpClientSpy);
     }));

@@ -22,12 +22,6 @@ import { FileManifestService } from "../file-manifest/file-manifest.service";
 import { ManifestDownloadFormat } from "../file-manifest/manifest-download-format.model";
 import { ICGCQuery } from "./icgc-query";
 import { SearchTerm } from "../search/search-term.model";
-import { ToolName } from "./tool-name.model";
-import { GACategory } from "../../shared/analytics/ga-category.model";
-import { GADimension } from "../../shared/analytics/ga-dimension.model";
-import { GAAction } from "../../shared/analytics/ga-action.model";
-import { GTMService } from "../../shared/analytics/gtm.service";
-import { GAEntityType } from "../../shared/analytics/ga-entity-type.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
@@ -36,13 +30,11 @@ export class TerraService {
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
-     * @param {GTMService} gtmService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
     constructor(private configService: ConfigService,
                 private fileManifestService: FileManifestService,
-                private gtmService: GTMService,
                 private searchTermHttpService: SearchTermHttpService,
                 private httpClient: HttpClient) {
     }
@@ -151,79 +143,6 @@ export class TerraService {
         this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
 
         return exportResponse$.asObservable();
-    }
-
-    /**
-     * Build up and send GTM event to track a export to Terra request.
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     */
-    public trackRequestExportToTerra(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.EXPORT,
-            action: GAAction.REQUEST,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on generated Terra link (that opens the Terra workspace).
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     * @param {string} exportToTerraUrl
-     */
-    public trackLaunchTerraLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.EXPORT,
-            action: GAAction.LAUNCH,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
-                [GADimension.ENTITY_URL]: exportToTerraUrl,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
-    }
-
-    /**
-     * Track click on copy to clipboard of the generated Terra link (that opens the Terra workspace).
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
-     * @param {string} exportToTerraUrl
-     */
-    public trackCopyToClipboardTerraLink(catalog: Catalog, selectedSearchTerms: SearchTerm[], exportToTerraUrl: string) {
-
-        const query = this.searchTermHttpService.marshallSearchTerms(selectedSearchTerms);
-        const event = {
-            category: GACategory.EXPORT,
-            action: GAAction.COPY_TO_CLIPBOARD,
-            label: query,
-            dimensions: {
-                [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
-                [GADimension.ENTITY_URL]: exportToTerraUrl,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
-        };
-        
-        this.gtmService.trackEvent(event);
     }
 
     /**

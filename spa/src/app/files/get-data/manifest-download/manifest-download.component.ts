@@ -11,7 +11,9 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 // App dependencies
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { Catalog } from "../../catalog/catalog.model";
-import { SearchTerm } from "../../search/search-term.model";
+import { CopyToClipboardCohortManifestURLAction } from "../../_ngrx/cohort-manifest/copy-to-clipboard-cohort-manifest-url.action";
+import { DownloadCohortManifestAction } from "../../_ngrx/cohort-manifest/download-cohort-manifest.action";
+import { RequestCohortManifestAction } from "../../_ngrx/cohort-manifest/request-cohort-manifest.action";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
 
 @Component({
@@ -26,36 +28,29 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
     /**
      * Track click on copy of manifest data link.
      *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
-    public onDataLinkCopied(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+    public onDataLinkCopied(manifestUrl: string) {
 
-        this.fileManifestService.trackCopyToClipboardCohortManifestLink(catalog, selectedSearchTerms, manifestUrl);
+        this.store.dispatch(new CopyToClipboardCohortManifestURLAction(manifestUrl));
     }
 
     /**
      * Track click on manifest data link.
      *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} manifestUrl
      */
-    public onDataLinkClicked(catalog: Catalog, selectedSearchTerms: SearchTerm[], manifestUrl: string) {
+    public onDataLinkClicked(manifestUrl: string) {
 
-        this.fileManifestService.trackDownloadCohortManifest(catalog, selectedSearchTerms, manifestUrl);
+        this.store.dispatch(new DownloadCohortManifestAction(manifestUrl));
     }
 
     /**
-     * Dispatch action to generate manifest summary URL.  Also track export action with GA.
-     *
-     * @param {Catalog} catalog
-     * @param {SearchTerm[]} selectedSearchTerms
+     * Dispatch action to generate manifest summary URL.  Also track request action with GA.
      */
-    public onRequestManifest(catalog: Catalog, selectedSearchTerms: SearchTerm[]) {
+    public onRequestManifest() {
 
-        this.fileManifestService.trackRequestCohortManifest(catalog, selectedSearchTerms);
         this.store.dispatch(new FetchFileManifestUrlRequestAction());
+        this.store.dispatch(new RequestCohortManifestAction());
     }
 }

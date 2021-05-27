@@ -23,7 +23,6 @@ import { SearchTermHttpService } from "../../search/http/search-term-http.servic
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TermSortService } from "../../sort/term-sort.service";
 
@@ -81,16 +80,6 @@ describe("BaseManifestDownloadComponent", () => {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
                         "trackEvent"
-                    ])
-                },
-                {
-                    provide: FileManifestService,
-                    useValue: jasmine.createSpyObj("FileManifestService", [
-                        "trackRequestCohortManifest",
-                        "trackDownloadCohortManifest",
-                        "trackCopyToClipboardCohortManifestLink",
-                        "trackDownloadProjectManifest",
-                        "trackCopyToClipboardProjectManifestLink"
                     ])
                 },
                 {
