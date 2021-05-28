@@ -2,25 +2,25 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying project matrix analysis portal link.
+ * Component for displaying project analysis portal link.
  */
 
 // Core dependencies
 import { Component, Input } from "@angular/core";
 
 // App dependencies
-import { ProjectMatrixAnalysisPortal } from "../project-matrix/project-matrix-analysis-portal.model";
-import { ProjectMatrixAnalysisPortalName } from "../project-matrix/project-matrix-analysis-portal-name.model";
+import { ProjectAnalysisPortal } from "./project-analysis-portal.model";
+import { ProjectAnalysisPortalName } from "./project-analysis-portal-name.model";
 
 @Component({
-    selector: "project-matrix-analysis-portal",
-    templateUrl: "./project-matrix-analysis-portal.component.html",
-    styleUrls: ["./project-matrix-analysis-portal.component.scss"]
+    selector: "project-analysis-portal",
+    templateUrl: "./project-analysis-portal.component.html",
+    styleUrls: ["./project-analysis-portal.component.scss"]
 })
-export class ProjectMatrixAnalysisPortalComponent {
+export class ProjectAnalysisPortalComponent {
     
     // Inputs
-    @Input() analysisPortal: ProjectMatrixAnalysisPortal;
+    @Input() analysisPortal: ProjectAnalysisPortal;
 
     /**
      * Returns the display name of the analysis portal.
@@ -30,7 +30,7 @@ export class ProjectMatrixAnalysisPortalComponent {
      */
     public getAnalysisPortalDisplay(analysisPortalName: string): string {
 
-        return ProjectMatrixAnalysisPortalName[analysisPortalName];
+        return ProjectAnalysisPortalName[analysisPortalName];
     }
 
     /**

@@ -1,0 +1,13 @@
+<ng-container *ngIf="state$ | async as state">
+    <ng-container *ngIf="state.loaded">
+        <h4 class="fontsize-m semi-bold">Analysis Portals</h4>
+        <p class="fontsize-xs">This project's data can be viewed live in the following analysis portals:</p>
+        <ng-container [ngSwitch]="state.integratedWithTertiaryPortals">
+            <ng-container *ngSwitchCase="true">
+                <project-integrations [integrations]="state.integrations"
+                                      (integrationViewed)="onIntegrationViewed($event, state.project)"></project-integrations>
+            </ng-container>
+            <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no analysis portals associated with this project.</p></no-hits>
+        </ng-container>
+    </ng-container>
+</ng-container>

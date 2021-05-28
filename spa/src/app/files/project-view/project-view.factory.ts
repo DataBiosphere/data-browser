@@ -81,6 +81,7 @@ export class ProjectViewFactory {
     public getProjectView(catalog: Catalog, project: Project): ProjectView {
 
         return {
+            analysisPortals: project.analysisPortals,
             citationLink: this.buildCitationUrl(catalog, project.entryId),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),

@@ -5,15 +5,19 @@
  * Styles for displaying project matrix analysis portal link.
  */
 
+:host {
+    position: relative;
+}
+
 /* Logos */
 a {
-    display: flex; /* Wrap neatly around img */
+    display: inline-flex; /* Wrap neatly around img */
+    margin-right: 8px;
 }
 
 /* Analysis portals logos. Matches none icon in parent component. */
 img {
     height: 16px;
-    padding:8px;
     width: 16px;
 }
 

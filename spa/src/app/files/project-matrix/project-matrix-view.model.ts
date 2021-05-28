@@ -6,10 +6,10 @@
  */
 
 // App dependencies
-import { ProjectMatrixAnalysisPortal } from "./project-matrix-analysis-portal.model";
+import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analysis-portal.model";
 
 export interface ProjectMatrixView {
-    analysisPortals?: ProjectMatrixAnalysisPortal[]; // Populated from project edits JSON
+    analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     fileName: string;
     url: string;
     [key: string]: any // Allow additional meta eg library construction approach, species
