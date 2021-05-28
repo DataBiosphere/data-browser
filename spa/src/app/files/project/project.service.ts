@@ -52,7 +52,7 @@ export class ProjectService {
             new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectTitle)
         ];
         const query = 
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
+            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.FULL);
         const params = new HttpParams({fromObject: query} as any);
         const manifestUrl = this.configService.getFileManifestUrl();
         return `${manifestUrl}?${params.toString()}`; 
