@@ -6,11 +6,13 @@
  */
 
 // App dependencies
-import { ProjectRow } from "../projects/project-row.model";
 import { Contributor } from "./contributor.model";
+import { ProjectRow } from "../projects/project-row.model";
+import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analysis-portal.model";
 import { Publication } from "./publication.model";
 
 export interface Project extends ProjectRow {
+    analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     arrayExpressAccessions: string[];
     deprecated: boolean, // Specified in project-edits.json
     contributors: Contributor[];

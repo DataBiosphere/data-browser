@@ -1,9 +1,0 @@
-<ng-container [ngSwitch]="isEmpty(analysisPortals)">
-    <img src="assets/images/icon/no-result.png"
-         *ngSwitchCase="true"/>
-    <ng-container *ngSwitchDefault>
-        <project-matrix-analysis-portal 
-                *ngFor="let analysisPortal of analysisPortals" 
-                [analysisPortal]="analysisPortal"></project-matrix-analysis-portal>
-    </ng-container>
-</ng-container>

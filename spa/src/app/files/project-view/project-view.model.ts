@@ -11,8 +11,10 @@ import { ContributorView } from "./contributor-view.model";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import { Publication } from "../shared/publication.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
+import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analysis-portal.model";
 
 export interface ProjectView {
+    analysisPortals: ProjectAnalysisPortal[],
     citationLink: string;
     contacts: ContactView[];
     collaboratingOrganizations: CollaboratingOrganizationView[];

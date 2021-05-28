@@ -6,7 +6,11 @@
                 "publicationTitle": "Structural Remodeling of the Human Colonic Mesenchyme in Inflammatory Bowel Disease",
                 "publicationUrl": "https://www.sciencedirect.com/science/article/pii/S0092867418311681?via%3Dihub"
             }
-        ]
+        ],
+        "analysisPortals": [{
+            "name": "CELLXGENE",
+            "url": "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc"
+        }]
     },
     {
         "entryId": "091cf39b-01bc-42e5-9437-f419a66c8a45",
@@ -77,41 +81,23 @@
     },
     {
         "entryId": "2d846095-8a33-4f3c-97d4-585bafac13b4",
-        "contributorMatrices": [
-            {
-                "fileName": "GBM_raw_gene_counts.csv",
-                "uuid": "667e3333-621b-5a49-a884-8711c3f8bb69",
-                "analysisPortals": [{
-                    "name": "CELLXGENE",
-                    "url": "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc"
-                }]
-            }
-        ]
+        "analysisPortals": [{
+            "name": "CELLXGENE",
+            "url": "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc"
+        }]
     },
     {
         "entryId": "2a64db43-1b55-4639-aabb-8dba0145689d",
-        "contributorMatrices": [
-            {
-                "fileName": "GSE161089_RAW (1).tar",
-                "uuid": "23023247-4da8-54f4-a687-22a7ab39c26f",
-                "analysisPortals": [{
-                    "name": "CELLXGENE",
-                    "url": "https://cellxgene.cziscience.com/collections/cdfb9ead-cb58-4a53-879d-5e4ed5329e73"
-                }]
-            }
-        ]
+        "analysisPortals": [{
+            "name": "CELLXGENE",
+            "url": "https://cellxgene.cziscience.com/collections/cdfb9ead-cb58-4a53-879d-5e4ed5329e73"
+        }]
     },
     {
         "entryId": "4bec484d-ca7a-47b4-8d48-8830e06ad6db",
-        "contributorMatrices": [
-            {
-                "fileName": "GSE130636_RAW.tar",
-                "uuid": "f02bd26d-9556-5b34-8738-4b57734e7507",
-                "analysisPortals": [{
-                    "name": "CELLXGENE",
-                    "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
-                }]
-            }
-        ]
+        "analysisPortals": [{
+            "name": "CELLXGENE",
+            "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
+        }]
     }
 ]

@@ -79,6 +79,11 @@
             </div>
         </div>
         <div class="rhs max600">
+            <h4 class="fontsize-m semi-bold">Analysis Portals</h4>
+            <project-analysis-portals
+                    [analysisPortals]="state.project.analysisPortals">
+                <p class="fontsize-xs" noHits>None</p>
+            </project-analysis-portals>
             <project-overview-data-summary
                     [dataSummaries]="state.project.dataSummaries"
                     (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"

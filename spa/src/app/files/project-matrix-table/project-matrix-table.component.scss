@@ -117,6 +117,13 @@ mat-table {
         max-width: 75px;
         min-width: 75px;
     }
+
+    /* None icon - matches analysis portal link logos in ProjectMatrixAnalysisPortalComponent. */
+    img {
+        height: 16px;
+        padding:8px;
+        width: 16px;
+    }
 }
 
 /** Parent-driven style configuration of table */

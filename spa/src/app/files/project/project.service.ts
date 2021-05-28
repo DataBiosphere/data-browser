@@ -89,6 +89,8 @@ export class ProjectService {
     private bindProject(response: any, projectOverrides: Project): Project {
 
         const mapper = new ProjectMapper(response, projectOverrides);
-        return mapper.mapRow() as Project;
+        const project = mapper.mapRow() as Project;
+        project.analysisPortals = projectOverrides.analysisPortals ?? [];
+        return project;
     }
 }
