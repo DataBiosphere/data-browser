@@ -87,6 +87,7 @@ import { ResponseTermService } from "./http/response-term.service";
 import { HttpService } from "./http/http.service";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
+import { ProjectAnalysisPortalComponent } from "./project-analysis-portal/project-analysis-portal.component";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
@@ -100,8 +101,6 @@ import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
-import { ProjectMatrixAnalysisPortalComponent } from "./project-matrix-analysis-portal/project-matrix-analysis-portal.component";
-import { ProjectMatrixAnalysisPortalsComponent } from "./project-matrix-analysis-portals/project-matrix-analysis-portals.component";
 import { ProjectMatrixDownloadComponent } from "./project-matrix-download/project-matrix-download.component";
 import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-modal/project-matrix-download-modal.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
@@ -110,6 +109,7 @@ import { ProjectMetadataComponent } from "./project-metadata/project-metadata.co
 import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
+import { ProjectPortalsComponent } from "./project-portals/project-portals.component";
 import { ProjectService } from "./project/project.service";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
@@ -211,16 +211,15 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
-        ProjectManifestDownloadComponent,
-        ProjectManifestDownloadModalComponent,
-        ProjectManifestDownloadModalContainerComponent,
         ProjectExternalResourcesComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
+        ProjectManifestDownloadComponent,
+        ProjectManifestDownloadModalComponent,
+        ProjectManifestDownloadModalContainerComponent,
         ProjectMatricesComponent,
-        ProjectMatrixAnalysisPortalComponent,
-        ProjectMatrixAnalysisPortalsComponent,
+        ProjectAnalysisPortalComponent,
         ProjectMatrixDownloadComponent,
         ProjectMatrixDownloadModalComponent,
         ProjectMatrixDownloadModalContainerComponent,
@@ -229,6 +228,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectNavComponent,
         ProjectOverviewComponent,
         ProjectOverviewDataSummaryComponent,
+        ProjectPortalsComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
         ProjectWithdrawnComponent,

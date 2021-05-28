@@ -56,7 +56,12 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
      */
     public isAnySupplementaryLinkAssociated(supplementaryLinks: string[]): boolean {
 
-        return supplementaryLinks && supplementaryLinks.length > 0;
+        if ( !supplementaryLinks ) {
+            return false;
+        }
+        
+        // Handle [null] case returned from Azul.
+        return supplementaryLinks.filter(link => !!link).length > 0;
     }
 
     /**

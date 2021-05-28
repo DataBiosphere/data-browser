@@ -46,11 +46,12 @@
                         *ngIf="!last">,</ng-container></span>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="analyisPortals">
+        <ng-container matColumnDef="analysisPortals">
             <mat-header-cell *matHeaderCellDef><span class="fontsize-xxs bold">Analysis Portals</span></mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                <project-matrix-analysis-portals 
-                        [analysisPortals]="element.analysisPortals"></project-matrix-analysis-portals>
+                <project-analysis-portals [analysisPortals]="element.analysisPortals">
+                    <img src="assets/images/icon/no-result.png" noHits/>
+                </project-analysis-portals>
             </mat-cell>
         </ng-container>        
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
