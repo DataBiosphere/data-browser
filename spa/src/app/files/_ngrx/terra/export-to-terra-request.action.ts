@@ -15,10 +15,10 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { ToolName } from "../../shared/tool-name.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
-export class ExportToTerraActionRequest implements Action, TrackingAction {
+export class ExportToTerraRequestAction implements Action, TrackingAction {
     
     public static ACTION_TYPE = "FILE.EXPORT_TO_TERRA_REQUEST";
-    public readonly type = ExportToTerraActionRequest.ACTION_TYPE;
+    public readonly type = ExportToTerraRequestAction.ACTION_TYPE;
 
     /**
      * Return the export to Terra action as a GA event.
