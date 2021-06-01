@@ -16,7 +16,7 @@ import { concatMap, filter, map, switchMap, take, tap, withLatestFrom } from "rx
 import { selectCatalog } from "../catalog/catalog.selectors";
 import { CopyToClipboardTerraUrlAction } from "./copy-to-clipboard-terra-url.action";
 import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.action";
-import { ExportToTerraActionRequest } from "./export-to-terra-action.request";
+import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 import { LaunchTerraAction } from "./launch-terra.action";
@@ -69,7 +69,7 @@ export class TerraEffects {
     @Effect()
     exportToTerra$: Observable<Action> = this.actions$
         .pipe(
-            ofType(ExportToTerraActionRequest.ACTION_TYPE),
+            ofType(ExportToTerraRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
                     this.store.pipe(select(selectCatalog), take(1)),
@@ -81,7 +81,7 @@ export class TerraEffects {
             switchMap(([action, catalog, searchTerms, fileFormatsFileFacet, queryWhenActionTriggered]) => {
 
                 // Track request action
-                this.gtmService.trackEvent((action as ExportToTerraActionRequest).asEvent({
+                this.gtmService.trackEvent((action as ExportToTerraRequestAction).asEvent({
                     catalog,
                     currentQuery: queryWhenActionTriggered
                 }));
