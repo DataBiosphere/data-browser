@@ -24,7 +24,7 @@ import { CopyToClipboardTerraUrlAction } from "../../_ngrx/terra/copy-to-clipboa
 import { LaunchTerraAction } from "../../_ngrx/terra/launch-terra.action";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
-import { ExportToTerraActionRequest } from "../../_ngrx/terra/export-to-terra-action.request";
+import { ExportToTerraRequestAction } from "../../_ngrx/terra/export-to-terra-request.action";
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
 import { SearchTerm } from "../../search/search-term.model";
@@ -169,7 +169,7 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      */
     public onExportToTerra() {
 
-        this.store.dispatch(new ExportToTerraActionRequest());
+        this.store.dispatch(new ExportToTerraRequestAction());
     }
 
     /**
