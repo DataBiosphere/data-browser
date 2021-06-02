@@ -16,9 +16,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, BehaviorSubject, Subject } from "rxjs";
-import { filter, map, takeUntil } from "rxjs/operators";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { selectIsError } from "../../http/_ngrx/http.selectors";
 import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
@@ -54,10 +55,7 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         private store: Store<AppState>,
         private dialogRef: MatDialogRef<ProjectMatrixDownloadModalComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
-        private router: Router) {
-
-        this.store.dispatch(new ModalOpenedAction());
-    }
+        private router: Router) {}
 
     /**
      * Redirect to projects list - called from template on click of close icon, or on keyup of escape key. The resulting
@@ -68,6 +66,23 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
 
         this.router.navigate([EntityName.PROJECTS], {
             queryParamsHandling: "preserve"
+        });
+    }
+
+
+    /**
+     * Close the modal on any server or client-side error.
+     */
+    private initCloseOnError() {
+
+        this.store.pipe(
+            select(selectIsError),
+            filter(error => error),
+            filter(() => !!this.dialogRef),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(() => {
+            this.store.dispatch(new ModalClosedAction());
+            this.dialogRef.close();
         });
     }
 
@@ -102,7 +117,8 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
      * close the modal.
      */
     public ngOnInit(): void {
-        
+
+        this.initCloseOnError();
         this.initCloseOnNavigation();
         
         const projectId = this.data.projectId;
@@ -110,26 +126,46 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         // Request project details so we can display the project title
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
+        // Grab the selected project
+        const selectedProject$ = this.store.pipe(
+            select(selectSelectedProject),
+            takeUntil(this.ngDestroy$)
+        );
+
         // Get any resolved matrix file locations for the selected projects
-        const projectMatrixFileLocationsByFileUrl$ =
-            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
+        const projectMatrixFileLocationsByFileUrl$ = this.store.pipe(
+            select(selectProjectMatrixFileLocationsByProjectId, {projectId}), 
+            takeUntil(this.ngDestroy$)
+        );
+
+        // Check if there are any errors
+        const error$ = this.store.pipe(
+            select(selectIsError),
+            takeUntil(this.ngDestroy$)
+        );
         
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest(
-            this.store.pipe(select(selectSelectedProject)),
-            projectMatrixFileLocationsByFileUrl$
+            selectedProject$,
+            projectMatrixFileLocationsByFileUrl$,
+            error$
         ).pipe(
-            map(([project, projectMatrixFileLocationsByFileUrl]) => {
+            takeUntil(this.ngDestroy$),
+            filter(([project]) => !!project && project.entryId === projectId)
+        ).subscribe(([project, projectMatrixFileLocationsByFileUrl, error]) => {
 
-                return {
-                    loaded: !!project,
-                    project,
-                    projectMatrixFileLocationsByFileUrl
-                }
-            }),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((state) => {
-            this.state$.next(state);
+            // Don't continue to show modal or project if there's been an error, let error handling occur.
+            if ( error ) {
+                return;
+            }
+
+            // No errors - show modal and update component state
+            this.store.dispatch(new ModalOpenedAction());
+            this.state$.next({
+                loaded: !!project,
+                project,
+                projectMatrixFileLocationsByFileUrl
+            });
         });
     }
 }

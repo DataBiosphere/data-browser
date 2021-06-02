@@ -12,5 +12,6 @@ import { SystemStatus } from "./system/_ngrx/system-status.model";
 export interface AppComponentState {
 
     catalog?: Catalog;
+    error?: boolean,
     systemStatus?: SystemStatus;
 }

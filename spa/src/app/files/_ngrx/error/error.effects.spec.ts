@@ -50,31 +50,11 @@ describe("ErrorEffects", () => {
         effects = TestBed.inject(ErrorEffects);
     });
 
-    describe("navigateToError$", () => {
+    describe("clearError$", () => {
 
         /**
-         * Navigate to error page initiated when ErrorAction is dispatched.
+         * Clears error on navigate if app is currently in error state.
          */
-        it("navigates to error page on error", () => {
-
-            const selectedCatalog = DCPCatalog.DCP1;
-            actions$ = hot("-a", {
-                a: new ErrorAction("error")
-            });
-
-            // Dispatch false - straight pass-through of actions
-            expect(effects.navigateToError$).toBeObservable(actions$);
-
-            // Smoke test of navigate
-            expect(routerMock.navigate).toHaveBeenCalled();
-
-            // Navigate to error
-            expect(routerMock.navigate).toHaveBeenCalledWith(
-                ["error"],
-                jasmine.objectContaining({
-                    queryParamsHandling: "preserve"
-                })
-            );
-        });
+        xit("clears error on navigate", () => {});
     });
 });
