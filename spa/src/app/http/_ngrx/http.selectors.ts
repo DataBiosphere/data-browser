@@ -38,3 +38,9 @@ export const selectErrorMessage = createSelector(selectHTTP, (state: HttpState) 
  * @type {MemoizedSelector<object, string>}
  */
 export const selectRequestUrl = createSelector(selectHTTP, (state: HttpState) => state.requestUrl);
+
+/**
+ * Returns true if there is an error message saved in the store. Both the Azul error response and client-side errors
+ * set an error message.
+ */
+export const selectIsError = createSelector(selectHTTP, (state: HttpState) => !!state.errorMessage);

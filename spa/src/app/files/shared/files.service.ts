@@ -88,7 +88,7 @@ export class FilesService {
      * Fetch file summary, passing in the current set of search terms.
      *
      * {SearchTerm[]} selectedSearchTerms
-     * @returns {Observable<Action>}
+     * @returns {Observable<FileSummary>}
      */
     public fetchFileSummary(catalog: Catalog, searchTerms: SearchTerm[]): Observable<FileSummary> {
 
