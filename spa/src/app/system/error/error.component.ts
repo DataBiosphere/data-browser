@@ -49,11 +49,9 @@ export class ErrorComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Clear error message on exit of error page.
+     * Kill subscriptions on destroy. Clear of dispatch state is handle on navigate, see ErrorEffects.
      */
     public ngOnDestroy() {
-
-        this.store.dispatch(new ClearErrorStateAction());
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();

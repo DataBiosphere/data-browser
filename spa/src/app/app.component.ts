@@ -27,6 +27,7 @@ import { AppComponentState } from "./app.component.state";
 import { ConfigService } from "./config/config.service";
 import { selectCatalog } from "./files/_ngrx/catalog/catalog.selectors";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
+import { selectIsError } from "./http/_ngrx/http.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { AppState } from "./_ngrx/app.state";
 import { SiteConfigService } from "./site/site-config/site-config.service";
@@ -138,16 +139,23 @@ export class AppComponent implements OnInit, OnDestroy {
         const systemStatus$ = this.store.pipe(
             select(selectSystemStatus),
             takeUntil(this.ngDestroy$));
+        
+        // Check if we have any errors, either client-side or from an Azul response.
+        const error$ = this.store.pipe(
+            select(selectIsError),
+            takeUntil(this.ngDestroy$)
+        )
 
-        combineLatest(catalog$, systemStatus$)
+        combineLatest([catalog$, error$, systemStatus$])
             .pipe(
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(([catalog, systemStatus]) => {
+            .subscribe(([catalog, error, systemStatus]) => {
 
             this.state$.next({
-                catalog: catalog,
-                systemStatus: systemStatus
+                catalog,
+                error,
+                systemStatus
             });
         });
     }

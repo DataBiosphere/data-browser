@@ -15,13 +15,14 @@ import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Subject } from "rxjs";
-import { filter, map, takeUntil } from "rxjs/operators";
+import { combineLatest, BehaviorSubject, Subject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
+import { selectIsError } from "../../http/_ngrx/http.selectors";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
+import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
@@ -52,10 +53,7 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
     constructor(private store: Store<AppState>,
                 private dialogRef: MatDialogRef<ProjectManifestDownloadModalComponent>,
                 @Inject(MAT_DIALOG_DATA) private data: any,
-                private router: Router) {
-
-        this.store.dispatch(new ModalOpenedAction());
-    }
+                private router: Router) {}
 
     /**
      * Redirect to projects list - called from template on click of close icon, or on keyup of escape key. The resulting
@@ -66,6 +64,22 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
 
         this.router.navigate([EntityName.PROJECTS], {
             queryParamsHandling: "preserve"
+        });
+    }
+
+    /**
+     * Close the modal on any server or client-side error.
+     */
+    private initCloseOnError() {
+
+        this.store.pipe(
+            select(selectIsError),
+            filter(error => error),
+            filter(() => !!this.dialogRef),
+            takeUntil(this.ngDestroy$)
+        ).subscribe(() => {
+            this.store.dispatch(new ModalClosedAction());
+            this.dialogRef.close();
         });
     }
 
@@ -101,28 +115,43 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      */
     public ngOnInit(): void {
 
+        this.initCloseOnError();
         this.initCloseOnNavigation();
 
         // Request project details so we can display the project title
         const projectId = this.data.projectId;
         this.store.dispatch(new FetchProjectRequestAction(projectId));
+        
+        // Grab the selected project
+        const selectedProject$ = this.store.pipe(
+            select(selectSelectedProject),
+            takeUntil(this.ngDestroy$)
+        );
+        
+        // Check if there are any errors
+        const error$ = this.store.pipe(
+            select(selectIsError),
+            takeUntil(this.ngDestroy$)
+        );
 
         // Grab the current project and set up component state
-        this.store
+        combineLatest([selectedProject$, error$])
             .pipe(
-                select(selectSelectedProject),
                 takeUntil(this.ngDestroy$),
-                filter(project => !!project && project.entryId === projectId),
-                map((project) => {
+                filter(([project]) => !!project && project.entryId === projectId)
+            ).subscribe(([project, error]) => {
+                
+                // Don't continue to show modal or project if there's been an error, let error handling occur.
+                if ( error ) {
+                    return;
+                }
 
-                    return {
-                        loaded: !!project,
-                        project
-                    }
-                })
-            )
-            .subscribe((state) => {
-                this.state$.next(state);
+                // No errors - show modal and update component state
+                this.store.dispatch(new ModalOpenedAction());
+                this.state$.next({
+                    loaded: !!project,
+                    project
+                });
             });
     }
 }

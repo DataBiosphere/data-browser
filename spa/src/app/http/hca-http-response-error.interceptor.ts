@@ -16,7 +16,7 @@ import {
 } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { EMPTY, Observable, of, throwError } from "rxjs";
+import { EMPTY, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // App dependencies
@@ -63,10 +63,6 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
                     // Save error to store
                     const errorMessage = this.parseErrorMessage(error);
                     this.store.dispatch(new ErrorResponseAction(req.url, error.status, errorMessage));
-
-                    // If there isn't a specific error page for the error status, show the generic "500" error page
-                    const redirectUrl = this.ERROR_CODE_URLS.get(error.status) || this.ERROR_CODE_URLS.get(500);
-                    this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
 
                     return EMPTY;
                 }

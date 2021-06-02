@@ -13,9 +13,12 @@
     <announcement *ngIf="state.systemStatus.ok && state.systemStatus.indexing" class="status">
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>
     </announcement>
+    <ng-container [ngSwitch]="state.error">
+        <error *ngSwitchCase="true"></error>
+        <router-outlet *ngSwitchDefault></router-outlet>
+    </ng-container>
 </ng-container>
 <support-request *ngIf="isSupportRequestEnabled()"></support-request>
-<router-outlet></router-outlet>
 <sticky-footer>
     <desktop-footer *ngIf="isDeviceHandheld()"></desktop-footer>
     <data-policy-footer></data-policy-footer>
