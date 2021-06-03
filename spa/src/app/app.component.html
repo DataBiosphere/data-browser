@@ -14,7 +14,7 @@
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>
     </announcement>
     <ng-container [ngSwitch]="state.error">
-        <error *ngSwitchCase="true"></error>
+        <error-layout *ngSwitchCase="true"></error-layout>
         <router-outlet *ngSwitchDefault></router-outlet>
     </ng-container>
 </ng-container>

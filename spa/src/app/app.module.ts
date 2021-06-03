@@ -50,6 +50,7 @@ import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.compon
 import { LocalStorageModule } from "./storage/local-storage.module";
 import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
+import { ErrorLayoutComponent } from "./system/error-layout/error-layout.component";
 import { NotFoundComponent } from "./system/not-found/not-found.component";
 import { SystemService } from "./system/shared/system.service";
 
@@ -88,6 +89,7 @@ import { SystemService } from "./system/shared/system.service";
 
         // HTTP components
         ErrorComponent,
+        ErrorLayoutComponent,
         NotFoundComponent,
 
         // Site components

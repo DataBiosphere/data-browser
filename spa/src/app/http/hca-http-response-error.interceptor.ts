@@ -28,10 +28,6 @@ import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
 export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
     // Constants
-    private ERROR_CODE_URLS = new Map<number, string>([
-        [404, "/not-found"],
-        [500, "/error"]
-    ]);
     private NO_REDIRECT_PATHS = [
         "/integrations"
     ];
