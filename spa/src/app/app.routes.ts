@@ -8,11 +8,6 @@
 // Core dependencies
 import { Route } from "@angular/router";
 
-// App components
-import { BrowserCanActivateGuard } from "./shared/routing/browser.can-activate.guard";
-import { ErrorComponent } from "./system/error/error.component";
-import { NotFoundComponent } from "./system/not-found/not-found.component";
-
 export const AppRoutes: Route[] = [
     {
         path: "",
@@ -21,14 +16,6 @@ export const AppRoutes: Route[] = [
                 path: "",
                 redirectTo: "/projects",
                 pathMatch: "full"
-            }, {
-                path: "error",
-                canActivate: [BrowserCanActivateGuard],
-                component: ErrorComponent
-            }, {
-                path: "not-found",
-                canActivate: [BrowserCanActivateGuard],
-                component: NotFoundComponent
             },
             {
                 path: "**",

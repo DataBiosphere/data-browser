@@ -7,25 +7,28 @@
 
 // Core dependencies
 import { TestBed } from "@angular/core/testing";
-import { Router } from "@angular/router";
-import { hot } from "jasmine-marbles";
+import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { provideMockActions } from "@ngrx/effects/testing";
+import { Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { Observable } from "rxjs";
+import { Observable, ReplaySubject } from "rxjs";
 
 // App dependencies
-import { CatalogState } from "../catalog/catalog.state";
 import { ErrorEffects } from "./error.effects";
-import { ErrorAction } from "../../../http/_ngrx/error.action";
-import { DCPCatalog } from "../../catalog/dcp-catalog.model";
+import { HttpState } from "../../../http/_ngrx/http.state";
+import { selectIsError } from "../../../http/_ngrx/http.selectors";
+import { ClearErrorStateAction } from "../../../http/_ngrx/http-clear-state-error.actions";
+
 
 describe("ErrorEffects", () => {
 
     let actions$: Observable<any>;
     let effects: ErrorEffects;
-    let store: MockStore<CatalogState>;
+    let store: MockStore<HttpState>;
 
+    const navigation$ = new ReplaySubject<RouterEvent>(1);
     const routerMock = {
+        events: navigation$.asObservable(),
         navigate: jasmine.createSpy("navigate")
     };
 
@@ -40,7 +43,7 @@ describe("ErrorEffects", () => {
             providers: [
                 provideMockActions(() => actions$),
                 ErrorEffects,
-                provideMockStore({initialState: CatalogState.getDefaultState()}), {
+                provideMockStore({initialState: HttpState.getDefaultState()}), {
                     provide: Router,
                     useValue: routerMock
                 }
@@ -48,6 +51,7 @@ describe("ErrorEffects", () => {
         });
 
         effects = TestBed.inject(ErrorEffects);
+        store = TestBed.inject(Store) as MockStore<HttpState>;
     });
 
     describe("clearError$", () => {
@@ -55,6 +59,22 @@ describe("ErrorEffects", () => {
         /**
          * Clears error on navigate if app is currently in error state.
          */
-        xit("clears error on navigate", () => {});
+        it("clears error on navigate", (doneFn: DoneFn) => {
+            
+            // Spy on dispatch to check that clear action is dispatched
+            spyOn(store, "dispatch");
+            
+            // Set error state
+            store.overrideSelector(selectIsError, true);
+
+            // Navigate
+            navigation$.next(new NavigationStart(1, "/", ));
+
+            // Confirm clear action is dispatched
+            effects.clearError$.subscribe((dispatchedAction) => {
+                expect(dispatchedAction).toEqual(new ClearErrorStateAction());
+                doneFn();
+            });
+        });
     });
 });
