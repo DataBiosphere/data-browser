@@ -1,17 +1,16 @@
-<get-data-panel>
-    <h4 class="fontsize-m semi-bold">Confirm Species Selection</h4>
-    <p class="fontsize-m">Please explicitly select at least one species to be included in your {{exportDescription}}.</p>
-</get-data-panel>
-<div class="species fontsize-s">
-    <p class="fontsize-s">Species:</p>
-    <div *ngFor="let option of speciesCheckboxOptions"
-         (click)="onSpeciesClicked(option)"
-         class="hca-checkbox-group">
-        <div class="hca-checkbox" [ngClass]="{'selected': option.selected}">
-            <mat-icon *ngIf="option.selected">check</mat-icon>
+<ng-container *ngIf="state$ | async as state">
+    <div class="species fontsize-s" *ngIf="state.loaded">
+        <p class="fontsize-s">Species:</p>
+        <div *ngFor="let option of state.speciesCheckboxOptions"
+             (click)="onSpeciesClicked(option)"
+             class="hca-checkbox-group">
+            <div class="hca-checkbox" [ngClass]="{'selected': option.selected}">
+                <mat-icon *ngIf="option.selected">check</mat-icon>
+            </div>
+            <div class="hca-checkbox-label">{{option.label}}</div>
         </div>
-        <div class="hca-checkbox-label">{{option.label}}</div>
     </div>
-</div>
-<button class="button primary" (click)="onSpeciesSelected(speciesFileFacet, speciesCheckboxOptions)"
-        [disabled]="!isSpeciesSelected(speciesCheckboxOptions)">Confirm Species</button>
+    <button class="button primary" 
+            [disabled]="!isSpeciesSelected(state.speciesCheckboxOptions)"
+            (click)="onSpeciesSelected(state.speciesFileFacet, state.speciesCheckboxOptions)">Confirm Species</button>
+</ng-container>

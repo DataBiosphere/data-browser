@@ -12,42 +12,61 @@ import { FormsModule } from "@angular/forms";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { ClipboardModule } from "ngx-clipboard";
-import { of } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
+import { ConfigServiceSpy } from "../../../config/config.service.spy";
 import { BulkDownloadComponent } from "./bulk-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { DataLinkComponent } from "../data-link/data-link.component";
 import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
+import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
+import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
+import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
+import { selectFileSummary } from "../../_ngrx/files.selectors";
+import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
+import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
+import {
+    selectFileManifestFileSummary,
+    selectFileManifestManifestResponse
+} from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
 import { SectionBarComponent } from "../../section-bar/section-bar.component";
-import { GTMService } from "../../../shared/analytics/gtm.service";
+import { SelectedDataSummaryComponent } from "../selected-data-summary/selected-data-summary.component";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileFormat } from "../../shared/file-format.model";
 import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { GenusSpecies } from "../../shared/genus-species.model";
+import { HCATabComponent } from "../../../shared/hca-tab/hca-tab.component";
+import { HCASectionTitleComponent } from "../../../shared/hca-section-title/hca-section-title.component";
+import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
+import { PopLayoutComponent } from "../../../shared/pop-layout/pop-layout.component";
+import { TermSortService } from "../../sort/term-sort.service";
+import { Term } from "../../shared/term.model";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
-import { TermSortService } from "../../sort/term-sort.service";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
-
 
 describe("BulkDownloadComponent", () => {
 
     let component: BulkDownloadComponent;
     let fixture: ComponentFixture<BulkDownloadComponent>;
-
-    const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
+    let store: MockStore;
 
     /**
      * Setup before each test.
@@ -56,54 +75,59 @@ describe("BulkDownloadComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                BulkDownloadComponent,
                 CopyToClipboardComponent,
                 DataLinkComponent,
                 DataUseNotificationComponent,
                 FileTypeSummaryListComponent,
+                GetDataLayoutComponent,
                 GetDataPanelComponent,
-                BulkDownloadComponent,
+                GetDataSummaryComponent,
+                HCASectionTitleComponent,
+                HCATabComponent,
+                HCATooltipComponent,
+                PopLayoutComponent,
                 SectionBarComponent,
+                SelectedDataSummaryComponent,
+                SelectedSearchTermsComponent,
                 WarningComponent,
                 WarningContentComponent,
                 WarningDataNormalizationComponent,
                 WarningTitleComponent,
             ],
             imports: [
+                BrowserAnimationsModule,
                 ClipboardModule,
                 FormsModule,
                 MatIconModule,
                 MatRadioModule,
                 MatTooltipModule,
-                PipeModule
+                PipeModule,
+                RouterTestingModule
             ],
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
+                    useValue: ConfigServiceSpy as any
                 },
-                {
-                    provide: GTMService,
-                    useValue: jasmine.createSpyObj("GTMService", [
-                        "trackEvent"
-                    ])
-                },
-                {
-                    provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
-                },
-                {
-                    provide: Store,
-                    useValue: testStore
-                },
-                {
-                    provide: TermSortService,
-                    useValue: jasmine.createSpyObj("TermSortService", ["sortTerms"])
-                }
+                FacetDisplayService,
+                provideMockStore({
+                    initialState: {}
+                }),
+                TermSortService
             ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(BulkDownloadComponent);
         component = fixture.componentInstance;
+
+        // Set up selectors for children components
+        store = TestBed.inject(Store) as MockStore;
+        store.overrideSelector(selectFilesFacets, [new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+            new Term(GenusSpecies.HOMO_SAPIENS, 100, false)
+        ])]);
+        store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectSelectedSearchTerms, []);
     }));
 
     /**
@@ -141,14 +165,9 @@ describe("BulkDownloadComponent", () => {
      */
     it("disables button if file type has not been selected", () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.NOT_STARTED // manifest download status
-            })
-        );
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         component.executionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
         fixture.detectChanges();
@@ -166,14 +185,9 @@ describe("BulkDownloadComponent", () => {
     it("enables button if file type and execution environment have been selected", () => {
 
         const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
-        testStore.pipe
-            .and.returnValues(
-            of([selectedSearchTerm]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.NOT_STARTED // manifest download status
-            })
-        );
+        store.overrideSelector(selectSelectedSearchTerms, [selectedSearchTerm]);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         component.executionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
         fixture.detectChanges();
@@ -191,15 +205,9 @@ describe("BulkDownloadComponent", () => {
     it("displays bash and cmd.exe radio options", () => {
 
         const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
-        testStore.pipe
-            .and.returnValues(
-            of([selectedSearchTerm]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.NOT_STARTED // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, [selectedSearchTerm]);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
         // Confirm the request button is disabled
@@ -213,15 +221,9 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.NOT_STARTED // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
         // Confirm <section-bar> is displayed
@@ -234,15 +236,9 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.NOT_STARTED // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
         // Confirm <data-use-notification> is displayed
@@ -255,15 +251,9 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should not display component section-bar when request status is "IN_PROGRESS"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.IN_PROGRESS // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
         // Confirm <section-bar> is not displayed
@@ -277,15 +267,9 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should not display component data-use-notification when request status is "IN_PROGRESS"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                status: ManifestStatus.IN_PROGRESS // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
         // Confirm <data-use-notification> is not displayed
@@ -299,17 +283,13 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should display component section-bar when request status is "COMPLETE"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                commandLine: {bash: ""},
-                fileUrl: "",
-                status: ManifestStatus.COMPLETE // manifest download status
-            })
-        );
-
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {
+            commandLine: {bash: ""},
+            fileUrl: "",
+            status: ManifestStatus.COMPLETE // manifest download status
+        });
         fixture.detectChanges();
 
         // Confirm <section-bar> is displayed
@@ -323,16 +303,14 @@ describe("BulkDownloadComponent", () => {
      */
     it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
 
-        testStore.pipe
-            .and.returnValues(
-            of([]), // selected search terms
-            of(DEFAULT_FILE_SUMMARY), // manifest file summary
-            of({
-                commandLine: {bash: ""},
-                fileUrl: "",
-                status: ManifestStatus.COMPLETE // manifest download status
-            })
-        );
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestManifestResponse, {
+            commandLine: {bash: ""},
+            fileUrl: "",
+            status: ManifestStatus.COMPLETE // manifest download status
+        });
+        fixture.detectChanges();
 
         fixture.detectChanges();
 
@@ -349,11 +327,13 @@ describe("BulkDownloadComponent", () => {
          */
         it("dispatches action to request manifest", () => {
 
+            spyOn(store, "dispatch").and.callThrough();
+
             const manifestFormat = ManifestDownloadFormat.CURL;
             const shell = BulkDownloadExecutionEnvironment.BASH;
             component.onRequestManifest([], shell);
-            expect(testStore.dispatch).toHaveBeenCalled();
-            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+            expect(store.dispatch).toHaveBeenCalled();
+            expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
                 manifestFormat
             }))
         });
@@ -363,10 +343,12 @@ describe("BulkDownloadComponent", () => {
          */
         it("dispatches action to track manifest request", () => {
 
+            spyOn(store, "dispatch").and.callThrough();
+
             const shell = BulkDownloadExecutionEnvironment.BASH;
             component.onRequestManifest([], shell);
-            expect(testStore.dispatch).toHaveBeenCalled();
-            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+            expect(store.dispatch).toHaveBeenCalled();
+            expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
                 shell
             }))
         });
@@ -378,12 +360,14 @@ describe("BulkDownloadComponent", () => {
          * Confirm action is triggered to track request of copy to clipboard of curl command.
          */
         it("dispatches action to track manifest request", () => {
+            
+            spyOn(store, "dispatch").and.callThrough();
 
             const manifestUrl = "http://foo.com";
             const shell = BulkDownloadExecutionEnvironment.BASH;
             component.onDataLinkCopied([], shell, manifestUrl);
-            expect(testStore.dispatch).toHaveBeenCalled();
-            expect(testStore.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+            expect(store.dispatch).toHaveBeenCalled();
+            expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
                 manifestUrl,
                 shell
             }))

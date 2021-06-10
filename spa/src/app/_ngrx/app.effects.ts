@@ -15,7 +15,6 @@ import { ErrorEffects } from "../files/_ngrx/error/error.effects";
 import { FileEffects } from "../files/_ngrx/file/file.effects";
 import { FilesEffects } from "../files/_ngrx/files.effects";
 import { FileManifestEffects } from "../files/_ngrx/file-manifest/file-manifest.effects";
-import { GetDataEffects } from "../files/_ngrx/get-data/get-data.effects";
 import { InitEffects } from "../files/_ngrx/init/init.effects";
 import { IntegrationEffects } from "../files/_ngrx/integration/integration.effects";
 import { ProjectEffects } from "../files/_ngrx/project/project.effects";
@@ -25,6 +24,7 @@ import { SystemEffects } from "../system/_ngrx/system.effects";
 import { TableEffects } from "../files/_ngrx/table/table.effects";
 import { TerraEffects } from "../files/_ngrx/terra/terra.effects";
 import { UrlEffects } from "../files/_ngrx/url/url.effects";
+import { GetDataEffects } from "../files/_ngrx/get-data/get-data.effects";
 
 export const AppEffects = [
     AnalysisProtocolEffects,

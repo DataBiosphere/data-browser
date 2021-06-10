@@ -22,10 +22,11 @@ import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selecto
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
+import { ProjectDetailComponentState } from "./project-detail.component.state";
 import { SearchTerm } from "../search/search-term.model";
 import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
-import { ProjectDetailComponentState } from "./project-detail.component.state";
 import { GASource } from "../../shared/analytics/ga-source.model";
 
 @Component({
@@ -87,6 +88,25 @@ export class ProjectDetailComponent {
 
         this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !projectSelected, GASource.PROJECT));
         this.router.navigate(["/projects"], {
+            queryParamsHandling: "preserve"
+        });
+    }
+
+    /**
+     * Handle click on tab - update selected entity in state and return user back to tab key.
+     *
+     * @param {EntitySpec} tab
+     */
+    public onTabSelected(tab: EntitySpec) {
+
+        // Only update state if we have a tab key that corresponds to an entity. In the case that the tab key that does
+        // not correspond to an entity, use projects as the default.
+        const tabKey = tab.key;
+        const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
+        this.store.dispatch(new BackToEntityAction(selectedEntity));
+
+        // Navigate to specified tab key
+        this.router.navigate(["/" + tab.key], {
             queryParamsHandling: "preserve"
         });
     }

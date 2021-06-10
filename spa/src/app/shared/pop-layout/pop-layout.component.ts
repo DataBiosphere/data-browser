@@ -6,16 +6,10 @@
  */
 
 // Core dependencies
-import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 // App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { EntityName } from "../../files/shared/entity-name.model";
-import { SearchTermUrlService } from "../../files/search/url/search-term-url.service";
 import EntitySpec from "../../files/shared/entity-spec";
-import { BackToEntityAction } from "../../files/_ngrx/entity/back-to-entity.action";
 
 @Component({
     selector: "pop-layout",
@@ -24,18 +18,10 @@ import { BackToEntityAction } from "../../files/_ngrx/entity/back-to-entity.acti
 })
 export class PopLayoutComponent {
 
-    // Inputs
+    // Inputs/outputs
     @Input() activeTab: EntitySpec;
     @Input() tabs: EntitySpec[];
-
-    /**
-     * @param {SearchTermUrlService} searchTermUrlService
-     * @param {Router} router
-     * @param {Store<AppState>} store
-     */
-    public constructor(private searchTermUrlService: SearchTermUrlService,
-                       private router: Router,
-                       private store: Store<AppState>) {}
+    @Output() tabSelected = new EventEmitter<EntitySpec>();
 
     /**
      * Returns the active tab, if one exists.
@@ -57,14 +43,9 @@ export class PopLayoutComponent {
      *
      * @returns {EntitySpec[]}
      */
-    public getTabs(): EntitySpec[] {
+    public isTabsVisible(): boolean {
 
-        if ( this.tabs && this.tabs.length ) {
-            return this.tabs;
-        }
-        else {
-            return [{key: "", displayName: ""}];
-        }
+        return !!(this.tabs && this.tabs.length); 
     }
 
     /**
@@ -73,16 +54,7 @@ export class PopLayoutComponent {
      * @param {EntitySpec} tab
      */
     public onTabSelected(tab: EntitySpec) {
-
-        // Only update state if we have a tab key that corresponds to an entity. In the case that the tab key that does
-        // not correspond to an entity, use projects as the default.
-        const tabKey = tab.key;
-        const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
-        this.store.dispatch(new BackToEntityAction(selectedEntity));
         
-        // Navigate to specified tab key
-        this.router.navigate(["/" + tab.key], {
-            queryParamsHandling: "preserve"
-        });
+        this.tabSelected.emit(tab);
     }
 }

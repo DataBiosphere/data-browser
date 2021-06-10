@@ -3,14 +3,22 @@
  * https://www.humancellatlas.org/
  *
  * Component displaying HCA get data downloads/export options, and handles corresponding select functionality on an
- * indivicual options.
+ * individual options.
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import { Router } from "@angular/router";
+import { BehaviorSubject, Subject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
+import { GetDataLayoutComponentState } from "../get-data-layout/get-data-layout.component.state";
+import { AppState } from "../../../_ngrx/app.state";
+import { selectSelectedEntitySpec } from "../../_ngrx/files.selectors";
+import EntitySpec from "../../shared/entity-spec";
 
 @Component({
     selector: "get-data-options",
@@ -19,29 +27,75 @@ import { ConfigService } from "../../../config/config.service";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class GetDataOptionsComponent {
+export class GetDataOptionsComponent implements OnDestroy, OnInit {
+
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
     public portalURL: string;
-
-    // Outputs
-    @Output() downloadSelected = new EventEmitter<string>();
+    public state$ = new BehaviorSubject<GetDataLayoutComponentState>({
+        loaded: false
+    });
 
     /**
      * @param {ConfigService} configService
+     * @param {Store<AppState>} store
+     * @param {Router} router
      */
-    constructor(private configService: ConfigService) {
+    constructor(private configService: ConfigService, private store: Store<AppState>, private router: Router) {
 
         this.portalURL = this.configService.getPortalUrl();
     }
 
     /**
-     * Handle click on start - emit event to parent.
-     *
-     * @param {string} download
+     * Return user to export options.
      */
-    public onStartGetData(download: string) {
+    public getBackButtonTab(): EntitySpec[] {
 
-        this.downloadSelected.emit(download);
+        const key = "Back";
+        return [{
+            key,
+            displayName: key
+        }];
+    }
+
+    /**
+     * Handle click on back button.
+     */
+    public onTabSelected(selectedEntity): void {
+
+        // Otherwise, return to the selected entity
+        this.router.navigate(["/" + selectedEntity.key], {
+            queryParamsHandling: "preserve"
+        });
+    }
+
+    /**
+     * Kill subscriptions on exit of component.
+     */
+    public ngOnDestroy() {
+
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
+    /**
+     * Grab the selected entity spec, required for back button functionality.
+     */
+    public ngOnInit() {
+
+        this.store
+            .pipe(
+                select(selectSelectedEntitySpec),
+                takeUntil(this.ngDestroy$),
+                filter((entitySpec) => !!entitySpec)
+            )
+            .subscribe(() => {
+
+                this.state$.next({
+                    loaded: true
+                });
+            });
     }
 }
