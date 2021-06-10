@@ -9,8 +9,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
-import { Store } from "@ngrx/store";
-import { of } from "rxjs";
+import { provideMockStore } from "@ngrx/store/testing";
 
 // App dependencies
 import { FacetDisplayService } from "../../facet/facet-display.service";
@@ -27,8 +26,6 @@ describe("GetDataSummaryComponent", () => {
 
     let component: GetDataSummaryComponent;
     let fixture: ComponentFixture<GetDataSummaryComponent>;
-
-    const testStore = jasmine.createSpyObj("Store", ["pipe"]);
 
     // Search terms with file format selected
     const SEARCH_TERMS = [
@@ -52,17 +49,16 @@ describe("GetDataSummaryComponent", () => {
             ],
             providers: [
                 {
-                    provide: Store,
-                    useValue: testStore
-                },
-                {
                     provide: FacetDisplayService,
                     useValue: jasmine.createSpyObj("FacetDisplayService", ["getFacetDisplayName"])
                 },
                 {
                     provide: SearchTermHttpService,
                     useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
-                }
+                },
+                provideMockStore({
+                    initialState: {}
+                })
             ]
         }).compileComponents();
 
@@ -71,25 +67,13 @@ describe("GetDataSummaryComponent", () => {
     }));
 
     /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
-
-    /**
      * Confirm selected search terms <hca-file-filter-result> is displayed on init of state
      */
     it("should display selected search terms on init of state", () => {
 
-        // Set up initial component state
-        testStore.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of([]) // search terms
-        );
-
+        component.filesFacets = [];
+        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.selectedSearchTerms = [];
         fixture.detectChanges();
 
         expect(fixture.debugElement.nativeElement.querySelector("selected-search-terms")).not.toBe(null);
@@ -101,12 +85,9 @@ describe("GetDataSummaryComponent", () => {
     it("should display file summary on init of state", () => {
 
         // Set up initial component state
-        testStore.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of([]) // search terms
-        );
-
+        component.filesFacets = [];
+        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.selectedSearchTerms = [];
         fixture.detectChanges();
 
         expect(fixture.debugElement.nativeElement.querySelector("selected-data-summary")).not.toBe(null);
@@ -118,12 +99,9 @@ describe("GetDataSummaryComponent", () => {
     it(`should display "All Data" when selected search terms is empty`, () => {
 
         // Set up initial component state
-        testStore.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of([]) // search terms
-        );
-
+        component.filesFacets = [];
+        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.selectedSearchTerms = [];
         fixture.detectChanges();
 
         const noQueryText = fixture.debugElement.query(By.css(".data-query p")).nativeElement.innerHTML;
@@ -138,12 +116,9 @@ describe("GetDataSummaryComponent", () => {
     it(`should not display "No query applied to data" when selected search terms is not empty`, () => {
 
         // Set up initial component state
-        testStore.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY), // file manifest summary
-            of(SEARCH_TERMS) // search terms
-        );
-
+        component.filesFacets = [];
+        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.selectedSearchTerms = SEARCH_TERMS;
         fixture.detectChanges();
 
         const noQueryTextEl = fixture.debugElement.query(By.css(".data-query p"));

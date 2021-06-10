@@ -8,6 +8,7 @@
 // Core dependencies
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Store } from "@ngrx/store";
 
 // App components
@@ -15,23 +16,23 @@ import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.componen
 import { SpeciesFormComponent } from "./species-form.component";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
+import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
+import { SearchTermHttpService } from "../../search/http/search-term-http.service";
+import { GASource } from "../../../shared/analytics/ga-source.model";
 import { Term } from "../../shared/term.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
-import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
-import { GASource } from "../../../shared/analytics/ga-source.model";
-import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 
 describe("SpeciesSelectionComponent", () => {
 
     let component: SpeciesFormComponent;
     let fixture: ComponentFixture<SpeciesFormComponent>;
-
+    let store: MockStore;
+    
     const SELECTOR_BUTTON = "button";
     const SELECTOR_CHECKBOX_SELECTED = "mat-icon";
     const SELECTOR_CHECKBOX_GROUP = ".hca-checkbox-group";
     const SELECTOR_CHECKBOX_LABEL = ".hca-checkbox-label";
-
-    const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     const FACET_SINGLE_SPECIES_HUMAN = new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
         new Term(GenusSpecies.HOMO_SAPIENS, 100, false)
@@ -64,15 +65,15 @@ describe("SpeciesSelectionComponent", () => {
                     provide: SearchTermHttpService,
                     useValue: testSearchTermHttpService
                 },
-                {
-                    provide: Store,
-                    useValue: testStore
-                }
+                provideMockStore({
+                    initialState: {}
+                })
             ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SpeciesFormComponent);
         component = fixture.componentInstance;
+        store = TestBed.inject(Store) as MockStore;
     }));
 
     /**
@@ -80,10 +81,11 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("builds checkbox options if there is one species", () => {
 
+        store.overrideSelector(selectFilesFacets, [FACET_SINGLE_SPECIES_HUMAN]);
+
         spyOn<any>(component, "buildSpeciesCheckboxOptions").and.callThrough();
-        
-        component.speciesFileFacet = FACET_SINGLE_SPECIES_HUMAN;
-        component.ngOnChanges({});
+
+        fixture.detectChanges();
 
         expect(component["buildSpeciesCheckboxOptions"]).toHaveBeenCalled();
     });
@@ -93,10 +95,11 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("builds checkbox options if there is more than one species", () => {
 
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
+
         spyOn<any>(component, "buildSpeciesCheckboxOptions").and.callThrough();
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        fixture.detectChanges();
 
         expect(component["buildSpeciesCheckboxOptions"]).toHaveBeenCalled();
     });
@@ -131,13 +134,12 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("displays a checkbox option for each species", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const checkboxGroupEls = findCheckboxGroupEls();
         expect(checkboxGroupEls).not.toBe(null);
-        expect(checkboxGroupEls.length).toBe(component.speciesFileFacet.terms.length);
+        expect(checkboxGroupEls.length).toBe(FACET_MULTIPLE_SPECIES.terms.length);
     });
 
     /**
@@ -145,8 +147,7 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("displays species name as checkbox label for each species", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const checkboxLabelEls = findCheckboxLabelEls();
@@ -162,13 +163,12 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("displays a checkbox option as selected for selected species terms", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES_HUMAN_SELECTED;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES_HUMAN_SELECTED]);
         fixture.detectChanges();
 
         const checkboxGroupEls = findCheckboxGroupEls();
         expect(checkboxGroupEls).not.toBe(null);
-        expect(checkboxGroupEls.length).toBe(component.speciesFileFacet.terms.length);
+        expect(checkboxGroupEls.length).toBe(FACET_MULTIPLE_SPECIES_HUMAN_SELECTED.terms.length);
 
         let matIconEl = findSelectedCheckboxes();
         expect(matIconEl).not.toBe(null);
@@ -180,8 +180,7 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("selects species when checkbox option is clicked and species is not already selected", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const mouseCheckboxEl = findCheckboxGroupElWithLabel(GenusSpecies.MUS_MUSCULUS);
@@ -202,8 +201,7 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("deselects species when checkbox option is selected and species was already selected", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const humanCheckboxEl = findCheckboxGroupElWithLabel(GenusSpecies.HOMO_SAPIENS);
@@ -230,8 +228,7 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("disables button when no species are selected", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const buttonEl = findSelectSpeciesButton();
@@ -243,8 +240,7 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("disables button when no species are selected", () => {
 
-        component.speciesFileFacet = FACET_MULTIPLE_SPECIES;
-        component.ngOnChanges({});
+        store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
         fixture.detectChanges();
 
         const humanCheckboxEl = findCheckboxGroupElWithLabel(GenusSpecies.HOMO_SAPIENS);
@@ -261,14 +257,14 @@ describe("SpeciesSelectionComponent", () => {
      */
     it("correctly dispatches select term action to store", () => {
 
-        testStore.dispatch.and.callThrough();
+        spyOn(store, "dispatch").and.callThrough();
 
         const facetName = FACET_SINGLE_SPECIES_HUMAN.name;
         const termName = FACET_SINGLE_SPECIES_HUMAN.terms[0].name;
         component["dispatchSelectedSpeciesAction"](facetName, termName, true);
         const actionToHaveBeenCalled =
             new SelectFileFacetTermAction(facetName, termName, true, GASource.SPECIES_SELECTION);
-        expect(testStore.dispatch).toHaveBeenCalledWith(actionToHaveBeenCalled)
+        expect(store.dispatch).toHaveBeenCalledWith(actionToHaveBeenCalled)
     });
 
     /**

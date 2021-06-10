@@ -10,11 +10,12 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, map, mergeMap, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
+import { concatMap, distinct, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { selectCatalog } from "./catalog/catalog.selectors";
 import { SelectCatalogAction } from "./catalog/select-catalog.action";
+import { ClearFilesFacetsAction } from "./facet/clear-files-facets.action";
 import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
@@ -194,12 +195,17 @@ export class FilesEffects {
         );
 
     /**
-     * Fetch facets from files endpoint to populate facet summary on get data pages.
+     * Fetch facets from files endpoint to populate facet summary and species form in get data flow.
      */
     @Effect()
     fetchFilesFacets$: Observable<Action> = this.actions$
         .pipe(
             ofType(FetchFilesFacetsRequestAction.ACTION_TYPE),
+            // Prevent dupe hits to fetch files facets. Reset distinct on select of term, or clear of fetch files 
+            // facets action.
+            distinct((action) => action.type, 
+                this.actions$.pipe(ofType(ClearFilesFacetsAction.ACTION_TYPE, SelectFileFacetTermAction.ACTION_TYPE))
+            ),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
                     this.store.pipe(select(selectCatalog), take(1)),
