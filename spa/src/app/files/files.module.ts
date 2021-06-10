@@ -61,13 +61,17 @@ import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
 import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.component";
+import { BulkDownloadSpeciesFormComponent } from "./get-data/bulk-download-species-form/bulk-download-species-form.component";
 import { DataLinkComponent } from "./get-data/data-link/data-link.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
+import { ExportToTerraSpeciesFormComponent } from "./get-data/export-to-terra-species-form/export-to-terra-species-form.component";
 import { GetDataComponent } from "./get-data/get-data.component";
+import { GetDataLayoutComponent } from "./get-data/get-data-layout/get-data-layout.component";
 import { GetDataOptionsComponent } from "./get-data/get-data-options/get-data-options.component";
 import { GetDataPanelComponent } from "./get-data/get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "./get-data/get-data-summary/get-data-summary.component";
 import { ManifestDownloadComponent } from "./get-data/manifest-download/manifest-download.component";
+import { ManifestDownloadSpeciesFormComponent } from "./get-data/manifest-download-species-form/manifest-download-species-form.component";
 import { SelectedDataSummaryComponent } from "./get-data/selected-data-summary/selected-data-summary.component";
 import { SpeciesFormComponent } from "./get-data/species-form/species-form.component";
 import { HCAFileSummaryComponent } from "./hca-file-summary/hca-file-summary.component";
@@ -169,10 +173,12 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         AnnouncementCatalogComponent,
         BaseManifestDownloadComponent,
         BulkDownloadComponent,
+        BulkDownloadSpeciesFormComponent,
         CatalogFormComponent,
         DataUseNotificationComponent,
         DataLinkComponent,
         ExportToTerraComponent,
+        ExportToTerraSpeciesFormComponent,
         FacetAgeRangeFormComponent,
         FacetMenuComponent,
         FacetMenuOptionComponent,
@@ -187,6 +193,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         FileTypeSummaryListComponent,
         FilesComponent,
         GetDataComponent,
+        GetDataLayoutComponent,
         GetDataOptionsComponent,
         GetDataPanelComponent,
         GetDataSummaryComponent,
@@ -207,6 +214,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         HCATableSamplesComponent,
         HCATableSortComponent,
         ManifestDownloadComponent,
+        ManifestDownloadSpeciesFormComponent,
         ProjectAnalysisPortalsComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,

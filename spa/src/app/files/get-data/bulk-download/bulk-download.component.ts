@@ -2,21 +2,25 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component responsible for displaying get manifest component, and handling the corresponding functionality.
+ * Component responsible for displaying bulk download component, and handling the corresponding functionality.
  */
 
 // Core dependencies
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit  } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { BaseManifestDownloadComponent } from "../base-manifest-download.component.ts/base-manifest-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
-import { GetDataViewState } from "../get-data-view-state.model";
+import { ConfigService } from "../../../config/config.service";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
+import { AppState } from "../../../_ngrx/app.state";
 import { CopyToClipboardBulkDownloadAction } from "../../_ngrx/get-data/copy-to-clipboard-bulk-download.action";
-import { RequestBulkDownloadAction } from "../../_ngrx/get-data/request-bulk-download.action";
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
+import { RequestBulkDownloadAction } from "../../_ngrx/get-data/request-bulk-download.action";
+import EntitySpec from "../../shared/entity-spec";
 import { SearchTerm } from "../../search/search-term.model";
 
 @Component({
@@ -27,11 +31,19 @@ import { SearchTerm } from "../../search/search-term.model";
 export class BulkDownloadComponent extends BaseManifestDownloadComponent implements OnDestroy, OnInit {
 
     // Template variables
-    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH; // Default to bash for now as this is currently the only option
+    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
-    // Outputs
-    @Output() manifestDownloadSelected = new EventEmitter<GetDataViewState>();
-    
+    /**
+     * @param {ConfigService} configService
+     * @param {Store<AppState>} store
+     * @param {Router} router
+     */
+    constructor(protected configService: ConfigService,
+                protected store: Store<AppState>,
+                private router: Router) {
+        super(configService, store);
+    }
+
     /**
      * Return the curl command for the generated manifest.
      * 
@@ -42,6 +54,18 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
     public getCurlCommand(manifestResponse: ManifestResponse, executionEnvironment: BulkDownloadExecutionEnvironment): string {
 
         return manifestResponse.commandLine[executionEnvironment];
+    }
+
+    /**
+     * Return user to species selection
+     */
+    public getBackButtonTab(): EntitySpec[] {
+
+        const key = "Species Selection";
+        return [{
+            key,
+            displayName: key
+        }];
     }
 
     /**
@@ -82,10 +106,13 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
     }
 
     /**
-     * Let parent components know related manifest has been requested.
+     * Handle click on back button.
      */
-    public onDownloadManifestClicked() {
+    public onTabSelected(): void {
 
-        this.manifestDownloadSelected.emit(GetDataViewState.MANIFEST);
+        this.router.navigate(["/export", "get-curl-command", "select-species"], {
+            queryParamsHandling: "preserve"
+        });
     }
+
 }

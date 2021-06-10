@@ -7,6 +7,7 @@
 
 // Core dependencies
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
 import { filter, map, takeUntil } from "rxjs/operators";
@@ -20,15 +21,16 @@ import { ExportToTerraComponentState } from "./export-to-terra.component.state";
 import { AppState } from "../../../_ngrx/app.state";
 import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
 import { selectFileManifestFileSummary } from "../../_ngrx/file-manifest/file-manifest.selectors";
-import { CopyToClipboardTerraUrlAction } from "../../_ngrx/terra/copy-to-clipboard-terra-url.action";
 import { LaunchTerraAction } from "../../_ngrx/terra/launch-terra.action";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
+import { CopyToClipboardTerraUrlAction } from "../../_ngrx/terra/copy-to-clipboard-terra-url.action";
 import { ExportToTerraRequestAction } from "../../_ngrx/terra/export-to-terra-request.action";
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
 import { SearchTerm } from "../../search/search-term.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
+import EntitySpec from "../../shared/entity-spec";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
 
@@ -51,11 +53,13 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param {ConfigService} configService
      * @param {TerraService} terraService
      * @param {Store<AppState>} store
+     * @param {Router} router
      * @param {Window} window
      */
     constructor(private configService: ConfigService,
                 private terraService: TerraService,
                 private store: Store<AppState>,
+                private router: Router,
                 @Inject("Window") window: Window) {
 
         this.store = store;
@@ -77,6 +81,18 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
         return [];
     }
 
+    /**
+     * Return user to species selection
+     */
+    public getBackButtonTab(): EntitySpec[] {
+
+        const key = "Species Selection";
+        return [{
+            key,
+            displayName: key
+        }];
+    }
+    
     /**
      * Returns the terra workspace URL.
      *
@@ -187,6 +203,16 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
         this.store.dispatch(action);
     }
 
+    /**
+     * Handle click on back button.
+     */
+    public onTabSelected(): void {
+
+        this.router.navigate(["/export", "export-to-terra", "select-species"], {
+            queryParamsHandling: "preserve"
+        });
+    }
+    
     /**
      * Open new window on completion of export to Terra request.
      */

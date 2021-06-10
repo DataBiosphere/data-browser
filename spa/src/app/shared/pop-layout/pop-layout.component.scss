@@ -18,9 +18,9 @@ hca-section-title + hca-tab {
     margin-top: -24px;
 }
 
-/* Project detail page */
-/* ProjectDetailComponent */
-:host-context(project-detail) .wrapper {
+/* Project detail page, get data flow */
+:host-context(project-detail) .wrapper,
+:host-context(get-data) .wrapper {
     display: flex;
     flex-direction: column;
 }
@@ -31,9 +31,9 @@ hca-section-title + hca-tab {
  */
 @media screen and (min-width: 600px) {
 
-    /* Project detail page */
-    /* ProjectDetailComponent */
-    :host-context(project-detail) .wrapper {
+    /* Project detail page, get data flow */
+    :host-context(project-detail) .wrapper,
+    :host-context(get-data) .wrapper {
         flex-direction: row;
     }
 }

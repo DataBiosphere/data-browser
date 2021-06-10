@@ -1,0 +1,10 @@
+<get-data-layout [tabs]="getBackButtonTab()" (tabSelected)="onTabSelected()">
+    <ng-container title>Export to Terra</ng-container>
+    <div content>
+        <get-data-panel>
+            <h4 class="fontsize-m semi-bold">Confirm Species Selection</h4>
+            <p class="fontsize-m">Please explicitly select at least one species to be included in your export.</p>
+        </get-data-panel>
+        <species-form (speciesSelected)="onSpeciesSelected()"></species-form>
+    </div>
+</get-data-layout>

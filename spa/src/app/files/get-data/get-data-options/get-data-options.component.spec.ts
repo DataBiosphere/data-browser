@@ -8,18 +8,41 @@
 // Core dependencies
 import { DebugElement } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Store } from "@ngrx/store";
 
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
-import { GetDataViewState } from "../get-data-view-state.model";
+import { FacetDisplayService } from "../../facet/facet-display.service";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { GetDataOptionsComponent } from "./get-data-options.component";
+import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
+import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
+import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
+import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
+import { selectFileSummary, selectSelectedEntitySpec } from "../../_ngrx/files.selectors";
+import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
+import { SelectedDataSummaryComponent } from "../selected-data-summary/selected-data-summary.component";
+import { GenusSpecies } from "../../shared/genus-species.model";
+import { HCASectionTitleComponent } from "../../../shared/hca-section-title/hca-section-title.component";
+import { HCATabComponent } from "../../../shared/hca-tab/hca-tab.component";
+import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
+import { PopLayoutComponent } from "../../../shared/pop-layout/pop-layout.component";
+import { Term } from "../../shared/term.model";
 
 describe("GetDataOptionsComponent", () => {
 
     let component: GetDataOptionsComponent;
     let fixture: ComponentFixture<GetDataOptionsComponent>;
+    let store: MockStore;
 
     const DOWNLOAD_DISPLAY_ORDER = ["BULK_DOWNLOAD", "MANIFEST", "TERRA"];
 
@@ -30,29 +53,52 @@ describe("GetDataOptionsComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                GetDataLayoutComponent,
+                GetDataOptionsComponent,
                 GetDataPanelComponent,
-                GetDataOptionsComponent
+                GetDataSummaryComponent,
+                HCASectionTitleComponent,
+                HCATabComponent,
+                HCATooltipComponent,
+                PopLayoutComponent,
+                SelectedDataSummaryComponent,
+                SelectedSearchTermsComponent
             ],
-            imports: [],
+            imports: [
+                BrowserAnimationsModule,
+                MatTooltipModule,
+                PipeModule,
+                RouterTestingModule
+            ],
             providers: [
                 {
                     provide: ConfigService,
                     useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
                 },
+                FacetDisplayService,
+                provideMockStore({
+                    initialState: {}
+                })
             ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(GetDataOptionsComponent);
         component = fixture.componentInstance;
+
+        // Set up selectors for children components
+        store = TestBed.inject(Store) as MockStore;
+        store.overrideSelector(selectFilesFacets, [new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+            new Term(GenusSpecies.HOMO_SAPIENS, 100, false)
+        ])]);
+        store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectSelectedSearchTerms, []);
+        
+        // Set up selector for fixture
+        store.overrideSelector(selectSelectedEntitySpec, {
+            key: "key",
+            displayName: "Key"
+        });
     }));
-
-    /**
-     * Smoke test
-     */
-    it("should create an instance", () => {
-
-        expect(component).toBeTruthy();
-    });
 
     /**
      * Confirm "Bulk Download" is displayed.
@@ -84,63 +130,6 @@ describe("GetDataOptionsComponent", () => {
 
         // Confirm "Export to Terra" is displayed
         expect(isPanelHeaderDisplayed("Export to Terra")).toEqual(true);
-    });
-
-    /**
-     * Confirm emit "BULK_DOWNLOAD" on click of bulk download start button.
-     */
-    it(`emits "BULK_DOWNLOAD" on click of bulk download start button`, () => {
-
-        fixture.detectChanges();
-
-        let selectedDownload: string;
-        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
-
-        const bulkDownloadStartButton = getButtonEl("BULK_DOWNLOAD");
-
-        // Execute click on bulk download start button
-        bulkDownloadStartButton.triggerEventHandler("click", null);
-
-        // Confirm emit "BULK_DOWNLOAD"
-        expect(selectedDownload).toBe(GetDataViewState.BULK_DOWNLOAD);
-    });
-
-    /**
-     * Confirm emit "MANIFEST" on click of manifest start button.
-     */
-    it(`emits "MANIFEST" on click of manifest start button`, () => {
-
-        fixture.detectChanges();
-
-        let selectedDownload: string;
-        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
-
-        const manifestStartButton = getButtonEl("MANIFEST");
-
-        // Execute click on manifest start button
-        manifestStartButton.triggerEventHandler("click", null);
-
-        // Confirm emit "MANIFEST"
-        expect(selectedDownload).toBe(GetDataViewState.MANIFEST);
-    });
-
-    /**
-     * Confirm emit "TERRA" on click of terra start button.
-     */
-    it(`emits "TERRA" on click of terra start button`, () => {
-
-        fixture.detectChanges();
-
-        let selectedDownload: string;
-        component.downloadSelected.subscribe((download: string) => selectedDownload = download);
-
-        const terraStartButton = getButtonEl("TERRA");
-
-        // Execute click on terra start button
-        terraStartButton.triggerEventHandler("click", null);
-
-        // Confirm emit "TERRA"
-        expect(selectedDownload).toBe(GetDataViewState.TERRA);
     });
 
     /**
