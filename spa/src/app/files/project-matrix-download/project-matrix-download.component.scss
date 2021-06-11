@@ -17,6 +17,11 @@ h2 {
     margin-top: 24px;
 }
 
+data-use-notification {
+    display: block;
+    width: 600px; /* Match max-width */
+}
+
 /** Remove margin from bottom of no hits paragraph */
 no-hits p.fontsize-s {
     margin-bottom: 0 !important; // important to override parent-driven styles below */

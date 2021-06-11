@@ -1,8 +1,7 @@
 <ng-container *ngIf="!policyAccepted">
     <announcement class="policy">
-        <p class="fontsize-xs">By downloading data from the HCA DCP, you agree to the guidelines specified in the
-            <a href="https://www.humancellatlas.org/data-release-policy/" target="_blank">HCA Data Release
-                Policy</a></p>
+        <p class="fontsize-xs">By downloading data, you agree to the guidelines specified in the
+            <data-release-policy-link></data-release-policy-link></p>
         <span class="fontsize-xs" (click)="onPolicyAccepted()">Got it</span>
     </announcement>
 </ng-container>

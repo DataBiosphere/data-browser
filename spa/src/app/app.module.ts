@@ -12,9 +12,6 @@ import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router, RouterModule } from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatToolbarModule } from "@angular/material/toolbar";
 import { DeviceDetectorModule } from "ngx-device-detector";
 import { EffectsModule } from "@ngrx/effects";
 import { Store, StoreModule } from "@ngrx/store";
@@ -27,26 +24,14 @@ import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { FaviconService } from "./favicon/favicon.service";
 import { FaviconModule } from "./favicon/favicon.module";
-import { AtlasName } from "./files/atlas/atlas-name.model";
 import { CatalogService } from "./files/catalog/catalog.service";
 import { FilesModule } from "./files/files.module";
-import { HamburgerModule } from "./hamburger/hamburger.module";
 import { HCAEncodeHttpParamsInterceptor } from "./http/hca-encode-http-params.interceptor";
 import { HCAHttpResponseErrorInterceptor } from "./http/hca-http-response-error.interceptor";
 import { AppEffects } from "./_ngrx/app.effects";
 import { AppReducers } from "./_ngrx/app.reducer";
 import { SharedModule } from "./shared/shared.module";
-import { DataPolicyFooterComponent } from "./site/data-policy-footer/data-policy-footer.component";
-import { DesktopFooterComponent } from "./site/desktop-footer/desktop-footer.component";
-import { HCAFooterComponent } from "./site/hca/hca-footer/hca-footer.component";
-import { HCASiteConfigService } from "./site/hca/hca-site-config.service";
-import { HCAToolbarComponent } from "./site/hca/hca-toolbar/hca-toolbar.component";
-import { LungMAPFooterComponent } from "./site/lungmap/lungmap-footer/lungmap-footer.component";
-import { LungMAPSiteConfigService } from "./site/lungmap/lungmap-site-config.service";
-import { LungMAPToolbarComponent } from "./site/lungmap/lungmap-toolbar/lungmap-toolbar.component";
-import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
-import { ViewContainerDirective } from "./site/site-config/view-conatainer.directive";
-import { StickyFooterComponent } from "./site/sticky-footer/sticky-footer.component";
+import { SiteModule } from "./site/site.module";
 import { LocalStorageModule } from "./storage/local-storage.module";
 import { SupportRequestModule } from "./support-request/support-request.module";
 import { ErrorComponent } from "./system/error/error.component";
@@ -61,9 +46,6 @@ import { SystemService } from "./system/shared/system.service";
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(AppRoutes),
-        MatButtonModule,
-        MatIconModule,
-        MatToolbarModule,
 
         // NGRX SETUP
         StoreModule.forRoot(AppReducers),
@@ -74,11 +56,11 @@ import { SystemService } from "./system/shared/system.service";
 
         // CHILD MODULES SETUP
         FaviconModule,
-        SharedModule,
         ConfigModule,
         FilesModule,
-        HamburgerModule,
         LocalStorageModule,
+        SharedModule,
+        SiteModule,
         SupportRequestModule,
 
         DeviceDetectorModule.forRoot()
@@ -91,16 +73,6 @@ import { SystemService } from "./system/shared/system.service";
         ErrorComponent,
         ErrorLayoutComponent,
         NotFoundComponent,
-
-        // Site components
-        DataPolicyFooterComponent,
-        DesktopFooterComponent,
-        HCAFooterComponent,
-        HCAToolbarComponent,
-        LungMAPFooterComponent,
-        LungMAPToolbarComponent,
-        StickyFooterComponent,
-        ViewContainerDirective
     ],
     providers: [
         // Init config and catalog states; both must resolve before app can be initialized.
@@ -127,7 +99,7 @@ import { SystemService } from "./system/shared/system.service";
             },
             deps: [ConfigService, FaviconService],
             multi: true
-        },        
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAEncodeHttpParamsInterceptor,
@@ -138,22 +110,6 @@ import { SystemService } from "./system/shared/system.service";
             useClass: HCAHttpResponseErrorInterceptor,
             deps: [ConfigService, Router, Store],
             multi: true
-        },
-        {
-            provide: SITE_CONFIG_SERVICE,
-            useFactory: (configService: ConfigService) => {
-                const atlas = configService.getAtlas();
-                if ( atlas === AtlasName.HCA ) {
-                    return new HCASiteConfigService();
-                }
-                else if ( atlas === AtlasName.LUNGMAP ) {
-                    return new LungMAPSiteConfigService();
-                }
-                else {
-                    throw `SiteConfigService not configured for atlas: '${atlas}'`;
-                }
-            },
-            deps: [ConfigService]
         },
         SystemService
     ]

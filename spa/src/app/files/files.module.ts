@@ -32,7 +32,6 @@ import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pip
 import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
 import { BaseManifestDownloadComponent } from "./get-data/base-manifest-download.component.ts/base-manifest-download.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
-import { DataUseNotificationComponent } from "./data-use-notification/data-use-notification.component";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { CatalogService } from "./catalog/catalog.service";
 import { ConfigService } from "../config/config.service";
@@ -130,6 +129,7 @@ import { ProjectEditsService } from "./shared/project-edits.service";
 import { SharedModule } from "../shared/shared.module";
 import { TerraService } from "./shared/terra.service";
 import { TermSortService } from "./sort/term-sort.service";
+import { SiteModule } from "../site/site.module";
 import { SurveyModule } from "../survey/survey.module";
 import { PaginationService } from "./table/pagination/pagination.service";
 import { TableRendererService } from "./table/table-renderer.service";
@@ -163,6 +163,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ModalModule,
         PipeModule,
         SharedModule,
+        SiteModule,
         SurveyModule
     ],
     declarations: [
@@ -175,7 +176,6 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         BulkDownloadComponent,
         BulkDownloadSpeciesFormComponent,
         CatalogFormComponent,
-        DataUseNotificationComponent,
         DataLinkComponent,
         ExportToTerraComponent,
         ExportToTerraSpeciesFormComponent,

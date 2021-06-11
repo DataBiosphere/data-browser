@@ -85,25 +85,19 @@ describe("AppComponent:", () => {
                 provide: LocalStorageService,
                 useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
             }, {
-                provide: SITE_CONFIG_SERVICE,
-                useValue: jasmine.createSpyObj("SiteConfigService", ["getFooter", "getHeader", "isSupportRequestEnabled"])
-            }, {
                 provide: UrlService,
-                useValue: jasmine.createSpyObj("UrlService", ["isViewingEntities", "isViewingFiles", "isViewingProjects", "isViewingSamples"])
+                useValue: jasmine.createSpyObj("UrlService", [
+                    "isViewingEntities",
+                    "isViewingFiles",
+                    "isViewingProjects",
+                    "isViewingSamples"
+                ])
             }]
         });
 
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
     }));
-
-    /**
-     * Smoke test
-     */
-    it("should create component", () => {
-
-        expect(component).toBeTruthy();
-    });
 
     /**
      * Tests are incomplete - review component functionality and add necessary tests.
