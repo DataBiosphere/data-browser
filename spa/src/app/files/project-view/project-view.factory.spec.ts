@@ -241,24 +241,24 @@ describe("ProjectViewFactory", () => {
 
         it("adds dcp1 catalog to citation url", () => {
             
-            const portalUrl = "https://foo.com";
-            spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
+            const browserUrl = "https://foo.com";
+            spyOn(configService, "getBrowserUrl").and.returnValue(browserUrl);
             
             const catalog = DCPCatalog.DCP1;
             const projectId = "baz";
             const citationUrl = projectViewFactory["buildCitationUrl"](catalog, projectId);
-            expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}?catalog=${catalog}`)
+            expect(citationUrl).toEqual(`${browserUrl}/explore/projects/${projectId}?catalog=${catalog}`)
         });
 
         it("doesn't add default catalog to citation url", () => {
 
-            const portalUrl = "https://foo.com";
-            spyOn(configService, "getPortalUrl").and.returnValue(portalUrl);
+            const browserUrl = "https://foo.com";
+            spyOn(configService, "getBrowserUrl").and.returnValue(browserUrl);
 
             const catalog = "foo";
             const projectId = "baz";
             const citationUrl = projectViewFactory["buildCitationUrl"](catalog, projectId);
-            expect(citationUrl).toEqual(`${portalUrl}/explore/projects/${projectId}`)
+            expect(citationUrl).toEqual(`${browserUrl}/explore/projects/${projectId}`)
         });
     });
 });

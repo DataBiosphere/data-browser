@@ -105,8 +105,8 @@ export class ProjectViewFactory {
     private buildCitationUrl(catalog: Catalog, projectId: string): string {
 
         // Add selected project to state - grab the project ID from the URL.
-        const portalURL = this.configService.getPortalUrl();
-        const citationURL = `${portalURL}/explore/projects/${projectId}`;
+        const browserURL = this.configService.getBrowserUrl();
+        const citationURL = `${browserURL}/explore/projects/${projectId}`;
 
         // Return citation with catalog param if viewing dcp1.
         if ( catalog === DCPCatalog.DCP1 ) {
