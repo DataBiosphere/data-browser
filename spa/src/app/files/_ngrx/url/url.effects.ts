@@ -80,7 +80,7 @@ export class UrlEffects {
             // We only want to update the location if user is currently viewing /projects, /samples or /files, or
             // the get data flow
             return this.urlService.isViewingEntities() ||
-                this.urlService.isViewingGetData();
+                this.urlService.isViewingExport();
         }),
         concatMap(action => of(action).pipe(
             withLatestFrom(this.store.pipe(select(selectUrlSpecState), take(1)))

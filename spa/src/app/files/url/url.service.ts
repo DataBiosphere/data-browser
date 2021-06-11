@@ -69,11 +69,13 @@ export class UrlService {
     }
 
     /**
-     * Returns true if user is currently viewing /get-data
+     * Returns true if user is currently viewing /export
      */
-    public isViewingGetData(): boolean {
+    public isViewingExport(): boolean {
 
-        return this.routingService.isPathActive(["/get-data"]);
+        const path = this.router.url.split("?")[0];
+        const pathTokens = path.split(/\/|\?/g);
+        return pathTokens.indexOf("export") >= 0;
     }
 }
 
