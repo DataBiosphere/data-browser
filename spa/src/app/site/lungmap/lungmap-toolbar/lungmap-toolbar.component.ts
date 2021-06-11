@@ -22,6 +22,7 @@ import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { RoutingService } from "../../../shared/routing/routing.service";
 import { HeaderComponent } from "../../site-config/header.component";
+import { UrlService } from "../../../files/url/url.service";
 
 @Component({
     selector: "lungmap-toolbar",
@@ -46,11 +47,13 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
      * @param {RoutingService} routingService
+     * @param {UrlService} urlService
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private configService: ConfigService,
                 private routingService: RoutingService,
+                private urlService: UrlService,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalUrl();
     }
@@ -64,8 +67,7 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
 
         if ( this.currentUrl ) {
 
-            const explorePaths = ["projects", "samples", "files", "get-data"];
-            const explorePathExists = explorePaths.some(explorePath => this.currentUrl.includes(explorePath));
+            const explorePathExists = this.urlService.isViewingEntities();
             const homePathExists = this.currentUrl === "/";
 
             return explorePathExists || homePathExists;

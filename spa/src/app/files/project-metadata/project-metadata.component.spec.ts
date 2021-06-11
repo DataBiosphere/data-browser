@@ -31,6 +31,7 @@ import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-relea
 import { HCADataUseNotificationComponent } from "../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
 import { HCASiteConfigService } from "../../site/hca/hca-site-config.service";
 import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
+import { DataReleasePolicyLinkComponent } from "../../site/data-release-policy-link/data-release-policy-link.component";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -54,6 +55,7 @@ describe("ProjectMetadataComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
+                DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
                 FileLocationCopyComponent,
                 FileLocationDownloadComponent,

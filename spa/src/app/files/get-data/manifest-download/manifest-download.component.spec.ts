@@ -58,6 +58,7 @@ import { HCADataReleasePolicyLinkComponent } from "../../../site/hca/hca-data-re
 import { TermSortService } from "../../sort/term-sort.service";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
+import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 
 describe("ManifestDownloadComponent", () => {
@@ -82,6 +83,7 @@ describe("ManifestDownloadComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
+                DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
                 FileTypeSummaryListComponent,
                 GetDataLayoutComponent,
