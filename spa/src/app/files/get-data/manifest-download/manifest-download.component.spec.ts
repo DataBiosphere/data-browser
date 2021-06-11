@@ -19,7 +19,6 @@ import { ClipboardModule } from "ngx-clipboard";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
 import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
@@ -53,8 +52,13 @@ import { PopLayoutComponent } from "../../../shared/pop-layout/pop-layout.compon
 import { Term } from "../../shared/term.model";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
+import { DataUseNotificationComponent } from "../../../site/data-use-notification/data-use-notification.component";
+import { HCADataUseNotificationComponent } from "../../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
+import { HCADataReleasePolicyLinkComponent } from "../../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
 import { TermSortService } from "../../sort/term-sort.service";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
+import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
+import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 
 describe("ManifestDownloadComponent", () => {
 
@@ -83,6 +87,8 @@ describe("ManifestDownloadComponent", () => {
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
                 GetDataSummaryComponent,
+                HCADataUseNotificationComponent,
+                HCADataReleasePolicyLinkComponent,
                 HCASectionTitleComponent,
                 HCATabComponent,
                 HCATooltipComponent,
@@ -112,6 +118,10 @@ describe("ManifestDownloadComponent", () => {
                 {
                     provide: SearchTermHttpService,
                     useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
+                },
+                {
+                    provide: SITE_CONFIG_SERVICE,
+                    useClass: HCASiteConfigService
                 },
                 provideMockStore({
                     initialState: {}

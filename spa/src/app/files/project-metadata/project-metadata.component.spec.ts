@@ -18,7 +18,6 @@ import { of } from "rxjs";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
-import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { FileLocationCopyComponent } from "../file-location/file-location-copy/file-location-copy.component";
 import { FileLocationDownloadComponent } from "../file-location/file-location-download/file-location-download.component";
 import { PROJECT_DETAIL_SINGLE_VALUES } from "../project/hca-project-mapper.mock";
@@ -27,6 +26,11 @@ import { ProjectManifestDownloadComponent } from "../project-manifest-download/p
 import { ProjectMetadataComponent } from "./project-metadata.component";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
+import { DataUseNotificationComponent } from "../../site/data-use-notification/data-use-notification.component";
+import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
+import { HCADataUseNotificationComponent } from "../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
+import { HCASiteConfigService } from "../../site/hca/hca-site-config.service";
+import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
 
 describe("ProjectMetadataComponent", () => {
 
@@ -53,6 +57,8 @@ describe("ProjectMetadataComponent", () => {
                 DataUseNotificationComponent,
                 FileLocationCopyComponent,
                 FileLocationDownloadComponent,
+                HCADataReleasePolicyLinkComponent,
+                HCADataUseNotificationComponent,
                 SectionBarComponent,
                 ProjectManifestDownloadComponent,
                 ProjectMetadataComponent,
@@ -81,6 +87,10 @@ describe("ProjectMetadataComponent", () => {
                         "removeProjectMeta",
                         "trackTabView"
                     ])
+                },
+                {
+                    provide: SITE_CONFIG_SERVICE,
+                    useClass: HCASiteConfigService
                 },
                 {
                     provide: Store,

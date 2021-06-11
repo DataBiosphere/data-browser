@@ -9,14 +9,14 @@
 import { Component } from "@angular/core";
 
 // App dependencies
-import { ConfigService } from "../../config/config.service";
+import { ConfigService } from "../../../config/config.service";
 
 @Component({
-    selector: "data-use-notification",
-    templateUrl: "./data-use-notification.component.html",
-    styleUrls: ["./data-use-notification.component.scss"]
+    selector: "hca-data-use-notification",
+    templateUrl: "./hca-data-use-notification.component.html",
+    styleUrls: ["./hca-data-use-notification.component.scss"]
 })
-export class DataUseNotificationComponent {
+export class HCADataUseNotificationComponent {
 
     // Template variables
     public portalURL: string;
