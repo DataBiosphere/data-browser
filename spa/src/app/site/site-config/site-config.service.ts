@@ -9,12 +9,16 @@
 import { Type } from "@angular/core";
 
 // App dependencies
+import { DataReleasePolicyLinkComponent } from "./data-release-policy-link.component";
+import { DataUseNotificationComponent } from "./data-use-notification.component";
 import { FooterComponent } from "./footer.component";
 import { HeaderComponent } from "./header.component";
 
 export interface SiteConfigService {
 
+    getDataUseNotificationComponent(): Type<DataUseNotificationComponent>
+    getDataReleasePolicyLinkComponent(): Type<DataReleasePolicyLinkComponent>;
     getFooter(): Type<FooterComponent>;
-    isSupportRequestEnabled(): boolean;
     getHeader(): Type<HeaderComponent>;
+    isSupportRequestEnabled(): boolean;
 }

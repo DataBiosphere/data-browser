@@ -13,8 +13,8 @@ import { By } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Store } from "@ngrx/store";
-
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
+
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { FacetDisplayService } from "../../facet/facet-display.service";

@@ -26,7 +26,6 @@ import { of } from "rxjs";
 import { AnalysisProtocolPipelineLinkerComponent } from "../analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
 import { ConfigService } from "../../config/config.service";
 import { DCPCatalog } from "../catalog/dcp-catalog.model";
-import { DataUseNotificationComponent } from "../data-use-notification/data-use-notification.component";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { HCAContentEllipsisComponent } from "../hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "../hca-content-ellipsis/hca-ellipsis-text.component";
@@ -66,6 +65,11 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { PROJECTS_TABLE_MODEL } from "./table-state-table-model-projects.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
+import { DataUseNotificationComponent } from "../../site/data-use-notification/data-use-notification.component";
+import { HCADataUseNotificationComponent } from "../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
+import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
+import { HCASiteConfigService } from "../../site/hca/hca-site-config.service";
+import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -141,6 +145,8 @@ describe("HCATableProjectsComponent", () => {
                 FileDownloadComponent,
                 HCAContentEllipsisComponent,
                 HCAContentUnspecifiedDashComponent,
+                HCADataReleasePolicyLinkComponent,
+                HCADataUseNotificationComponent,
                 HCAEllipsisTextComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,
@@ -182,6 +188,10 @@ describe("HCATableProjectsComponent", () => {
                 {
                     provide: ResponsiveService,
                     useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                },
+                {
+                    provide: SITE_CONFIG_SERVICE,
+                    useClass: HCASiteConfigService
                 },
                 provideMockStore({initialState: DEFAULT_PROJECTS_STATE}),
                 {

@@ -24,7 +24,6 @@ import { ConfigServiceSpy } from "../../../config/config.service.spy";
 import { BulkDownloadComponent } from "./bulk-download.component";
 import { BulkDownloadExecutionEnvironment } from "./bulk-download-execution-environment.model";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { DataUseNotificationComponent } from "../../data-use-notification/data-use-notification.component";
 import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
@@ -60,6 +59,11 @@ import { Term } from "../../shared/term.model";
 import { WarningComponent } from "../../../shared/warning/warning.component";
 import { WarningContentComponent } from "../../../shared/warning/warning-content.component";
 import { WarningTitleComponent } from "../../../shared/warning/warning-title.component";
+import { DataUseNotificationComponent } from "../../../site/data-use-notification/data-use-notification.component";
+import { HCADataReleasePolicyLinkComponent } from "../../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
+import { HCADataUseNotificationComponent } from "../../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
+import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
+import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 
 describe("BulkDownloadComponent", () => {
@@ -83,6 +87,8 @@ describe("BulkDownloadComponent", () => {
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
                 GetDataSummaryComponent,
+                HCADataUseNotificationComponent,
+                HCADataReleasePolicyLinkComponent,
                 HCASectionTitleComponent,
                 HCATabComponent,
                 HCATooltipComponent,
@@ -111,6 +117,10 @@ describe("BulkDownloadComponent", () => {
                     useValue: ConfigServiceSpy as any
                 },
                 FacetDisplayService,
+                {
+                    provide: SITE_CONFIG_SERVICE,
+                    useClass: HCASiteConfigService
+                },
                 provideMockStore({
                     initialState: {}
                 }),
