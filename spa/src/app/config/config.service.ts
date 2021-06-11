@@ -23,6 +23,7 @@ export class ConfigService {
     
     // Locals
     protected atlas: string;
+    protected browserURL: string;
     protected dataURL: string; // Pulled from config store, saved as local state here on service
     protected defaultCatalog: Catalog;
     protected deployment: string;
@@ -49,6 +50,16 @@ export class ConfigService {
     public getAtlas(): string {
         
         return this.atlas;
+    }
+
+    /**
+     * Returns the browser URL.
+     * 
+     * @returns {string}
+     */
+    public getBrowserUrl(): string {
+        
+        return this.browserURL;
     }
 
     /**
@@ -290,6 +301,7 @@ export class ConfigService {
     private storeConfig(config: Config): void {
 
         this.atlas = config.atlas;
+        this.browserURL = config.browserURL;
         this.dataURL = config.dataURL;
         this.defaultCatalog = config.defaultCatalog;
         this.deployment = config.deployment;

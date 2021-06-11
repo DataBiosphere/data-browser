@@ -9,6 +9,7 @@ export class Config {
 
     /**
      * @param {string} atlas
+     * @param {string} browserURL
      * @param {string} dataURL
      * @param {string} defaultCatalog
      * @param {string} deployment
@@ -19,6 +20,7 @@ export class Config {
      * @param {string} zendeskURL
      */
     constructor(public readonly atlas: string,
+                public readonly browserURL: string,
                 public readonly dataURL: string,
                 public readonly defaultCatalog: string,
                 public readonly deployment: string,
