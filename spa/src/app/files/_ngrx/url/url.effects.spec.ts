@@ -85,7 +85,7 @@ describe("URL Effects", () => {
                     provide: UrlService,
                     useValue: jasmine.createSpyObj("UrlService", [
                         "isViewingEntities",
-                        "isViewingGetData",
+                        "isViewingExport",
                         "isViewingFiles",
                         "isViewingProjects",
                         "isViewingSamples"
@@ -132,12 +132,12 @@ describe("URL Effects", () => {
         });
 
         /**
-         * Location is updated if user currently viewing /get-data.
+         * Location is updated if user currently viewing /export.
          */
-        it("location updated if viewing entity data table", () => {
+        it("location updated if viewing export flow", () => {
 
             // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingGetData.and.returnValue(true);
+            urlService.isViewingExport.and.returnValue(true);
 
             // Create clear action
             const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS); // Use any matching action here 
@@ -164,7 +164,7 @@ describe("URL Effects", () => {
 
             // Return false from isViewingEntities to fail filter in effect
             urlService.isViewingEntities.and.returnValue(false);
-            urlService.isViewingGetData.and.returnValue(false);
+            urlService.isViewingExport.and.returnValue(false);
 
             actions$ = hot("-a", {
                 a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here

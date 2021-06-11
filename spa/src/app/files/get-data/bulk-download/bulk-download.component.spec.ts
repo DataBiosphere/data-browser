@@ -65,6 +65,7 @@ import { HCADataUseNotificationComponent } from "../../../site/hca/hca-data-use-
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
+import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
 
 describe("BulkDownloadComponent", () => {
 
@@ -83,6 +84,7 @@ describe("BulkDownloadComponent", () => {
                 CopyToClipboardComponent,
                 DataLinkComponent,
                 DataUseNotificationComponent,
+                DataReleasePolicyLinkComponent,
                 FileTypeSummaryListComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,

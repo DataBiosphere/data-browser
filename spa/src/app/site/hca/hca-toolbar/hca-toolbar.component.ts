@@ -16,6 +16,7 @@ import { filter, takeUntil } from "rxjs/operators";
 import { ConfigService } from "../../../config/config.service";
 import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.action";
 import { EntityName } from "../../../files/shared/entity-name.model";
+import { UrlService } from "../../../files/url/url.service";
 import { CloseHamburgerAction } from "../../../hamburger/_ngrx/close-hamburger.action";
 import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
 import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
@@ -46,11 +47,13 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
      * @param {RoutingService} routingService
+     * @param {UrlService} urlService
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
                 private configService: ConfigService,
                 private routingService: RoutingService,
+                private urlService: UrlService,
                 private router: Router) {
         this.portalUrl = this.configService.getPortalUrl();
     }
@@ -64,8 +67,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
 
         if ( this.currentUrl ) {
 
-            const explorePaths = ["projects", "samples", "files", "get-data"];
-            const explorePathExists = explorePaths.some(explorePath => this.currentUrl.includes(explorePath));
+            const explorePathExists = this.urlService.isViewingEntities();
             const homePathExists = this.currentUrl === "/";
 
             return explorePathExists || homePathExists;

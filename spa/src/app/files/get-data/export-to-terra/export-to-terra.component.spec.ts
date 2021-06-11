@@ -62,6 +62,7 @@ import { HCADataReleasePolicyLinkComponent } from "../../../site/hca/hca-data-re
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
+import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
 
 describe("ExportToTerraComponent", () => {
 
@@ -101,6 +102,7 @@ describe("ExportToTerraComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
+                DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
                 ExportToTerraComponent,
                 FileTypeSummaryListComponent,
