@@ -7,6 +7,7 @@
     "start": "ng serve --verbose",
     "build": "ng build --outputPath ../dist",
     "build-cgl-dev": "ng build --outputPath ../dist/explore --configuration=cgl-dev --base-href=/explore/",
+    "build-cgl-ux-dev": "ng build --outputPath ../dist/explore --configuration=cgl-ux-dev --base-href=/explore/",
     "build-lungmap-dev": "ng build --outputPath ../dist/explore --configuration=lungmap-dev --base-href=/explore/",
     "build-cgl-dcp2": "ng build --outputPath ../dist/explore --configuration=dcp2 --base-href=/explore/",
     "test": "ng test",
