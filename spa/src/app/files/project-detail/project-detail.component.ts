@@ -16,8 +16,6 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { selectSelectedProject } from "../_ngrx/files.selectors";
-import { FetchIntegrationsByProjectIdRequestAction } from "../_ngrx/integration/fetch-integrations-by-project-id-request.action";
-import { selectProjectIntegrations } from "../_ngrx/integration/integration.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
@@ -172,27 +170,16 @@ export class ProjectDetailComponent {
             map(this.mapSearchTermsToProjectIds)
         );
         
-        // Request and grab the integrations for the current project
-        this.store.dispatch(new FetchIntegrationsByProjectIdRequestAction(projectId));
-        const projectIntegrations$ = this.store.pipe(
-            select(selectProjectIntegrations, {projectId: projectId}),
-            takeUntil(this.ngDestroy$),
-            filter(integrations => !!integrations),
-            take(1)
-        );
-        
         // Set up component state
-        combineLatest(project$, projectIntegrations$, selectedProjectIds$)
+        combineLatest(project$, selectedProjectIds$)
             .pipe(
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(([project, projectIntegrations, selectedProjectIds]) => {
+            .subscribe(([project, selectedProjectIds]) => {
     
                 const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
-                const externalResourcesExist = project.supplementaryLinks.length > 0 || projectIntegrations.length > 0;
 
                 this.state$.next({
-                    externalResourcesExist,
                     loaded: true,
                     project,
                     projectSelected

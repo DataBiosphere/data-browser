@@ -91,7 +91,8 @@ export class ProjectViewFactory {
             fileCountSummaries: this.buildFileCountSummaries(project),
             projectAccessionsSummaries: this.buildProjectAccessionsSummaries(project),
             projectDescription: project.projectDescription,
-            publications: project.publications
+            publications: project.publications,
+            supplementaryLinks: project.supplementaryLinks
         };
     }
 

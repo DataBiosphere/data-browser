@@ -25,4 +25,5 @@ export interface ProjectView {
     projectAccessionsSummaries: KeyValuePair[];
     projectDescription: string;
     publications: Publication[];
+    supplementaryLinks: string[];
 }
