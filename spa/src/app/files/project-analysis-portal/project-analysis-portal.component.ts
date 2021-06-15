@@ -41,7 +41,7 @@ export class ProjectAnalysisPortalComponent {
      */
     public getAnalysisPortalLogoPath(analysisPortalName: string): string {
 
-        const logoKey = analysisPortalName.toLowerCase();
+        const logoKey = analysisPortalName.toLowerCase().replace(/_/g, "-");
         return `assets/analysis-portals/logo-${logoKey}.png`;
     }
 }
