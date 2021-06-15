@@ -89,6 +89,8 @@
                     (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"
             ></project-overview-data-summary>
             <key-value-pair [title]="'File Counts'" [keyValuePairs]="state.project.fileCountSummaries"></key-value-pair>
+            <project-supplementary-links [supplementaryLinks]="state.project.supplementaryLinks"
+                                         (supplementaryLinkClicked)="onSupplementaryLinkClicked(state.projectId, state.projectShortname, $event)"></project-supplementary-links>
             <key-value-pair [title]="'Accessions'"
                             [keyValuePairs]="state.project.projectAccessionsSummaries"
                             (valueClicked)="onAccessionClicked(state.projectId, state.projectTitle, $event)"></key-value-pair>

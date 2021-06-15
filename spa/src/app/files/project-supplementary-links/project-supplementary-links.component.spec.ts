@@ -24,16 +24,12 @@ import {
     PROJECT_DETAIL_UNSPECIFIED_VALUES
 } from "../project/hca-project-mapper.mock";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links.component";
-import { ActivatedRoute } from "@angular/router";
-import { Store } from "@ngrx/store";
 
 
 describe("ProjectSupplementaryLinksComponent", () => {
 
     let component: ProjectSupplementaryLinksComponent;
     let fixture: ComponentFixture<ProjectSupplementaryLinksComponent>;
-
-    const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     // Selectors
     const SELECTOR_P_FONTSIZE_XS = "p.fontsize-xs";
@@ -55,19 +51,7 @@ describe("ProjectSupplementaryLinksComponent", () => {
                 ClipboardModule,
                 MatIconModule
             ],
-            providers: [{
-                provide: ActivatedRoute,
-                useValue: {
-                    parent: {
-                        snapshot: {
-                            paramMap: jasmine.createSpyObj("paramMap", ["get"])
-                        }
-                    }
-                }
-            }, {
-                provide: Store,
-                useValue: testStore
-            }]
+            providers: []
         }).compileComponents();
 
         fixture = TestBed.createComponent(ProjectSupplementaryLinksComponent);

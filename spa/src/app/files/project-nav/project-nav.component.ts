@@ -24,14 +24,10 @@ import { NavItem } from "../../shared/nav/nav-item.model";
 })
 export class ProjectNavComponent {
 
-    // Inputs
-    @Input() externalResourcesExist: boolean;
-
     // Locals
     private dataCitation: NavItem;
     private deviceInfo = null;
     private projectMatrices: NavItem;
-    private externalResources: NavItem;
     private ngDestroy$ = new Subject();
     private projectInformation: NavItem;
     private projectMetadata: NavItem;
@@ -56,8 +52,7 @@ export class ProjectNavComponent {
         if ( this.isDeviceHandheld() ) {
 
             navItemList = [
-                this.projectInformation,
-                this.externalResources
+                this.projectInformation
             ];
         }
         else {
@@ -65,8 +60,7 @@ export class ProjectNavComponent {
             navItemList = [
                 this.projectInformation,
                 this.projectMetadata,
-                this.projectMatrices,
-                this.externalResources
+                this.projectMatrices
             ];
         }
 
@@ -151,14 +145,6 @@ export class ProjectNavComponent {
                 disabled: false,
                 display: "Project Matrices",
                 routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.PROJECT_MATRICES),
-                ...navigationExtras
-            };
-
-            this.externalResources = {
-                disabled: !this.externalResourcesExist,
-                display: "External Resources",
-                routerLink: this.buildRouterLinkForSection(projectId, ProjectNav.EXTERNAL_RESOURCES),
-                tooltip: "There are no external resources associated with this project.",
                 ...navigationExtras
             };
 

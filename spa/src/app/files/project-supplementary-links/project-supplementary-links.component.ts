@@ -2,23 +2,11 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying supplementary integrations for a specific project.
+ * Component for displaying supplementary links for a specific project.
  */
 
 // Core dependencies
-import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Subject } from "rxjs";
-import { filter, takeUntil } from "rxjs/operators";
-
-// App dependencies
-import { AppState } from "../../_ngrx/app.state";
-import { selectSelectedProject } from "../_ngrx/files.selectors";
-import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { ViewProjectSupplementaryLinkAction } from "../_ngrx/table/view-project-supplementary-link.action";
-import { ProjectSupplementaryLinksState } from "./project-supplementary-links.state";
-import { Project } from "../shared/project.model";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: "project-supplementary-links",
@@ -26,27 +14,11 @@ import { Project } from "../shared/project.model";
     styleUrls: ["./project-supplementary-links.component.scss"]
 })
 
-export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
+export class ProjectSupplementaryLinksComponent {
 
-    // Locals
-    private ngDestroy$ = new Subject();
-    
-    // Template variables
-    public state$ = new BehaviorSubject<ProjectSupplementaryLinksState>({
-        loaded: false
-    });
-
-    // Inputs
+    // Inputs/Outputs
     @Input() supplementaryLinks: string[];
-
-    /**
-     * @param {ActivatedRoute} activatedRoute
-     * @param {Store<AppState>} store
-     * @param {Window} window
-     */
-    constructor(private activatedRoute: ActivatedRoute,
-                private store: Store<AppState>,
-                @Inject("Window") private window: Window) {}
+    @Output() supplementaryLinkClicked = new EventEmitter<string>();
 
     /**
      * Returns true if project has at least on supplementary link associated with it.
@@ -82,51 +54,12 @@ export class ProjectSupplementaryLinksComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Dispatch event to trigger track view of integration.
+     * Let parent components know supplementary link has been clicked.
      *
      * @param {string} supplementaryLink
-     * @param {Project} project
      */
-    onSupplementaryLinkClicked(supplementaryLink: string, project: Project) {
+    onSupplementaryLinkClicked(supplementaryLink: string) {
 
-        const action = new ViewProjectSupplementaryLinkAction(
-            supplementaryLink,
-            project.entryId,
-            project.projectShortname,
-            this.window.location.href
-        );
-        this.store.dispatch(action);
-    }
-
-    /**
-     * Kill subscriptions on destroy of component.
-     */
-    public ngOnDestroy() {
-
-        this.ngDestroy$.next(true);
-        this.ngDestroy$.complete();
-    }
-
-    /**
-     * Update state with selected project.
-     */
-    public ngOnInit() {
-
-        // Add selected project to state - grab the project ID from the URL.
-        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
-
-        this.store.dispatch(new FetchProjectRequestAction(projectId));
-
-        // Grab reference to selected project
-        this.store.pipe(
-            select(selectSelectedProject),
-            filter(project => !!project),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(project => {
-            this.state$.next({
-                loaded: true,
-                project
-            })
-        });
+        this.supplementaryLinkClicked.emit(supplementaryLink);
     }
 }

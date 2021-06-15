@@ -54,8 +54,7 @@
 
     /* Clipboard container */
     .clipboard-copy {
+        display: inline-block;
         flex: none;
-        justify-content: flex-end;
-        width: 76px; /* Required to placehold space for "link copied" text */
     }
 }
