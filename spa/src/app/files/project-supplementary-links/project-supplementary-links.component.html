@@ -1,21 +1,19 @@
-<ng-container *ngIf="state$ | async as state">
-    <h4 class="fontsize-m semi-bold">Supplementary Links</h4>
-    <p class="fontsize-xs">Supplementary links are provided by contributors and represent items such as additional data which can’t be hosted here; code that was used to analyze this data; or tools and visualizations associated with this specific dataset.</p>
-    <ng-container *ngIf="state.loaded">
-        <ng-container [ngSwitch]="isAnySupplementaryLinkAssociated(state.project.supplementaryLinks)">
-            <ng-container *ngSwitchCase="true">
-                <ng-container *ngFor="let supplementaryLink of state.project.supplementaryLinks; let i = index">
-                    <p class="fontsize-xs max600 supplementary-link" *ngIf="isValidUrl(supplementaryLink)">
-                        <span>{{i+1}}.</span>
-                        <a href="{{supplementaryLink}}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           (click)="onSupplementaryLinkClicked(supplementaryLink, state.project)">{{supplementaryLink}}</a>
-                        <copy-to-clipboard [copyToClipboardLink]="supplementaryLink"></copy-to-clipboard>
-                    </p>
-                </ng-container>
-            </ng-container>
-            <no-hits *ngSwitchDefault><p class="fontsize-xs">There are no supplementary links associated with this project.</p></no-hits>
+<h4 class="fontsize-m semi-bold">Supplementary Links</h4>
+<ng-container [ngSwitch]="isAnySupplementaryLinkAssociated(supplementaryLinks)">
+    <ng-container *ngSwitchCase="true">
+        <ng-container *ngFor="let supplementaryLink of supplementaryLinks; let i = index">
+            <p class="fontsize-xs">Supplementary links are provided by contributors and represent items such as additional data which can’t be hosted here; code that was used to analyze this data; or tools and visualizations associated with this specific dataset.</p>
+            <p class="fontsize-xs max600 supplementary-link" *ngIf="isValidUrl(supplementaryLink)">
+                <span>{{i+1}}.</span>
+                <span>
+                    <a href="{{supplementaryLink}}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       (click)="onSupplementaryLinkClicked(supplementaryLink, project)">{{supplementaryLink}}</a>
+                    <copy-to-clipboard [copyToClipboardLink]="supplementaryLink"></copy-to-clipboard>
+                </span>
+            </p>
         </ng-container>
     </ng-container>
+    <p class="fontsize-xs" *ngSwitchDefault>None</p>
 </ng-container>

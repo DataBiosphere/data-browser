@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy } from "@angular/core";
+import { Component, Inject, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
@@ -20,6 +20,7 @@ import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { ViewProjectAccessionAction } from "../_ngrx/project/view-project-accession.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ViewProjectSupplementaryLinkAction } from "../_ngrx/table/view-project-supplementary-link.action";
 import { ProjectOverviewComponentState } from "./project-overview.component.state";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
@@ -47,11 +48,13 @@ export class ProjectOverviewComponent implements OnDestroy {
      * @param {ProjectViewFactory} projectFactory
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
+     * @param {Window} window
      */
     constructor(private projectDetailService: ProjectDetailService, 
                 private projectFactory: ProjectViewFactory,
                 private store: Store<AppState>, 
-                private activatedRoute: ActivatedRoute) {}
+                private activatedRoute: ActivatedRoute,
+                @Inject("Window") private window: Window) {}
 
     /**
      * Returns publication title with a link to the publication URL, if it exists.
@@ -164,6 +167,24 @@ export class ProjectOverviewComponent implements OnDestroy {
     public onAccessionClicked(projectId: string, projectTitle: string, pair: KeyValuePair) {
 
         this.store.dispatch(new ViewProjectAccessionAction(projectId, projectTitle, pair.key, pair.value));
+    }
+
+    /**
+     * Dispatch event to trigger track view of integration.
+     *
+     * @param {string} projectId
+     * @param {string} projectShortname
+     * @param {string} supplementaryLink
+     */
+    onSupplementaryLinkClicked(projectId: string, projectShortname: string, supplementaryLink: string) {
+
+        const action = new ViewProjectSupplementaryLinkAction(
+            supplementaryLink,
+            projectId,
+            projectShortname,
+            this.window.location.href
+        );
+        this.store.dispatch(action);
     }
 
     /**
