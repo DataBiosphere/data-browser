@@ -32,7 +32,7 @@ export class FileRowMapper extends EntityRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            sampleId: getSelfOrFirst(this.samples.id),
+            sampleId: this.samples.id,
             fileFormat: this.file.format,
             fileName: this.file.name,
             fileSize: getUnspecifiedIfNullValue(this.file.size),

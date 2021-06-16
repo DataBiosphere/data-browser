@@ -85,14 +85,14 @@ describe("FileRowMapper:", () => {
     /**
      * First sample ID should be mapped if more than one is specified
      */
-    it("should map first sample ID if multiple are specified", (done: DoneFn) => {
+    it("should map all sample IDs if multiple are specified", (done: DoneFn) => {
 
         const fileToMap = FILE_MULTIPLE_VALUES_SINGLE_OBJECT;
         dataSource = new EntitiesDataSource<FileRowMapper>( of([fileToMap]), FileRowMapper);
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.sampleId).toEqual(fileToMap.samples[0].id[0]);
+            expect(mappedFile.sampleId).toEqual(fileToMap.samples[0].id.join(", "));
             done();
         })
     });
