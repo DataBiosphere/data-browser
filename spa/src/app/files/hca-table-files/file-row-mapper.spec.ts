@@ -304,4 +304,19 @@ describe("FileRowMapper:", () => {
             done();
         })
     });
+
+    /**
+     * Project ID, when specified, should be included in mapping.
+     */
+    it("maps project ID", (done: DoneFn) => {
+
+        const projectToMap = FILE_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<FileRowMapper>(of([projectToMap]), FileRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.projectId).toEqual(projectToMap.projects[0].projectId);
+            done();
+        });
+    });
 });
