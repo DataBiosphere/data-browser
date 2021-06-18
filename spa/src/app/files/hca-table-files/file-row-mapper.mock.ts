@@ -30,6 +30,7 @@ export const FILE_SINGLE_VALUES =
         "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
                 ],
@@ -171,6 +172,7 @@ export const FILE_MULTIPLE_VALUES_SINGLE_OBJECT =
         "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types.",
                     "a"
@@ -329,6 +331,7 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
         "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Single-cell RNA-seq analysis  throughout a 125-day differentiation protocol that converted H1 human embryonic stem cells to a variety of ventrally-derived cell types."
                 ],
@@ -340,6 +343,7 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 ]
             },
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7a",
                 "projectTitle": [
                     "x",
                     "y"
@@ -550,6 +554,7 @@ export const FILE_EMPTY_ARRAY_VALUES =
         "entryId": "ee6a75bd-3252-41ee-b253-425bbd377f0c",
         "projects": [
             {
+                "projectId": "",
                 "projectTitle": [],
                 "projectShortname": [],
                 "laboratory": []
@@ -646,6 +651,7 @@ export const FILE_NULL_VALUES =
         "entryId": null,
         "projects": [
             {
+                "projectId": null,
                 "projectTitle": null,
                 "projectShortname": null,
                 "laboratory": null

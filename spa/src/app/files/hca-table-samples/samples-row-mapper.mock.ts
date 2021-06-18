@@ -30,6 +30,7 @@ export const SAMPLE_SINGLE_VALUES =
         "entryId": "e7cca2dc-ca90-4722-884a-6afa3211a1da",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Melanoma infiltration of stromal and immune cells"
                 ],
@@ -187,6 +188,7 @@ export const SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT =
         "entryId": "e7cca2dc-ca90-4722-884a-6afa3211a1da",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Melanoma infiltration of stromal and immune cells",
                     "a"
@@ -388,6 +390,7 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
         "entryId": "e7cca2dc-ca90-4722-884a-6afa3211a1da",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "Melanoma infiltration of stromal and immune cells",
                     "a"
@@ -402,6 +405,7 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 ]
             },
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7a",
                 "projectTitle": [
                     "x"
                 ],
@@ -627,6 +631,7 @@ export const SAMPLE_EMPTY_ARRAY_VALUES =
         "entryId": "e7cca2dc-ca90-4722-884a-6afa3211a1da",
         "projects": [
             {
+                "projectId": "",
                 "projectTitle": [],
                 "projectShortname": [],
                 "laboratory": []
@@ -706,6 +711,7 @@ export const SAMPLE_NULL_VALUES =
         "entryId": null,
         "projects": [
             {
+                "projectId": null,
                 "projectTitle": null,
                 "projectShortname": null,
                 "laboratory": null
