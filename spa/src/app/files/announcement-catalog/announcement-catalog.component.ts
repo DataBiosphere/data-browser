@@ -38,7 +38,7 @@ export class AnnouncementCatalogComponent {
      */
     public getCatalogAnnouncementUrl(): string {
 
-        return `${this.configService.getPortalUrl()}/what-is-the-dcp-20-data-preview`;
+        return `${this.configService.getPortalUrl()}/dcp-updates`;
     }
 
     /**
