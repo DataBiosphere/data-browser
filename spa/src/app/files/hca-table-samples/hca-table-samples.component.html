@@ -34,7 +34,12 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('projectTitle')"
                               [ngStyle]="getColumnStyle('projectTitle')">
                         <hca-table-cell>
-                            <span class="fontsize-xxs">{{element.projectTitle}}</span>
+                            <span class="fontsize-xxs">
+                                <ng-container [ngSwitch]="isElementUnspecified(element.projectId)">
+                                    <ng-container *ngSwitchCase="true">{{element.projectTitle}}</ng-container>
+                                    <a *ngSwitchDefault [routerLink]="['/projects', element.projectId]">{{element.projectTitle}}</a>
+                                </ng-container>
+                            </span>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>

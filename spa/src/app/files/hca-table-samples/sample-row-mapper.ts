@@ -9,7 +9,7 @@
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
 import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
-import { getSelfOrFirst } from "../table/table-methods";
+import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-methods";
 
 export class SampleRowMapper extends FileTypeSummariesRowMapper {
 
@@ -26,7 +26,8 @@ export class SampleRowMapper extends FileTypeSummariesRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            sampleId: getSelfOrFirst(this.samples.id)
+            sampleId: getSelfOrFirst(this.samples.id),
+            projectId: getUnspecifiedIfNullValue(this.projects.projectId)
         });
     }
 }

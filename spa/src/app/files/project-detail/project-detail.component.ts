@@ -15,7 +15,7 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectSelectedProject } from "../_ngrx/files.selectors";
+import { selectSelectedEntitySpec, selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
@@ -66,13 +66,13 @@ export class ProjectDetailComponent {
     }
 
     /**
-     * Tab provides opportunity to return back to Project table.
+     * Tab provides opportunity to return back to the selected entity table.
      *
      * @returns {EntitySpec[]}
      */
-    public getProjectDetailTabs(): EntitySpec[] {
+    public getProjectDetailTabs(selectedEntity: EntitySpec): EntitySpec[] {
 
-        return [{key: EntityName.PROJECTS, displayName: "Back"}];
+        return [{key: selectedEntity.key, displayName: "Back"}];
     }
 
     /**
@@ -170,19 +170,27 @@ export class ProjectDetailComponent {
             map(this.mapSearchTermsToProjectIds)
         );
         
+        // Grab the selected entity, required for the back button
+        const selectedEntity$ = this.store.pipe(
+            select(selectSelectedEntitySpec),
+            takeUntil(this.ngDestroy$),
+            take(1)
+        );
+        
         // Set up component state
-        combineLatest(project$, selectedProjectIds$)
+        combineLatest(project$, selectedProjectIds$, selectedEntity$)
             .pipe(
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(([project, selectedProjectIds]) => {
+            .subscribe(([project, selectedProjectIds, selectedEntity]) => {
     
                 const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
                 this.state$.next({
                     loaded: true,
                     project,
-                    projectSelected
+                    projectSelected,
+                    selectedEntity
                 });
             });
     }

@@ -45,6 +45,7 @@ export const PROJECT_ROW_SINGLE_VALUES =
         "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
                 "projectShortname": "barista_seq",
                 "laboratory": [
@@ -259,6 +260,7 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
         "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": [
                     "1 FOV BaristaSeq mouse SpaceTx dataset",
                     "x"
@@ -480,6 +482,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
         "entryId": "ae5237b4-633f-403a-afc6-cb87e6f90db1",
         "projects": [
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7f",
                 "projectTitle": "1 FOV BaristaSeq mouse SpaceTx dataset",
                 "projectShortname": "barista_seq",
                 "laboratory": [
@@ -502,6 +505,7 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 ]
             },
             {
+                "projectId": "8c3c290d-dfff-4553-8868-54ce45f4ba7a",
                 "projectTitle": [
                     "x",
                     "y"
@@ -749,6 +753,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
         "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
         "projects": [
             {
+                "projectId": "",
                 "projectTitle": [],
                 "projectShortname": [],
                 "laboratory": [],
@@ -829,6 +834,7 @@ export const PROJECT_ROW_NULL_VALUES =
         "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
         "projects": [
             {
+                "projectId": null,
                 "projectTitle": null,
                 "projectShortname": null,
                 "laboratory": null,
@@ -929,6 +935,7 @@ export const PROJECT_ROW_NULL_ARRAY_VALUES =
         "entryId": "46c58e08-4518-4e45-acfe-bdab2434975d",
         "projects": [
             {
+                "projectId": [null],
                 "projectTitle": [null],
                 "projectShortname": [null],
                 "laboratory": [null],

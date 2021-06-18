@@ -21,6 +21,7 @@ import {
 } from "./samples-row-mapper.mock";
 import { EntitiesDataSource } from "../entities/entities.data-source";
 import { getFileTypeSummary, mapMultipleValues } from "../entities/entity-row-mapper.spec";
+import { PROJECT_ROW_SINGLE_VALUES } from "../projects/project-row-mapper.mock";
 
 describe("SampleRowMapper:", () => {
 
@@ -214,5 +215,20 @@ describe("SampleRowMapper:", () => {
             expect(mappedSample.libraryConstructionApproach).toEqual("Unspecified");
             done();
         })
+    });
+
+    /**
+     * Project ID, when specified, should be included in mapping.
+     */
+    it("maps project ID", (done: DoneFn) => {
+
+        const projectToMap = SAMPLE_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<SampleRowMapper>(of([projectToMap]), SampleRowMapper);
+        dataSource.connect().subscribe((rows) => {
+
+            const mappedProject = rows[0];
+            expect(mappedProject.projectId).toEqual(projectToMap.projects[0].projectId);
+            done();
+        });
     });
 });
