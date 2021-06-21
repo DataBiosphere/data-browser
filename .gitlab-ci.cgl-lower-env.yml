@@ -54,6 +54,7 @@ build_cgl-dev:
     - export GTM_ID=GTM-M2J5NTJ
     - export GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
     - export GTM_ENV=env-83
+    - export GOOGLE_OAUTH_CLIENT_ID=713613812354-q00luph3v14i29rut341ticklsuderbs.apps.googleusercontent.com
     - pwd
     - ./insert-gtm-snippet.sh
     - cd spa
@@ -68,6 +69,7 @@ build_cgl-ux-dev:
     - export GTM_ID=GTM-M2J5NTJ
     - export GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
     - export GTM_ENV=env-83
+    - export GOOGLE_OAUTH_CLIENT_ID=713613812354-q00luph3v14i29rut341ticklsuderbs.apps.googleusercontent.com
     - pwd
     - ./insert-gtm-snippet.sh
     - cd spa
