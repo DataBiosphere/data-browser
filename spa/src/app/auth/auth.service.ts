@@ -113,8 +113,8 @@ export class AuthService {
         }).then(() => {
 
             // Listen for sign-in state changes.
-            const signedIn = gapi.auth2.getAuthInstance().isSignedIn; 
-            signedIn.listen(_ => this.onSignInChanged(_));
+            const signedIn = this.getGAPI().auth2.getAuthInstance().isSignedIn; 
+            signedIn.listen((authenticated: boolean) => this.onSignInChanged(authenticated));
 
             // Handle initial sign-in state.
             this.onInitialLoginState(signedIn.get());
@@ -165,6 +165,6 @@ export class AuthService {
         }
         else {
             this.dispatch(new LogoutSuccessAction());
-            }
+        }
     };
 }

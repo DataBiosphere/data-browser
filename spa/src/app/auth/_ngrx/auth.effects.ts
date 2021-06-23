@@ -43,7 +43,7 @@ export class AuthEffects {
             ofType(LoginRequestAction.ACTION_TYPE),
             tap(() => {
                 this.authService.login();
-            }),
+            })
         );
 
     /**
@@ -55,6 +55,6 @@ export class AuthEffects {
             ofType(LogoutRequestAction.ACTION_TYPE),
             tap(() => {
                 this.authService.logout();
-            }),
+            })
         );
 }

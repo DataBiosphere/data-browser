@@ -6,9 +6,6 @@
  * Action triggered when user has successfully logged out.
  */
 
-// App dependencies
-import GoogleUser = gapi.auth2.GoogleUser;
-
 // Core dependencies
 import { Action } from "@ngrx/store";
 
