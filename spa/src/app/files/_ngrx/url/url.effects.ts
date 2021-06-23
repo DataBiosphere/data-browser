@@ -10,8 +10,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
-import { of } from "rxjs";
-import { concatMap, filter, take, tap, withLatestFrom } from "rxjs/operators";
+import { filter, switchMap, take, tap } from "rxjs/operators";
 
 // App dependencies
 import { SelectCatalogAction } from "../catalog/select-catalog.action";
@@ -63,6 +62,22 @@ export class UrlEffects {
     );
 
     /**
+     * Navigate to the selected entity, preserving all query params. In the case where query params can't be preserved,
+     * for example clicking on the "Explore" link from a project detail page, query params are added by the filter guard.
+     */
+    @Effect({dispatch: false})
+    navigateToSelectedEntity$ = this.actions$.pipe(
+        ofType(SelectEntityAction.ACTION_TYPE),
+        tap((action: SelectEntityAction) => {
+            
+            // Navigate to selected entity
+            this.router.navigate([action.entityKey], {
+                queryParamsHandling: "merge"
+            });
+        })
+    );
+
+    /**
      * Update filter query string param if selected entity or selected search terms has changed. 
      */
     @Effect({dispatch: false})
@@ -70,7 +85,6 @@ export class UrlEffects {
         ofType(
             ClearSelectedTermsAction.ACTION_TYPE,
             ClearSelectedAgeRangeAction.ACTION_TYPE,
-            SelectEntityAction.ACTION_TYPE,
             SelectFileFacetTermAction.ACTION_TYPE,
             SelectFacetAgeRangeAction.ACTION_TYPE,
             SelectProjectIdAction.ACTION_TYPE
@@ -82,22 +96,14 @@ export class UrlEffects {
             return this.urlService.isViewingEntities() ||
                 this.urlService.isViewingExport();
         }),
-        concatMap(action => of(action).pipe(
-            withLatestFrom(this.store.pipe(select(selectUrlSpecState), take(1)))
-        )),
-        tap(([action, urlSpecState]) => {
-
-            // Determine if we need to update the path - only required if there is a switch in selected entity
-            const pathTokens = [];
-            if ( action.type === SelectEntityAction.ACTION_TYPE ) {
-                pathTokens.push((action as SelectEntityAction).entityKey);
-            }
+        switchMap(() => this.store.pipe(select(selectUrlSpecState), take(1))),
+        tap((urlSpecState) => {
 
             const filterQueryString =
                 this.searchTermUrlService.stringifySearchTerms(urlSpecState.selectedSearchTermsBySearchKey);
 
             // Update filter query string parameter, retaining any existing query string parameters
-            this.router.navigate(pathTokens, {
+            this.router.navigate([], {
                 queryParams: {
                     filter: filterQueryString ? filterQueryString : null
                 },

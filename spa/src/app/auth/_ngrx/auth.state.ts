@@ -38,7 +38,7 @@ export class AuthState {
      * 
      * @param {LoginSuccessAction} loginSuccessAction
      */
-    public onLoggedIn(loginSuccessAction: LoginSuccessAction) {
+    public onAuthenticated(loginSuccessAction: LoginSuccessAction) {
 
         return new AuthState(this.init, true, loginSuccessAction.user)
     }

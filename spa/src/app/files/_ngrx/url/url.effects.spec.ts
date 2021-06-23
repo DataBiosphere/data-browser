@@ -12,7 +12,7 @@ import { hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
 import { Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 // App dependencies
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
@@ -103,6 +103,33 @@ describe("URL Effects", () => {
         mockSelectUrlSpecState = store.overrideSelector(selectUrlSpecState, defaultSelectUrlSpecState);
     });
 
+    describe("navigateToSelectedEntity$", () => {
+
+        /**
+         * Select entity action triggers update to location.
+         */
+        it("select entity action triggers update to location", () => {
+
+            actions$ = of(new SelectEntityAction(EntityName.PROJECTS));
+            effects.navigateToSelectedEntity$.subscribe();
+            expect(routerMock.navigate).toHaveBeenCalled();
+        });
+
+        /**
+         * Select entity action triggers update to path.
+         */
+        it("select entity action triggers update to path", () => {
+
+            const selectedEntityName = EntityName.PROJECTS;
+            actions$ = of(new SelectEntityAction(selectedEntityName));
+            effects.navigateToSelectedEntity$.subscribe();
+            expect(routerMock.navigate).toHaveBeenCalledWith(
+                [selectedEntityName], // Single token in path array that equals selected entity
+                jasmine.any(Object)
+            );
+        });
+    });
+
     describe("updateFilterQueryParam$", () => {
 
         /**
@@ -121,7 +148,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -147,7 +174,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -160,7 +187,7 @@ describe("URL Effects", () => {
         /**
          * Location is not updated unless user is currently viewing /projects, /samples or /files, or /get-data.
          */
-        it("location not updated if not viewing entity data table or get data", () => {
+        it("location not updated if not viewing entity data table or export flow", () => {
 
             // Return false from isViewingEntities to fail filter in effect
             urlService.isViewingEntities.and.returnValue(false);
@@ -191,7 +218,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -212,7 +239,7 @@ describe("URL Effects", () => {
         });
 
         /**
-         * Path is not udpated on clear of search terms.
+         * Path is not updated on clear of search terms.
          */
         it("does not update path on clear of search terms", () => {
 
@@ -227,7 +254,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -259,7 +286,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -288,7 +315,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -297,62 +324,6 @@ describe("URL Effects", () => {
             // Expect navigate to have been called with update path
             expect(routerMock.navigate).toHaveBeenCalledWith(
                 [], // No update to path
-                jasmine.any(Object)
-            );
-        });
-
-        /**
-         * Select entity action triggers update to location.
-         */
-        it("select entity action triggers update to location", () => {
-
-            // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingEntities.and.returnValue(true);
-
-            // Create selected entity action
-            const action = new SelectEntityAction(EntityName.PROJECTS);
-
-            actions$ = hot("-a", {
-                a: action
-            });
-
-            const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
-            });
-
-            // Pass through of URL spec state from concatMap/combineWithLatest before tap
-            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-            // Smoke test of navigate
-            expect(routerMock.navigate).toHaveBeenCalled();
-        });
-
-        /**
-         * Select entity action triggers update to path.
-         */
-        it("select entity action triggers update to path", () => {
-
-            // Return true from isViewingEntities to pass filter in effect
-            urlService.isViewingEntities.and.returnValue(true);
-
-            // Create selected entity action
-            const selectedEntityName = EntityName.SAMPLES;
-            const action = new SelectEntityAction(selectedEntityName);
-
-            actions$ = hot("-a", {
-                a: action
-            });
-
-            const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
-            });
-
-            // Pass through of URL spec state from concatMap/combineWithLatest before tap
-            expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-
-            // Expect navigate to have been called with update path
-            expect(routerMock.navigate).toHaveBeenCalledWith(
-                [selectedEntityName], // Single token in path array that equals selected entity
                 jasmine.any(Object)
             );
         });
@@ -373,7 +344,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -399,7 +370,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -429,7 +400,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -456,7 +427,7 @@ describe("URL Effects", () => {
             });
 
             const expected = hot("-b", {
-                b: [action, defaultSelectUrlSpecState]
+                b: defaultSelectUrlSpecState
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap

@@ -13,6 +13,7 @@ import { AuthInitAction } from "./auth-init.action";
 import { AuthState } from "./auth.state";
 import { LoginSuccessAction } from "./login-success.action";
 import { LogoutSuccessAction } from "./logout-success.action";
+import { SessionContinueAction } from "./session-continue-action";
 
 /**
  * @param {AuthState} state
@@ -27,9 +28,10 @@ export function reducer(state: AuthState = AuthState.getDefaultState(), action: 
         case AuthInitAction.ACTION_TYPE:
             return state.onInit(action as LoginSuccessAction);
 
-        // Login successful, update state with user details
+        // Login successful or on session continue, update state with user details
         case LoginSuccessAction.ACTION_TYPE:
-            return state.onLoggedIn(action as LoginSuccessAction);
+        case SessionContinueAction.ACTION_TYPE:
+            return state.onAuthenticated(action as LoginSuccessAction);
 
         // Logout successful, reset auth state
         case LogoutSuccessAction.ACTION_TYPE:
