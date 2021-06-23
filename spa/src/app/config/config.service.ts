@@ -27,6 +27,7 @@ export class ConfigService {
     protected dataURL: string; // Pulled from config store, saved as local state here on service
     protected defaultCatalog: Catalog;
     protected deployment: string;
+    protected googleOAuthClientId: string;
     protected portalURL: string;
     protected projectMetaURL: string;
     protected terraExportURL: string;
@@ -81,6 +82,16 @@ export class ConfigService {
     public getDefaultCatalog(): Catalog {
 
         return this.defaultCatalog;
+    }
+
+    /**
+     * Return the auth client ID.
+     * 
+     * @returns {string}
+     */
+    public getGoogleOAuthClientId(): string {
+        
+        return this.googleOAuthClientId;
     }
 
     /**
@@ -249,7 +260,7 @@ export class ConfigService {
      */
     public isAuthEnabled() {
 
-        return this.isEnvCGLDev();
+        return !!this.getGoogleOAuthClientId();
     }
 
     /**
@@ -313,6 +324,7 @@ export class ConfigService {
         this.dataURL = config.dataURL;
         this.defaultCatalog = config.defaultCatalog;
         this.deployment = config.deployment;
+        this.googleOAuthClientId = config.googleOAuthClientId;
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
         this.terraExportURL = config.terraExportURL;

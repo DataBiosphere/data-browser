@@ -8,20 +8,25 @@
 // Core dependencies
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
+import { cold, hot } from "jasmine-marbles";
 import { provideMockActions } from "@ngrx/effects/testing";
 import { Store } from "@ngrx/store";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, of } from "rxjs";
 
 // App dependencies
+import { LoginSuccessAction } from "../../../auth/_ngrx/login-success.action";
+import { LogoutSuccessAction } from "../../../auth/_ngrx/logout-success.action";
 import { BackToEntityAction } from "./back-to-entity.action";
 import { selectCatalog } from "../catalog/catalog.selectors";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
+import { ClearEntitiesAction } from "./clear-entities.action";
 import { EntityEffects } from "./entity.effects";
 import { selectTableQueryParams } from "../files.selectors";
 import { selectPreviousQuery } from "../search/search.selectors";
 import { SelectEntityAction } from "./select-entity.action";
 import { GTMService } from "../../../shared/analytics/gtm.service";
+import { EntityName } from "../../shared/entity-name.model";
 
 describe("EntityEffects", () => {
 
@@ -82,6 +87,47 @@ describe("EntityEffects", () => {
         store.overrideSelector(selectCatalog, mockSelectCatalog);
         store.overrideSelector(selectTableQueryParams, mockTableQueryParams);
         store.overrideSelector(selectPreviousQuery, mockSelectPreviousQuery);
+    });
+
+    describe("onAuthChanged$", () => {
+
+        /**
+         * Login action triggers clear of cached data followed by a select PROJECTS entity action.
+         */
+        it("clears and reloads projects data on login", () => {
+
+            // The select project action is translated into a fetch file facets action, with the update project table flag
+            // set to false
+            actions$ = hot("--a-", {
+                a: new LoginSuccessAction({} as any)
+            });
+
+            const expected = cold("--(bc)", {
+                b: new ClearEntitiesAction(),
+                c: new SelectEntityAction(EntityName.PROJECTS),
+            });
+
+            expect(effects.onAuthChanged$).toBeObservable(expected);
+        });
+
+        /**
+         * Logout action triggers clear of cached data followed by a select PROJECTS entity action.
+         */
+        it("clears and reloads projects data on logout", () => {
+
+            // The select project action is translated into a fetch file facets action, with the update project table flag
+            // set to false
+            actions$ = hot("--a-", {
+                a: new LogoutSuccessAction()
+            });
+
+            const expected = cold("--(bc)", {
+                b: new ClearEntitiesAction(),
+                c: new SelectEntityAction(EntityName.PROJECTS),
+            });
+
+            expect(effects.onAuthChanged$).toBeObservable(expected);
+        });
     });
 
     describe("switchTabs$", () => {

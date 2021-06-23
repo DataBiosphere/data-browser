@@ -215,7 +215,7 @@ export class HCATableProjectsComponent implements OnInit {
         }
 
         // Force table to be sorted by project title if sort is cleared. Sort is cleared when user clicks on column header
-        // to sort asc, then clicks again on the same columm header to sort desc, then once more. The third click on the
+        // to sort asc, then clicks again on the same column header to sort desc, then once more. The third click on the
         // same header clears the sort. We want to force the sort to go back to the default sort - project title. We must
         // use this workaround here (_handleClick) due to a defect in programmatically setting the sort order in
         // Material (https://github.com/angular/components/issues/10242).

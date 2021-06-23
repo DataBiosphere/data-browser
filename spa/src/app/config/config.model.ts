@@ -13,6 +13,7 @@ export class Config {
      * @param {string} dataURL
      * @param {string} defaultCatalog
      * @param {string} deployment
+     * @param {string} googleOAuthClientId
      * @param {string} portalURL
      * @param {string} projectMetaURL
      * @param {string} terraExportURL
@@ -24,6 +25,7 @@ export class Config {
                 public readonly dataURL: string,
                 public readonly defaultCatalog: string,
                 public readonly deployment: string,
+                public readonly googleOAuthClientId: string,
                 public readonly portalURL: string,
                 public readonly projectMetaURL: string,
                 public readonly terraExportURL: string,

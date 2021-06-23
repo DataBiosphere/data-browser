@@ -10,18 +10,19 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { ClearSelectedProjectAction } from "./clear-selected-project.action";
+import { SelectEntityAction } from "../entity/select-entity.action";
+import { ClearEntitiesAction } from "../entity/clear-entities.action";
 import { FetchFacetsSuccessAction } from "../facet/fetch-facets-success-action.action";
 import { SetViewStateAction } from "../facet/set-view-state.action";
 import { FetchTableModelSuccessAction } from "./fetch-table-model-success.action";
 import { FetchTableDataSuccessAction } from "./fetch-table-data-success.action";
 import * as tableStateService from "./table.state";
-import { TableState } from "./table.state";
+import { getDefaultTableState, TableState } from "./table.state";
 import { FetchProjectSuccessAction } from "./table.actions";
 import { TableModel } from "../../table/table.model";
 import { TermCountsUpdatedAction } from "./term-counts-updated.action";
 import { TableNextPageSuccessAction } from "./table-next-page-success.action";
 import { TablePreviousPageSuccessAction } from "./table-previous-page-success.action";
-import { SelectEntityAction } from "../entity/select-entity.action";
 
 export function reducer(state: TableState = tableStateService.getDefaultTableState(), action: Action): TableState {
 
@@ -108,6 +109,10 @@ export function reducer(state: TableState = tableStateService.getDefaultTableSta
             };
 
             return nextState;
+            
+        // User's authenticated status has changed, clear cached table data.
+        case ClearEntitiesAction.ACTION_TYPE:
+            return getDefaultTableState();
 
         // View state has been parsed from URL param on app init - must do this to set the current selected tab.
         case SetViewStateAction.ACTION_TYPE:

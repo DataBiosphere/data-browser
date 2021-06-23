@@ -10,19 +10,22 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { map, take } from "rxjs/operators";
-import { concatMap, withLatestFrom } from "rxjs/operators";
+import { concatMap, map, mergeMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
+import { LoginSuccessAction } from "../../../auth/_ngrx/login-success.action";
+import { LogoutSuccessAction } from "../../../auth/_ngrx/logout-success.action";
 import { BackToEntityAction } from "./back-to-entity.action";
 import { selectCatalog } from "../catalog/catalog.selectors";
+import { ClearEntitiesAction } from "./clear-entities.action";
 import { NoOpAction } from "../facet/no-op.action";
 import { selectTableQueryParams } from "../files.selectors";
 import { InitEntityStateAction } from "./init-entity-state.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectPreviousQuery } from "../search/search.selectors";
 import { SelectEntityAction } from "./select-entity.action";
+import { EntityName } from "../../shared/entity-name.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
 
@@ -38,6 +41,25 @@ export class EntityEffects {
                 private actions$: Actions,
                 private gtmService: GTMService) {
     }
+
+    /**
+     * Handle change in user's authenticated status; clear any cached entities, navigate to projects, init (re-fetch)
+     * projects state.
+     */
+    @Effect()
+    onAuthChanged$: Observable<Action> = this.actions$.pipe(
+        ofType(
+            LoginSuccessAction.ACTION_TYPE,
+            LogoutSuccessAction.ACTION_TYPE
+        ),
+        mergeMap(() => {
+
+            return of(
+                new ClearEntitiesAction(),
+                new SelectEntityAction(EntityName.PROJECTS)
+            );
+        })
+    )
 
     /**
      * Handle action where tab is selected (ie Projects, Samples, Files).
