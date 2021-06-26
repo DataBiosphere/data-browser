@@ -2,19 +2,15 @@
     <span class="announcement-catalog-content fontsize-m">
         <ng-container [ngSwitch]="isCatalogDCP1()">
             <span *ngSwitchCase="true"
-                  class="announcement-catalog-message"><strong>Update: </strong>The HCA DCP 2.0 data is now available.</span>
+                  class="announcement-catalog-message"><strong>Update: </strong>The <span (click)="onCatalogSelected('dcp2')"
+                                                                                          class="announcement-catalog-link">DCP 2.0 Data View</span> is now available.</span>
             <span *ngSwitchDefault
-                  class="announcement-catalog-message">You are currently viewing the HCA DCP 2.0 data.</span>
+                  class="announcement-catalog-message">You are currently viewing the DCP 2.0 Data View.</span>
         </ng-container>
-        <span class="announcement-catalog-links">
-            <ng-container [ngSwitch]="isCatalogDCP1()">
-                <span *ngSwitchCase="true"
-                      (click)="onCatalogSelected('dcp2')"
-                      class="announcement-catalog-link">View DCP 2.0 Data</span>
-                <span *ngSwitchDefault
-                      (click)="onCatalogSelected('dcp1')"
-                      class="announcement-catalog-link">View DCP 1.0 Data</span>
-            </ng-container>
+        <span class="announcement-catalog-links" [class]="{'announcement-catalog-links-single': isCatalogDCP1()}">
+            <span *ngIf="!isCatalogDCP1()"
+                  (click)="onCatalogSelected('dcp1')"
+                  class="announcement-catalog-link">DCP 1.0 Data View</span>
             <span class="announcement-catalog-delimiter">|</span>
             <a [href]="getCatalogAnnouncementUrl()">Learn More</a>
         </span>
