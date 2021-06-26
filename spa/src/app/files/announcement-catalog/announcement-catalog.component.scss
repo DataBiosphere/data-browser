@@ -7,12 +7,6 @@
 
 @import "../../site/theme/hca.vars";
 
-/* Announcement - inner */
-.announcement-catalog-content {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 /* Text - all */
 .announcement-catalog span {
     margin: 0; /* Overrides fontsize-s margin */
@@ -30,14 +24,12 @@
     padding: 0 8px;
 }
 
-/**
- * Small Window
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 600px) {
+/* Single "learn more" link - remove padding */
+.announcement-catalog-links-single .announcement-catalog-delimiter {
+    padding-left: 0;
+}
 
-    /* Announcement message */
-    .announcement-catalog-content .announcement-catalog-message {
-        margin-right: 24px;
-    }
+/* Announcement message */
+.announcement-catalog-content .announcement-catalog-message {
+    margin-right: 8px;
 }
