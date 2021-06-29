@@ -256,6 +256,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns true if the atlas for the current environment is HCA.
+     * 
+     * @returns {boolean}
+     */
+    public isAtlasHCA(): boolean {
+        
+        return this.getAtlas() === AtlasName.HCA;
+    }
+
+    /**
      * Returns true if auth is enabled. Auth is currently only enabled in dev.
      */
     public isAuthEnabled() {

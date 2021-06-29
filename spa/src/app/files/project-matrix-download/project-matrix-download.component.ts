@@ -47,6 +47,16 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
     }
 
     /**
+     * Returns true if the atlas for the current environment is HCA.
+     * 
+     * @returns {boolean}
+     */
+    public isSurveyVisible(): boolean {
+        
+        return this.configService.isAtlasHCA();
+    }
+
+    /**
      * Track download of project matrix file.
      *
      * @param {FileLocationRequestEvent} event

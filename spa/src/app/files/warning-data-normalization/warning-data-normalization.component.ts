@@ -27,4 +27,15 @@ export class WarningDataNormalizationComponent {
     constructor(private configService: ConfigService) {
         this.portalUrl = configService.getPortalUrl();
     }
+
+
+    /**
+     * Returns true if the atlas for the current environment is HCA.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasHCA(): boolean {
+
+        return this.configService.isAtlasHCA();
+    }
 }
