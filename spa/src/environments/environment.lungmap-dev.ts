@@ -5,7 +5,7 @@ export const environment = {
     defaultCatalog: "lungmap",
     browserURL: "https://data-browser.dev.lungmap.net",
     googleOAuthClientId: "",
-    portalURL: "https://dev.singlecell.gi.ucsc.edu",
+    portalURL: "https://data-browser.dev.lungmap.net",
     projectMetaURL: "https://dev.singlecell.gi.ucsc.edu",
     terraExportURL: "https://bvdp-saturn-dev.appspot.com",
     title: "LungMAP Data Browser",

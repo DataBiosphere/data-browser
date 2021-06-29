@@ -114,7 +114,7 @@ describe("ManifestDownloadComponent", () => {
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl", "isAtlasHCA"])
                 },
                 FacetDisplayService,
                 {

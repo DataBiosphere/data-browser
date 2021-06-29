@@ -20,6 +20,7 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "getTerraExportUrl",
     "getSummaryUrl",
     "initConfig",
+    "isAtlasHCA",
     "isEnvCGLDev",
     "isEnvLocal",
     "isEnvDCP2",
