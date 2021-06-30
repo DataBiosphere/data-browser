@@ -183,7 +183,7 @@
         "analysisPortals": [
             {
                 "name": "CELL_BROWSER",
-                "url": "https://adultPancreas.cells.ucsc.edu"
+                "url": "https://cells.ucsc.edu/?ds=adultPancreas"
             },
             {
                 "name": "CELLXGENE",
