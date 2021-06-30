@@ -8,7 +8,7 @@ export GATSBY_ENV_NAME=env-83
 echo \"Deleting ./dist/\"
 rm -rf ./dist
 
-./insert-gtm-snippet.sh
+#./insert-gtm-snippet.sh
 cd spa
 
 
