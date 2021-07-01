@@ -79,7 +79,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     /**
      * Returns true if the catalog feature is enabled. Currently true when:
-     * - current environment is not dcp2
+     * - current environment is dev
      * - there's more than one catalog for the current atlas
      *
      * @param {Catalog[]} catalogs
@@ -87,7 +87,7 @@ export class FilesComponent implements OnInit, OnDestroy {
      */
     public isCatalogEnabled(catalogs: Catalog[]): boolean {
 
-        return !this.configService.isEnvDCP2() && 
+        return this.configService.isEnvCGLDev() && 
             catalogs && catalogs.length > 1;
     }
 
