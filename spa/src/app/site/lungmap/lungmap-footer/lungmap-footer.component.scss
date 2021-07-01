@@ -47,6 +47,24 @@
             }
         }
 
+        /* Footer links container */
+        .links {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            margin: 0; /* Overrides font class */
+
+            /* Footer links */
+            a {
+                color: $hca-white;
+                cursor: pointer;
+                font: inherit;
+                margin: 0 16px;
+                text-decoration: none;
+                text-transform: capitalize;
+            }
+        }
+
         /** Footer behind modal - hide when modal is open(ing) to prevent visible jump around of content */
         &.modal-open {
             display: none;
