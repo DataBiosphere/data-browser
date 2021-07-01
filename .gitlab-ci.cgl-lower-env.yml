@@ -80,6 +80,11 @@ build_lungmap-dev:
   environment:
     name: lungmap-dev
   script:
+    - export GTM_ID=GTM-M2J5NTJ
+    - export GTM_AUTH=XOKAlpBSltsrm1PKGR-fow
+    - export GTM_ENV=env-149
+    - pwd
+    - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-lungmap-dev
   only:
