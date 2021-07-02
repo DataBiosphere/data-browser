@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 export GATSBY_GTM_ID=GTM-M2J5NTJ
-export GATSBY_GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
-export GATSBY_ENV_NAME=env-83
+export GATSBY_GTM_AUTH=CWB1d2Aoi1q3GOmQMSGMsZA
+export GATSBY_ENV_NAME=env-150
 
 
 echo \"Deleting ./dist/\"
 rm -rf ./dist
 
-#./insert-gtm-snippet.sh
+./insert-gtm-snippet.sh
 cd spa
 
 
