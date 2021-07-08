@@ -72,9 +72,9 @@
                         </ng-container>
                     </button>
                     <mat-menu #menuAuth="matMenu">
-                        <menu-item-multiline>
-                            You are signed in as: <truncate><strong>{{getFullName(state.user)}}</strong></truncate>
-                        </menu-item-multiline>
+                        <div class="auth-menu-item-profile">
+                            You are signed in as: <strong class="auth-username">{{getFullName(state.user)}}</strong> 
+                        </div>
                         <mat-divider></mat-divider>
                         <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
                     </mat-menu>

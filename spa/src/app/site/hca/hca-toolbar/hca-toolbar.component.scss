@@ -169,7 +169,7 @@ mat-toolbar {
         .auth {
             display: flex; /* Full height */
         }
-        
+
         .auth-link {
             cursor: pointer;
             @include toolbar-link();
@@ -209,6 +209,28 @@ mat-toolbar {
         .auth-image-hover:hover {
             border-color: $hca-secondary-hover;
         }
+    }
+
+    /* Projected menu content */
+    .auth-menu-item-profile {
+        line-height: 20px;
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        width: 200px;
+    }
+
+    /* Stack elements */
+    .auth-menu-item-profile > * {
+        display: block;
+    }
+
+    /* Truncate long usernames */
+    .auth-username {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
