@@ -27,7 +27,6 @@ import { HCATabComponent } from "./hca-tab/hca-tab.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
 import { LearnMoreComponent } from "./learn-more/learn-more.component";
-import { MenuItemMultilineComponent } from "./menu-item-multiline/menu-item-multiline.component";
 import { NavComponent } from "./nav/nav.component";
 import { NoHitsComponent } from "./no-hits/no-hits.component";
 import { PopLayoutComponent } from "./pop-layout/pop-layout.component";
@@ -40,7 +39,6 @@ import { ToolbarNavDropDownComponent } from "./toolbar-nav-drop-down/toolbar-nav
 import { ToolbarNavItemComponent } from "./toolbar-nav-item/toolbar-nav-item.component";
 import { ToolbarNavSubMenuComponent} from "./toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { ToolbarNavSubMenuItemComponent } from "./toolbar-nav-sub-menu-item/toolbar-nav-sub-menu-item.component";
-import { TruncateComponent } from "./truncate/truncate.component";
 import { UtilService } from "./util/util.service";
 import { WarningComponent } from "./warning/warning.component";
 import { WarningContentComponent } from "./warning/warning-content.component";
@@ -66,7 +64,6 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
-        MenuItemMultilineComponent,
         NavComponent,
         NoHitsComponent,
         PopLayoutComponent,
@@ -76,7 +73,6 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavItemComponent,
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
-        TruncateComponent,
         WarningComponent,
         WarningContentComponent,
         WarningTitleComponent
@@ -100,7 +96,6 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         HCATooltipComponent,
         KeyValuePairComponent,
         LearnMoreComponent,
-        MenuItemMultilineComponent,
         NavComponent,
         NoHitsComponent,
         PopLayoutComponent,
@@ -110,7 +105,6 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavItemComponent,
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
-        TruncateComponent,
         WarningComponent,
         WarningContentComponent,
         WarningTitleComponent
