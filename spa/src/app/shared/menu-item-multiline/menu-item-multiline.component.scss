@@ -1,0 +1,15 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for multi-line Material menu item. 
+ */
+
+:host {
+    line-height: 20px;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    width: 200px;
+}

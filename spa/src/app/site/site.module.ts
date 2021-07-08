@@ -9,7 +9,9 @@
 // Core dependencies
 import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from "@angular/material/toolbar";
 
 // App Dependencies
@@ -39,7 +41,9 @@ import { ViewContainerDirective } from "./site-config/view-conatainer.directive"
 @NgModule({
     imports: [
         MatButtonModule,
+        MatDividerModule,
         MatIconModule,
+        MatMenuModule,
         MatToolbarModule,
 
         ConfigModule,

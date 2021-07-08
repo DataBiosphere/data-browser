@@ -64,13 +64,35 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     }
 
     /**
-     * Return the given name for the current user.
-     * 
+     * Return the full name for the current user.
+     *
      * @param {GoogleUser} user
+     * @returns {string}
      */
-    public getGivenName(user: GoogleUser) {
+    public getFullName(user: GoogleUser): string {
 
-        return user.getBasicProfile().getGivenName()
+        return user.getBasicProfile().getName();
+    }
+
+    /**
+     * Return the first letter of the user's given name.
+     * 
+     * @returns {string}
+     */
+    public getNameStartsWith(user: GoogleUser): string {
+
+        return user.getBasicProfile().getGivenName().substring(0, 1);
+    }
+
+    /**
+     * Return the URL to the user's profile image.
+     * 
+     * @param {GoogleUserUser} user
+     * @returns {string}
+     */
+    public getProfileImageUrl(user: GoogleUser): string {
+        
+        return user.getBasicProfile().getImageUrl();
     }
 
     /**
@@ -95,6 +117,17 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
 
             return explorePathExists || homePathExists;
         }
+    }
+
+    /**
+     * Returns true if there's a profile image for the current user.
+     * 
+     * @param {GoogleUser} user
+     * @returns {boolean}
+     */
+    public isProfileImageSpecified(user: GoogleUser): boolean {
+
+        return !!this.getProfileImageUrl(user)
     }
 
     /**

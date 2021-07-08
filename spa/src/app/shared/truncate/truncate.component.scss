@@ -1,0 +1,12 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ * 
+ * Styles for generic truncating component, where text is clipped at the element's bounds and an ellipsis is added.
+ */
+
+:host {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
