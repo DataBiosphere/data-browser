@@ -107,6 +107,11 @@ mat-toolbar {
             display: none;
         }
     }
+    
+    /* Auth image hidden on mobile, use nav item instead */
+    .auth {
+        display: none;
+    }
 }
 
 /**
@@ -114,6 +119,25 @@ mat-toolbar {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 840px) {
+
+    @mixin toolbar-link() {
+        color: $hca-gray-dark;
+        text-transform: capitalize;
+        margin: 0;
+
+        /* Title */
+        .fontsize-xs {
+            font-size: 14px;
+            line-height: 60px;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        /* Sub title - hide */
+        .fontsize-xxs {
+            display: none;
+        }
+    }
 
     mat-toolbar {
 
@@ -125,24 +149,8 @@ mat-toolbar {
         toolbar-nav-item {
             padding: 0 10px;
 
-            /* Link */
             .link {
-                color: $hca-gray-dark;
-                text-transform: capitalize;
-                margin: 0;
-
-                /* Title */
-                .fontsize-xs {
-                    font-size: 14px;
-                    line-height: 60px;
-                    margin: 0;
-                    white-space: nowrap;
-                }
-
-                /* Sub title - hide */
-                .fontsize-xxs {
-                    display: none;
-                }
+                @include toolbar-link();
             }
         }
 
@@ -150,6 +158,56 @@ mat-toolbar {
         toolbar-nav-item button.link {
             cursor: pointer;
             pointer-events: auto;
+        }
+
+        /* Hide auth link on tablet + */
+        .nav-item-auth {
+            display: none;
+        }
+
+        /* Display auth image on tablet + */
+        .auth {
+            display: flex; /* Full height */
+        }
+        
+        .auth-link {
+            cursor: pointer;
+            @include toolbar-link();
+            .fontsize-xs {
+                font-weight: 600; /* Missing from tablet link definition, specified only in mobile */
+            }
+        }
+        
+        .auth-authenticated {
+            align-items: center;
+            display: flex;
+        }
+        
+        .auth-menu-button {
+            background-color: unset;
+            border: 0;
+        }
+        
+        .auth-image-placeholder {
+            align-items: center;
+            background-color: $hca-secondary;
+            display: flex;
+            color: $hca-white;
+            font-size: 20px;
+            font-weight: 500;
+            height: 40px;
+            justify-content: center;
+            width: 40px;
+        }
+        
+        .auth-image-hover {
+            border: 3px solid transparent;
+            border-radius: 50%;
+            transition: border 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .auth-image-hover:hover {
+            border-color: $hca-secondary-hover;
         }
     }
 }

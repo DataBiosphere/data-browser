@@ -50,19 +50,39 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </toolbar-nav-item>
-            <toolbar-nav-item *ngIf="isAuthEnabled()">
+            <toolbar-nav-item *ngIf="isAuthEnabled()" class="nav-item-auth">
                 <ng-container [ngSwitch]="state.authenticated">
                     <a class="link" *ngSwitchCase="true" (click)="onLogoutClicked()">
-                        <span class="fontsize-xs">Hi, {{getGivenName(state.user)}}. Logout</span>
-                        <span class="fontsize-xxs">Hi, {{getGivenName(state.user)}}. Logout</span>
+                        <span class="fontsize-xs">Logout</span>
+                        <span class="fontsize-xxs">You are signed in as {{getFullName(state.user)}}.</span>
                     </a>
                     <a class="link" *ngSwitchDefault (click)="onLoginClicked()">
                         <span class="fontsize-xs">Login</span>
-                        <span class="fontsize-xxs">Login</span>
                     </a>
                 </ng-container>
-
             </toolbar-nav-item>
         </toolbar-nav>
+        <ng-container *ngIf="isAuthEnabled()" >
+            <div class="auth" [ngSwitch]="state.authenticated">
+                <div class="auth-authenticated" *ngSwitchCase="true">
+                    <button class="auth-menu-button" [matMenuTriggerFor]="menuAuth" aria-label="Authentication menu">
+                        <ng-container [ngSwitch]="isProfileImageSpecified(state.user)">
+                            <img class="auth-image auth-image-hover" *ngSwitchCase="true" [src]="getProfileImageUrl(state.user)">
+                            <div class="auth-image-placeholder auth-image-hover" *ngSwitchDefault>{{getNameStartsWith(state.user)}}</div>
+                        </ng-container>
+                    </button>
+                    <mat-menu #menuAuth="matMenu">
+                        <menu-item-multiline>
+                            You are signed in as: <truncate><strong>{{getFullName(state.user)}}</strong></truncate>
+                        </menu-item-multiline>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
+                    </mat-menu>
+                </div>
+                <a class="auth-link" *ngSwitchDefault (click)="onLoginClicked()">
+                    <span class="fontsize-xs">Login</span>
+                </a>
+            </div>
+        </ng-container>
     </mat-toolbar-row>
 </mat-toolbar>
