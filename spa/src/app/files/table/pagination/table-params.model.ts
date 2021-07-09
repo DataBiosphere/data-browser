@@ -18,5 +18,5 @@ export interface TableParams {
 }
 
 export const DEFAULT_TABLE_PARAMS: TableParams = {
-    size: 15
+    size: 25
 };
