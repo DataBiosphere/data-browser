@@ -19,6 +19,7 @@ export class BrowserCanActivateGuard implements CanActivate {
     private atlas: string;
 
     /**
+     * @param configService
      * @param {DeviceDetectorService} deviceService
      */
     constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {
