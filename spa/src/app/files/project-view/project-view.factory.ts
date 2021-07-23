@@ -435,13 +435,13 @@ export class ProjectViewFactory {
             return value.toString();
         }
 
-        // Return string as is
-        if ( !Array.isArray(value) ) {
-
-            return value;
+        // Dedupe array values (e.g. file type summaries) and return as string
+        if ( Array.isArray(value) ) {
+            return [...new Set(value)].join(", ");
         }
 
-        // Return array joined by ","
-        return value.join(", ");
+        // Return string as is
+        return value;
+        
     }
 }
