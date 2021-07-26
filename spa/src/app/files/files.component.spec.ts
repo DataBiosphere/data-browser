@@ -74,27 +74,11 @@ describe("FilesComponent:", () => {
      * Confirm catalog is displayed correctly in explore title
      */
     xit("displays catalog in explore title", () => {
-
-        storeSpy.pipe
-            .and.returnValues(
-            of(DEFAULT_FILE_SUMMARY), // File summary
-            of([]), // File facets
-            of([]), // Entities
-            of({}), // Selected entity
-            of([]), // Selected search terms
-            of([]), // Search terms
-            of([]), // Selected project search terms
-            of("") // Selected catalog
-        );
-
-        fixture.detectChanges();
-        expect(fixture).toBeTruthy();
     });
 
     /**
      * Confirm catalog choose is displayed.
      */
     xit("displays catalog chooser", () => {
-
     });
 });

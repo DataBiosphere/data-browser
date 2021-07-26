@@ -9,14 +9,12 @@
 import { async, TestBed } from "@angular/core/testing";
 
 // App dependencies
-import { SearchState } from "./search.state";
-import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
-import { SearchEntity } from "../../search/search-entity.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { FetchSelectedProjectsSuccessAction } from "./fetch-selected-projects-success.action";
+import { SearchState } from "./search.state";
+import { SearchEntity } from "../../search/search-entity.model";
 
-describe("SearchState:", () => {
-
+describe("SearchState", () => {
 
     beforeEach(async(() => {
 
@@ -26,42 +24,105 @@ describe("SearchState:", () => {
             providers: []
         });
     }));
+    
+    describe("selectedSearchTermsLoading", () => {
 
-    /**
-     * Confirm patch is called when search terms have not yet been initialized. This means there is a project ID in
-     * the selected set of filters on load of the app, but the corresponding project SearchEntity (to match a project
-     * name to the project ID) has not yet been created from the project facet from the entity endpoint. 
-     */
-    it("calls patch if search terms not yet initialized", () => {
+        /**
+         * Confirm selected search term loading state is true when there is a selected project ID without a corresponding
+         * display name.
+         */
+        it("inits loading to true when project ID selected without a corresponding name", () => {
 
-        const searchState = new SearchState([], new Map(), "");
-        const patchSearchTersmSpy = spyOn<any>(searchState, "patchSearchTerms").and.returnValue(new Map()); // <any> enables spy on private method
-        
-        const action = new SearchTermsUpdatedAction([], [
-            new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "project shortname", 1)
-        ]);
-        searchState.setSearchTerms(action);
-        
-        expect(patchSearchTersmSpy).toHaveBeenCalled();
+            const selectedProjectId = new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "", 0);
+            const selectedSearchTermsByKey = new Map([[
+                FileFacetName.PROJECT_ID, new Set([selectedProjectId])
+            ]]);
+
+            const searchState = new SearchState([], selectedSearchTermsByKey, "");
+            expect(searchState.selectedSearchTermsLoading).toBeTrue();
+        });
+
+        /**
+         * Confirm selected search term loading state is false when there's no project IDs specified in the set of 
+         * selected search terms.
+         */
+        it("inits loading to false when no project ID selected", () => {
+
+            const searchState = new SearchState([], new Map(), "");
+            expect(searchState.selectedSearchTermsLoading).toBeFalse();
+        });
     });
 
-    /**
-     * Confirm patch is not called if search terms have been initialized. This means a project ID has been selected in
-     * the app and it can be matched up with the corresponding project SearchEntity, created from the project facet
-     * returned from the entity endpoint.
-     */
-    it("patch not called if search terms already initialized", () => {
+    describe("isSelectedSearchTermsLoading", () => {
 
-        const searchState = new SearchState([
-            new SearchFacetTerm(FileFacetName.ORGAN, "brain")
-        ], new Map(), "");
-        const patchSearchTersmSpy = spyOn<any>(searchState, "patchSearchTerms").and.returnValue(new Map()); // <any> enables spy on private method
+        /**
+         * Confirm selected search term loading state is true when there is a selected project ID without a corresponding
+         * display name.
+         */
+        it("returns true for selected project IDs without a corresponding name", () => {
 
-        const action = new SearchTermsUpdatedAction([], [
-            new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "project shortname", 1)
-        ]);
-        searchState.setSearchTerms(action);
-        
-        expect(patchSearchTersmSpy).not.toHaveBeenCalled();
+            const selectedProjectId = new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "", 0);
+            const selectedSearchTermsByKey = new Map([[
+                FileFacetName.PROJECT_ID, new Set([selectedProjectId])
+            ]]);
+
+            const searchState = new SearchState([], selectedSearchTermsByKey, "");
+            const result = searchState["isSelectedSearchTermsLoading"](selectedSearchTermsByKey);
+            expect(result).toBeTrue();
+        });
+
+        /**
+         * Confirm selected search term loading state is false when a selected project ID has a corresponding name.
+         */
+        it("returns false for selected project IDs with a corresponding name", () => {
+
+            const selectedProjectId = new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "project name", 0);
+            const selectedSearchTermsByKey = new Map([[
+                FileFacetName.PROJECT_ID, new Set([selectedProjectId])
+            ]]);
+
+            const searchState = new SearchState([], selectedSearchTermsByKey, "");
+            const result = searchState["isSelectedSearchTermsLoading"](selectedSearchTermsByKey);
+            expect(result).toBeFalse();
+        });
+
+        /**
+         * Confirm selected search term loading state is true when there's no project IDs specified in the set of
+         * selected search terms.
+         */
+        it("returns true for no selected project IDs", () => {
+
+            const searchState = new SearchState([], new Map(), "");
+            const result = searchState["isSelectedSearchTermsLoading"](new Map());
+            expect(result).toBeFalse();
+        });
+    });
+
+    describe("patchSelectedProjectSearchTerms", () => {
+
+        /**
+         * Confirm project IDs are matched with their corresponding names.
+         */
+        it("patches selected project IDs with their corresponding names", () => {
+
+            const selectedProjectId = new SearchEntity(FileFacetName.PROJECT_ID, "123abc", "", 0);
+            const selectedSearchTermsByKey = new Map([[
+                FileFacetName.PROJECT_ID, new Set([selectedProjectId])
+            ]]);
+
+            const searchState = new SearchState([], selectedSearchTermsByKey, "");
+            
+            const projectSearchEntity = 
+                new SearchEntity(FileFacetName.PROJECT_ID, selectedProjectId.getId(), "project name");
+            const action = new FetchSelectedProjectsSuccessAction([projectSearchEntity]);
+            const result = searchState.patchSelectedProjectSearchTerms(action);
+            expect(result.selectedSearchTermsLoading).toBeFalse();
+            
+            const selectedProjects = result.selectedSearchTermsBySearchKey.get(FileFacetName.PROJECT_ID);
+            expect(selectedProjects.size).toEqual(1);
+            
+            const patchedSelectedProjectId = [...selectedProjects][0];
+            expect(patchedSelectedProjectId.getDisplayValue()).toEqual(projectSearchEntity.getDisplayValue());
+        });
     });
 });

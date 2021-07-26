@@ -1,5 +1,5 @@
 <div class="wrapper" *ngIf="tableFilter; else filterResult">
-    <div [ngClass]="{'filter-result':true, 'inactive': !removable}">
+    <div [ngClass]="{'filter-result':true, 'inactive': !removable}" *ngIf="!loading">
         <ng-container *ngTemplateOutlet="filterResult"></ng-container>
         <button class="clear-all" mat-button *ngIf="removable && !isSelectedSearchTermsEmpty()"
                 (click)="removeAllSearchTerms()">Clear All

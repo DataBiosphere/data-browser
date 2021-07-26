@@ -24,14 +24,29 @@ import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-n
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchAgeRange } from "../../search/search-age-range.model";
 import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
+import { FetchSelectedProjectsSuccessAction } from "./fetch-selected-projects-success.action";
 
 export class SearchState {
-
-    public readonly currentQuery: string; // Stringified version of the current set of selected search terms, used by analytics-related functionality
-    public readonly searchTerms: SearchTerm[] = []; // Set of possible search terms that are selectable
-    public readonly selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>; // Current set of search terms, keyed by facet/entity name
-    public readonly selectedSearchTerms: SearchTerm[]; // Current set of selected search terms
-    public readonly previousQuery: string; // Stringified version of the previous set of selected search terms, used by analytics-related functionality
+    
+    // Stringified version of the current set of selected search terms, used by analytics-related functionality
+    public readonly currentQuery: string;
+    
+    // Set of possible search terms that are selectable
+    public readonly searchTerms: SearchTerm[] = [];
+    
+    // Current set of search terms, keyed by facet/entity name
+    public readonly selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>;
+    
+    // Current set of selected search terms
+    public readonly selectedSearchTerms: SearchTerm[];
+    
+    // True if selected search terms contain a project ID but no corresponding project name. This can occur on load
+    // where a project ID is specified as a selected term in the URL; the URL contains the project ID but we must 
+    // separately query for the project name
+    public readonly selectedSearchTermsLoading: boolean;
+    
+    // Stringified version of the previous set of selected search terms, used by analytics-related functionality
+    public readonly previousQuery: string; 
     
     private searchTermHttpService: SearchTermHttpService = new SearchTermHttpService(new ResponseTermService());
 
@@ -40,7 +55,9 @@ export class SearchState {
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      * @param {string} previousQuery
      */
-    constructor(searchTerms: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>, previousQuery: string) {
+    constructor(searchTerms: SearchTerm[],
+                selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+                previousQuery: string) {
 
         this.searchTerms = searchTerms;
         this.selectedSearchTermsBySearchKey = selectedSearchTermsBySearchKey;
@@ -53,6 +70,7 @@ export class SearchState {
 
             return accum;
         }, []);
+        this.selectedSearchTermsLoading = this.isSelectedSearchTermsLoading(selectedSearchTermsBySearchKey);
         this.currentQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         this.previousQuery = previousQuery;
     }
@@ -81,6 +99,17 @@ export class SearchState {
             this.removeSearchTermFromSelectedSet(this.selectedSearchTermsBySearchKey, searchTerm);
         const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
         return new SearchState(this.searchTerms, updatedSearchTermsByFacetName, previousQuery);
+    }
+
+    /**
+     * Patch the specified project values with the selected set of project terms. This is required on load if there
+     * is a selected project specified in the URL; we must separately query for the project name, for display.
+     */
+    public patchSelectedProjectSearchTerms(action: FetchSelectedProjectsSuccessAction): SearchState {
+
+        const selectedSearchTermsBySearchKey = new Map(this.selectedSearchTermsBySearchKey);
+        selectedSearchTermsBySearchKey.set(FileFacetName.PROJECT_ID, new Set(action.searchEntities));
+        return new SearchState(this.searchTerms, selectedSearchTermsBySearchKey, this.previousQuery);
     }
 
     /**
@@ -130,7 +159,8 @@ export class SearchState {
     public setSelectedSearchTermsFromViewState(action: SetViewStateAction): SearchState {
 
         // Update new state with selected terms
-        const searchTermsByFacetName = action.selectedSearchTerms.reduce((accum, queryStringFacet) => {
+        const selectedSearchTermsBySearchKey = 
+            action.selectedSearchTerms.reduce((accum, queryStringFacet) => {
 
             const facetName = queryStringFacet.facetName;
             const searchTerms = this.translateQueryStringToSearchTerms(queryStringFacet);
@@ -138,29 +168,19 @@ export class SearchState {
             return accum;
         }, new Map<string, Set<SearchTerm>>());
         
-        return new SearchState(this.searchTerms, searchTermsByFacetName, "");
+        // Determine loading state of search terms
+        return new SearchState(this.searchTerms, selectedSearchTermsBySearchKey, "");
     }
 
     /**
-     * Set of possible search terms that use can select, have been updated - update store. We also need to check the set
-     * of selected search terms here and add any missing data. For example, if the app is loaded with a selected project
-     * ID in the URL, we won't have the corresponding project name until the full set of project ID-to-project name
-     * mappings are returned from the server. If there are any selected project IDs with no corresponding project name
-     * in the server response, remove the "partially constructed" project ID from the set of selected search terms. (See
-     * this.translateQueryStringToSearchTerms() to see the partially constructed SearchEntity search term).
+     * Set of possible search terms that use can select have been updated - update store.
      * 
      * @param {SearchTermsUpdatedAction} action
      */
     public setSearchTerms(action: SearchTermsUpdatedAction) {
 
-        // Search terms are empty if they have not yet been initialized from endpoint facet response. If empty, we need
-        // to manually match up the project ID to project name.
-        let searchTermsBySearchKey = this.searchTerms.length === 0 ?
-            this.patchSearchTerms(action.searchEntities, this.selectedSearchTermsBySearchKey) :
-            this.selectedSearchTermsBySearchKey;
-
         const previousQuery = this.stringifySelectedSearchTerms(this.selectedSearchTerms);
-        return new SearchState(action.searchTerms, searchTermsBySearchKey, previousQuery);
+        return new SearchState(action.searchTerms, this.selectedSearchTermsBySearchKey, previousQuery);
     }
 
     /**
@@ -193,6 +213,29 @@ export class SearchState {
         const clonedTermsBySearchKey = new Map(searchTermsBySearchKey);
         clonedTermsBySearchKey.set(searchKey, updatedSearchTerms);
         return clonedTermsBySearchKey;
+    }
+
+    /**
+     * Returns true if selected search term values are incomplete. That is, there is at least one selected project ID
+     * that does not have a corresponding project name.
+     * 
+     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
+     * @returns {boolean}
+     */
+    private isSelectedSearchTermsLoading(selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>):boolean {
+
+        // If there's no selected project IDs, the search terms can be considered loaded.
+        if ( !selectedSearchTermsBySearchKey.has(FileFacetName.PROJECT_ID) ) {
+            return false;
+        }
+
+        // Check if there are any selected project IDs that haven't been associated with their corresponding project 
+        // name. If there are project IDs without a corresponding project name, selected search terms are considered
+        // loading.
+        const selectedProjectIds = selectedSearchTermsBySearchKey.get(FileFacetName.PROJECT_ID);
+        return [...selectedProjectIds].some((selectedProject) => {
+            return !selectedProject.getDisplayValue();
+        });
     }
 
     /**
@@ -293,49 +336,5 @@ export class SearchState {
 
             return accum;
         }, new Set<SearchTerm>());
-    }
-
-    /**
-     * Update values of selected search terms from the full set of possible search terms. This is required to cover
-     * the case where app state is set up from URL state that contains a selected project ID. We need to grab the
-     * corresponding project short names from the full set of possible search terms returned from the server (as the
-     * short name is not in the URL).
-     * 
-     * @param {SearchTerm[]} searchEntities
-     * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
-     */
-    private patchSearchTerms(searchEntities: SearchTerm[], selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>) {
-        
-        // If there's no selected project IDs, return the selected search terms as is
-        if ( !selectedSearchTermsBySearchKey.has(FileFacetName.PROJECT_ID) ) {
-            return selectedSearchTermsBySearchKey;
-        }
-
-        // Group project ID search terms by search key - we'll use map as a quick reference to the selected search terms
-        const allProjectSearchTermsByProjectId = searchEntities
-            .filter(searchTerm => searchTerm.getSearchKey() === FileFacetName.PROJECT_ID) 
-            .reduce((accum, searchTerm) => {
-                accum.set(searchTerm.getId(), searchTerm);
-                return accum;
-            }, new Map<string, SearchTerm>());
-
-        // Update the current set of selected project search terms with values from the corresponding search terms
-        // returned from the server
-        const patchedProjectSearchTerms = Array.from(selectedSearchTermsBySearchKey.get(FileFacetName.PROJECT_ID))
-            .reduce((accum, selectedSearchTerm) => {
-
-                const completeSearchTerm = allProjectSearchTermsByProjectId.get(selectedSearchTerm.getId());
-                if ( !!completeSearchTerm ) {
-                    accum.add(new SearchEntity(
-                        completeSearchTerm.getSearchKey(),
-                        completeSearchTerm.getSearchValue(),
-                        completeSearchTerm.getDisplayValue()));
-                }
-                return accum;
-            }, new Set<SearchTerm>());
-
-        const updatedSearchTermsBySearchKey = new Map(selectedSearchTermsBySearchKey);
-        updatedSearchTermsBySearchKey.set(FileFacetName.PROJECT_ID, patchedProjectSearchTerms);
-        return updatedSearchTermsBySearchKey;
     }
 }

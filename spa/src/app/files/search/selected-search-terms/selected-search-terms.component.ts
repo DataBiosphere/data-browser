@@ -31,6 +31,7 @@ export class SelectedSearchTermsComponent {
 
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
+    @Input() loading: boolean;
     @Input() removable: boolean;
     @Input() tableFilter: boolean;
 

@@ -9,6 +9,7 @@
             (menuOpen)="onMenuOpen($event)">
     </facet-toolbar>
     <selected-search-terms
+            [loading]="state.selectedSearchTermsLoading"
             [tableFilter]="true"
             [removable]="true"
             [selectedSearchTerms]="state.selectedSearchTerms">

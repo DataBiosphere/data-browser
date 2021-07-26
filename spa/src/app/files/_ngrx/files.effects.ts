@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, distinct, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, distinct, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { selectCatalog } from "./catalog/catalog.selectors";
@@ -29,10 +29,16 @@ import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";
 import { SelectFileFacetTermAction } from "./search/select-file-facet-term.action";
-import { selectCurrentQuery, selectSelectedSearchTerms } from "./search/search.selectors";
+import {
+    selectCurrentQuery,
+    selectIsSelectedTermsLoading,
+    selectSelectedProjectSearchTerms,
+    selectSelectedSearchTerms
+} from "./search/search.selectors";
 import { SearchTermsUpdatedAction } from "./search/search-terms-updated.action";
 import { SearchTerm } from "../search/search-term.model";
 import { SelectFacetAgeRangeAction } from "./search/select-facet-age-range.action";
+import { FetchSelectedProjectsSuccessAction } from "./search/fetch-selected-projects-success.action";
 import { ClearSelectedAgeRangeAction } from "./search/clear-selected-age-range.action";
 import { GTMService } from "../../shared/analytics/gtm.service";
 import { EntityName } from "../shared/entity-name.model";
@@ -226,6 +232,39 @@ export class FilesEffects {
                 return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
             })
         );
+
+    /**
+     * Project IDs are included in the set of selected search terms on load of app, query for the corresponding
+     * project details.
+     */
+    @Effect()
+    fetchSelectedProjectsById$ = this.actions$.pipe(
+        ofType(
+            SetViewStateAction.ACTION_TYPE
+        ),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectIsSelectedTermsLoading), take(1)),
+                this.store.pipe(select(selectSelectedProjectSearchTerms), take(1))
+            )
+        )),
+        filter(([, , loading]) => {
+            return loading;
+        }),
+        switchMap(([action, catalog, loading, selectedProjectSearchTerms]) => {
+
+            return this.fileService.fetchEntitySearchResults(
+                catalog,
+                new Map([[FileFacetName.PROJECT_ID, new Set(selectedProjectSearchTerms)]]),
+                DEFAULT_TABLE_PARAMS,
+                EntityName.PROJECTS);
+        }),
+        map((entitySearchResults) => {
+            
+            return new FetchSelectedProjectsSuccessAction(entitySearchResults.searchEntities);
+        })
+    );
 
     /**
      * Trigger update of file summary if a facet changes (ie term is selected or deselected). File summary includes the
