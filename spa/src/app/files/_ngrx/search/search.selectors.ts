@@ -16,6 +16,10 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 // Search slice
 export const selectSearch = createFeatureSelector<SearchState>("search");
 
+// Returns true if selected search terms are in a loading state
+export const selectIsSelectedTermsLoading =
+    createSelector(selectSearch, (state) => state.selectedSearchTermsLoading);
+
 // Complete set of possible search terms to select from
 export const selectSearchTerms = createSelector(selectSearch, (state) => state.searchTerms);
 

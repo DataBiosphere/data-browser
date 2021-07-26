@@ -23,4 +23,5 @@ export interface FilesComponentState {
     selectedEntity: EntitySpec;
     selectedProjectIds: string[];
     selectedSearchTerms: SearchTerm[];
+    selectedSearchTermsLoading: boolean;
 }

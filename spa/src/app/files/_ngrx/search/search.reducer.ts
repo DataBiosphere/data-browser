@@ -9,14 +9,15 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { SearchState } from "./search.state";
-import { SelectFileFacetTermAction } from "./select-file-facet-term.action";
-import { ClearSelectedTermsAction } from "./clear-selected-terms.action";
-import { SetViewStateAction } from "../facet/set-view-state.action";
-import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
-import { SelectProjectIdAction } from "./select-project-id.action";
-import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
 import { ClearSelectedAgeRangeAction } from "./clear-selected-age-range.action";
+import { ClearSelectedTermsAction } from "./clear-selected-terms.action";
+import { SearchState } from "./search.state";
+import { SetViewStateAction } from "../facet/set-view-state.action";
+import { FetchSelectedProjectsSuccessAction } from "./fetch-selected-projects-success.action";
+import { SearchTermsUpdatedAction } from "./search-terms-updated.action";
+import { SelectFacetAgeRangeAction } from "./select-facet-age-range.action";
+import { SelectFileFacetTermAction } from "./select-file-facet-term.action";
+import { SelectProjectIdAction } from "./select-project-id.action";
 
 /**
  * @param state {SearchState}
@@ -34,6 +35,10 @@ export function reducer(state: SearchState = SearchState.getDefaultState(), acti
         // Clear all search terms
         case ClearSelectedTermsAction.ACTION_TYPE:
             return state.clearAllSelectedSearchTerms();
+            
+        // Selected projects have been retrieved from the server, patch selected search terms
+        case FetchSelectedProjectsSuccessAction.ACTION_TYPE:
+            return state.patchSelectedProjectSearchTerms(action as FetchSelectedProjectsSuccessAction);
             
         // Term or project has been selected/deselected
         case SelectFileFacetTermAction.ACTION_TYPE:

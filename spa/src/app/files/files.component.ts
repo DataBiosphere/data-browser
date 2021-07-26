@@ -27,6 +27,7 @@ import {
     selectSelectedEntitySpec
 } from "./_ngrx/files.selectors";
 import {
+    selectIsSelectedTermsLoading,
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
     selectSelectedSearchTerms
@@ -141,6 +142,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe(select(selectEntities)), // Set of tabs to be displayed
             this.store.pipe(select(selectSelectedEntitySpec)), // Current selected tab
             this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
+            this.store.pipe(select(selectIsSelectedTermsLoading)), // True if selected search terms are currently being constructed
             this.store.pipe(select(selectSearchTerms)),
             this.store.pipe( // Current set of selected projects, if any
                 select(selectSelectedProjectSearchTerms),
@@ -157,6 +159,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                          entities,
                          selectedEntity,
                          selectedSearchTerms,
+                         selectedSearchTermsLoading,
                          searchTerms,
                          selectedProjectIds,
                          catalog,
@@ -171,7 +174,8 @@ export class FilesComponent implements OnInit, OnDestroy {
                         searchTerms,
                         selectedEntity,
                         selectedProjectIds,
-                        selectedSearchTerms
+                        selectedSearchTerms,
+                        selectedSearchTermsLoading
                     };
                 }));
     }
