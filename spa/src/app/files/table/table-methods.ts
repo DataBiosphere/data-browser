@@ -401,56 +401,6 @@ export function getColumnStyle(column: string): any {
 }
 
 /**
- * Returns "--" if file count is zero, otherwise returns count.
- *
- * @param {number} count
- * @returns {any}
- */
-export function getFileCountDisplay(count: number): any {
-
-    return count === 0 ? "--" : count;
-}
-
-/**
- * Returns file counts for a set of file types as well as total count.
- *
- * @param {any[]} fileTypeSummaries
- * @returns {any}
- */
-export function getFileTypeCounts(fileTypeSummaries: any[]) {
-
-    // File counts for file formats.
-    // File types of interest include "fastq.gz" and "fastq", "bam", "matrix".
-    // Total file count and all remaining other files are calculated.
-    // Force to empty array if no file type summary is specified. This would only occur in an error / bad data case.
-    return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
-
-        const count = fileTypeSummary.count || 0;
-
-        /* bam */
-        if ( fileTypeSummary.fileType === "bam" ) {
-            acc.bamCount = acc.bamCount + count;
-        }
-        /* matrix */
-        if ( fileTypeSummary.fileType === "matrix" ) {
-            acc.matrixCount = acc.matrixCount + count;
-        }
-        /* fastq and fastq.qz */
-        if ( fileTypeSummary.fileType === "fastq.gz" || fileTypeSummary.fileType === "fastq" ) {
-            acc.rawCount = acc.rawCount + count;
-        }
-        /* total count */
-        acc.totalCount = acc.totalCount + count;
-        /* other count */
-        acc.otherCount = acc.totalCount - acc.bamCount - acc.matrixCount - acc.rawCount;
-
-        return acc;
-
-    }, {bamCount: 0, matrixCount: 0, otherCount: 0, rawCount: 0, totalCount: 0});
-
-}
-
-/**
  * Returns first value.
  *
  * @param value

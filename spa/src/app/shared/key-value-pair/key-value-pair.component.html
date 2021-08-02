@@ -1,18 +1,13 @@
-<ng-container *ngIf="keyValuePairs">
-    <h4 class="fontsize-m semi-bold">{{title}}</h4>
-    <p *ngIf="!keyValuePairs.length" class="fontsize-xs">{{getEmptyDisplayText(title)}}</p>
-    <div class="key-value-pair" *ngFor="let keyValuePair of keyValuePairs">
-        <p class="fontsize-xs semi-bold lhs">{{keyValuePair.key}}</p>
-        <p class="fontsize-xxs rhs" [ngSwitch]="isMultiValue(keyValuePair.value)">
-            <ng-container *ngSwitchCase="true">
-                <ng-container *ngFor="let pairValue of keyValuePair.value ; last as lastPair">
-                    <a [href]="pairValue.value"
-                       target="_blank"
-                       (click)="onValueClicked(pairValue)">{{pairValue.key}}</a><span *ngIf="!lastPair">, </span>
-                </ng-container>
+<div class="key-value-pair">
+    <p class="fontsize-xs semi-bold lhs">{{keyValuePair.key}}</p>
+    <p class="fontsize-xxs rhs" [ngSwitch]="isMultiValue(keyValuePair.value)">
+        <ng-container *ngSwitchCase="true">
+            <ng-container *ngFor="let pairValue of keyValuePair.value ; last as lastPair">
+                <a [href]="pairValue.value"
+                   target="_blank"
+                   (click)="onValueClicked(pairValue)">{{pairValue.key}}</a><span *ngIf="!lastPair">, </span>
             </ng-container>
-            <ng-container *ngSwitchDefault>{{keyValuePair.value}}</ng-container>
-        </p>
-        
-    </div>
-</ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>{{keyValuePair.value}}</ng-container>
+    </p>
+</div>

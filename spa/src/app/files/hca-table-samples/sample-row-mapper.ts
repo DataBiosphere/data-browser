@@ -8,10 +8,10 @@
 
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
-import { FileTypeSummariesRowMapper } from "../table/file-type-summaries-row-mapper";
+import { EntityRowMapper } from "../entities/entity-row-mapper";
 import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-methods";
 
-export class SampleRowMapper extends FileTypeSummariesRowMapper {
+export class SampleRowMapper extends EntityRowMapper {
 
     /**
      * @param {any} row - data modelling row in current selected table.

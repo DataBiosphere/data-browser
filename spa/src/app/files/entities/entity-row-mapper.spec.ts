@@ -1448,20 +1448,6 @@ describe("EntityRowMapper", () => {
 });
 
 /**
- * Returns the the specified file type summary
- *
- * @param {any} fileTypeSummaries
- * @param {string} fileType
- * @returns {any}
- */
-export function getFileTypeSummary(fileTypeSummaries: any, fileType: string): any {
-
-    return fileTypeSummaries.find(summary => {
-        return summary.fileType === fileType;
-    });
-}
-
-/**
  * Flatten values - with the exception of totalCells and donorCount - across multiple objects into a single, comma-delimited string.
  */
 export function mapMultipleValues(arrayToMap: any[], valueToMap: string): string {

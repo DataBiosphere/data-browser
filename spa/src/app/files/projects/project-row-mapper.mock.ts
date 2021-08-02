@@ -81,9 +81,9 @@ export const PROJECT_ROW_SINGLE_VALUES =
                                                     }
                                                 ],
                                                 [LibraryConstructionApproach.SMART_SEQ2]: [{
-                                                        "url": MOCK_PROJECT_MATRIX_FILE_1.url,
-                                                        "name": MOCK_PROJECT_MATRIX_FILE_1.name
-                                                    }
+                                                    "url": MOCK_PROJECT_MATRIX_FILE_1.url,
+                                                    "name": MOCK_PROJECT_MATRIX_FILE_1.name
+                                                }
                                                 ]
                                             }
                                         },
@@ -99,6 +99,40 @@ export const PROJECT_ROW_SINGLE_VALUES =
                                                         "name": MOCK_PROJECT_MATRIX_FILE_1.name
                                                     }
                                                 ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "matrices": {
+                    "genusSpecies": {
+                        "Mus musculus": {
+                            "organ": {
+                                "heart": {
+                                    "libraryConstructionApproach": {
+                                        "10X 3' v2 sequencing": {
+                                            "developmentStage": {
+                                                "Theiler stage 21": [{
+                                                    "size": 3914763654,
+                                                    "matrix_cell_count": null,
+                                                    "name": "pitx2-developing-mouse-heart-10XV2.loom",
+                                                    "source": "DCP/2 Analysis",
+                                                    "uuid": "5a606536-cd39-5269-b837-d17a9036d87c",
+                                                    "version": "2021-02-17T00:12:58.000000Z",
+                                                    "url": "https://service.azul.data.humancellatlas.org/repository/files/5a606536-cd39-5269-b837-d17a9036d87c?catalog=dcp7&version=2021-02-17T00%3A12%3A58.000000Z"
+                                                }],
+                                                "Theiler stage 17": [{
+                                                    "size": 3914763654,
+                                                    "matrix_cell_count": null,
+                                                    "name": "pitx2-developing-mouse-heart-10XV2.loom",
+                                                    "source": "DCP/2 Analysis",
+                                                    "uuid": "5a606536-cd39-5269-b837-d17a9036d87c",
+                                                    "version": "2021-02-17T00:12:58.000000Z",
+                                                    "url": "https://service.azul.data.humancellatlas.org/repository/files/5a606536-cd39-5269-b837-d17a9036d87c?catalog=dcp7&version=2021-02-17T00%3A12%3A58.000000Z"
+                                                }]
                                             }
                                         }
                                     }
@@ -199,6 +233,28 @@ export const PROJECT_ROW_SINGLE_VALUES =
         ],
         "fileTypeSummaries": [
             {
+                "contentDescription": ["Count Matrix"],
+                "count": 2,
+                "fileType": "loom",
+                "isIntermediate": true,
+                "totalSize": 17837811
+            },
+            {
+                "count": 2,
+                "fileType": "contributor.matrix",
+                "totalSize": 17837811
+            },
+            {
+                "count": 1,
+                "fileType": "dcp.matrix",
+                "totalSize": 17837811
+            },
+            {
+                "fileType": "fastq",
+                "count": 3,
+                "totalSize": 17837811
+            },
+            {
                 "fileType": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
@@ -210,6 +266,11 @@ export const PROJECT_ROW_SINGLE_VALUES =
             },
             {
                 "fileType": "bam",
+                "count": 1,
+                "totalSize": 22403106
+            },
+            {
+                "fileType": "bai",
                 "count": 1,
                 "totalSize": 22403106
             },
@@ -892,6 +953,18 @@ export const PROJECT_ROW_NULL_VALUES =
         ],
         "fileTypeSummaries": [
             {
+                "contentDescription": ["Count Matrix"],
+                "count": null,
+                "fileType": "loom",
+                "isIntermediate": true,
+                "totalSize": null
+            },
+            {
+                "fileType": "fastq",
+                "count": null,
+                "totalSize": null
+            },
+            {
                 "fileType": "fastq.gz",
                 "count": null,
                 "totalSize": null
@@ -903,6 +976,11 @@ export const PROJECT_ROW_NULL_VALUES =
             },
             {
                 "fileType": "bam",
+                "count": null,
+                "totalSize": null
+            },
+            {
+                "fileType": "bai",
                 "count": null,
                 "totalSize": null
             },
