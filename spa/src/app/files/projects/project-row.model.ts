@@ -7,11 +7,11 @@
 
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
-import { FileTypeSummariesRow } from "../table/file-type-summaries-row.model";
 
-export interface ProjectRow extends EntityRow, FileTypeSummariesRow {
+export interface ProjectRow extends EntityRow {
     contributorMatrices?: any;
     entryId: string;
+    fileTypeCounts: Map<string, number>; // Project-specific counts of file types, mapped from fileTypeSummaries 
     matrices?: any;
     projectShortname: string;
 }

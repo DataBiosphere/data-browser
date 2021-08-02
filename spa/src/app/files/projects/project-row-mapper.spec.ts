@@ -14,14 +14,14 @@ import { of } from "rxjs";
 import { ProjectRowMapper } from "./project-row-mapper";
 import {
     PROJECT_ROW_EMPTY_ARRAY_VALUES,
-    PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT,
+    PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT, PROJECT_ROW_NULL_TOP_LEVEL_VALUES,
     PROJECT_ROW_NULL_VALUES,
     PROJECT_ROW_SINGLE_VALUES, PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "./project-row-mapper.mock";
 import { EntitiesDataSource } from "../entities/entities.data-source";
-import { getFileTypeSummary, mapMultipleValues } from "../entities/entity-row-mapper.spec";
+import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
 
-describe("ProjectRowMapper:", () => {
+describe("ProjectRowMapper", () => {
 
     let dataSource;
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
@@ -47,24 +47,6 @@ describe("ProjectRowMapper:", () => {
 
         dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_SINGLE_VALUES]), ProjectRowMapper);
         expect(dataSource).toBeTruthy();
-    });
-
-    /**
-     * Use bam count as a test to check if project mapper extends the file type summaries mapper by confirming BAM
-     * count is mapped.
-     */
-    it("should map file type summary bam count", (done: DoneFn) => {
-
-        const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
-        dataSource.connect().subscribe((rows) => {
-
-            const mappedProject = rows[0];
-            const fileTypeSummary = getFileTypeSummary(projectToMap.fileTypeSummaries, "bam");
-            expect(fileTypeSummary).toBeTruthy();
-            expect(mappedProject.bamCount).toEqual(fileTypeSummary.count);
-            done();
-        })
     });
 
     /**
@@ -257,5 +239,68 @@ describe("ProjectRowMapper:", () => {
             expect(mappedProject.projectShortname).toEqual("Unspecified");
             done();
         })
+    });
+    
+    describe("File Type Counts", () => {
+
+        describe("fastq, fastq.gz, bam, bai file type counts", () => {
+
+            const fileTypes = ["fastq", "fastq.gz", "bam", "bai"];
+            fileTypes.forEach(fileType => {
+
+                /**
+                 * Count, when is specified, should be included in mapping.
+                 */
+                it(`should map file type summary ${fileType} count`, (done: DoneFn) => {
+
+                    const projectToMap = PROJECT_ROW_SINGLE_VALUES;
+                    dataSource = new EntitiesDataSource<ProjectRowMapper>(of([projectToMap]), ProjectRowMapper);
+                    dataSource.connect().subscribe((rows) => {
+
+                        const mappedProject = rows[0];
+                        expect(mappedProject.fileTypeCounts).toBeTruthy();
+
+                        const fileTypeCount = mappedProject.fileTypeCounts.get(fileType);
+                        expect(fileTypeCount).toBeTruthy();
+
+                        done();
+                    })
+                });
+
+                /**
+                 * A null count should be mapped to 0.
+                 */
+                it(`should map null file type summary ${fileType} count to 0`, (done: DoneFn) => {
+
+                    dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_TOP_LEVEL_VALUES]), ProjectRowMapper);
+                    dataSource.connect().subscribe((rows) => {
+
+                        const mappedProject = rows[0];
+                        expect(mappedProject.fileTypeCounts).toBeTruthy();
+                        expect(mappedProject.fileTypeCounts.size).toEqual(0);
+
+                        done();
+                    })
+                });
+
+                /**
+                 * A null file type summary should map count to 0.
+                 */
+                it(`should map file type summary with null ${fileType} count to 0`, (done: DoneFn) => {
+
+                    dataSource = new EntitiesDataSource<ProjectRowMapper>(of([PROJECT_ROW_NULL_VALUES]), ProjectRowMapper);
+                    dataSource.connect().subscribe((rows) => {
+
+                        const mappedProject = rows[0];
+                        expect(mappedProject.fileTypeCounts).toBeTruthy();
+
+                        const fileTypeCount = mappedProject.fileTypeCounts.get(fileType);
+                        expect(fileTypeCount).toEqual(0);
+
+                        done();
+                    })
+                });
+            });
+        });
     });
 });

@@ -13,69 +13,26 @@ import { FileSummary } from "../file-summary/file-summary";
 export const DEFAULT_FILE_SUMMARY = {
     "totalFileSize": 15628980955904,
     "fileTypeSummaries": [{
-        "fileType": "fastq.gz",
+        "contentDescription": [],
         "count": 228220,
+        "fileType": "fastq.gz",
+        "isIntermediate": false,
+        "matrixCellCount": 0,
         "totalSize": 8014337663365
     }, {
-        "fileType": "csv",
+        "contentDescription": [],
         "count": 30255,
+        "fileType": "csv",
+        "isIntermediate": false,
+        "matrixCellCount": 0,
         "totalSize": 399920680
     }, {
-        "fileType": "txt",
+        "contentDescription": [],
         "count": 21405,
+        "fileType": "txt",
+        "isIntermediate": false,
+        "matrixCellCount": 0,
         "totalSize": 82164152
-    }, {
-        "fileType": "fastq",
-        "count": 16374,
-        "totalSize": 3205572872003
-    }, {
-        "fileType": "bam",
-        "count": 8859,
-        "totalSize": 4211475949279
-    }, {
-        "fileType": "results",
-        "count": 8562,
-        "totalSize": 113426209414
-    }, {
-        "fileType": "bai",
-        "count": 4562,
-        "totalSize": 9931954608
-    }, {
-        "fileType": "matrix",
-        "count": 4297,
-        "totalSize": 635180
-    }, {
-        "fileType": "tsv",
-        "count": 1124,
-        "totalSize": 4455258968
-    }, {
-        "fileType": "h5",
-        "count": 843,
-        "totalSize": 36453457224
-    }, {
-        "fileType": "mtx",
-        "count": 562,
-        "totalSize": 31090560898
-    }, {
-        "fileType": "unknown",
-        "count": 361,
-        "totalSize": 1374848147
-    }, {
-        "fileType": "tiff",
-        "count": 221,
-        "totalSize": 353659449
-    }, {
-        "fileType": "pdf",
-        "count": 13,
-        "totalSize": 24511254
-    }, {
-        "fileType": "json",
-        "count": 6,
-        "totalSize": 61579
-    }, {
-        "fileType": "jpeg",
-        "count": 1,
-        "totalSize": 1229704
     }],
     "fileCount": 326147,
     "organTypes": ["blood", "bone", "brain", "heart", "pancreas", "fat", "lymph node", "tumor", "kidney", "Brain"],

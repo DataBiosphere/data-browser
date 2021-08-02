@@ -19,21 +19,8 @@ import { KeyValuePair } from "./key-value-pair.model";
 export class KeyValuePairComponent {
 
     // Inputs/Outputs
-    @Input() keyValuePairs: KeyValuePair[];
-    @Input() title: string;
+    @Input() keyValuePair: KeyValuePair;
     @Output() valueClicked = new EventEmitter<KeyValuePair>();
-
-    /**
-     * Returns display text when there are no key value pairs.
-     * 
-     * @param {string} title
-     * @returns {string}
-     */
-    public getEmptyDisplayText(title: string): string {
-
-        const titleSentenceCase = title.toLowerCase();
-        return `There are no ${titleSentenceCase} for this project.`;
-    } 
 
     /**
      * Returns true if value is an array.

@@ -38,13 +38,6 @@ export class ProjectViewFactory {
         [Accession.insdcProjectAccessions]: "INSDC Project Accessions",
         [Accession.insdcStudyAccessions]: "INSDC Study Accessions"
     };
-    private ACCEPT_LIST_FILE_COUNT_TO_KEY = {
-        "rawCount": "Fastq",
-        "bamCount": "Bam",
-        "matrixCount": "Matrix",
-        "otherCount": "Other",
-        "totalCount": "Total"
-    };
     private ACCEPT_LIST_DATA_SUMMARY_TO_KEY = {
         "projectShortname": "",
         "genusSpecies": "",
@@ -88,7 +81,7 @@ export class ProjectViewFactory {
             contributors: this.buildContributors(project.contributors),
             dataCurators: this.buildDataCurators(project.contributors),
             dataSummaries: this.buildDataSummaries(project),
-            fileCountSummaries: this.buildFileCountSummaries(project),
+            fileTypeCounts: this.buildFileTypeCounts(project),
             projectAccessionsSummaries: this.buildProjectAccessionsSummaries(project),
             projectDescription: project.projectDescription,
             publications: project.publications,
@@ -218,21 +211,47 @@ export class ProjectViewFactory {
     }
 
     /**
-     * Returns project file count summary related information, included formatted display text.
+     * Returns view model of project file counts.
      *
      * @param {Project} project
      * @returns {KeyValuePair[]}
      */
-    private buildFileCountSummaries(project: Project): KeyValuePair[] {
+    private buildFileTypeCounts(project: Project): KeyValuePair[] {
 
-        return Object.keys(this.ACCEPT_LIST_FILE_COUNT_TO_KEY)
-            .map(key => {
+        const localeStringPipe = new LocaleStringPipe();
+        
+        // Calculate the total count of files
+        const totalCount = Array.from(project.fileTypeCounts.values()).reduce((accum, count) => {
+            return (accum + count);
+        });
 
-                return {
-                    key: this.ACCEPT_LIST_FILE_COUNT_TO_KEY[key],
-                    value: this.stringifyValues(key, project[key])
-                }
-            });
+        // Create file type view objects
+        const fileTypeViews = [];
+        Array.from(project.fileTypeCounts.keys()).forEach(fileType => {
+            fileTypeViews.push({
+                key: fileType,
+                value: localeStringPipe.transform(project.fileTypeCounts.get(fileType))
+            })
+        });
+
+        // Sort file types by alpha, descending
+        fileTypeViews.sort((ftv0, ftv1) => {
+            if ( ftv0.key > ftv1.key ) {
+                return 1;
+            }
+            if ( ftv0.key < ftv1.key ) {
+                return -1;
+            }
+            return 0;
+        });
+
+        // Add the total file count to the set
+        fileTypeViews.push({
+            key: "Total",
+            value: localeStringPipe.transform(totalCount)
+        })
+
+        return fileTypeViews;
     }
 
     /**
@@ -419,12 +438,6 @@ export class ProjectViewFactory {
 
         // Return number as string
         if ( typeof value === "number" ) {
-
-            // Bam, ,matrix, other, raw, total
-            if ( this.ACCEPT_LIST_FILE_COUNT_TO_KEY[key] ) {
-
-                return new LocaleStringPipe().transform(value);
-            }
 
             // Donor count, estimated cells
             if ( key === "totalCells" || key === "donorCount" ) {

@@ -91,12 +91,14 @@ import { ResponseTermService } from "./http/response-term.service";
 import { HttpService } from "./http/http.service";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
+import { ProjectAccessionsComponent } from "./project-accessions/project-accessions.component";
 import { ProjectAnalysisPortalComponent } from "./project-analysis-portal/project-analysis-portal.component";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
 import { ProjectDetailService } from "./project-detail/project-detail.service";
+import { ProjectFileTypeCountsComponent } from "./project-file-type-counts/project-file-type-counts.component";
 import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
 import { ProjectManifestDownloadModalComponent } from "./project-manifest-download-modal/project-manifest-download-modal.component";
 import { ProjectManifestDownloadComponent } from "./project-manifest-download/project-manifest-download.component";
@@ -217,11 +219,13 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         HCATableSortComponent,
         ManifestDownloadComponent,
         ManifestDownloadSpeciesFormComponent,
+        ProjectAccessionsComponent,
         ProjectAnalysisPortalsComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
         ProjectExternalResourcesComponent,
+        ProjectFileTypeCountsComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,

@@ -20,8 +20,7 @@ import {
     SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS
 } from "./samples-row-mapper.mock";
 import { EntitiesDataSource } from "../entities/entities.data-source";
-import { getFileTypeSummary, mapMultipleValues } from "../entities/entity-row-mapper.spec";
-import { PROJECT_ROW_SINGLE_VALUES } from "../projects/project-row-mapper.mock";
+import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
 
 describe("SampleRowMapper:", () => {
 
@@ -49,24 +48,6 @@ describe("SampleRowMapper:", () => {
 
         dataSource = new EntitiesDataSource<SampleRowMapper>(of([SAMPLE_SINGLE_VALUES]), SampleRowMapper);
         expect(dataSource).toBeTruthy();
-    });
-
-    /**
-     * Use bam count as a test to check if sample mapper extends the file type summaries mapper by confirming BAM
-     * count is mapped.
-     */
-    it("should map file type summary bam count", (done: DoneFn) => {
-
-        const sampleToMap = SAMPLE_SINGLE_VALUES;
-        dataSource = new EntitiesDataSource<SampleRowMapper>(of([sampleToMap]), SampleRowMapper);
-        dataSource.connect().subscribe((rows) => {
-
-            const mappedProject = rows[0];
-            const fileTypeSummary = getFileTypeSummary(sampleToMap.fileTypeSummaries, "bam");
-            expect(fileTypeSummary).toBeTruthy();
-            expect(mappedProject.bamCount).toEqual(fileTypeSummary.count);
-            done();
-        })
     });
 
     /**
