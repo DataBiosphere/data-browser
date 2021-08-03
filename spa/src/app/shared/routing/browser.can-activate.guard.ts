@@ -11,13 +11,18 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angular/router";
 import { DeviceDetectorService } from "ngx-device-detector";
 
+// App dependencies
+import { ConfigService } from "../../config/config.service";
+import { AtlasName } from "../../files/atlas/atlas-name.model";
+
 @Injectable()
 export class BrowserCanActivateGuard implements CanActivate {
 
     /**
+     * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      */
-    constructor(private deviceService: DeviceDetectorService) {}
+    constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {}
 
     /**
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
@@ -38,8 +43,13 @@ export class BrowserCanActivateGuard implements CanActivate {
 
         // Display browser not supported for Internet Explorer.
         if ( this.deviceService.browser === "IE" ) {
-
-            window.location.href = "/static/browser-not-supported.html";
+            const atlas = this.configService.getAtlas();
+            if ( atlas === AtlasName.LUNGMAP ) {
+                window.location.href = "/static/lungmap-browser-not-supported.html";
+            }
+            else {
+                window.location.href = "/static/browser-not-supported.html";
+            }
             return false;
         }
 
