@@ -9,23 +9,20 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angular/router";
-import { ConfigService } from "../../config/config.service";
 import { DeviceDetectorService } from "ngx-device-detector";
+
+// App dependencies
+import { ConfigService } from "../../config/config.service";
+import { AtlasName } from "../../files/atlas/atlas-name.model";
 
 @Injectable()
 export class BrowserCanActivateGuard implements CanActivate {
-    
-    // Template/public variables
-    private atlas: string;
 
     /**
-     * @param configService
+     * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      */
-    constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {
-
-        this.atlas = this.configService.getAtlas();
-    }
+    constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {}
 
     /**
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
@@ -43,10 +40,11 @@ export class BrowserCanActivateGuard implements CanActivate {
      * @returns {boolean}
      */
     private isBrowserSupported(): boolean {
-    
+
         // Display browser not supported for Internet Explorer.
         if ( this.deviceService.browser === "IE" ) {
-            if ( this.atlas === "lungmap" ) {
+            const atlas = this.configService.getAtlas();
+            if ( atlas === AtlasName.LUNGMAP ) {
                 window.location.href = "/static/lungmap-browser-not-supported.html";
             }
             else {
