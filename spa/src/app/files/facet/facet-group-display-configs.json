@@ -77,6 +77,9 @@
                 "facetName": "fileFormat"
             },
             {
+                "facetName": "contentDescription"
+            },
+            {
                 "facetName": "fileSource"
             }
         ]

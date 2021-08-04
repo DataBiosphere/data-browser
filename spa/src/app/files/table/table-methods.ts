@@ -25,6 +25,14 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
+        key: "contentDescription",
+        userFriendly: "Content Description",
+        description: "General description of the contents of the file.",
+        alignment: ColumnAlignment.LEFT,
+        columnSort: true,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
         key: "developmentStage",
         userFriendly: "Development Stage",
         description: "A classification of the developmental stage of the organism.",
@@ -442,6 +450,21 @@ export function getTooltipStyle(column: string): any {
     return {
         "width": columnTitleWidth + "px"
     }
+}
+
+/**
+ * Returns the value if it is specified, otherwise returns "Unspecified" if the value is null/unspecified or the array is empty.
+ *
+ * @param value
+ */
+export function getUnspecifiedIfNullOrEmptyValue(value: any[]): any {
+
+    if ( value && value.length && value[0] ) {
+        
+        return value;
+    }
+
+    return "Unspecified";
 }
 
 /**

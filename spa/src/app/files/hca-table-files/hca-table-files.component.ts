@@ -61,7 +61,7 @@ export class HCATableFilesComponent implements OnInit {
         order: "asc"
     };
     public displayedColumns = [
-        "fileName", "fileFormat", "fileSize", "fileSource", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ",
+        "fileName", "fileFormat", "contentDescription", "fileSize", "fileSource", "projectTitle", "sampleId", "genusSpecies", "sampleEntityType", "organ",
         "organPart", "modelOrgan", "selectedCellType", "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
         "organismAge", "biologicalSex", "disease", "donorDisease", "developmentStage", "totalCells"
     ];
