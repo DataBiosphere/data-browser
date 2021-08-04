@@ -61,6 +61,22 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="contentDescription">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('contentDescription')"
+                                     [ngStyle]="getColumnStyle('contentDescription')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'contentDescription'">{{getColumnDisplayName('contentDescription')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'contentDescription'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('contentDescription')"
+                              [ngStyle]="getColumnStyle('contentDescription')">
+                        <hca-table-cell>
+                            <span class="fontsize-xxs">{{element.contentDescription}}</span>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="fileSource">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('fileSource')"
                                      [ngStyle]="getColumnStyle('fileSource')">

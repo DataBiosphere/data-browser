@@ -215,6 +215,20 @@ describe("FileRowMapper:", () => {
     });
 
     /**
+     * A content description array with value null should be mapped to "Unspecified".
+     */
+    it(`should map content description array of null value to "Unspecified"`, (done: DoneFn) => {
+        
+        dataSource = new EntitiesDataSource<FileRowMapper>( of([FILE_NULL_VALUES]), FileRowMapper);
+        dataSource.connect().subscribe((rows) => {
+            
+            const mappedFile = rows[0];
+            expect(mappedFile.contentDescription).toEqual("Unspecified");
+            done();
+        })
+    });
+    
+    /**
      * Mapper should handle null files value. Use file format as the check for this.
      */
     xit(`should map file format to "Unspecified" when files is null`, (/*done: DoneFn*/) => {
@@ -228,7 +242,22 @@ describe("FileRowMapper:", () => {
         //     done();
         // })
     });
-    
+
+    /**
+     * Content description should be included in mapping
+     */
+    it("should map content description", (done: DoneFn) => {
+        
+        const fileToMap = FILE_SINGLE_VALUES;
+        dataSource = new EntitiesDataSource<FileRowMapper>( of([fileToMap]), FileRowMapper);
+        dataSource.connect().subscribe((rows) => {
+            
+            const mappedFile = rows[0];
+            expect(mappedFile.contentDescription).toEqual(fileToMap.files[0].contentDescription);
+            done();
+        })
+    });
+
     /**
      * File format should be included in mapping
      */

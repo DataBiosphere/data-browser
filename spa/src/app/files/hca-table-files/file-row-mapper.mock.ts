@@ -130,6 +130,7 @@ export const FILE_SINGLE_VALUES =
         ],
         "files": [
             {
+                "contentDescription": ["DNA sequence"],
                 "format": "matrix",
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
@@ -295,6 +296,7 @@ export const FILE_MULTIPLE_VALUES_SINGLE_OBJECT =
         ],
         "files": [
             {
+                "contentDescription": ["DNA sequence"],
                 "format": "matrix",
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
@@ -527,6 +529,7 @@ export const FILE_VALUES_ACROSS_MULTIPLE_OBJECTS =
         ],
         "files": [
             {
+                "contentDescription": ["DNA sequence"],
                 "format": "matrix",
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
@@ -608,6 +611,7 @@ export const FILE_EMPTY_ARRAY_VALUES =
         ],
         "files": [
             {
+                "contentDescription": [],
                 "format": "matrix",
                 "name": "0000ea22-7033-44a8-88ff-190d8dde0183.zarr!.zattrs",
                 "sha256": "6f77cee1bd32665812a42640bf94a33f9e940298df8e20c4c76717c8d07a2613",
@@ -707,6 +711,7 @@ export const FILE_NULL_VALUES =
         ],
         "files": [
             {
+                "contentDescription": [null],
                 "format": null,
                 "name": null,
                 "sha256": null,

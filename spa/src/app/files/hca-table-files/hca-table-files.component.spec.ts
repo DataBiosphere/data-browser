@@ -60,6 +60,7 @@ describe("HCATableFilesComponent", () => {
     const INDEX_TABLE_ROW_NULL_VALUES = 4;
 
     // Column titles
+    const COLUMN_TITLE_CONTENT_DESCRIPTION = "Content Description";
     const COLUMN_TITLE_DEVELOPMENT_STAGE = "Development Stage";
     const COLUMN_TITLE_DONOR_DISEASE = "Disease Status (Donor)";
     const COLUMN_TITLE_MODEL_ORGAN = "Model Organ";
@@ -70,6 +71,7 @@ describe("HCATableFilesComponent", () => {
     const COLUMN_TITLE_WORKFLOW = "Analysis Protocol";
     
     // Column names
+    const COLUMN_NAME_CONTENT_DESCRIPTION = "contentDescription";
     const COLUMN_NAME_DEVELOPMENT_STAGE = "developmentStage";
     const COLUMN_NAME_DONOR_DISEASE = "donorDisease";
     const COLUMN_NAME_FILE_NAME = "fileName";
@@ -366,6 +368,17 @@ describe("HCATableFilesComponent", () => {
 
             // Confirm column title is displayed
             expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+        });
+    
+        /**
+         * Confirm "Content Description" column is displayed.
+         */
+        it(`displays column "Content Description"`, () => {
+        
+            const columnHeaderDE = findHeader(COLUMN_NAME_CONTENT_DESCRIPTION);
+        
+            // Confirm column title is displayed
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_CONTENT_DESCRIPTION);
         });
 
         /**
