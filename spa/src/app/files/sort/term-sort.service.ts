@@ -7,12 +7,12 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
+
+// App dependencies
+import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { TermNameSortType } from "./term-name-sort-type.model";
 import { TermSortable } from "./term-sortable.model";
-import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
-
-// App dependencies
 
 @Injectable()
 export class TermSortService {
@@ -46,6 +46,18 @@ export class TermSortService {
             }
             return 0;
         });
+
+        // Reorder terms for the specified facets prioritising the term "normal" into poll position.
+        if ( this.shouldSortNormalFirst(facetName) ) {
+
+            if ( this.sortedTermsHasTermNormal(terms) ) {
+    
+                const index = this.findIndexTermNormal(terms);
+                const term = terms[index];
+                terms.splice(index, 1);
+                terms.unshift(term);
+            }
+        }
     }
 
     /**
@@ -64,6 +76,17 @@ export class TermSortService {
             return this.formatAgeUnitForSort;
         }
         return this.formatStringForSort;
+    }
+
+    /**
+     * Returns the index of the term "normal".
+     *
+     * @param terms
+     * @private
+     */
+    private findIndexTermNormal(terms: TermSortable[]): number{
+
+        return terms.findIndex(term => term.getSortValue() === "normal");
     }
 
     /**
@@ -111,6 +134,28 @@ export class TermSortService {
     private formatStringForSort(termName: string): string {
         
         return termName.toLowerCase();
+    }
+
+    /**
+     * Returns true if the facet is "donorDisease" or "specimenDisease".
+     *
+     * @param facetName
+     * @private
+     */
+    private shouldSortNormalFirst(facetName: string): boolean {
+
+        return facetName === FileFacetName.DONOR_DISEASE || facetName === FileFacetName.SPECIMEN_DISEASE;
+    }
+
+    /**
+     * Returns true if the sorted terms have a term "normal".
+     *
+     * @param terms
+     * @private
+     */
+    private sortedTermsHasTermNormal(terms: TermSortable[]): boolean {
+
+        return terms.some(term => term.getSortValue() === "normal");
     }
 }
 
