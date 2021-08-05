@@ -253,7 +253,8 @@ describe("FileRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
             
             const mappedFile = rows[0];
-            expect(mappedFile.contentDescription).toEqual(fileToMap.files[0].contentDescription);
+            const expected = rollupMetadataArray("contentDescription", fileToMap.files[0].contentDescription);
+            expect(mappedFile.contentDescription).toEqual(expected);
             done();
         })
     });

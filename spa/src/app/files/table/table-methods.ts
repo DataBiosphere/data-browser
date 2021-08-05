@@ -453,21 +453,6 @@ export function getTooltipStyle(column: string): any {
 }
 
 /**
- * Returns the value if it is specified, otherwise returns "Unspecified" if the value is null/unspecified or the array is empty.
- *
- * @param value
- */
-export function getUnspecifiedIfNullOrEmptyValue(value: any[]): any {
-
-    if ( value && value.length && value[0] ) {
-        
-        return value;
-    }
-
-    return "Unspecified";
-}
-
-/**
  * Returns the value if it is specified, otherwise returns "Unspecified" if value null/unspecifed.
  *
  * @param {any} value

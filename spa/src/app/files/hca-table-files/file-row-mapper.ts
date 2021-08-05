@@ -10,8 +10,7 @@
 import { EntityRow } from "../entities/entity-row.model";
 import { EntityRowMapper } from "../entities/entity-row-mapper";
 import {
-    getUnspecifiedIfNullOrEmptyValue,
-    getUnspecifiedIfNullValue
+    getUnspecifiedIfNullValue, rollupMetadataArray
 } from "../table/table-methods";
 
 export class FileRowMapper extends EntityRowMapper {
@@ -35,7 +34,7 @@ export class FileRowMapper extends EntityRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            contentDescription: getUnspecifiedIfNullOrEmptyValue(this.file.contentDescription),
+            contentDescription: rollupMetadataArray("contentDescription", this.file.contentDescription || []),
             sampleId: this.samples.id,
             fileFormat: this.file.format,
             fileName: this.file.name,

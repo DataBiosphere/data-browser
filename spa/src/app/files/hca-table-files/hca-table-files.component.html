@@ -13,7 +13,7 @@
                             <hca-table-column-header-count columnSubTitle [columnName]="'fileName'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).fileCount | countSize"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileName')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileName')"
                               [ngStyle]="getColumnStyle('fileName')">
                         <div [ngClass]="getFileDownloadClass(element.fileName)">
                             <ng-container [ngSwitch]="isFileLocationDownloadEnabled(element.fileFormat)">
@@ -38,7 +38,7 @@
                             <hca-table-column-header-count columnSubTitle [columnName]="'fileSize'" [domainCountsByColumnName]="domainCountsByColumnName$ | async" [summaryCount]="(selectFileSummary$ | async).totalFileSize | fileSize"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileSize')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileSize')"
                               [ngStyle]="getColumnStyle('fileSize')">
                         <hca-table-cell>
                             <span class="fontsize-xxs">{{element.fileSize | fileSize}}</span>
@@ -54,7 +54,7 @@
                             <hca-table-column-header-count columnSubTitle [columnName]="'fileFormat'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileFormat')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileFormat')"
                               [ngStyle]="getColumnStyle('fileFormat')">
                         <hca-table-cell>
                             <span class="fontsize-xxs">{{element.fileFormat}}</span>
@@ -70,7 +70,7 @@
                             <hca-table-column-header-count columnSubTitle [columnName]="'contentDescription'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('contentDescription')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('contentDescription')"
                               [ngStyle]="getColumnStyle('contentDescription')">
                         <hca-table-cell>
                             <span class="fontsize-xxs">{{element.contentDescription}}</span>
@@ -86,7 +86,7 @@
                             <hca-table-column-header-count columnSubTitle [columnName]="'fileSource'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element let i=index;" [ngClass]="getColumnClass('fileSource')"
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileSource')"
                               [ngStyle]="getColumnStyle('fileSource')">
                         <hca-table-cell>
                             <span class="fontsize-xxs">{{element.fileSource}}</span>
