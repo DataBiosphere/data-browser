@@ -46,7 +46,6 @@ import { TableScroll } from "../table-scroll/table-scroll.component";
 import { FILES_TABLE_MODEL } from "./table-state-table-model-files.mock";
 import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
-import { SAMPLES_TABLE_MODEL } from "../hca-table-samples/table-state-table-model-samples.mock";
 
 describe("HCATableFilesComponent", () => {
 
