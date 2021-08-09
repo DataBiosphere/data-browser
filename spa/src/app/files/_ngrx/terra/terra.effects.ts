@@ -95,8 +95,9 @@ export class TerraEffects {
                     filter(cleared => cleared), // Only allow value to emit if file manifest response has been cleared from the store
                     take(1)
                 );
-                
-                return this.terraService.exportToTerra(catalog, searchTerms, fileFormatsFileFacet, killSwitch$);
+
+                const manifestDownloadFormat = (action as ExportToTerraRequestAction).manifestDownloadFormat;
+                return this.terraService.exportToTerra(catalog, searchTerms, fileFormatsFileFacet, manifestDownloadFormat, killSwitch$);
             }),
             map(response => {
                 return this.terraService.isExportToTerraRequestInProgress(response.status) ?

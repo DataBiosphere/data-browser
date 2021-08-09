@@ -15,6 +15,7 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { FileSummary } from "../../file-summary/file-summary";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { ExportToTerraComponentState } from "./export-to-terra.component.state";
@@ -45,6 +46,7 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     private ngDestroy$ = new Subject();
 
     // Template variables
+    public manifestDownloadFormat = ManifestDownloadFormat.TERRA_BDBAG;
     public portalURL: string;
     public state$: Observable<ExportToTerraComponentState>;
 
@@ -92,7 +94,15 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
             displayName: key
         }];
     }
-    
+
+    /**
+     * Return set of possible manifest download formats.
+     */
+    public getManifestDownloadFormats(): ManifestDownloadFormat[] {
+
+        return [ManifestDownloadFormat.TERRA_BDBAG, ManifestDownloadFormat.TERRA_PFB];
+    }
+
     /**
      * Returns the terra workspace URL.
      *
@@ -113,6 +123,16 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
 
         return selectedSearchTerms.some(selectedSearchTerm => selectedSearchTerm.getSearchKey() === "fileFormat");
+    }
+
+    /**
+     * Returns true if current environment is dev.
+     * 
+     * @returns {boolean}
+     */
+    public isManifestDownloadFormatEnabled(): boolean {
+
+        return this.configService.isEnvCGLDev();
     }
 
     /**
@@ -182,10 +202,12 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
 
     /**
      * Dispatch action to export to Terra.
+     * 
+     * @param {ManifestDownloadFormat} manifestDownloadFormat
      */
-    public onExportToTerra() {
+    public onExportToTerra(manifestDownloadFormat: ManifestDownloadFormat) {
 
-        this.store.dispatch(new ExportToTerraRequestAction());
+        this.store.dispatch(new ExportToTerraRequestAction(manifestDownloadFormat));
     }
 
     /**
@@ -201,6 +223,14 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
             facetTermSelectedEvent.selected,
             GASource.COHORT_EXPORT);
         this.store.dispatch(action);
+    }
+
+    /**
+     * Handle select on manifest download format radio button.
+     */
+    public onManifestDownloadFormat(manifestDownloadFormat: ManifestDownloadFormat) {
+
+        this.manifestDownloadFormat = manifestDownloadFormat;
     }
 
     /**

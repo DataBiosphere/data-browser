@@ -22,6 +22,7 @@ import { ResponseTermService } from "../http/response-term.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 import { TerraService } from "./terra.service";
+import { ManifestDownloadFormat } from "../file-manifest/manifest-download-format.model";
 
 describe("TerraService:", () => {
 
@@ -85,6 +86,7 @@ describe("TerraService:", () => {
             "", 
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+            ManifestDownloadFormat.TERRA_BDBAG, 
             of());
 
                 expect(httpClientSpy.get).toHaveBeenCalled();
@@ -111,6 +113,7 @@ describe("TerraService:", () => {
             catalog,
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+            ManifestDownloadFormat.TERRA_BDBAG,
             of());
 
             expect(httpClientSpy.get).toHaveBeenCalledWith(

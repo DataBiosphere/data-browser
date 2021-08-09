@@ -1,0 +1,12 @@
+<form [formGroup]="formatFormGroup">
+    <label>
+        <mat-radio-group class="hca-radio term" formControlName="format" (change)="onFormatSelected($event)">
+            <label class="mat-radio-label radio-label">
+                <h4 class="fontsize-m semi-bold">Download Format</h4>
+            </label>
+            <mat-radio-button *ngFor="let format of formats" [value]="format">
+                {{format}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </label>
+</form>
