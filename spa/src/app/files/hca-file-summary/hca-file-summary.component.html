@@ -3,12 +3,12 @@
         <div>
             <div class="summary">
                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.donorCount | localeString"
-                             [tooltipDisabled]="isTooltipDisabled(summary.donorCount)"
+                             [tooltipContent]="summary.totalCellCount | localeString"
+                             [tooltipDisabled]="isTooltipDisabled(summary.totalCellCount)"
                              [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.donorCount | countSize}}</h3>
+                    <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
                 </hca-tooltip>
-                <span class="fontsize-xxs label">Donors</span>
+                <span class="fontsize-xxs label">Estimated Cells</span>
             </div>
             <div class="summary">
                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
@@ -21,12 +21,12 @@
             </div>
             <div class="summary">
                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
-                             [tooltipContent]="summary.totalCellCount | localeString"
-                             [tooltipDisabled]="isTooltipDisabled(summary.totalCellCount)"
+                             [tooltipContent]="summary.donorCount | localeString"
+                             [tooltipDisabled]="isTooltipDisabled(summary.donorCount)"
                              [tooltipPosition]="'above'">
-                    <h3 class="fontsize-l count">{{summary.totalCellCount | countSize}}</h3>
+                    <h3 class="fontsize-l count">{{summary.donorCount | countSize}}</h3>
                 </hca-tooltip>
-                <span class="fontsize-xxs label">Estimated Cells</span>
+                <span class="fontsize-xxs label">Donors</span>
             </div>
             <div class="summary">
                 <hca-tooltip [tooltipClass]="'hca-tooltip narrow'"
