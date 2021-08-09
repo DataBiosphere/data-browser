@@ -7,18 +7,26 @@
 
 // Core dependencies
 import { Action } from "@ngrx/store";
+
+// App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
-import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { GAAction } from "../../../shared/analytics/ga-action.model";
+import { GACategory } from "../../../shared/analytics/ga-category.model";
+import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { ToolName } from "../../shared/tool-name.model";
-import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class ExportToTerraRequestAction implements Action, TrackingAction {
     
     public static ACTION_TYPE = "FILE.EXPORT_TO_TERRA_REQUEST";
     public readonly type = ExportToTerraRequestAction.ACTION_TYPE;
+
+    /**
+     * @param {ManifestDownloadFormat} manifestDownloadFormat
+     */
+    constructor(public readonly manifestDownloadFormat: ManifestDownloadFormat) {}
 
     /**
      * Return the export to Terra action as a GA event.

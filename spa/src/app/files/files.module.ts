@@ -65,6 +65,7 @@ import { BulkDownloadSpeciesFormComponent } from "./get-data/bulk-download-speci
 import { DataLinkComponent } from "./get-data/data-link/data-link.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
 import { ExportToTerraSpeciesFormComponent } from "./get-data/export-to-terra-species-form/export-to-terra-species-form.component";
+import { ManifestDownloadFormatFormComponent } from "./get-data/export-to-terra/manifest-download-format-form/manifest-download-format-form.component";
 import { GetDataComponent } from "./get-data/get-data.component";
 import { GetDataLayoutComponent } from "./get-data/get-data-layout/get-data-layout.component";
 import { GetDataOptionsComponent } from "./get-data/get-data-options/get-data-options.component";
@@ -218,6 +219,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         HCATableSamplesComponent,
         HCATableSortComponent,
         ManifestDownloadComponent,
+        ManifestDownloadFormatFormComponent,
         ManifestDownloadSpeciesFormComponent,
         ProjectAccessionsComponent,
         ProjectAnalysisPortalsComponent,

@@ -119,6 +119,7 @@ export class TerraService {
         catalog: Catalog,
         searchTerms: SearchTerm[],
         fileFormats: FileFacet,
+        manifestDownloadFormat: ManifestDownloadFormat,
         killSwitch$: Observable<boolean>): Observable<ExportToTerraResponse> {
 
         const manifestSearchTerms = this.fileManifestService.buildManifestSearchTerms(searchTerms, fileFormats);
@@ -136,7 +137,7 @@ export class TerraService {
         });
 
         const query =
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.TERRA_BDBAG);
+            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), manifestDownloadFormat);
         let params = new HttpParams({fromObject: query} as any);
         const url = this.configService.getFileManifestUrl();
         const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
