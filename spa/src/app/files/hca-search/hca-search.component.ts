@@ -117,7 +117,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
      */
     private filterSearchTerms(searchString: string): SearchTermOptionGroup[] {
 
-        if ( searchString == "" ) {
+        if ( searchString === "" ) {
             return this.searchTermOptionGroups;
         }
 
@@ -125,12 +125,14 @@ export class HCASearchComponent implements OnInit, OnChanges {
         if ( typeof searchString !== "string" ) {
             return this.searchTermOptionGroups;
         }
+        
+        const santiziedString = searchString.trim();
 
         const filteredSearchTermGroupOptions = this.searchTermOptionGroups.reduce((accum, searchTermOptionGroup) => {
 
             // See if we have any terms matching the search criteria
             const options = searchTermOptionGroup.options.filter((option) => {
-                return option.displayValue.toLowerCase().includes(searchString.toLowerCase());
+                return option.displayValue.toLowerCase().includes(santiziedString.toLowerCase());
             });
 
             // Add option group to result set, if it has terms matching search criteria
