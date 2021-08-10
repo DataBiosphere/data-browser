@@ -17,6 +17,7 @@ export class Config {
      * @param {string} portalURL
      * @param {string} projectMetaURL
      * @param {string} terraExportURL
+     * @param {string} terraURL
      * @param {string} title
      * @param {string} zendeskURL
      */
@@ -29,6 +30,7 @@ export class Config {
                 public readonly portalURL: string,
                 public readonly projectMetaURL: string,
                 public readonly terraExportURL: string,
+                public readonly terraURL: string,
                 public readonly title: string,
                 public readonly zendeskURL: string) {}
 }

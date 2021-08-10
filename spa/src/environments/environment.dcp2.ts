@@ -8,6 +8,7 @@ export const environment = {
     portalURL: "https://data.humancellatlas.org",
     projectMetaURL: "https://data.humancellatlas.org",
     terraExportURL: "https://app.terra.bio",
+    terraURL: "",
     title: "HCA Data Browser",
     deployment: "dcp2",
     zendeskURL: "https://support.terra.bio"

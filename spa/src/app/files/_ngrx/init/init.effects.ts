@@ -14,6 +14,7 @@ import { Observable, of } from "rxjs";
 import { concatMap, filter, map, take, takeUntil, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
+import { selectTerraRegistrationRequired } from "../../../auth-terra/_ngrx/terra-auth.selectors";
 import { selectCatalog } from "../catalog/catalog.selectors";
 import { ConfigService } from "../../../config/config.service";
 import { SetViewStateAction } from "../facet/set-view-state.action";
@@ -87,7 +88,19 @@ export class InitEffects {
     @Effect()
     initSearchState$: Observable<Action> = this.router.events.pipe(
         takeUntil(this.actions$.pipe(ofType(ErrorAction.ACTION_TYPE))),
-        filter(evt => evt instanceof NavigationEnd && evt.url !== "/error" && evt.url !== "/not-found"), // Exit init if routing to error or not found pages
+        // Check if user registration with Terra is required
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectTerraRegistrationRequired), take(1))
+            )
+        )),
+        // Exit init if routing to error or not found pages, or if Terra registration is required.
+        filter(([evt, registrationRequired]) => {
+            if ( registrationRequired ) {
+                return false;
+            }
+            return evt instanceof NavigationEnd && evt.url !== "/error" && evt.url !== "/not-found";
+        }),
         take(1),
         map(() => {
             

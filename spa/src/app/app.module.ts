@@ -23,6 +23,8 @@ import { AppRoutes } from "./app.routes";
 import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./auth/auth.service";
 import { HttpAuthInterceptor } from "./auth/http-auth.interceptor";
+import { TerraAuthModule } from "./auth-terra/terra-auth.module";
+import { TerraAuthService } from "./auth-terra/terra-auth.service";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { FaviconService } from "./favicon/favicon.service";
@@ -66,6 +68,7 @@ import { SystemService } from "./system/shared/system.service";
         SharedModule,
         SiteModule,
         SupportRequestModule,
+        TerraAuthModule,
 
         DeviceDetectorModule.forRoot()
     ],
@@ -90,15 +93,18 @@ import { SystemService } from "./system/shared/system.service";
             deps: [CatalogService, ConfigService, Store],
             multi: true
         },
-        // Init auth.
+        // Init auth and Terra registration status; both must resolve before app can be loaded.
         {
             provide: APP_INITIALIZER,
-            useFactory: (authService: AuthService) => {
+            useFactory: (authService: AuthService, configService: ConfigService, terraAuthService: TerraAuthService) => {
                 return () => {
-                    return authService.init();
+                    return authService.init().then((authenticated) =>
+                        // If user is authenticated, check Terra registration status. If user is not authenticated,
+                        // auth/registration init is complete.
+                        authenticated ? terraAuthService.init() : Promise.resolve());
                 };
             },
-            deps: [AuthService, ConfigService, Store],
+            deps: [AuthService, ConfigService, TerraAuthService, Store],
             multi: true
         },
         // Init favicon.

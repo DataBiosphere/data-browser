@@ -8,8 +8,8 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { BehaviorSubject, interval, Observable, of, Subject } from "rxjs";
-import { catchError, map, retry, switchMap, take, takeUntil } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 // App dependencies
 import { Catalog } from "../catalog/catalog.model";

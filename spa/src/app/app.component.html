@@ -5,7 +5,8 @@
     <ng-template #header viewContainer></ng-template>
 </header>
 <ng-container *ngIf="state$ | async as state">
-    <announcement-catalog *ngIf="isAnnouncementCatalogVisible()" [catalog]="state.catalog"></announcement-catalog>
+    <announcement-catalog *ngIf="isAnnouncementCatalogVisible(state.terraRegistrationRequired)"
+                          [catalog]="state.catalog"></announcement-catalog>
     <announcement *ngIf="!state.systemStatus.ok" class="status">
         <mat-icon>warning</mat-icon>
         <p class="fontsize-s">One or more of the systems composing the HCA DCP is currently unavailable.</p>
@@ -13,8 +14,9 @@
     <announcement *ngIf="state.systemStatus.ok && state.systemStatus.indexing" class="status">
         <p class="fontsize-s">Data indexing in progress. Search results may be incomplete.</p>
     </announcement>
-    <ng-container [ngSwitch]="state.error">
-        <error-layout *ngSwitchCase="true"></error-layout>
+    <ng-container [ngSwitch]="getViewState(state)">
+        <error-layout *ngSwitchCase="'ERROR'"></error-layout>
+        <terra-registration *ngSwitchCase="'TERRA_REGISTRATION'"></terra-registration>
         <router-outlet *ngSwitchDefault></router-outlet>
     </ng-container>
 </ng-container>

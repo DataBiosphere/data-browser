@@ -137,6 +137,7 @@ import { SurveyModule } from "../survey/survey.module";
 import { PaginationService } from "./table/pagination/pagination.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
+import { TerraRegistrationComponent } from "./terra-registration/terra-registration.component";
 import { UrlService } from "./url/url.service";
 import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
 
@@ -251,6 +252,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         SelectedSearchTermsComponent,
         SpeciesFormComponent,
         TableScroll,
+        TerraRegistrationComponent,
         WarningDataNormalizationComponent
     ],
     providers: [
@@ -280,7 +282,8 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],
     exports: [
-        AnnouncementCatalogComponent
+        AnnouncementCatalogComponent,
+        TerraRegistrationComponent
     ]
 })
 export class FilesModule {

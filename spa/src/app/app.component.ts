@@ -24,6 +24,7 @@ import { takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { AppComponentState } from "./app.component.state";
+import { selectTerraRegistrationRequired } from "./auth-terra/_ngrx/terra-auth.selectors";
 import { ConfigService } from "./config/config.service";
 import { selectCatalog } from "./files/_ngrx/catalog/catalog.selectors";
 import { FetchProjectEditsRequestAction } from "./files/_ngrx/project-edits/fetch-project-edits-request.action";
@@ -75,11 +76,33 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Returns true for environments where dcp1 catalog is available. This is currently only local and the dcp2
-     * environment.
+     * Returns ERROR if error page is to be displayed, returns TERRA_REGISTRATION if Terra registration information
+     * page is to be displayed, otherwise returns DEFAULT (to display the router-outlet).
+     * 
+     * @returns {string}
      */
-    public isAnnouncementCatalogVisible(): boolean {
+    public getViewState(state: AppComponentState): string {
 
+        if ( state.error ) {
+            return "ERROR";
+        }
+        if ( state.terraRegistrationRequired ) {
+            return "TERRA_REGISTRATION";
+        }
+        return "DEFAULT";
+    }
+
+    /**
+     * Returns true for environments where dcp1 catalog is available. This is currently only local and the dcp2
+     * environment. Hide if dev and Terra registration is required.
+     * 
+     * @param {boolean} terraRegistrationRequired
+     */
+    public isAnnouncementCatalogVisible(terraRegistrationRequired: boolean): boolean {
+
+        if ( (this.configService.isEnvLocal() || this.configService.isEnvCGLDev()) && terraRegistrationRequired ) {
+            return false;
+        }
         return this.configService.isEnvLocal() || this.configService.isEnvDCP2();
     }
 
@@ -146,16 +169,23 @@ export class AppComponent implements OnInit, OnDestroy {
             takeUntil(this.ngDestroy$)
         )
 
-        combineLatest([catalog$, error$, systemStatus$])
+        // Check if user registration with Terra is required
+        const terraRegistrationRequired$ = this.store.pipe(
+            select(selectTerraRegistrationRequired),
+            takeUntil(this.ngDestroy$)
+        );
+
+        combineLatest([catalog$, error$, systemStatus$, terraRegistrationRequired$])
             .pipe(
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(([catalog, error, systemStatus]) => {
+            .subscribe(([catalog, error, systemStatus, terraRegistrationRequired]) => {
 
             this.state$.next({
                 catalog,
                 error,
-                systemStatus
+                systemStatus,
+                terraRegistrationRequired
             });
         });
     }

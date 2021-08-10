@@ -31,6 +31,7 @@ export class ConfigService {
     protected portalURL: string;
     protected projectMetaURL: string;
     protected terraExportURL: string;
+    protected terraUrl: string;
     protected title: string; // Document (application) title
     protected store: Store<AppState>;
     protected zendeskURL: string;
@@ -214,7 +215,11 @@ export class ConfigService {
      * @param {string} encdodedExportUrl
      * @returns {string}
      */
-    public getTerraExportUrl(encdodedExportUrl: string): string {
+    public getTerraExportUrl(encdodedExportUrl?: string): string {
+        
+        if ( !encdodedExportUrl ) {
+            return this.terraExportURL;
+        }
 
         return `${this.terraExportURL}#import-data?url=${encdodedExportUrl}`;
     }
@@ -304,6 +309,16 @@ export class ConfigService {
     }
 
     /**
+     * Returns the Terra registration status URL for this environment.
+     * 
+     * @returns {string}
+     */
+    public getTerraUrl(): string {
+
+        return this.terraUrl;
+    }
+
+    /**
      * Returns the Zendesk URL for this environment.
      *
      * @returns {string}
@@ -338,6 +353,7 @@ export class ConfigService {
         this.portalURL = config.portalURL;
         this.projectMetaURL = config.projectMetaURL;
         this.terraExportURL = config.terraExportURL;
+        this.terraUrl = config.terraURL;
         this.title = config.title;
         this.zendeskURL = config.zendeskURL;
         this.store.dispatch(new FetchConfigRequestSuccessAction(config));

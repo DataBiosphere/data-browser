@@ -14,7 +14,7 @@ import { filter, take } from "rxjs/operators";
 // App dependencies
 import { ConfigService } from "../config/config.service";
 import { AuthInitAction } from "./_ngrx/auth-init.action";
-import { selectAuthInit } from "./_ngrx/auth.selectors";
+import { selectAuthInitAndAuthenticated } from "./_ngrx/auth.selectors";
 import { AuthState } from "./_ngrx/auth.state";
 import { LoginSuccessAction } from "./_ngrx/login-success.action";
 import { LogoutSuccessAction } from "./_ngrx/logout-success.action";
@@ -40,13 +40,15 @@ export class AuthService {
      * are hit.
      * 
      * Currently dev only.
+     * 
+     * @returns {Promise<boolean>>} - true if user is authenticated
      */
-    public init() {
+    public init(): Promise<boolean> {
 
         // Auth is currently only enabled on environments with a configured client ID
         if ( !this.configService.isAuthEnabled() ) {
             this.onInit();
-            return Promise.resolve();
+            return Promise.resolve(false);
         }
 
         this.getGAPI().load("auth2", () => this.initAuthListeners());
@@ -54,14 +56,14 @@ export class AuthService {
         // Wait for auth to be completed before allowing app init to continue (as we require auth for initial
         // API requests).
         return new Promise((resolve) => {
-
+            
             this.store.pipe(
-                select(selectAuthInit),
-                filter(init => init),
-                take(1)
-            ).subscribe(() => {
-                resolve(); // TODO revisit - handle error flows here (redirect to error page?)
-            })
+                select(selectAuthInitAndAuthenticated),
+                filter(({init}) => init),
+                take(1),
+            ).subscribe(({authenticated}) => {
+                resolve(authenticated);
+            });
         });
     }
 
@@ -140,6 +142,7 @@ export class AuthService {
             this.dispatch(new SessionContinueAction(this.getCurrentUser()));
         }
 
+        // Indicate authentication is initialized. Must be dispatched after SessionContinueAction.
         this.onInit();
     }
 
@@ -162,6 +165,7 @@ export class AuthService {
 
         if ( authenticated ) {
             this.dispatch(new LoginSuccessAction(this.getCurrentUser()));
+            this.onInit();
         }
         else {
             this.dispatch(new LogoutSuccessAction());
