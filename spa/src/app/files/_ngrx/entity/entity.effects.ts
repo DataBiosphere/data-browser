@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, map, mergeMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
@@ -23,11 +23,16 @@ import { NoOpAction } from "../facet/no-op.action";
 import { selectTableQueryParams } from "../files.selectors";
 import { InitEntityStateAction } from "./init-entity-state.action";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectPreviousQuery } from "../search/search.selectors";
+import {
+    selectPreviousQuery,
+} from "../search/search.selectors";
 import { SelectEntityAction } from "./select-entity.action";
 import { EntityName } from "../../shared/entity-name.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { getSelectedTable } from "../table/table.state";
+import {
+    selectTerraAuthInitAndRegistered,
+} from "../../../auth-terra/_ngrx/terra-auth.selectors";
 
 @Injectable()
 export class EntityEffects {
@@ -47,9 +52,9 @@ export class EntityEffects {
      * projects state.
      */
     @Effect()
-    onAuthChanged$: Observable<Action> = this.actions$.pipe(
+    onLogout$: Observable<Action> = this.actions$.pipe(
         ofType(
-            LoginSuccessAction.ACTION_TYPE,
+            // LoginSuccessAction.ACTION_TYPE,
             LogoutSuccessAction.ACTION_TYPE
         ),
         mergeMap(() => {
@@ -60,6 +65,38 @@ export class EntityEffects {
             );
         })
     )
+
+    /**
+     * Handle change in user's authenticated status; clear any cached entities, navigate to projects, init (re-fetch)
+     * projects state.
+     */
+    @Effect()
+    onLogin$: Observable<Action> = this.actions$.pipe(
+        ofType(
+            LoginSuccessAction.ACTION_TYPE,
+        ),
+        switchMap(() => {
+            return this.store.pipe(
+                select(selectTerraAuthInitAndRegistered),
+                filter(({init}) => init),
+                map(({registered}) => registered)
+            );
+        }),
+        mergeMap((registered: boolean) => {
+
+            // If user is registered with Terra, update state and redirect user.
+            if ( registered ) {
+                return of(
+                    new ClearEntitiesAction(),
+                    new SelectEntityAction(EntityName.PROJECTS)
+                );
+            }
+
+            // User is not registered with Terra; do nothing here and let Terra effects handle display of registration
+            // required page.
+            return of(new NoOpAction());
+        })
+    );
 
     /**
      * Handle action where tab is selected (ie Projects, Samples, Files).

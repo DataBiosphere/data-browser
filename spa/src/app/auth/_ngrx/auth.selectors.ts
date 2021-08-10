@@ -23,6 +23,16 @@ export const selectAuthInit =
     createSelector(selectAuth, (state: AuthState) => state.init);
 
 /**
+ * Returns object representing init and authenticated states.
+ */
+export const selectAuthInitAndAuthenticated =
+    createSelector(selectAuth, (state: AuthState) => ({
+        authenticated: state.authenticated,
+        init: state.init
+    }));
+
+
+/**
  * Return true if the user is authenticated
  */
 export const selectAuthenticated =

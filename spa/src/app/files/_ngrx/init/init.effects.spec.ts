@@ -14,6 +14,7 @@ import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Observable, ReplaySubject } from "rxjs";
 
 // App dependencies
+import { selectTerraRegistrationRequired } from "../../../auth-terra/_ngrx/terra-auth.selectors";
 import { ConfigService } from "../../../config/config.service";
 import { DCPCatalog } from "../../catalog/dcp-catalog.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
@@ -136,6 +137,8 @@ describe("Init Effects", () => {
          */
         it("correctly sets projects as selected entity", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "samples"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
@@ -168,6 +171,8 @@ describe("Init Effects", () => {
          */
         it("correctly sets samples as selected entity", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "samples"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(false)
@@ -199,6 +204,8 @@ describe("Init Effects", () => {
          */
         it("correctly sets files as selected entity", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "samples"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(false)
@@ -229,6 +236,8 @@ describe("Init Effects", () => {
          * Default search state (genus species / homo sapiens) not set if on files tab.
          */
         it("doesn't set default search state if filter not specified on files", (done: DoneFn) => {
+
+            store.overrideSelector(selectTerraRegistrationRequired, false);
 
             // Return true if isActive is called with "samples"
             routerMock.isActive
@@ -262,6 +271,8 @@ describe("Init Effects", () => {
          */
         it("doesn't set default search state if filter not specified on samples", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "samples"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(false)
@@ -293,6 +304,8 @@ describe("Init Effects", () => {
          * Search state (genus species / homo sapiens) set from filter.
          */
         it("sets search state from filter", (done: DoneFn) => {
+
+            store.overrideSelector(selectTerraRegistrationRequired, false);
 
             // Return true if isActive is called with "projects"
             routerMock.isActive
@@ -329,6 +342,8 @@ describe("Init Effects", () => {
          */
         it("sets project ID search state from filter", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
@@ -364,6 +379,8 @@ describe("Init Effects", () => {
          */
         it("inits catalog when specified in query string", (done: DoneFn) => {
 
+            store.overrideSelector(selectTerraRegistrationRequired, false);
+
             // Return true if isActive is called with "projects"
             routerMock.isActive
                 .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
@@ -395,6 +412,8 @@ describe("Init Effects", () => {
          * Default catalog is set when no catalog is specified in query string. 
          */
         it(`inits with default catalog if catalog not specified in query string`, (doneFn: DoneFn) => {
+
+            store.overrideSelector(selectTerraRegistrationRequired, false);
 
             // Return true if isActive is called with "projects"
             routerMock.isActive
@@ -444,6 +463,8 @@ describe("Init Effects", () => {
                  */
                 it(`dispatches error for invalid filter: ${filter}`, (doneFn: DoneFn) => {
 
+                    store.overrideSelector(selectTerraRegistrationRequired, false);
+
                     // Return true if isActive is called with "projects"
                     routerMock.isActive
                         .withArgs(EntityName.PROJECTS, false).and.returnValue(true)
@@ -487,6 +508,8 @@ describe("Init Effects", () => {
                  * Error action dispatched on non JSON filter is specified in query string.
                  */
                 it(`dispatches error for invalid filter: ${filter}`, (doneFn: DoneFn) => {
+
+                    store.overrideSelector(selectTerraRegistrationRequired, false);
 
                     // Return true if isActive is called with "projects"
                     routerMock.isActive

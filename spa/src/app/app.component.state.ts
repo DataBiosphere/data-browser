@@ -14,4 +14,5 @@ export interface AppComponentState {
     catalog?: Catalog;
     error?: boolean,
     systemStatus?: SystemStatus;
+    terraRegistrationRequired?: boolean; 
 }

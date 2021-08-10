@@ -23,6 +23,7 @@ import { catchError } from "rxjs/operators";
 import { ConfigService } from "../config/config.service";
 import { AppState } from "../_ngrx/app.state";
 import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
+import { TerraAuthService } from "../auth-terra/terra-auth.service";
 
 @Injectable()
 export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
@@ -51,7 +52,8 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
                 if ( error instanceof HttpErrorResponse ) {
 
-                    // Allow system service to handle health check errors or HEAD checks or Zendesk errors
+                    // Allow system service to handle health check errors, HEAD checks, Zendesk errors or Terra
+                    // registration errors.
                     if ( this.isNoRedirectOnError(req, error) ) {
                         return throwError(error);
                     }
@@ -80,6 +82,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
         return this.isHEADRequest(req) ||
             this.isNoRedirectPath(req, error) ||
             this.isHealthCheckError(error) ||
+            this.isTerraRegistrationStatusCheck(error) ||
             this.isZendeskError(error);
     }
 
@@ -117,6 +120,20 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     private isHEADRequest(req: HttpRequest<any>): boolean {
         
         return req.method === "HEAD";
+    }
+
+    /**
+     * Returns true if the request URL is the Terra registration URL and the response code is 404.
+     *
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isTerraRegistrationStatusCheck(error: HttpErrorResponse): boolean {
+
+        const url = new URL(error.url);
+        return error.status === 404 &&
+            url.origin === this.configService.getTerraUrl() &&
+            url.pathname === TerraAuthService.PATH_REGISTRATION_STATUS;
     }
 
     /**

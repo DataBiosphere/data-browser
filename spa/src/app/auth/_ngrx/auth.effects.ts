@@ -17,19 +17,16 @@ import { AuthService } from "../auth.service";
 import { AuthState } from "./auth.state";
 import { LoginRequestAction } from "./login-request.action";
 import { LogoutRequestAction } from "./logout-request.action";
-import { GTMService } from "../../shared/analytics/gtm.service";
 
 @Injectable()
 export class AuthEffects {
 
     /**
-     * @param {GTMService} gtmService
      * @param authService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private authService: AuthService,
+    constructor(private authService: AuthService,
                 private store: Store<AuthState>,
                 private actions$: Actions) {
     }

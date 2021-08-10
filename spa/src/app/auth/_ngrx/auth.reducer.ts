@@ -26,7 +26,7 @@ export function reducer(state: AuthState = AuthState.getDefaultState(), action: 
 
         // Update init to indicate auth has been initialized
         case AuthInitAction.ACTION_TYPE:
-            return state.onInit(action as LoginSuccessAction);
+            return state.onInit(action as AuthInitAction);
 
         // Login successful or on session continue, update state with user details
         case LoginSuccessAction.ACTION_TYPE:
