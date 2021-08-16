@@ -1,16 +1,29 @@
-<pop-layout>
+<pop-layout *ngIf="state$ | async as state">
     <ng-container title>Terra Registration Required</ng-container>
     <ng-container content>
         <div class="content">
-            <h2 class="fontsize-xl">To complete your registration, register with Terra</h2>
+            <h2 class="fontsize-xl">Next, Register with Terra</h2>
             <p class="fontsize-m">Thank you for registering with the Human Cell Atlas Data Portal.</p>
-            <p class="fontsize-m">To complete your registration, we require that you also register with Terra using the
-                same Google ID you used to register with the Data Portal.</p>
-            <div class="content-button">
-                <a [href]="getRegistrationUrl()" class="button primary anchor-button">Register with Terra</a>
-            </div>
-            <p class="fontsize-m">Once you have registered with Terra you will be able to view open
-                access data along with any managed access data you are authorized to access.</p>
+            <p class="fontsize-m">To complete your registration, we require that you register with Terra using the
+                same email address you used to register with the HCA Data Portal.</p>
+            <p class="fontsize-m bold">Steps:</p>
+            <ol class="fontsize-m">
+                <li>
+                    Register with Terra using your "{{getEmail(state.user)}}" Google ID.
+                    <div class="content-button">
+                        <a [href]="getRegistrationUrl()" class="button primary anchor-button button-terra">Register with
+                            Terra</a>
+                    </div>
+                </li>
+                <li>Once you have registered with Terra, return to the HCA Data Portal and log in to access any
+                    controlled-access data that you have access to alongside the open-access data sets.
+                </li>
+            </ol>
+            <h2 class="fontsize-xl">Not Ready?</h2>
+            <p class="fontsize-m">If you do not wish to register with Terra at this time please
+                <button class="button-as-anchor" (click)="onLogoutClicked()">log out</button>
+                to access the HCA DCP open-access datasets.
+            </p>
         </div>
     </ng-container>
 </pop-layout>
