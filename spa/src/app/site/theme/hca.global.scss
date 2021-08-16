@@ -126,6 +126,11 @@ ul, ol {
     letter-spacing: normal;
     line-height: 28px;
     margin: 0 0 18px;
+    
+    /* Bold */
+    &.bold {
+        font-weight: 600;
+    }
 }
 p.fontsize-m, ul.fontsize-m, ol.fontsize-m, span.fontsize-m, a.fontsize-m {
     @include fontsize-m;
