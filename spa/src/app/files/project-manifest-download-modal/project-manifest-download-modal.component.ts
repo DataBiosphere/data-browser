@@ -78,7 +78,6 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
             filter(() => !!this.dialogRef),
             takeUntil(this.ngDestroy$)
         ).subscribe(() => {
-            this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
     }
@@ -93,7 +92,6 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
             filter(() => !!this.dialogRef),
             takeUntil(this.ngDestroy$)
         ).subscribe(() => {
-            this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
     }
@@ -103,6 +101,7 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      */
     public ngOnDestroy() {
 
+        this.store.dispatch(new ModalClosedAction());
         this.store.dispatch(new ClearSelectedProjectAction());
 
         this.ngDestroy$.next(true);

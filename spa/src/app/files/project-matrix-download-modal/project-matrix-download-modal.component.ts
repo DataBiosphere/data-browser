@@ -81,7 +81,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             filter(() => !!this.dialogRef),
             takeUntil(this.ngDestroy$)
         ).subscribe(() => {
-            this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
     }
@@ -96,7 +95,6 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             filter(() => !!this.dialogRef),
             takeUntil(this.ngDestroy$)
         ).subscribe(() => {
-            this.store.dispatch(new ModalClosedAction());
             this.dialogRef.close();
         });
     }
@@ -106,6 +104,7 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
      */
     public ngOnDestroy() {
 
+        this.store.dispatch(new ModalClosedAction());
         this.store.dispatch(new ClearSelectedProjectAction());
 
         this.ngDestroy$.next(true);
@@ -120,10 +119,9 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
 
         this.initCloseOnError();
         this.initCloseOnNavigation();
-        
-        const projectId = this.data.projectId;
 
         // Request project details so we can display the project title
+        const projectId = this.data.projectId;
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab the selected project
@@ -143,13 +141,13 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             select(selectIsError),
             takeUntil(this.ngDestroy$)
         );
-        
+
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
-        combineLatest(
+        combineLatest([
             selectedProject$,
             projectMatrixFileLocationsByFileUrl$,
             error$
-        ).pipe(
+        ]).pipe(
             takeUntil(this.ngDestroy$),
             filter(([project]) => !!project && project.entryId === projectId)
         ).subscribe(([project, projectMatrixFileLocationsByFileUrl, error]) => {
