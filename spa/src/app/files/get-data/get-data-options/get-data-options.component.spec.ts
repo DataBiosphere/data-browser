@@ -122,14 +122,14 @@ describe("GetDataOptionsComponent", () => {
     });
 
     /**
-     * Confirm "Export to Terra" is displayed 
+     * Confirm "Analyze in Terra" is displayed 
      */
-    it(`displays "Export to Terra"`, () => {
+    it(`displays "Analyze in Terra"`, () => {
 
         fixture.detectChanges();
 
         // Confirm "Export to Terra" is displayed
-        expect(isPanelHeaderDisplayed("Export to Terra")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Analyze in Terra")).toEqual(true);
     });
 
     /**

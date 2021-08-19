@@ -246,9 +246,9 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm "Select Export File Types" is displayed when request status is not started.
+     * Confirm "Select File Types" is displayed when request status is not started.
      */
-    it(`should display "Select Export File Types" when request status is "NOT_STARTED"`, () => {
+    it(`should display "Select File Types" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
@@ -256,7 +256,7 @@ describe("ExportToTerraComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Select Export File Types" is displayed
-        expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Select File Types")).toEqual(true);
     });
 
     /**
@@ -319,9 +319,9 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm "Your Export is Ready" is not displayed when request status is not started.
+     * Confirm "Your Link is Ready" is not displayed when request status is not started.
      */
-    it(`should not display "Your Export is Ready" when request status is "NOT_STARTED"`, () => {
+    it(`should not display "Your Link is Ready" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
@@ -329,7 +329,7 @@ describe("ExportToTerraComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Your Export is Ready" is not displayed
-        expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(false);
+        expect(isPanelHeaderDisplayed("Your Link is Ready")).toEqual(false);
     });
 
     /**
@@ -409,9 +409,9 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm "Your Export is Being Prepared" is displayed when request status is in progress.
+     * Confirm "Your Link is Being Prepared" is displayed when request status is in progress.
      */
-    it(`should display "Your Export is Being Prepared" when request status is "IN_PROGRESS"`, () => {
+    it(`should display "Your Link is Being Prepared" when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
@@ -419,7 +419,7 @@ describe("ExportToTerraComponent", () => {
         fixture.detectChanges();
 
         // Confirm "Your Export is Being Prepared" is displayed
-        expect(isPanelHeaderDisplayed("Your Export is Being Prepared")).toEqual(true);
+        expect(isPanelHeaderDisplayed("Your Link is Being Prepared")).toEqual(true);
     });
 
     /**
@@ -527,17 +527,17 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm "Your Export is Ready" is displayed when request status is complete.
+     * Confirm "Your Link is Ready" is displayed when request status is complete.
      */
-    it(`should display "Your Export is Ready" when request status is "COMPLETE"`, () => {
+    it(`should display "Your Link is Ready" when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
-        // Confirm "Your Export is Ready" is displayed
-        expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(true);
+        // Confirm "Your Link is Ready" is displayed
+        expect(isPanelHeaderDisplayed("Your Link is Ready")).toEqual(true);
     });
 
     /**
