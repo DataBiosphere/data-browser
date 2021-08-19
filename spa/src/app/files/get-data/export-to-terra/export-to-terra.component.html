@@ -1,11 +1,11 @@
 <ng-container *ngIf="state$ | async as state">
     <get-data-layout [tabs]="getBackButtonTab()" (tabSelected)="onTabSelected()">
-        <ng-container title>Export to Terra</ng-container>
+        <ng-container title>Analyze in Terra</ng-container>
         <div content>
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
                 <get-data-panel [loading]="getFileTypeSummaries(state.manifestDownloadFileSummary).length === 0">
-                    <h4 class="fontsize-m semi-bold">Select Export File Types</h4>
-                    <p class="fontsize-m">Export selected files to a Terra workspace.</p>
+                    <h4 class="fontsize-m semi-bold">Select File Types</h4>
+                    <p class="fontsize-m">Select the files types to be imported into your Terra workspace.</p>
                 </get-data-panel>
                 <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
                     <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
@@ -19,21 +19,21 @@
                     <button class="button primary"
                             type="button"
                             (click)="onExportToTerra(manifestDownloadFormat)"
-                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Export
+                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Link
                     </button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="isRequestInProgress(state.exportToTerraStatus)">
                 <get-data-panel [loading]="isRequestInProgress(state.exportToTerraStatus)">
-                    <h4 class="fontsize-m semi-bold">Your Export is Being Prepared</h4>
+                    <h4 class="fontsize-m semi-bold">Your Link is Being Prepared</h4>
                     <warning-data-normalization></warning-data-normalization>
-                    <p class="fontsize-m">Your export will be ready shortly.</p>
+                    <p class="fontsize-m">Your link will be ready shortly.</p>
                 </get-data-panel>
             </ng-container>
             <ng-container *ngIf="isRequestComplete(state.exportToTerraStatus)">
                 <get-data-panel>
-                    <h4 class="fontsize-m semi-bold">Your Export is Ready</h4>
+                    <h4 class="fontsize-m semi-bold">Your Link is Ready</h4>
                     <warning-data-normalization></warning-data-normalization>
                     <p class="fontsize-m">Your Terra Workspace has been opened in a new browser tab.</p>
                     <p class="fontsize-m">The workspace URL is referenced below.</p>
