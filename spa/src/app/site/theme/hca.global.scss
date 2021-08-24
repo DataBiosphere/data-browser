@@ -294,6 +294,21 @@ a.anchor-button {
 }
 
 
+/** Terra-style button */
+.button.primary.anchor-button.button-terra {
+    background: url("assets/terra/logo-terra.png") 8px / 24px 24px no-repeat;
+    background-color: $hca-white;
+    border: 2px solid $hca-gray-lightest;
+    color: $hca-gray-dark;
+    padding-left: 40px;
+    transition: border-color 280ms cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+.button.primary.anchor-button.button-terra:not([disabled]):hover {
+    background-color: $hca-white;
+    border-color: $hca-gray-light;
+}
+
 /**
  * Prevents scroll on body when facet is open, or hamburger is open. 
  */
