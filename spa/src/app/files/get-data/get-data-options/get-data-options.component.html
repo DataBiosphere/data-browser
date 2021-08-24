@@ -25,15 +25,14 @@
             </div>
         </get-data-panel>
         <get-data-panel>
-            <h4 class="fontsize-m semi-bold">Analyze in Terra</h4>
-            <p class="fontsize-m"><a href="https://terra.bio/" target="_blank" rel="noopener noreferrer">Terra</a> is a scalable
-                cloud platform for biomedical research. Terra offers the ability to use data, tools, and workflows to do
-                interactive analysis in the cloud. To start using Terra, visit <a href="https://app.terra.bio/"
-                                                                                  target="_blank"
-                                                                                  rel="noopener noreferrer">https://app.terra.bio.</a>
-            </p>
+            <div class="heading-logo">
+                <img src="assets/terra/logo-terra.svg">
+                <h4 class="fontsize-m semi-bold">Analyze in Terra</h4>
+            </div>
+            <p class="fontsize-m">Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy. <a href="https://app.terra.bio/#library/showcase" target="_blank">Learn More.</a></p>
+            <p class="fontsize-m">To make the most out of HCA data with Terra, <a href="https://app.terra.bio/#workspaces/featured-workspaces-hca/HCA_Optimus_Pipeline" target="_blank">clone this featured workspace</a>.</p>
             <div class="start">
-                <button class="button primary anchor-button button-terra" 
+                <button class="button secondary" 
                         type="button"
                         [routerLink]="['/export', 'export-to-terra', 'select-species']">Analyze in Terra</button>
                 <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/export-to-terra"
