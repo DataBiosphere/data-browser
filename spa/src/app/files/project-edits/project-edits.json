@@ -371,6 +371,32 @@
                 "url": "https://h1-esc-diff.cells.ucsc.edu"
             }
         ]
+    },
+    {
+        "entryId": "a004b150-1c36-4af6-9bbd-070c06dbc17d",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/c9706a92-0e5f-46c1-96d8-20e42467f287"
+            }
+        ]
+    },
+    {
+        "entryId": "87d52a86-bdc7-440c-b84d-170f7dc346d9",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/db468083-041c-41ca-8f6f-bf991a070adf"
+            }
+        ]
+    },
+    {
+        "entryId": "7880637a-35a1-4047-b422-b5eac2a2a358",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://www.covid19cellatlas.org/voigt19/"
+            }
+        ]
     }
-    
 ]
