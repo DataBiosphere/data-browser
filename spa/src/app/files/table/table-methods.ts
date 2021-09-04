@@ -460,12 +460,12 @@ export function getTooltipStyle(column: string): any {
  */
 export function getUnspecifiedIfNullValue(value: any): any {
 
-    if ( value || value === 0 || value === false ) {
+    if ( isNullOrUndefined(value) ) {
 
-        return value;
+        return "Unspecified";
     }
 
-    return "Unspecified";
+    return value;
 }
 
 /**
@@ -503,6 +503,19 @@ export function isColumnSort(column: string): boolean {
 export function isElementUnspecified(element: string): boolean {
 
     return element === "Unspecified";
+}
+
+/**
+ * Returns true if the value null/undefined.
+ *
+ * @param {any} value
+ * @returns {any}
+ */
+export function isNullOrUndefined(value: any): any {
+
+    return !(value || value === 0 || value === false);
+
+    
 }
 
 /**

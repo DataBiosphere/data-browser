@@ -10,8 +10,16 @@
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { MatrixResponseFile } from "./project-matrix-response-file.model";
 import { ProjectMatrixView } from "./project-matrix-view.model";
+import { isNullOrUndefined } from "../table/table-methods";
 
 export class ProjectMatrixMapper {
+
+    // Set of meta required for display
+    private META_REQUIRED = [
+        FileFacetName.GENUS_SPECIES,
+        FileFacetName.LIBRARY_CONSTRUCTION_APPROACH,
+        FileFacetName.ORGAN
+    ];
 
     /**
      * Convert matrices tree structure into set of rows representing matrix files and their corresponding values.
@@ -22,7 +30,8 @@ export class ProjectMatrixMapper {
     public bindMatrices(responseTree = {}): ProjectMatrixView[] {
 
         const matrixViews = this.flattenResponseTree(responseTree);
-        const viewModels = this.mergeDuplicatedMatrixViews(matrixViews);
+        const boundViewModels = this.mergeDuplicatedMatrixViews(matrixViews);
+        const viewModels = this.updateViewsMissingMeta(boundViewModels);
         this.sortMatrixViewsMeta(viewModels);
         this.sortMatrixViews(viewModels);
 
@@ -107,6 +116,23 @@ export class ProjectMatrixMapper {
         }
 
         return views;
+    }
+
+    /**
+     * Returns true if species, library construction approach or organ value is missing from the specified view.
+     * 
+     * @param {ProjectMatrixView} view
+     * @returns {boolean}
+     */
+    private isViewMissingMeta(view: ProjectMatrixView): boolean {
+
+        for ( let i = 0 ; i < this.META_REQUIRED.length ; i++ ) {
+            if ( !view[this.META_REQUIRED[i]] ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -230,6 +256,42 @@ export class ProjectMatrixMapper {
                     value.sort();
                 }
             });
+        });
+    }
+
+
+    /**
+     * Correct any missing required meta (specifically species, library construction approach or organ) on the given
+     * matrix view.
+     *
+     * @param {ProjectMatrixView} view
+     * @returns {ProjectMatrixView}
+     */
+    private updateViewMissingMeta(view: ProjectMatrixView): ProjectMatrixView {
+
+        const updatedView = Object.assign({}, view);
+        this.META_REQUIRED.forEach(requiredMeta => {
+            if ( isNullOrUndefined(updatedView[requiredMeta]) ) {
+                updatedView[requiredMeta] = ["Unspecified"];
+            }
+        });
+        return updatedView;
+    }
+
+    /**
+     * Correct any missing required meta (specifically species, library construction approach or organ) on the given set
+     * of matrix views.
+     *
+     * @param {ProjectMatrixView[]} views
+     * @returns {ProjectMatrixView[]}
+     */
+    private updateViewsMissingMeta(views: ProjectMatrixView[]): ProjectMatrixView[] {
+
+        return views.map(view => {
+            if ( !this.isViewMissingMeta(view) ) {
+                return view;
+            }
+            return this.updateViewMissingMeta(view);
         });
     }
 }
