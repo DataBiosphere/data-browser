@@ -72,27 +72,12 @@
 
         a {
             cursor: pointer;
-
-            /* Hide help */
-            &:last-of-type {
-                display: none;
-            }
         }
 
         /* Help separator */
         .delimiter {
             color: $hca-primary;
-            display: none;
             padding: 0 9px 0 11px;
-        }
-    }
-
-    /* Hover */
-    &:hover {
-
-        /* Show help */
-        .start a:last-of-type, .start p {
-            display: block;
         }
     }
 }
