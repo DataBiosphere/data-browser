@@ -91,6 +91,11 @@ mat-table {
         word-break: break-all;
     }
 
+    /** File size */
+    .mat-column-size {
+        max-width: 92px;
+    }
+
     /** Organ */
     .mat-column-organ, .mat-cell-organ,
     .mat-column-libraryConstructionApproach, .mat-cell-libraryConstructionApproach,

@@ -48,9 +48,10 @@ export class ProjectMatrixMapper {
     private createMatrixView(file: MatrixResponseFile, meta: {[key: string]: string}): ProjectMatrixView {
 
         // Create matrix view, starting with core file values.
-        const {uuid, url, name} = file;
+        const {size, uuid, url, name} = file;
         const matrixView =  {
             fileName: name,
+            size,
             url,
             uuid
         };
@@ -147,6 +148,7 @@ export class ProjectMatrixMapper {
         // Create new view - for immutability - to hold merged values.
         const mergedView = {
             fileName: mergeWithView.fileName,
+            size: mergeWithView.size,
             url: mergeWithView.url,
             uuid: mergeWithView.uuid
         };
