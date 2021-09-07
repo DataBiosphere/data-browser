@@ -69,7 +69,7 @@ export class ProjectOverviewComponent implements OnDestroy {
 
         if ( url ) {
 
-            return `<a href=${url} target="_blank" rel="noopener noreferrer">${title}</a>`;
+            return `<a href=${url} target="_blank" rel="noopener">${title}</a>`;
         }
 
         return title;
