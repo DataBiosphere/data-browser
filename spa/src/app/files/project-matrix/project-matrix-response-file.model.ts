@@ -8,6 +8,7 @@
 export interface MatrixResponseFile {
 
     name: string;
+    size: number;
     url: string;
     uuid: string;
 }

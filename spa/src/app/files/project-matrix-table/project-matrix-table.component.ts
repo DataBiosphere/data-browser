@@ -27,7 +27,7 @@ export class ProjectMatrixTableComponent {
 
     // Template variables 
     public columnsToDisplay = 
-        ["actions", "fileName", "genusSpecies", "organ", "libraryConstructionApproach"];
+        ["actions", "fileName", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
 
     // Inputs/Outputs
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();

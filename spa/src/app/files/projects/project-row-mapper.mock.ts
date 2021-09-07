@@ -10,10 +10,12 @@ import { LibraryConstructionApproach } from "../shared/library-construction-appr
 // Example of matrix files
 export const MOCK_PROJECT_MATRIX_FILE_0 = {
     "name": "123.loom",
+    "size": 254147853,
     "url": "http://path/to/file0?version=0&catalog=dcp2ebi"
 };
 export const MOCK_PROJECT_MATRIX_FILE_1 = {
     "name": "456.loom",
+    "size": 254147854,
     "url": "http://path/to/file1?version=0&catalog=dcp2ebi"
 };
 
@@ -76,11 +78,13 @@ export const PROJECT_ROW_SINGLE_VALUES =
                                             "libraryConstructionApproach": {
                                                 [LibraryConstructionApproach.TENX_V2]: [
                                                     {
+                                                        "size": MOCK_PROJECT_MATRIX_FILE_0.size,
                                                         "url": MOCK_PROJECT_MATRIX_FILE_0.url,
                                                         "name": MOCK_PROJECT_MATRIX_FILE_0.name
                                                     }
                                                 ],
                                                 [LibraryConstructionApproach.SMART_SEQ2]: [{
+                                                    "size": MOCK_PROJECT_MATRIX_FILE_1.size,
                                                     "url": MOCK_PROJECT_MATRIX_FILE_1.url,
                                                     "name": MOCK_PROJECT_MATRIX_FILE_1.name
                                                 }
@@ -91,10 +95,12 @@ export const PROJECT_ROW_SINGLE_VALUES =
                                             "libraryConstructionApproach": {
                                                 [LibraryConstructionApproach.TENX_V2]: [
                                                     {
+                                                        "size": MOCK_PROJECT_MATRIX_FILE_0.size,
                                                         "url": MOCK_PROJECT_MATRIX_FILE_0.url,
                                                         "name": MOCK_PROJECT_MATRIX_FILE_0.name
                                                     },
                                                     {
+                                                        "size": MOCK_PROJECT_MATRIX_FILE_1.size,
                                                         "url": MOCK_PROJECT_MATRIX_FILE_1.url,
                                                         "name": MOCK_PROJECT_MATRIX_FILE_1.name
                                                     }
