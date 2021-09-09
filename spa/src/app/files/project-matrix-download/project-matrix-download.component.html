@@ -7,8 +7,12 @@
     DCP Generated Matrices are those produced with <a href="{{portalUrl}}/pipelines" target="_blank">uniform pipelines</a>. All DCP Generated Matrices include <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">quality control metrics</a>.
 </p>
 <p class="fontsize-s">
-    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs and estimated counts. Matrices are in Loom
+    The 10x matrices include raw counts. Smart-seq2 matrices include TPMs and estimated counts. Matrices are in Loom
     file format.
+</p>
+<p class="fontsize-s">
+    To link the DCP project matrix to the project metadata TSV, match the matrix input_id column with the metadata TSV sequencing_process.provenance.document_id column.
+    Learn more in the matrix [guide](https://data.humancellatlas.org/guides/consumer-vignettes/matrices#linking-dcp-generated-matrices-to-the-data-manifest-metadata).
 </p>
 <ng-container [ngSwitch]="project.matrices.length === 0">
     <no-hits *ngSwitchCase="true">
