@@ -4,11 +4,22 @@
     DCP Generated Matrices
 </h2>
 <p class="fontsize-s">
-    DCP Generated Matrices are those produced with <a href="{{portalUrl}}/pipelines" target="_blank">uniform pipelines</a>. All DCP Generated Matrices include <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">quality control metrics</a>.
+    DCP Generated Matrices are those produced with <a href="{{portalUrl}}/pipelines" target="_blank">uniform
+    pipelines</a>. All DCP Generated Matrices include <a href="{{portalUrl}}/pipelines/qc-metrics" target="_blank">quality
+    control metrics</a>.
 </p>
 <p class="fontsize-s">
-    The 10x matrices include raw counts; Smart-seq2 matrices include TPMs and estimated counts. Matrices are in Loom
+    The 10x matrices include raw counts. Smart-seq2 matrices include TPMs and estimated counts. Matrices are in Loom
     file format.
+</p>
+<h3 class="fontsize-l">Linking DCP-Generated Matrices to Project Metadata</h3>
+<p class="fontsize-s">
+    To link the DCP project matrix to the project metadata TSV, match the matrix
+    <span class="code-inline">input_id</span> column with the metadata TSV <span class="code-inline">sequencing_process.provenance.document_id</span>
+    column.
+    Learn more in the
+    <a href="{{portalUrl}}/guides/consumer-vignettes/matrices#linking-dcp-generated-matrices-to-the-data-manifest-metadata"
+       target="_blank">DCP 2.0 Data Matrix Overview</a>.
 </p>
 <ng-container [ngSwitch]="project.matrices.length === 0">
     <no-hits *ngSwitchCase="true">

@@ -406,3 +406,12 @@ a.anchor-button {
 .hca-radio.term .mat-radio-label {
     font-size: 13px;
 }
+
+/* Code styles */
+.code-inline {
+    background-color: $hca-off-white;
+    font-family: "Source Code Pro", monospace;
+    font-size: inherit;
+    font-weight: 300;
+    line-height: 24px;
+}
