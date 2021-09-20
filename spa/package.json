@@ -35,7 +35,7 @@
     "@angular/router": "^9.1.13",
     "@ngrx/effects": "^9.2.1",
     "@ngrx/store": "^9.2.1",
-    "core-js": "^2.6.12",
+    "core-js": "^3.18.0",
     "lodash-es": "^4.17.21",
     "ngx-clipboard": "^13.0.1",
     "ngx-device-detector": "^1.5.2",
