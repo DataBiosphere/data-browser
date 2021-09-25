@@ -2,14 +2,17 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Representation of file manifest-related state.
+ * Representation of file manifest-related state. Used for selected data and project data downloads (both bulk and 
+ * export to Terra).
  */
 
 // App dependencies
-import { FileSummary } from "../../file-summary/file-summary";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
+import { FileSummary } from "../../file-summary/file-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
 
 export interface FileManifest {
     manifestResponse: ManifestResponse;
-    fileSummary: FileSummary;
+    fileTypeSummaries: FileTypeSummary[];
+    projectFileSummary: FileSummary;
 }

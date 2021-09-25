@@ -6,54 +6,47 @@
  */
 
 // Core dependencies
-import { Component, Inject, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { select, Store } from "@ngrx/store";
-import { combineLatest, Observable, Subject } from "rxjs";
-import { filter, map, take, takeUntil } from "rxjs/operators";
+import { Component, Inject, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Store } from "@ngrx/store";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
+import { Catalog } from "../catalog/catalog.model";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
-import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { ViewProjectAccessionAction } from "../_ngrx/project/view-project-accession.action";
-import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ViewProjectSupplementaryLinkAction } from "../_ngrx/table/view-project-supplementary-link.action";
-import { ProjectOverviewComponentState } from "./project-overview.component.state";
-import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { CollaboratingOrganizationView } from "../project-view/collaborating-organization-view.model";
 import { ContactView } from "../project-view/contact-view.model";
+import { ProjectView } from "../project-view/project-view.model";
 import { ContributorView } from "../project-view/contributor-view.model";
 import { ProjectViewFactory } from "../project-view/project-view.factory";
-import { GAAction } from "../../shared/analytics/ga-action.model";
-import { Publication } from "../shared/publication.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
+import { Publication } from "../shared/publication.model";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-overview",
     templateUrl: "./project-overview.component.html",
     styleUrls: ["./project-overview.component.scss"]
 })
-export class ProjectOverviewComponent implements OnDestroy {
+export class ProjectOverviewComponent implements OnChanges {
 
     // Template variables
-    private ngDestroy$ = new Subject();
-    public state$: Observable<ProjectOverviewComponentState>;
+    public projectView: ProjectView;
+    
+    // Inputs
+    @Input() catalog: Catalog;
+    @Input() project: Project;
 
     /**
-     * @param {ProjectDetailService} projectDetailService
      * @param {ProjectViewFactory} projectFactory
      * @param {Store<AppState>} store
-     * @param {ActivatedRoute} activatedRoute
      * @param {Window} window
      */
-    constructor(private projectDetailService: ProjectDetailService, 
-                private projectFactory: ProjectViewFactory,
+    constructor( private projectFactory: ProjectViewFactory,
                 private store: Store<AppState>, 
-                private activatedRoute: ActivatedRoute,
                 @Inject("Window") private window: Window) {}
 
     /**
@@ -144,20 +137,6 @@ export class ProjectOverviewComponent implements OnDestroy {
     }
 
     /**
-     * Set up tracking of tab as well as project meta tags.
-     */
-    private initTab() {
-
-        this.state$.pipe(
-            take(1)
-        ).subscribe((state) => {
-
-            this.projectDetailService.addProjectMeta(state.projectTitle);
-            this.projectDetailService.trackTabView(GAAction.VIEW_OVERVIEW, state.projectId, state.projectShortname);
-        });
-    }
-
-    /**
      * Track click on accession.
      * 
      * @param {string} projectId
@@ -188,53 +167,12 @@ export class ProjectOverviewComponent implements OnDestroy {
     }
 
     /**
-     * Kill subscriptions on destroy of component. Clear project meta.
+     * Update state with selected project.
      */
-    public ngOnDestroy() {
-        
-        // Clear meta tag
-        this.projectDetailService.removeProjectMeta();
+    ngOnChanges(changes: SimpleChanges) {
 
-        this.ngDestroy$.next(true);
-        this.ngDestroy$.complete();
-    }
-
-    /**
-     * Update state with selected project. Set project meta.
-     */
-    public ngOnInit() {
-
-        // Add selected project to state - grab the project ID from the URL.
-        const projectId = this.activatedRoute.snapshot.paramMap.get("id");
-        this.store.dispatch(new FetchProjectRequestAction(projectId));
-
-        // Grab the current and default catalog values - we need these for the citation link.
-        const catalog$ = this.store.pipe(
-            select(selectCatalog),
-            takeUntil(this.ngDestroy$)
-        );
-
-        // Grab reference to selected project
-        const project$ = this.store.pipe(
-            select(selectSelectedProject),
-            filter(project => !!project)
-        );
-        
-        this.state$ = combineLatest(project$, catalog$).pipe(
-            takeUntil(this.ngDestroy$),
-            map(([project, catalog]) => {
-
-                const projectView = this.projectFactory.getProjectView(catalog, project);
-
-                return {
-                    project: projectView,
-                    projectId: project.entryId,
-                    projectShortname: project.projectShortname,
-                    projectTitle: project.projectTitle
-                };
-            })
-        );
-
-        this.initTab();
+        if ( changes.project ) {
+            this.projectView = this.projectFactory.getProjectView(this.catalog, changes.project.currentValue); 
+        }
     }
 }

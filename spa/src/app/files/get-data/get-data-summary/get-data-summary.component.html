@@ -1,5 +1,5 @@
 <div class="data-snapshot">
-    <div class="data-query">
+    <div class="data-query" *ngIf="queryEnabled">
         <h4 class="fontsize-m semi-bold">Current Query</h4>
         <selected-search-terms [removable]="false"
                                [selectedSearchTerms]="selectedSearchTerms"></selected-search-terms>

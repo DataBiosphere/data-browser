@@ -15,17 +15,19 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { selectSelectedEntitySpec, selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
-import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
 import { ProjectDetailComponentState } from "./project-detail.component.state";
+import { ProjectDetailService } from "./project-detail.service";
 import { SearchTerm } from "../search/search-term.model";
+import { GASource } from "../../shared/analytics/ga-source.model";
 import { EntityName } from "../shared/entity-name.model";
 import EntitySpec from "../shared/entity-spec";
-import { GASource } from "../../shared/analytics/ga-source.model";
 
 @Component({
     selector: "project-detail",
@@ -43,11 +45,13 @@ export class ProjectDetailComponent {
     });
 
     /**
+     * @param {ProjectDetailService} projectDetailService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    public constructor(private store: Store<AppState>,
+    public constructor(private projectDetailService: ProjectDetailService,
+                       private store: Store<AppState>,
                        private activatedRoute: ActivatedRoute,
                        private router: Router) {}
 
@@ -139,6 +143,8 @@ export class ProjectDetailComponent {
      */
     public ngOnDestroy() {
 
+        this.projectDetailService.removeProjectMeta();
+
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
 
@@ -149,6 +155,12 @@ export class ProjectDetailComponent {
      * Update state with selected project.
      */
     public ngOnInit() {
+
+        // Grab the current and default catalog values - we need these for the citation link.
+        const catalog$ = this.store.pipe(
+            select(selectCatalog),
+            takeUntil(this.ngDestroy$)
+        );
 
         // Add selected project to state - grab the project ID from the URL.
         const projectId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -176,22 +188,33 @@ export class ProjectDetailComponent {
             takeUntil(this.ngDestroy$),
             take(1)
         );
-        
-        // Set up component state
-        combineLatest(project$, selectedProjectIds$, selectedEntity$)
-            .pipe(
-                takeUntil(this.ngDestroy$)
-            )
-            .subscribe(([project, selectedProjectIds, selectedEntity]) => {
-    
-                const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
 
-                this.state$.next({
-                    loaded: true,
-                    project,
-                    projectSelected,
-                    selectedEntity
-                });
+        // Set up component state
+        combineLatest([
+            catalog$, 
+            project$, 
+            selectedProjectIds$,
+            selectedEntity$])
+        .pipe(
+            takeUntil(this.ngDestroy$)
+        )
+        .subscribe(([
+            catalog,
+            project,
+            selectedProjectIds,
+            selectedEntity]) => {
+
+            const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
+
+            this.state$.next({
+                catalog,
+                loaded: true,
+                project,
+                projectSelected,
+                selectedEntity
             });
+
+            this.projectDetailService.addProjectMeta(project.projectTitle);
+        });
     }
 }

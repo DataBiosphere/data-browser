@@ -95,15 +95,17 @@ import { PipeModule } from "../pipe/pipe.module";
 import { ProjectAccessionsComponent } from "./project-accessions/project-accessions.component";
 import { ProjectAnalysisPortalComponent } from "./project-analysis-portal/project-analysis-portal.component";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
+import { ProjectBulkDownloadComponent } from "./project-get-data/project-bulk-download/project-bulk-download.component";
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
-import { ProjectDetailService } from "./project-detail/project-detail.service";
+import { ProjectDownloadLayoutComponent } from "./project-get-data/project-download-layout/project-download-layout.component";
+import { ProjectTerraExportComponent } from "./project-get-data/project-terra-export/project-terra-export.component";
 import { ProjectFileTypeCountsComponent } from "./project-file-type-counts/project-file-type-counts.component";
 import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
 import { ProjectManifestDownloadModalComponent } from "./project-manifest-download-modal/project-manifest-download-modal.component";
 import { ProjectManifestDownloadComponent } from "./project-manifest-download/project-manifest-download.component";
-import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
+import { ProjectDownloadsAndExportsComponent } from "./project-get-data/project-downloads-and-exports.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/project-ingest-in-progress.component";
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
@@ -113,7 +115,6 @@ import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-m
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectMatrixTableComponent } from "./project-matrix-table/project-matrix-table.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
-import { ProjectNavComponent } from "./project-nav/project-nav.component";
 import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-summary/project-overview-data-summary.component";
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectPortalsComponent } from "./project-portals/project-portals.component";
@@ -141,6 +142,7 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
 import { TerraRegistrationComponent } from "./terra-registration/terra-registration.component";
 import { UrlService } from "./url/url.service";
 import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
+import { ProjectDetailService } from "./project-detail/project-detail.service";
 
 @NgModule({
     imports: [
@@ -224,11 +226,14 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ManifestDownloadSpeciesFormComponent,
         ProjectAccessionsComponent,
         ProjectAnalysisPortalsComponent,
+        ProjectBulkDownloadComponent,
+        ProjectTerraExportComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
         ProjectDetailComponent,
-        ProjectExternalResourcesComponent,
+        ProjectDownloadLayoutComponent,
         ProjectFileTypeCountsComponent,
+        ProjectDownloadsAndExportsComponent,
         ProjectGuardComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
@@ -242,7 +247,6 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectMatrixDownloadModalContainerComponent,
         ProjectMatrixTableComponent,
         ProjectMetadataComponent,
-        ProjectNavComponent,
         ProjectOverviewComponent,
         ProjectOverviewDataSummaryComponent,
         ProjectPortalsComponent,

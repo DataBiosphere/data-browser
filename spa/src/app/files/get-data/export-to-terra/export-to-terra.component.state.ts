@@ -6,15 +6,15 @@
  */
 
 // App dependencies
-import { FileSummary } from "../../file-summary/file-summary";
-import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { SearchTerm } from "../../search/search-term.model";
+import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 
 export interface ExportToTerraComponentState {
 
     exportToTerraStatus: ExportToTerraStatus;
     exportToTerraUrl: string;
-    manifestDownloadFileSummary: FileSummary;
+    fileTypeSummaries: FileTypeSummary[];
     selectedSearchTerms: SearchTerm[];
     selectedSearchTermNames: string[];
 }

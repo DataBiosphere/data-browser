@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component displaying HCA get data summary.
+ * Component displaying get data summary.
  */
 
 // Core dependencies
@@ -27,6 +27,7 @@ export class GetDataSummaryComponent {
     // Inputs
     @Input() filesFacets: FileFacet[]
     @Input() fileSummary: FileSummary;
+    @Input() queryEnabled: boolean = true;
     @Input() selectedSearchTerms: SearchTerm[];
 
     /**

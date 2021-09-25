@@ -117,7 +117,7 @@ export class FacetState {
 
         return new FacetState(
             this.facetNames, this.facetsByName, [], this.selectedFacet, this.paginationModel);
-    } 
+    }
 
     /**
      * Return model of the current state of the file facet list (including pagination)
@@ -271,7 +271,7 @@ export class FacetState {
             return accum;
         }, new Map<string, Facet>());
 
-        return new FacetState(fileFacetNames, fileFacetsMap, [], null, null);
+        return new FacetState(fileFacetNames, fileFacetsMap, [],null, null);
     }
     
     /*

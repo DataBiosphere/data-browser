@@ -3,13 +3,13 @@
         <ng-container title>Download Selected Data Using curl</ng-container>
         <div content>
             <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
-                <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+                <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileTypeSummaries)">
                     <h4 class="fontsize-m semi-bold">Select File Types for Download</h4>
                     <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
                 </get-data-panel>
-                <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileManifestFileSummary)">
+                <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
                     <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                            [fileTypeSummaries]="getFileTypeSummaries(state.fileManifestFileSummary)"
+                                            [fileTypeSummaries]="state.fileTypeSummaries"
                                             (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                     <div class="execution-environment fontsize-s">
                         <p class="fontsize-s">Select Shell:</p>

@@ -1,7 +1,6 @@
 <ng-container *ngIf="state$ | async as state"> 
     <pop-layout [tabs]="getProjectDetailTabs(state.selectedEntity)" (tabSelected)="onTabSelected($event)" *ngIf="state.loaded">
         <ng-container title>Explore Project</ng-container>
-        <project-nav nav></project-nav>
         <div content>
             <status-panel class="project-title">
                 <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
@@ -13,7 +12,7 @@
                     <span class="fontsize-xs">Select Project</span>
                 </div>
             </status-panel>
-            <router-outlet></router-outlet>
+            <project-overview [catalog]="state.catalog" [project]="state.project"></project-overview>
         </div>
     </pop-layout>
 </ng-container>

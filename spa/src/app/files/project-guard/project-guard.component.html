@@ -5,7 +5,7 @@
             <project-ingest-in-progress *ngSwitchCase="'INGEST_IN_PROGRESS'"></project-ingest-in-progress>
             <project-withdrawn *ngSwitchCase="'WITHDRAWN'" 
                                [redirectUrl]="state.redirectUrl"></project-withdrawn>
-            <project-detail *ngSwitchDefault></project-detail>
+            <router-outlet *ngSwitchDefault></router-outlet>
         </ng-container>
     </ng-container>
 </ng-container>

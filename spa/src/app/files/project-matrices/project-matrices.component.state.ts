@@ -11,6 +11,7 @@ import { Project } from "../shared/project.model";
 
 export interface ProjectMatricesComponentState {
 
-    project: Project;
-    projectMatrixFileLocationsByFileUrl:  Map<string, FileLocation>;
+    loaded: boolean;
+    project?: Project;
+    projectMatrixFileLocationsByFileUrl?:  Map<string, FileLocation>;
 }
