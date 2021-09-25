@@ -9,6 +9,7 @@
 import { FileSummary } from "../../file-summary/file-summary";
 import { FetchFileSummarySuccessAction } from "./file-summary.actions";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FetchProjectFileSummarySuccessAction } from "../file-manifest/fetch-project-file-summary-success.actions";
 
 // Default file summary
 const DEFAULT_FILE_SUMMARY = {
@@ -52,6 +53,16 @@ export class FileSummaryState implements FileSummary {
      * @returns {FileSummaryState}
      */
     public fetchSummarySuccess(action: FetchFileSummarySuccessAction) {
+        return new FileSummaryState(action.fileSummary);
+    }
+
+    /**
+     * Project-specific file summary has been successfully requested from the server - return updated state.
+     *
+     * @param {FetchProjectFileSummarySuccessAction} action
+     * @returns {FileSummaryState}
+     */
+    public fetchProjectSummarySuccess(action: FetchProjectFileSummarySuccessAction) {
         return new FileSummaryState(action.fileSummary);
     }
 

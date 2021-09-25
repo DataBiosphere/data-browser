@@ -51,6 +51,10 @@ import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.ac
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
+import { FetchProjectFilesFacetsRequestAction } from "./facet/fetch-project-files-facets-request.action";
+import { SearchEntity } from "../search/search-entity.model";
+import { FetchProjectFileSummarySuccessAction } from "./file-manifest/fetch-project-file-summary-success.actions";
+import { FetchProjectFileSummaryRequestAction } from "./file-manifest/fetch-project-file-summary-request.actions";
 
 @Injectable()
 export class FilesEffects {
@@ -234,6 +238,51 @@ export class FilesEffects {
         );
 
     /**
+     * Fetch facets from files endpoint specific to the specified project, to populate facet summary in project
+     * download flows.
+     */
+    @Effect()
+    fetchProjectFilesFacets$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectFilesFacetsRequestAction.ACTION_TYPE),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1))
+                )
+            )),
+            switchMap(([action, catalog]) => {
+
+                const { projectId, selectedSearchTerms } = action as FetchProjectFilesFacetsRequestAction;
+                const selectedSearchTermsBySearchKey = selectedSearchTerms.reduce((accum, selectedSearchTerm: SearchTerm) => {
+
+                    const searchKey = selectedSearchTerm.getSearchKey();
+                    let searchTerms = accum.get(searchKey);
+                    if ( !searchTerms ) {
+                        searchTerms = new Set();
+                        accum.set(searchKey, searchTerms);
+                    }
+                    searchTerms.add(selectedSearchTerm);
+                    return accum;
+                }, new  Map<string, Set<SearchTerm>>());
+
+                // Add selected project as facet
+                const selectedProjectIds =
+                    new Set([new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectId)]);
+                selectedSearchTermsBySearchKey.set(FileFacetName.PROJECT_ID, selectedProjectIds);
+
+                return this.fileService.fetchEntitySearchResults(
+                    catalog,
+                    selectedSearchTermsBySearchKey,
+                    DEFAULT_TABLE_PARAMS,
+                    EntityName.FILES);
+            }),
+            map((entitySearchResults) => {
+
+                return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
+            })
+        );
+
+    /**
      * Project IDs are included in the set of selected search terms on load of app, query for the corresponding
      * project details.
      */
@@ -283,6 +332,32 @@ export class FilesEffects {
             switchMap(([action, catalog, searchTerms]) =>
                 this.fileService.fetchFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
+        );
+
+    /**
+     * Trigger update of project-specific file summary. File summary includes the donor count, file count etc that are
+     * specific to a selected project and any file types that have been selected during project files download (either
+     * curl or export to Terra).
+     */
+    @Effect()
+    fetchProjectSummary$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectFileSummaryRequestAction.ACTION_TYPE),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1))
+                )
+            )),
+            switchMap(([action, catalog]) => {
+                const { projectId, selectedSearchTerms} = action as FetchProjectFileSummaryRequestAction;
+                const projectSearchTerm = new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectId);
+                const searchTerms = [
+                    projectSearchTerm,
+                    ...selectedSearchTerms
+                ];
+                return this.fileService.fetchFileSummary(catalog, searchTerms);
+            }),
+            map((fileSummary: FileSummary) => new FetchProjectFileSummarySuccessAction(fileSummary))
         );
 
     /**

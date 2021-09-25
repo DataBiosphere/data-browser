@@ -2,25 +2,24 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying metadata associated with a project.
+ * Component for displaying metadata download options for a specific project.
  */
 
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { AppState } from "../../_ngrx/app.state";
 import { BehaviorSubject, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
-
 // App dependencies
+
+import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
+import { ProjectMetadataComponentState } from "./project-metadata.component.state";
+import EntitySpec from "../shared/entity-spec";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectTab } from "../project-detail/project-tab.model";
-import { ProjectMetadataComponentState } from "./project-metadata.component.state";
-import { GAAction } from "../../shared/analytics/ga-action.model";
-import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-metadata",
@@ -41,21 +40,34 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      * @param {ProjectDetailService} projectDetailService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
+     * @param {Router} router
      */
     public constructor(private projectDetailService: ProjectDetailService,
                        private store: Store<AppState>,
-                       private activatedRoute: ActivatedRoute) {
+                       private activatedRoute: ActivatedRoute,
+                       private router: Router) {
     }
 
     /**
-     * Set up tracking of tab. Set project meta tags.
-     * 
-     * @param {Project} project
+     * Return user to project overview
      */
-    private initTab(project: Project) {
+    public getBackButtonTab(): EntitySpec[] {
 
-        this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_METADATA);
-        this.projectDetailService.trackTabView(GAAction.VIEW_METADATA, project.entryId, project.projectShortname);
+        const key = "Project Overview";
+        return [{
+            key,
+            displayName: key
+        }];
+    }
+
+    /**
+     * Handle click on back button.
+     *
+     * @param {string} projectId
+     */
+    public onTabSelected(projectId: string): void {
+
+        this.router.navigate(["/projects", projectId]);
     }
 
     /**
@@ -63,7 +75,7 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      */
     public ngOnDestroy() {
 
-        // Set up tracking of project tab
+        // Remove project description meta
         this.projectDetailService.removeProjectMeta();
 
         this.ngDestroy$.next(true);
@@ -93,8 +105,8 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
                     project
                 });
 
-                // Set up tracking of project tab
-                this.initTab(project);
+                // Update description meta for this project
+                this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_METADATA);
             });
     }
 }

@@ -1,7 +1,14 @@
 <ng-container *ngIf="state$ | async as state">
-    <h2 class="fontsize-xl">Project Metadata</h2>
-    <project-manifest-download class="max600"
-                               *ngIf="state.loaded"
-                               [classFontName]="'fontsize-s'"
-                               [project]="state.project"></project-manifest-download>
+    <project-download-layout [loaded]="state.loaded"
+                             [project]="state.project"
+                             [tabs]="getBackButtonTab()"
+                             (tabSelected)="onTabSelected(state.project.entryId)">
+        <ng-container title>Project Metadata</ng-container>
+        <div contentLeft>
+            <project-manifest-download class="max600"
+                                       *ngIf="state.loaded"
+                                       [classFontName]="'fontsize-s'"
+                                       [project]="state.project"></project-manifest-download>
+        </div>
+    </project-download-layout>
 </ng-container>

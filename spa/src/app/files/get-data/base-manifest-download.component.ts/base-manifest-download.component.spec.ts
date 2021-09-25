@@ -108,7 +108,7 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm get file type summaries returns an empty array, when file summaries is empty - first execute the
         // method and then confirm the returned value is an empty array.
-        const fileTypeSummaries = component.getFileTypeSummaries(FILE_SUMMARY_EMPTY);
+        const fileTypeSummaries = FILE_SUMMARY_EMPTY.fileTypeSummaries;
         expect(fileTypeSummaries).toEqual([]);
     });
 
@@ -119,7 +119,7 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
         // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
-        const fileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY);
+        const fileTypeSummaries = DEFAULT_FILE_SUMMARY.fileTypeSummaries;
         expect(fileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
     });
 
@@ -152,7 +152,7 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm file type summaries empty returns true, when file summary is empty - first execute the
         // method and then confirm the returned value is true.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY_EMPTY);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY_EMPTY.fileTypeSummaries);
         expect(fileTypeSummariesEmpty).toEqual(true);
     });
 
@@ -163,7 +163,7 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm file type summaries empty returns false, when file summary is not empty - first execute the
         // method and then confirm the returned value is false.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
         expect(fileTypeSummariesEmpty).toEqual(false);
     });
 });

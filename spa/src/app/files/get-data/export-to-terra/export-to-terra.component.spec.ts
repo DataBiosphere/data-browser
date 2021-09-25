@@ -31,7 +31,7 @@ import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.componen
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
 import { ResponseTermService } from "../../http/response-term.service";
 import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
-import { selectFileManifestFileSummary } from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { selectFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { selectFileSummary } from "../../_ngrx/files.selectors";
 import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
@@ -190,28 +190,6 @@ describe("ExportToTerraComponent", () => {
     }));
 
     /**
-     * Confirm get file type summaries returns an empty array when file summaries is empty.
-     */
-    it("should get file type summaries return an empty array when file summaries is empty", () => {
-
-        // Confirm get file type summaries returns an empty array, when file summaries is empty - first execute the
-        // method and then confirm the returned value is an empty array.
-        const fileTypeSummaries = component.getFileTypeSummaries(FILE_SUMMARY_EMPTY);
-        expect(fileTypeSummaries).toEqual([]);
-    });
-
-    /**
-     * Confirm get file type summaries returns file type summaries when file summaries is not empty.
-     */
-    it("should get file type summaries return file type summaries when file summaries is not empty", () => {
-
-        // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
-        // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
-        const fileTypeSummaries = component.getFileTypeSummaries(DEFAULT_FILE_SUMMARY);
-        expect(fileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
-    });
-
-    /**
      * Confirm terra service URL returns the terra workspace URL, when export to terra url is not empty.
      */
     it("should get terra service url return terra url when export to terra url is not empty", () => {
@@ -251,7 +229,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display "Select File Types" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -265,7 +243,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component file-type-summary-list when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
         
@@ -280,7 +258,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -295,7 +273,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -310,7 +288,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Export is Being Prepared" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -324,7 +302,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Link is Ready" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -338,7 +316,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Error" when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -352,7 +330,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Select Export File Types" when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -366,7 +344,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component file-type-summary-list when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -382,7 +360,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component section-bar when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -398,7 +376,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component data-use-notification when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -414,7 +392,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display "Your Link is Being Prepared" when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -428,7 +406,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Export is Ready" when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -442,7 +420,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Error" when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
@@ -456,7 +434,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Select Export File Types" when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -470,7 +448,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component file-type-summary-list when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -486,7 +464,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component section-bar when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -502,7 +480,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -518,7 +496,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Export is Being Prepared" when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -532,7 +510,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display "Your Link is Ready" when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -546,7 +524,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Error" when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -560,7 +538,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Select Export File Types" when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -574,7 +552,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component file-type-summary-list when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -590,7 +568,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component section-bar when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -606,7 +584,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display component data-use-notification when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -622,7 +600,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Export is Being Prepared" when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -636,7 +614,7 @@ describe("ExportToTerraComponent", () => {
     it(`should not display "Your Export is Ready" when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -650,7 +628,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display "Error" when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
@@ -664,7 +642,7 @@ describe("ExportToTerraComponent", () => {
     it(`should display component copy-to-clipboard when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
@@ -680,7 +658,7 @@ describe("ExportToTerraComponent", () => {
     it("should store dispatch on click of request export", () => {
 
         store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-        store.overrideSelector(selectFileManifestFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
 
@@ -701,7 +679,7 @@ describe("ExportToTerraComponent", () => {
     it(`should new window open when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-        store.overrideSelector(selectFileManifestFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {
             exportToTerraStatus: ExportToTerraStatus.COMPLETE,
             exportToTerraUrl: "terraURL"

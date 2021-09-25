@@ -26,6 +26,10 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
 import { selectExportToTerra } from "./terra.selectors";
+import { SearchEntity } from "../../search/search-entity.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import { ExportToTerraProjectRequestAction } from "../project/export-to-terra-project-request.action";
 
 @Injectable()
 export class TerraEffects {
@@ -98,6 +102,49 @@ export class TerraEffects {
 
                 const manifestDownloadFormat = (action as ExportToTerraRequestAction).manifestDownloadFormat;
                 return this.terraService.exportToTerra(catalog, searchTerms, fileFormatsFileFacet, manifestDownloadFormat, killSwitch$);
+            }),
+            map(response => {
+                return this.terraService.isExportToTerraRequestInProgress(response.status) ?
+                    new ExportToTerraInProgressAction(response) :
+                    new ExportToTerraSuccessAction(response)
+            })
+        );
+
+    /**
+     * Trigger export to Terra for a specific project.
+     */
+    @Effect()
+    exportToTerraProject$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(ExportToTerraProjectRequestAction.ACTION_TYPE),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                )
+            )),
+            switchMap(([action, catalog]) => {
+
+                // Tracking dispatched in project effects
+
+                // Set up the kill switch for the polling of the Tera export. We'll use the value of the response
+                // object in the store, and only stop polling if the response state returns to NOT_STARTED (which occurs
+                // if user navigates away from export component).
+                const killSwitch$ = this.store.pipe(
+                    select(selectExportToTerra),
+                    map(terraState => terraState.exportToTerraStatus === ExportToTerraStatus.NOT_STARTED),
+                    filter(cleared => cleared), // Only allow value to emit if file manifest response has been cleared from the store
+                    take(1)
+                );
+
+                // Set up search terms; include project ID and any selected file formats
+                const { fileFormatFacet, manifestDownloadFormat, project, selectedSearchTerms: selectedFileFormatSearchTerms } =
+                    action as ExportToTerraProjectRequestAction;
+                const selectedSearchTerms = [
+                    ...selectedFileFormatSearchTerms,
+                    new SearchEntity(FileFacetName.PROJECT_ID, project.entryId, project.entryId)
+                ];
+
+                return this.terraService.exportToTerra(catalog, selectedSearchTerms, fileFormatFacet as FileFacet, manifestDownloadFormat, killSwitch$);
             }),
             map(response => {
                 return this.terraService.isExportToTerraRequestInProgress(response.status) ?

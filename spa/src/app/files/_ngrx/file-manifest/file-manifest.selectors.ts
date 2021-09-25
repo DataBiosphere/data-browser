@@ -17,13 +17,20 @@ import { FileManifestState } from "./file-manifest.state";
 export const selectFileManifest = createFeatureSelector<FileManifestState>("fileManifest");
 
 /**
- * Return the file summary counts for the file manifest download.
+ * Return the file type summaries for the file manifest download (reused for project metadata, bulk download
+ * export to Terra, project bulk download or project export to Terra).
  */
-export const selectFileManifestFileSummary =
-    createSelector(selectFileManifest, (state: FileManifestState) => state.fileSummary);
+export const selectFileManifestFileTypeSummaries =
+    createSelector(selectFileManifest, (state: FileManifestState) => state.fileTypeSummaries);
 
 /**
  * Return the status of the current manifest URL request.
  */
 export const selectFileManifestManifestResponse =
     createSelector(selectFileManifest, (state: FileManifestState) => state.manifestResponse);
+
+/**
+ * Return the project-specific file summary.
+ */
+export const selectProjectFileSummary =
+    createSelector(selectFileManifest, (state: FileManifestState) => state.projectFileSummary);

@@ -74,7 +74,6 @@ export class ProjectViewFactory {
     public getProjectView(catalog: Catalog, project: Project): ProjectView {
 
         return {
-            analysisPortals: project.analysisPortals,
             citationLink: this.buildCitationUrl(catalog, project.entryId),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),
@@ -82,10 +81,7 @@ export class ProjectViewFactory {
             dataCurators: this.buildDataCurators(project.contributors),
             dataSummaries: this.buildDataSummaries(project),
             fileTypeCounts: this.buildFileTypeCounts(project),
-            projectAccessionsSummaries: this.buildProjectAccessionsSummaries(project),
-            projectDescription: project.projectDescription,
-            publications: project.publications,
-            supplementaryLinks: project.supplementaryLinks
+            projectAccessionsSummaries: this.buildProjectAccessionsSummaries(project)
         };
     }
 

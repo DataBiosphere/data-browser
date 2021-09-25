@@ -16,12 +16,10 @@ import { filter, map, takeUntil } from "rxjs/operators";
 import { ConfigService } from "../../../config/config.service";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
-import { FileSummary } from "../../file-summary/file-summary";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { ExportToTerraComponentState } from "./export-to-terra.component.state";
 import { AppState } from "../../../_ngrx/app.state";
-import { FetchManifestDownloadFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-manifest-download-file-summary-request.action";
-import { selectFileManifestFileSummary } from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { FetchFileManifestFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-file-type-summaries-request.action";
+import { selectFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { LaunchTerraAction } from "../../_ngrx/terra/launch-terra.action";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
@@ -66,21 +64,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
 
         this.store = store;
         this.portalURL = this.configService.getPortalUrl();
-    }
-
-    /**
-     * Return the file type summary of the specified file summaries.
-     *
-     * @param {FileSummary} fileSummary
-     * @returns {FileTypeSummary[]}
-     */
-    public getFileTypeSummaries(fileSummary: FileSummary): FileTypeSummary[] {
-
-        if ( fileSummary ) {
-            return fileSummary.fileTypeSummaries;
-        }
-
-        return [];
     }
 
     /**
@@ -277,25 +260,26 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      */
     public ngOnInit() {
 
-        // Kick off request for file summaries, ignoring any currently selected file types
-        this.store.dispatch(new FetchManifestDownloadFileSummaryRequestAction());
+        // Kick off request for file summaries, ignoring any currently selected file types. Required for displaying
+        // file types form.
+        this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction());
 
-        // Grab the current set of selected search terms
+        // Grab the current set of selected search terms. Required for display in ride side stats.
         const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
 
-        // Grab file summary for populating file type counts on export to Terra modal
-        const selectManifestDownloadFileSummary$ = this.store.pipe(select(selectFileManifestFileSummary));
+        // Grab file summary for populating file type counts. Required for display in ride side stats.
+        const fileTypeSummaries$ = this.store.pipe(select(selectFileManifestFileTypeSummaries));
 
         // Update the UI with any changes in the export to Terra request status and URL
-        const selectExportToTerraStatus$ = this.store.pipe(select(selectExportToTerra));
+        const exportToTerra$ = this.store.pipe(select(selectExportToTerra));
         
-        this.state$ = combineLatest(
+        this.state$ = combineLatest([
             selectedSearchTerms$,
-            selectManifestDownloadFileSummary$,
-            selectExportToTerraStatus$
-        )
+            fileTypeSummaries$,
+            exportToTerra$
+        ])
             .pipe(
-                map(([selectedSearchTerms, manifestDownloadFileSummary, exportToTerra]) => {
+                map(([selectedSearchTerms, fileTypeSummaries, exportToTerra]) => {
 
                     const selectedSearchTermNames = selectedSearchTerms
                         .map(searchTerm => searchTerm.getDisplayValue());
@@ -303,7 +287,7 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
                     return {
                         selectedSearchTerms,
                         selectedSearchTermNames,
-                        manifestDownloadFileSummary,
+                        fileTypeSummaries,
                         ...exportToTerra
                     };
                 })

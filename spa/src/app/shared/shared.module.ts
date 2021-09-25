@@ -26,6 +26,7 @@ import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
 import { HCATooltipComponent } from "./hca-tooltip/hca-tooltip.component";
 import { KeyValuePairComponent } from "./key-value-pair/key-value-pair.component";
+import { KeyValuePairLayoutComponent } from "./key-value-pair/key-value-pair-layout.component";
 import { LearnMoreComponent } from "./learn-more/learn-more.component";
 import { NavComponent } from "./nav/nav.component";
 import { NoHitsComponent } from "./no-hits/no-hits.component";
@@ -63,6 +64,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         HCATabComponent,
         HCATooltipComponent,
         KeyValuePairComponent,
+        KeyValuePairLayoutComponent,
         LearnMoreComponent,
         NavComponent,
         NoHitsComponent,
@@ -95,6 +97,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         HCATabComponent,
         HCATooltipComponent,
         KeyValuePairComponent,
+        KeyValuePairLayoutComponent,
         LearnMoreComponent,
         NavComponent,
         NoHitsComponent,

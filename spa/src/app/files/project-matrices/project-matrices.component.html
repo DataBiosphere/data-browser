@@ -1,7 +1,16 @@
 <ng-container *ngIf="state$ | async as state">
-    <h2 class="fontsize-xl">Project Matrices</h2>
-    <project-matrix-download
-            class="project-matrices"
-            [project]="state.project"
-            [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
+    <project-download-layout [fullWidth]="true"
+                             [loaded]="state.loaded"
+                             [project]="state.project"
+                             [tabs]="getBackButtonTab()"
+                             (tabSelected)="onTabSelected(state.project.entryId)">
+        <ng-container title>Project Matrices</ng-container>
+        <div content>
+            <project-matrix-download
+                    class="project-matrices"
+                    *ngIf="state.loaded"
+                    [project]="state.project"
+                    [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
+        </div>
+    </project-download-layout>
 </ng-container>

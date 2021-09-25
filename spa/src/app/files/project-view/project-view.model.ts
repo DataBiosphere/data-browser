@@ -14,7 +14,6 @@ import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import { Publication } from "../shared/publication.model";
 
 export interface ProjectView {
-    analysisPortals: ProjectAnalysisPortal[],
     citationLink: string;
     contacts: ContactView[];
     collaboratingOrganizations: CollaboratingOrganizationView[];
@@ -23,7 +22,4 @@ export interface ProjectView {
     dataSummaries: KeyValuePair[];
     fileTypeCounts: KeyValuePair[];
     projectAccessionsSummaries: KeyValuePair[];
-    projectDescription: string;
-    publications: Publication[];
-    supplementaryLinks: string[];
 }

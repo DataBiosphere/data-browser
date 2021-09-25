@@ -13,8 +13,7 @@ import { KeyValuePair } from "./key-value-pair.model";
 
 @Component({
     selector: "key-value-pair",
-    templateUrl: "./key-value-pair.component.html",
-    styleUrls: ["./key-value-pair.component.scss"]
+    templateUrl: "./key-value-pair.component.html"
 })
 export class KeyValuePairComponent {
 

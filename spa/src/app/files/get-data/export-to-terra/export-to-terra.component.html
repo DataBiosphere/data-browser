@@ -3,13 +3,13 @@
         <ng-container title>Analyze in Terra</ng-container>
         <div content>
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
-                <get-data-panel [loading]="getFileTypeSummaries(state.manifestDownloadFileSummary).length === 0">
+                <get-data-panel [loading]="state.fileTypeSummaries.length === 0">
                     <h4 class="fontsize-m semi-bold">Select File Types</h4>
                     <p class="fontsize-m">Select the files types to be imported into your Terra workspace.</p>
                 </get-data-panel>
-                <ng-container *ngIf="getFileTypeSummaries(state.manifestDownloadFileSummary).length > 0">
+                <ng-container *ngIf="state.fileTypeSummaries.length > 0">
                     <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
-                                            [fileTypeSummaries]="getFileTypeSummaries(state.manifestDownloadFileSummary)"
+                                            [fileTypeSummaries]="state.fileTypeSummaries"
                                             (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                     <manifest-download-format-form *ngIf="isManifestDownloadFormatEnabled()"
                                                    [format]="manifestDownloadFormat"
