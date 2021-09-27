@@ -7,20 +7,20 @@
 
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { AppState } from "../../_ngrx/app.state";
-import { combineLatest, Observable, of } from "rxjs";
-import { map, take } from "rxjs/operators";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
+import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectTab } from "../project-detail/project-tab.model";
 import { ProjectMatricesComponentState } from "./project-matrices.component.state";
-import { GAAction } from "../../shared/analytics/ga-action.model";
+import EntitySpec from "../shared/entity-spec";
 
 @Component({
     selector: "project-matrices",
@@ -29,17 +29,46 @@ import { GAAction } from "../../shared/analytics/ga-action.model";
 })
 export class ProjectMatricesComponent implements OnDestroy, OnInit {
 
+    // Locals
+    private ngDestroy$ = new Subject<boolean>();
+
     // Template variables
-    public state$: Observable<ProjectMatricesComponentState>;
+    public state$ = new BehaviorSubject<ProjectMatricesComponentState>({
+        loaded: false
+    });
 
     /**
      * @param {ProjectDetailService} projectDetailService
      * @param {Store<AppState>} store
      * @param {ActivatedRoute} activatedRoute
+     * @param {Router} router
      */
     constructor(private projectDetailService: ProjectDetailService,
                 private store: Store<AppState>,
-                private activatedRoute: ActivatedRoute) {}
+                private activatedRoute: ActivatedRoute,
+                private router: Router) {}
+
+    /**
+     * Return user to project overview
+     */
+    public getBackButtonTab(): EntitySpec[] {
+
+        const key = "Project Overview";
+        return [{
+            key,
+            displayName: key
+        }];
+    }
+
+    /**
+     * Handle click on back button.
+     *
+     * @param {string} projectId
+     */
+    public onTabSelected(projectId: string): void {
+
+        this.router.navigate(["/projects", projectId]);
+    }
 
     /**
      * Clear project meta tags.
@@ -48,20 +77,9 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
 
         // Set up tracking of project tab
         this.projectDetailService.removeProjectMeta();
-    }
 
-    /**
-     * Set up tracking of tab. Set project meta tags.
-     */
-    private initTab() {
-
-        this.state$.pipe(
-            take(1)
-        ).subscribe((state) => {
-            const project = state.project;
-            this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_MATRICES);
-            this.projectDetailService.trackTabView(GAAction.VIEW_MATRICES, project.entryId, project.projectShortname);
-        });
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
     }
 
     /**
@@ -80,21 +98,23 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
         const projectMatrixFileLocationsByFileUrl$ = 
             this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
 
-        this.state$ = combineLatest(
+        combineLatest([
             project$,
             projectMatrixFileLocationsByFileUrl$
-        )
-            .pipe(
-                map(([project, projectMatrixFileLocationsByFileUrl]) => {
+        ])
+        .pipe(
+            takeUntil(this.ngDestroy$),
+            filter(([project]) => !!project)
+        ).subscribe(([project, projectMatrixFileLocationsByFileUrl]) => {
+    
+            this.state$.next({
+                loaded: true,
+                project,
+                projectMatrixFileLocationsByFileUrl
+            });
 
-                    return {
-                        project,
-                        projectMatrixFileLocationsByFileUrl
-                    };
-                })
-            );
-
-        // Set up tracking of project tab
-        this.initTab();
+            // Set up project description meta
+            this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_MATRICES);
+        });
     }
 }

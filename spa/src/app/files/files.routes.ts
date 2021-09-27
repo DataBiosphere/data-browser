@@ -20,15 +20,14 @@ import { ManifestDownloadComponent } from "./get-data/manifest-download/manifest
 import { ManifestDownloadSpeciesFormComponent } from "./get-data/manifest-download-species-form/manifest-download-species-form.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
 import { ExportToTerraSpeciesFormComponent } from "./get-data/export-to-terra-species-form/export-to-terra-species-form.component";
-import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
+import { ProjectDetailComponent } from "./project-detail/project-detail.component";
+import { ProjectBulkDownloadComponent } from "./project-get-data/project-bulk-download/project-bulk-download.component";
+import { ProjectTerraExportComponent } from "./project-get-data/project-terra-export/project-terra-export.component";
 import { ProjectManifestDownloadModalContainerComponent } from "./project-manifest-download-modal-container/project-manifest-download-modal-container.component";
-import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
-import { ProjectExternalResourcesComponent } from "./project-external-resources/project-external-resources.component";
-import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { ProjectMetadataComponent } from "./project-metadata/project-metadata.component";
 import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
-import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
-import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
+import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
+import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
 
 export const routes: Route[] = [
@@ -101,7 +100,15 @@ export const routes: Route[] = [
                     {
                         path: "",
                         pathMatch: "full",
-                        component: ProjectOverviewComponent
+                        component: ProjectDetailComponent
+                    },
+                    {
+                        path: "get-curl-command",
+                        component: ProjectBulkDownloadComponent
+                    },
+                    {
+                        path: "export-to-terra",
+                        component: ProjectTerraExportComponent
                     },
                     {
                         path: "project-metadata",
@@ -113,19 +120,19 @@ export const routes: Route[] = [
                     },
                     {
                         path: "expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
-                        redirectTo: "project-matrices"
+                        redirectTo: ""
                     },
                     {
-                        path: "external-resources",
-                        component: ProjectExternalResourcesComponent
+                        path: "external-resources", // Deprecated; maintained for backwards compatibility of bookmarks.
+                        redirectTo: ""
                     },
                     {
-                        path: "summary-stats",
-                        component: ProjectSummaryStatsComponent
+                        path: "summary-stats", // Deprecated; maintained for backwards compatibility of bookmarks.
+                        redirectTo: ""
                     },
                     {
-                        path: "data-citation",
-                        component: ProjectDataCitationComponent
+                        path: "data-citation", // Deprecated; maintained for backwards compatibility of bookmarks.
+                        redirectTo: ""
                     }
                 ]
             },

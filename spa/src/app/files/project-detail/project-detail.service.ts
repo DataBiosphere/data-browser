@@ -2,8 +2,8 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Service specific to project detail functionality. For example, tracking of project tab views or setting/clearing
- * project meta tags.
+ * Service specific to project detail functionality. For example, updating description meta for each project-specific
+ * view or download.
  */
 
 // Core dependencies
@@ -13,8 +13,6 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { ViewProjectTabAction } from "../_ngrx/table/view-project-tab.action";
-import { GAAction } from "../../shared/analytics/ga-action.model";
 
 @Injectable()
 export class ProjectDetailService {
@@ -50,21 +48,5 @@ export class ProjectDetailService {
     public removeProjectMeta() {
 
         this.meta.removeTag(`name="description"`);
-    }
-
-    /**
-     * Set up tracking of view of project tab (eg project overview, project metadata etc). Dispatches project tab action
-     * on view of tab.
-     *
-     * @param {GAAction} tabName
-     * @param {string} projectId
-     * @param {string} projectShortname
-     */
-    public trackTabView(tabName: GAAction, projectId: string, projectShortname: string) {
-
-        const url = window.location.href;
-        const action =
-            new ViewProjectTabAction(tabName, projectId, projectShortname, url);
-        this.store.dispatch(action);
     }
 }

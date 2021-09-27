@@ -9,8 +9,8 @@
 // Core dependencies
 import { Action } from "@ngrx/store";
 
-export class ClearManifestDownloadFileSummaryAction implements Action {
-    public static ACTION_TYPE = "FILE.MANIFEST_DOWNLOAD_FILE_SUMMARY.CLEAR";
-    public readonly type = ClearManifestDownloadFileSummaryAction.ACTION_TYPE;
+export class ClearFileManifestFileTypeSummaries implements Action {
+    public static ACTION_TYPE = "FILE.FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_CLEAR";
+    public readonly type = ClearFileManifestFileTypeSummaries.ACTION_TYPE;
     constructor() {}
 }

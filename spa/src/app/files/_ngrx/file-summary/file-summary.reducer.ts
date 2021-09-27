@@ -14,6 +14,7 @@ import {
     FetchFileSummarySuccessAction
 } from "./file-summary.actions";
 import { FileSummaryState } from "./file-summary.state";
+import { FetchProjectFileSummarySuccessAction } from "../file-manifest/fetch-project-file-summary-success.actions";
 
 export function reducer(state: FileSummaryState = FileSummaryState.getDefaultState(), action: Action): FileSummaryState {
 
@@ -24,6 +25,9 @@ export function reducer(state: FileSummaryState = FileSummaryState.getDefaultSta
 
         case FetchFileSummarySuccessAction.ACTION_TYPE:
             return state.fetchSummarySuccess(action as FetchFileSummarySuccessAction);
+            
+        case FetchProjectFileSummarySuccessAction.ACTION_TYPE:
+            return state.fetchProjectSummarySuccess(action as FetchProjectFileSummarySuccessAction);
 
         default:
             return state;

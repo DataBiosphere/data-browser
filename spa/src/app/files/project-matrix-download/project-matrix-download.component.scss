@@ -17,11 +17,6 @@ h2 {
     margin-top: 24px;
 }
 
-data-use-notification {
-    display: block;
-    width: 600px; /* Match max-width */
-}
-
 /** Remove margin from bottom of no hits paragraph */
 no-hits p.fontsize-s {
     margin-bottom: 0 !important; // important to override parent-driven styles below */
@@ -51,20 +46,8 @@ no-hits p.fontsize-s {
     :host.project-matrices {
 
         project-matrix-table {
-            min-width: 100%; /* Table can be wider than 600px text */
-        }
-    }
-}
-
-@media (min-width: 960px) {
-
-    /** Matrix download displayed on project detail **/
-    :host.project-matrices {
-
-        project-matrix-table {
             min-width: unset;
-            max-width: 792px; /* Snap table - matches max width of project matrix download table in modal */
+            max-width: 1200px; /* Snap table - matches 600 + 600 of LHS and RHS of project detail */
         }
     }
 }
-

@@ -9,16 +9,16 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
+import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 import { InitEntityStateAction } from "../entity/init-entity-state.action";
+import { FacetState } from "./facet.state";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
-import { FacetState } from "./facet.state";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
 import { SetViewStateAction } from "./set-view-state.action";
 import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.action";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
-import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 
 /**
  * @param state {FacetState}
@@ -37,7 +37,7 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FacetState.getDefaultState();
         
-            // Reset files facets (facets fetched from files endpoint for display on get data pages)
+        // Reset files facets (facets fetched from files endpoint for display on get data pages)
         case ClearFilesFacetsAction.ACTION_TYPE:
             return state.clearFilesFacets();
 

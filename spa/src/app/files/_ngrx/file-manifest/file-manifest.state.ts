@@ -2,29 +2,34 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Representation of state backing file manifest download modal. Contains both summary data and download status.
+ * Representation of state backing file manifest downloads for both selected data and project files downloads.
  */
 
 // App dependencies
+import { FetchFileManifestFileTypeSummariesSuccessAction } from "./fetch-file-manifest-file-type-summaries-success.action";
 import { FileManifest } from "./file-manifest.model";
 import { FileSummaryState } from "../file-summary/file-summary.state";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FetchManifestDownloadFileSummarySuccessAction } from "./fetch-manifest-download-file-summary-success.action";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { ClearFileManifestUrlAction } from "./clear-file-manifest-url.action";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileSummary } from "../../file-summary/file-summary";
+import { FetchProjectFileSummarySuccessAction } from "./fetch-project-file-summary-success.actions";
 
 const DEFAULT_FILE_MANIFEST_STATE = {
-    fileSummary: FileSummaryState.getDefaultState(),
+    fileTypeSummaries: [],
     manifestResponse: {
         status: ManifestStatus.NOT_STARTED
-    } as ManifestResponse
+    } as ManifestResponse,
+    projectFileSummary: {} as FileSummary 
 };
 
 export class FileManifestState {
 
-    public readonly fileSummary: FileSummaryState;
+    public readonly fileTypeSummaries: FileTypeSummary[];
     public readonly manifestResponse: ManifestResponse;
+    public readonly projectFileSummary: FileSummary;
 
     /**
      * @param {FileManifestState} state
@@ -44,7 +49,8 @@ export class FileManifestState {
             manifestResponse: {
                 status: ManifestStatus.NOT_STARTED
             } as ManifestResponse,
-            fileSummary: this.fileSummary
+            fileTypeSummaries: this.fileTypeSummaries,
+            projectFileSummary: this.projectFileSummary
         });
     }
 
@@ -59,7 +65,8 @@ export class FileManifestState {
     public fetchFileManifestUrlSuccess(action: FetchFileManifestUrlSuccessAction) {
         return new FileManifestState({
             manifestResponse: action.response,
-            fileSummary: this.fileSummary
+            fileTypeSummaries: this.fileTypeSummaries,
+            projectFileSummary: this.projectFileSummary
         });
     }
 
@@ -68,20 +75,34 @@ export class FileManifestState {
      *
      * @returns {FileSummaryState}
      */
-    public fetchSummaryRequest(): FileManifestState {
+    public fetchFileTypeSummariesRequest(): FileManifestState {
         return this;
     }
 
     /**
-     * File summary has been successfully requested from the server - return updated state.
+     * File type summaries has been successfully requested from the server - return updated state.
      *
-     * @param {FetchManifestDownloadFileSummarySuccessAction} action
+     * @param {FetchFileManifestFileTypeSummariesSuccessAction} action
      * @returns {FileManifestState}
      */
-    public fetchSummarySuccess(action: FetchManifestDownloadFileSummarySuccessAction) {
+    public fetchFileTypeSummariesSuccess(action: FetchFileManifestFileTypeSummariesSuccessAction) {
         return new FileManifestState({
             manifestResponse: this.manifestResponse,
-            fileSummary: action.fileSummary
+            fileTypeSummaries: action.fileTypeSummaries,
+            projectFileSummary: this.projectFileSummary
+        });
+    }
+    /**
+     * Project-specific file summary has been successfully requested from the server - return updated state.
+     *
+     * @param {FetchFileManifestFileTypeSummariesSuccessAction} action
+     * @returns {FileManifestState}
+     */
+    public fetchProjectFileSummary(action: FetchProjectFileSummarySuccessAction) {
+        return new FileManifestState({
+            manifestResponse: this.manifestResponse,
+            fileTypeSummaries: this.fileTypeSummaries,
+            projectFileSummary: action.fileSummary
         });
     }
 
