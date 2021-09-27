@@ -1,5 +1,5 @@
 <div *ngFor="let tableView of groupProjectMatrixViewsBySpecies(projectMatrixViews); trackBy: trackProjectMatrixTableView">
-    <h5 class="fontsize-s">{{getSpeciesDisplayText(tableView.species)}}</h5>
+    <h3 class="fontsize-l">{{getSpeciesDisplayText(tableView.species)}}</h3>
     <mat-table [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews">
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
