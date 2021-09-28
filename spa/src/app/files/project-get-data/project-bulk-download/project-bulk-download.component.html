@@ -5,15 +5,16 @@
                              (tabSelected)="onTabSelected(state.project.entryId)">
         <ng-container title>Download Project Data Using curl</ng-container>
         <div *ngIf="state.loaded" contentLeft>
+            <p class="fontsize-s">Obtain a curl command for downloading the selected data.</p>
             <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
                 <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileTypeSummaries)">
                     <h4 class="fontsize-m semi-bold">Select File Types for Download</h4>
                     <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
                 </get-data-panel>
                 <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
-                    <file-type-summary-list [selectedSearchTermNames]="selectedSearchTermNames"
+                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected(state.project.entryId, $event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                     <div class="execution-environment fontsize-s">
                         <p class="fontsize-s">Select Shell:</p>
                         <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
@@ -29,8 +30,8 @@
                     </warning>
                     <button class="button primary"
                             type="button"
-                            (click)="onRequestManifest(state.project, selectedSearchTerms, state.filesFacets, executionEnvironment)"
-                            [disabled]="!isRequestFormValid(selectedSearchTerms, executionEnvironment)">Request curl
+                            (click)="onRequestManifest(state.project, executionEnvironment)"
+                            [disabled]="!isRequestFormValid(state.selectedSearchTerms, executionEnvironment)">Request curl
                         Command
                     </button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
@@ -50,13 +51,12 @@
                 <warning-data-normalization></warning-data-normalization>
                 <p class="fontsize-m">Execute the curl command below in your terminal to download the selected data.</p>
                 <div class="download">
-                    <p class="bulk-download-curl fontsize-xs"
-                       (dataLinkClicked)="onDataLinkClicked(selectedSearchTerms, state.manifestResponse.fileUrl)">
+                    <p class="bulk-download-curl fontsize-xs">
                         {{getCurlCommand(state.manifestResponse, executionEnvironment)}}
                     </p>
                     <copy-to-clipboard [copyToClipboardLink]="getCurlCommand(state.manifestResponse, executionEnvironment)"
                                        [copyToClipboardLabel]="'command'"
-                                       (copyClicked)="onDataLinkCopied(state.project, selectedSearchTerms, executionEnvironment, state.manifestResponse.fileUrl)"></copy-to-clipboard>
+                                       (copyClicked)="onDataLinkCopied(state.project, executionEnvironment, state.manifestResponse.fileUrl)"></copy-to-clipboard>
                     <warning>
                         <warning-content>
                             <p class="fontsize-m">The curl command downloads data files only. To download the matching metadata,
@@ -71,8 +71,7 @@
             <get-data-summary *ngIf="state.loaded"
                               [filesFacets]="state.filesFacets"
                               [fileSummary]="state.fileSummary"
-                              [queryEnabled]="false"
-                              [selectedSearchTerms]="[]"></get-data-summary>
+                              [selectedSearchTerms]="state.selectedSearchTerms"></get-data-summary>
         </ng-container>
     </project-download-layout>
 </ng-container>

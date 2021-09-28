@@ -9,11 +9,9 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 import { InitEntityStateAction } from "../entity/init-entity-state.action";
 import { FacetState } from "./facet.state";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
-import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { ClearSelectedTermsAction } from "../search/clear-selected-terms.action";
 import { SetViewStateAction } from "./set-view-state.action";
@@ -36,19 +34,11 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         // Clear all search terms
         case ClearSelectedTermsAction.ACTION_TYPE:
             return FacetState.getDefaultState();
-        
-        // Reset files facets (facets fetched from files endpoint for display on get data pages)
-        case ClearFilesFacetsAction.ACTION_TYPE:
-            return state.clearFilesFacets();
 
         // Handle cases where facet list has been re/requested and updated list of facets have been returned from end
         // point.
         case FetchFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFileFacets(action as FetchFacetsSuccessAction);
-            
-        // Fetch facets from files endpoint for populating facet summary on get data pages
-        case FetchFilesFacetsSuccessAction.ACTION_TYPE:
-            return state.receiveFilesFacets(action as FetchFilesFacetsSuccessAction);
 
         // Set up data for selected entity (eg projects, samples, files)
         case InitEntityStateAction.ACTION_TYPE:

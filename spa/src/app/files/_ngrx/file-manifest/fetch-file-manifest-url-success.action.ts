@@ -13,7 +13,7 @@ import { Action } from "@ngrx/store";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 
 export class FetchFileManifestUrlSuccessAction implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.FETCH_FILE_MANIFEST_URL_SUCCESS";
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_MANIFEST_URL_SUCCESS";
     public readonly type = FetchFileManifestUrlSuccessAction.ACTION_TYPE;
     constructor(public readonly response: ManifestResponse) {}
 }

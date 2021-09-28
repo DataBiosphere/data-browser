@@ -1,5 +1,10 @@
 <ng-container *ngIf="keyValuePairs">
     <h4 class="fontsize-m semi-bold">File Counts</h4>
-    <key-value-pair *ngFor="let keyValuePair of keyValuePairs"
-                    [keyValuePair]="keyValuePair"></key-value-pair>
+    <key-value-pair-layout *ngFor="let keyValuePair of keyValuePairs">
+        <ng-container key>{{keyValuePair.key}}</ng-container>
+        <ng-container value>
+            <a (click)="onFileTypeClicked(keyValuePair.key)" [routerLink]="['get-curl-command']">
+                <img class="download-visit" [class]="{'file-type-total' :isFileTypeTotal(keyValuePair.key)}" src="assets/images/icon/download-primary.png">
+            </a>{{keyValuePair.value}}</ng-container>
+    </key-value-pair-layout>
 </ng-container>

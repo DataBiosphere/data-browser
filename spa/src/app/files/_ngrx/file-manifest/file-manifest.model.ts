@@ -7,12 +7,16 @@
  */
 
 // App dependencies
+import { Facet } from "../../facet/facet.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { FileSummary } from "../../file-summary/file-summary";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { SearchTerm } from "../../search/search-term.model";
 
 export interface FileManifest {
-    manifestResponse: ManifestResponse;
+    filesFacets: Facet[];
     fileTypeSummaries: FileTypeSummary[];
+    manifestResponse: ManifestResponse;
     projectFileSummary: FileSummary;
+    selectedProjectSearchTerms: SearchTerm[];
 }

@@ -12,7 +12,6 @@ import { FacetAgeRangeName } from "../../facet/facet-age-range/facet-age-range-n
 import { FacetAgeRange } from "../../facet/facet-age-range/facet-age-range.model";
 import { AgeRange } from "../../facet/facet-age-range/age-range.model";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
-import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { FetchFacetsSuccessAction } from "./fetch-facets-success-action.action";
 import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.action";
 import { SelectFacetAgeRangeAction } from "../search/select-facet-age-range.action";
@@ -26,7 +25,6 @@ export class FacetState {
 
     public readonly facets: Facet[];
     public readonly fileFacets: FileFacet[]; // Subset of facets, containing only facets of type file facet
-    public readonly filesFacets: Facet[]; // Set of facets from files endpoint, used to display facet values on get data flow
     public readonly selectedFacet: Facet; // Facet currently being edited.
     public readonly paginationModel: Pagination;
 
@@ -36,19 +34,16 @@ export class FacetState {
     /**
      * @param {string[]} facetNames
      * @param {Map<string, Facet>} facetsByName
-     * @param {Facet[]} filesFacets
      * @param {Facet} selectedFacet
      * @param {Pagination} paginationModel
      */
     constructor(facetNames: string[],
                 facetsByName: Map<string, Facet>,
-                filesFacets: Facet[],
                 selectedFacet: Facet,
                 paginationModel: Pagination) {
 
         this.facetNames = facetNames;
         this.facetsByName = facetsByName; // Facets specifically fetched from files endpoint, used for displaying data summary on get data functionality 
-        this.filesFacets = filesFacets;
         this.selectedFacet = selectedFacet;
         
         // TODO set default pagination model if undefined
@@ -71,7 +66,6 @@ export class FacetState {
         return new FacetState(
             [],
             new Map<string, FileFacet>(),
-            [],
             undefined,
             undefined);
     }
@@ -105,18 +99,7 @@ export class FacetState {
         const selectedFacet = this.determineSelectedFacet(this.selectedFacet, newSelectedFacet);
 
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
-    }
-
-    /**
-     * Clear the files facets (facets fetched from files endpoint and displayed on get data pages).
-     *
-     * @returns {FacetState}
-     */
-    public clearFilesFacets(): FacetState {
-
-        return new FacetState(
-            this.facetNames, this.facetsByName, [], this.selectedFacet, this.paginationModel);
+            this.facetNames, fileFacetsByName, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -127,7 +110,7 @@ export class FacetState {
     public requestFileFacets(): FacetState {
 
         return new FacetState(
-            this.facetNames, this.facetsByName, this.filesFacets, this.selectedFacet, this.paginationModel);
+            this.facetNames, this.facetsByName, this.selectedFacet, this.paginationModel);
     }
 
     /**
@@ -141,23 +124,6 @@ export class FacetState {
         return new FacetState(
             FacetState.createFacetNames(action.facets),
             FacetState.createFacetsMap(action.facets),
-            this.filesFacets,
-            this.selectedFacet,
-            this.paginationModel);
-    }
-
-    /**
-     * Handle set of file facets returned from the files end point, used to populate data summary on get data pages.
-     *
-     * @param {SelectFacetAgeRangeAction} action
-     * @returns {FacetState}
-     */
-    public receiveFilesFacets(action: FetchFilesFacetsSuccessAction): FacetState {
-
-        return new FacetState(
-            this.facetNames,
-            this.facetsByName,
-            action.fileFileFacets,
             this.selectedFacet,
             this.paginationModel);
     }
@@ -203,7 +169,7 @@ export class FacetState {
         // Return new state of file facet list (ie with newly selected/deselected term and potentially newly selected
         // facet).
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
+            this.facetNames, fileFacetsByName, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -236,7 +202,7 @@ export class FacetState {
         const selectedFacet = this.determineSelectedFacet(this.selectedFacet, newSelectedFacet);
         
         return new FacetState(
-            this.facetNames, fileFacetsByName, this.filesFacets, selectedFacet, this.paginationModel);
+            this.facetNames, fileFacetsByName, selectedFacet, this.paginationModel);
     }
 
     /**
@@ -271,7 +237,7 @@ export class FacetState {
             return accum;
         }, new Map<string, Facet>());
 
-        return new FacetState(fileFacetNames, fileFacetsMap, [],null, null);
+        return new FacetState(fileFacetNames, fileFacetsMap, null, null);
     }
     
     /*

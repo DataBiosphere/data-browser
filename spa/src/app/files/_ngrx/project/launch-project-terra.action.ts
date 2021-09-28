@@ -2,7 +2,10 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when user clicks on launch project's Terra link.
+ * Action triggered when user clicks on project download launch Terra link.
+ *
+ * TODO
+ * Move download-related tracking actions and effects to file-manifest.
  */
 
 // App dependencies
@@ -10,7 +13,6 @@ import { Action } from "@ngrx/store";
 
 // Core dependencies
 import { TrackingAction } from "../analytics/tracking.action";
-import { SearchTerm } from "../../search/search-term.model";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
@@ -20,16 +22,14 @@ import { ToolName } from "../../shared/tool-name.model";
 
 export class LaunchProjectTerraAction implements Action, TrackingAction {
     
-    public static ACTION_TYPE = "FILE.LAUNCH_PROJECT_TERRA";
+    public static ACTION_TYPE = "PROJECT.LAUNCH_PROJECT_TERRA";
     public readonly type = LaunchProjectTerraAction.ACTION_TYPE;
 
     /**
      * @param {Project} project
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
     constructor(private project: Project,
-                private selectedSearchTerms: SearchTerm[],
                 private exportToTerraUrl: string) {}
 
     /**
@@ -38,9 +38,7 @@ export class LaunchProjectTerraAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
-        const terms = this.selectedSearchTerms.map(searchTerm => searchTerm.getSearchValue()).join(", ");
+    public asEvent({catalog, terms}): GAEvent {
 
         return {
             category: GACategory.PROJECT,

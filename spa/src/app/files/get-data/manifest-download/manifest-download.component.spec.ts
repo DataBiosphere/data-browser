@@ -28,10 +28,9 @@ import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.compo
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
 import { ManifestDownloadComponent } from "./manifest-download.component";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
 import {
     selectFileManifestFileTypeSummaries,
-    selectFileManifestManifestResponse
+    selectFileManifestManifestResponse, selectFilesFacets
 } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
 import { selectFileSummary } from "../../_ngrx/files.selectors";

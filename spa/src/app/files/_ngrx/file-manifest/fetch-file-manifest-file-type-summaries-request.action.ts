@@ -10,8 +10,15 @@
 import { Action } from "@ngrx/store";
 
 export class FetchFileManifestFileTypeSummariesRequestAction implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_REQUEST";
+    
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_REQUEST";
     public readonly type = FetchFileManifestFileTypeSummariesRequestAction.ACTION_TYPE;
-    constructor() {}
+
+    /**
+     * @param {boolean} projectDownload - True if request is for project-specific downloads. This can be removed once 
+     * selected search terms for get data downloads is moved to use the download-specific selected search terms and 
+     * not the app-wide selected search terms.
+     */
+    constructor(public readonly projectDownload?: boolean) {}
 }
 

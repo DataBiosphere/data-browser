@@ -11,7 +11,7 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
-import { ClearFilesFacetsAction } from "../_ngrx/facet/clear-files-facets.action";
+import { ClearFilesFacetsAction } from "../_ngrx/file-manifest/clear-files-facets.action";
 
 @Component({
     selector: "get-data",

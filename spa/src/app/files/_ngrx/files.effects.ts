@@ -10,19 +10,16 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, distinct, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { concatMap, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { selectCatalog } from "./catalog/catalog.selectors";
 import { SelectCatalogAction } from "./catalog/select-catalog.action";
-import { ClearFilesFacetsAction } from "./facet/clear-files-facets.action";
 import { InitEntityStateAction } from "./entity/init-entity-state.action";
 import { FetchFacetsSuccessAction } from "./facet/fetch-facets-success-action.action";
 import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.action";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
-import { FetchFilesFacetsRequestAction } from "./facet/fetch-files-facets-request.action";
-import { FetchFilesFacetsSuccessAction } from "./facet/fetch-files-facets-success.action";
 import { selectTableQueryParams } from "./files.selectors";
 import { FileSummary } from "../file-summary/file-summary";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
@@ -51,10 +48,6 @@ import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.ac
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { DEFAULT_TABLE_PARAMS } from "../table/pagination/table-params.model";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
-import { FetchProjectFilesFacetsRequestAction } from "./facet/fetch-project-files-facets-request.action";
-import { SearchEntity } from "../search/search-entity.model";
-import { FetchProjectFileSummarySuccessAction } from "./file-manifest/fetch-project-file-summary-success.actions";
-import { FetchProjectFileSummaryRequestAction } from "./file-manifest/fetch-project-file-summary-request.actions";
 
 @Injectable()
 export class FilesEffects {
@@ -205,84 +198,6 @@ export class FilesEffects {
         );
 
     /**
-     * Fetch facets from files endpoint to populate facet summary and species form in get data flow.
-     */
-    @Effect()
-    fetchFilesFacets$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchFilesFacetsRequestAction.ACTION_TYPE),
-            // Prevent dupe hits to fetch files facets. Reset distinct on select of term, or clear of fetch files 
-            // facets action.
-            distinct((action) => action.type, 
-                this.actions$.pipe(ofType(ClearFilesFacetsAction.ACTION_TYPE, SelectFileFacetTermAction.ACTION_TYPE))
-            ),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectTableQueryParams), take(1))
-                )
-            )),
-            switchMap(([action, catalog, tableQueryParams]) => {
-
-                const selectedSearchTermsBySearchKey = tableQueryParams.selectedSearchTermsBySearchKey;
-                return this.fileService.fetchEntitySearchResults(
-                    catalog,
-                    selectedSearchTermsBySearchKey,
-                    DEFAULT_TABLE_PARAMS,
-                    EntityName.FILES);
-            }),
-            map((entitySearchResults) => {
-                
-                return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
-            })
-        );
-
-    /**
-     * Fetch facets from files endpoint specific to the specified project, to populate facet summary in project
-     * download flows.
-     */
-    @Effect()
-    fetchProjectFilesFacets$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchProjectFilesFacetsRequestAction.ACTION_TYPE),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1))
-                )
-            )),
-            switchMap(([action, catalog]) => {
-
-                const { projectId, selectedSearchTerms } = action as FetchProjectFilesFacetsRequestAction;
-                const selectedSearchTermsBySearchKey = selectedSearchTerms.reduce((accum, selectedSearchTerm: SearchTerm) => {
-
-                    const searchKey = selectedSearchTerm.getSearchKey();
-                    let searchTerms = accum.get(searchKey);
-                    if ( !searchTerms ) {
-                        searchTerms = new Set();
-                        accum.set(searchKey, searchTerms);
-                    }
-                    searchTerms.add(selectedSearchTerm);
-                    return accum;
-                }, new  Map<string, Set<SearchTerm>>());
-
-                // Add selected project as facet
-                const selectedProjectIds =
-                    new Set([new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectId)]);
-                selectedSearchTermsBySearchKey.set(FileFacetName.PROJECT_ID, selectedProjectIds);
-
-                return this.fileService.fetchEntitySearchResults(
-                    catalog,
-                    selectedSearchTermsBySearchKey,
-                    DEFAULT_TABLE_PARAMS,
-                    EntityName.FILES);
-            }),
-            map((entitySearchResults) => {
-
-                return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
-            })
-        );
-
-    /**
      * Project IDs are included in the set of selected search terms on load of app, query for the corresponding
      * project details.
      */
@@ -332,32 +247,6 @@ export class FilesEffects {
             switchMap(([action, catalog, searchTerms]) =>
                 this.fileService.fetchFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
-        );
-
-    /**
-     * Trigger update of project-specific file summary. File summary includes the donor count, file count etc that are
-     * specific to a selected project and any file types that have been selected during project files download (either
-     * curl or export to Terra).
-     */
-    @Effect()
-    fetchProjectSummary$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(FetchProjectFileSummaryRequestAction.ACTION_TYPE),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1))
-                )
-            )),
-            switchMap(([action, catalog]) => {
-                const { projectId, selectedSearchTerms} = action as FetchProjectFileSummaryRequestAction;
-                const projectSearchTerm = new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectId);
-                const searchTerms = [
-                    projectSearchTerm,
-                    ...selectedSearchTerms
-                ];
-                return this.fileService.fetchFileSummary(catalog, searchTerms);
-            }),
-            map((fileSummary: FileSummary) => new FetchProjectFileSummarySuccessAction(fileSummary))
         );
 
     /**

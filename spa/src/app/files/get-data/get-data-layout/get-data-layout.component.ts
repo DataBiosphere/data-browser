@@ -15,8 +15,8 @@ import { filter, takeUntil } from "rxjs/operators";
 // App dependencies
 import { GetDataLayoutComponentState } from "./get-data-layout.component.state";
 import { AppState } from "../../../_ngrx/app.state";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
-import { FetchFilesFacetsRequestAction } from "../../_ngrx/facet/fetch-files-facets-request.action";
+import { FetchFilesFacetsRequestAction } from "../../_ngrx/file-manifest/fetch-files-facets-request.action";
+import { selectFilesFacets } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { selectFileSummary } from "../../_ngrx/files.selectors";
 import EntitySpec from "../../shared/entity-spec";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";

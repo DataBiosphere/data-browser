@@ -9,7 +9,7 @@
 import { Action } from "@ngrx/store";
 
 export class ClearFilesFacetsAction implements Action {
-    public static ACTION_TYPE = "FILE.FACET.CLEAR_FILES_FACETS";
+    public static ACTION_TYPE = "FILE_MANIFEST.CLEAR_FILES_FACETS";
     public readonly type = ClearFilesFacetsAction.ACTION_TYPE;
     constructor() {}
 }

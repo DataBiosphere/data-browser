@@ -18,6 +18,7 @@ import { selectCatalog } from "../catalog/catalog.selectors";
 import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
 import { CopyToClipboardProjectBulkDownloadAction } from "./copy-to-clipboard-project-bulk-download.action";
 import { CopyToClipboardProjectTerraUrlAction } from "./copy-to-clipboard-project-terra-url.action";
+import { ExportProjectToTerraRequestAction } from "./export-project-to-terra-request.action";
 import { FetchProjectManifestFileLocationRequestAction } from "./fetch-project-manifest-file-location-request.action";
 import { FetchProjectManifestFileLocationSuccessAction } from "./fetch-project-manifest-file-location-success.action";
 import { FetchProjectMatrixFileLocationRequestAction } from "./fetch-project-matrix-file-location-request.action";
@@ -30,6 +31,7 @@ import { ProjectService } from "../../project/project.service";
 import { selectProjectEditsById } from "../project-edits/project-edits.selectors";
 import { RequestProjectBulkDownloadAction } from "./request-project-bulk-download.action";
 import { selectPreviousQuery } from "../search/search.selectors";
+import { selectProjectSelectedSearchTerms } from "../file-manifest/file-manifest.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { Project } from "../../shared/project.model";
 import { ClearSelectedProjectAction } from "../table/clear-selected-project.action";
@@ -38,7 +40,6 @@ import { ViewProjectDeprecatedAction } from "../table/view-project-deprecated.ac
 import { ViewProjectIntegrationAction } from "../table/view-project-integration.action";
 import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
 import { ViewProjectWithdrawnAction } from "../table/view-project-withdrawn.action";
-import { ExportToTerraProjectRequestAction } from "./export-to-terra-project-request.action";
 import { ViewProjectAccessionAction } from "./view-project-accession.action";
 
 @Injectable()
@@ -169,48 +170,32 @@ export class ProjectEffects {
         );
 
     /**
-     * Trigger tracking of request project bulk download, or copy to clipboard of project bulk download curl command.
+     * Trigger tracking of project download-related action.
      */
     @Effect({dispatch: false})
-    trackProjectBulkDownload$ = this.actions$.pipe(
-        ofType(CopyToClipboardProjectBulkDownloadAction.ACTION_TYPE, RequestProjectBulkDownloadAction.ACTION_TYPE),
+    trackProjectDownload$ = this.actions$.pipe(
+        ofType(
+            CopyToClipboardProjectBulkDownloadAction.ACTION_TYPE,
+            RequestProjectBulkDownloadAction.ACTION_TYPE,
+            ExportProjectToTerraRequestAction.ACTION_TYPE,
+            CopyToClipboardProjectTerraUrlAction.ACTION_TYPE,
+            LaunchProjectTerraAction.ACTION_TYPE
+        ),
         concatMap(action => of(action).pipe(
             withLatestFrom(
                 this.store.pipe(select(selectCatalog), take(1)),
+                this.store.pipe(select(selectProjectSelectedSearchTerms), take(1))
             )
         )),
-        tap(([action, catalog]) => {
+        tap(([action, catalog, selectedSearchTerms]) => {
+
+            const terms = selectedSearchTerms.map(searchTerm => searchTerm.getSearchValue()).join(", ");
             this.gtmService.trackEvent((action as TrackingAction).asEvent({
-                catalog
+                catalog,
+                terms
             }));
         })
     );
-
-    /**
-     * Trigger tracking of request Terra export, or copy to clipboard of Terra workspace link.
-     */
-    @Effect({dispatch: false})
-    trackProjectTerraExport$ = this.actions$
-        .pipe(
-            ofType(
-                ExportToTerraProjectRequestAction.ACTION_TYPE,
-                CopyToClipboardProjectTerraUrlAction.ACTION_TYPE,
-                LaunchProjectTerraAction.ACTION_TYPE),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectPreviousQuery), take(1)),
-                )
-            )),
-            tap(([action, catalog, queryWhenActionTriggered]) => {
-
-                // Track request action
-                this.gtmService.trackEvent((action as TrackingAction).asEvent({
-                    catalog,
-                    currentQuery: queryWhenActionTriggered
-                }));
-            })
-        );
     
     /**
      * Track click on project accession.

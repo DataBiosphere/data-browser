@@ -27,7 +27,6 @@ export class GetDataSummaryComponent {
     // Inputs
     @Input() filesFacets: FileFacet[]
     @Input() fileSummary: FileSummary;
-    @Input() queryEnabled: boolean = true;
     @Input() selectedSearchTerms: SearchTerm[];
 
     /**
