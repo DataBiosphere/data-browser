@@ -9,17 +9,8 @@
 // Core dependencies
 import { Action } from "@ngrx/store";
 
-// App dependencies
-import { SearchTerm } from "../../search/search-term.model";
-
 export class FetchProjectFilesFacetsRequestAction implements Action {
 
     public static ACTION_TYPE = "FACET.FETCH_PROJECT_FILES_FACETS_REQUEST";
     public readonly type = FetchProjectFilesFacetsRequestAction.ACTION_TYPE;
-
-    /**
-     * @param {string} projectId
-     * @param {SearchTerm[]} selectedSearchTerms
-     */
-    constructor(public readonly projectId: string, public readonly selectedSearchTerms: SearchTerm[]) {}
 }

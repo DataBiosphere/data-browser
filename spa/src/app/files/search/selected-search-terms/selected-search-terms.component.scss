@@ -111,7 +111,7 @@
 }
 
 /* Get Data */
-:host-context(get-data-layout) {
+:host-context(get-data-layout), :host-context(project-download-layout) {
 
     display: flex;
     flex-direction: column;
@@ -194,7 +194,7 @@
 @media screen and (min-width: 1280px) {
 
     /* Get Data */
-    :host-context(get-data-layout) {
+    :host-context(get-data-layout), :host-context(project-download-layout) {
 
         /* Facet - container */
         .selected-facets {

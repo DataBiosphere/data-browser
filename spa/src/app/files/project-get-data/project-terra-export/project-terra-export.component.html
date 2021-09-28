@@ -11,9 +11,9 @@
                     <p class="fontsize-m">Select the files types to be imported into your Terra workspace.</p>
                 </get-data-panel>
                 <ng-container *ngIf="state.fileTypeSummaries.length > 0">
-                    <file-type-summary-list [selectedSearchTermNames]="selectedSearchTermNames"
+                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected(state.project.entryId, $event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
                     <manifest-download-format-form *ngIf="isManifestDownloadFormatEnabled()"
                                                    [format]="manifestDownloadFormat"
                                                    [formats]="getManifestDownloadFormats()"
@@ -21,8 +21,8 @@
                     <warning-data-normalization></warning-data-normalization>
                     <button class="button primary"
                             type="button"
-                            (click)="onExportToTerra(state.project, selectedSearchTerms, state.filesFacets, manifestDownloadFormat)"
-                            [disabled]="!isAnyFileFormatSelected(selectedSearchTerms)">Request Link
+                            (click)="onExportToTerra(state.project, manifestDownloadFormat)"
+                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Link
                     </button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
@@ -44,9 +44,9 @@
                 <div class="download">
                     <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
                                [targetBlank]="true"
-                               (dataLinkClicked)="onDataLinkClicked(state.project, selectedSearchTerms, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
+                               (dataLinkClicked)="onDataLinkClicked(state.project, getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
                     <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                                       (copyClicked)="onDataLinkCopied(state.project, selectedSearchTerms, getTerraServiceUrl( state.exportToTerraUrl))"></copy-to-clipboard>
+                                       (copyClicked)="onDataLinkCopied(state.project, getTerraServiceUrl( state.exportToTerraUrl))"></copy-to-clipboard>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </div>
             </ng-container>
@@ -61,8 +61,7 @@
             <get-data-summary *ngIf="state.loaded"
                               [filesFacets]="state.filesFacets"
                               [fileSummary]="state.fileSummary"
-                              [queryEnabled]="false"
-                              [selectedSearchTerms]="[]"></get-data-summary>
+                              [selectedSearchTerms]="state.selectedSearchTerms"></get-data-summary>
         </ng-container>
     </project-download-layout>
 </ng-container>

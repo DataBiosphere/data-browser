@@ -9,7 +9,7 @@
 import { Action } from "@ngrx/store";
 
 export class ClearFileManifestUrlAction implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST_SUMMARY.CLEAR_FILE_MANIFEST_URL_REQUEST";
+    public static ACTION_TYPE = "FILE_MANIFEST.CLEAR_FILE_MANIFEST_URL_REQUEST";
     public readonly type = ClearFileManifestUrlAction.ACTION_TYPE;
     constructor() {}
 }

@@ -16,15 +16,26 @@ import { FetchFileManifestFileTypeSummariesSuccessAction } from "./fetch-file-ma
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { FileManifestState } from "./file-manifest.state"
 import { FetchProjectFileSummarySuccessAction } from "./fetch-project-file-summary-success.actions";
+import { ClearFilesFacetsAction } from "./clear-files-facets.action";
+import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
+import { SelectProjectFileFacetTermAction } from "./select-project-file-facet-term.action";
 
 export function reducer(state: FileManifestState = FileManifestState.getDefaultState(), action: Action): FileManifestState {
 
     switch (action.type) {
 
+        // Reset files facets (facets fetched from files endpoint for display on get data pages)
+        case ClearFilesFacetsAction.ACTION_TYPE:
+            return state.clearFilesFacets();
+
         // Clear manifest download-specific file type summaries, dispatched by both selected data and project files
         // downloads.
         case ClearFileManifestFileTypeSummaries.ACTION_TYPE:
             return FileManifestState.getDefaultState();
+
+        // Fetch facets from files endpoint for populating facet summary on download pages
+        case FetchFilesFacetsSuccessAction.ACTION_TYPE:
+            return state.receiveFilesFacets(action as FetchFilesFacetsSuccessAction);
 
         // Request to fetch manifest download-specific file summary 
         case FetchFileManifestFileTypeSummariesRequestAction.ACTION_TYPE:
@@ -47,6 +58,9 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         case FetchProjectFileSummarySuccessAction.ACTION_TYPE:
             return state.fetchProjectFileSummary(action as FetchProjectFileSummarySuccessAction);
             
+        // Term has been selected during download
+        case SelectProjectFileFacetTermAction.ACTION_TYPE:
+            return state.selectTerm(action as SelectProjectFileFacetTermAction);
         default:
             return state;
     }

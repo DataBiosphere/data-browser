@@ -16,7 +16,7 @@ import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.componen
 import { SpeciesFormComponent } from "./species-form.component";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
+import { selectFilesFacets } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { SelectFileFacetTermAction } from "../../_ngrx/search/select-file-facet-term.action";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";

@@ -33,13 +33,12 @@ import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-
 import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
 import { selectFileSummary } from "../../_ngrx/files.selectors";
 import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import {
     selectFileManifestFileTypeSummaries,
-    selectFileManifestManifestResponse
+    selectFileManifestManifestResponse, selectFilesFacets
 } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";

@@ -14,7 +14,7 @@ import { Action } from "@ngrx/store";
 import { FileTypeSummary } from "../../file-summary/file-type-summary";
 
 export class FetchFileManifestFileTypeSummariesSuccessAction implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_SUCCESS";
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_SUCCESS";
     public readonly type = FetchFileManifestFileTypeSummariesSuccessAction.ACTION_TYPE;
     constructor(public readonly fileTypeSummaries: FileTypeSummary[]) {}
 }

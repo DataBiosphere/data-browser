@@ -10,7 +10,7 @@
 import { Action } from "@ngrx/store";
 
 export class FetchFilesFacetsRequestAction implements Action {
-    public static ACTION_TYPE = "FILE.FACET.FETCH_FILES_REQUEST";
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILES_REQUEST";
     public readonly type = FetchFilesFacetsRequestAction.ACTION_TYPE;
     constructor() {}
 }

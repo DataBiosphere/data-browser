@@ -3,6 +3,9 @@
  * https://www.humancellatlas.org/
  *
  * Action triggered when user copies project Terra link to clipboard.
+ *
+ * TODO
+ * Move download-related tracking actions and effects to file-manifest.
  */
 
 // Core dependencies
@@ -10,7 +13,6 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
-import { SearchTerm } from "../../search/search-term.model";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
@@ -25,12 +27,9 @@ export class CopyToClipboardProjectTerraUrlAction implements Action, TrackingAct
 
     /**
      * @param {Project} project
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {string} exportToTerraUrl
      */
-    constructor(private project: Project,
-                private selectedSearchTerms: SearchTerm[],
-                private exportToTerraUrl: string) {}
+    constructor(private project: Project, private exportToTerraUrl: string) {}
 
     /**
      * Return the copy Terra URL to clipboard action as a GA event.
@@ -38,9 +37,7 @@ export class CopyToClipboardProjectTerraUrlAction implements Action, TrackingAct
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
-        const terms = this.selectedSearchTerms.map(searchTerm => searchTerm.getSearchValue()).join(", ");
+    public asEvent({catalog, terms}): GAEvent {
 
         return {
             category: GACategory.PROJECT,

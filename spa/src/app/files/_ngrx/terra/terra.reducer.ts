@@ -10,9 +10,9 @@ import { Action } from "@ngrx/store";
 
 // App dependencies
 import { TerraState } from "./terra.state";
-import { ExportToTerraProjectRequestAction } from "../project/export-to-terra-project-request.action";
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
+import { ExportProjectToTerraRequestAction } from "../project/export-project-to-terra-request.action";
 import { ResetExportToTerraStatusAction } from "./reset-export-to-terra-status.action";
 
 export function reducer(state: TerraState = TerraState.getDefaultState(), action: Action): TerraState {
@@ -25,7 +25,7 @@ export function reducer(state: TerraState = TerraState.getDefaultState(), action
 
         // Request for export to Terra has been initiated.
         case ExportToTerraRequestAction.ACTION_TYPE:
-        case ExportToTerraProjectRequestAction.ACTION_TYPE:
+        case ExportProjectToTerraRequestAction.ACTION_TYPE:
             return state.exportToTerraRequest();
 
         // Export to Terra response has been received from the server.

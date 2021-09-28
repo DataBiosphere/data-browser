@@ -3,6 +3,9 @@
  * https://www.humancellatlas.org/
  *
  * Action triggered when project bulk download is requested.
+ * 
+ * TODO
+ * Move download-related tracking actions and effects to file-manifest.
  */
 
 // Core dependencies
@@ -16,7 +19,6 @@ import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { Project } from "../../shared/project.model";
-import { SearchTerm } from "../../search/search-term.model";
 
 export class RequestProjectBulkDownloadAction implements Action, TrackingAction {
     
@@ -25,11 +27,9 @@ export class RequestProjectBulkDownloadAction implements Action, TrackingAction 
 
     /**
      * @param {Project} project
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {BulkDownloadExecutionEnvironment} shell
      */
     constructor(private project: Project,
-                private selectedSearchTerms: SearchTerm[],
                 private shell: BulkDownloadExecutionEnvironment) {}
 
     /**
@@ -38,9 +38,7 @@ export class RequestProjectBulkDownloadAction implements Action, TrackingAction 
      * param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-        
-        const terms = this.selectedSearchTerms.map(searchTerm => searchTerm.getSearchValue()).join(", ");
+    public asEvent({catalog, terms}): GAEvent {
 
         return {
             category: GACategory.PROJECT,

@@ -10,7 +10,7 @@
 import { Action } from "@ngrx/store";
 
 export class ClearFileManifestFileTypeSummaries implements Action {
-    public static ACTION_TYPE = "FILE.FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_CLEAR";
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_CLEAR";
     public readonly type = ClearFileManifestFileTypeSummaries.ACTION_TYPE;
     constructor() {}
 }

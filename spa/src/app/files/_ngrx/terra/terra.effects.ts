@@ -19,17 +19,19 @@ import { ExportToTerraInProgressAction } from "./export-to-terra-in-progress.act
 import { ExportToTerraRequestAction } from "./export-to-terra-request.action";
 import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import {
+    selectProjectFileFormatsFileFacet,
+    selectProjectSelectedSearchTerms
+} from "../file-manifest/file-manifest.selectors";
 import { LaunchTerraAction } from "./launch-terra.action";
 import { AppState } from "../../../_ngrx/app.state";
+import { ExportProjectToTerraRequestAction } from "../project/export-project-to-terra-request.action";
 import { selectPreviousQuery, selectSelectedSearchTerms } from "../search/search.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { TerraService } from "../../shared/terra.service";
 import { selectExportToTerra } from "./terra.selectors";
-import { SearchEntity } from "../../search/search-entity.model";
-import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { FileFacet } from "../../facet/file-facet/file-facet.model";
-import { ExportToTerraProjectRequestAction } from "../project/export-to-terra-project-request.action";
 
 @Injectable()
 export class TerraEffects {
@@ -116,13 +118,15 @@ export class TerraEffects {
     @Effect()
     exportToTerraProject$: Observable<Action> = this.actions$
         .pipe(
-            ofType(ExportToTerraProjectRequestAction.ACTION_TYPE),
+            ofType(ExportProjectToTerraRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
                 withLatestFrom(
                     this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectProjectSelectedSearchTerms), take(1)),
+                    this.store.pipe(select(selectProjectFileFormatsFileFacet), take(1))
                 )
             )),
-            switchMap(([action, catalog]) => {
+            switchMap(([action, catalog, selectedSearchTerms, fileFormatsFileFacet]) => {
 
                 // Tracking dispatched in project effects
 
@@ -137,14 +141,14 @@ export class TerraEffects {
                 );
 
                 // Set up search terms; include project ID and any selected file formats
-                const { fileFormatFacet, manifestDownloadFormat, project, selectedSearchTerms: selectedFileFormatSearchTerms } =
-                    action as ExportToTerraProjectRequestAction;
-                const selectedSearchTerms = [
-                    ...selectedFileFormatSearchTerms,
-                    new SearchEntity(FileFacetName.PROJECT_ID, project.entryId, project.entryId)
-                ];
+                const { manifestDownloadFormat } = action as ExportProjectToTerraRequestAction;
 
-                return this.terraService.exportToTerra(catalog, selectedSearchTerms, fileFormatFacet as FileFacet, manifestDownloadFormat, killSwitch$);
+                return this.terraService.exportToTerra(
+                    catalog, 
+                    selectedSearchTerms, 
+                    fileFormatsFileFacet as FileFacet, 
+                    manifestDownloadFormat, 
+                    killSwitch$);
             }),
             map(response => {
                 return this.terraService.isExportToTerraRequestInProgress(response.status) ?

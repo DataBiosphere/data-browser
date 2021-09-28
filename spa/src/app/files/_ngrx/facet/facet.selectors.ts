@@ -12,7 +12,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FacetState } from "./facet.state";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 
-
 /**
  * Return facet slice. 
  */
@@ -30,13 +29,6 @@ export const selectFacetFacets = createSelector(selectFacet, (state) => {
  */
 export const selectFacetFileFacets = createSelector(selectFacet, (state) => {
     return state.fileFacets;
-});
-
-/**
- * Return the set of file facets, returned from the files endpoint, from the store.
- */
-export const selectFilesFacets = createSelector(selectFacet, (state) => {
-    return state.filesFacets;
 });
 
 /**

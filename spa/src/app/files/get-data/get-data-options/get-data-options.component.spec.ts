@@ -24,7 +24,7 @@ import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.componen
 import { GetDataOptionsComponent } from "./get-data-options.component";
 import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
+import { selectFilesFacets } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
 import { selectFileSummary, selectSelectedEntitySpec } from "../../_ngrx/files.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";

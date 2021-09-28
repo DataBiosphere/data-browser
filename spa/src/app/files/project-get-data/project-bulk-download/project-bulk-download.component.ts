@@ -13,6 +13,7 @@
  *           - fetch project-specific summary (required for right side stats)
  *           - fetch project-specific file type summaries excluding file types (required for file type form, requires update on select of file type)
  *           - fetch project-specific file facets (requires update on select of file type)
+ *           - fetch project download-specific selected facets (project, species, file types) 
  *        - onRequest
  *            - request project manifest download
  *   - Select
@@ -34,42 +35,40 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { filter, map, take, takeUntil } from "rxjs/operators";
+import { filter, map, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
-import { Facet } from "../../facet/facet.model";
-import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
+import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { BulkDownloadExecutionEnvironment } from "../../get-data/bulk-download/bulk-download-execution-environment.model";
 import { AppState } from "../../../_ngrx/app.state";
-import { ClearFilesFacetsAction } from "../../_ngrx/facet/clear-files-facets.action";
-import { selectFilesFacets } from "../../_ngrx/facet/facet.selectors";
 import { FetchProjectFilesFacetsRequestAction } from "../../_ngrx/facet/fetch-project-files-facets-request.action";
-import { FetchFileManifestProjectFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-project-file-type-summaries-request.action";
+import { ClearFilesFacetsAction } from "../../_ngrx/file-manifest/clear-files-facets.action";
+import { ClearFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/clear-file-manifest-file-type.summaries";
+import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
+import { FetchFileManifestFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-file-type-summaries-request.action";
 import { FetchProjectFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-project-file-summary-request.actions";
-import { selectSelectedProject } from "../../_ngrx/files.selectors";
-import { FetchFileManifestUrlProjectRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-project-request.action";
 import {
     selectFileManifestFileTypeSummaries,
-    selectFileManifestManifestResponse,
-    selectProjectFileSummary
+    selectFileManifestManifestResponse, selectFilesFacets,
+    selectProjectFileSummary, selectProjectSelectedSearchTerms
 } from "../../_ngrx/file-manifest/file-manifest.selectors";
-import { ClearFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/clear-file-manifest-file-type.summaries";
+import { SelectProjectFileFacetTermAction } from "../../_ngrx/file-manifest/select-project-file-facet-term.action";
+import { selectSelectedProject } from "../../_ngrx/files.selectors";
 import { CopyToClipboardProjectBulkDownloadAction } from "../../_ngrx/project/copy-to-clipboard-project-bulk-download.action";
 import { RequestProjectBulkDownloadAction } from "../../_ngrx/project/request-project-bulk-download.action";
 import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
 import { ProjectBulkDownloadState } from "./project-bulk-download.state";
-import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { ProjectDetailService } from "../../project-detail/project-detail.service";
+import { ProjectTab } from "../../project-detail/project-tab.model";
 import { SearchTerm } from "../../search/search-term.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
-import { ProjectDetailService } from "../../project-detail/project-detail.service";
-import { ProjectTab } from "../../project-detail/project-tab.model";
 
 @Component({
     selector: "project-bulk-download",
@@ -83,8 +82,6 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
 
     // Template variables
     public portalURL: string;
-    public selectedSearchTermNames: string[] = [];
-    public selectedSearchTerms: SearchTerm[] = [];
     public state$ = new BehaviorSubject<ProjectBulkDownloadState>({
         loaded: false
     });
@@ -202,71 +199,54 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * Track click on copy of bulk download data link.
      *
      * @param {Project} project
-     * @param {SearchTerm[]} selectedSearchTerms
      * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} curl
      */
-    public onDataLinkCopied(project: Project, selectedSearchTerms: SearchTerm[],  shell: BulkDownloadExecutionEnvironment, curl: string) {
+    public onDataLinkCopied(project: Project, shell: BulkDownloadExecutionEnvironment, curl: string) {
 
-        this.store.dispatch(new CopyToClipboardProjectBulkDownloadAction(project, selectedSearchTerms, shell, curl));
+        this.store.dispatch(new CopyToClipboardProjectBulkDownloadAction(project, shell, curl));
     }
 
     /**
-     * Handle click on term in list of terms; toggle selected value of term.
+     * Handle click on term in list of selected file types; update store and toggle selected value of term.
      *
-     * @param {string} projectId
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
-    public onFacetTermSelected(projectId: string, facetTermSelectedEvent: FacetTermSelectedEvent) {
+    public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
 
-        // Determine the set of selected file formats
-        const { termName, selected } = facetTermSelectedEvent;
-        const index = this.selectedSearchTermNames.indexOf(termName);
-        const currentlySelected = index >= 0;
-        if ( selected && !currentlySelected ) {
-            this.selectedSearchTermNames.push(termName);
-        }
-        else if ( !selected && currentlySelected ) {
-            this.selectedSearchTermNames.splice(index, 1);
-        }
-
-        // Build up the set of search terms for the set of selected file formats
-        this.selectedSearchTerms = this.selectedSearchTermNames.map(searchTermName => {
-            return new SearchFacetTerm(FileFacetName.FILE_FORMAT, searchTermName);
-        });
+        // Dispatch action to update project download-specific facets
+        const action = new SelectProjectFileFacetTermAction(
+            facetTermSelectedEvent.facetName,
+            facetTermSelectedEvent.termName,
+            null, // Display value only required for project ID facet
+            facetTermSelectedEvent.selected);
+        this.store.dispatch(action);
 
         // Kick off request for project-specific summary including any selected file types. Required for updating
         // right side stats on select of file type.
-        this.store.dispatch(new FetchProjectFileSummaryRequestAction(projectId, this.selectedSearchTerms));
+        this.store.dispatch(new FetchProjectFileSummaryRequestAction());
 
         // Get the list of facets to display. Must pull these from the files endpoint and specific to this project.
         //  Required for updating right side stats on select of file type.
-        this.store.dispatch(new FetchProjectFilesFacetsRequestAction(projectId, this.selectedSearchTerms));
+        this.store.dispatch(new FetchProjectFilesFacetsRequestAction());
     }
 
     /**
      * Dispatch action to generate bulk download URL. Also track export action with GA.
      *
      * @param {Project} project
-     * @param {SearchTerm[]} selectedSearchTerms
-     * @param {Facet[]} filesFacet
      * @param {BulkDownloadExecutionEnvironment} shell
      */
-    public onRequestManifest(project: Project, 
-                             selectedSearchTerms: SearchTerm[], 
-                             filesFacet: Facet[], 
+    public onRequestManifest(project: Project,
                              shell: BulkDownloadExecutionEnvironment) {
 
-        const fileFormatFacet = filesFacet.find(facet => facet.name === FileFacetName.FILE_FORMAT);
-        const action =
-            new FetchFileManifestUrlProjectRequestAction(project.entryId, selectedSearchTerms, fileFormatFacet, ManifestDownloadFormat.CURL);
-        this.store.dispatch(action);
-        this.store.dispatch(new RequestProjectBulkDownloadAction(project, selectedSearchTerms, shell));
+        this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL, true));
+        this.store.dispatch(new RequestProjectBulkDownloadAction(project, shell));
     }
 
     /**
      * Handle click on back button.
-     * 
+     *
      * @param {string} projectId
      */
     public onTabSelected(projectId: string): void {
@@ -300,26 +280,32 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      */
     public ngOnInit() {
 
-        // Add selected project to state - grab the project ID from the URL.
+        // Add selected project to state - grab the project ID from the URL. Update download state to include selected
+        // project ID.
         const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
-        // Kick off request for project-specific file type summaries. Required for populating file type form.
-        this.store.dispatch(new FetchFileManifestProjectFileTypeSummariesRequestAction(projectId));
-
-        // Kick off request for project-specific summary including any selected file types. Required for populating
-        // right side stats.
-        this.store.dispatch(new FetchProjectFileSummaryRequestAction(projectId, this.selectedSearchTerms));
-
-        // Get the list of facets to display. Must pull these from the files endpoint and specific to this project.
-        this.store.dispatch(new FetchProjectFilesFacetsRequestAction(projectId, this.selectedSearchTerms));
-
-        // Grab reference to selected project
+        // Grab reference to selected project then dispatch related events
         const project$ = this.store.pipe(
             select(selectSelectedProject),
             takeUntil(this.ngDestroy$),
             filter(project => !!project),
-            take(1)
+            take(1),
+            tap(project => {
+                
+                this.store.dispatch(
+                    new SelectProjectFileFacetTermAction(FileFacetName.PROJECT_ID, projectId, project.projectShortname, true));
+
+                // Kick off request for project-specific file type summaries. Required for populating file type form.
+                this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+
+                // Kick off request for project-specific summary including any selected file types. Required for populating
+                // right side stats.
+                this.store.dispatch(new FetchProjectFileSummaryRequestAction());
+
+                // Get the list of facets to display. Must pull these from the files endpoint and specific to this project.
+                this.store.dispatch(new FetchProjectFilesFacetsRequestAction());
+            })
         );
 
         // Grab file summary for displaying file types form. 
@@ -332,6 +318,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
         // Grab project-specific file summary, required for right side stats.
         const projectFileSummary$ = this.store.pipe(select(selectProjectFileSummary));
 
+        // Grab project download-specific selected facets, required for right side stats.
+        const projectSelectedSearchTerms$ = this.store.pipe(select(selectProjectSelectedSearchTerms));
+
         // Update the UI with any changes in the download request request status and URL
         const fileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
 
@@ -340,12 +329,16 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
             fileTypeSummaries$,
             filesFacets$,
             projectFileSummary$,
+            projectSelectedSearchTerms$,
             fileManifestManifestResponse$
         ]).pipe(
             filter(([, , filesFacets, fileSummary]) => {
                 return filesFacets.length && Object.keys(fileSummary).length > 0
             }),
-            map(([project, fileTypeSummaries, filesFacets, fileSummary, manifestResponse]) => {
+            map(([project, fileTypeSummaries, filesFacets, fileSummary, selectedSearchTerms, manifestResponse]) => {
+
+                const selectedSearchTermNames = selectedSearchTerms
+                    .map(searchTerm => searchTerm.getDisplayValue());
 
                 return {
                     filesFacets,
@@ -353,6 +346,8 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
                     fileTypeSummaries,
                     loaded: true,
                     manifestResponse,
+                    selectedSearchTerms,
+                    selectedSearchTermNames,
                     project
                 };
             }),
