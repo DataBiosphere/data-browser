@@ -11,9 +11,9 @@
                     <p class="fontsize-m">Please select the file types for inclusion in the manifest.</p>
                 </get-data-panel>
                 <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                    <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
                     <button class="button primary"
                             type="button"
                             (click)="onRequestManifest()"

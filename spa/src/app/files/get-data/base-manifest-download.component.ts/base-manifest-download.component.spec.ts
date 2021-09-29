@@ -16,7 +16,7 @@ import { ClipboardModule } from "ngx-clipboard";
 import { BaseManifestDownloadComponent } from "./base-manifest-download.component";
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { FileTypeSummaryFormComponent } from "../../file-type-summary-form/file-type-summary-form.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
@@ -61,7 +61,7 @@ describe("BaseManifestDownloadComponent", () => {
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
-                FileTypeSummaryListComponent,
+                FileTypeSummaryFormComponent,
                 GetDataPanelComponent,
                 BaseManifestDownloadComponent
             ],

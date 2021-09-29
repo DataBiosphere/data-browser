@@ -15,7 +15,7 @@
 // App dependencies
 import { TermSortable } from "../sort/term-sortable.model";
 
-export class FileTypeSummaryView implements TermSortable {
+export class FileTypeSummaryFormView implements TermSortable {
 
     /**
      * @param {string} termName

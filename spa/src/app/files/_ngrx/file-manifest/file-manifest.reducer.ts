@@ -19,6 +19,7 @@ import { FetchProjectFileSummarySuccessAction } from "./fetch-project-file-summa
 import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { SelectProjectFileFacetTermAction } from "./select-project-file-facet-term.action";
+import { FetchProjectSpeciesFacetSuccessAction } from "./fetch-project-species-facet-success.action";
 
 export function reducer(state: FileManifestState = FileManifestState.getDefaultState(), action: Action): FileManifestState {
 
@@ -61,6 +62,10 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         // Term has been selected during download
         case SelectProjectFileFacetTermAction.ACTION_TYPE:
             return state.selectTerm(action as SelectProjectFileFacetTermAction);
+
+        case FetchProjectSpeciesFacetSuccessAction.ACTION_TYPE:
+            return state.setProjectSpeciesFacet(action as FetchProjectSpeciesFacetSuccessAction);
+
         default:
             return state;
     }

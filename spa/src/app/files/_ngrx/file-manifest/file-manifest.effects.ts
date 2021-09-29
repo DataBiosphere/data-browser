@@ -17,6 +17,7 @@ import { selectCatalog } from "../catalog/catalog.selectors";
 import { ClearFilesFacetsAction } from "./clear-files-facets.action";
 import { selectFileFormatsFileFacet } from "../facet/facet.selectors";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { FetchProjectFilesFacetsRequestAction } from "../facet/fetch-project-files-facets-request.action";
 import { FetchFileManifestFileTypeSummariesRequestAction } from "./fetch-file-manifest-file-type-summaries-request.action";
 import { FetchFileManifestFileTypeSummariesSuccessAction } from "./fetch-file-manifest-file-type-summaries-success.action";
@@ -30,10 +31,12 @@ import {
 import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { FileSummary } from "../../file-summary/file-summary";
+import { FetchFilesFacetsRequestAction } from "./fetch-files-facets-request.action";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { FetchProjectFileSummaryRequestAction } from "./fetch-project-file-summary-request.actions";
 import { FetchProjectFileSummarySuccessAction } from "./fetch-project-file-summary-success.actions";
-import { FetchFilesFacetsRequestAction } from "./fetch-files-facets-request.action";
+import { FetchProjectSpeciesFacetRequestAction } from "./fetch-project-species-facet-request.action";
+import { FetchProjectSpeciesFacetSuccessAction } from "./fetch-project-species-facet-success.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { selectSelectedSearchTerms, selectSelectedSearchTermsBySearchKey } from "../search/search.selectors";
 import { SearchTerm } from "../../search/search-term.model";
@@ -41,6 +44,7 @@ import { EntityName } from "../../shared/entity-name.model";
 import { SelectFileFacetTermAction } from "../search/select-file-facet-term.action";
 import { FilesService } from "../../shared/files.service";
 import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
+import { SearchEntity } from "../../search/search-entity.model";
 
 @Injectable()
 export class FileManifestEffects {
@@ -152,6 +156,43 @@ export class FileManifestEffects {
             map((entitySearchResults) => {
 
                 return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
+            })
+        );
+
+    /**
+     * Determine number of species for the project file downloads by hitting the files endpoint with the project
+     * as the only filter selected. We can't use the species value of the project returned from Azul as CGM
+     * species are not currently rolled up to the project level.
+     */
+    @Effect()
+    fetchProjectSpeciesCount$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectSpeciesFacetRequestAction.ACTION_TYPE),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1)),
+                    this.store.pipe(select(selectProjectSelectedSearchTerms), take(1))
+                )
+            )),
+            switchMap(([, catalog, selectedSearchTerms]) => {
+                
+                const selectedProjectId = 
+                    selectedSearchTerms.find(searchTerm => searchTerm.getSearchKey() === FileFacetName.PROJECT_ID);
+
+                const selectedSearchTermsBySearchKey = new  Map<string, Set<SearchTerm>>([
+                    [selectedProjectId.getSearchKey(), new Set([selectedProjectId])]
+                ]);
+                
+                return this.filesService.fetchEntitySearchResults(
+                    catalog,
+                    selectedSearchTermsBySearchKey,
+                    DEFAULT_TABLE_PARAMS,
+                    EntityName.FILES);
+            }),
+            map((entitySearchResults) => {
+                const speciesFacet =
+                    entitySearchResults.facets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+                return new FetchProjectSpeciesFacetSuccessAction(speciesFacet);
             })
         );
 

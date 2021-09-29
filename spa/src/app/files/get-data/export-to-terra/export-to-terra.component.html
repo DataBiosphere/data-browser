@@ -8,9 +8,9 @@
                     <p class="fontsize-m">Select the files types to be imported into your Terra workspace.</p>
                 </get-data-panel>
                 <ng-container *ngIf="state.fileTypeSummaries.length > 0">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                    <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
                     <manifest-download-format-form *ngIf="isManifestDownloadFormatEnabled()"
                                                    [format]="manifestDownloadFormat"
                                                    [formats]="getManifestDownloadFormats()"

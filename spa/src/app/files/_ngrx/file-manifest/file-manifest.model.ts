@@ -18,5 +18,6 @@ export interface FileManifest {
     fileTypeSummaries: FileTypeSummary[];
     manifestResponse: ManifestResponse;
     projectFileSummary: FileSummary;
+    projectSpeciesFacet: Facet;
     selectedProjectSearchTerms: SearchTerm[];
 }

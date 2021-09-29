@@ -7,21 +7,17 @@
         <div *ngIf="state.loaded" contentLeft>
             <p class="fontsize-s">Obtain a curl command for downloading the selected data.</p>
             <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
-                <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileTypeSummaries)">
-                    <h4 class="fontsize-m semi-bold">Select File Types for Download</h4>
-                    <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
-                </get-data-panel>
                 <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                    <h4 class="fontsize-m semi-bold">Species</h4>
+                    <project-species-form [speciesFacet]="getSpeciesFacet(state.filesFacets)"
+                                          (speciesSelected)="onFacetTermSelected($event)"></project-species-form>
+                    <h4 class="fontsize-m semi-bold">File Types</h4>
+                    <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
-                    <div class="execution-environment fontsize-s">
-                        <p class="fontsize-s">Select Shell:</p>
-                        <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">
-                            <mat-radio-button value="bash">Bash</mat-radio-button>
-                            <mat-radio-button value="cmd.exe">cmd.exe</mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
+                    <h4 class="fontsize-m semi-bold">Shell</h4>
+                    <execution-environment-form [executionEnvironment]="executionEnvironment"
+                                                (executionEnvironmentSelected)="onExecutionEnvironmentSelected($event)"></execution-environment-form>
                     <warning>
                         <warning-content>
                             <p class="fontsize-m">The generated curl command is compatible with the Bash shell on Mac and Linux

@@ -56,7 +56,7 @@ import { FileLocationService } from "./file-location/file-location.service";
 import { FileManifestService } from "./file-manifest/file-manifest.service";
 import { FilesComponent } from "./files.component";
 import { routes } from "./files.routes";
-import { FileTypeSummaryListComponent } from "./file-type-summary-list/file-type-summary-list.component";
+import { FileTypeSummaryFormComponent } from "./file-type-summary-form/file-type-summary-form.component";
 import { HCAContentEllipsisComponent } from "./hca-content-ellipsis/hca-content-ellipsis.component";
 import { HCAEllipsisTextComponent } from "./hca-content-ellipsis/hca-ellipsis-text.component";
 import { HCAContentUnspecifiedDashComponent } from "./hca-content-unspecified-bar/hca-content-unspecified-dash.component";
@@ -64,6 +64,7 @@ import { BulkDownloadComponent } from "./get-data/bulk-download/bulk-download.co
 import { BulkDownloadSpeciesFormComponent } from "./get-data/bulk-download-species-form/bulk-download-species-form.component";
 import { DataLinkComponent } from "./get-data/data-link/data-link.component";
 import { ExportToTerraComponent } from "./get-data/export-to-terra/export-to-terra.component";
+import { ExecutionEnvironmentFormComponent } from "./get-data/excecution-environment-form/execution-environment-form.component";
 import { ExportToTerraSpeciesFormComponent } from "./get-data/export-to-terra-species-form/export-to-terra-species-form.component";
 import { ManifestDownloadFormatFormComponent } from "./get-data/export-to-terra/manifest-download-format-form/manifest-download-format-form.component";
 import { GetDataComponent } from "./get-data/get-data.component";
@@ -99,6 +100,7 @@ import { ProjectBulkDownloadComponent } from "./project-get-data/project-bulk-do
 import { ProjectDataCitationComponent } from "./project-data-citation/project-data-citation.component";
 import { ProjectDeprecatedComponent } from "./project-deprecated/project-deprecated.component";
 import { ProjectDetailComponent } from "./project-detail/project-detail.component";
+import { ProjectDetailService } from "./project-detail/project-detail.service";
 import { ProjectDownloadLayoutComponent } from "./project-get-data/project-download-layout/project-download-layout.component";
 import { ProjectTerraExportComponent } from "./project-get-data/project-terra-export/project-terra-export.component";
 import { ProjectFileTypeCountsComponent } from "./project-file-type-counts/project-file-type-counts.component";
@@ -119,6 +121,7 @@ import { ProjectOverviewDataSummaryComponent } from "./project-overview-data-sum
 import { ProjectOverviewComponent } from "./project-overview/project-overview.component";
 import { ProjectPortalsComponent } from "./project-portals/project-portals.component";
 import { ProjectService } from "./project/project.service";
+import { ProjectSpeciesFormComponent } from "./project-get-data/project-species-form/project-species-form.component";
 import { ProjectSummaryStatsComponent } from "./project-summary-stats-component/project-summary-stats.component";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links/project-supplementary-links.component";
 import { ProjectViewFactory } from "./project-view/project-view.factory";
@@ -142,7 +145,6 @@ import { TableScroll } from "./table-scroll/table-scroll.component";
 import { TerraRegistrationComponent } from "./terra-registration/terra-registration.component";
 import { UrlService } from "./url/url.service";
 import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
-import { ProjectDetailService } from "./project-detail/project-detail.service";
 
 @NgModule({
     imports: [
@@ -185,6 +187,7 @@ import { ProjectDetailService } from "./project-detail/project-detail.service";
         BulkDownloadSpeciesFormComponent,
         CatalogFormComponent,
         DataLinkComponent,
+        ExecutionEnvironmentFormComponent,
         ExportToTerraComponent,
         ExportToTerraSpeciesFormComponent,
         FacetAgeRangeFormComponent,
@@ -198,7 +201,7 @@ import { ProjectDetailService } from "./project-detail/project-detail.service";
         FileLocationCopyComponent,
         FileLocationDownloadComponent,
         FileNameShortenerPipe,
-        FileTypeSummaryListComponent,
+        FileTypeSummaryFormComponent,
         FilesComponent,
         GetDataComponent,
         GetDataLayoutComponent,
@@ -250,6 +253,7 @@ import { ProjectDetailService } from "./project-detail/project-detail.service";
         ProjectOverviewComponent,
         ProjectOverviewDataSummaryComponent,
         ProjectPortalsComponent,
+        ProjectSpeciesFormComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
         ProjectWithdrawnComponent,

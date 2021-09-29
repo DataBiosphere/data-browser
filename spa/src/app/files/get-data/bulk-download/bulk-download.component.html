@@ -8,9 +8,9 @@
                     <p class="fontsize-m">Select the file types to include in the generated curl command.</p>
                 </get-data-panel>
                 <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                    <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
                     <div class="execution-environment fontsize-s">
                         <p class="fontsize-s">Select Shell:</p>
                         <mat-radio-group [(ngModel)]="executionEnvironment" class="hca-radio">

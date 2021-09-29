@@ -3,17 +3,19 @@
                              [project]="state.project"
                              [tabs]="getBackButtonTab()"
                              (tabSelected)="onTabSelected(state.project.entryId)">
-        <ng-container title>Analyze in Terra</ng-container>
+        <ng-container title>Analyze Project in Terra</ng-container>
         <div contentLeft>
+            <p class="fontsize-s">Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy. <a href="https://app.terra.bio/#library/showcase" target="_blank">Learn More.</a></p>
+            <p class="fontsize-s">To make the most out of HCA data with Terra, <a href="https://app.terra.bio/#workspaces/featured-workspaces-hca/HCA_Optimus_Pipeline" target="_blank">clone this featured workspace</a>.</p>
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
-                <get-data-panel [loading]="state.fileTypeSummaries.length === 0">
-                    <h4 class="fontsize-m semi-bold">Select File Types</h4>
-                    <p class="fontsize-m">Select the files types to be imported into your Terra workspace.</p>
-                </get-data-panel>
                 <ng-container *ngIf="state.fileTypeSummaries.length > 0">
-                    <file-type-summary-list [selectedSearchTermNames]="state.selectedSearchTermNames"
+                    <h4 class="fontsize-m semi-bold">Species</h4>
+                    <project-species-form [speciesFacet]="getSpeciesFacet(state.filesFacets)"
+                                          (speciesSelected)="onFacetTermSelected($event)"></project-species-form>
+                    <h4 class="fontsize-m semi-bold">File Types</h4>
+                    <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
-                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-list>
+                                            (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
                     <manifest-download-format-form *ngIf="isManifestDownloadFormatEnabled()"
                                                    [format]="manifestDownloadFormat"
                                                    [formats]="getManifestDownloadFormats()"
@@ -22,7 +24,7 @@
                     <button class="button primary"
                             type="button"
                             (click)="onExportToTerra(state.project, manifestDownloadFormat)"
-                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Link
+                            [disabled]="!isRequestFormValid(state.selectedSearchTerms)">Request Link
                     </button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
