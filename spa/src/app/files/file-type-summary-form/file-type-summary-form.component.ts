@@ -16,15 +16,15 @@ import { AppState } from "../../_ngrx/app.state";
 import { FacetTermSelectedEvent } from "../facet/file-facet/facet-term-selected.event";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileTypeSummary } from "../file-summary/file-type-summary";
-import { FileTypeSummaryView } from "./file-type-summary-view.model";
+import { FileTypeSummaryFormView } from "./file-type-summary-form-view.model";
 import { TermSortService } from "../sort/term-sort.service";
 
 @Component({
-    selector: "file-type-summary-list",
-    templateUrl: "file-type-summary-list.component.html",
-    styleUrls: ["file-type-summary-list.component.scss"]
+    selector: "file-type-summary-form",
+    templateUrl: "file-type-summary-form.component.html",
+    styleUrls: ["file-type-summary-form.component.scss"]
 })
-export class FileTypeSummaryListComponent implements OnInit {
+export class FileTypeSummaryFormComponent implements OnInit {
 
     // Inputs
     @Input() selectedSearchTermNames: string[];
@@ -47,15 +47,15 @@ export class FileTypeSummaryListComponent implements OnInit {
      * Return the list of file types to display, including a "selected" indicator if the corresponding file format
      * facet term is selected.
      *
-     * @returns {FileTypeSummaryView[]}
+     * @returns {FileTypeSummaryFormView[]}
      */
-    public getDisplayList(): FileTypeSummaryView[] {
+    public getDisplayList(): FileTypeSummaryFormView[] {
 
         // Return view model of file type summary
         const fileTypeSummaryViews = this.fileTypeSummaries
             .map(fileTypeSummary => {
 
-                return new FileTypeSummaryView(
+                return new FileTypeSummaryFormView(
                     fileTypeSummary.fileType,
                     fileTypeSummary.totalSize,
                     fileTypeSummary.count,
@@ -110,9 +110,9 @@ export class FileTypeSummaryListComponent implements OnInit {
     /**
      * Handle click on individual facet file type summary - emit event to parent.
      *
-     * @param facetFileTypeSummary {FileTypeSummaryView}
+     * @param facetFileTypeSummary {FileTypeSummaryFormView}
      */
-    public onClickFacetTerm(facetFileTypeSummary: FileTypeSummaryView): void {
+    public onClickFacetTerm(facetFileTypeSummary: FileTypeSummaryFormView): void {
 
         const termName = facetFileTypeSummary.termName;
         const selected = facetFileTypeSummary.selected;

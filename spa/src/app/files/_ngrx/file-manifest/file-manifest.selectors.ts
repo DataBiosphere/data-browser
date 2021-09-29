@@ -62,3 +62,9 @@ export const selectProjectFileSummary =
  */
 export const selectProjectSelectedSearchTerms =
     createSelector(selectFileManifest, (state: FileManifestState) => state.selectedProjectSearchTerms);
+
+/**
+ * Return the project species count.
+ */
+export const selectProjectSpeciesCount =
+    createSelector(selectFileManifest, (state: FileManifestState) => state.projectSpeciesFacet);

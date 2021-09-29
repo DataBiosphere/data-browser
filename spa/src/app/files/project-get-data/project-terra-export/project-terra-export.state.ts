@@ -21,5 +21,6 @@ export interface ProjectTerraExportState {
     fileSummary?: FileSummary;
     fileTypeSummaries?: FileTypeSummary[];
     project?: Project;
+    projectSpeciesFacet?: Facet;
     selectedSearchTermNames?: string[];
 }

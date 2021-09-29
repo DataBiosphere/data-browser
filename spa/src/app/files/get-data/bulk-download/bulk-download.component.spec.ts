@@ -29,7 +29,7 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { FileTypeSummaryFormComponent } from "../../file-type-summary-form/file-type-summary-form.component";
 import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
@@ -84,7 +84,7 @@ describe("BulkDownloadComponent", () => {
                 DataLinkComponent,
                 DataUseNotificationComponent,
                 DataReleasePolicyLinkComponent,
-                FileTypeSummaryListComponent,
+                FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
                 GetDataSummaryComponent,

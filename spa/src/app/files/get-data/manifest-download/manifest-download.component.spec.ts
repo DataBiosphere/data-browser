@@ -23,7 +23,7 @@ import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { FileTypeSummaryFormComponent } from "../../file-type-summary-form/file-type-summary-form.component";
 import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.component";
 import { GetDataPanelComponent } from "../get-data-panel/get-data-panel.component";
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
@@ -85,7 +85,7 @@ describe("ManifestDownloadComponent", () => {
                 DataLinkComponent,
                 DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
-                FileTypeSummaryListComponent,
+                FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
                 GetDataSummaryComponent,
@@ -164,17 +164,17 @@ describe("ManifestDownloadComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is displayed when download status is not started.
+     * Confirm <file-type-summary-form> is displayed when download status is not started.
      */
-    it(`displays component file-type-summary-list when download status is "NOT_STARTED"`, () => {
+    it(`displays component file-type-summary-form when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is displayed
-        const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-list"));
+        // Confirm <file-type-summary-form> is displayed
+        const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-form"));
         expect(fileTypeSummaryListEl).not.toBe(null);
     });
 
@@ -251,17 +251,17 @@ describe("ManifestDownloadComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is not displayed when download status is in progress.
+     * Confirm <file-type-summary-form> is not displayed when download status is in progress.
      */
-    it(`hides component file-type-summary-list when download status is "IN_PROGRESS"`, () => {
+    it(`hides component file-type-summary-form when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is not displayed
-        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
+        // Confirm <file-type-summary-form> is not displayed
+        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
 
         expect(fileTypeSummaryListEl).toEqual(null);
     });
@@ -341,17 +341,17 @@ describe("ManifestDownloadComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is not displayed when download status is complete.
+     * Confirm <file-type-summary-form> is not displayed when download status is complete.
      */
-    it(`hides component file-type-summary-list when download status is "COMPLETE"`, () => {
+    it(`hides component file-type-summary-form when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is not displayed
-        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
+        // Confirm <file-type-summary-form> is not displayed
+        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
 
         expect(fileTypeSummaryListEl).toEqual(null);
     });

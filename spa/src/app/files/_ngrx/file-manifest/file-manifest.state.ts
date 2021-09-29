@@ -8,9 +8,11 @@
 // App dependencies
 import { ClearFileManifestUrlAction } from "./clear-file-manifest-url.action";
 import { Facet } from "../../facet/facet.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FetchFileManifestFileTypeSummariesSuccessAction } from "./fetch-file-manifest-file-type-summaries-success.action";
 import { FetchFileManifestUrlSuccessAction } from "./fetch-file-manifest-url-success.action";
 import { FetchProjectFileSummarySuccessAction } from "./fetch-project-file-summary-success.actions";
+import { FetchProjectSpeciesFacetSuccessAction } from "./fetch-project-species-facet-success.action";
 import { FileManifest } from "./file-manifest.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
@@ -20,7 +22,6 @@ import { FileTypeSummary } from "../../file-summary/file-type-summary";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectProjectFileFacetTermAction } from "./select-project-file-facet-term.action";
-import { FileFacet } from "../../facet/file-facet/file-facet.model";
 
 const DEFAULT_FILE_MANIFEST_STATE = {
     filesFacets: [],
@@ -29,6 +30,7 @@ const DEFAULT_FILE_MANIFEST_STATE = {
         status: ManifestStatus.NOT_STARTED
     } as ManifestResponse,
     projectFileSummary: {} as FileSummary,
+    projectSpeciesFacet: {} as Facet,
     selectedProjectSearchTerms: []
 };
 
@@ -38,6 +40,7 @@ export class FileManifestState {
     public readonly fileTypeSummaries: FileTypeSummary[];
     public readonly manifestResponse: ManifestResponse;
     public readonly projectFileSummary: FileSummary;
+    public readonly projectSpeciesFacet: Facet;
     public readonly selectedProjectSearchTerms: SearchTerm[];
 
     /**
@@ -59,6 +62,7 @@ export class FileManifestState {
             fileTypeSummaries: this.fileTypeSummaries,
             manifestResponse: this.manifestResponse,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -77,6 +81,7 @@ export class FileManifestState {
             } as ManifestResponse,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -94,6 +99,7 @@ export class FileManifestState {
             fileTypeSummaries: this.fileTypeSummaries,
             manifestResponse: this.manifestResponse,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -112,6 +118,7 @@ export class FileManifestState {
             manifestResponse: action.response,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -137,6 +144,7 @@ export class FileManifestState {
             manifestResponse: this.manifestResponse,
             fileTypeSummaries: action.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -152,6 +160,7 @@ export class FileManifestState {
             manifestResponse: this.manifestResponse,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: action.fileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.selectedProjectSearchTerms
         });
     }
@@ -172,7 +181,26 @@ export class FileManifestState {
             manifestResponse: this.manifestResponse,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
             selectedProjectSearchTerms: this.updateSearchTermsOnTermSelected(action.asSearchTerm(), action.selected)
+        });
+    }
+
+    /**
+     * Set the number of species for the selected project.
+     *
+     * @param {SelectProjectFileFacetTermAction} action
+     * @returns {FacetState}
+     */
+    public setProjectSpeciesFacet(action: FetchProjectSpeciesFacetSuccessAction): FileManifestState {
+
+        return new FileManifestState({
+            filesFacets: this.filesFacets,
+            manifestResponse: this.manifestResponse,
+            fileTypeSummaries: this.fileTypeSummaries,
+            projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: action.speciesFacet,
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 

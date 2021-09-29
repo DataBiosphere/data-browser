@@ -20,7 +20,7 @@ import { ClipboardModule } from "ngx-clipboard";
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { DataLinkComponent } from "../data-link/data-link.component";
-import { FileTypeSummaryListComponent } from "../../file-type-summary-list/file-type-summary-list.component";
+import { FileTypeSummaryFormComponent } from "../../file-type-summary-form/file-type-summary-form.component";
 import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { FacetDisplayService } from "../../facet/facet-display.service";
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
@@ -107,7 +107,7 @@ describe("ExportToTerraComponent", () => {
                 DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
                 ExportToTerraComponent,
-                FileTypeSummaryListComponent,
+                FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
                 GetDataSummaryComponent,
@@ -240,17 +240,17 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is displayed when request status is not started.
+     * Confirm <file-type-summary-form> is displayed when request status is not started.
      */
-    it(`should display component file-type-summary-list when request status is "NOT_STARTED"`, () => {
+    it(`should display component file-type-summary-form when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
         fixture.detectChanges();
         
-        // Confirm <file-type-summary-list> is displayed
-        const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-list"));
+        // Confirm <file-type-summary-form> is displayed
+        const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-form"));
         expect(fileTypeSummaryListEl).not.toBe(null);
     });
 
@@ -341,17 +341,17 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is not displayed when request status is in progress.
+     * Confirm <file-type-summary-form> is not displayed when request status is in progress.
      */
-    it(`should not display component file-type-summary-list when request status is "IN_PROGRESS"`, () => {
+    it(`should not display component file-type-summary-form when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is not displayed
-        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
+        // Confirm <file-type-summary-form> is not displayed
+        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
 
         expect(fileTypeSummaryListEl).toEqual(null);
     });
@@ -445,17 +445,17 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is not displayed when request status is complete.
+     * Confirm <file-type-summary-form> is not displayed when request status is complete.
      */
-    it(`should not display component file-type-summary-list when request status is "COMPLETE"`, () => {
+    it(`should not display component file-type-summary-form when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is not displayed
-        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
+        // Confirm <file-type-summary-form> is not displayed
+        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
 
         expect(fileTypeSummaryListEl).toEqual(null);
     });
@@ -549,17 +549,17 @@ describe("ExportToTerraComponent", () => {
     });
 
     /**
-     * Confirm <file-type-summary-list> is not displayed when request status is failed.
+     * Confirm <file-type-summary-form> is not displayed when request status is failed.
      */
-    it(`should not display component file-type-summary-list when request status is "FAILED"`, () => {
+    it(`should not display component file-type-summary-form when request status is "FAILED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
         store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
         fixture.detectChanges();
 
-        // Confirm <file-type-summary-list> is not displayed
-        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-list");
+        // Confirm <file-type-summary-form> is not displayed
+        const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
 
         expect(fileTypeSummaryListEl).toEqual(null);
     });

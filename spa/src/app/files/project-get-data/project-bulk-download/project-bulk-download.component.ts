@@ -35,11 +35,13 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { filter, map, take, takeUntil, tap } from "rxjs/operators";
+import { filter, map, skip, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
+import { Facet } from "../../facet/facet.model";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
@@ -53,11 +55,8 @@ import { ClearFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/cl
 import { FetchFileManifestUrlRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-url-request.action";
 import { FetchFileManifestFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-file-type-summaries-request.action";
 import { FetchProjectFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-project-file-summary-request.actions";
-import {
-    selectFileManifestFileTypeSummaries,
-    selectFileManifestManifestResponse, selectFilesFacets,
-    selectProjectFileSummary, selectProjectSelectedSearchTerms
-} from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { FetchProjectSpeciesFacetRequestAction } from "../../_ngrx/file-manifest/fetch-project-species-facet-request.action";
+import { selectFileManifest } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { SelectProjectFileFacetTermAction } from "../../_ngrx/file-manifest/select-project-file-facet-term.action";
 import { selectSelectedProject } from "../../_ngrx/files.selectors";
 import { CopyToClipboardProjectBulkDownloadAction } from "../../_ngrx/project/copy-to-clipboard-project-bulk-download.action";
@@ -131,14 +130,27 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if any "fileFormat" facet terms are selected.
+     * Returns the species facet, required for displaying species form.
+     * 
+     * @param {Facet[]} filesFacets
+     * @returns {Facet}
+     */
+    public getSpeciesFacet(filesFacets: Facet[]): Facet {
+
+        return filesFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+    }
+
+    /**
+     * Returns true if any terms in the given facet are selected.
+     * 
+     * @param {FileFacetName} facetName
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
-    public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
+    public isAnyTermSelected(facetName: FileFacetName, selectedSearchTerms: SearchTerm[]): boolean {
 
         return selectedSearchTerms.some(selectedSearchTerm =>
-            selectedSearchTerm.getSearchKey() === FileFacetName.FILE_FORMAT);
+            selectedSearchTerm.getSearchKey() === facetName);
     }
 
     /**
@@ -192,7 +204,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      */
     public isRequestFormValid(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment): boolean {
 
-        return this.isAnyFileFormatSelected(selectedSearchTerms) && !!os;
+        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms) &&
+            this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms) &&
+            !!os;
     }
 
     /**
@@ -205,6 +219,16 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
     public onDataLinkCopied(project: Project, shell: BulkDownloadExecutionEnvironment, curl: string) {
 
         this.store.dispatch(new CopyToClipboardProjectBulkDownloadAction(project, shell, curl));
+    }
+
+    /**
+     * Execution environment has been selected.
+     *
+     * @param {BulkDownloadExecutionEnvironment} executionEnvironment
+     */
+    public onExecutionEnvironmentSelected(executionEnvironment: BulkDownloadExecutionEnvironment) {
+
+        this.executionEnvironment = executionEnvironment;
     }
 
     /**
@@ -222,12 +246,17 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
             facetTermSelectedEvent.selected);
         this.store.dispatch(action);
 
-        // Kick off request for project-specific summary including any selected file types. Required for updating
-        // right side stats on select of file type.
+        // Kick off request for project-specific file type summaries. Required for populating file type form. Update
+        // of file types summaries only required if change in species.
+        if ( facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES ) {
+            this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+        }
+
+        // Kick off request for project-specific summary including any selected file types. Required for populating
+        // right side stats.
         this.store.dispatch(new FetchProjectFileSummaryRequestAction());
 
         // Get the list of facets to display. Must pull these from the files endpoint and specific to this project.
-        //  Required for updating right side stats on select of file type.
         this.store.dispatch(new FetchProjectFilesFacetsRequestAction());
     }
 
@@ -292,9 +321,13 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
             filter(project => !!project),
             take(1),
             tap(project => {
-                
+
+                // Add project to selected search terms state. 
                 this.store.dispatch(
                     new SelectProjectFileFacetTermAction(FileFacetName.PROJECT_ID, projectId, project.projectShortname, true));
+
+                // Determine species count of project; required for autoselecting species checkbox
+                this.store.dispatch(new FetchProjectSpeciesFacetRequestAction());
 
                 // Kick off request for project-specific file type summaries. Required for populating file type form.
                 this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
@@ -308,56 +341,62 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
             })
         );
 
-        // Grab file summary for displaying file types form. 
-        const fileTypeSummaries$ = this.store.pipe(select(selectFileManifestFileTypeSummaries));
+        // Grab the download state
+        const fileManifest$ = this.store.pipe(select(selectFileManifest));
 
-        // Grab file facets, required for right side stats. Files facets are project-specific (on dispatch) but share
-        // the same slot in the store as the general "filesFacets" for selected data download.
-        const filesFacets$ = this.store.pipe(select(selectFilesFacets));
-
-        // Grab project-specific file summary, required for right side stats.
-        const projectFileSummary$ = this.store.pipe(select(selectProjectFileSummary));
-
-        // Grab project download-specific selected facets, required for right side stats.
-        const projectSelectedSearchTerms$ = this.store.pipe(select(selectProjectSelectedSearchTerms));
-
-        // Update the UI with any changes in the download request request status and URL
-        const fileManifestManifestResponse$ = this.store.pipe(select(selectFileManifestManifestResponse));
-
+        // Set up initial state
         combineLatest([
             project$,
-            fileTypeSummaries$,
-            filesFacets$,
-            projectFileSummary$,
-            projectSelectedSearchTerms$,
-            fileManifestManifestResponse$
+            fileManifest$
         ]).pipe(
-            filter(([, , filesFacets, fileSummary]) => {
-                return filesFacets.length && Object.keys(fileSummary).length > 0
+            takeUntil(this.ngDestroy$),
+            filter(([,fileManifest]) => {
+                return fileManifest.filesFacets.length && Object.keys(fileManifest.projectFileSummary).length > 0
             }),
-            map(([project, fileTypeSummaries, filesFacets, fileSummary, selectedSearchTerms, manifestResponse]) => {
+            map(([project, fileManifest]) => {
 
-                const selectedSearchTermNames = selectedSearchTerms
+                const selectedSearchTermNames = fileManifest.selectedProjectSearchTerms
                     .map(searchTerm => searchTerm.getDisplayValue());
 
                 return {
-                    filesFacets,
-                    fileSummary,
-                    fileTypeSummaries,
+                    filesFacets: fileManifest.filesFacets,
+                    fileSummary: fileManifest.projectFileSummary,
+                    fileTypeSummaries: fileManifest.fileTypeSummaries,
                     loaded: true,
-                    manifestResponse,
-                    selectedSearchTerms,
-                    selectedSearchTermNames,
-                    project
+                    manifestResponse: fileManifest.manifestResponse,
+                    project,
+                    projectSpeciesFacet: fileManifest.projectSpeciesFacet,
+                    selectedSearchTerms: fileManifest.selectedProjectSearchTerms,
+                    selectedSearchTermNames
                 };
-            }),
-            takeUntil(this.ngDestroy$)
+            })
         ).subscribe(state => {
 
             this.state$.next(state);
 
             // Update description meta for this project
             this.projectDetailService.addProjectMeta(state.project.projectTitle, ProjectTab.PROJECT_BULK_DOWNLOAD);
+        });
+
+        // Autoselect species if project only has a single species
+        const speciesSelector$ = this.state$.pipe(
+            takeUntil(this.ngDestroy$),
+            skip(1) // Skip initial value
+        ).subscribe(state => {
+
+            // If project only has a single species, select it if it hasn't been selected already
+            const projectSpeciesFacet = state.projectSpeciesFacet as FileFacet;
+            const singleSpecies = projectSpeciesFacet.termCount === 1;
+            if ( singleSpecies ) {
+                const term = projectSpeciesFacet.terms[0];
+                if ( state.selectedSearchTermNames.indexOf(term.name) === -1 ) {
+                    const selectSpeciesAction =
+                        new SelectProjectFileFacetTermAction(projectSpeciesFacet.name, term.name, null, true);
+                    this.store.dispatch(selectSpeciesAction);
+                }
+            }
+
+            speciesSelector$.unsubscribe();
         });
     }
 }

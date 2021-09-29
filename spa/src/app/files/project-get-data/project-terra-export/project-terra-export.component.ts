@@ -31,12 +31,14 @@ import { Component, OnDestroy, OnInit  } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { filter, map, take, takeUntil, tap } from "rxjs/operators";
+import { filter, map, skip, take, takeUntil, tap } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-selected.event";
+import { Facet } from "../../facet/facet.model";
+import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { BulkDownloadExecutionEnvironment } from "../../get-data/bulk-download/bulk-download-execution-environment.model";
@@ -45,12 +47,14 @@ import { FetchProjectFilesFacetsRequestAction } from "../../_ngrx/facet/fetch-pr
 import { ClearFilesFacetsAction } from "../../_ngrx/file-manifest/clear-files-facets.action";
 import { ClearFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/clear-file-manifest-file-type.summaries";
 import { FetchProjectFileSummaryRequestAction } from "../../_ngrx/file-manifest/fetch-project-file-summary-request.actions";
-import {
-    selectFileManifestFileTypeSummaries, selectFilesFacets,
-    selectProjectFileSummary, selectProjectSelectedSearchTerms
-} from "../../_ngrx/file-manifest/file-manifest.selectors";
+import { SelectProjectFileFacetTermAction } from "../../_ngrx/file-manifest/select-project-file-facet-term.action";
+import { FetchProjectSpeciesFacetRequestAction } from "../../_ngrx/file-manifest/fetch-project-species-facet-request.action";
+import { FetchFileManifestFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-file-type-summaries-request.action";
+import { selectFileManifest } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { selectSelectedProject } from "../../_ngrx/files.selectors";
 import { CopyToClipboardProjectTerraUrlAction } from "../../_ngrx/project/copy-to-clipboard-project-terra-url.action";
+import { LaunchProjectTerraAction } from "../../_ngrx/project/launch-project-terra.action";
+import { ExportProjectToTerraRequestAction } from "../../_ngrx/project/export-project-to-terra-request.action";
 import { FetchProjectRequestAction } from "../../_ngrx/table/table.actions";
 import { ResetExportToTerraStatusAction } from "../../_ngrx/terra/reset-export-to-terra-status.action";
 import { selectExportToTerra } from "../../_ngrx/terra/terra.selectors";
@@ -62,10 +66,6 @@ import EntitySpec from "../../shared/entity-spec";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { Project } from "../../shared/project.model";
 import { TerraService } from "../../shared/terra.service";
-import { SelectProjectFileFacetTermAction } from "../../_ngrx/file-manifest/select-project-file-facet-term.action";
-import { FetchFileManifestFileTypeSummariesRequestAction } from "../../_ngrx/file-manifest/fetch-file-manifest-file-type-summaries-request.action";
-import { LaunchProjectTerraAction } from "../../_ngrx/project/launch-project-terra.action";
-import { ExportProjectToTerraRequestAction } from "../../_ngrx/project/export-project-to-terra-request.action";
 
 @Component({
     selector: "project-terra-export",
@@ -130,6 +130,17 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns the species facet, required for displaying species form.
+     *
+     * @param {Facet[]} filesFacets
+     * @returns {Facet}
+     */
+    public getSpeciesFacet(filesFacets: Facet[]): Facet {
+
+        return filesFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+    }
+
+    /**
      * Return set of possible manifest download formats.
      */
     public getManifestDownloadFormats(): ManifestDownloadFormat[] {
@@ -149,14 +160,16 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if any "fileFormat" facet terms are selected.
+     * Returns true if any terms in the given facet are selected.
+     *
+     * @param {FileFacetName} facetName
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
-    public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
+    public isAnyTermSelected(facetName: FileFacetName, selectedSearchTerms: SearchTerm[]): boolean {
 
         return selectedSearchTerms.some(selectedSearchTerm =>
-            selectedSearchTerm.getSearchKey() === FileFacetName.FILE_FORMAT);
+            selectedSearchTerm.getSearchKey() === facetName);
     }
 
     /**
@@ -189,6 +202,18 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     public isRequestFailed(status: ExportToTerraStatus): boolean {
 
         return this.terraService.isExportToTerraRequestFailed(status);
+    }
+
+    /**
+     * Returns true if Terra export request form is valid. That is, at least one file format as well as species is selected.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @returns {boolean}
+     */
+    public isRequestFormValid(selectedSearchTerms: SearchTerm[]): boolean {
+
+        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms) &&
+            this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
     }
 
     /**
@@ -263,12 +288,17 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
             facetTermSelectedEvent.selected);
         this.store.dispatch(action);
 
-        // Kick off request for project-specific summary including any selected file types. Required for updating
-        // right side stats on select of file type.
+        // Kick off request for project-specific file type summaries. Required for populating file type form. Update
+        // of file types summaries only required if change in species.
+        if ( facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES ) {
+            this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+        }
+
+        // Kick off request for project-specific summary including any selected file types. Required for populating
+        // right side stats.
         this.store.dispatch(new FetchProjectFileSummaryRequestAction());
 
         // Get the list of facets to display. Must pull these from the files endpoint and specific to this project.
-        //  Required for updating right side stats on select of file type.
         this.store.dispatch(new FetchProjectFilesFacetsRequestAction());
     }
 
@@ -350,6 +380,9 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
                 this.store.dispatch(
                     new SelectProjectFileFacetTermAction(FileFacetName.PROJECT_ID, projectId, project.projectShortname, true));
 
+                // Determine species count of project; required for autoselecting species checkbox
+                this.store.dispatch(new FetchProjectSpeciesFacetRequestAction());
+
                 // Kick off request for project-specific file type summaries. Required for populating file type form.
                 this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
 
@@ -362,50 +395,39 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
             })
         );
 
-        // Grab file summary for displaying file types form. 
-        const fileTypeSummaries$ = this.store.pipe(select(selectFileManifestFileTypeSummaries));
-
-        // Grab file facets, required for right side stats. Files facets are project-specific (on dispatch) but share
-        // the same slot in the store as the general "filesFacets" for selected data download.
-        const filesFacets$ = this.store.pipe(select(selectFilesFacets));
-
-        // Grab project-specific file summary, required for right side stats.
-        const projectFileSummary$ = this.store.pipe(select(selectProjectFileSummary));
-
-        // Grab project download-specific selected facets, required for right side stats.
-        const projectSelectedSearchTerms$ = this.store.pipe(select(selectProjectSelectedSearchTerms));
+        // Grab the download state
+        const fileManifest$ = this.store.pipe(select(selectFileManifest));
 
         // Update the UI with any changes in the Terra export request status and URL
         const exportToTerra$ = this.store.pipe(select(selectExportToTerra));
 
         combineLatest([
             project$,
-            fileTypeSummaries$,
-            filesFacets$,
-            projectFileSummary$,
-            projectSelectedSearchTerms$,
+            fileManifest$,
+            exportToTerra$,
             exportToTerra$
         ]).pipe(
-            filter(([, , filesFacets, fileSummary]) => {
-                return filesFacets.length && Object.keys(fileSummary).length > 0
+            takeUntil(this.ngDestroy$),
+            filter(([,fileManifest]) => {
+                return fileManifest.filesFacets.length && Object.keys(fileManifest.projectFileSummary).length > 0
             }),
-            map(([project, fileTypeSummaries, filesFacets, fileSummary, selectedSearchTerms, exportToTerra]) => {
+            map(([project, fileManifest, exportToTerra]) => {
 
-                const selectedSearchTermNames = selectedSearchTerms
+                const selectedSearchTermNames = fileManifest.selectedProjectSearchTerms
                     .map(searchTerm => searchTerm.getDisplayValue());
 
                 return {
-                    filesFacets,
-                    fileSummary,
-                    fileTypeSummaries,
+                    filesFacets: fileManifest.filesFacets,
+                    fileSummary: fileManifest.projectFileSummary,
+                    fileTypeSummaries: fileManifest.fileTypeSummaries,
                     loaded: true,
-                    selectedSearchTerms,
-                    selectedSearchTermNames,
                     project,
+                    projectSpeciesFacet: fileManifest.projectSpeciesFacet,
+                    selectedSearchTerms: fileManifest.selectedProjectSearchTerms,
+                    selectedSearchTermNames,
                     ...exportToTerra
                 };
-            }),
-            takeUntil(this.ngDestroy$)
+            })
         ).subscribe(state => {
 
             this.state$.next(state);
@@ -415,5 +437,26 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
         });
 
         this.initRequestCompleteSubscriber();
+        
+        // Autoselect species if project only has a single species
+        const speciesSelector$ = this.state$.pipe(
+            takeUntil(this.ngDestroy$),
+            skip(1) // Skip initial value
+        ).subscribe(state => {
+
+            // If project only has a single species, select it if it hasn't been selected already
+            const projectSpeciesFacet = state.projectSpeciesFacet as FileFacet;
+            const singleSpecies = projectSpeciesFacet.termCount === 1;
+            if ( singleSpecies ) {
+                const term = projectSpeciesFacet.terms[0];
+                if ( state.selectedSearchTermNames.indexOf(term.name) === -1 ) {
+                    const selectSpeciesAction =
+                        new SelectProjectFileFacetTermAction(projectSpeciesFacet.name, term.name, null, true);
+                    this.store.dispatch(selectSpeciesAction);
+                }
+            }
+
+            speciesSelector$.unsubscribe();
+        });
     }
 }
