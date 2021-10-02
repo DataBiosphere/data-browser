@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSortHeader, MatSortModule } from "@angular/material/sort";
@@ -87,7 +87,7 @@ describe("HCATableFilesComponent", () => {
     const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [
@@ -282,7 +282,7 @@ describe("HCATableFilesComponent", () => {
     
     describe("Columns", () => {
 
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
 
             testStore.pipe
                 .and.returnValues(
@@ -495,7 +495,7 @@ describe("HCATableFilesComponent", () => {
 
     describe("Model Organ Column", () => {
 
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
 
             testStore.pipe
                 .and.returnValues(

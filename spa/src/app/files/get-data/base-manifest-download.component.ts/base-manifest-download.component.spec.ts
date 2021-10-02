@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { Store } from "@ngrx/store";
@@ -55,7 +55,7 @@ describe("BaseManifestDownloadComponent", () => {
     /**
      * Setup before each test.
      */
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

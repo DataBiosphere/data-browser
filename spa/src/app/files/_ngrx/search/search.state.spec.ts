@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 
 // App dependencies
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
@@ -16,7 +16,7 @@ import { SearchEntity } from "../../search/search-entity.model";
 
 describe("SearchState", () => {
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [],

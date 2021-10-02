@@ -50,7 +50,7 @@ import { SystemService } from "./system/shared/system.service";
         // ANGULAR SETUP
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(AppRoutes),
+        RouterModule.forRoot(AppRoutes, { relativeLinkResolution: 'legacy' }),
 
         // NGRX SETUP
         StoreModule.forRoot(AppReducers),

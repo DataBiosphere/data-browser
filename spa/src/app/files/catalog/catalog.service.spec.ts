@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { of } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -98,7 +98,7 @@ describe("CatalogService", () => {
     const CONFIG_DEFAULT_CATALOG = DCPCatalog.DCP2;
 
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [],

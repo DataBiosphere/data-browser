@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterEvent, RouterModule } from "@angular/router";
@@ -46,7 +46,7 @@ describe("AppComponent:", () => {
         events: navigation$.asObservable()
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

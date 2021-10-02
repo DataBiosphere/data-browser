@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { HttpClient } from "@angular/common/http";
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { combineLatest, of, Subject } from "rxjs";
 import { filter, take } from "rxjs/operators";
 
@@ -34,7 +34,7 @@ describe("FileLocationService", () => {
     let httpClientSpy: { get: jasmine.Spy };
     let fileLocationService: FileLocationService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);

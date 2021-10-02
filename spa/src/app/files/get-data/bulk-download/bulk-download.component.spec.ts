@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { FormsModule } from "@angular/forms";
 import { MatRadioModule } from "@angular/material/radio";
@@ -75,7 +75,7 @@ describe("BulkDownloadComponent", () => {
     /**
      * Setup before each test.
      */
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

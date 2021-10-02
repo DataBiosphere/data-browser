@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { provideMockStore } from "@ngrx/store/testing";
 
 // App dependencies
@@ -21,7 +21,7 @@ describe("ProjectViewFactory", () => {
     let projectViewFactory: ProjectViewFactory;
     let configService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [],

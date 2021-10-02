@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
 
 // App dependencies
@@ -29,7 +29,7 @@ describe("TerraService:", () => {
     let httpClientSpy: { get: jasmine.Spy };
     let terraService: TerraService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [],

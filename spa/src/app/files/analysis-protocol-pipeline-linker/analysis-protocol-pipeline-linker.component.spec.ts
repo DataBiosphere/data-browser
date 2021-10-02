@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 
 // App dependencies
@@ -51,7 +51,7 @@ describe("AnalysisProtocolPipelineLinkerComponent", () => {
     const INPUT_VALUE_WORKFLOW_SINGLE_OPTIMUS_VALUE = TEST_VALUE_OPTIMUS;
     const INPUT_VALUE_WORKFLOW_SINGLE_SMARTSEQ2_VALUE = TEST_VALUE_SMARTSEQ2;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

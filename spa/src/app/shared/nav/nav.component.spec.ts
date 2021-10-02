@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -56,7 +56,7 @@ describe("NavComponent", () => {
     // Test values
     const TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION = INPUT_VALUE_NAV_ITEMS[0].routerLink.join("/");
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

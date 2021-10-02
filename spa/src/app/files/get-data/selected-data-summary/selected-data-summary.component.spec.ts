@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By, HAMMER_LOADER } from "@angular/platform-browser";
 
@@ -45,7 +45,7 @@ describe("SelectedDataSummary", () => {
     const INDEX_LIBRARY_CONSTRUCTION_METHOD = 11;
     const INDEX_PAIRED_END = 12;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

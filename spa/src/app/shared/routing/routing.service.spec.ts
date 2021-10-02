@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { NavigationEnd, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { filter } from "rxjs/operators";
@@ -22,7 +22,7 @@ describe("RoutingService", () => {
     let router;
     let routingService: RoutingService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [
