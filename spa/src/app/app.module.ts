@@ -12,7 +12,6 @@ import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router, RouterModule } from "@angular/router";
-import { DeviceDetectorModule } from "ngx-device-detector";
 import { EffectsModule } from "@ngrx/effects";
 import { Store, StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -69,8 +68,6 @@ import { SystemService } from "./system/shared/system.service";
         SiteModule,
         SupportRequestModule,
         TerraAuthModule,
-
-        DeviceDetectorModule.forRoot()
     ],
     declarations: [
 
