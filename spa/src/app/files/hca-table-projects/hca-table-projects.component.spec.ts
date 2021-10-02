@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSortHeader, MatSortModule } from "@angular/material/sort";
@@ -134,7 +134,7 @@ describe("HCATableProjectsComponent", () => {
     // Test values
     const TEST_VALUE_ROUTER_LINK = "/projects/";
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [
@@ -307,7 +307,7 @@ describe("HCATableProjectsComponent", () => {
 
     describe("Columns", () => {
         
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
 
             component.selectedProjectIds = [];
 
@@ -650,7 +650,7 @@ describe("HCATableProjectsComponent", () => {
 
     describe("Model Organ Column", () => {
 
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
 
             component.selectedProjectIds = [];
 

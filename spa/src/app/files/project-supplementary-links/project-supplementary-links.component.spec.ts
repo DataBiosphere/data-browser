@@ -10,7 +10,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
@@ -40,7 +40,7 @@ describe("ProjectSupplementaryLinksComponent", () => {
     const TEST_VALUE_LINK = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks[0];
     const TEST_VALUE_LINK_INVALID = PROJECT_DETAIL_SPECIFIC_VALUES.supplementaryLinks[1];
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

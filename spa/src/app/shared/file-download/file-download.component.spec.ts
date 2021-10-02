@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
@@ -35,7 +35,7 @@ describe("FileDownloadComponent", () => {
         url: TEST_VALUE_URL
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

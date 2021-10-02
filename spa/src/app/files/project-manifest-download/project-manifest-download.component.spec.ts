@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Store } from "@ngrx/store";
@@ -31,7 +31,7 @@ describe("ProjectDownloadManifestComponent", () => {
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

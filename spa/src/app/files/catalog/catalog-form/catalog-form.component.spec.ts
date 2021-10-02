@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { SimpleChange } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatRadioChange, MatRadioModule } from "@angular/material/radio";
 import { By } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
@@ -25,7 +25,7 @@ describe("CatalogFormComponent", () => {
     let fixture: ComponentFixture<CatalogFormComponent>;
     let store: MockStore;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

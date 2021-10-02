@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
@@ -23,7 +23,7 @@ describe("FileLocationCopyComponent", () => {
     let component: FileLocationCopyComponent;
     let fixture: ComponentFixture<FileLocationCopyComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

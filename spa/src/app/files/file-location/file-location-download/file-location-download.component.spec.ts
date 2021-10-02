@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
@@ -22,7 +22,7 @@ describe("FileLocationDownloadComponent", () => {
     let component: FileLocationDownloadComponent;
     let fixture: ComponentFixture<FileLocationDownloadComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

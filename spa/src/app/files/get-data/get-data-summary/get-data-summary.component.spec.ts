@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { By } from "@angular/platform-browser";
 import { provideMockStore } from "@ngrx/store/testing";
@@ -34,7 +34,7 @@ describe("GetDataSummaryComponent", () => {
         new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
     ];
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

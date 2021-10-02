@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { ConfigService } from "../../config/config.service";
 import { provideMockStore } from "@ngrx/store/testing";
 import { of } from "rxjs";
@@ -39,7 +39,7 @@ describe("ProjectService", () => {
     let httpClientSpy: { get: jasmine.Spy };
     let projectService: ProjectService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [

@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { async } from "@angular/core/testing";
+import { waitForAsync } from "@angular/core/testing";
 
 // App dependencies
 import { SearchTermUrlService } from "./search-term-url.service";
@@ -16,7 +16,7 @@ describe("SearchTermUrlService", () => {
 
     let searchTermUrlService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         searchTermUrlService = new SearchTermUrlService();
     }));

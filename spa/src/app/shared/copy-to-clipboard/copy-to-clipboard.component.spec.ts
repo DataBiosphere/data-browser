@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { By } from "@angular/platform-browser";
 import { ClipboardModule } from "ngx-clipboard";
@@ -23,7 +23,7 @@ describe("CopyToClipboardComponent", () => {
     // Test values
     const TEST_VALUE_COPY_TO_CLIPBOARD_LABEL = "link";
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [
