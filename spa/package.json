@@ -23,12 +23,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^12.2.8",
-    "@angular/cdk": "^11.2.13",
+    "@angular/cdk": "^12.2.8",
     "@angular/common": "^12.2.8",
     "@angular/compiler": "^12.2.8",
     "@angular/core": "^12.2.8",
     "@angular/forms": "^12.2.8",
-    "@angular/material": "^11.2.13",
+    "@angular/material": "^12.2.8",
     "@angular/platform-browser": "^12.2.8",
     "@angular/platform-browser-dynamic": "^12.2.8",
     "@angular/platform-server": "^12.2.8",
@@ -38,7 +38,7 @@
     "core-js": "^2.6.12",
     "lodash-es": "^4.17.21",
     "ngx-clipboard": "^14.0.1",
-    "ngx-device-detector": "^2.0.5",
+    "ngx-device-detector": "^2.1.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
