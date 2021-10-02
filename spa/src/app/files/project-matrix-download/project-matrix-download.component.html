@@ -31,7 +31,7 @@
                           (projectMatrixFileLocationRequested)="onProjectMatrixFileLocationRequested($event, projectMatrixType.DCP)"></project-matrix-table>
 </ng-container>
 <h2 class="fontsize-xl">
-    Contributor Generated Matrices
+    Contributor Generated Matrices and Analysis Files
 </h2>
 <p class="fontsize-s">
     Contributor Generated Matrices are optionally provided by the project contributors. These matrices vary in file
@@ -40,7 +40,7 @@
 </p>
 <ng-container [ngSwitch]="project.contributorMatrices.length === 0">
     <no-hits *ngSwitchCase="true">
-        <p class="fontsize-s">There are currently no contributor generated matrices for this project.</p>
+        <p class="fontsize-s">There are currently no contributor files for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
                           class="project-matrix-table-contributor-generated"
