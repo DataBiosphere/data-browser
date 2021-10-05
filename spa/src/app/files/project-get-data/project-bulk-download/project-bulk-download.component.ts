@@ -141,6 +141,49 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Return text to display if form is currently invalid.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {BulkDownloadExecutionEnvironment} os
+     * @returns {string}
+     */
+    getInvalidFormMessage(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment) {
+
+        const invalidFields = [];
+        if ( !this.isFileTypeValid(selectedSearchTerms) ) {
+            invalidFields.push("file type");
+        }
+        if ( !this.isSpeciesValid(selectedSearchTerms) ) {
+            invalidFields.push("species");
+        }
+        if ( !this.isExecutionEnvironmentValid(os) ) {
+            invalidFields.push("shell");
+        }
+        if ( invalidFields.length === 0 ) {
+            return "";
+        }
+
+        const fields = [];
+        if ( invalidFields.length > 2 ) {
+            invalidFields.forEach((invalidField, i) => {
+                if (i === invalidFields.length -1 ) {
+                    fields.push(" and ");
+                    fields.push(invalidField);
+                }
+                else {
+                    fields.push(invalidField);
+                    fields.push(", ");
+                }
+            }, );
+        }
+        else {
+            fields.push(invalidFields.join(" and "));
+        }
+
+        return `To continue, select a ${fields.join("")}.`;
+    }
+
+    /**
      * Returns true if any terms in the given facet are selected.
      * 
      * @param {FileFacetName} facetName
@@ -204,9 +247,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      */
     public isRequestFormValid(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment): boolean {
 
-        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms) &&
-            this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms) &&
-            !!os;
+        return this.isFileTypeValid(selectedSearchTerms) &&
+            this.isSpeciesValid(selectedSearchTerms) &&
+            this.isExecutionEnvironmentValid(os);
     }
 
     /**
@@ -283,6 +326,38 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
         this.router.navigate(["/projects", projectId]);
     }
 
+    /**
+     * Returns true if execution environment form field is valid. That is, execution environment has been selected.
+     * 
+     *  @param {BulkDownloadExecutionEnvironment} os
+     */
+    private isExecutionEnvironmentValid(os: BulkDownloadExecutionEnvironment): boolean {
+
+        return !!os;
+    }
+
+    /**
+     * Returns true if file type form field is valid. That is, at least one file type has been selected. 
+     * 
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @returns {boolean}
+     */
+    private isFileTypeValid(selectedSearchTerms: SearchTerm[]): boolean {
+
+        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms);
+    }
+
+    /**
+     * Returns true if species form field is valid. That is, at least one species has been selected.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @returns {boolean}
+     */
+    private isSpeciesValid(selectedSearchTerms: SearchTerm[]): boolean {
+
+        return this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
+    }
+    
     /**
      * Clear download-related state from store, kill subscriptions.
      */
