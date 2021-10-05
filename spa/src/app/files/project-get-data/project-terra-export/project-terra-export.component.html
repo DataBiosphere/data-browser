@@ -21,6 +21,10 @@
                                                    [formats]="getManifestDownloadFormats()"
                                                    (formatSelected)="onManifestDownloadFormat($event)"></manifest-download-format-form>
                     <warning-data-normalization></warning-data-normalization>
+                    <p class="error-message fontsize-xxs"
+                       [class]="{'error-message-visible': !isRequestFormValid(state.selectedSearchTerms, executionEnvironment)}">
+                        {{getInvalidFormMessage(state.selectedSearchTerms)}}
+                    </p>
                     <button class="button primary"
                             type="button"
                             (click)="onExportToTerra(state.project, manifestDownloadFormat)"

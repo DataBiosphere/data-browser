@@ -31,3 +31,16 @@ file-type-summary-form {
     padding: 8px;
     word-break: break-all;
 }
+
+/* Error message */
+.error-message {
+    color: $hca-orange;
+    font-weight: 600;
+    margin: 0 0 8px;
+    min-height: 18px;
+    visibility: hidden;
+}
+
+.error-message-visible {
+    visibility: visible;
+}

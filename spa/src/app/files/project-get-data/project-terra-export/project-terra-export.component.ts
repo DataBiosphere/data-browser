@@ -173,6 +173,28 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if file type form field is valid. That is, at least one file type has been selected.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @returns {boolean}
+     */
+    private isFileTypeValid(selectedSearchTerms: SearchTerm[]): boolean {
+
+        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms);
+    }
+
+    /**
+     * Returns true if species form field is valid. That is, at least one species has been selected.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @returns {boolean}
+     */
+    private isSpeciesValid(selectedSearchTerms: SearchTerm[]): boolean {
+
+        return this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
+    }
+
+    /**
      * Returns true if current environment is dev.
      *
      * @returns {boolean}
@@ -205,15 +227,15 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if Terra export request form is valid. That is, at least one file format as well as species is selected.
+     * Returns true if Terra export request form is valid. That is, at least one file format as well as species is
+     * selected.
      *
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
     public isRequestFormValid(selectedSearchTerms: SearchTerm[]): boolean {
 
-        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms) &&
-            this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
+        return this.isFileTypeValid(selectedSearchTerms) && this.isSpeciesValid(selectedSearchTerms);
     }
 
     /**
@@ -334,6 +356,46 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
 
                 window.open(this.terraService.buildExportToTerraWorkspaceUrl(state.exportToTerraUrl));
             });
+    }
+
+    /**
+     * Return text to display if form is currently invalid.
+     *
+     * @param {SearchTerm[]} selectedSearchTerms
+     * @param {BulkDownloadExecutionEnvironment} os
+     * @returns {string}
+     */
+    getInvalidFormMessage(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment) {
+
+        const invalidFields = [];
+        if ( !this.isFileTypeValid(selectedSearchTerms) ) {
+            invalidFields.push("file type");
+        }
+        if ( !this.isSpeciesValid(selectedSearchTerms) ) {
+            invalidFields.push("species");
+        }
+        if ( invalidFields.length === 0 ) {
+            return "";
+        }
+
+        const fields = [];
+        if ( invalidFields.length > 2 ) {
+            invalidFields.forEach((invalidField, i) => {
+                if (i === invalidFields.length -1 ) {
+                    fields.push(" and ");
+                    fields.push(invalidField);
+                }
+                else {
+                    fields.push(invalidField);
+                    fields.push(", ");
+                }
+            }, );
+        }
+        else {
+            fields.push(invalidFields.join(" and "));
+        }
+
+        return `To continue, select a ${fields.join("")}.`;
     }
 
     /**
