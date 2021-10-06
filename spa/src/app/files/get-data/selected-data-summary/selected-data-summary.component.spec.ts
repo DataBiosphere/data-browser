@@ -27,7 +27,7 @@ describe("SelectedDataSummary", () => {
 
     const SUMMARY_DISPLAY_ORDER = [
         "Estimated Cells", "File Size", "Files","Projects", "Species", "Donors", "Disease Status (Donor)",
-        "Specimens", "Disease Status (Specimen)", "Organ", "Organ Part", "Library Construction Method","Paired End"  
+        "Specimens", "Disease Status (Specimen)", "Anatomical Entity", "Organ Part", "Library Construction Method","Paired End"  
     ];
 
     // Summary order by index
@@ -40,7 +40,7 @@ describe("SelectedDataSummary", () => {
     const INDEX_DONOR_DISEASE_COUNT = 6;
     const INDEX_SPECIMENS_COUNT = 7;
     const INDEX_DISEASE_COUNT = 8;
-    const INDEX_ORGAN = 9;
+    const INDEX_ANATOMICAL_ENTITY = 9;
     const INDEX_ORGAN_PART = 10;
     const INDEX_LIBRARY_CONSTRUCTION_METHOD = 11;
     const INDEX_PAIRED_END = 12;
@@ -277,13 +277,13 @@ describe("SelectedDataSummary", () => {
         fixture.detectChanges();
 
         // Confirm selected organs is displayed - first execute a query
-        // to find the element with the class "terms" where the element with the class "label" is "Organ"
+        // to find the element with the class "terms" where the element with the class "label" is "Anatomical Entity"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_ORGAN)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_ANATOMICAL_ENTITY)).toEqual(component.displayTerms(selectedTerms));
     });
 
     /**
-     * Confirm selected organ parts is displayed.
+     * Confirm selected Anatomical Entity parts is displayed.
      */
     it(`should display selected organ parts`, () => {
 

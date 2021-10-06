@@ -167,8 +167,8 @@ let tableColumns: TableColumn[] = [
     },    
     {
         key: "organ",
-        userFriendly: "Organ",
-        description: "The organ that the biomaterial came from. Blood and connective tissue are considered organs.",
+        userFriendly: "Anatomical Entity",
+        description: "The anatomical entity that the biomaterial came from. Blood and connective tissue are considered anatomical entities.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 100,
         columnSort: true,

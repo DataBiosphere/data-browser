@@ -12,7 +12,7 @@ export enum FileFacetNameDisplay {
     "project" = "Project Label",
     "projectId" = "Project",
     "sampleEntityType" = "Sample Type",
-    "specimenOrgan" = "Organ",
+    "specimenOrgan" = "Anatomical Entity",
     "specimenOrganPart" = "Organ Part",
     "workflow" = "Analysis Protocol"
 }
