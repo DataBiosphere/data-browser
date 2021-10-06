@@ -39,7 +39,7 @@
         </ng-container>
         <ng-container matColumnDef="organ">
             <mat-header-cell *matHeaderCellDef>
-                <span class="fontsize-xxs bold">Organ</span>
+                <span class="fontsize-xxs bold">Anatomical Entity</span>
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs mat-cell-multi">
                 <span *ngFor="let organ of element.organ;let last = last;">{{organ}}<ng-container *ngIf="!last">,</ng-container></span>
