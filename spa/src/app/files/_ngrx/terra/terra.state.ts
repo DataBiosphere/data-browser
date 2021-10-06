@@ -43,7 +43,7 @@ export class TerraState implements Terra {
      * response has completed; the status of the response could be "in progress" with the corresponding retry URL (and
      * not the final export URL).
      *
-     * @param {FetchFileSummarySuccessAction} action
+     * @param {ExportToTerraSuccessAction} action
      * @returns {TerraState}
      */
     public  exportToTerraSuccess(action: ExportToTerraSuccessAction) {
