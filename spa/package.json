@@ -54,7 +54,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "2.0.8",
     "bufferutil": "4.0.1",
-    "codelyzer": "^6.0.0",
+    "codelyzer": "^6.0.2",
     "fibers": "5.0.0",
     "html-webpack-plugin": "4.3.0",
     "husky": "4.2.5",
