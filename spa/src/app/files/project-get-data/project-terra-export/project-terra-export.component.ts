@@ -502,8 +502,6 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
             this.projectDetailService.addProjectMeta(state.project.projectTitle, ProjectTab.PROJECT_TERRA_EXPORT);
         });
 
-        this.initRequestCompleteSubscriber();
-        
         // Autoselect species if project only has a single species
         const speciesSelector$ = this.state$.pipe(
             takeUntil(this.ngDestroy$),
@@ -524,5 +522,7 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
 
             speciesSelector$.unsubscribe();
         });
+
+        this.initRequestCompleteSubscriber();
     }
 }
