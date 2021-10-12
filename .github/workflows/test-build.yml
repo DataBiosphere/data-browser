@@ -13,5 +13,5 @@ jobs:
       
       - run: |
           cd spa
-          npm install
+          npm ci
           ng test --watch=false
