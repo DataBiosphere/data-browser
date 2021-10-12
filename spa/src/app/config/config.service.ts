@@ -15,6 +15,7 @@ import { Config } from "./config.model";
 import { environment } from "../../environments/environment";
 import { AtlasName } from "../files/atlas/atlas-name.model";
 import { Catalog } from "../files/catalog/catalog.model";
+import { ManifestDownloadFormat } from "../files/file-manifest/manifest-download-format.model";
 import { AppState } from "../_ngrx/app.state";
 import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 
@@ -210,18 +211,35 @@ export class ConfigService {
     }
 
     /**
-     * Return the full URL for the specified Terra export URL.
-     *
-     * @param {string} encdodedExportUrl
+     * Return the base Terra URL.
+     * 
      * @returns {string}
      */
-    public getTerraExportUrl(encdodedExportUrl?: string): string {
-        
-        if ( !encdodedExportUrl ) {
-            return this.terraExportURL;
-        }
+    public getTerraExportUrl(): string {
 
-        return `${this.terraExportURL}#import-data?url=${encdodedExportUrl}`;
+        return this.terraExportURL;
+    }
+
+    /**
+     * Return the full URL for the specified Terra export URL.
+     *
+     * @param {ManifestDownloadFormat} format
+     * @param {string} encodedUrl
+     * @returns {string}
+     */
+    public getTerraRedirectUrl(format: ManifestDownloadFormat, encodedUrl: string): string {
+        
+        // Build up set of params to be included in export URL. Only include format param in environments where 
+        // PFB is enabled.
+        const paramTokens = [];
+        if ( this.isEnvCGLDev() && format === ManifestDownloadFormat.TERRA_PFB ) {
+            // Translate Azul PFB format param value to Terra PFB format value. That is, terra.pfb to PFB.
+            paramTokens.push("format=PFB");
+        }
+        paramTokens.push(`url=${encodedUrl}`);
+        const params = paramTokens.join("&");
+
+        return `${this.getTerraExportUrl()}#import-data?${params}`;
     }
     
     /**

@@ -42,9 +42,11 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
     constructor(private configService: ConfigService, private store: Store<AppState>) {}
 
     /**
-     * Returns the Terra registration URL. 
+     * Returns the Terra registration URL.
+     * 
+     * @returns {string}
      */
-    public getRegistrationUrl() {
+    public getRegistrationUrl(): string {
 
         return this.configService.getTerraExportUrl();
     }

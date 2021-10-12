@@ -39,11 +39,11 @@
                     <p class="fontsize-m">The workspace URL is referenced below.</p>
                 </get-data-panel>
                 <div class="download">
-                    <data-link [link]="getTerraServiceUrl(state.exportToTerraUrl)"
+                    <data-link [link]="getTerraServiceUrl(manifestDownloadFormat, state.exportToTerraUrl)"
                                [targetBlank]="true"
-                               (dataLinkClicked)="onDataLinkClicked(getTerraServiceUrl(state.exportToTerraUrl))"></data-link>
-                    <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(state.exportToTerraUrl)"
-                                       (copyClicked)="onDataLinkCopied(getTerraServiceUrl(state.exportToTerraUrl))"></copy-to-clipboard>
+                               (dataLinkClicked)="onDataLinkClicked(getTerraServiceUrl(manifestDownloadFormat, state.exportToTerraUrl))"></data-link>
+                    <copy-to-clipboard [copyToClipboardLink]="getTerraServiceUrl(manifestDownloadFormat, state.exportToTerraUrl)"
+                                       (copyClicked)="onDataLinkCopied(getTerraServiceUrl(manifestDownloadFormat, state.exportToTerraUrl))"></copy-to-clipboard>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </div>
             </ng-container>
