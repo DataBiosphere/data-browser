@@ -10,7 +10,7 @@ import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
-import { filter, map, takeUntil } from "rxjs/operators";
+import { filter, map, take, takeUntil } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../../config/config.service";
@@ -89,12 +89,13 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     /**
      * Returns the terra workspace URL.
      *
+     * @param {ManifestDownloadFormat} format
      * @param exportToTerraUrl
      * @returns {string}
      */
-    public getTerraServiceUrl(exportToTerraUrl): string {
+    public getTerraServiceUrl(format: ManifestDownloadFormat, exportToTerraUrl): string {
 
-        return this.terraService.buildExportToTerraWorkspaceUrl(exportToTerraUrl);
+        return this.terraService.buildExportToTerraWorkspaceUrl(format, exportToTerraUrl);
     }
 
     /**
@@ -234,11 +235,14 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
         this.state$
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus))
+                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus)),
+                take(1)
             )
             .subscribe((state) => {
 
-                window.open(this.terraService.buildExportToTerraWorkspaceUrl(state.exportToTerraUrl));
+                const url = 
+                    this.terraService.buildExportToTerraWorkspaceUrl(this.manifestDownloadFormat, state.exportToTerraUrl);
+                window.open(url);
             });
     }
 

@@ -151,12 +151,13 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     /**
      * Returns the terra workspace URL.
      *
-     * @param exportToTerraUrl
+     * @param {ManifestDownloadFormat} format
+     * @param {string} exportToTerraUrl
      * @returns {string}
      */
-    public getTerraServiceUrl(exportToTerraUrl): string {
+    public getTerraServiceUrl(format: ManifestDownloadFormat, exportToTerraUrl: string): string {
 
-        return this.terraService.buildExportToTerraWorkspaceUrl(exportToTerraUrl);
+        return this.terraService.buildExportToTerraWorkspaceUrl(format, exportToTerraUrl);
     }
 
     /**
@@ -350,11 +351,14 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
         this.state$
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus))
+                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus)),
+                take(1)
             )
             .subscribe((state) => {
 
-                window.open(this.terraService.buildExportToTerraWorkspaceUrl(state.exportToTerraUrl));
+                const url =
+                    this.terraService.buildExportToTerraWorkspaceUrl(this.manifestDownloadFormat, state.exportToTerraUrl);
+                window.open(url);
             });
     }
 

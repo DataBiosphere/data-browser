@@ -42,13 +42,14 @@ export class TerraService {
     /**
      * Build up the complete export to Terra URL, for opening a Terra workspace in a new tab.
      *
+     * @param {ManifestDownloadFormat} format
      * @param {string} exportUrl
      * @returns {string}
      */
-    public buildExportToTerraWorkspaceUrl(exportUrl: string): string {
+    public buildExportToTerraWorkspaceUrl(format: ManifestDownloadFormat, exportUrl: string): string {
 
-        const encdodedExportUrl = encodeURIComponent(exportUrl);
-        return this.configService.getTerraExportUrl(encdodedExportUrl);
+        const encodedExportUrl = encodeURIComponent(exportUrl);
+        return this.configService.getTerraRedirectUrl(format, encodedExportUrl);
     }
 
     /**
