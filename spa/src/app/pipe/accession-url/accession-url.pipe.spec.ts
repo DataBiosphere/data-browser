@@ -7,7 +7,7 @@
 
 // App dependencies
 import { AccessionUrlPipe } from "./accession-url.pipe";
-import { Accession } from "../../files/project-view/accession.model";
+import { AccessionNamespace } from "../../files/accession/accession-namespace.model";
 
 describe("Pipe: AccessionUrl", () => {
 
@@ -18,8 +18,8 @@ describe("Pipe: AccessionUrl", () => {
         
         const pipe = new AccessionUrlPipe();
         const accessionValue = "E-AAAA-00";
-        const accessionKey = Accession.arrayExpressAccessions;
-        const result = pipe.transform(accessionValue, accessionKey);
+        const namespace = AccessionNamespace.ARRAY_EXPRESS;
+        const result = pipe.transform(namespace, accessionValue);
         const expected = `https://identifiers.org/arrayexpress:${accessionValue}`;
         expect(result).toEqual(expected);
     });
@@ -31,8 +31,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionValue = "GSE00000";
-        const accessionKey = Accession.geoSeriesAccessions;
-        const result = pipe.transform(accessionValue, accessionKey);
+        const namespace = AccessionNamespace.GEO_SERIES;
+        const result = pipe.transform(namespace, accessionValue);
         const expected = `https://identifiers.org/geo:${accessionValue}`;
         expect(result).toEqual(expected);
     });
@@ -44,8 +44,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionValue = "SRP000000";
-        const accessionKey = Accession.insdcProjectAccessions;
-        const result = pipe.transform(accessionValue, accessionKey);
+        const namespace = AccessionNamespace.INSDC_PROJECT;
+        const result = pipe.transform(namespace, accessionValue);
         const expected = `https://identifiers.org/ena.embl:${accessionValue}`;
         expect(result).toEqual(expected);
     });
@@ -57,8 +57,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionValue = "PRJNA000000";
-        const accessionKey = Accession.insdcProjectAccessions;
-        const result = pipe.transform(accessionValue, accessionKey);
+        const namespace = AccessionNamespace.INSDC_STUDY;
+        const result = pipe.transform(namespace, accessionValue);
         const expected = `https://identifiers.org/ena.embl:${accessionValue}`;
         expect(result).toEqual(expected);
     });

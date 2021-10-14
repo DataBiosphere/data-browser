@@ -92,7 +92,7 @@
         <project-file-type-counts [keyValuePairs]="projectView.fileTypeCounts"></project-file-type-counts>
         <project-supplementary-links [supplementaryLinks]="project.supplementaryLinks"
                                      (supplementaryLinkClicked)="onSupplementaryLinkClicked(project.entryId, project.projectShortname, $event)"></project-supplementary-links>
-        <project-accessions [keyValuePairs]="projectView.projectAccessionsSummaries"
+        <project-accessions [keyValuePairs]="projectView.accessions"
                         (accessionClicked)="onAccessionClicked(project.entryId, project.projectTitle, $event)"></project-accessions>
         <div class="data-release-policy">
             <h4 class="fontsize-m semi-bold">Data Release Policy</h4>

@@ -9,7 +9,7 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
-import { Accession } from "./accession.model";
+import { AccessionNamespace } from "../accession/accession-namespace.model";
 import { Catalog } from "../catalog/catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { DCPCatalog } from "../catalog/dcp-catalog.model";
@@ -32,11 +32,11 @@ export class ProjectViewFactory {
         "libraryConstructionApproach": "-",
         "pairedEnd": "-",
     };
-    private ACCEPT_LIST_ACCESSION_TO_KEY = {
-        [Accession.arrayExpressAccessions]: "Array Express Accessions",
-        [Accession.geoSeriesAccessions]: "GEO Series Accessions",
-        [Accession.insdcProjectAccessions]: "INSDC Project Accessions",
-        [Accession.insdcStudyAccessions]: "INSDC Study Accessions"
+    private DISPLAY_NAME_ACCESSION_NAMESPACE = {
+        [AccessionNamespace.ARRAY_EXPRESS]: "Array Express Accessions",
+        [AccessionNamespace.GEO_SERIES]: "GEO Series Accessions",
+        [AccessionNamespace.INSDC_PROJECT]: "INSDC Project Accessions",
+        [AccessionNamespace.INSDC_STUDY]: "INSDC Study Accessions"
     };
     private ACCEPT_LIST_DATA_SUMMARY_TO_KEY = {
         "projectShortname": "",
@@ -74,6 +74,7 @@ export class ProjectViewFactory {
     public getProjectView(catalog: Catalog, project: Project): ProjectView {
 
         return {
+            accessions: this.buildAccessions(project),
             citationLink: this.buildCitationUrl(catalog, project.entryId),
             collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
             contacts: this.buildContacts(project.contributors),
@@ -81,8 +82,42 @@ export class ProjectViewFactory {
             dataCurators: this.buildDataCurators(project.contributors),
             dataSummaries: this.buildDataSummaries(project),
             fileTypeCounts: this.buildFileTypeCounts(project),
-            projectAccessionsSummaries: this.buildProjectAccessionsSummaries(project)
         };
+    }
+
+
+    /**
+     * Returns accessions converted to key value pairs.
+     *
+     * @param {Project} project
+     * @returns {KeyValuePair[]}
+     */
+    private buildAccessions(project: Project): KeyValuePair[] {
+        
+        const accessionKeyAcceptList = Object.keys(AccessionNamespace);
+        const pairs = [];
+        for ( let [namespace, accessions] of project.accessionsByNamespace.entries() ) {
+            
+            if ( !accessionKeyAcceptList.includes(namespace) ) {
+                continue;
+            }
+
+            // Create view models for each accession value
+            const accessionViews = accessions.map(accession => {
+                const {accession: value} = accession;
+                return {
+                    key: value,
+                    value: this.accessionUrlPipe.transform(namespace, value)
+                }
+            });
+            
+            pairs.push({
+                key: this.DISPLAY_NAME_ACCESSION_NAMESPACE[AccessionNamespace[namespace]],
+                value: accessionViews
+            });
+        }
+        
+        return pairs;
     }
 
     /**
@@ -248,42 +283,6 @@ export class ProjectViewFactory {
         })
 
         return fileTypeViews;
-    }
-
-    /**
-     * Returns project file count summary related information, included formatted display text.
-     *
-     * @param {Project} project
-     * @returns {KeyValuePair[]}
-     */
-    private buildProjectAccessionsSummaries(project: Project): KeyValuePair[] {
-        
-        return Object.keys(this.ACCEPT_LIST_ACCESSION_TO_KEY)
-            .reduce((accum, accessionKey) => {
-                
-                // Standardize accession values to be arrays, remove "null" accessions and exit if accessions array
-                // is empty.
-                const accessions = project[accessionKey]
-                    .split(", ")
-                    .filter(accession => !!accession && accession !== "Unspecified"); // null accession values are converted to "Undefined" in mapper
-                if ( accessions.length === 0 ) {
-                    return accum;
-                }
-
-                // Create view models for each accession value
-                const accessionViews = accessions.map(accession => {
-                    return {
-                        key: accession,
-                        value: this.accessionUrlPipe.transform(accession, accessionKey as Accession)
-                    }
-                });
-                accum.push({
-                    key: this.ACCEPT_LIST_ACCESSION_TO_KEY[accessionKey],
-                    value: accessionViews
-                });
-
-                return accum;
-            }, []);
     }
 
     /**

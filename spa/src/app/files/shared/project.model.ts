@@ -6,12 +6,15 @@
  */
 
 // App dependencies
+import { Accession } from "../accession/accession.model";
+import { AccessionNamespace } from "../accession/accession-namespace.model";
 import { Contributor } from "./contributor.model";
 import { ProjectRow } from "../projects/project-row.model";
 import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analysis-portal.model";
 import { Publication } from "./publication.model";
 
 export interface Project extends ProjectRow {
+    accessionsByNamespace: Map<AccessionNamespace, Accession[]>;
     analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     arrayExpressAccessions: string[];
     deprecated: boolean, // Specified in project-edits.json
