@@ -17,7 +17,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ng test --watch=false"
+      "pre-commit": "ng test --watch=false --browsers ChromeHeadless"
     }
   },
   "private": true,
