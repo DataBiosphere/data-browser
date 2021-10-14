@@ -238,7 +238,7 @@ let tableColumns: TableColumn[] = [
     },
     {
         key: "selectedCellType",
-        userFriendly: "Selected Cell Type",
+        userFriendly: "Selected Cell Types",
         description: "The cell type(s) selected to be present in the suspension.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 70,
