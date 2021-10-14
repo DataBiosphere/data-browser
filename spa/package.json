@@ -47,7 +47,7 @@
     "@angular-devkit/build-angular": "^12.2.9",
     "@angular/cli": "^12.2.8",
     "@angular/compiler-cli": "^12.2.8",
-    "@angular/language-service": "^12.2.8",
+    "@angular/language-service": "^12.2.10",
     "@ngrx/store-devtools": "^12.4.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.54",
