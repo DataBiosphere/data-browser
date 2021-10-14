@@ -53,18 +53,15 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "laboratory": [
                     "x"
                 ],
-                "arrayExpressAccessions": [
-                    "x"
-                ],
-                "geoSeriesAccessions": [
-                    "x"
-                ],
-                "insdcProjectAccessions": [
-                    "x"
-                ],
-                "insdcStudyAccessions": [
-                    "x"
-                ],
+                "accessions": [{
+                    namespace: "array_express", accession: "123"
+                }, {
+                    namespace: "geo_series", accession: "456"
+                }, {
+                    namespace: "insdc_project", accession: "789",
+                }, {
+                    namespace: "insdc_study", accession: "012"
+                }],
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"
                 ],
@@ -337,22 +334,11 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
                     "x"
                 ],
                 "laboratory": [],
-                "arrayExpressAccessions": [
-                    "x",
-                    "y"
-                ],
-                "geoSeriesAccessions": [
-                    "x",
-                    "y"
-                ],
-                "insdcProjectAccessions": [
-                    "x",
-                    "y"
-                ],
-                "insdcStudyAccessions": [
-                    "x",
-                    "y"
-                ],
+                "accessions": [{
+                    namespace: "array_express", accession: "123"
+                }, {
+                    namespace: "array_express", accession: "456"
+                }],
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz",
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz"
@@ -555,17 +541,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                 "laboratory": [
                     "a"
                 ],
-                "arrayExpressAccessions": [
-                    "a"
-                ],
-                "geoSeriesAccessions": [
-                    "a"
-                ],
-                "insdcProjectAccessions": [
-                    "a"
-                ],
-                "insdcStudyAccessions": [
-                    "a"
+                "accessions": [
+                    {
+                        namespace: "array_express", accession: "123"
+                    }
                 ],
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz"
@@ -585,21 +564,10 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
                     "x",
                     "y"
                 ],
-                "arrayExpressAccessions": [
-                    "x",
-                    "y"
-                ],
-                "geoSeriesAccessions": [
-                    "x",
-                    "y"
-                ],
-                "insdcProjectAccessions": [
-                    "x",
-                    "y"
-                ],
-                "insdcStudyAccessions": [
-                    "x",
-                    "y"
+                "accessions": [
+                    {
+                        namespace: "array_express", accession: "123"
+                    }
                 ],
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Kidney.tar.gz",
@@ -823,6 +791,7 @@ export const PROJECT_ROW_EMPTY_ARRAY_VALUES =
                 "projectId": "",
                 "projectTitle": [],
                 "projectShortname": [],
+                "accessions": [],
                 "laboratory": [],
                 "arrayExpressAccessions": [],
                 "geoSeriesAccessions": [],
@@ -904,6 +873,7 @@ export const PROJECT_ROW_NULL_VALUES =
                 "projectId": null,
                 "projectTitle": null,
                 "projectShortname": null,
+                "accessions": null,
                 "laboratory": null,
                 "arrayExpressAccessions": null,
                 "geoSeriesAccessions": null,
@@ -1022,6 +992,7 @@ export const PROJECT_ROW_NULL_ARRAY_VALUES =
                 "projectId": [null],
                 "projectTitle": [null],
                 "projectShortname": [null],
+                "accessions": [null],
                 "laboratory": [null],
                 "arrayExpressAccessions": [null],
                 "geoSeriesAccessions": [null],

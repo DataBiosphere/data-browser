@@ -14,8 +14,17 @@ import { Project } from "../shared/project.model";
 import { Contributor } from "../shared/contributor.model";
 import { Publication } from "../shared/publication.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
+import { AccessionNamespace } from "../accession/accession-namespace.model";
+import { Accession } from "../accession/accession.model";
 
 export class ProjectMapper extends ProjectRowMapper {
+
+    private ACCESSION_NAMESPACE_RESPONSE_KEYS = {
+        "array_express": AccessionNamespace.ARRAY_EXPRESS,
+        "geo_series": AccessionNamespace.GEO_SERIES,
+        "insdc_project": AccessionNamespace.INSDC_PROJECT,
+        "insdc_study": AccessionNamespace.INSDC_STUDY
+    };
 
     /**
      * @param {any} row - data modelling row in current selected table.
@@ -41,11 +50,15 @@ export class ProjectMapper extends ProjectRowMapper {
         // If there are contributors listed in the updated project (loaded from the project edits JSON), use it to
         // update the project's contributors. Otherwise, use the publication data return from server.
         const contributors = this.mapContributors(this.row.projects, this.projectOverrides);
+        
+        // Convert accessions to view format
+        const accessionsByNamespace = this.mapAccessions(this.row.projects[0].accessions);
 
         const entity = Object.assign(
             {},
             super.mapRow(),
             {
+                accessionsByNamespace,
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
                 deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
                 contributors: contributors,
@@ -70,7 +83,6 @@ export class ProjectMapper extends ProjectRowMapper {
 
         // If the built entity has no project short name, and the project edits does have a short name, apply it to
         // the newly build entity.
-        // TODO revisit as any here - why is this necessary? 
         if ( !(entity as any).projectShortname && this.projectOverrides.projectShortname ) {
             (entity as any).projectShortname = this.projectOverrides.projectShortname;
         }
@@ -98,6 +110,38 @@ export class ProjectMapper extends ProjectRowMapper {
                 matrix.analysisPortals = override.analysisPortals;
             }
         });
+    }
+
+    /**
+     * Convert array of accessions into map keyed by accession namespace.
+     * @param accessionsResponse
+     * @returns {Map<AccessionNamespace, Accession[]>}
+     */
+    private mapAccessions(accessionsResponse): Map<AccessionNamespace, Accession[]> {
+        
+        if ( !accessionsResponse ) {
+            return new Map();
+        }
+
+        return accessionsResponse.reduce((accum, accessionResponse) => {
+            
+            if ( !accessionResponse ) {
+                return accum;
+            }
+
+            const namespace = this.ACCESSION_NAMESPACE_RESPONSE_KEYS[accessionResponse.namespace];
+            const {accession} = accessionResponse;
+            if ( !namespace || !accession ) {
+                return accum;
+            }
+            if ( !accum.has(namespace) ) {
+                accum.set(namespace, []);
+            }
+            accum.get(namespace).push({
+                accessionNamespace: namespace, accession
+            });
+            return accum;
+        }, new Map<AccessionNamespace, Accession[]>());
     }
 
     /**

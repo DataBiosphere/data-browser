@@ -15,6 +15,7 @@ import { ConfigState } from "../../config/_ngrx/config.state";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import { DCPCatalog } from "../catalog/dcp-catalog.model";
+import { AccessionNamespace } from "../accession/accession-namespace.model";
 
 describe("ProjectViewFactory", () => {
 
@@ -128,58 +129,37 @@ describe("ProjectViewFactory", () => {
 
         projectViewFactory = new ProjectViewFactory(configService);
     });
-    
-    describe("buildProjectAccessionsSummaries", () => {
 
-        /**
-         * Confirm no accessions are added to project view if all values are Unspecified.
-         */
-        it(`excludes all accessions if all values are "Unspecified"`, () => {
+    describe("buildAccessions", () => {
 
-            // Create model of project that has been parsed by the project mapper
-            const mappedProject = {
-                arrayExpressAccessions: "Unspecified",
-                geoSeriesAccessions: "Unspecified",
-                insdcProjectAccessions: "Unspecified",
-                insdcStudyAccessions: "Unspecified"
-            };
-            const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
-            expect(result.length).toBe(0);
-        });
-
-        /**
-         * Confirm Unspecified accession value is not added to the project view.
-         */
-        it(`excludes "Unspecified" accession value from project view`, () => {
-
-            // Create model of project that has been parsed by the project mapper
-            const mappedProject = {
-                arrayExpressAccessions: "Unspecified",
-                geoSeriesAccessions: "abc",
-                insdcProjectAccessions: "def",
-                insdcStudyAccessions: "ghi"
-            };
-            const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
-            expect(result.length).toBe(3);
-            expect(includesAccessions(result, "Array Express Accessions")).toBeFalsy();
-            expect(includesAccessions(result, "GEO Series Accessions")).toBeTruthy();
-            expect(includesAccessions(result, "INSDC Project Accessions")).toBeTruthy();
-            expect(includesAccessions(result, "INSDC Study Accessions")).toBeTruthy();
-        });
+        // Create model of project that has been parsed by the project mapper
+        const mappedProject = {
+            accessionsByNamespace: new Map([
+                [AccessionNamespace.ARRAY_EXPRESS, [{
+                    namespace: AccessionNamespace.ARRAY_EXPRESS,
+                    accession: "123"
+                }]],
+                [AccessionNamespace.GEO_SERIES, [{
+                    namespace: AccessionNamespace.GEO_SERIES,
+                    accession: "123"
+                }]],
+                [AccessionNamespace.INSDC_PROJECT, [{
+                    namespace: AccessionNamespace.INSDC_PROJECT,
+                    accession: "123"
+                }]],
+                [AccessionNamespace.INSDC_STUDY, [{
+                    namespace: AccessionNamespace.INSDC_STUDY,
+                    accession: "123"
+                }]]
+            ])
+        };
 
         /**
          * Confirm all accession values are added to project view.
          */
-        it(`maps all accession values`, () => {
+        it("maps all accession values", () => {
 
-            // Create model of project that has been parsed by the project mapper
-            const mappedProject = {
-                arrayExpressAccessions: "abc",
-                geoSeriesAccessions: "def",
-                insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl"
-            };
-            const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
+            const result = projectViewFactory["buildAccessions"](mappedProject as any);
             expect(result.length).toBe(4);
             expect(includesAccessions(result, "Array Express Accessions")).toBeTruthy();
             expect(includesAccessions(result, "GEO Series Accessions")).toBeTruthy();
@@ -190,39 +170,38 @@ describe("ProjectViewFactory", () => {
         /**
          * Confirm a single accession value is added to project view.
          */
-        it(`maps a single accession value`, () => {
+        it("maps a single accession value", () => {
 
-            // Create model of project that has been parsed by the project mapper
-            const mappedProject = {
-                arrayExpressAccessions: "abc",
-                geoSeriesAccessions: "def",
-                insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl"
-            };
-            const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
+            const result = projectViewFactory["buildAccessions"](mappedProject as any);
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");
             expect(arrayExpressAccessions.value.length).toEqual(1);
-            expect((arrayExpressAccessions.value[0] as any).key).toEqual(mappedProject["arrayExpressAccessions"]);
+            const expected = mappedProject.accessionsByNamespace.get(AccessionNamespace.ARRAY_EXPRESS)[0].accession;
+            expect((arrayExpressAccessions.value[0] as any).key).toEqual(expected);
         });
 
         /**
          * Confirm an accession value with multiple values is added to project view.
          */
-        it(`maps a multi-value accession`, () => {
+        it("maps a multi-value accession", () => {
 
-            // Create model of project that has been parsed by the project mapper
-            const mappedProject = {
-                arrayExpressAccessions: "abc, mno",
-                geoSeriesAccessions: "def",
-                insdcProjectAccessions: "ghi",
-                insdcStudyAccessions: "jkl"
+            const multiAccessionMappedProject = {
+                accessionsByNamespace: new Map([
+                    [AccessionNamespace.ARRAY_EXPRESS, [{
+                        namespace: AccessionNamespace.ARRAY_EXPRESS,
+                        accession: "123"
+                    }, {
+                        namespace: AccessionNamespace.ARRAY_EXPRESS,
+                        accession: "456"
+                    }]],
+                ])
             };
-            const result = projectViewFactory["buildProjectAccessionsSummaries"](mappedProject as any);
+
+            const result = projectViewFactory["buildAccessions"](multiAccessionMappedProject as any);
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");
             expect(arrayExpressAccessions.value.length).toEqual(2);
             const values = arrayExpressAccessions.value;
-            expect(values[0].key).toEqual("abc");
-            expect(values[1].key).toEqual("mno");
+            expect(values[0].key).toEqual("123");
+            expect(values[1].key).toEqual("456");
         });
 
         /**
@@ -240,10 +219,10 @@ describe("ProjectViewFactory", () => {
     describe("buildCitationUrl", () => {
 
         it("adds dcp1 catalog to citation url", () => {
-            
+
             const browserUrl = "https://foo.com";
             spyOn(configService, "getBrowserUrl").and.returnValue(browserUrl);
-            
+
             const catalog = DCPCatalog.DCP1;
             const projectId = "baz";
             const citationUrl = projectViewFactory["buildCitationUrl"](catalog, projectId);

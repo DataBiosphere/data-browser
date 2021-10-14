@@ -18,12 +18,7 @@ import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { ProjectService } from "./project.service";
-import {
-    PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT,
-    PROJECT_ROW_NULL_TOP_LEVEL_VALUES,
-    PROJECT_ROW_NULL_VALUES,
-    PROJECT_ROW_SINGLE_VALUES, PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS
-} from "../projects/project-row-mapper.mock";
+import { PROJECT_ROW_NULL_VALUES, } from "../projects/project-row-mapper.mock";
 
 import {
     PROJECT_SINGLE_VALUES,
@@ -32,7 +27,7 @@ import {
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { Project } from "../shared/project.model";
 import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
-
+import { AccessionNamespace } from "../accession/accession-namespace.model";
 
 describe("ProjectService", () => {
 
@@ -42,10 +37,8 @@ describe("ProjectService", () => {
     beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
-            declarations: [
-            ],
-            imports: [
-            ],
+            declarations: [],
+            imports: [],
             providers: [
                 ConfigService,
                 provideMockStore({
@@ -66,76 +59,135 @@ describe("ProjectService", () => {
         projectService = new ProjectService(configService, httpService, searchTermService, <any>httpClientSpy);
     }));
 
-    describe("fetchProjectById:", () => {
+    describe("fetchProjectById", () => {
 
-        /**
-         * Array express accessions, when specified, should be mapped.
-         */
-        it("should map array express accessions", (done: DoneFn) => {
+        const RESPONSE_KEYS_BY_NAMESPACE = {
+            [AccessionNamespace.ARRAY_EXPRESS]: "array_express",
+            [AccessionNamespace.GEO_SERIES]: "geo_series",
+            [AccessionNamespace.INSDC_PROJECT]: "insdc_project",
+            [AccessionNamespace.INSDC_STUDY]: "insdc_study"
+        };
 
-            const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
+        describe("accessions", () => {
 
-                expect(mappedProject.arrayExpressAccessions).toEqual(projectToMap.projects[0].arrayExpressAccessions.join(", "));
-                return done();
-            });
-        });
+            Object.keys(AccessionNamespace).forEach(accessionNamespace => {
 
-        /**
-         * Multiple array express accession values should be rolled up and mapped
-         */
-        it("should roll up and map array express accession values in single project value", (done: DoneFn) => {
+                /**
+                 * Project mapper maps accessions to correct format.
+                 */
+                it("maps single value accessions", (done: DoneFn) => {
 
-            const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
+                    const accession = "123";
+                    const projectToMap = {
+                        projects: [{
+                            accessions: [{
+                                namespace: RESPONSE_KEYS_BY_NAMESPACE[accessionNamespace],
+                                accession
+                            }]
+                        }]
+                    };
+                    httpClientSpy.get.and.returnValue(of(projectToMap));
+                    projectService.fetchProjectById("", "123abc", {} as Project)
+                        .subscribe((mappedProject) => {
 
-                expect(mappedProject.arrayExpressAccessions).toEqual(projectToMap.projects[0].arrayExpressAccessions.join(", "));
-                return done();
-            });
-        });
+                            const {accessionsByNamespace} = mappedProject;
+                            const actual = accessionsByNamespace.get(AccessionNamespace[accessionNamespace])
+                                .map(accession => accession.accession);
+                            expect(actual).toEqual([accession]);
+                            return done();
+                        });
+                });
 
-        /**
-         * Multiple array express accession values across multiple objects should be rolled up and mapped. 
-         */
-        it("should map multiple array express accession values across multiple objects", (done: DoneFn) => {
+                /**
+                 * Maps multiple accession values for accession namespace.
+                 */
+                it("maps multi value accessions", (done: DoneFn) => {
 
-            const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
+                    const accession0 = "123";
+                    const accession1 = "456";
+                    const responseKey = RESPONSE_KEYS_BY_NAMESPACE[accessionNamespace];
+                    const projectToMap = {
+                        projects: [{
+                            accessions: [{
+                                namespace: responseKey,
+                                accession: accession0
+                            }, {
+                                namespace: responseKey,
+                                accession: accession1
+                            }]
+                        }]
+                    };
+                    httpClientSpy.get.and.returnValue(of(projectToMap));
+                    projectService.fetchProjectById("", "123abc", {} as Project)
+                        .subscribe((mappedProject) => {
 
-                const expectedValue = mapMultipleValues(projectToMap.projects, "arrayExpressAccessions");
-                expect(mappedProject.arrayExpressAccessions).toEqual(expectedValue);
-                return done();
-            });
-        });
+                            const {accessionsByNamespace} = mappedProject;
+                            const actual = accessionsByNamespace.get(AccessionNamespace[accessionNamespace])
+                                .map(accession => accession.accession);
+                            expect(actual).toEqual([accession0, accession1]);
+                            return done();
+                        });
+                });
 
-        /**
-         * Array express accessions should be converted to "Unspecified" whe project is null
-         */
-        it("should handle null project when mapping array express accessions", (done: DoneFn) => {
+                /**
+                 * Empty accessions object mapped as empty array.
+                 */
+                it("maps empty accessions", (done: DoneFn) => {
 
-            const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
+                    const projectToMap = {
+                        projects: [{
+                            accessions: []
+                        }]
+                    };
+                    httpClientSpy.get.and.returnValue(of(projectToMap));
+                    projectService.fetchProjectById("", "123abc", {} as Project)
+                        .subscribe((mappedProject) => {
 
-                expect(mappedProject.arrayExpressAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
+                            const {accessionsByNamespace} = mappedProject;
+                            expect(accessionsByNamespace.size).toBe(0);
+                            return done();
+                        });
+                });
 
-        /**
-         * A null value for array express accessions should be converted to "Unspecified"
-         */
-        it(`should map null array express accessions to "Unspecified"`, (done: DoneFn) => {
+                /**
+                 * Null accessions object mapped as empty array.
+                 */
+                it("maps null accessions to empty array", (done: DoneFn) => {
 
-            const projectToMap = PROJECT_ROW_NULL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
+                    const projectToMap = {
+                        projects: [{
+                            accessions: null
+                        }]
+                    };
+                    httpClientSpy.get.and.returnValue(of(projectToMap));
+                    projectService.fetchProjectById("", "123abc", {} as Project)
+                        .subscribe((mappedProject) => {
 
-                expect(mappedProject.arrayExpressAccessions).toEqual("Unspecified");
-                return done();
+                            const {accessionsByNamespace} = mappedProject;
+                            expect(accessionsByNamespace.size).toBe(0);
+                            return done();
+                        });
+                });
+
+                /**
+                 * Confirm null accessions entry mapped as empty array.
+                 */
+                it("maps null accession entry to empty array", (done: DoneFn) => {
+
+                    const projectToMap = {
+                        projects: [{
+                            accessions: [null]
+                        }]
+                    };
+                    httpClientSpy.get.and.returnValue(of(projectToMap));
+                    projectService.fetchProjectById("", "123abc", {} as Project)
+                        .subscribe((mappedProject) => {
+
+                            const {accessionsByNamespace} = mappedProject;
+                            expect(accessionsByNamespace.size).toBe(0);
+                            return done();
+                        });
+                });
             });
         });
 
@@ -166,220 +218,6 @@ describe("ProjectService", () => {
             projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
 
                 expect(mappedProject.contributors).toEqual([]);
-                return done();
-            });
-        });
-        
-        /**
-         * geo series accessions, when specified, should be mapped.
-         */
-        it("should map geo series accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.geoSeriesAccessions).toEqual(projectToMap.projects[0].geoSeriesAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple geo series accession values should be rolled up and mapped
-         */
-        it("should roll up and map geo series accession values in single project value", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.geoSeriesAccessions).toEqual(projectToMap.projects[0].geoSeriesAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple geo series accession values across multiple objects should be rolled up and mapped.
-         */
-        it("should map multiple geo series accession values across multiple objects", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                const expectedValue = mapMultipleValues(projectToMap.projects, "geoSeriesAccessions");
-                expect(mappedProject.geoSeriesAccessions).toEqual(expectedValue);
-                return done();
-            });
-        });
-
-        /**
-         * geo series accessions should be converted to "Unspecified" whe project is null
-         */
-        it("should handle null project when mapping geo series accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.geoSeriesAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
-
-        /**
-         * A null value for geo series accessions should be converted to "Unspecified"
-         */
-        it(`should map null geo series accessions to "Unspecified"`, (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.geoSeriesAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
-
-        /**
-         * insdc project accessions, when specified, should be mapped.
-         */
-        it("should map insdc project accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcProjectAccessions).toEqual(projectToMap.projects[0].insdcProjectAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple insdc project accession values should be rolled up and mapped
-         */
-        it("should roll up and map insdc project accession values in single project value", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcProjectAccessions).toEqual(projectToMap.projects[0].insdcProjectAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple insdc project accession values across multiple objects should be rolled up and mapped.
-         */
-        it("should map multiple insdc project accession values across multiple objects", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                const expectedValue = mapMultipleValues(projectToMap.projects, "insdcProjectAccessions");
-                expect(mappedProject.insdcProjectAccessions).toEqual(expectedValue);
-                return done();
-            });
-        });
-
-        /**
-         * insdc project accessions should be converted to "Unspecified" whe project is null
-         */
-        it("should handle null project when mapping insdc project accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcProjectAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
-
-        /**
-         * A null value for insdc project accessions should be converted to "Unspecified"
-         */
-        it(`should map null insdc project accessions to "Unspecified"`, (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcProjectAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
-
-
-        /**
-         * insdc study accessions, when specified, should be mapped.
-         */
-        it("should map insdc study accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_SINGLE_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcStudyAccessions).toEqual(projectToMap.projects[0].insdcStudyAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple insdc study accession values should be rolled up and mapped
-         */
-        it("should roll up and map insdc study accession values in single project value", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcStudyAccessions).toEqual(projectToMap.projects[0].insdcStudyAccessions.join(", "));
-                return done();
-            });
-        });
-
-        /**
-         * Multiple insdc study accession values across multiple objects should be rolled up and mapped.
-         */
-        it("should map multiple insdc study accession values across multiple objects", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                const expectedValue = mapMultipleValues(projectToMap.projects, "insdcStudyAccessions");
-                expect(mappedProject.insdcStudyAccessions).toEqual(expectedValue);
-                return done();
-            });
-        });
-
-        /**
-         * insdc study accessions should be converted to "Unspecified" whe project is null
-         */
-        it("should handle null project when mapping insdc study accessions", (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_TOP_LEVEL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcStudyAccessions).toEqual("Unspecified");
-                return done();
-            });
-        });
-
-        /**
-         * A null value for insdc study accessions should be converted to "Unspecified"
-         */
-        it(`should map null insdc study accessions to "Unspecified"`, (done: DoneFn) => {
-
-            const projectToMap = PROJECT_ROW_NULL_VALUES;
-            httpClientSpy.get.and.returnValue(of(projectToMap));
-            projectService.fetchProjectById("", "123abc", {} as Project).subscribe((mappedProject) => {
-
-                expect(mappedProject.insdcStudyAccessions).toEqual("Unspecified");
                 return done();
             });
         });
@@ -534,4 +372,17 @@ describe("ProjectService", () => {
             });
         });
     });
+
+    /**
+     * Return the set of accessions for the given accession namespace.
+     *
+     * @param projectResponse
+     * @param {AccessionNamespace} accessionNamespace
+     */
+    function listAccessionsWithNamespace(projectResponse, accessionNamespace: AccessionNamespace): string[] {
+
+        const accessionsInNamespace =
+            projectResponse.projects[0].accessions.filter(accession => accession.namespace === accessionNamespace);
+        return accessionsInNamespace.map(accession => accession.accession);
+    }
 });

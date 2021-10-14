@@ -172,7 +172,7 @@ export class ProjectOverviewComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
 
         if ( changes.project ) {
-            this.projectView = this.projectFactory.getProjectView(this.catalog, changes.project.currentValue); 
+            this.projectView = this.projectFactory.getProjectView(this.catalog, changes.project.currentValue);
         }
     }
 }
