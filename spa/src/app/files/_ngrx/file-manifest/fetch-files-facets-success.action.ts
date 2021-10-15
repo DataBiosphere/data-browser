@@ -13,7 +13,7 @@ import { Action } from "@ngrx/store";
 import { Facet } from "../../facet/facet.model";
 
 export class FetchFilesFacetsSuccessAction implements Action {
-    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_FACETS_SUCCESS";
+    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILES_SUCCESS";
     public readonly type = FetchFilesFacetsSuccessAction.ACTION_TYPE;
     constructor(public readonly filesFacets: Facet[]) {}
 }

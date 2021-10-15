@@ -34,6 +34,10 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         case ClearFileManifestFileTypeSummaries.ACTION_TYPE:
             return FileManifestState.getDefaultState();
 
+        // Manifest URL request has been cancelled (for example, due to navigation away from download).
+        case ClearFileManifestUrlAction.ACTION_TYPE:
+            return state.clearFileManifestUrl(action as ClearFileManifestUrlAction);
+
         // Fetch facets from files endpoint for populating facet summary on download pages
         case FetchFilesFacetsSuccessAction.ACTION_TYPE:
             return state.receiveFilesFacets(action as FetchFilesFacetsSuccessAction);
@@ -45,10 +49,6 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         // Request to fetch manifest download-specific file summary has successfully completed
         case FetchFileManifestFileTypeSummariesSuccessAction.ACTION_TYPE:
             return state.fetchFileTypeSummariesSuccess(action as FetchFileManifestFileTypeSummariesSuccessAction);
-
-        // Manifest URL request has been cancelled (for example, due to navigation away from download).
-        case ClearFileManifestUrlAction.ACTION_TYPE:
-            return state.clearFileManifestUrl(action as ClearFileManifestUrlAction);
             
         // Manifest URL request status has been updated - the request status is updated on each poll during manifest
         // download request
