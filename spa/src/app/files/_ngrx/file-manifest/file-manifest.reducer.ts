@@ -32,7 +32,7 @@ export function reducer(state: FileManifestState = FileManifestState.getDefaultS
         // Clear manifest download-specific file type summaries, dispatched by both selected data and project files
         // downloads.
         case ClearFileManifestFileTypeSummaries.ACTION_TYPE:
-            return FileManifestState.getDefaultState();
+            return state.clearFileTypeSummaries();
 
         // Manifest URL request has been cancelled (for example, due to navigation away from download).
         case ClearFileManifestUrlAction.ACTION_TYPE:
