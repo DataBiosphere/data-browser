@@ -63,7 +63,6 @@ export class FileEffects {
                 // Create kill switch for request polling: kill when clear action is triggered.
                 const killSwitch$ = this.actions$.pipe(
                     ofType(ClearFileFileLocationsAction.ACTION_TYPE),
-                    tap(console.log),
                     map(_ => true),
                     take(1)
                 );

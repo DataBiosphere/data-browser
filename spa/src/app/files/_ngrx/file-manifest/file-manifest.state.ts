@@ -87,6 +87,21 @@ export class FileManifestState {
     }
 
     /**
+     * File manifest request has been cancelled (for example, from navigation away from download); clear corresponding
+     * state.
+     */
+    public clearFileTypeSummaries() {
+        return new FileManifestState({
+            filesFacets: this.filesFacets,
+            manifestResponse: this.manifestResponse,
+            fileTypeSummaries: [],
+            projectFileSummary: this.projectFileSummary,
+            projectSpeciesFacet: this.projectSpeciesFacet,
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+        });
+    }
+    
+    /**
      * Handle set of file facets returned from the files end point, used to populate data summary.
      *
      * @param {FetchFilesFacetsSuccessAction} action
