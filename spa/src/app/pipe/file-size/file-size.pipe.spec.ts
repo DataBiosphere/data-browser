@@ -6,7 +6,7 @@
  */
 
 
-/* tslint:disable:no-unused-variable */
+/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 
 import { FileSizePipe } from "./file-size.pipe";
 
