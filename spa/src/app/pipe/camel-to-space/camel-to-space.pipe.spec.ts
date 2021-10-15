@@ -5,7 +5,7 @@
  * Test suite for camel to space pipe.
  */
 
-/* tslint:disable:no-unused-variable */
+/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 
 // App dependencies
 import { CamelToSpacePipe } from "./camel-to-space.pipe";
