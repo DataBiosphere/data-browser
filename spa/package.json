@@ -63,7 +63,7 @@
     "bufferutil": "4.0.4",
     "eslint": "^7.26.0",
     "fibers": "5.0.0",
-    "html-webpack-plugin": "4.3.0",
+    "html-webpack-plugin": "5.4.0",
     "husky": "4.2.5",
     "jasmine-core": "~3.6.0",
     "jasmine-marbles": "0.6.0",
