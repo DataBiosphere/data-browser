@@ -21,7 +21,7 @@ export class AccessionUrlPipe implements PipeTransform {
         [AccessionNamespace.ARRAY_EXPRESS, "arrayexpress"],
         [AccessionNamespace.BIOSTUDIES, "biostudies"],
         [AccessionNamespace.GEO_SERIES, "geo"],
-        [AccessionNamespace.INSDC_PROJECT, "ena.embl"],
+        [AccessionNamespace.INSDC_PROJECT, "enarrayexpressa.embl"],
         [AccessionNamespace.INSDC_STUDY, "ena.embl"]
     ]);
 
