@@ -16,11 +16,13 @@ import { Publication } from "../shared/publication.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 import { AccessionNamespace } from "../accession/accession-namespace.model";
 import { Accession } from "../accession/accession.model";
+import { AccessionResponse } from "./accession-response.model";
 
 export class ProjectMapper extends ProjectRowMapper {
 
     private ACCESSION_NAMESPACE_RESPONSE_KEYS = {
         "array_express": AccessionNamespace.ARRAY_EXPRESS,
+        "biostudies": AccessionNamespace.BIOSTUDIES,
         "geo_series": AccessionNamespace.GEO_SERIES,
         "insdc_project": AccessionNamespace.INSDC_PROJECT,
         "insdc_study": AccessionNamespace.INSDC_STUDY
@@ -114,16 +116,17 @@ export class ProjectMapper extends ProjectRowMapper {
 
     /**
      * Convert array of accessions into map keyed by accession namespace.
-     * @param accessionsResponse
+     * @param {AccessionResponse[]} accessions
      * @returns {Map<AccessionNamespace, Accession[]>}
      */
-    private mapAccessions(accessionsResponse): Map<AccessionNamespace, Accession[]> {
+    private mapAccessions(accessions: AccessionResponse[]): Map<AccessionNamespace, Accession[]> {
         
-        if ( !accessionsResponse ) {
+        if ( !accessions ) {
             return new Map();
         }
 
-        return accessionsResponse.reduce((accum, accessionResponse) => {
+        // Key accessions returned in resposne by namespace
+        return accessions.reduce((accum, accessionResponse) => {
             
             if ( !accessionResponse ) {
                 return accum;
@@ -137,9 +140,7 @@ export class ProjectMapper extends ProjectRowMapper {
             if ( !accum.has(namespace) ) {
                 accum.set(namespace, []);
             }
-            accum.get(namespace).push({
-                accessionNamespace: namespace, accession
-            });
+            accum.get(namespace).push({namespace, accession});
             return accum;
         }, new Map<AccessionNamespace, Accession[]>());
     }

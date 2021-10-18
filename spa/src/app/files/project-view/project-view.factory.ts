@@ -34,6 +34,7 @@ export class ProjectViewFactory {
     };
     private DISPLAY_NAME_ACCESSION_NAMESPACE = {
         [AccessionNamespace.ARRAY_EXPRESS]: "Array Express Accessions",
+        [AccessionNamespace.BIOSTUDIES]: "BioStudies Accessions",
         [AccessionNamespace.GEO_SERIES]: "GEO Series Accessions",
         [AccessionNamespace.INSDC_PROJECT]: "INSDC Project Accessions",
         [AccessionNamespace.INSDC_STUDY]: "INSDC Study Accessions"

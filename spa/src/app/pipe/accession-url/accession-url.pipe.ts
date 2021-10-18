@@ -19,6 +19,7 @@ export class AccessionUrlPipe implements PipeTransform {
     private IDENTIFIERS_ORG_URL = "https://identifiers.org";
     private ACCESSION_PATH_BY_ACCESSION_KEY = new Map([
         [AccessionNamespace.ARRAY_EXPRESS, "arrayexpress"],
+        [AccessionNamespace.BIOSTUDIES, "biostudies"],
         [AccessionNamespace.GEO_SERIES, "geo"],
         [AccessionNamespace.INSDC_PROJECT, "ena.embl"],
         [AccessionNamespace.INSDC_STUDY, "ena.embl"]

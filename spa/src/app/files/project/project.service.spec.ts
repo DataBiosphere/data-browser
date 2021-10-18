@@ -63,6 +63,7 @@ describe("ProjectService", () => {
 
         const RESPONSE_KEYS_BY_NAMESPACE = {
             [AccessionNamespace.ARRAY_EXPRESS]: "array_express",
+            [AccessionNamespace.BIOSTUDIES]: "biostudies",
             [AccessionNamespace.GEO_SERIES]: "geo_series",
             [AccessionNamespace.INSDC_PROJECT]: "insdc_project",
             [AccessionNamespace.INSDC_STUDY]: "insdc_study"
