@@ -9,14 +9,12 @@
 import { Injectable } from "@angular/core";
 
 // App dependencies
-import { AccessionNamespace } from "../accession/accession-namespace.model";
 import { Catalog } from "../catalog/catalog.model";
 import { CollaboratingOrganizationView } from "./collaborating-organization-view.model";
 import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { ContactView } from "./contact-view.model";
 import { ContributorView } from "./contributor-view.model";
-import { AccessionUrlPipe } from "../../pipe/accession-url/accession-url.pipe";
 import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
 import { ProjectView } from "./project-view.model";
@@ -31,13 +29,6 @@ export class ProjectViewFactory {
     private DATA_SUMMARY_NULL_VALUE_TO_DISPLAY_VALUE = {
         "libraryConstructionApproach": "-",
         "pairedEnd": "-",
-    };
-    private DISPLAY_NAME_ACCESSION_NAMESPACE = {
-        [AccessionNamespace.ARRAY_EXPRESS]: "Array Express Accessions",
-        [AccessionNamespace.BIOSTUDIES]: "BioStudies Accessions",
-        [AccessionNamespace.GEO_SERIES]: "GEO Series Accessions",
-        [AccessionNamespace.INSDC_PROJECT]: "INSDC Project Accessions",
-        [AccessionNamespace.INSDC_STUDY]: "INSDC Study Accessions"
     };
     private ACCEPT_LIST_DATA_SUMMARY_TO_KEY = {
         "projectShortname": "",
@@ -58,7 +49,6 @@ export class ProjectViewFactory {
         "totalCells": "",
         "donorCount": ""
     };
-    private accessionUrlPipe = new AccessionUrlPipe();
 
     /**
      * @param {ConfigService} configService
@@ -95,25 +85,20 @@ export class ProjectViewFactory {
      */
     private buildAccessions(project: Project): KeyValuePair[] {
         
-        const accessionKeyAcceptList = Object.keys(AccessionNamespace);
         const pairs = [];
-        for ( let [namespace, accessions] of project.accessionsByNamespace.entries() ) {
+        for ( let [label, accessions] of project.accessionsByLabel.entries() ) {
             
-            if ( !accessionKeyAcceptList.includes(namespace) ) {
-                continue;
-            }
-
             // Create view models for each accession value
             const accessionViews = accessions.map(accession => {
-                const {accession: value} = accession;
+                const {id, url} = accession;
                 return {
-                    key: value,
-                    value: this.accessionUrlPipe.transform(namespace, value)
+                    key: id,
+                    value: url
                 }
             });
             
             pairs.push({
-                key: this.DISPLAY_NAME_ACCESSION_NAMESPACE[AccessionNamespace[namespace]],
+                key: label,
                 value: accessionViews
             });
         }

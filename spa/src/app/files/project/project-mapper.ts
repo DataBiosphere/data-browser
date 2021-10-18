@@ -7,26 +7,21 @@
  */
 
 // App dependencies
+import { Accession } from "../accession/accession.model";
+import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../accession/accession-configs";
+import { AccessionResponse } from "./accession-response.model";
 import { EntityRow } from "../entities/entity-row.model";
+import { AccessionUrlPipe } from "../accession/accession-url/accession-url.pipe";
 import { ProjectRowMapper } from "../projects/project-row-mapper";
 import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
 import { Project } from "../shared/project.model";
 import { Contributor } from "../shared/contributor.model";
 import { Publication } from "../shared/publication.model";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
-import { AccessionNamespace } from "../accession/accession-namespace.model";
-import { Accession } from "../accession/accession.model";
-import { AccessionResponse } from "./accession-response.model";
 
 export class ProjectMapper extends ProjectRowMapper {
 
-    private ACCESSION_NAMESPACE_RESPONSE_KEYS = {
-        "array_express": AccessionNamespace.ARRAY_EXPRESS,
-        "biostudies": AccessionNamespace.BIOSTUDIES,
-        "geo_series": AccessionNamespace.GEO_SERIES,
-        "insdc_project": AccessionNamespace.INSDC_PROJECT,
-        "insdc_study": AccessionNamespace.INSDC_STUDY
-    };
+    private accessionUrlPipe = new AccessionUrlPipe();
 
     /**
      * @param {any} row - data modelling row in current selected table.
@@ -54,13 +49,13 @@ export class ProjectMapper extends ProjectRowMapper {
         const contributors = this.mapContributors(this.row.projects, this.projectOverrides);
         
         // Convert accessions to view format
-        const accessionsByNamespace = this.mapAccessions(this.row.projects[0].accessions);
+        const accessionsByLabel = this.mapAccessions(this.row.projects[0].accessions);
 
         const entity = Object.assign(
             {},
             super.mapRow(),
             {
-                accessionsByNamespace,
+                accessionsByLabel,
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
                 deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
                 contributors: contributors,
@@ -116,33 +111,40 @@ export class ProjectMapper extends ProjectRowMapper {
 
     /**
      * Convert array of accessions into map keyed by accession namespace.
-     * @param {AccessionResponse[]} accessions
-     * @returns {Map<AccessionNamespace, Accession[]>}
+     * @param {AccessionResponse[]} accessionsResponse
+     * @returns {Map<string, Accession[]>}
      */
-    private mapAccessions(accessions: AccessionResponse[]): Map<AccessionNamespace, Accession[]> {
+    private mapAccessions(accessionsResponse: AccessionResponse[]): Map<string, Accession[]> {
         
-        if ( !accessions ) {
+        if ( !accessionsResponse ) {
             return new Map();
         }
 
-        // Key accessions returned in resposne by namespace
-        return accessions.reduce((accum, accessionResponse) => {
+        // Key accessions returned in response by accession label (e.g. Array Express Accessions)
+        return accessionsResponse.reduce((accum, accessionResponse) => {
             
             if ( !accessionResponse ) {
                 return accum;
             }
 
-            const namespace = this.ACCESSION_NAMESPACE_RESPONSE_KEYS[accessionResponse.namespace];
-            const {accession} = accessionResponse;
-            if ( !namespace || !accession ) {
+            const config = ACCESSION_CONFIGS_BY_RESPONSE_KEY.get(accessionResponse.namespace);
+            if ( !config ) {
                 return accum;
             }
-            if ( !accum.has(namespace) ) {
-                accum.set(namespace, []);
+            const { label } = config;
+            if ( !accum.has(label) ) {
+                accum.set(label, []);
             }
-            accum.get(namespace).push({namespace, accession});
+            const {accession: id} = accessionResponse;
+
+            // Add FE-specific model of accession
+            accum.get(label).push({
+                id,
+                label,
+                url: this.accessionUrlPipe.transform(id, config)
+            });
             return accum;
-        }, new Map<AccessionNamespace, Accession[]>());
+        }, new Map<string, Accession[]>());
     }
 
     /**

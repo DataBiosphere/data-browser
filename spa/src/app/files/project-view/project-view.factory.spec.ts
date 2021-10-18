@@ -10,12 +10,11 @@ import { TestBed, waitForAsync } from "@angular/core/testing";
 import { provideMockStore } from "@ngrx/store/testing";
 
 // App dependencies
+import { DCPCatalog } from "../catalog/dcp-catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { ConfigState } from "../../config/_ngrx/config.state";
 import { ProjectViewFactory } from "./project-view.factory";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
-import { DCPCatalog } from "../catalog/dcp-catalog.model";
-import { AccessionNamespace } from "../accession/accession-namespace.model";
 
 describe("ProjectViewFactory", () => {
 
@@ -134,22 +133,26 @@ describe("ProjectViewFactory", () => {
 
         // Create model of project that has been parsed by the project mapper
         const mappedProject = {
-            accessionsByNamespace: new Map([
-                [AccessionNamespace.ARRAY_EXPRESS, [{
-                    namespace: AccessionNamespace.ARRAY_EXPRESS,
-                    accession: "123"
+            accessionsByLabel: new Map([
+                ["Array Express Accessions", [{
+                    id: "123",
+                    label: "Array Express Accessions",
+                    url: ""
                 }]],
-                [AccessionNamespace.GEO_SERIES, [{
-                    namespace: AccessionNamespace.GEO_SERIES,
-                    accession: "123"
+                ["GEO Series Accessions", [{
+                    id: "123",
+                    label: "GEO Series Accessions",
+                    url: ""
                 }]],
-                [AccessionNamespace.INSDC_PROJECT, [{
-                    namespace: AccessionNamespace.INSDC_PROJECT,
-                    accession: "123"
+                ["INSDC Project Accessions", [{
+                    id: "123",
+                    label:"INSDC Project Accessions",
+                    url: ""
                 }]],
-                [AccessionNamespace.INSDC_STUDY, [{
-                    namespace: AccessionNamespace.INSDC_STUDY,
-                    accession: "123"
+                ["INSDC Study Accessions", [{
+                    id: "123",
+                    label: "INSDC Study Accessions",
+                    url: ""
                 }]]
             ])
         };
@@ -175,7 +178,7 @@ describe("ProjectViewFactory", () => {
             const result = projectViewFactory["buildAccessions"](mappedProject as any);
             const arrayExpressAccessions = includesAccessions(result, "Array Express Accessions");
             expect(arrayExpressAccessions.value.length).toEqual(1);
-            const expected = mappedProject.accessionsByNamespace.get(AccessionNamespace.ARRAY_EXPRESS)[0].accession;
+            const expected = mappedProject.accessionsByLabel.get("Array Express Accessions")[0].id;
             expect((arrayExpressAccessions.value[0] as any).key).toEqual(expected);
         });
 
@@ -185,13 +188,13 @@ describe("ProjectViewFactory", () => {
         it("maps a multi-value accession", () => {
 
             const multiAccessionMappedProject = {
-                accessionsByNamespace: new Map([
-                    [AccessionNamespace.ARRAY_EXPRESS, [{
-                        namespace: AccessionNamespace.ARRAY_EXPRESS,
-                        accession: "123"
+                accessionsByLabel: new Map([
+                    ["Array Express Accessions", [{
+                        id: "123",
+                        label: "Array Express Accessions"
                     }, {
-                        namespace: AccessionNamespace.ARRAY_EXPRESS,
-                        accession: "456"
+                        id: "456",
+                        label: "Array Express Accessions"
                     }]],
                 ])
             };

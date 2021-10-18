@@ -6,7 +6,7 @@
  * endpoints into FE-specific model.
  */
 
-interface AccessionConfig {
+export interface AccessionConfig {
     identifierOrgPrefix: string;
     label: string;
     responseKey: string;
