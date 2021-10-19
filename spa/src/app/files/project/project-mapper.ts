@@ -135,13 +135,15 @@ export class ProjectMapper extends ProjectRowMapper {
             if ( !accum.has(label) ) {
                 accum.set(label, []);
             }
-            const {accession: id} = accessionResponse;
-
-            // Add FE-specific model of accession
-            accum.get(label).push({
-                id,
-                label,
-                url: this.accessionUrlPipe.transform(id, config.identifierOrgPrefix)
+            
+            // Accession is a semi colon-separated (possibly followed by whitespace) string of accession values
+            accessionResponse.accession.split(/;\s?/).forEach(id => {
+                // Add FE-specific model of accession
+                accum.get(label).push({
+                    id: id.trim(),
+                    label,
+                    url: this.accessionUrlPipe.transform(id, config.identifierOrgPrefix)
+                });
             });
             return accum;
         }, new Map<string, Accession[]>());
