@@ -60,7 +60,7 @@
     "@types/jasminewd2": "2.0.10",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.2",
-    "bufferutil": "4.0.4",
+    "bufferutil": "4.0.5",
     "eslint": "^7.26.0",
     "fibers": "5.0.0",
     "html-webpack-plugin": "4.3.0",
