@@ -10,11 +10,12 @@ import { TestBed, waitForAsync } from "@angular/core/testing";
 import { ConfigService } from "../../config/config.service";
 import { provideMockStore } from "@ngrx/store/testing";
 import { of } from "rxjs";
-import { filter } from "rxjs/operators";
 
 // App dependencies
+import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../accession/accession-configs";
 import { ConfigState } from "../../config/_ngrx/config.state";
 import { DCPCatalog } from "../catalog/dcp-catalog.model";
+import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
 import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
 import { ProjectService } from "./project.service";
@@ -26,8 +27,6 @@ import {
 } from "../project/project-mapper.mock";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { Project } from "../shared/project.model";
-import { mapMultipleValues } from "../entities/entity-row-mapper.spec";
-import { AccessionNamespace } from "../accession/accession-namespace.model";
 
 describe("ProjectService", () => {
 
@@ -61,17 +60,12 @@ describe("ProjectService", () => {
 
     describe("fetchProjectById", () => {
 
-        const RESPONSE_KEYS_BY_NAMESPACE = {
-            [AccessionNamespace.ARRAY_EXPRESS]: "array_express",
-            [AccessionNamespace.GEO_SERIES]: "geo_series",
-            [AccessionNamespace.INSDC_PROJECT]: "insdc_project",
-            [AccessionNamespace.INSDC_STUDY]: "insdc_study"
-        };
-
         describe("accessions", () => {
 
-            Object.keys(AccessionNamespace).forEach(accessionNamespace => {
+            Object.keys(ACCESSION_CONFIGS_BY_RESPONSE_KEY).forEach((responseKey) => {
 
+                const accessionConfig = ACCESSION_CONFIGS_BY_RESPONSE_KEY.get(responseKey);
+                
                 /**
                  * Project mapper maps accessions to correct format.
                  */
@@ -81,7 +75,7 @@ describe("ProjectService", () => {
                     const projectToMap = {
                         projects: [{
                             accessions: [{
-                                namespace: RESPONSE_KEYS_BY_NAMESPACE[accessionNamespace],
+                                namespace: responseKey,
                                 accession
                             }]
                         }]
@@ -90,10 +84,11 @@ describe("ProjectService", () => {
                     projectService.fetchProjectById("", "123abc", {} as Project)
                         .subscribe((mappedProject) => {
 
-                            const {accessionsByNamespace} = mappedProject;
-                            const actual = accessionsByNamespace.get(AccessionNamespace[accessionNamespace])
-                                .map(accession => accession.accession);
-                            expect(actual).toEqual([accession]);
+                            const {accessionsByLabel} = mappedProject;
+                            const actual = accessionsByLabel.get(accessionConfig.label);
+                            expect(actual.length).toEqual(1);
+                            expect(actual[0].id).toEqual(accession);
+                            expect(actual[0].label).toEqual(accessionConfig.label);
                             return done();
                         });
                 });
@@ -105,7 +100,6 @@ describe("ProjectService", () => {
 
                     const accession0 = "123";
                     const accession1 = "456";
-                    const responseKey = RESPONSE_KEYS_BY_NAMESPACE[accessionNamespace];
                     const projectToMap = {
                         projects: [{
                             accessions: [{
@@ -121,10 +115,13 @@ describe("ProjectService", () => {
                     projectService.fetchProjectById("", "123abc", {} as Project)
                         .subscribe((mappedProject) => {
 
-                            const {accessionsByNamespace} = mappedProject;
-                            const actual = accessionsByNamespace.get(AccessionNamespace[accessionNamespace])
-                                .map(accession => accession.accession);
-                            expect(actual).toEqual([accession0, accession1]);
+                            const {accessionsByLabel} = mappedProject;
+                            const actual = accessionsByLabel.get(accessionConfig.label);
+                            expect(actual.length).toEqual(2);
+                            expect(actual[0].id).toEqual(accession0);
+                            expect(actual[0].label).toEqual(accessionConfig.label);
+                            expect(actual[1].id).toEqual(accession1);
+                            expect(actual[1].label).toEqual(accessionConfig.label);
                             return done();
                         });
                 });
@@ -143,8 +140,8 @@ describe("ProjectService", () => {
                     projectService.fetchProjectById("", "123abc", {} as Project)
                         .subscribe((mappedProject) => {
 
-                            const {accessionsByNamespace} = mappedProject;
-                            expect(accessionsByNamespace.size).toBe(0);
+                            const {accessionsByLabel} = mappedProject;
+                            expect(accessionsByLabel.size).toBe(0);
                             return done();
                         });
                 });
@@ -163,8 +160,8 @@ describe("ProjectService", () => {
                     projectService.fetchProjectById("", "123abc", {} as Project)
                         .subscribe((mappedProject) => {
 
-                            const {accessionsByNamespace} = mappedProject;
-                            expect(accessionsByNamespace.size).toBe(0);
+                            const {accessionsByLabel} = mappedProject;
+                            expect(accessionsByLabel.size).toBe(0);
                             return done();
                         });
                 });
@@ -183,8 +180,8 @@ describe("ProjectService", () => {
                     projectService.fetchProjectById("", "123abc", {} as Project)
                         .subscribe((mappedProject) => {
 
-                            const {accessionsByNamespace} = mappedProject;
-                            expect(accessionsByNamespace.size).toBe(0);
+                            const {accessionsByLabel} = mappedProject;
+                            expect(accessionsByLabel.size).toBe(0);
                             return done();
                         });
                 });
@@ -372,17 +369,4 @@ describe("ProjectService", () => {
             });
         });
     });
-
-    /**
-     * Return the set of accessions for the given accession namespace.
-     *
-     * @param projectResponse
-     * @param {AccessionNamespace} accessionNamespace
-     */
-    function listAccessionsWithNamespace(projectResponse, accessionNamespace: AccessionNamespace): string[] {
-
-        const accessionsInNamespace =
-            projectResponse.projects[0].accessions.filter(accession => accession.namespace === accessionNamespace);
-        return accessionsInNamespace.map(accession => accession.accession);
-    }
 });

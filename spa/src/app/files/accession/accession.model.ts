@@ -2,13 +2,11 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of accession associated with a project returned from Azul projects or project API endpoints.
+ * Model of accession, including URL, associated with a project.
  */
 
-// App dependencies
-import { AccessionNamespace } from "./accession-namespace.model";
-
 export interface Accession {
-    namespace: AccessionNamespace;
-    accession: string;
+    id: string; // Accession value
+    label: string; // Accession namespace
+    url: string;
 }
