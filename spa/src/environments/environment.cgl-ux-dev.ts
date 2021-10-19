@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     atlas: "hca",
-    dataURL: "https://service.azul.data.humancellatlas.org",
+    dataURL: "https://service.dev.singlecell.gi.ucsc.edu",
     defaultCatalog: "dcp2",
     browserURL: "https://ux-dev.singlecell.gi.ucsc.edu",
     googleOAuthClientId: "",
