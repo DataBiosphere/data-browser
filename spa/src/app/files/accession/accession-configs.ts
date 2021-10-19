@@ -30,6 +30,11 @@ const ACCESSION_CONFIGS: AccessionConfig[] = [
         responseKey: "ega"
     },
     {
+        identifierOrgPrefix: "dpgap",
+        label: "dbGaP Accessions",
+        responseKey: "dpgap"
+    },
+    {
         identifierOrgPrefix: "geo",
         label: "GEO Series Accessions",
         responseKey: "geo_series"
