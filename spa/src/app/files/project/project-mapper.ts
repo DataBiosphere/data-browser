@@ -141,7 +141,7 @@ export class ProjectMapper extends ProjectRowMapper {
             accum.get(label).push({
                 id,
                 label,
-                url: this.accessionUrlPipe.transform(id, config)
+                url: this.accessionUrlPipe.transform(id, config.identifierOrgPrefix)
             });
             return accum;
         }, new Map<string, Accession[]>());

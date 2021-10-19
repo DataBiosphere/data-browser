@@ -18,7 +18,8 @@ describe("Pipe: AccessionUrl", () => {
         
         const pipe = new AccessionUrlPipe();
         const accessionId = "E-AAAA-00";
-        const result = pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("array_express"));
+        const result =
+            pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("array_express").identifierOrgPrefix);
         const expected = `https://identifiers.org/arrayexpress:${accessionId}`;
         expect(result).toEqual(expected);
     });
@@ -30,7 +31,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionId = "GSE00000";
-        const result = pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("geo_series"));
+        const result =
+            pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("geo_series").identifierOrgPrefix);
         const expected = `https://identifiers.org/geo:${accessionId}`;
         expect(result).toEqual(expected);
     });
@@ -42,7 +44,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionId = "SRP000000";
-        const result = pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("insdc_project"));
+        const result =
+            pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("insdc_project").identifierOrgPrefix);
         const expected = `https://identifiers.org/ena.embl:${accessionId}`;
         expect(result).toEqual(expected);
     });
@@ -54,7 +57,8 @@ describe("Pipe: AccessionUrl", () => {
 
         const pipe = new AccessionUrlPipe();
         const accessionId = "PRJNA000000";
-        const result = pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("insdc_study"));
+        const result = 
+            pipe.transform(accessionId, ACCESSION_CONFIGS_BY_RESPONSE_KEY.get("insdc_study").identifierOrgPrefix);
         const expected = `https://identifiers.org/ena.embl:${accessionId}`;
         expect(result).toEqual(expected);
     });

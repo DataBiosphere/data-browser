@@ -22,18 +22,12 @@ export class AccessionUrlPipe implements PipeTransform {
      * Convert the accession into the format ${IDENTIFIERS_ORG_PATH}/${ACCESSION_PATH}:${ACCESSION}.
      *
      * @param {string} accessionId
-     * @param {AccessionConfig} accessionConfig
+     * @param {string} identifierOrgPrefix
      * @returns {string}
      */
-    transform(accessionId: string, accessionConfig: AccessionConfig): string {
+    transform(accessionId: string, identifierOrgPrefix: string): string {
 
-        if ( !accessionId || !accessionConfig ) {
-            return "";
-        }
-        
-        const { identifierOrgPrefix } = accessionConfig;
         if ( !accessionId || !identifierOrgPrefix ) {
-            console.error("Unable to determine accession path for `${accession}`");
             return "";
         }
 
