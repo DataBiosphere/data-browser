@@ -25,6 +25,11 @@ const ACCESSION_CONFIGS: AccessionConfig[] = [
         responseKey: "biostudies"
     },
     {
+        identifierOrgPrefix: "ega.study",
+        label: "EGA Accessions",
+        responseKey: "ega"
+    },
+    {
         identifierOrgPrefix: "geo",
         label: "GEO Series Accessions",
         responseKey: "geo_series"
