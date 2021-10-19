@@ -137,12 +137,13 @@ export class ProjectMapper extends ProjectRowMapper {
             }
             
             // Accession is a semi colon-separated (possibly followed by whitespace) string of accession values
-            accessionResponse.accession.split(/;\s?/).forEach(id => {
+            accessionResponse.accession.split(";").forEach(id => {
                 // Add FE-specific model of accession
+                const trimmedId =  id.trim();
                 accum.get(label).push({
-                    id: id.trim(),
+                    id: trimmedId,
                     label,
-                    url: this.accessionUrlPipe.transform(id, config.identifierOrgPrefix)
+                    url: this.accessionUrlPipe.transform(trimmedId, config.identifierOrgPrefix)
                 });
             });
             return accum;
