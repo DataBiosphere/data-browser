@@ -96,7 +96,9 @@ mat-table {
         max-width: 92px;
     }
 
-    /** Organ */
+    /** Columns other than file size */
+    .mat-column-contentDescription, .mat-cell-contentDescription,
+    .mat-column-size, .mat-cell-size,
     .mat-column-organ, .mat-cell-organ,
     .mat-column-libraryConstructionApproach, .mat-cell-libraryConstructionApproach,
     .mat-column-genusSpecies, .mat-cell-genusSpecies,{
