@@ -117,6 +117,7 @@ describe("MatrixMapper", () => {
 
         const rowMapper = new ProjectMatrixMapper();
         const viewModels = [{
+            contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
@@ -186,6 +187,7 @@ describe("MatrixMapper", () => {
     it("sorts views by species", () => {
 
         const viewModels = [{
+            contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
@@ -193,6 +195,7 @@ describe("MatrixMapper", () => {
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
+            contentDescription: ["Count Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
@@ -214,6 +217,7 @@ describe("MatrixMapper", () => {
     it("sorts views by species then organ", () => {
 
         const viewModels = [{
+            contentDescription: ["Count Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node"],
@@ -221,6 +225,7 @@ describe("MatrixMapper", () => {
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
+            contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["large intestine"],
@@ -242,6 +247,7 @@ describe("MatrixMapper", () => {
     it("sorts views by species, organ then library construction approach", () => {
 
         const viewModels = [{
+            contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2],
             organ: ["lymph node"],
@@ -249,6 +255,7 @@ describe("MatrixMapper", () => {
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
             url: MOCK_PROJECT_MATRIX_FILE_0.url
         }, {
+            contentDescription: ["Count Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2], // "10x .."
             organ: ["lymph node"],

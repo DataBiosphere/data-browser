@@ -21,6 +21,14 @@
                 <span>{{element.fileName}}</span>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="contentDescription">
+            <mat-header-cell *matHeaderCellDef class="column-file-name">
+                <span class="fontsize-xxs bold">Content Description</span>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="fontsize-xxs column-file-name">
+                <span>{{listContentDescriptions(element.contentDescription)}}</span>
+            </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="size">
             <mat-header-cell *matHeaderCellDef>
                 <span class="fontsize-xxs bold">File Size</span>

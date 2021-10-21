@@ -10,6 +10,7 @@ import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analys
 
 export interface ProjectMatrixView {
     analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
+    contentDescription: string[];
     fileName: string;
     size: number;
     url: string;

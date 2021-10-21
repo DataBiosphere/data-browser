@@ -27,7 +27,7 @@ export class ProjectMatrixTableComponent {
 
     // Template variables 
     public columnsToDisplay = 
-        ["actions", "fileName", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
+        ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
 
     // Inputs/Outputs
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
@@ -89,6 +89,17 @@ export class ProjectMatrixTableComponent {
         const groupedViews = Array.from(viewsBySpecies.values());
         this.sortProjectMatrixTableViews(groupedViews);
         return groupedViews;
+    }
+
+    /**
+     * Return content descriptions as a comma-separated string.
+     * 
+     * @param {string[]} contentDescription
+     * @returns {string}
+     */
+    public listContentDescriptions(contentDescription: string[]): string {
+
+        return contentDescription.join(", ");
     }
 
     /**
