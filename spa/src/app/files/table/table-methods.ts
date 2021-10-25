@@ -18,7 +18,7 @@ let tableColumns: TableColumn[] = [
     {
         key: "aggregateUpdateDate",
         userFriendly: "Update Date",
-        description: ".",
+        description: "When project was last updated.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 150,
         columnSort: false,
@@ -256,7 +256,7 @@ let tableColumns: TableColumn[] = [
     {
         key: "submissionDate",
         userFriendly: "Submission Date",
-        description: ".",
+        description: "When project was first submitted to database.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 150,
         columnSort: false,
