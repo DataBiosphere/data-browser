@@ -57,7 +57,7 @@ import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
-import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../shared/file-summary.mock";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
@@ -216,7 +216,7 @@ describe("HCATableProjectsComponent", () => {
         store.overrideSelector(selectTableLoading, PROJECTS_TABLE_MODEL.loading);
         store.overrideSelector(selectPagination, PROJECTS_TABLE_MODEL.pagination);
         store.overrideSelector(selectTermCountsByFacetName, PROJECTS_TABLE_MODEL.termCountsByFacetName);
-        store.overrideSelector(selectFileSummary, DEFAULT_FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectFileSummary, FILE_SUMMARY as FileSummaryState);
         store.overrideSelector(selectCatalog, selectedCatalog);
     }));
     

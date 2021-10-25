@@ -30,7 +30,7 @@ import {
 } from "./file-manifest.selectors";
 import { FileManifestService } from "../../file-manifest/file-manifest.service";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { FetchFilesFacetsRequestAction } from "./fetch-files-facets-request.action";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { FetchProjectFileSummaryRequestAction } from "./fetch-project-file-summary-request.actions";

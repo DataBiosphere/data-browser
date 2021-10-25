@@ -2,9 +2,9 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of counts, file sizes and other summary values of the current selection of facets.
+ * FE model of counts, file sizes and other summary values of the current selection of facets.
  */
-import { FileTypeSummary } from "./file-type-summary";
+import { FileTypeSummary } from "./file-type-summary.model";
 
 export interface FileSummary {
     donorCount: number;

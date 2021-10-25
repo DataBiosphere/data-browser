@@ -39,7 +39,7 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { PipeModule } from "../../pipe/pipe.module";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
-import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../shared/file-summary.mock";
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
 import { TableScroll } from "../table-scroll/table-scroll.component";
@@ -171,7 +171,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -193,7 +193,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -229,7 +229,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -269,7 +269,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -291,7 +291,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -403,7 +403,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -504,7 +504,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -560,7 +560,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -582,7 +582,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -604,7 +604,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -626,7 +626,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -648,7 +648,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 
@@ -670,7 +670,7 @@ describe("HCATableFilesComponent", () => {
                 of(FILES_TABLE_MODEL.loading),
                 of(FILES_TABLE_MODEL.pagination),
                 of(FILES_TABLE_MODEL.termCountsByFacetName),
-                of(DEFAULT_FILE_SUMMARY),
+                of(FILE_SUMMARY),
                 of(new Map()) // file locations by file URL
             );
 

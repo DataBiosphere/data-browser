@@ -7,7 +7,7 @@
 
 // App dependencies
 import { Facet } from "../../facet/facet.model";
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 
 export interface GetDataLayoutComponentState {

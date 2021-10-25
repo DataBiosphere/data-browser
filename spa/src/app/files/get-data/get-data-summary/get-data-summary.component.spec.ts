@@ -19,7 +19,7 @@ import { PipeModule } from "../../../pipe/pipe.module";
 import { SearchTermHttpService } from "../../search/http/search-term-http.service";
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 
 describe("GetDataSummaryComponent", () => {
@@ -72,7 +72,7 @@ describe("GetDataSummaryComponent", () => {
     it("should display selected search terms on init of state", () => {
 
         component.filesFacets = [];
-        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
@@ -86,7 +86,7 @@ describe("GetDataSummaryComponent", () => {
 
         // Set up initial component state
         component.filesFacets = [];
-        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
@@ -100,7 +100,7 @@ describe("GetDataSummaryComponent", () => {
 
         // Set up initial component state
         component.filesFacets = [];
-        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
@@ -117,7 +117,7 @@ describe("GetDataSummaryComponent", () => {
 
         // Set up initial component state
         component.filesFacets = [];
-        component.fileSummary = DEFAULT_FILE_SUMMARY;
+        component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = SEARCH_TERMS;
         fixture.detectChanges();
 

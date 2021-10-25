@@ -10,7 +10,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 
 export class FetchProjectFileSummarySuccessAction implements Action {
     public static ACTION_TYPE = "FILE_MANIFEST.FETCH_PROJECT_FILE_SUMMARY_SUCCESS";

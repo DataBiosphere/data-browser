@@ -22,7 +22,6 @@ import { HCATableFilesComponent } from "./hca-table-files/hca-table-files.compon
 import { HCATableProjectsComponent } from "./hca-table-projects/hca-table-projects.component";
 import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.component";
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
-import { DEFAULT_FILE_SUMMARY } from "./shared/file-summary.mock";
 import { HCATabComponent } from "../shared/hca-tab/hca-tab.component";
 import { HCASectionTitleComponent } from "../shared/hca-section-title/hca-section-title.component";
 

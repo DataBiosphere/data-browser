@@ -11,7 +11,7 @@
 import { Action } from "@ngrx/store";
 
 // App dependencies
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 
 export class FetchFileManifestFileTypeSummariesSuccessAction implements Action {
     public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_TYPE_SUMMARIES_SUCCESS";

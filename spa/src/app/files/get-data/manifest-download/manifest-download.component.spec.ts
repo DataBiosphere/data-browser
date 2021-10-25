@@ -42,7 +42,7 @@ import { SelectedSearchTermsComponent } from "../../search/selected-search-terms
 import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { SelectedDataSummaryComponent } from "../selected-data-summary/selected-data-summary.component";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { HCASectionTitleComponent } from "../../../shared/hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "../../../shared/hca-tab/hca-tab.component";
@@ -155,7 +155,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays "Select Manifest File Types" when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -169,7 +169,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component file-type-summary-form when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -184,7 +184,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component section-bar when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -199,7 +199,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component data-use-notification when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -214,7 +214,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Your File Manifest is Being Prepared" when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED})
         fixture.detectChanges();
 
@@ -228,7 +228,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Your File Manifest is Ready" when download status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -242,7 +242,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Select Manifest File Types" when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -256,7 +256,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides component file-type-summary-form when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -272,7 +272,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides component section-bar when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -288,7 +288,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides component data-use-notification when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -304,7 +304,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays "Your File Manifest is Being Prepared" when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -318,7 +318,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Your File Manifest is Ready" when download status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -332,7 +332,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Select Manifest File Types" when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -346,7 +346,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides component file-type-summary-form when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -362,7 +362,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component section-bar when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -378,7 +378,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component data-use-notification when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -394,7 +394,7 @@ describe("ManifestDownloadComponent", () => {
     it(`hides "Your File Manifest is Being Prepared" when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE})
         fixture.detectChanges();
 
@@ -408,7 +408,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays "Your File Manifest is Ready" when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -422,7 +422,7 @@ describe("ManifestDownloadComponent", () => {
     it(`displays component copy-to-clipboard when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -438,7 +438,7 @@ describe("ManifestDownloadComponent", () => {
     it(`should add link to href when download status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.COMPLETE});
         fixture.detectChanges();
 
@@ -454,7 +454,7 @@ describe("ManifestDownloadComponent", () => {
     it("dispatches to store on click of request manifest", () => {
 
         store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
         

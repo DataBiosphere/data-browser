@@ -6,9 +6,9 @@
  */
 
 // App dependencies
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { FetchFileSummarySuccessAction } from "./file-summary.actions";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { FetchProjectFileSummarySuccessAction } from "../file-manifest/fetch-project-file-summary-success.actions";
 
 // Default file summary

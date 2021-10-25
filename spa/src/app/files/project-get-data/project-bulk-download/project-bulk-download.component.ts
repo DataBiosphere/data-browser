@@ -46,7 +46,7 @@ import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { BulkDownloadExecutionEnvironment } from "../../get-data/bulk-download/bulk-download-execution-environment.model";
 import { AppState } from "../../../_ngrx/app.state";
 import { FetchProjectFilesFacetsRequestAction } from "../../_ngrx/facet/fetch-project-files-facets-request.action";

@@ -9,7 +9,7 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 // App dependencies
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { CountSizePipe } from "../../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../../pipe/locale-string/locale-string.pipe";
 import { Term } from "../../shared/term.model";

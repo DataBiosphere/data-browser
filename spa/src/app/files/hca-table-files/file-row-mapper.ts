@@ -39,7 +39,7 @@ export class FileRowMapper extends EntityRowMapper {
             fileFormat: this.file.format,
             fileName: this.file.name,
             fileSize: getUnspecifiedIfNullValue(this.file.size),
-            fileSource: getUnspecifiedIfNullValue(this.file.source),
+            fileSource: getUnspecifiedIfNullValue(this.file.fileSource),
             projectId: getUnspecifiedIfNullValue(this.projects.projectId),
             url: this.file.url
         });

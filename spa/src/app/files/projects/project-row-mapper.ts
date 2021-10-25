@@ -9,7 +9,7 @@
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
 import { EntityRowMapper } from "../entities/entity-row-mapper";
-import { FileTypeSummary } from "../file-summary/file-type-summary";
+import { FileTypeSummaryResponse } from "../file-summary/file-type-summary-response.model";
 import { ProjectMatrixMapper } from "../project-matrix/project-matrix-mapper";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 
@@ -51,14 +51,14 @@ export class ProjectRowMapper extends EntityRowMapper {
     /**
      * Sum counts for each file format.
      *
-     * @param {FileTypeSummary[]} fileTypeSummaries
+     * @param {FileTypeSummaryResponse[]} fileTypeSummaries
      */
-    private buildFileTypeCounts(fileTypeSummaries: FileTypeSummary[]): Map<string, number> {
+    private buildFileTypeCounts(fileTypeSummaries: FileTypeSummaryResponse[]): Map<string, number> {
 
         return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
 
             const count = fileTypeSummary.count || 0;
-            const fileType = fileTypeSummary.fileType;
+            const fileType = fileTypeSummary.format;
 
             if ( acc.has(fileType) ) {
                 const currentCount = acc.get(fileType);

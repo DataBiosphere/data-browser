@@ -48,7 +48,7 @@ import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { SelectedDataSummaryComponent } from "../selected-data-summary/selected-data-summary.component";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 import { PopLayoutComponent } from "../../../shared/pop-layout/pop-layout.component";
@@ -665,7 +665,7 @@ describe("ExportToTerraComponent", () => {
         it("should store dispatch on click of request export", () => {
 
             store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+            store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
             store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
             fixture.detectChanges();
 

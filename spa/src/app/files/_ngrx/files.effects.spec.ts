@@ -41,7 +41,7 @@ import { GACategory } from "../../shared/analytics/ga-category.model";
 import { GADimension } from "../../shared/analytics/ga-dimension.model";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../shared/entity-search-results.mock";
 import { FilesService } from "../shared/files.service";
-import { DEFAULT_FILE_SUMMARY } from "../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../shared/file-summary.mock";
 import { TermCountsUpdatedAction } from "./table/term-counts-updated.action";
 import { FetchTableModelSuccessAction } from "./table/fetch-table-model-success.action";
 import { FetchTableDataRequestAction } from "./table/fetch-table-data-request.action";
@@ -94,7 +94,7 @@ describe("FilesEffects", () => {
         filesService = TestBed.inject(FilesService);
         fetchEntitySearchResults = spyOn(filesService, "fetchEntitySearchResults");
         fetchEntitySearchResults.and.returnValue(of(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS));
-        spyOn(filesService, "fetchFileSummary").and.returnValue(of(DEFAULT_FILE_SUMMARY));
+        spyOn(filesService, "fetchFileSummary").and.returnValue(of(FILE_SUMMARY));
         
         gtmService = TestBed.inject(GTMService);
         store = TestBed.inject(Store) as MockStore<FilesState>;

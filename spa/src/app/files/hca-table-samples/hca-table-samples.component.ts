@@ -23,7 +23,7 @@ import { filter, map } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { AppState } from "../../_ngrx/app.state";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
     selectFileSummary,

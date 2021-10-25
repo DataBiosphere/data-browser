@@ -64,7 +64,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["pancreatic PP cell"],
             "totalCells": 12404
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 38, "totalSize": 418064570672}]
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 38, "totalSize": 418064570672}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -137,15 +137,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["T cell"],
             "totalCells": 0
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 32, "totalSize": 496164231119}, {
-            "fileType": "unknown",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 32, "totalSize": 496164231119}, {
+            "format": "unknown",
             "count": 80,
             "totalSize": 1497756132
-        }, {"fileType": "bam", "count": 16, "totalSize": 461515369236}, {
-            "fileType": "matrix",
+        }, {"format": "bam", "count": 16, "totalSize": 461515369236}, {
+            "format": "matrix",
             "count": 16,
             "totalSize": 2368
-        }, {"fileType": "csv", "count": 16, "totalSize": 414889663}]
+        }, {"format": "csv", "count": 16, "totalSize": 414889663}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -203,15 +203,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": [null],
             "totalCells": 44000
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 15, "totalSize": 101869450565}, {
-            "fileType": "unknown",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 15, "totalSize": 101869450565}, {
+            "format": "unknown",
             "count": 25,
             "totalSize": 344662182
-        }, {"fileType": "bam", "count": 5, "totalSize": 94362546462}, {
-            "fileType": "matrix",
+        }, {"format": "bam", "count": 5, "totalSize": 94362546462}, {
+            "format": "matrix",
             "count": 5,
             "totalSize": 740
-        }, {"fileType": "csv", "count": 5, "totalSize": 81162079}]
+        }, {"format": "csv", "count": 5, "totalSize": 81162079}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -274,16 +274,16 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["neural cell"],
             "totalCells": 19916
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 18, "totalSize": 53857782294}, {
-            "fileType": "pdf",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 18, "totalSize": 53857782294}, {
+            "format": "pdf",
             "count": 3,
             "totalSize": 15762678
-        }, {"fileType": "unknown", "count": 30, "totalSize": 641963142}, {
-            "fileType": "bam",
+        }, {"format": "unknown", "count": 30, "totalSize": 641963142}, {
+            "format": "bam",
             "count": 6,
             "totalSize": 56932529172
-        }, {"fileType": "matrix", "count": 6, "totalSize": 888}, {
-            "fileType": "csv",
+        }, {"format": "matrix", "count": 6, "totalSize": 888}, {
+            "format": "csv",
             "count": 6,
             "totalSize": 154340957
         }]
@@ -356,8 +356,8 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["Plasma cell"],
             "totalCells": 9500
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 50, "totalSize": 32304816501}, {
-            "fileType": "pdf",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 50, "totalSize": 32304816501}, {
+            "format": "pdf",
             "count": 2,
             "totalSize": 204869
         }]
@@ -415,7 +415,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["peripheral blood mononuclear cell"],
             "totalCells": 20000
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 6, "totalSize": 83729759795}]
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 6, "totalSize": 83729759795}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -485,15 +485,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "totalCells": 253910
         }],
         "fileTypeSummaries": [{
-            "fileType": "fastq.gz",
+            "format": "fastq.gz",
             "count": 762,
             "totalSize": 1306165450414
-        }, {"fileType": "unknown", "count": 635, "totalSize": 7219422047}, {
-            "fileType": "bam",
+        }, {"format": "unknown", "count": 635, "totalSize": 7219422047}, {
+            "format": "bam",
             "count": 127,
             "totalSize": 1237598776632
-        }, {"fileType": "matrix", "count": 127, "totalSize": 18796}, {
-            "fileType": "csv",
+        }, {"format": "matrix", "count": 127, "totalSize": 18796}, {
+            "format": "csv",
             "count": 127,
             "totalSize": 1949971768
         }]
@@ -552,7 +552,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": [null],
             "totalCells": 0
         }, {"organ": ["stem cell"], "organPart": [null], "selectedCellType": [null], "totalCells": 0}],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 44, "totalSize": 158079432433}]
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 44, "totalSize": 158079432433}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -613,15 +613,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": [null],
             "totalCells": 30000
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 120, "totalSize": 258844470961}, {
-            "fileType": "unknown",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 120, "totalSize": 258844470961}, {
+            "format": "unknown",
             "count": 25,
             "totalSize": 503179820
-        }, {"fileType": "bam", "count": 5, "totalSize": 255773594927}, {
-            "fileType": "matrix",
+        }, {"format": "bam", "count": 5, "totalSize": 255773594927}, {
+            "format": "matrix",
             "count": 5,
             "totalSize": 740
-        }, {"fileType": "csv", "count": 5, "totalSize": 152063439}]
+        }, {"format": "csv", "count": 5, "totalSize": 152063439}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", "DNA library construction", "cDNA library construction", null],
@@ -698,23 +698,23 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": [null],
             "totalCells": 40025
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 361, "totalSize": 3151293835880}, {
-            "fileType": "pdf",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 361, "totalSize": 3151293835880}, {
+            "format": "pdf",
             "count": 6,
             "totalSize": 8420344
-        }, {"fileType": "docx", "count": 1, "totalSize": 37704}, {
-            "fileType": "csv",
+        }, {"format": "docx", "count": 1, "totalSize": 37704}, {
+            "format": "csv",
             "count": 68,
             "totalSize": 1671000803
-        }, {"fileType": "csv.gz", "count": 134, "totalSize": 2283515049}, {
-            "fileType": "npz",
+        }, {"format": "csv.gz", "count": 134, "totalSize": 2283515049}, {
+            "format": "npz",
             "count": 67,
             "totalSize": 1652519195
-        }, {"fileType": "npy", "count": 134, "totalSize": 2026654272}, {
-            "fileType": "bam",
+        }, {"format": "npy", "count": 134, "totalSize": 2026654272}, {
+            "format": "bam",
             "count": 67,
             "totalSize": 1312285234076
-        }, {"fileType": "matrix", "count": 67, "totalSize": 9916}]
+        }, {"format": "matrix", "count": 67, "totalSize": 9916}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["Smart-seq2", null],
@@ -769,7 +769,7 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["CD8-positive, alpha-beta T cell", "effector memory CD8-positive, alpha-beta T cell, terminally differentiated"],
             "totalCells": 2244
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 2244, "totalSize": 80050236577}]
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 2244, "totalSize": 80050236577}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", null],
@@ -828,15 +828,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["CD34-positive, CD38-negative hematopoietic stem cell"],
             "totalCells": 1480000
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 24, "totalSize": 106097400109}, {
-            "fileType": "unknown",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 24, "totalSize": 106097400109}, {
+            "format": "unknown",
             "count": 45,
             "totalSize": 658015719
-        }, {"fileType": "bam", "count": 9, "totalSize": 127992741114}, {
-            "fileType": "matrix",
+        }, {"format": "bam", "count": 9, "totalSize": 127992741114}, {
+            "format": "matrix",
             "count": 9,
             "totalSize": 1332
-        }, {"fileType": "csv", "count": 9, "totalSize": 159860436}]
+        }, {"format": "csv", "count": 9, "totalSize": 159860436}]
     }, {
         "protocols": [{
             "libraryConstructionApproach": ["10X v2 sequencing", "Smart-seq2", null],
@@ -901,20 +901,20 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["Epcam+", "HLAG+", "live"],
             "totalCells": 0
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 15287, "totalSize": 1510927190031}, {
-            "fileType": "txt",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 15287, "totalSize": 1510927190031}, {
+            "format": "txt",
             "count": 37985,
             "totalSize": 149206433
-        }, {"fileType": "csv", "count": 53210, "totalSize": 1562608686}, {
-            "fileType": "bam",
+        }, {"format": "csv", "count": 53210, "totalSize": 1562608686}, {
+            "format": "bam",
             "count": 15225,
             "totalSize": 2258449273058
-        }, {"fileType": "bai", "count": 7597, "totalSize": 13687204032}, {
-            "fileType": "results",
+        }, {"format": "bai", "count": 7597, "totalSize": 13687204032}, {
+            "format": "results",
             "count": 15194,
             "totalSize": 201260881736
-        }, {"fileType": "matrix", "count": 7628, "totalSize": 1128944}, {
-            "fileType": "unknown",
+        }, {"format": "matrix", "count": 7628, "totalSize": 1128944}, {
+            "format": "unknown",
             "count": 155,
             "totalSize": 2953359305
         }]
@@ -972,8 +972,8 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["endothelial cell", "epithelial cell", "fibroblast", "monocyte", "myofibroblast cell"],
             "totalCells": 4000
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 14, "totalSize": 47431062150}, {
-            "fileType": "pdf",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 14, "totalSize": 47431062150}, {
+            "format": "pdf",
             "count": 4,
             "totalSize": 22053225
         }]
@@ -1042,15 +1042,15 @@ export const PROJECTS_ENTITY_API_RESPONSE = {
             "selectedCellType": ["dendritic cell"],
             "totalCells": 0
         }],
-        "fileTypeSummaries": [{"fileType": "fastq.gz", "count": 36, "totalSize": 50140859942}, {
-            "fileType": "unknown",
+        "fileTypeSummaries": [{"format": "fastq.gz", "count": 36, "totalSize": 50140859942}, {
+            "format": "unknown",
             "count": 15,
             "totalSize": 212437849
-        }, {"fileType": "bam", "count": 3, "totalSize": 45541025177}, {
-            "fileType": "matrix",
+        }, {"format": "bam", "count": 3, "totalSize": 45541025177}, {
+            "format": "matrix",
             "count": 3,
             "totalSize": 444
-        }, {"fileType": "csv", "count": 3, "totalSize": 60478271}]
+        }, {"format": "csv", "count": 3, "totalSize": 60478271}]
     }],
     "pagination": {
         "count": 15,

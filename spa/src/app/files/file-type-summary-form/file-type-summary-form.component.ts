@@ -15,7 +15,7 @@ import { Store } from "@ngrx/store";
 import { AppState } from "../../_ngrx/app.state";
 import { FacetTermSelectedEvent } from "../facet/file-facet/facet-term-selected.event";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { FileTypeSummary } from "../file-summary/file-type-summary";
+import { FileTypeSummary } from "../file-summary/file-type-summary.model";
 import { FileTypeSummaryFormView } from "./file-type-summary-form-view.model";
 import { TermSortService } from "../sort/term-sort.service";
 

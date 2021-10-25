@@ -32,7 +32,7 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { GAIndex } from "../../../shared/analytics/ga-index.model";
 import { DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS } from "../../shared/entity-search-results.mock";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { FilesService } from "../../shared/files.service";
 import { ProjectMockService } from "../../shared/project.service.mock";
 import { TableEffects } from "./table.effects";
@@ -65,7 +65,7 @@ describe("Table Effects", () => {
 
         const filesService = jasmine.createSpyObj("FilesService", ["fetchEntitySearchResults", "fetchFileSummary"]);
         filesService.fetchEntitySearchResults.and.returnValue(of(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS));
-        filesService.fetchFileSummary.and.returnValue(of(DEFAULT_FILE_SUMMARY));
+        filesService.fetchFileSummary.and.returnValue(of(FILE_SUMMARY));
 
         TestBed.configureTestingModule({
             imports: [

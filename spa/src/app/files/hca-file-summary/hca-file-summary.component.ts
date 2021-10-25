@@ -11,10 +11,9 @@ import { AppState } from "../../_ngrx/app.state";
 import { Store } from "@ngrx/store";
 
 // App dependencies
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { CountSizePipe } from "../../pipe/count-size/count-size.pipe";
 import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
-import { Term } from "../shared/term.model";
 
 @Component({
     selector: "hca-file-summary",

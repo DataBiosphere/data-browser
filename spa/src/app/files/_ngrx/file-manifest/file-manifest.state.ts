@@ -16,9 +16,9 @@ import { FetchProjectSpeciesFacetSuccessAction } from "./fetch-project-species-f
 import { FileManifest } from "./file-manifest.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { FileSummaryState } from "../file-summary/file-summary.state";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { FetchFilesFacetsSuccessAction } from "./fetch-files-facets-success.action";
 import { SearchTerm } from "../../search/search-term.model";
 import { SelectProjectFileFacetTermAction } from "./select-project-file-facet-term.action";

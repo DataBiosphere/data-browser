@@ -9,8 +9,8 @@
 // App dependencies
 import { Facet } from "../../facet/facet.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
-import { FileSummary } from "../../file-summary/file-summary";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 
 export interface FileManifest {

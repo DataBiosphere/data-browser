@@ -16,7 +16,7 @@ import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { FilesService } from "../shared/files.service";
 import { ICGCQuery } from "../shared/icgc-query";
 import { ManifestDownloadFormat } from "./manifest-download-format.model";

@@ -17,7 +17,7 @@ import { FacetTermSelectedEvent } from "../../facet/file-facet/facet-term-select
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
 import { ManifestStatus } from "../../file-manifest/manifest-status.model";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { ManifestDownloadState } from "./manifest-download.state";
 import { AppState } from "../../../_ngrx/app.state";
 import { ClearFileManifestFileTypeSummaries } from "../../_ngrx/file-manifest/clear-file-manifest-file-type.summaries";

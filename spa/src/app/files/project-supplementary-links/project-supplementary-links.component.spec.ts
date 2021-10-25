@@ -17,12 +17,6 @@ import { ClipboardModule } from "ngx-clipboard";
 
 // App dependencies
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import {
-    PROJECT_DETAIL_EMPTY_VALUES,
-    PROJECT_DETAIL_MULTIPLE_VALUES,
-    PROJECT_DETAIL_SINGLE_VALUES, PROJECT_DETAIL_SPECIFIC_VALUES,
-    PROJECT_DETAIL_UNSPECIFIED_VALUES
-} from "../project/hca-project-mapper.mock";
 import { ProjectSupplementaryLinksComponent } from "./project-supplementary-links.component";
 
 
@@ -36,9 +30,9 @@ describe("ProjectSupplementaryLinksComponent", () => {
     const SELECTOR_COPY_TO_CLIPBOARD = "copy-to-clipboard";
 
     // Test value
-    const TEST_VALUE_LINK_UNSPECIFIED = PROJECT_DETAIL_UNSPECIFIED_VALUES.supplementaryLinks[0];
-    const TEST_VALUE_LINK = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks[0];
-    const TEST_VALUE_LINK_INVALID = PROJECT_DETAIL_SPECIFIC_VALUES.supplementaryLinks[1];
+    const TEST_VALUE_LINK_UNSPECIFIED = "Unspecified";
+    const TEST_VALUE_LINK = "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar";
+    const TEST_VALUE_LINK_INVALID =  "GSE109774_Liver.tar.gz";
 
     beforeEach(waitForAsync(() => {
 
@@ -104,7 +98,8 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays supplementary link when single supplementary links", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks;
+        component.supplementaryLinks = 
+            ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar"];
 
         fixture.detectChanges();
 
@@ -119,7 +114,8 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays multiple supplementary links when multiple supplementary link", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_MULTIPLE_VALUES.supplementaryLinks;
+        component.supplementaryLinks =
+            ["https://github.com/czbiohub/tabula-muris", "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"];
 
         fixture.detectChanges();
 
@@ -134,7 +130,7 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays no supplementary links when empty supplementary links", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_EMPTY_VALUES.supplementaryLinks;
+        component.supplementaryLinks = [];
 
         fixture.detectChanges();
 
@@ -149,7 +145,7 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays no supplementary links when unspecified supplementary links", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_UNSPECIFIED_VALUES.supplementaryLinks;
+        component.supplementaryLinks = ["Unspecified"];
 
         fixture.detectChanges();
 
@@ -164,7 +160,9 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays valid supplementary links when some supplementary links are invalid", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_SPECIFIC_VALUES.supplementaryLinks;
+        const supplementaryLinks =
+            ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar/", "GSE109774_Liver.tar.gz"]; 
+        component.supplementaryLinks = supplementaryLinks;
 
         fixture.detectChanges();
 
@@ -172,7 +170,7 @@ describe("ProjectSupplementaryLinksComponent", () => {
 
         // Confirm displays only valid supplementary links
         expect(suppLinksDEs.length).toEqual(1);
-        expect(getDisplayedLinksInnerText(suppLinksDEs)[1]).toEqual(PROJECT_DETAIL_SPECIFIC_VALUES.supplementaryLinks[0])
+        expect(getDisplayedLinksInnerText(suppLinksDEs)[1]).toEqual(supplementaryLinks[0])
     });
 
     /**
@@ -180,14 +178,16 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("adds supplementary link to href attribute", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks;
+        const supplementaryLinks =
+            ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar"];
+        component.supplementaryLinks = supplementaryLinks;
 
         fixture.detectChanges();
 
         const suppLinksDEs = getDebugElementsByCSS(SELECTOR_P_FONTSIZE_XS);
 
         // Confirm link is added to href attribute
-        expect(getDisplayedLinksHref(suppLinksDEs)[1]).toEqual(PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks[0])
+        expect(getDisplayedLinksHref(suppLinksDEs)[1]).toEqual(supplementaryLinks[0])
     });
 
     /**
@@ -195,7 +195,9 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("displays component copy to clipboard", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks;
+        const supplementaryLinks =
+            ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar"];
+        component.supplementaryLinks = supplementaryLinks;
 
         fixture.detectChanges();
 
@@ -210,7 +212,9 @@ describe("ProjectSupplementaryLinksComponent", () => {
      */
     xit("builds component copy to clipboard input value copy to clipboard link with supplementary link", () => {
 
-        component.supplementaryLinks = PROJECT_DETAIL_SINGLE_VALUES.supplementaryLinks;
+        const supplementaryLinks =
+            ["ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_RAW.tar"];
+        component.supplementaryLinks = supplementaryLinks;
 
         fixture.detectChanges();
 
