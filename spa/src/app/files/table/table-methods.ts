@@ -15,7 +15,15 @@ import {
  * Provides user friendly name and description for each table column matColumnDef.
  * Description is used by column header tooltip */
 let tableColumns: TableColumn[] = [
-
+    {
+        key: "aggregateUpdateDate",
+        userFriendly: "Update Date",
+        description: ".",
+        alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 150,
+        columnSort: false,
+        countType: CountType.DOMAIN_COUNT
+    },
     {
         key: "biologicalSex",
         userFriendly: "Sex",
@@ -243,6 +251,15 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 70,
         columnSort: true,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
+        key: "submissionDate",
+        userFriendly: "Submission Date",
+        description: ".",
+        alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 150,
+        columnSort: false,
         countType: CountType.DOMAIN_COUNT
     },
     {
