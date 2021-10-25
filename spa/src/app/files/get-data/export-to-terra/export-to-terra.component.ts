@@ -110,16 +110,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Returns true if current environment is dev.
-     * 
-     * @returns {boolean}
-     */
-    public isManifestDownloadFormatEnabled(): boolean {
-
-        return this.configService.isEnvCGLDev();
-    }
-
-    /**
      * Returns true if export to Terra request has been completed.
      *
      * @param {ExportToTerraStatus} status

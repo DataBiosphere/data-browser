@@ -113,6 +113,7 @@ export class TerraService {
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
+     * @param {ManifestDownloadFormat} manifestDownloadFormat
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ExportToTerraResponse>}
      */

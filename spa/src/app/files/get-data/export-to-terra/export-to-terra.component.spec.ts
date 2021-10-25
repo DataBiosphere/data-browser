@@ -720,13 +720,13 @@ describe("ExportToTerraComponent", () => {
         /**
          * Confirm terra service returns a URL that does not include format=PFB when PFB is not enabled.
          */
-        it("doesn't add format=PFB in non-dev", () => {
+        it("adds format=PFB in non-dev", () => {
 
             spyOn(configService, "isEnvCGLDev").and.callFake(() => false);
 
             const terraServiceURL = component.getTerraServiceUrl(ManifestDownloadFormat.TERRA_PFB,"terraURL");
             expect(terraServiceURL).not.toEqual(null);
-            expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}#import-data?url=terraURL`);
+            expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}#import-data?format=PFB&url=terraURL`);
         });
     });
 
