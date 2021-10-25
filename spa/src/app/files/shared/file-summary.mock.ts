@@ -2,15 +2,15 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Mock of file summary response from server and has been parsed by service. That is, the expected return value from
- * FileService.fetchFileSummary.
+ * Mock of file summary response from server and has been mapped into FE model by service. That is,
+ * the expected return value from FileService.fetchFileSummary.
  */
 
 // App dependencies
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 
 // Summary for state where no facets selected
-export const DEFAULT_FILE_SUMMARY = {
+export const FILE_SUMMARY = {
     "totalFileSize": 15628980955904,
     "fileTypeSummaries": [{
         "contentDescription": [],

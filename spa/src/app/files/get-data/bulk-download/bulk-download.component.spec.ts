@@ -47,7 +47,7 @@ import { SectionBarComponent } from "../../section-bar/section-bar.component";
 import { SelectedDataSummaryComponent } from "../selected-data-summary/selected-data-summary.component";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
 import { FileFormat } from "../../shared/file-format.model";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { HCATabComponent } from "../../../shared/hca-tab/hca-tab.component";
 import { HCASectionTitleComponent } from "../../../shared/hca-section-title/hca-section-title.component";
@@ -177,7 +177,7 @@ describe("BulkDownloadComponent", () => {
     it("disables button if file type has not been selected", () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         component.executionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
@@ -197,7 +197,7 @@ describe("BulkDownloadComponent", () => {
 
         const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
         store.overrideSelector(selectSelectedSearchTerms, [selectedSearchTerm]);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         component.executionEnvironment = BulkDownloadExecutionEnvironment.BASH;
 
@@ -217,7 +217,7 @@ describe("BulkDownloadComponent", () => {
 
         const selectedSearchTerm = new SearchFacetTerm(FileFacetName.FILE_FORMAT, FileFormat.BAM);
         store.overrideSelector(selectSelectedSearchTerms, [selectedSearchTerm]);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -233,7 +233,7 @@ describe("BulkDownloadComponent", () => {
     it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -248,7 +248,7 @@ describe("BulkDownloadComponent", () => {
     it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.NOT_STARTED});
         fixture.detectChanges();
 
@@ -263,7 +263,7 @@ describe("BulkDownloadComponent", () => {
     it(`should not display component section-bar when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -279,7 +279,7 @@ describe("BulkDownloadComponent", () => {
     it(`should not display component data-use-notification when request status is "IN_PROGRESS"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {status: ManifestStatus.IN_PROGRESS});
         fixture.detectChanges();
 
@@ -295,7 +295,7 @@ describe("BulkDownloadComponent", () => {
     it(`should display component section-bar when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {
             commandLine: {bash: ""},
             fileUrl: "",
@@ -315,7 +315,7 @@ describe("BulkDownloadComponent", () => {
     it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
 
         store.overrideSelector(selectSelectedSearchTerms, []);
-        store.overrideSelector(selectFileManifestFileTypeSummaries, DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
         store.overrideSelector(selectFileManifestManifestResponse, {
             commandLine: {bash: ""},
             fileUrl: "",

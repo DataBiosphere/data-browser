@@ -120,18 +120,18 @@ export const PROJECT_ROW_SINGLE_VALUES =
                                             "developmentStage": {
                                                 "Theiler stage 21": [{
                                                     "size": 3914763654,
-                                                    "matrix_cell_count": null,
+                                                    "matrixCellCount": null,
                                                     "name": "pitx2-developing-mouse-heart-10XV2.loom",
-                                                    "source": "DCP/2 Analysis",
+                                                    "fileSource": "DCP/2 Analysis",
                                                     "uuid": "5a606536-cd39-5269-b837-d17a9036d87c",
                                                     "version": "2021-02-17T00:12:58.000000Z",
                                                     "url": "https://service.azul.data.humancellatlas.org/repository/files/5a606536-cd39-5269-b837-d17a9036d87c?catalog=dcp7&version=2021-02-17T00%3A12%3A58.000000Z"
                                                 }],
                                                 "Theiler stage 17": [{
                                                     "size": 3914763654,
-                                                    "matrix_cell_count": null,
+                                                    "matrixCellCount": null,
                                                     "name": "pitx2-developing-mouse-heart-10XV2.loom",
-                                                    "source": "DCP/2 Analysis",
+                                                    "fileSource": "DCP/2 Analysis",
                                                     "uuid": "5a606536-cd39-5269-b837-d17a9036d87c",
                                                     "version": "2021-02-17T00:12:58.000000Z",
                                                     "url": "https://service.azul.data.humancellatlas.org/repository/files/5a606536-cd39-5269-b837-d17a9036d87c?catalog=dcp7&version=2021-02-17T00%3A12%3A58.000000Z"
@@ -238,52 +238,52 @@ export const PROJECT_ROW_SINGLE_VALUES =
             {
                 "contentDescription": ["Count Matrix"],
                 "count": 2,
-                "fileType": "loom",
+                "format": "loom",
                 "isIntermediate": true,
                 "totalSize": 17837811
             },
             {
                 "count": 2,
-                "fileType": "contributor.matrix",
+                "format": "contributor.matrix",
                 "totalSize": 17837811
             },
             {
                 "count": 1,
-                "fileType": "dcp.matrix",
+                "format": "dcp.matrix",
                 "totalSize": 17837811
             },
             {
-                "fileType": "fastq",
+                "format": "fastq",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "bai",
+                "format": "bai",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -456,27 +456,27 @@ export const PROJECT_ROW_MULTIPLE_VALUES_SINGLE_OBJECT =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -745,27 +745,27 @@ export const PROJECT_ROW_VALUES_ACROSS_MULTIPLE_OBJECTS =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -931,42 +931,42 @@ export const PROJECT_ROW_NULL_VALUES =
             {
                 "contentDescription": ["Count Matrix"],
                 "count": null,
-                "fileType": "loom",
+                "format": "loom",
                 "isIntermediate": true,
                 "totalSize": null
             },
             {
-                "fileType": "fastq",
+                "format": "fastq",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "bai",
+                "format": "bai",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": null,
                 "totalSize": null
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": null,
                 "totalSize": null
             }
@@ -1048,27 +1048,27 @@ export const PROJECT_ROW_NULL_ARRAY_VALUES =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": [null],
                 "totalSize": [null]
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": [null],
                 "totalSize": [null]
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": [null],
                 "totalSize": [null]
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": [null],
                 "totalSize": [null]
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": [null],
                 "totalSize": [null]
             }

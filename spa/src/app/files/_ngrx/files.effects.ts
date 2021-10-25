@@ -21,7 +21,7 @@ import { FetchFileFacetsRequestAction } from "./facet/fetch-file-facets-request.
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { SetViewStateAction } from "./facet/set-view-state.action";
 import { selectTableQueryParams } from "./files.selectors";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { FetchFileSummaryRequestAction, FetchFileSummarySuccessAction } from "./file-summary/file-summary.actions";
 import { AppState } from "../../_ngrx/app.state";
 import { ClearSelectedTermsAction } from "./search/clear-selected-terms.action";

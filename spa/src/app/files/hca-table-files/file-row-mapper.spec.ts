@@ -330,7 +330,7 @@ describe("FileRowMapper:", () => {
         dataSource.connect().subscribe((rows) => {
 
             const mappedFile = rows[0];
-            expect(mappedFile.fileSource).toEqual(fileToMap.files[0].source);
+            expect(mappedFile.fileSource).toEqual(fileToMap.files[0].fileSource);
             done();
         })
     });

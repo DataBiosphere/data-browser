@@ -7,7 +7,7 @@
 
 // App dependencies
 import { ManifestResponse } from "../../file-manifest/manifest-response.model";
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 
 export interface ManifestDownloadState {

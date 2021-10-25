@@ -126,32 +126,32 @@ export const SAMPLE_SINGLE_VALUES =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "pdf",
+                "format": "pdf",
                 "count": 3,
                 "totalSize": 15762678
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 30,
                 "totalSize": 636842097
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 6,
                 "totalSize": 56575551018
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 6,
                 "totalSize": 888
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 6,
                 "totalSize": 151039275
             }
@@ -312,32 +312,32 @@ export const SAMPLE_MULTIPLE_VALUES_SINGLE_OBJECT =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "pdf",
+                "format": "pdf",
                 "count": 3,
                 "totalSize": 15762678
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 30,
                 "totalSize": 636842097
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 6,
                 "totalSize": 56575551018
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 6,
                 "totalSize": 888
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 6,
                 "totalSize": 151039275
             }
@@ -584,32 +584,32 @@ export const SAMPLE_VALUES_ACROSS_MULTIPLE_OBJECTS =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "pdf",
+                "format": "pdf",
                 "count": 3,
                 "totalSize": 15762678
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 30,
                 "totalSize": 636842097
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 6,
                 "totalSize": 56575551018
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 6,
                 "totalSize": 888
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 6,
                 "totalSize": 151039275
             }
@@ -760,7 +760,7 @@ export const SAMPLE_NULL_VALUES =
         ],
         "fileTypeSummaries": [
             {
-                "fileType": null,
+                "format": null,
                 "count": null,
                 "totalSize": null
             }

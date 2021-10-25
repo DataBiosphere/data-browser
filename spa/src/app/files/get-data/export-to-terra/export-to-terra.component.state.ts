@@ -6,7 +6,7 @@
  */
 
 // App dependencies
-import { FileTypeSummary } from "../../file-summary/file-type-summary";
+import { FileTypeSummary } from "../../file-summary/file-type-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 

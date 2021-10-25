@@ -2766,7 +2766,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 8206104986
                     }
@@ -2866,7 +2866,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 5893786371
                     }
@@ -2966,7 +2966,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 4712170205
                     }
@@ -3066,7 +3066,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 5825947527
                     }
@@ -3166,7 +3166,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 6356622348
                     }
@@ -3266,7 +3266,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 7468460874
                     }
@@ -3366,7 +3366,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 8753121196
                     }
@@ -3466,7 +3466,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 1251172890
                     }
@@ -3566,7 +3566,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 10955528686
                     }
@@ -3666,7 +3666,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 7271723177
                     }
@@ -3766,7 +3766,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 4299389989
                     }
@@ -3866,7 +3866,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 5317596803
                     }
@@ -3966,7 +3966,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 510451750
                     }
@@ -4066,7 +4066,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 4602641978
                     }
@@ -4166,7 +4166,7 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                 ],
                 "fileTypeSummaries": [
                     {
-                        "fileType": "fastq.gz",
+                        "format": "fastq.gz",
                         "count": 182,
                         "totalSize": 4403772209
                     }

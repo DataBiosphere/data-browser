@@ -11,7 +11,7 @@ import { Component, ChangeDetectionStrategy, Input } from "@angular/core";
 // App dependencies
 import { FileFacet } from "../../facet/file-facet/file-facet.model";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
-import { FileSummary } from "../../file-summary/file-summary";
+import { FileSummary } from "../../file-summary/file-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 import { Term } from "../../shared/term.model";
 

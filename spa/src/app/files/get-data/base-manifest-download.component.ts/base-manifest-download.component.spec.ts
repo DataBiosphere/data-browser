@@ -23,7 +23,7 @@ import { SearchTermHttpService } from "../../search/http/search-term-http.servic
 import { SearchFacetTerm } from "../../search/search-facet-term.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { CopyToClipboardComponent } from "../../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DEFAULT_FILE_SUMMARY } from "../../shared/file-summary.mock";
+import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TermSortService } from "../../sort/term-sort.service";
 
 describe("BaseManifestDownloadComponent", () => {
@@ -119,8 +119,8 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
         // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
-        const fileTypeSummaries = DEFAULT_FILE_SUMMARY.fileTypeSummaries;
-        expect(fileTypeSummaries).toEqual(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        const fileTypeSummaries = FILE_SUMMARY.fileTypeSummaries;
+        expect(fileTypeSummaries).toEqual(FILE_SUMMARY.fileTypeSummaries);
     });
 
     /**
@@ -163,7 +163,7 @@ describe("BaseManifestDownloadComponent", () => {
 
         // Confirm file type summaries empty returns false, when file summary is not empty - first execute the
         // method and then confirm the returned value is false.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(DEFAULT_FILE_SUMMARY.fileTypeSummaries);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY.fileTypeSummaries);
         expect(fileTypeSummariesEmpty).toEqual(false);
     });
 });

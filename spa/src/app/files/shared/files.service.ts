@@ -24,7 +24,8 @@ import { AgeUnit } from "../facet/facet-age-range/age-unit.model";
 import { Facet } from "../facet/facet.model";
 import { ResponseFacet } from "../http/response-facet.model";
 import { FileFacet } from "../facet/file-facet/file-facet.model";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
+import { FileSummaryResponse } from "../file-summary/file-summary-response.model";
 import { ResponseTerm } from "../http/response-term.model";
 import { HttpService } from "../http/http.service";
 import { ResponseTermService } from "../http/response-term.service";
@@ -99,7 +100,7 @@ export class FilesService {
         const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
         const params = this.httpService.createIndexParams(catalog, {filters});
 
-        return this.httpClient.get<FileSummary>(url, {params}).pipe(
+        return this.httpClient.get<FileSummaryResponse>(url, {params}).pipe(
             map(this.bindFileSummaryResponse)
         );
     }
@@ -108,13 +109,33 @@ export class FilesService {
      * Create a new file summary object (to trigger change detecting) from the file summary response, and fix erroneous
      * total file size count if applicable.
      *
-     * @param {FileSummary} fileSummary
+     * @param {FileSummaryResponse} fileSummaryResponse
      * @returns {FileSummary}
      */
-    private bindFileSummaryResponse(fileSummary: FileSummary): FileSummary {
+    private bindFileSummaryResponse(fileSummaryResponse: FileSummaryResponse): FileSummary {
 
-        const totalFileSize = (typeof fileSummary.totalFileSize === "string") ? 0 : fileSummary.totalFileSize;
-        return Object.assign({}, fileSummary, {totalFileSize});
+        const totalFileSize = (typeof fileSummaryResponse.totalFileSize === "string") ?
+            0 :
+            fileSummaryResponse.totalFileSize;
+        return {
+            donorCount: fileSummaryResponse.donorCount,
+            fileCount: fileSummaryResponse.fileCount,
+            fileTypeSummaries: fileSummaryResponse.fileTypeSummaries.map(fileTypeSummaryResponse => {
+                return {
+                    contentDescription: fileTypeSummaryResponse.contentDescription,
+                    count: fileTypeSummaryResponse.count,
+                    fileType: fileTypeSummaryResponse.format,
+                    isIntermediate: fileTypeSummaryResponse.isIntermediate,
+                    matrixCellCount: fileTypeSummaryResponse.matrixCellCount,
+                    totalSize: fileTypeSummaryResponse.totalSize
+                };
+            }),
+            organTypes: fileSummaryResponse.organTypes,
+            projectCount: fileSummaryResponse.projectCount,
+            specimenCount: fileSummaryResponse.specimenCount,
+            totalCellCount: fileSummaryResponse.totalCellCount,
+            totalFileSize: totalFileSize
+        };
     }
 
     /**

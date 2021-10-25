@@ -17,7 +17,7 @@ import { filter, map, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { Catalog } from "../catalog/catalog.model";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { AppState } from "../../_ngrx/app.state";
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";

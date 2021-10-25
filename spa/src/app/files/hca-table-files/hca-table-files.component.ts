@@ -20,7 +20,7 @@ import { FileLocation } from "../file-location/file-location.model";
 import { FileRow } from "./file-row.model";
 import { FileRowMapper } from "./file-row-mapper";
 import { ClearFileFileLocationsAction } from "../_ngrx/file/clear-file-file-locations.action";
-import { FileSummary } from "../file-summary/file-summary";
+import { FileSummary } from "../file-summary/file-summary.model";
 import { AppState } from "../../_ngrx/app.state";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {

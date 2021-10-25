@@ -10,8 +10,9 @@
 import { Accession } from "../accession/accession.model";
 import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../accession/accession-configs";
 import { AccessionResponse } from "./accession-response.model";
-import { EntityRow } from "../entities/entity-row.model";
 import { AccessionUrlPipe } from "../accession/accession-url/accession-url.pipe";
+import { EntityRow } from "../entities/entity-row.model";
+import { FileTypeSummaryResponse } from "../file-summary/file-type-summary-response.model";
 import { ProjectRowMapper } from "../projects/project-row-mapper";
 import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
 import { Project } from "../shared/project.model";
@@ -59,7 +60,7 @@ export class ProjectMapper extends ProjectRowMapper {
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
                 deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
                 contributors: contributors,
-                fileType: (this.row.fileTypeSummaries || []).map(fileType => fileType.fileType),
+                fileType: (this.row.fileTypeSummaries || []).map((fileType: FileTypeSummaryResponse) => fileType.format),
                 geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
                 insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),
                 insdcStudyAccessions: getUnspecifiedIfNullValue(this.projects.insdcStudyAccessions),

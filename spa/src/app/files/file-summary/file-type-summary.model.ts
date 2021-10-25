@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  * 
- * Model of file type summary. Returned as part of /summary response or, /projects or /samples responses.
+ * Fe model of file type summary returned as part of /summary response or, /projects or /samples responses.
  */
 
 export interface FileTypeSummary {

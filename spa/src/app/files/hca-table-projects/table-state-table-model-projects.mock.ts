@@ -154,27 +154,27 @@ const PROJECTS_DATA = [
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -310,27 +310,27 @@ const PROJECTS_DATA = [
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -466,27 +466,27 @@ const PROJECTS_DATA = [
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
@@ -622,27 +622,27 @@ const PROJECTS_DATA = [
         ],
         "fileTypeSummaries": [
             {
-                "fileType": "fastq.gz",
+                "format": "fastq.gz",
                 "count": 3,
                 "totalSize": 17837811
             },
             {
-                "fileType": "unknown",
+                "format": "unknown",
                 "count": 5,
                 "totalSize": 7529700
             },
             {
-                "fileType": "bam",
+                "format": "bam",
                 "count": 1,
                 "totalSize": 22403106
             },
             {
-                "fileType": "matrix",
+                "format": "matrix",
                 "count": 1,
                 "totalSize": 148
             },
             {
-                "fileType": "csv",
+                "format": "csv",
                 "count": 1,
                 "totalSize": 637725
             }
