@@ -705,9 +705,6 @@ const SAMPLES_DATA = [
                         "unit": "year"
                     }
                 ],
-                "organismAgeUnit": [
-                    "week"
-                ],
                 "biologicalSex": [
                     "female"
                 ],

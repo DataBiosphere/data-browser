@@ -581,318 +581,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
             "selectedTermCount": 0
         },
         {
-            "name": "organismAgeUnit",
-            "total": 526,
-            "terms": [
-                {
-                    "name": "year",
-                    "count": 224,
-                    "selected": false
-                },
-                {
-                    "name": "month",
-                    "count": 223,
-                    "selected": false
-                },
-                {
-                    "name": "week",
-                    "count": 54,
-                    "selected": false
-                },
-                {
-                    "name": "day",
-                    "count": 7,
-                    "selected": false
-                },
-                {
-                    "name": "Unspecified",
-                    "count": 18,
-                    "selected": false
-                }
-            ],
-            "selectedTerms": [],
-            "selected": false,
-            "termsByName": {},
-            "termCount": 5,
-            "selectedTermCount": 0
-        },
-        {
-            "name": "organismAge",
-            "total": 526,
-            "terms": [
-                {
-                    "name": "3",
-                    "count": 222,
-                    "selected": false
-                },
-                {
-                    "name": "0",
-                    "count": 64,
-                    "selected": false
-                },
-                {
-                    "name": "6-12",
-                    "count": 54,
-                    "selected": false
-                },
-                {
-                    "name": "18-60",
-                    "count": 28,
-                    "selected": false
-                },
-                {
-                    "name": "29",
-                    "count": 16,
-                    "selected": false
-                },
-                {
-                    "name": "20",
-                    "count": 12,
-                    "selected": false
-                },
-                {
-                    "name": "50",
-                    "count": 9,
-                    "selected": false
-                },
-                {
-                    "name": "52",
-                    "count": 9,
-                    "selected": false
-                },
-                {
-                    "name": "32",
-                    "count": 8,
-                    "selected": false
-                },
-                {
-                    "name": "36",
-                    "count": 8,
-                    "selected": false
-                },
-                {
-                    "name": "39",
-                    "count": 8,
-                    "selected": false
-                },
-                {
-                    "name": "26",
-                    "count": 7,
-                    "selected": false
-                },
-                {
-                    "name": "18",
-                    "count": 6,
-                    "selected": false
-                },
-                {
-                    "name": "45-65",
-                    "count": 5,
-                    "selected": false
-                },
-                {
-                    "name": "40-45",
-                    "count": 4,
-                    "selected": false
-                },
-                {
-                    "name": "40-44",
-                    "count": 3,
-                    "selected": false
-                },
-                {
-                    "name": "45-49",
-                    "count": 3,
-                    "selected": false
-                },
-                {
-                    "name": "55-59",
-                    "count": 3,
-                    "selected": false
-                },
-                {
-                    "name": "65-69",
-                    "count": 3,
-                    "selected": false
-                },
-                {
-                    "name": "21",
-                    "count": 2,
-                    "selected": false
-                },
-                {
-                    "name": "22",
-                    "count": 2,
-                    "selected": false
-                },
-                {
-                    "name": "78",
-                    "count": 2,
-                    "selected": false
-                },
-                {
-                    "name": "1",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "19",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "20-25",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "23",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "25",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "27",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "28",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "35",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "37",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "38",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "43",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "44",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "48",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "49",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "5",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "50-55",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "53",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "54",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "55",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "55-60",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "56",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "57",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "6",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "63",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "68",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "69",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "73",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "76",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "80",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "85",
-                    "count": 1,
-                    "selected": false
-                },
-                {
-                    "name": "Unspecified",
-                    "count": 18,
-                    "selected": false
-                }
-            ],
-            "selectedTerms": [],
-            "selected": false,
-            "termsByName": {},
-            "termCount": 53,
-            "selectedTermCount": 0
-        },
-        {
             "name": "pairedEnd",
             "total": 526,
             "terms": [
@@ -3057,9 +2745,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -3159,9 +2844,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -3263,9 +2945,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -3365,9 +3044,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -3469,9 +3145,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -3571,9 +3244,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -3675,9 +3345,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -3777,9 +3444,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -3881,9 +3545,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -3983,9 +3644,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -4087,9 +3745,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -4189,9 +3844,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"
@@ -4293,9 +3945,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -4396,9 +4045,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         "organismAge": [
                             "6-12"
                         ],
-                        "organismAgeUnit": [
-                            "week"
-                        ],
                         "biologicalSex": [
                             "female"
                         ],
@@ -4498,9 +4144,6 @@ const DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS_JSON = {
                         ],
                         "organismAge": [
                             "6-12"
-                        ],
-                        "organismAgeUnit": [
-                            "week"
                         ],
                         "biologicalSex": [
                             "female"

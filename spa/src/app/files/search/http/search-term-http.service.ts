@@ -37,7 +37,6 @@ export class SearchTermHttpService {
         "modelOrgan",
         "modelOrganPart",
         "nucleicAcidSource",
-        "organismAgeValue",
         "pairedEnd",
         "preservationMethod",
         "project",
