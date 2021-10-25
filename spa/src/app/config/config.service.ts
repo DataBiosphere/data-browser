@@ -229,10 +229,9 @@ export class ConfigService {
      */
     public getTerraRedirectUrl(format: ManifestDownloadFormat, encodedUrl: string): string {
         
-        // Build up set of params to be included in export URL. Only include format param in environments where 
-        // PFB is enabled.
+        // Build up set of params to be included in export URL.
         const paramTokens = [];
-        if ( this.isEnvCGLDev() && format === ManifestDownloadFormat.TERRA_PFB ) {
+        if ( format === ManifestDownloadFormat.TERRA_PFB ) {
             // Translate Azul PFB format param value to Terra PFB format value. That is, terra.pfb to PFB.
             paramTokens.push("format=PFB");
         }
