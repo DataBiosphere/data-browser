@@ -353,6 +353,48 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="submissionDate">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('submissionDate')"
+                                     [ngStyle]="getColumnStyle('submissionDate')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'submissionDate'">
+                                {{getColumnDisplayName('submissionDate')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'submissionDate'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                           [summaryCount]="(selectFileSummary$ | async).submissionDate | countSize"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('submissionDate')"
+                              [ngStyle]="getColumnStyle('submissionDate')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.submissionDate}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="aggregateUpdateDate">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('aggregateUpdateDate')"
+                                     [ngStyle]="getColumnStyle('aggregateUpdateDate')">
+                        <hca-table-column-header>
+                            <hca-table-column-header-title columnTitle [columnName]="'aggregateUpdateDate'">
+                                {{getColumnDisplayName('aggregateUpdateDate')}}
+                            </hca-table-column-header-title>
+                            <hca-table-column-header-count columnSubTitle [columnName]="'aggregateUpdateDate'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"
+                                                           [summaryCount]="(selectFileSummary$ | async).aggregateUpdateDate | countSize"></hca-table-column-header-count>
+                        </hca-table-column-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('aggregateUpdateDate')"
+                              [ngStyle]="getColumnStyle('aggregateUpdateDate')">
+                        <hca-table-cell>
+                            <hca-content-ellipsis>
+                                <span class="fontsize-xxs">{{element.aggregateUpdateDate}}</span>
+                            </hca-content-ellipsis>
+                        </hca-table-cell>
+                    </mat-cell>
+                </ng-container>
                 <mat-header-row *matHeaderRowDef="listColumns()"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: listColumns();"></mat-row>
             </mat-table>
