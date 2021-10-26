@@ -98,7 +98,7 @@ mat-toolbar {
     /** Logo in modal */
     &.modal-open {
 
-        background-color: $hca-white;
+        background-color: transparent;
         position: fixed;
         top: 0;
         z-index: 1001;
