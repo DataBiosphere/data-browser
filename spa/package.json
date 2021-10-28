@@ -52,7 +52,7 @@
     "@angular-eslint/template-parser": "12.5.0",
     "@angular/cli": "^12.2.10",
     "@angular/compiler-cli": "^12.2.10",
-    "@angular/language-service": "^12.2.10",
+    "@angular/language-service": "^12.2.12",
     "@ngrx/store-devtools": "^12.4.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.54",
