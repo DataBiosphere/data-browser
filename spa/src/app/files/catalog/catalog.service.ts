@@ -15,10 +15,12 @@ import { catchError, filter, retry, switchMap, take } from "rxjs/operators";
 // App dependencies
 import { Atlas } from "../atlas/atlas.model";
 import { CatalogsAPIResponse } from "./catalogs-api-response.model";
+import catalogUpdate from "../catalog/catalog-update.json";
 import { ConfigService } from "../../config/config.service";
 import { AppState } from "../../_ngrx/app.state";
 import { selectCatalogsInit } from "../_ngrx/catalog/catalog.selectors";
 import { FetchCatalogsRequestAction } from "../_ngrx/catalog/fetch-catalogs-request.action";
+import { InitCatalogUpdateAction } from "../_ngrx/catalog/init-catalog-update.action";
 
 @Injectable()
 export class CatalogService {
@@ -65,6 +67,22 @@ export class CatalogService {
                 resolve();
             })
         });
+    }
+
+    /**
+     * Dispatch action to save catalog update in store.
+     *
+     * @returns {Promise<void>}
+     */
+    public initCatalogUpdate(): Promise<void> {
+
+        this.store.dispatch(new InitCatalogUpdateAction({
+            catalog: catalogUpdate.catalog,
+            new: catalogUpdate.new,
+            runDate: new Date(catalogUpdate.runDate),
+            updated: catalogUpdate.updated
+        }));
+        return Promise.resolve();
     }
 
     /**

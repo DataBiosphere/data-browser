@@ -1,12 +1,13 @@
 <div class="wrapper">
     <div class="hca-table projects">
-            <table-scroll [dataLoaded]="dataLoaded$">
-                <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
+        <table-scroll [dataLoaded]="dataLoaded$">
+            <mat-table *ngIf="pagination$ | async; let pagination" #table [dataSource]="dataSource" matSort
                        matSortDirection="{{defaultSortOrder.order}}" matSortActive="{{defaultSortOrder.sort}}"
                        (matSortChange)="sortTable(pagination, $event)">
                 <ng-container matColumnDef="projectTitle">
                     <mat-header-cell *matHeaderCellDef
-                                     [ngClass]="getColumnClass('projectTitle')" [ngStyle]="getColumnStyle('projectTitle')">
+                                     [ngClass]="getColumnClass('projectTitle')"
+                                     [ngStyle]="getColumnStyle('projectTitle')">
                         <hca-table-column-header>
                             <hca-table-column-header-title columnTitle [columnName]="'projectTitle'">
                                 {{getColumnDisplayName('projectTitle')}}
@@ -23,9 +24,12 @@
                                  (click)="onProjectSelected(element.entryId, element.projectShortname, isProjectSelected(element))">
                                 <mat-icon *ngIf="isProjectSelected(element)">check</mat-icon>
                             </div>
-                            <a [routerLink]="['/projects', element.entryId]"
-                               [queryParams]="{catalog: catalog$ | async}"
-                               class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
+                            <div>
+                                <catalog-update-chip [catalogUpdate]="catalogUpdate$ | async" [project]="element"></catalog-update-chip>
+                                <a [routerLink]="['/projects', element.entryId]"
+                                   [queryParams]="{catalog: catalog$ | async}"
+                                   class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
+                            </div>
                         </div>
                     </mat-cell>
                 </ng-container>
@@ -70,21 +74,28 @@
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="organPart">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
+                    <mat-header-cell *matHeaderCellDef
+                                     [ngClass]="getColumnClass('organPart')"
+                                     [ngStyle]="getColumnStyle('organPart')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'organPart'">{{getColumnDisplayName('organPart')}}
+                            <hca-table-column-header-title columnTitle [columnName]="'organPart'">
+                                {{getColumnDisplayName('organPart')}}
                             </hca-table-column-header-title>
-                            <hca-table-column-header-count columnSubTitle [columnName]="'organPart'" [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
+                            <hca-table-column-header-count columnSubTitle
+                                                           [columnName]="'organPart'"
+                                                           [domainCountsByColumnName]="domainCountsByColumnName$ | async"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('organPart')" [ngStyle]="getColumnStyle('organPart')">
+                    <mat-cell *matCellDef="let element"
+                              [ngClass]="getColumnClass('organPart')"
+                              [ngStyle]="getColumnStyle('organPart')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
                                 <span class="fontsize-xxs">{{element.organPart}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
-                </ng-container>                    
+                </ng-container>
                 <ng-container matColumnDef="modelOrgan">
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('modelOrgan')"
                                      [ngStyle]="getColumnStyle('modelOrgan')">
@@ -203,9 +214,9 @@
                             <hca-content-unspecified-dash *ngSwitchCase="true"></hca-content-unspecified-dash>
                             <analysis-protocol-pipeline-linker
                                     *ngSwitchDefault
-                                   class="fontsize-xxs"
-                                   [workflow]="element.workflow"
-                                   (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"></analysis-protocol-pipeline-linker>
+                                    class="fontsize-xxs"
+                                    [workflow]="element.workflow"
+                                    (analysisProtocolViewed)="onAnalysisProtocolViewed($event)"></analysis-protocol-pipeline-linker>
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
@@ -303,8 +314,8 @@
                               [ngStyle]="getColumnStyle('getData')">
                         <hca-table-cell class="cell-split">
                             <ng-container *ngIf="catalog$ | async as catalog">
-                                <download-button [downloadAvailable]="true" 
-                                             (downloadClicked)="onProjectDownloadManifestClicked(element.entryId, catalog)"></download-button>
+                                <download-button [downloadAvailable]="true"
+                                                 (downloadClicked)="onProjectDownloadManifestClicked(element.entryId, catalog)"></download-button>
                                 <download-button [downloadAvailable]="isAnyMatrixAvailable(element)"
                                                  (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
                             </ng-container>
@@ -336,7 +347,9 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('totalCells')"
                                      [ngStyle]="getColumnStyle('totalCells')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'totalCells'" [entityName]="'Projects'">
+                            <hca-table-column-header-title columnTitle
+                                                           [columnName]="'totalCells'"
+                                                           [entityName]="'Projects'">
                                 {{getColumnDisplayName('totalCells')}}
                             </hca-table-column-header-title>
                             <hca-table-column-header-count columnSubTitle [columnName]="'totalCells'"

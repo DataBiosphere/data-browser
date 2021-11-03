@@ -99,6 +99,11 @@
                 }
             }
 
+            /** Add space between chip and project title */
+            catalog-update-chip {
+                margin-right: 4px;
+            }
+
             /** Cell containing more than one item, for example the downloads column that is shared by meta and matrix */ 
             .cell-split {
                 align-items: center;

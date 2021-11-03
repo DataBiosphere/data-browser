@@ -118,6 +118,17 @@ import { SystemService } from "./system/shared/system.service";
             deps: [ConfigService, FaviconService],
             multi: true
         },
+        // Init catalog update
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (catalogService: CatalogService) => {
+                return () => {
+                    return catalogService.initCatalogUpdate();
+                };
+            },
+            deps: [CatalogService, Store],
+            multi: true
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpAuthInterceptor,

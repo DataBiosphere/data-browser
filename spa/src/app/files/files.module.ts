@@ -35,6 +35,7 @@ import { BaseManifestDownloadComponent } from "./get-data/base-manifest-download
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
 import { CatalogFormComponent } from "./catalog/catalog-form/catalog-form.component";
 import { CatalogService } from "./catalog/catalog.service";
+import { CatalogUpdateChipComponent } from "./catalog/catalog-update-chip/catalog-update-chip.component";
 import { ConfigService } from "../config/config.service";
 import { EntityRequestService } from "./entity/entity-request.service";
 import { AgeInAgeUnit } from "./facet/facet-age-range/facet-age-range-form/age-in-age-unit.pipe";
@@ -186,6 +187,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         BulkDownloadComponent,
         BulkDownloadSpeciesFormComponent,
         CatalogFormComponent,
+        CatalogUpdateChipComponent,
         DataLinkComponent,
         ExecutionEnvironmentFormComponent,
         ExportToTerraComponent,
