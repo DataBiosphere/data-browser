@@ -41,11 +41,11 @@ export class CatalogUpdateChipComponent implements OnChanges {
     public getTooltipContent(): string {
         
         if ( this.isProjectNew() ) {
-            return `New in the DCP2 ${this.runDate} update.`;
+            return `New in the ${this.runDate} DCP Platform update.`;
         }
         
         if ( this.isProjectUpdated() ) {
-            return `Modified in the DCP2 ${this.runDate} update.`;
+            return `Modified in the ${this.runDate} DCP Platform update.`;
         }
         
         return "";
