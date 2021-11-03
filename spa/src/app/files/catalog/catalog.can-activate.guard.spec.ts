@@ -91,7 +91,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
@@ -114,7 +119,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
@@ -138,7 +148,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP1});
@@ -162,7 +177,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP2});
@@ -187,7 +207,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: DCPCatalog.DCP3});
@@ -213,7 +238,12 @@ describe("CatalogCanActivateGuard", () => {
             catalog: new CatalogState({
                 catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2, DCPCatalog.DCP3, catalogDCP4],
                 defaultCatalog: DCPCatalog.DCP3
-            }, selectedCatalog, true)
+            }, selectedCatalog, {
+                catalog: DCPCatalog.DCP2,
+                new: [],
+                runDate: new Date(),
+                updated: []
+            }, true)
         }));
 
         spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({catalog: catalogDCP4});

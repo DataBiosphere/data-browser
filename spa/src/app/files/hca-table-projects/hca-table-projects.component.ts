@@ -11,15 +11,16 @@ import { Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { filter, map, takeUntil } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 // App dependencies
 import { AnalysisProtocolViewedEvent } from "../analysis-protocol-pipeline-linker/analysis-protocol-viewed.event";
 import { Catalog } from "../catalog/catalog.model";
+import { CatalogUpdate } from "../catalog/catalog-update.model";
 import { FileSummary } from "../file-summary/file-summary.model";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { selectCatalog, selectCatalogUpdate } from "../_ngrx/catalog/catalog.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -31,11 +32,12 @@ import {
 } from "../_ngrx/files.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
+import { ProjectRow } from "../projects/project-row.model";
 import { ProjectRowMapper } from "../projects/project-row-mapper";
 import { SearchTerm } from "../search/search-term.model";
+import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 import { EntityName } from "../shared/entity-name.model";
-import { GAIndex } from "../../shared/analytics/ga-index.model";
 import { EntitiesDataSource } from "../entities/entities.data-source";
 import { Pagination } from "../table/pagination/pagination.model";
 import {
@@ -46,7 +48,6 @@ import {
     isElementUnspecified
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
-import { ProjectRow } from "../projects/project-row.model";
 
 @Component({
     selector: "hca-table-projects",
@@ -57,6 +58,7 @@ export class HCATableProjectsComponent implements OnInit {
 
     // Template variables
     public catalog$: Observable<Catalog>;
+    public catalogUpdate$: Observable<CatalogUpdate>;
     public data$: Observable<any[]>;
     public dataLoaded$: Observable<boolean>;
     public defaultSortOrder = {
@@ -282,5 +284,7 @@ export class HCATableProjectsComponent implements OnInit {
         );
 
         this.catalog$ = this.store.pipe(select(selectCatalog));
+
+        this.catalogUpdate$ = this.store.pipe(select(selectCatalogUpdate));
     }
 }

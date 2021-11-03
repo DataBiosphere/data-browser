@@ -229,7 +229,12 @@ describe("Table Effects", () => {
                 catalog: new CatalogState({
                     catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
                     defaultCatalog: DCPCatalog.DCP2
-                }, selectedCatalog, true)
+                }, selectedCatalog, {
+                    catalog: DCPCatalog.DCP2,
+                    new: [],
+                    runDate: new Date(),
+                    updated: []
+                } , true)
             }));
 
             const action = new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName);
@@ -288,7 +293,12 @@ describe("Table Effects", () => {
                 catalog: new CatalogState({
                     catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
                     defaultCatalog: DCPCatalog.DCP1
-                }, selectedCatalog, true)
+                }, selectedCatalog, {
+                    catalog: DCPCatalog.DCP2,
+                    new: [],
+                    runDate: new Date(),
+                    updated: []
+                }, true)
             }));
 
             const action = new TableNextPageAction({
@@ -380,7 +390,12 @@ describe("Table Effects", () => {
                 catalog: new CatalogState({
                     catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
                     defaultCatalog: DCPCatalog.DCP2
-                }, selectedCatalog, true)
+                }, selectedCatalog, {
+                    catalog: DCPCatalog.DCP2,
+                    new: [],
+                    runDate: new Date(),
+                    updated: []
+                }, true)
             }));
 
             const action = new TablePreviousPageAction({
@@ -476,7 +491,12 @@ describe("Table Effects", () => {
                 catalog: new CatalogState({
                     catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
                     defaultCatalog: DCPCatalog.DCP2
-                }, selectedCatalog, true)
+                }, selectedCatalog, { 
+                    catalog: DCPCatalog.DCP2, 
+                    new: [],
+                    runDate: new Date(),
+                    updated: []
+                }, true)
             }));
 
             const action = new FetchSortedTableDataRequestAction(

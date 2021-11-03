@@ -32,6 +32,12 @@ export const selectCatalogs = createSelector(selectCatalogState, state => state.
 export const selectCatalog = createSelector(selectCatalogState, state => state.catalog);
 
 /**
+ * Return the catalog update.
+ */
+export const selectCatalogUpdate = createSelector(selectCatalogState, state => state.catalogUpdate);
+
+
+/**
  * Return the default catalog for the current environment.
  */
 export const selectDefaultCatalog = createSelector(selectCatalogState, state => state.atlas.defaultCatalog);

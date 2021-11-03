@@ -8,23 +8,27 @@
 // App dependencies
 import { Atlas } from "../../atlas/atlas.model";
 import { Catalog } from "../../catalog/catalog.model";
+import { CatalogUpdate } from "../../catalog/catalog-update.model";
 import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
+import { InitCatalogUpdateAction } from "./init-catalog-update.action";
 
 export class CatalogState {
 
     atlas: Atlas;
     catalog: Catalog; // Current selected catalog
+    catalogUpdate: CatalogUpdate;
     init: boolean; // True if catalogs response has been received from Azul, either success or failure. Used to determine if ap init can complete.
 
     /**
      * @param {Atlas} atlas
+     * @param {CatalogUpdate} catalogUpdate
      * @param {Catalog} catalog
      * @param {boolean} init
      */
-    constructor(atlas: Atlas, catalog: Catalog, init: boolean) {
+    constructor(atlas: Atlas, catalog: Catalog, catalogUpdate: CatalogUpdate, init: boolean) {
 
-        Object.assign(this, {atlas, catalog, init});
+        Object.assign(this, {atlas, catalog, catalogUpdate, init});
     }
 
     /**
@@ -35,7 +39,7 @@ export class CatalogState {
      */
     public fetchCatalogsError(action: FetchCatalogsErrorAction): CatalogState {
 
-        return new CatalogState(this.atlas, this.catalog, true);
+        return new CatalogState(this.atlas, this.catalog, this.catalogUpdate, true);
     }
 
     /**
@@ -48,7 +52,19 @@ export class CatalogState {
 
         // Set default catalog as the selected catalog.
         const { atlas } = action;
-        return new CatalogState(Object.assign({}, atlas), atlas.defaultCatalog, true);
+        return new CatalogState(Object.assign({}, atlas), atlas.defaultCatalog, this.catalogUpdate, true);
+    }
+
+    /**
+     * Set the initial state of the catalog updates.
+     * 
+     * @param {InitCatalogUpdateAction} action
+     * @returns {CatalogState}
+     */
+    public initCatalogUpdate(action: InitCatalogUpdateAction): CatalogState {
+
+        const { catalogUpdate } = action;
+        return new CatalogState(this.atlas, this.catalog, catalogUpdate, this.init);
     }
 
     /**
@@ -59,7 +75,7 @@ export class CatalogState {
      */
     public setCatalog(catalog: Catalog): CatalogState {
         
-        return new CatalogState(this.atlas, catalog, this.init);
+        return new CatalogState(this.atlas, catalog, this.catalogUpdate, this.init);
     }
 
     /**
@@ -70,6 +86,11 @@ export class CatalogState {
         return new CatalogState({
             catalogs: [],
             defaultCatalog: ""
-        }, "", false);
+        }, "", {
+            catalog: "",
+            runDate: null,
+            new: [],
+            updated: []
+        },false);
     }
 }
