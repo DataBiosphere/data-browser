@@ -11,6 +11,7 @@ import { Store } from "@ngrx/store";
 
 // App dependencies
 import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { ConfigService } from "../../config/config.service";
 import { FileLocation } from "../file-location/file-location.model";
 import { FileLocationRequestEvent } from "../file-location/file-location-request.event";
 import { AppState } from "../../_ngrx/app.state";
@@ -46,9 +47,10 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     @Output() projectMatrixArchivePreviewRequested = new EventEmitter<ArchivePreviewRequestEvent>();
 
     /**
+     * @param {ConfigService} configService
      * @param {Store<AppState>} store
      */
-    constructor(private store: Store<AppState>) {}
+    constructor(private configService: ConfigService, private store: Store<AppState>) {}
 
     /**
      * Return the archive preview for the given matrix view.
@@ -129,6 +131,11 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @param {ProjectMatrixView} projectMatrixView 
      */
     public isArchivePreviewAvailable(projectMatrixView: ProjectMatrixView): boolean {
+        
+        // Archive preview is currently only available in dev
+        if ( !this.configService.isEnvCGLDev() ) {
+            return false;
+        }
 
         return this.ARCHIVE_FILE_TYPE_REGEX.test(projectMatrixView.fileName);
     }
