@@ -7,22 +7,28 @@
 
 // App dependencies
 import { ClearProjectManifestFileLocationAction } from "./clear-project-manifest-file-location.action";
+import { ClearProjectMatrixArchivePreviewAction } from "./clear-project-matrix-archive-preview.action";
 import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
 import { FetchProjectManifestFileLocationRequestAction } from "./fetch-project-manifest-file-location-request.action";
 import { FetchProjectManifestFileLocationSuccessAction } from "./fetch-project-manifest-file-location-success.action";
+import { FetchProjectMatrixArchivePreviewRequestAction } from "./fetch-project-matrix-archive-preview-request.action";
+import { FetchProjectMatrixArchivePreviewSuccessAction } from "./fetch-project-matrix-archive-preview-success.action";
 import { FetchProjectMatrixFileLocationRequestAction } from "./fetch-project-matrix-file-location-request.action";
 import { FetchProjectMatrixFileLocationSuccessAction } from "./fetch-project-matrix-file-location-success.action";
 import { FileLocation } from "../../file-location/file-location.model";
 import { FileLocationStatus } from "../../file-location/file-location-status.model";
 import { Project } from "./project.model";
+import { ArchivePreview } from "../../project-matrix/archive-preview.model";
 
 const DEFAULT_PROJECT = {
+    matrixArchivePreviewsByProjectId: new Map<string, Map<string, ArchivePreview>>(),
     matrixFileLocationsByProjectId: new Map<string, Map<string, FileLocation>>(),
     manifestFileLocationsByProjectId: new Map<string, FileLocation>()
 };
 
 export class ProjectState implements Project {
 
+    matrixArchivePreviewsByProjectId: Map<string, Map<string, ArchivePreview>>; // Archive preview keyed by project then matrix UUID
     matrixFileLocationsByProjectId: Map<string, Map<string, FileLocation>>; // File locations keyed by project then file URL
     manifestFileLocationsByProjectId: Map<string, FileLocation>;
 
@@ -46,6 +52,7 @@ export class ProjectState implements Project {
         updatedResponsesByProjectId.delete(action.projectId);
 
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedResponsesByProjectId
         });
@@ -64,7 +71,27 @@ export class ProjectState implements Project {
         updatedLocationsByProjectId.delete(action.projectId);
         
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
+        });
+    }
+
+    /**
+     * Clear stored project matrix archives.
+     *
+     * @param {ClearProjectMatrixArchivePreviewAction} action
+     * @returns {ProjectState}
+     */
+    public clearProjectMatrixArchivePreviews(action: ClearProjectMatrixArchivePreviewAction): ProjectState {
+
+        const updatedArchivesByProjectId =
+            new Map(this.matrixArchivePreviewsByProjectId);
+        updatedArchivesByProjectId.delete(action.projectId);
+
+        return new ProjectState({
+            matrixArchivePreviewsByProjectId: updatedArchivesByProjectId,
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });
     }
@@ -86,6 +113,7 @@ export class ProjectState implements Project {
         });
 
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedLocationsByProjectId
         });
@@ -103,11 +131,77 @@ export class ProjectState implements Project {
             new Map(this.manifestFileLocationsByProjectId).set(action.projectId, action.fileLocation);
 
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedResponsesByProjectId
         });
     }
 
+    /**
+     * Create project archive in state for the specified project matrix.
+     *
+     * @param {FetchProjectMatrixArchivePreviewRequestAction} action
+     * @returns {ProjectState}
+     */
+    public fetchProjectMatrixArchivePreviewRequest(action: FetchProjectMatrixArchivePreviewRequestAction): ProjectState {
+
+        const { matrixId, project } = action;
+        const { entryId: projectId } = project;
+
+        // Noop if project matrix archive preview has already been requested for this project.
+        if ( this.matrixArchivePreviewsByProjectId.has(projectId) &&
+            this.matrixArchivePreviewsByProjectId.get(projectId).has(matrixId) ) {
+            return this;
+        }
+
+        const updatedArchivesByProjectId =
+            new Map(this.matrixArchivePreviewsByProjectId);
+
+        if ( !updatedArchivesByProjectId.has(projectId) ) {
+            updatedArchivesByProjectId.set(projectId, new Map<string, ArchivePreview>());
+        }
+        const archivesByMatrixId = updatedArchivesByProjectId.get(projectId);
+        archivesByMatrixId.set(matrixId, {
+            loading: true
+        });
+
+        return new ProjectState({
+            matrixArchivePreviewsByProjectId: updatedArchivesByProjectId,
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
+        });
+    }
+
+    /**
+     * Update project matrix archive in state.
+     *
+     * @param {FetchProjectMatrixArchivePreviewSuccessAction} action
+     * @returns {ProjectState}
+     */
+    public fetchProjectMatrixArchivePreviewSuccess(action: FetchProjectMatrixArchivePreviewSuccessAction): ProjectState {
+
+        const { archiveFiles, matrixId, projectId } = action;
+
+        const updatedArchivesByProjectId =
+            new Map(this.matrixArchivePreviewsByProjectId);
+
+
+        if ( !updatedArchivesByProjectId.has(projectId) ) {
+            updatedArchivesByProjectId.set(projectId, new Map<string, ArchivePreview>());
+        }
+        const archivesByMatrixId = updatedArchivesByProjectId.get(projectId);
+        archivesByMatrixId.set(matrixId, {
+            archiveFiles,
+            loading: false
+        });
+
+        return new ProjectState({
+            matrixArchivePreviewsByProjectId: updatedArchivesByProjectId,
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
+            manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
+        });
+    }
+    
     /**
      * Create default project matrix file location in state for the specified file location request, if a request
      * hasn't already been created for the selected file.
@@ -132,6 +226,7 @@ export class ProjectState implements Project {
         });
 
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
             manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });
@@ -158,6 +253,7 @@ export class ProjectState implements Project {
         fileLocationsByFileUrl.set(fileUrl, fileLocation);
 
         return new ProjectState({
+            matrixArchivePreviewsByProjectId: this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
             manifestFileLocationsByProjectId: this.manifestFileLocationsByProjectId
         });

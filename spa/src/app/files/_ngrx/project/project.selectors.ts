@@ -17,6 +17,13 @@ import { ProjectState } from "./project.state";
 export const selectProject = createFeatureSelector<ProjectState>("project");
 
 /**
+ * Returns map of archive previews keyed by matrix ID, if any, for the specified project.
+ */
+export const selectProjectMatrixArchivePreviewsByProjectId =
+    createSelector(selectProject, (state, props) =>
+        state.matrixArchivePreviewsByProjectId.get(props.projectId) || new Map());
+
+/**
  * Returns a map of file locations keyed by file URL, if any, for the specified project.
  */
 export const selectProjectMatrixFileLocationsByProjectId =

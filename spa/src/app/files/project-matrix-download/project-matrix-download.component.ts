@@ -14,8 +14,11 @@ import { ConfigService } from "../../config/config.service";
 import { FileLocation } from "../file-location/file-location.model";
 import { FileLocationRequestEvent } from "../file-location/file-location-request.event";
 import { AppState } from "../../_ngrx/app.state";
-import { FetchProjectMatrixFileLocationRequestAction } from "../_ngrx/project/fetch-project-matrix-file-location-request.action";
+import { FetchProjectMatrixArchivePreviewRequestAction } from "../_ngrx/project/fetch-project-matrix-archive-preview-request.action";
 import { ClearProjectMatrixFileLocationsAction } from "../_ngrx/project/clear-project-matrix-file-locations.action";
+import { FetchProjectMatrixFileLocationRequestAction } from "../_ngrx/project/fetch-project-matrix-file-location-request.action";
+import { ArchivePreview } from "../project-matrix/archive-preview.model";
+import { ArchivePreviewRequestEvent } from "../project-matrix/archive-preview-request.event";
 import { ProjectMatrixType } from "../project-matrix/project-matrix-type.model";
 import { Project } from "../shared/project.model";
 
@@ -31,6 +34,7 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
     public projectMatrixType = ProjectMatrixType; // Allow access to enum values in template 
 
     // Inputs
+    @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation>;
     @Input() project: Project;
 
@@ -54,6 +58,24 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
     public isSurveyVisible(): boolean {
         
         return this.configService.isAtlasHCA();
+    }
+
+    /**
+     * Track request of archive matrix archive preview.
+     *
+     * @param {ArchivePreviewRequestEvent} archivePreviewRequest
+     * @param {ProjectMatrixType} projectMatrixType
+     */
+    public onProjectMatrixArchivePreviewRequested(
+        archivePreviewRequest: ArchivePreviewRequestEvent, projectMatrixType: ProjectMatrixType) {
+
+        const action =
+            new FetchProjectMatrixArchivePreviewRequestAction(
+                this.project,
+                archivePreviewRequest.matrixId,
+                archivePreviewRequest.matrixVersion,
+                projectMatrixType);
+        this.store.dispatch(action);
     }
 
     /**

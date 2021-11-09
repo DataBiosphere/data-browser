@@ -6,6 +6,7 @@
     <ng-container content *ngIf="state.loaded">
         <project-matrix-download class="project-matrix-download-modal-view" 
                                  [project]="state.project"
+                                 [projectMatrixArchivePreviewsByMatrixId]="state.projectMatrixArchivePreviewsByMatrixId"
                                  [projectMatrixFileLocationsByFileUrl]="state.projectMatrixFileLocationsByFileUrl"></project-matrix-download>
     </ng-container>
 </modal-layout>

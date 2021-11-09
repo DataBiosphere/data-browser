@@ -7,24 +7,34 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
+import { DatePipe } from "@angular/common";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
 // App dependencies
 import { Catalog } from "../catalog/catalog.model";
 import { ConfigService } from "../../config/config.service";
+import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
+import { ManifestDownloadFormat } from "../file-manifest/manifest-download-format.model";
 import { HttpService } from "../http/http.service";
 import { ProjectMapper } from "./project-mapper";
+import { ArchiveFile } from "../project-matrix/archive-file.model";
+import { ArchivePreviewResponse } from "../project-matrix/archive-preview-response.model";
 import { SearchEntity } from "../search/search-entity.model";
-import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
-import { ICGCQuery } from "../shared/icgc-query";
-import { ManifestDownloadFormat } from "../file-manifest/manifest-download-format.model";
-import { Project } from "../shared/project.model";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
+import { ICGCQuery } from "../shared/icgc-query";
+import { Project } from "../shared/project.model";
 
 @Injectable()
 export class ProjectService {
+
+    // Constants
+    private DATE_FORMAT = "yyyy-MM-dd HH:mm 'GMT'";
+    private DATE_TZ = "GMT";
+
+    // Locals
+    private datePipe = new DatePipe("en-US");
 
     /**
      * @param {ConfigService} configService
@@ -77,6 +87,49 @@ export class ProjectService {
                 return this.bindProject(response, projectOverrides);
             })
         );
+    }
+
+    /**
+     * Fetch the archive preview for the given project and matrix.
+     *
+     * @param {string} matrixId
+     * @param {string} matrixVersion
+     * @returns {Observable<ArchiveFile[]>>}
+     */
+    public fetchProjectMatrixArchiveFiles(matrixId: string, matrixVersion: string): Observable<ArchiveFile[]> {
+
+        const url = this.configService.getProjectMatrixArchivePreviewUrl(matrixId, matrixVersion);
+        return this.httpClient.get<ArchivePreviewResponse>(url).pipe(
+            // Map errors to empty archive preview
+            catchError(_ => {
+                return of({
+                    files: []
+                });
+            }),
+            map((response) => {
+                return this.bindArchiveFiles(response);
+            })
+        );
+    }
+
+    /**
+     * Bind the archive preview response to a set of archive file view objects.
+     * 
+     * @param {ArchivePreviewResponse} response
+     * @returns {ArchiveFile[]}
+     */
+    private bindArchiveFiles(response: ArchivePreviewResponse): ArchiveFile[] {
+
+        return response.files.map(archiveFile => {
+            const { name: fileName, modified, size } = archiveFile;
+            const modifiedFormatted =
+                this.datePipe.transform(new Date(modified), this.DATE_FORMAT, this.DATE_TZ);
+            return {
+                fileName,
+                modified : modifiedFormatted,
+                size
+            };
+        });
     }
 
     /**

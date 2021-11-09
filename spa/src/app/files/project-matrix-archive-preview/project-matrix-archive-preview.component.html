@@ -1,0 +1,25 @@
+<ng-container [ngSwitch]="archivePreview.loading">
+    <mat-spinner *ngSwitchCase="true" class="archive-preview-loading" diameter="14"></mat-spinner>
+    <ng-container *ngSwitchDefault>
+        <ng-container [ngSwitch]="archivePreview.archiveFiles.length === 0">
+            <div *ngSwitchCase="true">
+                <span class="archive-preview-none fontsize-xxs">Preview not available.</span>
+            </div>
+            <ng-container *ngSwitchDefault>
+                <div class="matrix-archive-preview-row">
+                    <div class="archive-file-cell archive-file-cell-actions fontsize-xxs bold"></div>
+                    <div class="archive-file-cell archive-file-cell-fileName fontsize-xxs bold">File Name</div>
+                    <div class="archive-file-cell archive-file-cell-size fontsize-xxs bold">File Size</div>
+                    <div class="archive-file-cell archive-file-cell-modified fontsize-xxs bold">Modified</div>
+                </div>
+                <div class="matrix-archive-preview-row" *ngFor="let archiveFile of archivePreview.archiveFiles">
+                    <div class="archive-file-cell archive-file-cell-actions fontsize-xxs"></div>
+                    <div class="archive-file-cell archive-file-cell-fileName fontsize-xxs">{{archiveFile.fileName}}</div>
+                    <div class="archive-file-cell archive-file-cell-size fontsize-xxs">{{archiveFile.size | fileSize}}</div>
+                    <div class="archive-file-cell archive-file-cell-modified fontsize-xxs">{{archiveFile.modified}}</div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+    </ng-container>
+</ng-container>

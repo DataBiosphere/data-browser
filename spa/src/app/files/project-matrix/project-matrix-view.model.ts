@@ -12,7 +12,9 @@ export interface ProjectMatrixView {
     analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     contentDescription: string[];
     fileName: string;
+    id: string; // Matrix uuid
     size: number;
     url: string;
+    version: string;
     [key: string]: any // Allow additional meta eg library construction approach, species
 }

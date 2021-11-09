@@ -12,4 +12,5 @@ export interface MatrixResponseFile {
     size: number;
     url: string;
     uuid: string;
+    version: string;
 }

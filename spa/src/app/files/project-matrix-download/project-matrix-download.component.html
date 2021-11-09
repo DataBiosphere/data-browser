@@ -26,8 +26,11 @@
         <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
+                          [project]="project"
+                          [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
                           [projectMatrixViews]="project.matrices"
+                          (projectMatrixArchivePreviewRequested)="onProjectMatrixArchivePreviewRequested($event, projectMatrixType.DCP)"
                           (projectMatrixFileLocationRequested)="onProjectMatrixFileLocationRequested($event, projectMatrixType.DCP)"></project-matrix-table>
 </ng-container>
 <h2 class="fontsize-xl">
@@ -43,9 +46,11 @@
         <p class="fontsize-s">There are currently no contributor files for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
-                          class="project-matrix-table-contributor-generated"
+                          [project]="project"
+                          [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
                           [projectMatrixViews]="project.contributorMatrices"
+                          (projectMatrixArchivePreviewRequested)="onProjectMatrixArchivePreviewRequested($event, projectMatrixType.CGM)"
                           (projectMatrixFileLocationRequested)="onProjectMatrixFileLocationRequested($event, projectMatrixType.CGM)"></project-matrix-table>
 </ng-container>
 <section-bar [position]="'top'">

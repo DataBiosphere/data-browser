@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -14,30 +14,52 @@ import { FileFacetName } from "../facet/file-facet/file-facet-name.model";
 import { FileLocation } from "../file-location/file-location.model";
 import { FileLocationRequestEvent } from "../file-location/file-location-request.event";
 import { AppState } from "../../_ngrx/app.state";
+import { ClearProjectMatrixArchivePreviewAction } from "../_ngrx/project/clear-project-matrix-archive-preview.action";
+import { ArchivePreview } from "../project-matrix/archive-preview.model";
+import { ArchivePreviewRequestEvent } from "../project-matrix/archive-preview-request.event";
 import { ProjectMatrixTableView } from "./project-matrix-table-view.model";
 import { ProjectMatrixView } from "../project-matrix/project-matrix-view.model";
 import { GenusSpecies } from "../shared/genus-species.model";
+import { Project } from "../shared/project.model";
 
 @Component({
     selector: "project-matrix-table",
     templateUrl: "./project-matrix-table.component.html",
     styleUrls: ["./project-matrix-table.component.scss"]
 })
-export class ProjectMatrixTableComponent {
+export class ProjectMatrixTableComponent implements OnDestroy {
+    
+    // Locals
+    private ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 
     // Template variables 
     public columnsToDisplay = 
         ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
+    public expandedProjectMatrixView: ProjectMatrixView | undefined | null;
 
     // Inputs/Outputs
+    @Input() project: Project;
+    @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
     @Input() projectMatrixViews: ProjectMatrixView[];
     @Output() projectMatrixFileLocationRequested = new EventEmitter<FileLocationRequestEvent>();
+    @Output() projectMatrixArchivePreviewRequested = new EventEmitter<ArchivePreviewRequestEvent>();
 
     /**
      * @param {Store<AppState>} store
      */
     constructor(private store: Store<AppState>) {}
+
+    /**
+     * Return the archive preview for the given matrix view.
+     * 
+     * @param {ProjectMatrixView} projectMatrixView
+     * @returns {ArchivePreview}
+     */
+    getArchivePreview(projectMatrixView: ProjectMatrixView): ArchivePreview {
+        
+        return this.projectMatrixArchivePreviewsByMatrixId.get(projectMatrixView.id);
+    }
 
     /**
      * Return the file location for the specified file, or return a not started status if not yet requested file
@@ -82,7 +104,6 @@ export class ProjectMatrixTableComponent {
                 });
             }
             accum.get(speciesKey).projectMatrixViews.push(projectMatrixView);
-
             return accum;
         }, new Map<string, ProjectMatrixTableView>());
 
@@ -101,6 +122,16 @@ export class ProjectMatrixTableComponent {
 
         return contentDescription.join(", ");
     }
+    
+    /**
+     * Returns true if an specified matrix view is an archive.
+     * 
+     * @param {ProjectMatrixView} projectMatrixView 
+     */
+    public isArchivePreviewAvailable(projectMatrixView: ProjectMatrixView): boolean {
+
+        return this.ARCHIVE_FILE_TYPE_REGEX.test(projectMatrixView.fileName);
+    }
 
     /**
      * Initiate request for file location of specified file.
@@ -111,7 +142,7 @@ export class ProjectMatrixTableComponent {
 
         this.projectMatrixFileLocationRequested.emit(fileLocationRequestEvent);
     }
-
+    
     /**
      * Sort matrix view groups first by species cardinality, then by species alpha.
      */
@@ -131,6 +162,24 @@ export class ProjectMatrixTableComponent {
 
             return 0;
         });
+    }
+
+    /**
+     * Toggle selected project matrix view to display archives. If view is already expanded, collapse it. If view
+     * is not expanded, dispatch action to request archive preview and expand row.
+     * 
+     * @param {ProjectMatrixView} projectMatrixView
+     */
+    public onArchivePreviewRequested(projectMatrixView: ProjectMatrixView) {
+
+        if ( this.expandedProjectMatrixView === projectMatrixView ) {
+            this.expandedProjectMatrixView = null;
+        }
+        else {
+            const event = new ArchivePreviewRequestEvent(projectMatrixView.id, projectMatrixView.version);
+            this.projectMatrixArchivePreviewRequested.emit(event);
+            this.expandedProjectMatrixView = projectMatrixView;
+        }
     }
 
     /**
@@ -155,5 +204,12 @@ export class ProjectMatrixTableComponent {
     public trackProjectMatrixTableView(index: number, projectMatrixTableView: ProjectMatrixTableView): string {
 
         return projectMatrixTableView.species.join("");
+    }
+
+    /**
+     * Clear archive preview state on destroy.
+     */
+    public ngOnDestroy() {
+        this.store.dispatch(new ClearProjectMatrixArchivePreviewAction(this.project.entryId));
     }
 }

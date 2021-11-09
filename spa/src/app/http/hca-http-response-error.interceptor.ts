@@ -20,6 +20,7 @@ import { EMPTY, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // App dependencies
+import { APIEndpoints } from "../config/api-endpoints.model";
 import { ConfigService } from "../config/config.service";
 import { AppState } from "../_ngrx/app.state";
 import { ErrorResponseAction } from "./_ngrx/http-error-response.actions";
@@ -80,6 +81,7 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     private isNoRedirectOnError(req: HttpRequest<any>, error: HttpErrorResponse): boolean {
 
         return this.isHEADRequest(req) ||
+            this.isMatrixArchivePreviewError(error) ||
             this.isNoRedirectPath(req, error) ||
             this.isHealthCheckError(error) ||
             this.isTerraRegistrationStatusCheck(error) ||
@@ -120,6 +122,17 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
     private isHEADRequest(req: HttpRequest<any>): boolean {
         
         return req.method === "HEAD";
+    }
+
+    /**
+     * Returns true if the request URL is for a matrix archive preview. If so, allow component to display "none" message.
+     *
+     * @param {HttpErrorResponse} error
+     * @returns {boolean}
+     */
+    private isMatrixArchivePreviewError(error: HttpErrorResponse): boolean {
+
+        return new URL(error.url).pathname.indexOf(APIEndpoints.PROJECT_MATRIX_ARCHIVE_PREVIEW) >= 0;
     }
 
     /**

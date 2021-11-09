@@ -1,6 +1,7 @@
+<link rel="stylesheet" href="project-matrix-table.component.scss">
 <div *ngFor="let tableView of groupProjectMatrixViewsBySpecies(projectMatrixViews); trackBy: trackProjectMatrixTableView">
     <h3 class="fontsize-l">{{getSpeciesDisplayText(tableView.species)}}</h3>
-    <mat-table [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews">
+    <mat-table [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews" multiTemplateDataRows>
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
@@ -8,17 +9,23 @@
                                         [fileName]="element.fileName"
                                         [fileUrl]="element.url"
                                         (fileLocationRequested)="onFileLocationRequested($event)"></file-location-download>
-                <file-location-copy [fileLocation]="getFileLocationByFileUrl(element.url)" 
-                                                 [fileName]="element.fileName" [fileUrl]="element.url" 
-                                                 (fileLocationRequested)="onFileLocationRequested($event)"></file-location-copy>
+                <file-location-copy [fileLocation]="getFileLocationByFileUrl(element.url)"
+                                    [fileName]="element.fileName" [fileUrl]="element.url"
+                                    (fileLocationRequested)="onFileLocationRequested($event)"></file-location-copy>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="fileName">
-            <mat-header-cell *matHeaderCellDef class="column-file-name">
+            <mat-header-cell *matHeaderCellDef>
                 <span class="fontsize-xxs bold">File Name</span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="fontsize-xxs column-file-name">
+            <mat-cell *matCellDef="let element" class="fontsize-xxs">
                 <span>{{element.fileName}}</span>
+                <ng-container *ngIf="isArchivePreviewAvailable(element)">
+                    <mat-icon class="column-fileName-preview" (click)="onArchivePreviewRequested(element)">
+                        <ng-container *ngIf="expandedProjectMatrixView !== element">keyboard_arrow_down</ng-container>
+                        <ng-container *ngIf="expandedProjectMatrixView === element">keyboard_arrow_up</ng-container>
+                    </mat-icon>
+                </ng-container>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="contentDescription">
@@ -62,15 +69,17 @@
                         *ngIf="!last">,</ng-container></span>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="analysisPortals">
-            <mat-header-cell *matHeaderCellDef><span class="fontsize-xxs bold">Analysis Portals</span></mat-header-cell>
-            <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                <project-analysis-portals [analysisPortals]="element.analysisPortals">
-                    <img src="assets/images/icon/no-result.png" noHits/>
-                </project-analysis-portals>
+        <!-- expanded matrix view archive start -->
+        <ng-container matColumnDef="archive">
+            <mat-cell *matCellDef="let element">
+                <div class="matrix-archive-preview-cell" *ngIf="expandedProjectMatrixView === element">
+                    <project-matrix-archive-preview [archivePreview]="getArchivePreview(element)"></project-matrix-archive-preview>
+                </div>
             </mat-cell>
         </ng-container>
+        <!-- expanded matrix view archive end -->
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+        <mat-row *matRowDef="let element; columns: columnsToDisplay;"></mat-row>
+        <mat-row *matRowDef="let element; columns: ['archive'];" class="matrix-archive-preview-row"></mat-row>
     </mat-table>
 </div>

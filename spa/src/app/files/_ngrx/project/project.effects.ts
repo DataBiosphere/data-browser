@@ -15,10 +15,13 @@ import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap,
 // App dependencies
 import { TrackingAction } from "../analytics/tracking.action";
 import { selectCatalog } from "../catalog/catalog.selectors";
+import { ClearProjectMatrixArchivePreviewAction } from "./clear-project-matrix-archive-preview.action";
 import { ClearProjectMatrixFileLocationsAction } from "./clear-project-matrix-file-locations.action";
 import { CopyToClipboardProjectBulkDownloadAction } from "./copy-to-clipboard-project-bulk-download.action";
 import { CopyToClipboardProjectTerraUrlAction } from "./copy-to-clipboard-project-terra-url.action";
 import { ExportProjectToTerraRequestAction } from "./export-project-to-terra-request.action";
+import { FetchProjectMatrixArchivePreviewRequestAction } from "./fetch-project-matrix-archive-preview-request.action";
+import { FetchProjectMatrixArchivePreviewSuccessAction } from "./fetch-project-matrix-archive-preview-success.action";
 import { FetchProjectManifestFileLocationRequestAction } from "./fetch-project-manifest-file-location-request.action";
 import { FetchProjectManifestFileLocationSuccessAction } from "./fetch-project-manifest-file-location-success.action";
 import { FetchProjectMatrixFileLocationRequestAction } from "./fetch-project-matrix-file-location-request.action";
@@ -126,7 +129,44 @@ export class ProjectEffects {
                 const {project} = action as FetchProjectManifestFileLocationRequestAction;
                 return new FetchProjectManifestFileLocationSuccessAction(project.entryId, fileLocation);
             })
-        );    
+        );
+
+    /**
+     * Trigger fetch of project matrix archive preview.
+     */
+    @Effect()
+    fetchProjectMatrixArchivePreview: Observable<Action> = this.actions$
+        .pipe(
+            ofType(FetchProjectMatrixArchivePreviewRequestAction.ACTION_TYPE),
+            // Prevent dupe hits to fetch preview if same matrix ID. Reset distinct check on clear of archive preview.
+            distinct((action: FetchProjectMatrixArchivePreviewRequestAction) => action.matrixId,
+                this.actions$.pipe(ofType(ClearProjectMatrixArchivePreviewAction.ACTION_TYPE))
+            ),
+            concatMap(action => of(action).pipe(
+                withLatestFrom(
+                    this.store.pipe(select(selectCatalog), take(1))
+                )
+            )),
+            mergeMap(([action, catalog]) => {
+
+                // Track request
+                this.gtmService.trackEvent((action as FetchProjectMatrixArchivePreviewRequestAction).asEvent({
+                    catalog
+                }));
+
+                // Kick off request for archive preview
+                const { matrixId, matrixVersion } = action as FetchProjectMatrixArchivePreviewRequestAction;
+                const archiveFiles$ = this.projectService.fetchProjectMatrixArchiveFiles(matrixId, matrixVersion);
+                return archiveFiles$.pipe(
+                    withLatestFrom(of(action))
+                );
+            }),
+            map(([archiveFiles, action]) => {
+
+                const {matrixId, project} = action as FetchProjectMatrixArchivePreviewRequestAction;
+                return new FetchProjectMatrixArchivePreviewSuccessAction(project.entryId, matrixId, archiveFiles);
+            })
+        );
 
     /**
      * Trigger fetch of project matrix file location.

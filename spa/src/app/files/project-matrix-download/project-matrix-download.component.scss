@@ -40,14 +40,11 @@ no-hits p.fontsize-s {
     }
 }
 
-@media (min-width: 857px) {
+/** Matrix download displayed on project detail - always display at full width to max of 1200 **/
+:host.project-matrices {
 
-    /** Matrix download displayed on project detail **/
-    :host.project-matrices {
-
-        project-matrix-table {
-            min-width: unset;
-            max-width: 1200px; /* Snap table - matches 600 + 600 of LHS and RHS of project detail */
-        }
+    project-matrix-table {
+        min-width: unset;
+        max-width: 1200px; /* Snap table - matches 600 + 600 of LHS and RHS of project detail */
     }
 }

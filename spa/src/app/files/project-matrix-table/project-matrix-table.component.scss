@@ -13,23 +13,29 @@
     overflow: auto;
 }
 
+/** Border bottom of table rows */
+@mixin rowBorder {
+    border-bottom: 1px solid $hca-gray-lightest;
+}
+
 /* Table */
 mat-table {
 
-    min-width: 360px; /* Set min width for overflow/scroll */
+    min-width: 600px; /* Set min width for overflow/scroll */
     max-width: 1440px !important; /* Snap width at large window width, override (!important) host context specific
                                              max-widths set on smaller breakpoints */
     
     mat-header-row {
+        align-items: flex-start;
         border-bottom: 1px solid $hca-gray-light;
         display: flex; /* 1024+ is in table format - display header row */
         min-height: 42px;
     }
 
-    /* Cell row */
+    /* Cell row, matches archive preview row in child component */
     mat-row {
         align-items: center;
-        border-bottom: 1px solid $hca-gray-lightest;
+        @include rowBorder();
         flex-direction: row;
         min-height: unset;
         padding: 4px 0;
@@ -60,10 +66,12 @@ mat-table {
         padding: 0 12px;
     }
 
+    /* Remove padding left from actions */
     mat-header-cell:first-child, mat-cell:first-child {
         padding-left: 0;
     }
 
+    /* Remove padding right from last row cell */
     mat-header-cell:last-child, mat-cell:last-child {
         padding-right: 0;
     }
@@ -86,27 +94,8 @@ mat-table {
         flex-direction: column;
     }
 
-    /** File name */
-    .mat-column-fileName:not(mat-header-cell), .mat-cell-fileName {
-        word-break: break-all;
-    }
-
-    /** File size */
-    .mat-column-size {
-        max-width: 92px;
-    }
-
-    /** Columns other than file size */
-    .mat-column-contentDescription, .mat-cell-contentDescription,
-    .mat-column-size, .mat-cell-size,
-    .mat-column-organ, .mat-cell-organ,
-    .mat-column-libraryConstructionApproach, .mat-cell-libraryConstructionApproach,
-    .mat-column-genusSpecies, .mat-cell-genusSpecies,{
-        flex-shrink: 1; // Shrink organ, library construction approach and species, equally
-    }
-
     /** Actions - snap at 37px */
-    .mat-column-actions, .mat-cell-actions {
+    mat-header-cell.mat-column-actions, mat-cell.mat-column-actions {
         flex-basis: 37px;
         flex-grow: 0;
         flex-shrink: 0;
@@ -114,45 +103,57 @@ mat-table {
         max-width: 37px;
         min-width: 37px;
     }
+
+    /** File name - cells */
+    mat-cell.mat-column-fileName {
+        word-break: break-all;
+    }
+
+    /** Preview toggle */
+    .column-fileName-preview {
+        color: $hca-primary;
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 4px;
+    }
+
+    /* Matrix archive row */
+    .mat-row.matrix-archive-preview-row {
+        border: 0;
+        padding: 0;
+    }
     
-    /* Analysis portals - snap at 75px */
-    .mat-column-analyisPortals {
-        flex-basis: 75px;
-        flex-grow: 0;
-        flex-shrink: 0;
-        justify-content: space-between;
-        max-width: 75px;
-        min-width: 75px;
+    /* Matrix archive cell */
+    .mat-cell.mat-column-archive {
+        margin: 0;
     }
 
-    /* None icon - matches analysis portal link logos in ProjectMatrixAnalysisPortalComponent. */
-    img {
-        height: 16px;
-        padding:8px;
-        width: 16px;
-    }
-}
-
-/** Parent-driven style configuration of table */
-:host.project-matrix-table-contributor-generated {
-
-    mat-table {
-
-        mat-header-cell, mat-cell {
-            min-width: unset; /* Prevent scroll on table */
-        }
+    /* Matrix archive preview cell - stretch entire width (full colspan) of table cell */
+    .matrix-archive-preview-cell {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
     }
 }
 
 /**
- * Custom breakpoint - allow for larger cells
+ * Small +
  */
-@media (min-width: 843px) {
-
+@media (min-width: $md-sm-min) {
+    
     mat-table {
+        
+        /* Header cell and cell other than actions, file name and preview */
+        mat-header-cell:not(.mat-column-fileName, .mat-column-actions), mat-cell:not(.mat-column-fileName, .mat-column-archive, .mat-column-actions) {
+            flex-basis: 160px;
+            flex-shrink: 1;
+            max-width: 160px;
+        }
 
+        /** File name header cell and cell */
         mat-header-cell.mat-column-fileName, mat-cell.mat-column-fileName {
-            flex-grow: 1.5; /* Assign more free space to file name than to other cells */
+            flex-basis: 230px;
+            flex-grow: 1;
         }
     }
 }
