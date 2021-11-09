@@ -1,0 +1,89 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for project matrix archive preview component.
+ */
+
+@import "../../site/theme/hca.vars";
+
+/** Border bottom of table rows */
+@mixin rowBorder {
+    border-bottom: 1px solid $hca-gray-lightest;
+}
+
+:host {
+    background-color: $hca-off-white;
+    overflow: scroll;
+    max-height: 295px;
+    min-height: 18px; /* Height if preview not available: 70px minus padding top and bottom */
+    padding: 24px 0 28px;
+}
+
+/* Loading spinner, "no results" */
+.archive-preview-loading, .archive-preview-none {
+    margin-left: 61px; /* Align with file name column */
+}
+
+/* Archive preview row, matches mat-row in parent component */
+.matrix-archive-preview-row {
+    align-items: center;
+    display: flex;
+    @include rowBorder();
+    flex-direction: row;
+    min-height: unset;
+    padding: 4px 0;
+
+    &:first-of-type {
+        border-top: none;
+    }
+}
+
+.matrix-archive-preview-row:last-of-type {
+    border-bottom: none !important;
+}
+
+.archive-file-cell {
+    color: $hca-black;
+    display: flex;
+    flex: 1;
+    overflow: visible;
+    padding: 0 12px;
+}
+
+.archive-file-cell:first-child {
+    padding-left: 0;
+}
+
+.archive-file-cell:last-child {
+    padding-right: 0;
+}
+
+/** Actions, match matrix table - snap at 37px */
+.archive-file-cell-actions {
+    flex-basis: 37px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: space-between;
+    max-width: 37px;
+    min-width: 37px;
+}
+
+/** File name, match matrix table */
+.archive-file-cell-fileName {
+    flex-basis: 300px;
+    max-width: 300px;
+    word-break: break-all;
+}
+
+/** Archive file size, matches content description sizing in parent table */
+.archive-file-cell-size {
+    flex-basis: 120px;
+    max-width: 120px;
+}
+
+/** Archive file size, matches content description sizing in parent table */
+.archive-file-cell-modified  {
+    flex-basis: 324px;
+    max-width: 324px;
+}

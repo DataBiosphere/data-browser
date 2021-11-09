@@ -98,12 +98,12 @@ export class ProjectMapper extends ProjectRowMapper {
         contributorMatrices: ProjectMatrixView[], matrixOverrides: ProjectMatrixView[]) {
 
         const matricesById = contributorMatrices.reduce((accum, matrix) => {
-            accum.set(matrix.uuid, matrix);
+            accum.set(matrix.id, matrix);
             return accum;
         }, new Map());
         matrixOverrides.forEach(override => {
 
-            const matrix = matricesById.get(override.uuid);
+            const matrix = matricesById.get(override.id);
             if ( matrix ) {
                 matrix.analysisPortals = override.analysisPortals;
             }

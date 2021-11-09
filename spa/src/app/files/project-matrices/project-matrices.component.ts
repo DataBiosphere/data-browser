@@ -15,7 +15,10 @@ import { filter, takeUntil } from "rxjs/operators";
 // App dependencies
 import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
-import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
+import {
+    selectProjectMatrixArchivePreviewsByProjectId,
+    selectProjectMatrixFileLocationsByProjectId
+} from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
 import { ProjectTab } from "../project-detail/project-tab.model";
@@ -98,18 +101,24 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
         const projectMatrixFileLocationsByFileUrl$ = 
             this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
 
+        // List archive previews for the selected project's matrices.
+        const projectMatrixArchivePreviewsByMatrixId$ = 
+            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId, {projectId}));
+
         combineLatest([
             project$,
+            projectMatrixArchivePreviewsByMatrixId$,
             projectMatrixFileLocationsByFileUrl$
         ])
         .pipe(
             takeUntil(this.ngDestroy$),
             filter(([project]) => !!project)
-        ).subscribe(([project, projectMatrixFileLocationsByFileUrl]) => {
+        ).subscribe(([project, projectMatrixArchivePreviewsByMatrixId, projectMatrixFileLocationsByFileUrl]) => {
     
             this.state$.next({
                 loaded: true,
                 project,
+                projectMatrixArchivePreviewsByMatrixId,
                 projectMatrixFileLocationsByFileUrl
             });
 

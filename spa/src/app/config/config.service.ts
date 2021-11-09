@@ -177,6 +177,20 @@ export class ConfigService {
     }
 
     /**
+     * Returns the project matrix archive preview URL for the given project matrix.
+     *
+     * @param {string} matrixId
+     * @param {string} matrixVersion
+     * @returns {string}
+     */
+    public getProjectMatrixArchivePreviewUrl(matrixId: string, matrixVersion: string): string {
+
+        const archivePreviewPath = APIEndpoints.PROJECT_MATRIX_ARCHIVE_PREVIEW;
+        const sanitizedMatrixVersion = matrixVersion.replace(/:/g, "_");
+        return `${this.getBrowserUrl()}${archivePreviewPath}/${matrixId}-${sanitizedMatrixVersion}.json`;
+    }
+
+    /**
      * Returns the project meta URL.
      *
      * @returns {string}

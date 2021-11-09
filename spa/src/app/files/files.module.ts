@@ -114,6 +114,7 @@ import { ProjectIngestInProgressComponent } from "./project-ingest-in-progress/p
 import { ProjectIntegrationsComponent } from "./project-integrations/project-integrations.component";
 import { ProjectMatricesComponent } from "./project-matrices/project-matrices.component";
 import { ProjectMatrixDownloadComponent } from "./project-matrix-download/project-matrix-download.component";
+import { ProjectMatrixArchivePreviewComponent } from "./project-matrix-archive-preview/project-matrix-archive-preview.component";
 import { ProjectMatrixDownloadModalComponent } from "./project-matrix-download-modal/project-matrix-download-modal.component";
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectMatrixTableComponent } from "./project-matrix-table/project-matrix-table.component";
@@ -240,13 +241,14 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectFileTypeCountsComponent,
         ProjectDownloadsAndExportsComponent,
         ProjectGuardComponent,
+        ProjectAnalysisPortalComponent,
         ProjectIngestInProgressComponent,
         ProjectIntegrationsComponent,
         ProjectManifestDownloadComponent,
         ProjectManifestDownloadModalComponent,
         ProjectManifestDownloadModalContainerComponent,
         ProjectMatricesComponent,
-        ProjectAnalysisPortalComponent,
+        ProjectMatrixArchivePreviewComponent,
         ProjectMatrixDownloadComponent,
         ProjectMatrixDownloadModalComponent,
         ProjectMatrixDownloadModalContainerComponent,

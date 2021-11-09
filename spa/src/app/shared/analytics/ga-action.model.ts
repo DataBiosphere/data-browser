@@ -36,6 +36,7 @@ export enum GAAction {
     "VIEW_EXTERNAL_RESOURCES" = "View External Resources", // View project external resources tab
     "VIEW_EXTERNAL_RESOURCE" = "View External Resource", // View an external resource associated with project
     "VIEW_MATRICES" = "View Matrices", // View project matrices tab
+    "VIEW_MATRIX_ARCHIVE_PREVIEW" = "View Matrix Archive Preview",
     "VIEW_METADATA" = "View Metadata", // View project metadata tab
     "VIEW_PROJECT_ACCESSION" = "View Project Accession",
     "VIEW_OVERVIEW" = "View Overview", // View project overview tab

@@ -119,10 +119,12 @@ describe("MatrixMapper", () => {
         const viewModels = [{
             contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
+            id: "1234",
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2, LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url
+            url: MOCK_PROJECT_MATRIX_FILE_0.url,
+            version: "1"
         }];
         rowMapper["sortMatrixViewsMeta"](viewModels);
         expect(viewModels[0].libraryConstructionApproach[0]).toEqual(LibraryConstructionApproach.TENX_V2);
@@ -189,19 +191,23 @@ describe("MatrixMapper", () => {
         const viewModels = [{
             contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
+            id: "1234",
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             genusSpecies: [GenusSpecies.MUS_MUSCULUS],
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url
+            url: MOCK_PROJECT_MATRIX_FILE_0.url,
+            version: "1"
         }, {
             contentDescription: ["Count Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
+            id: "1234",
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node", "large intestine"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             size: MOCK_PROJECT_MATRIX_FILE_1.size,
-            url: MOCK_PROJECT_MATRIX_FILE_1.url
+            url: MOCK_PROJECT_MATRIX_FILE_1.url,
+            version: "1"
         }];
 
         const rowMapper = new ProjectMatrixMapper();
@@ -219,19 +225,23 @@ describe("MatrixMapper", () => {
         const viewModels = [{
             contentDescription: ["Count Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
+            id: "1234",
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url
+            url: MOCK_PROJECT_MATRIX_FILE_0.url,
+            version: "1"
         }, {
             contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
+            id: "1235",
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
             organ: ["large intestine"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             size: MOCK_PROJECT_MATRIX_FILE_1.size,
-            url: MOCK_PROJECT_MATRIX_FILE_1.url
+            url: MOCK_PROJECT_MATRIX_FILE_1.url,
+            version: "1",
         }];
 
         const rowMapper = new ProjectMatrixMapper();
@@ -249,19 +259,23 @@ describe("MatrixMapper", () => {
         const viewModels = [{
             contentDescription: ["Matrix"],
             fileName: MOCK_PROJECT_MATRIX_FILE_0.name,
+            id: "1234",
             libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2],
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url
+            url: MOCK_PROJECT_MATRIX_FILE_0.url,
+            version: "1"
         }, {
             contentDescription: ["Count Matrix"],
+            id: "1235",
             fileName: MOCK_PROJECT_MATRIX_FILE_1.name,
             libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2], // "10x .."
             organ: ["lymph node"],
             genusSpecies: [GenusSpecies.HOMO_SAPIENS],
             size: MOCK_PROJECT_MATRIX_FILE_1.size,
-            url: MOCK_PROJECT_MATRIX_FILE_1.url
+            url: MOCK_PROJECT_MATRIX_FILE_1.url,
+            version: "1"
         }];
 
         const rowMapper = new ProjectMatrixMapper();

@@ -24,7 +24,10 @@ import { AppState } from "../../_ngrx/app.state";
 import { ModalOpenedAction } from "../../modal/_ngrx/modal-opened.action";
 import { ModalClosedAction } from "../../modal/_ngrx/modal-closed.action";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
-import { selectProjectMatrixFileLocationsByProjectId } from "../_ngrx/project/project.selectors";
+import {
+    selectProjectMatrixArchivePreviewsByProjectId,
+    selectProjectMatrixFileLocationsByProjectId
+} from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
 import { ProjectMatrixDownloadModalState } from "./project-matrix-download-modal.state";
@@ -136,6 +139,10 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             takeUntil(this.ngDestroy$)
         );
 
+        // List archive previews for the selected project's matrices.
+        const projectMatrixArchivePreviewsByMatrixId$ =
+            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId, {projectId}));
+
         // Check if there are any errors
         const error$ = this.store.pipe(
             select(selectIsError),
@@ -145,12 +152,13 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
         // Grab the project matrix URLs, if any, for the current set of projects as well as the current project.
         combineLatest([
             selectedProject$,
+            projectMatrixArchivePreviewsByMatrixId$,
             projectMatrixFileLocationsByFileUrl$,
             error$
         ]).pipe(
             takeUntil(this.ngDestroy$),
             filter(([project]) => !!project && project.entryId === projectId)
-        ).subscribe(([project, projectMatrixFileLocationsByFileUrl, error]) => {
+        ).subscribe(([project, projectMatrixArchivePreviewsByMatrixId, projectMatrixFileLocationsByFileUrl, error]) => {
 
             // Don't continue to show modal or project if there's been an error, let error handling occur.
             if ( error ) {
@@ -162,6 +170,7 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
             this.state$.next({
                 loaded: !!project,
                 project,
+                projectMatrixArchivePreviewsByMatrixId,
                 projectMatrixFileLocationsByFileUrl
             });
         });
