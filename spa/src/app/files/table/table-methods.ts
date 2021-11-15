@@ -16,12 +16,21 @@ import {
  * Description is used by column header tooltip */
 let tableColumns: TableColumn[] = [
     {
+        key: "aggregateSubmissionDate",
+        userFriendly: "Submission Date",
+        description: "When project was first submitted to database.",
+        alignment: ColumnAlignment.LEFT,
+        columnMinWidth: 150,
+        columnSort: true,
+        countType: CountType.DOMAIN_COUNT
+    },
+    {
         key: "aggregateUpdateDate",
         userFriendly: "Update Date",
         description: "When project was last updated.",
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 150,
-        columnSort: false,
+        columnSort: true,
         countType: CountType.DOMAIN_COUNT
     },
     {
@@ -251,15 +260,6 @@ let tableColumns: TableColumn[] = [
         alignment: ColumnAlignment.LEFT,
         columnMinWidth: 70,
         columnSort: true,
-        countType: CountType.DOMAIN_COUNT
-    },
-    {
-        key: "submissionDate",
-        userFriendly: "Submission Date",
-        description: "When project was first submitted to database.",
-        alignment: ColumnAlignment.LEFT,
-        columnMinWidth: 150,
-        columnSort: false,
         countType: CountType.DOMAIN_COUNT
     },
     {

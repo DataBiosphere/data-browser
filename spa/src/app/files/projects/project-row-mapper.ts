@@ -48,16 +48,16 @@ export class ProjectRowMapper extends EntityRowMapper {
         
         // Map dates
         const aggregateUpdateDate = this.mapDate(this.projects.aggregateUpdateDate);
-        const submissionDate = this.mapDate(this.projects.submissionDate);
+        const aggregateSubmissionDate = this.mapDate(this.projects.aggregateSubmissionDate);
         
         return Object.assign({}, super.mapRow(), {
+            aggregateSubmissionDate: getUnspecifiedIfNullValue(aggregateSubmissionDate),
             aggregateUpdateDate: getUnspecifiedIfNullValue(aggregateUpdateDate),
             contributorMatrices,
             entryId: this.row.entryId,
             fileTypeCounts,
             matrices,
-            projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname),
-            submissionDate: getUnspecifiedIfNullValue(submissionDate)
+            projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname)
         });
     }
 

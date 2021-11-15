@@ -366,23 +366,23 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="submissionDate">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('submissionDate')"
-                                     [ngStyle]="getColumnStyle('submissionDate')">
+                <ng-container matColumnDef="aggregateSubmissionDate">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('aggregateSubmissionDate')"
+                                     [ngStyle]="getColumnStyle('aggregateSubmissionDate')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'submissionDate'">
-                                {{getColumnDisplayName('submissionDate')}}
+                            <hca-table-column-header-title columnTitle [columnName]="'aggregateSubmissionDate'">
+                                {{getColumnDisplayName('aggregateSubmissionDate')}}
                             </hca-table-column-header-title>
-                            <hca-table-column-header-count columnSubTitle [columnName]="'submissionDate'"
+                            <hca-table-column-header-count columnSubTitle [columnName]="'aggregateSubmissionDate'"
                                                            [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                           [summaryCount]="(selectFileSummary$ | async).submissionDate | countSize"></hca-table-column-header-count>
+                                                           [summaryCount]="(selectFileSummary$ | async).aggregateSubmissionDate | countSize"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('submissionDate')"
-                              [ngStyle]="getColumnStyle('submissionDate')">
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('aggregateSubmissionDate')"
+                              [ngStyle]="getColumnStyle('aggregateSubmissionDate')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
-                                <span class="fontsize-xxs">{{element.submissionDate}}</span>
+                                <span class="fontsize-xxs">{{element.aggregateSubmissionDate}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>
