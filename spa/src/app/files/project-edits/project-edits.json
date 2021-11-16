@@ -398,5 +398,41 @@
                 "url": "https://www.covid19cellatlas.org/voigt19/"
             }
         ]
+    },
+    {
+        "entryId": "f83165c5-e2ea-4d15-a5cf-33f3550bffde",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/fetal_maternal_interface_10x-22.cxg/"
+            }
+        ]
+    },
+    {
+        "entryId": "a9301beb-e9fa-42fe-b75c-84e8a460c733",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/c114c20f-1ef4-49a5-9c2e-d965787fb90c"
+            }
+        ]
+    },
+    {
+        "entryId": "4a95101c-9ffc-4f30-a809-f04518a23803",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/24d42e5e-ce6d-45ff-a66b-a3b3b715deaf"
+            }
+        ]
+    },
+    {
+        "entryId": "9c20a245-f2c0-43ae-82c9-2232ec6b594f",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/af893e86-8e9f-41f1-a474-ef05359b1fb7"
+            }
+        ]
     }
 ]
