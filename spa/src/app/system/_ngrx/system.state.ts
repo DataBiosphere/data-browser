@@ -25,7 +25,7 @@ export class SystemState {
 
         return this;
     }
-    
+
     /**
      * Health check response has been returned from the backend - update state.
      *
@@ -34,9 +34,13 @@ export class SystemState {
      */
     public onSystemStatusReceived(action: SystemStatusSuccessAction): SystemState {
 
-        return new SystemState({ok: action.ok, indexing: action.indexing});
+        const { indexing, ok } = action;
+        return new SystemState({
+            indexing,
+            loading: false,
+            ok});
     }
-    
+
     /**
      * Default status is overall status is OK and indexing is false.
      *
@@ -45,8 +49,9 @@ export class SystemState {
     public static getDefaultState() {
     
         return new SystemState({
-            ok: true,
-            indexing: false
+            indexing: false,
+            loading: false,
+            ok: true
         });
     }
 }

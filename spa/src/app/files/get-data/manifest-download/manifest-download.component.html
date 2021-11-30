@@ -14,10 +14,9 @@
                     <file-type-summary-form [selectedSearchTermNames]="state.selectedSearchTermNames"
                                             [fileTypeSummaries]="state.fileTypeSummaries"
                                             (facetTermSelected)="onFacetTermSelected($event)"></file-type-summary-form>
-                    <button class="button primary"
-                            type="button"
-                            (click)="onRequestManifest()"
-                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Prepare Manifest</button>
+                    <download-button
+                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)"
+                            (downloadClicked)="onRequestManifest()">Prepare Manifest</download-button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
             </ng-container>

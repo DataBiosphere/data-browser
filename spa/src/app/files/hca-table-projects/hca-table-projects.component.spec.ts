@@ -55,7 +55,7 @@ import { DEFAULT_PROJECTS_STATE } from "../_ngrx/files.state.mock";
 import { FileSummaryState } from "../_ngrx/file-summary/file-summary.state";
 import { SectionBarComponent } from "../section-bar/section-bar.component";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { DownloadModalButtonComponent } from "../../shared/download-modal-button/download-modal-button.component";
 import { FileDownloadComponent } from "../../shared/file-download/file-download.component";
 import { FILE_SUMMARY } from "../shared/file-summary.mock";
 import { GASource } from "../../shared/analytics/ga-source.model";
@@ -141,7 +141,7 @@ describe("HCATableProjectsComponent", () => {
                 AnalysisProtocolPipelineLinkerComponent,
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
-                DownloadButtonComponent,
+                DownloadModalButtonComponent,
                 FileDownloadComponent,
                 HCAContentEllipsisComponent,
                 HCAContentUnspecifiedDashComponent,

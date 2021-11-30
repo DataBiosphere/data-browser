@@ -38,7 +38,7 @@ import { HCATablePaginationComponent } from "../hca-table-pagination/hca-table-p
 import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.component";
 import { PipeModule } from "../../pipe/pipe.module";
 import { CopyToClipboardComponent } from "../../shared/copy-to-clipboard/copy-to-clipboard.component";
-import { DownloadButtonComponent } from "../../shared/download-button/download-button.component";
+import { DownloadModalButtonComponent } from "../../shared/download-modal-button/download-modal-button.component";
 import { FILE_SUMMARY } from "../shared/file-summary.mock";
 import { HCATooltipComponent } from "../../shared/hca-tooltip/hca-tooltip.component";
 import { ResponsiveService } from "../../shared/responsive/responsive.service";
@@ -96,7 +96,7 @@ describe("HCATableFilesComponent", () => {
                 HCAContentEllipsisComponent,
                 HCAContentUnspecifiedDashComponent,
                 HCAEllipsisTextComponent,
-                DownloadButtonComponent,
+                DownloadModalButtonComponent,
                 FileLocationDownloadComponent,
                 HCATableCellComponent,
                 HCATableColumnHeaderComponent,

@@ -61,6 +61,30 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Navigate to curl download.
+     */
+    public onAnalyzeInTerraClicked(): void {
+
+        this.router.navigate(["/export", "export-to-terra", "select-species"]);
+    }
+
+    /**
+     * Navigate to curl download.
+     */
+    public onRequestCurlCommandClicked(): void {
+        
+        this.router.navigate(["/export", "get-curl-command", "select-species"]);
+    }
+
+    /**
+     * Navigate to file manifest download.
+     */
+    public onRequestFileManifestClicked(): void {
+
+        this.router.navigate(["/export", "download-manifest", "select-species"]);
+    }
+
+    /**
      * Handle click on back button.
      */
     public onTabSelected(selectedEntity): void {

@@ -21,6 +21,7 @@ import { GTMService } from "./analytics/gtm.service";
 import { AnnouncementComponent } from "./announcement/announcement.component";
 import { CopyToClipboardComponent } from "./copy-to-clipboard/copy-to-clipboard.component";
 import { DownloadButtonComponent } from "./download-button/download-button.component";
+import { DownloadModalButtonComponent } from "./download-modal-button/download-modal-button.component";
 import { FileDownloadComponent } from "./file-download/file-download.component";
 import { HCASectionTitleComponent } from "./hca-section-title/hca-section-title.component";
 import { HCATabComponent } from "./hca-tab/hca-tab.component";
@@ -59,6 +60,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         AnnouncementComponent,
         CopyToClipboardComponent,
         DownloadButtonComponent,
+        DownloadModalButtonComponent,
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,
@@ -92,6 +94,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         CommonModule,
         CopyToClipboardComponent,
         DownloadButtonComponent,
+        DownloadModalButtonComponent,
         FileDownloadComponent,
         HCASectionTitleComponent,
         HCATabComponent,

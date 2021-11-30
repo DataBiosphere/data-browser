@@ -68,6 +68,7 @@ import { ProjectTab } from "../../project-detail/project-tab.model";
 import { SearchTerm } from "../../search/search-term.model";
 import EntitySpec from "../../shared/entity-spec";
 import { Project } from "../../shared/project.model";
+import { ClearFileManifestUrlAction } from "../../_ngrx/file-manifest/clear-file-manifest-url.action";
 
 @Component({
     selector: "project-bulk-download",
@@ -371,6 +372,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
 
         // Clear project-specific files facets.
         this.store.dispatch(new ClearFilesFacetsAction());
+
+        // Clear file manifest download request status, if any, from store
+        this.store.dispatch(new ClearFileManifestUrlAction());
 
         // Remove project description meta
         this.projectDetailService.removeProjectMeta();

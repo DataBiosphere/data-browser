@@ -1,1 +1,26 @@
-<div [ngClass]="{'unavailable': !downloadAvailable, 'disabled': disabled}" (click)="onDownloadClicked()"></div>
+<ng-container *ngIf="state$ | async as state">
+    <hca-tooltip *ngIf="state.loaded"
+                 [tooltipClass]="'hca-tooltip narrow'"
+                 [tooltipContent]="'Downloads are disabled while indexing is in progress.'"
+                 [tooltipDisabled]="isTooltipDisabled(state.disabled)"
+                 [tooltipPosition]="'above'">
+        <ng-container [ngSwitch]="icon">
+            <ng-container *ngSwitchCase="true">
+                <ng-container [ngSwitch]="isDisabled(state.disabled)">
+                    <img *ngSwitchCase="true"
+                         class="icon-download icon-download-disabled"
+                         src="assets/images/icon/download-disabled.png">
+                    <img *ngSwitchDefault
+                         class="icon-download"
+                         src="assets/images/icon/download-primary.png"
+                         (click)="onDownloadClicked()">
+                </ng-container>
+            </ng-container>
+            <button *ngSwitchDefault class="button primary"
+                    [disabled]="isDisabled(state.disabled)"
+                    (click)="onDownloadClicked()">
+                <ng-content></ng-content>
+            </button>  
+        </ng-container>
+    </hca-tooltip>
+</ng-container>

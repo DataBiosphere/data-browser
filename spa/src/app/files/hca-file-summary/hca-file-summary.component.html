@@ -46,8 +46,8 @@
                 <span class="fontsize-xxs label">File Size</span>
             </div>
         </div>
-        <button *ngIf="showDownload" class="button primary"
+        <download-button *ngIf="showDownload" 
                 [routerLink]="['/get-data']"
-                queryParamsHandling="preserve">Export Selected Data</button>
+                queryParamsHandling="preserve">Export Selected Data</download-button>
     </div>
 </div>

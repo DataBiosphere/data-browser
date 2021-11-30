@@ -25,7 +25,6 @@ import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
-import { SystemStatusRequestAction } from "../../../system/_ngrx/system-status-request.action";
 
 @Injectable()
 export class InitEffects {
@@ -130,20 +129,6 @@ export class InitEffects {
             const catalog = params.catalog || this.configService.getDefaultCatalog();
 
             return new SetViewStateAction(catalog, selectedEntity, filter);
-        })
-    );
-
-    /**
-     * Fetch system status. 
-     * 
-     * TODO Must be declared after initSearchState as the selected catalog is required on the system status fetch. See #1599.
-     */
-    @Effect()
-    fetchSystemStatus$: Observable<Action> = this.router.events.pipe(
-        filter(evt => evt instanceof NavigationEnd),
-        take(1),
-        map(() => {
-            return new SystemStatusRequestAction();
         })
     );
 }

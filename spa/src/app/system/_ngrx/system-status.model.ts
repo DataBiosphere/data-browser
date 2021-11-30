@@ -7,6 +7,7 @@
 
 export interface SystemStatus {
 
-    ok: boolean;
     indexing: boolean;
+    loading: boolean;
+    ok: boolean;
 }

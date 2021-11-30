@@ -29,7 +29,6 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
 import { ActivatedRouteStub } from "../../../test/activated-route.stub";
-import { SystemStatusRequestAction } from "../../../system/_ngrx/system-status-request.action";
 
 describe("Init Effects", () => {
 
@@ -542,23 +541,5 @@ describe("Init Effects", () => {
          * Prevent view init (eg hits to entities endpoint and summary endpoint) if an error has occurred during init. 
          */
         xit("prevents view init on error", () => {});
-    });
-
-    describe("fetchSystemStatus$", () => {
-
-        /**
-         * Fetches system status on initial load of app.
-         */
-        it("fetches system status", (done: DoneFn) => {
-
-            // Navigate to /projects
-            navigation$.next(new NavigationEnd(1, "/", `/${EntityName.PROJECTS}`));
-
-            // Confirm catalog is added to action
-            effects.fetchSystemStatus$.subscribe((dispatchedAction) => {
-                expect(dispatchedAction).toEqual(new SystemStatusRequestAction());
-                done();
-            });
-        });
     });
 });
