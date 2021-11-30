@@ -12,13 +12,15 @@
 </key-value-pair-layout>
 <key-value-pair-layout>
     <ng-container key>Project Files via curl</ng-container>
-    <ng-container value><a [routerLink]="['get-curl-command']"><img class="download-visit" 
-                                                                    src="assets/images/icon/download-primary.png"></a></ng-container>
+    <ng-container value>
+        <download-button [icon]="true" (downloadClicked)="onProjectCurlClicked()"></download-button>
+    </ng-container>
 </key-value-pair-layout>
 <key-value-pair-layout>
     <ng-container key><span class="key-with-image">
         <img class="logo-terra" src="assets/terra/logo-terra.svg"> Terra Workspace</span>
     </ng-container>
-    <ng-container value><a [routerLink]="['export-to-terra']"><img class="download-visit" 
-                                                                   src="assets/images/icon/download-primary.png"></a></ng-container>
+    <ng-container value>
+        <download-button [icon]="true" (downloadClicked)="onProjectTerraWorkspaceClicked()"></download-button>
+    </ng-container>
 </key-value-pair-layout>

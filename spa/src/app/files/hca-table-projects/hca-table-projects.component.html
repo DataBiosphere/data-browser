@@ -314,10 +314,10 @@
                               [ngStyle]="getColumnStyle('getData')">
                         <hca-table-cell class="cell-split">
                             <ng-container *ngIf="catalog$ | async as catalog">
-                                <download-button [downloadAvailable]="true"
-                                                 (downloadClicked)="onProjectDownloadManifestClicked(element.entryId, catalog)"></download-button>
-                                <download-button [downloadAvailable]="isAnyMatrixAvailable(element)"
-                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-button>
+                                <download-modal-button [downloadAvailable]="true"
+                                                 (downloadClicked)="onProjectDownloadManifestClicked(element.entryId, catalog)"></download-modal-button>
+                                <download-modal-button [downloadAvailable]="isAnyMatrixAvailable(element)"
+                                                 (downloadClicked)="onProjectDownloadMatrixClicked(element.entryId, catalog)"></download-modal-button>
                             </ng-container>
                         </hca-table-cell>
                     </mat-cell>

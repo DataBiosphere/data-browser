@@ -24,4 +24,12 @@ export const selectSystemStatus = createSelector(selectSystem, (systemState: Sys
     return systemState.systemStatus;
 });
 
+/**
+ * Returns true if indexing is in progress.
+ */
+export const selectSystemStatusIndexing = createSelector(selectSystem, (systemState: SystemState) => {
+
+    return systemState.systemStatus.indexing;
+});
+
 

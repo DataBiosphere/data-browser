@@ -2,34 +2,17 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Styles for displaying download icon, including available/unavailable states, and handling corresponding click
- * actions.
+ * Styles for displaying download button.
  */
 
 :host {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    height: 48px;
-    width: 48px;
+    display: inline-block;
+}
 
-    /* Download icon */
-    > div {
-        background: url("~assets/images/icon/download-primary.png") center / 14px 14px no-repeat;
-        cursor: pointer;
-        height: 48px;
-        width: 48px;
-    }
-    
-    > div.disabled {
-        opacity: 50%;
-        cursor: default;
-    }
+.icon-download:not(.icon-download-disabled) {
+    cursor: pointer;
+}
 
-    /* Download - unavailable */
-    .unavailable {
-        background: url("~assets/images/icon/no-result.png") center / 14px 14px no-repeat;
-        cursor: default;
-        opacity: 1;
-    }
+.icon-download {
+    width: 14px;
 }

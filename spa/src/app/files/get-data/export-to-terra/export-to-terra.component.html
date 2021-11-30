@@ -15,11 +15,10 @@
                                                    [formats]="getManifestDownloadFormats()"
                                                    (formatSelected)="onManifestDownloadFormat($event)"></manifest-download-format-form>
                     <warning-data-normalization></warning-data-normalization>
-                    <button class="button primary"
-                            type="button"
-                            (click)="onExportToTerra(manifestDownloadFormat)"
-                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)">Request Link
-                    </button>
+                    <download-button
+                            [disabled]="!isAnyFileFormatSelected(state.selectedSearchTerms)"
+                            (downloadClicked)="onExportToTerra(manifestDownloadFormat)">Request Link
+                    </download-button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
             </ng-container>

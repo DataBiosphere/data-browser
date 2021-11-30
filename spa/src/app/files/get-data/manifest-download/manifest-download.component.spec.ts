@@ -59,6 +59,8 @@ import { WarningDataNormalizationComponent } from "../../warning-data-normalizat
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
+import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
+import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
 
 
 describe("ManifestDownloadComponent", () => {
@@ -85,6 +87,7 @@ describe("ManifestDownloadComponent", () => {
                 DataLinkComponent,
                 DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
+                DownloadButtonComponent,
                 FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
@@ -144,6 +147,7 @@ describe("ManifestDownloadComponent", () => {
         ])]);
         store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
         store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectSystemStatusIndexing, false);
         
         component = fixture.componentInstance;
     }));

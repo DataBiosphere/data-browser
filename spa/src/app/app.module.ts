@@ -49,7 +49,7 @@ import { SystemService } from "./system/shared/system.service";
         // ANGULAR SETUP
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(AppRoutes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(AppRoutes, {  relativeLinkResolution: 'legacy' }),
 
         // NGRX SETUP
         StoreModule.forRoot(AppReducers),
@@ -79,15 +79,26 @@ import { SystemService } from "./system/shared/system.service";
         NotFoundComponent,
     ],
     providers: [
-        // Init config and catalog states; both must resolve before app can be initialized.
+        // Init config, catalog and system status states; both must resolve before app can be initialized.
         {
             provide: APP_INITIALIZER,
-            useFactory: (catalogService: CatalogService, configService: ConfigService) => {
+            useFactory: (catalogService: CatalogService, configService: ConfigService, systemService: SystemService) => {
                 return () => {
-                    return configService.initConfig().then(() => catalogService.initCatalogs());
+                    // Init config
+                    return configService.initConfig()
+                        // Init catalogs
+                        .then(() => catalogService.initCatalogs())
+                        // Init system status
+                        .then(() => {
+                            // If no catalog is specified in the query string, use the default catalog. Pull directly from URL
+                            // as app init occurs before Angular route init.
+                            const url = new URL(window.location.href);
+                            const catalog = url.searchParams.get("catalog") ?? configService.getDefaultCatalog();
+                            return systemService.initSystemStatus(catalog).then(() => Promise.resolve());
+                        });
                 };
             },
-            deps: [CatalogService, ConfigService, Store],
+            deps: [CatalogService, ConfigService, SystemService, Store],
             multi: true
         },
         // Init auth and Terra registration status; both must resolve before app can be loaded.
@@ -118,7 +129,7 @@ import { SystemService } from "./system/shared/system.service";
             deps: [ConfigService, FaviconService],
             multi: true
         },
-        // Init catalog update
+        // Init catalog update - loads JSON to store.
         {
             provide: APP_INITIALIZER,
             useFactory: (catalogService: CatalogService) => {

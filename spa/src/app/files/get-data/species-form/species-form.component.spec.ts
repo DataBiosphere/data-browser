@@ -22,6 +22,8 @@ import { SearchTermHttpService } from "../../search/http/search-term-http.servic
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { Term } from "../../shared/term.model";
 import { GenusSpecies } from "../../shared/genus-species.model";
+import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
+import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
 
 describe("SpeciesSelectionComponent", () => {
 
@@ -54,6 +56,7 @@ describe("SpeciesSelectionComponent", () => {
 
         TestBed.configureTestingModule({
             declarations: [
+                DownloadButtonComponent,
                 GetDataPanelComponent,
                 SpeciesFormComponent
             ],
@@ -74,6 +77,8 @@ describe("SpeciesSelectionComponent", () => {
         fixture = TestBed.createComponent(SpeciesFormComponent);
         component = fixture.componentInstance;
         store = TestBed.inject(Store) as MockStore;
+
+        store.overrideSelector(selectSystemStatusIndexing, false);
     }));
 
     /**
@@ -229,6 +234,8 @@ describe("SpeciesSelectionComponent", () => {
     it("disables button when no species are selected", () => {
 
         store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
+        store.overrideSelector(selectSystemStatusIndexing, false);
+        store.overrideSelector(selectSystemStatusIndexing, false);
         fixture.detectChanges();
 
         const buttonEl = findSelectSpeciesButton();
@@ -238,9 +245,10 @@ describe("SpeciesSelectionComponent", () => {
     /**
      * Button is enabled when at least one species selected.
      */
-    it("disables button when no species are selected", () => {
+    it("enables button when species are selected", () => {
 
         store.overrideSelector(selectFilesFacets, [FACET_MULTIPLE_SPECIES]);
+        store.overrideSelector(selectSystemStatusIndexing, false);
         fixture.detectChanges();
 
         const humanCheckboxEl = findCheckboxGroupElWithLabel(GenusSpecies.HOMO_SAPIENS);

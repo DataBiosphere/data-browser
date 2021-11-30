@@ -1,0 +1,35 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying download icon, including available/unavailable states, and handling corresponding click
+ * actions.
+ */
+
+:host {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+
+    /* Download icon */
+    > div {
+        background: url("~assets/images/icon/download-primary.png") center / 14px 14px no-repeat;
+        cursor: pointer;
+        height: 48px;
+        width: 48px;
+    }
+    
+    > div.disabled {
+        opacity: 50%;
+        cursor: default;
+    }
+
+    /* Download - unavailable */
+    .unavailable {
+        background: url("~assets/images/icon/no-result.png") center / 14px 14px no-repeat;
+        cursor: default;
+        opacity: 1;
+    }
+}

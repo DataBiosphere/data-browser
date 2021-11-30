@@ -66,6 +66,8 @@ import { HCADataReleasePolicyLinkComponent } from "../../../site/hca/hca-data-re
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
+import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
+import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
 
 describe("ExportToTerraComponent", () => {
 
@@ -107,6 +109,7 @@ describe("ExportToTerraComponent", () => {
                 DataLinkComponent,
                 DataReleasePolicyLinkComponent,
                 DataUseNotificationComponent,
+                DownloadButtonComponent,
                 ExportToTerraComponent,
                 FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
@@ -667,6 +670,7 @@ describe("ExportToTerraComponent", () => {
             store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
             store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
             store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(selectSystemStatusIndexing, false);
             fixture.detectChanges();
 
             spyOn(store, "dispatch").and.callThrough();

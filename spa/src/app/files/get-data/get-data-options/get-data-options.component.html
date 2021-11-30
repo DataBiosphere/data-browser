@@ -5,9 +5,7 @@
             <h4 class="fontsize-m semi-bold">Download Selected Data Using "curl"</h4>
             <p class="fontsize-m">Obtain a curl command for downloading the selected data.</p>
             <div class="start">
-                <button class="button secondary" 
-                        type="button"
-                        [routerLink]="['/export', 'get-curl-command', 'select-species']">Request curl Command</button>
+                <download-button (downloadClicked)="onRequestCurlCommandClicked()">Request curl Command</download-button>
             </div>
         </get-data-panel>
         <get-data-panel>
@@ -15,9 +13,7 @@
             <p class="fontsize-m">Request a file manifest for the current query containing the full list of selected files and
                 the metadata for each file.</p>
             <div class="start">
-                <button class="button secondary"
-                        type="button"
-                        [routerLink]="['/export', 'download-manifest', 'select-species']">Request File Manifest</button>
+                <download-button (downloadClicked)="onRequestFileManifestClicked()">Request File Manifest</download-button>
                 <p class="fontsize-m delimiter">|</p>
                 <a href="{{portalURL}}/guides/quick-start-guide#downloading-metadata-in-a-data-manifest"
                    target="_blank"
@@ -32,9 +28,7 @@
             <p class="fontsize-m">Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy. <a href="https://app.terra.bio/#library/showcase" target="_blank">Learn More.</a></p>
             <p class="fontsize-m">To make the most out of HCA data with Terra, <a href="https://app.terra.bio/#workspaces/featured-workspaces-hca/HCA_Optimus_Pipeline" target="_blank">clone this featured workspace</a>.</p>
             <div class="start">
-                <button class="button secondary" 
-                        type="button"
-                        [routerLink]="['/export', 'export-to-terra', 'select-species']">Analyze in Terra</button>
+                <download-button (downloadClicked)="onAnalyzeInTerraClicked()">Analyze in Terra</download-button>
                 <p class="fontsize-m delimiter">|</p><a href="{{portalURL}}/guides/consumer-vignettes/export-to-terra"
                                                         target="_blank"
                                                         rel="noopener"><p class="fontsize-m">Help</p></a>

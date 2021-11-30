@@ -42,8 +42,8 @@ export class SystemEffects {
     systemStatus$: Observable<Action> = this.actions$
         .pipe(
             ofType(SystemStatusRequestAction.ACTION_TYPE),
-            switchMap(() => this.store.pipe(select(selectCatalog), take(1))),
-            switchMap((catalog) => this.systemService.fetchSystemStatus(catalog)),
+            switchMap((action: SystemStatusRequestAction) => 
+                this.systemService.fetchSystemStatus(action.catalog)),
             map((response: SystemStatusResponse) => {
 
                 return new SystemStatusSuccessAction(response.ok, response.indexing);

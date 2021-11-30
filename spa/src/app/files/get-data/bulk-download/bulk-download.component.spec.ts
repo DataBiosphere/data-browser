@@ -65,6 +65,8 @@ import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service"
 import { SITE_CONFIG_SERVICE } from "../../../site/site-config/site-config.token";
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
+import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
+import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
 
 describe("BulkDownloadComponent", () => {
 
@@ -84,6 +86,7 @@ describe("BulkDownloadComponent", () => {
                 DataLinkComponent,
                 DataUseNotificationComponent,
                 DataReleasePolicyLinkComponent,
+                DownloadButtonComponent,
                 FileTypeSummaryFormComponent,
                 GetDataLayoutComponent,
                 GetDataPanelComponent,
@@ -139,6 +142,7 @@ describe("BulkDownloadComponent", () => {
         ])]);
         store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
         store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectSystemStatusIndexing, false);
     }));
 
     /**

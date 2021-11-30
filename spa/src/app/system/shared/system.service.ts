@@ -6,9 +6,11 @@
  */
 
 // Core dependencies
+import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { catchError, switchMap } from "rxjs/operators";
+import { catchError, filter, switchMap, take } from "rxjs/operators";
 
 // App dependencies
 import { ConfigService } from "../../config/config.service";
@@ -19,8 +21,10 @@ import { HealthHttpResponse } from "./health/health-http-response.model";
 import { IndexResponse } from "./index/index-response.model";
 import { IndexHttpResponse } from "./index/index-http-response.model";
 import { IndexRequestStatus } from "./index/index-request-status.model";
+import { AppState } from "../../_ngrx/app.state";
+import { SystemStatusRequestAction } from "../_ngrx/system-status-request.action";
+import { selectSystemStatus } from "../_ngrx/system.selectors";
 import { SystemStatusResponse } from "./system-status-response.model";
-import { Injectable } from "@angular/core";
 
 @Injectable()
 export class SystemService {
@@ -29,11 +33,34 @@ export class SystemService {
      * @param {ConfigService} configService
      * @param {HttpService} httpService
      * @param {HttpClient} httpClient
+     * @param {Store<AppState>} store
      */
     constructor(
         protected configService: ConfigService,
         protected httpService: HttpService,
-        protected httpClient: HttpClient) {}
+        protected httpClient: HttpClient,
+        private store: Store<AppState>) {}
+
+    /**
+     * Control flow of system status init during app init. Kick of request for system status and wait for response
+     * before allowing app init to continue.
+     *
+     * @returns {Promise<void>}
+     */
+    public initSystemStatus(catalog: Catalog): Promise<void> {
+
+        this.store.dispatch(new SystemStatusRequestAction(catalog));
+        return new Promise((resolve) => {
+
+            this.store.pipe(
+                select(selectSystemStatus),
+                filter(systemStatus => !systemStatus.loading),
+                take(1)
+            ).subscribe(() => {
+                resolve();
+            })
+        });
+    }
 
     /**
      * Fetch the current system status; uses Azul API to determine overall system status as well as indexing status.
@@ -96,6 +123,7 @@ export class SystemService {
         return of({
             ok: response.up,
             indexing: this.isIndexing(response),
+            // indexing: true,
             status: IndexRequestStatus.COMPLETE
         });
     }

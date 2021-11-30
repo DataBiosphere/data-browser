@@ -24,11 +24,11 @@
                        [class]="{'error-message-visible': !isRequestFormValid(state.selectedSearchTerms, executionEnvironment)}">
                         {{getInvalidFormMessage(state.selectedSearchTerms)}}
                     </p>
-                    <button class="button primary"
-                            type="button"
-                            (click)="onExportToTerra(state.project, manifestDownloadFormat)"
-                            [disabled]="!isRequestFormValid(state.selectedSearchTerms)">Request Link
-                    </button>
+                    <download-button
+                            [disabled]="!isRequestFormValid(state.selectedSearchTerms)"
+                            (downloadClicked)="onExportToTerra(state.project, manifestDownloadFormat)">Request curl
+                        Command
+                    </download-button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
             </ng-container>
