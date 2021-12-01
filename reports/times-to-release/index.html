@@ -1,0 +1,105 @@
+
+
+<style>
+
+#graphElem {
+	width: 50em;
+	height: 25em;
+}
+
+</style>
+
+
+<div id="graphElem"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+
+<script src="releases-list.js"></script>
+<script src="releases-data.js"></script>
+
+<script>
+
+let graphElem = document.getElementById("graphElem");
+
+
+let chart = echarts.init(graphElem);
+chart.setOption(generateChartData());
+
+function generateChartData() {
+	return {
+		dataset: [
+			{
+				source: releasesData.map(({delays}) => delays)
+			},
+			{
+				transform: {
+					type: "boxplot",
+					config: {
+						itemNameFormatter: ({value}) => "dcp" + releasesData[value].num + "\n" + releasesData[value].date.substring(0, 10)
+					}
+				}
+			},
+			{
+				fromDatasetIndex: 1,
+				fromTransformResult: 1
+			}
+		],
+		series: [
+			{
+				type: "boxplot",
+				datasetIndex: 1
+			},
+			{
+				type: "scatter",
+				datasetIndex: 2
+			}
+		],
+		xAxis: {
+			type: "category",
+			name: "Catalogue",
+			nameLocation: "center",
+			nameGap: 55
+		},
+		yAxis: {
+			type: "value",
+			name: "Release delay (days)",
+			nameLocation: "center",
+			nameGap: 40
+		},
+		grid: {
+			bottom: 80
+		}
+	};
+}
+
+
+
+async function getReleasesData(minCatalog = 1) {
+	let releasesData = [];
+	
+	for (let [i, [releaseDateString, ...projects]] of releases.entries()) {
+		let releaseNum = latestRelease - i;
+		
+		if (releaseNum >= minCatalog) {
+			let releaseDateObj = new Date(releaseDateString),
+				releaseDate = (releaseDateObj).getTime(),
+				releaseDelays = [];
+			
+			for (let url of projects) {
+				let id = url.substring(url.lastIndexOf("/") + 1),
+					info = await (await fetch("https://service.azul.data.humancellatlas.org/index/projects/" + id + "?catalog=dcp" + latestRelease)).json(),
+					submissionDate = (new Date(info.projects[0].aggregateSubmissionDate)).getTime();
+				
+				releaseDelays.push((releaseDate - submissionDate)/86400000);
+			}
+			
+			releasesData.unshift({num: releaseNum, date: releaseDateObj.toISOString(), delays: releaseDelays});
+		}
+	}
+	
+	return releasesData;
+}
+
+</script>
+

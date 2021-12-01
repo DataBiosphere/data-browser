@@ -1,0 +1,148 @@
+
+
+<style>
+
+#graphElem {
+	width: 800px;
+	height: 400px;
+}
+
+</style>
+
+
+<div id="graphElem"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+
+<script src="counts.js"></script>
+
+<script>
+
+let graphElem = document.getElementById("graphElem");
+
+let managedUrls = [
+	"https://data.humancellatlas.org/explore/projects/a9301beb-e9fa-42fe-b75c-84e8a460c733",
+	"https://data.humancellatlas.org/explore/projects/c5f46615-68de-4cf4-bbc2-a0ae10f08243",
+	"https://data.humancellatlas.org/explore/projects/d7845650-f6b1-4b1c-b2fe-c0795416ba7b",
+	"https://data.humancellatlas.org/explore/projects/ef1d9888-fa86-47a4-bb72-0ab0f20f7004",
+	"https://data.humancellatlas.org/explore/projects/c715cd2f-dc7c-44a6-9cd5-b6a6d9f075ae",
+	"https://data.humancellatlas.org/explore/projects/dc1a41f6-9e09-42a6-959e-3be23db6da56",
+	"https://data.humancellatlas.org/explore/projects/b963bd4b-4bc1-4404-8425-69d74bc636b8",
+	"https://data.humancellatlas.org/explore/projects/abe1a013-af7a-45ed-8c26-f3793c24a1f4"
+];
+
+
+let chart = echarts.init(graphElem);
+
+chart.setOption(generateChartData());
+
+
+function generateChartData() {
+	let minMonth = Math.min(...Object.keys(countsByMonth)),
+		maxMonth = Math.max(...Object.keys(countsByMonth)),
+		managedData = [],
+		openData = [],
+		monthNames = [],
+		totalManagedCount = 0,
+		totalOpenCount = 0;
+	
+	for (let i = minMonth; i <= maxMonth; i++) {
+		let count = countsByMonth[i] || 0,
+			managedCount = managedCounts[i] || 0,
+			openCount = count - managedCount;
+		
+		managedData.push(totalManagedCount += managedCount);
+		openData.push(totalOpenCount += openCount);
+		
+		let j = i + 1;
+		
+		monthNames.push((j%12 + 1) + "/" + Math.floor(j/12).toString().substring(2));
+	}
+	
+	return {
+		title: {
+			text: "Number of projects with contributor-generated matrices"
+		},
+		tooltip: {
+			trigger: "axis",
+			axisPointer: {
+				type: "cross"
+			}
+		},
+		legend: {
+			top: 40
+		},
+		grid: {
+			top: 81
+		},
+		xAxis: {
+			name: "Month",
+			nameLocation: "center",
+			nameGap: 35,
+			type: "category",
+			data: monthNames
+		},
+		yAxis: {
+			name: "Projects w/ CGMs",
+			nameLocation: "center",
+			nameGap: 35
+		},
+		series: [
+			{
+				name: "Open access",
+				type: "bar",
+				data: openData,
+				stack: "stack"
+			},
+			{
+				name: "Managed access",
+				type: "bar",
+				data: managedData,
+				stack: "stack"
+			}
+		]
+	};
+}
+
+
+async function getMonthlyProjects(catalogNum) {
+	let {hits, pagination} = await (await fetch(`https://service.azul.data.humancellatlas.org/index/projects?catalog=dcp${catalogNum}&size=500`)).json();
+	
+	if (pagination.next !== null) throw "Page size not large enough";
+	
+	let countsByMonth = {},
+		managedCounts = {};
+	
+	hits.forEach(({fileTypeSummaries, projects: [project]}) => {
+		if (Object.keys(project.contributorMatrices).length > 0) {
+			let date = getFirstCgmDate(project),
+				monthNum = date.getFullYear() * 12 + date.getMonth();
+			
+			countsByMonth[monthNum] = (countsByMonth[monthNum] || 0) + 1;
+			
+			let url = "https://data.humancellatlas.org/explore/projects/" + project.projectId;
+			
+			if (managedUrls.includes(url)) {
+				managedCounts[monthNum] = (managedCounts[monthNum] || 0) + 1;
+			}
+		}
+	});
+	
+	return [countsByMonth, managedCounts];
+}
+
+function getFirstCgmDate(project) {
+	return new Date(getMinDateIn(project.contributorMatrices));
+	
+	function getMinDateIn(obj) {
+		return Math.min(...(
+			Array.isArray(obj)
+			? obj.map(item => (new Date(item.submissionDate)).getTime())
+			: Object.values(obj).map(getMinDateIn)
+		));
+	}
+}
+
+</script>
+
