@@ -10,7 +10,8 @@ const exec = promisify(require("child_process").exec);
 const apiUrl = "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp11";
 const outPath = path.resolve("../../downloads");
 
-(async function() {
+fs.mkdir(outPath, async () => {
+	// ignoring the error under the assumption that the folder already exists
 	
 	const {hits} = await got(apiUrl).json();
 
@@ -46,4 +47,4 @@ const outPath = path.resolve("../../downloads");
 	
 	console.log("Done");
 	
-})();
+});
