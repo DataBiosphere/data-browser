@@ -13,7 +13,8 @@
     "build-cgl-dcp2": "ng build --outputPath ../dist/explore --configuration=dcp2 --base-href=/explore/",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+	"update-archive-previews": "cd scripts && node update-archive-previews.js"
   },
   "husky": {
     "hooks": {
@@ -63,6 +64,7 @@
     "bufferutil": "4.0.4",
     "eslint": "^7.26.0",
     "fibers": "5.0.0",
+    "got": "^11.8.3",
     "html-webpack-plugin": "4.3.0",
     "husky": "4.2.5",
     "jasmine-core": "~3.6.0",

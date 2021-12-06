@@ -30,6 +30,7 @@ spa/npm-debug.log
 spa/testem.log
 spa/typings
 npm-debug.log
+downloads/*
 
 # e2e
 spa/e2e/*.js
