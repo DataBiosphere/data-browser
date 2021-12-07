@@ -24,7 +24,7 @@ describe("MatrixMapper", () => {
     it("transforms matrices tree into matrix views", () => {
 
         const rowMapper = new ProjectMatrixMapper();
-        const contributorMatrices = PROJECT_ROW_SINGLE_VALUES.projects[0].contributorMatrices;
+        const contributorMatrices = PROJECT_ROW_SINGLE_VALUES.projects[0].contributedAnalyses;
         const matrixViews = rowMapper["flattenResponseTree"](contributorMatrices);
         expect(matrixViews.length).toEqual(4);
 
@@ -79,7 +79,7 @@ describe("MatrixMapper", () => {
     it("merges files with matching urls", () => {
 
         const rowMapper = new ProjectMatrixMapper();
-        const contributorMatrices = PROJECT_ROW_SINGLE_VALUES.projects[0].contributorMatrices;
+        const contributorMatrices = PROJECT_ROW_SINGLE_VALUES.projects[0].contributedAnalyses;
         const dupedMatrixViews = rowMapper["flattenResponseTree"](contributorMatrices);
         const matrixViews = rowMapper["mergeDuplicatedMatrixViews"](dupedMatrixViews);
         expect(matrixViews.length).toEqual(2);
