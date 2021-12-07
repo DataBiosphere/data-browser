@@ -40,7 +40,7 @@ export class ProjectRowMapper extends EntityRowMapper {
     public mapRow(): EntityRow {
 
         // Bind contributor and CDP generated matrices 
-        const contributorMatrices = this.matrixMapper.bindMatrices(this.projects.contributorMatrices);
+        const contributorMatrices = this.matrixMapper.bindMatrices(this.projects.contributedAnalyses);
         const matrices = this.matrixMapper.bindMatrices(this.projects.matrices);
 
         // Calculate file type summaries

@@ -65,7 +65,7 @@ export const PROJECT_ROW_SINGLE_VALUES =
                 "supplementaryLinks": [
                     "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Liver.tar.gz"
                 ],
-                "contributorMatrices": {
+                "contributedAnalyses": {
                     "genusSpecies": {
                         "Homo sapiens": {
                             "stage": {
