@@ -234,7 +234,7 @@ describe("Table Effects", () => {
                     new: [],
                     runDate: new Date(),
                     updated: []
-                } , true)
+                } , true, false)
             }));
 
             const action = new FetchTableDataRequestAction(DEFAULT_PROJECTS_ENTITY_SEARCH_RESULTS.tableModel.termCountsByFacetName);
@@ -298,7 +298,7 @@ describe("Table Effects", () => {
                     new: [],
                     runDate: new Date(),
                     updated: []
-                }, true)
+                }, true, false)
             }));
 
             const action = new TableNextPageAction({
@@ -395,7 +395,7 @@ describe("Table Effects", () => {
                     new: [],
                     runDate: new Date(),
                     updated: []
-                }, true)
+                }, true, false)
             }));
 
             const action = new TablePreviousPageAction({
@@ -496,7 +496,7 @@ describe("Table Effects", () => {
                     new: [],
                     runDate: new Date(),
                     updated: []
-                }, true)
+                }, true, false)
             }));
 
             const action = new FetchSortedTableDataRequestAction(

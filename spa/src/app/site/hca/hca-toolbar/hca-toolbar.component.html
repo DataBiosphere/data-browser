@@ -50,6 +50,12 @@
                     <span class="fontsize-xxs">APIs</span>
                 </a>
             </toolbar-nav-item>
+            <toolbar-nav-item>
+                <a class="link" href="{{portalUrl}}/dcp-updates" [class]="{'catalog-update-chip': state.catalogUpdatedSinceLastVisit}">
+                    <span class="fontsize-xs">Updates</span>
+                    <span class="fontsize-xxs">DCP Platform Updates</span>
+                </a>
+            </toolbar-nav-item>
             <toolbar-nav-item *ngIf="isAuthEnabled()" class="nav-item-auth">
                 <ng-container [ngSwitch]="state.authenticated">
                     <a class="link" *ngSwitchCase="true" (click)="onLogoutClicked()">

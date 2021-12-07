@@ -21,16 +21,24 @@ import { AppState } from "../../_ngrx/app.state";
 import { selectCatalogsInit } from "../_ngrx/catalog/catalog.selectors";
 import { FetchCatalogsRequestAction } from "../_ngrx/catalog/fetch-catalogs-request.action";
 import { InitCatalogUpdateAction } from "../_ngrx/catalog/init-catalog-update.action";
+import { LocalStorageService } from "../../storage/local-storage.service";
+import { Catalog } from "./catalog.model";
 
 @Injectable()
 export class CatalogService {
 
+    private STORAGE_KEY_CATALOG_LAST_VISIT = "CATALOG_LAST_VISIT";
+
     /**
      * @param {ConfigService} configService
+     * @param {LocalStorageService} localStorageService
      * @param {Store<AppState>} store
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>, private httpClient: HttpClient) {}
+    constructor(private configService: ConfigService,
+                private localStorageService: LocalStorageService,
+                private store: Store<AppState>, 
+                private httpClient: HttpClient) {}
 
     /**
      * Fetch catalogs from Azul and filter by the atlas for the current instance.
@@ -83,6 +91,34 @@ export class CatalogService {
             updated: catalogUpdate.updated
         }));
         return Promise.resolve();
+    }
+
+    /**
+     * Returns true if there is a new catalog since the user's last visit.
+     * 
+     * @param {CatalogService} currentCatalog - The default catalog for this instance.
+     * @returns {boolean}
+     */
+    public isCatalogUpdatedSinceLastVisit(currentCatalog: Catalog): boolean {
+
+        const catalogAtLastVisit = this.localStorageService.get(this.STORAGE_KEY_CATALOG_LAST_VISIT);
+        
+        // This is the user's first visit: set current catalog as the user's catalog at last visit and indicate there
+        // are updates.
+        if ( !catalogAtLastVisit ) {
+            this.setCatalogAtLastVisit(currentCatalog);
+            return true;
+        }
+        
+        // If the current catalog does not match the catalog at the last visit, update user's catalog at last visit and
+        // indicate updates have occurred.
+        if (catalogAtLastVisit !== currentCatalog ) {
+            this.setCatalogAtLastVisit(currentCatalog);
+            return true;
+        }
+        
+        // No changes!
+        return false;
     }
 
     /**
@@ -150,5 +186,14 @@ export class CatalogService {
             catalogs: [],
             default_catalog: ""
         });
+    }
+
+    /**
+     * Set the user's catalog as last visit value to the given catalog.
+     * 
+     * @param {Catalog} currentCatalog - The default catalog for this instance.
+     */
+    private setCatalogAtLastVisit(currentCatalog: Catalog): void {
+        this.localStorageService.set(this.STORAGE_KEY_CATALOG_LAST_VISIT, currentCatalog);
     }
 }

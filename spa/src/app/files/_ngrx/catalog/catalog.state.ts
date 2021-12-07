@@ -12,6 +12,7 @@ import { CatalogUpdate } from "../../catalog/catalog-update.model";
 import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
 import { InitCatalogUpdateAction } from "./init-catalog-update.action";
+import { SetCatalogUpdatedSinceLastVisitAction } from "./set-catalog-updated-since-last-visit.action";
 
 export class CatalogState {
 
@@ -19,16 +20,18 @@ export class CatalogState {
     catalog: Catalog; // Current selected catalog
     catalogUpdate: CatalogUpdate;
     init: boolean; // True if catalogs response has been received from Azul, either success or failure. Used to determine if ap init can complete.
+    catalogUpdatedSinceLastVisit: boolean;
 
     /**
      * @param {Atlas} atlas
      * @param {CatalogUpdate} catalogUpdate
      * @param {Catalog} catalog
      * @param {boolean} init
+     * @param {boolean} catalogUpdatedSinceLastVisit
      */
-    constructor(atlas: Atlas, catalog: Catalog, catalogUpdate: CatalogUpdate, init: boolean) {
+    constructor(atlas: Atlas, catalog: Catalog, catalogUpdate: CatalogUpdate, init: boolean, catalogUpdatedSinceLastVisit: boolean) {
 
-        Object.assign(this, {atlas, catalog, catalogUpdate, init});
+        Object.assign(this, {atlas, catalog, catalogUpdate, init, catalogUpdatedSinceLastVisit});
     }
 
     /**
@@ -39,7 +42,11 @@ export class CatalogState {
      */
     public fetchCatalogsError(action: FetchCatalogsErrorAction): CatalogState {
 
-        return new CatalogState(this.atlas, this.catalog, this.catalogUpdate, true);
+        return new CatalogState(this.atlas, 
+            this.catalog, 
+            this.catalogUpdate, 
+            true, 
+            this.catalogUpdatedSinceLastVisit);
     }
 
     /**
@@ -52,7 +59,11 @@ export class CatalogState {
 
         // Set default catalog as the selected catalog.
         const { atlas } = action;
-        return new CatalogState(Object.assign({}, atlas), atlas.defaultCatalog, this.catalogUpdate, true);
+        return new CatalogState(Object.assign({}, atlas), 
+            atlas.defaultCatalog, 
+            this.catalogUpdate, 
+            true, 
+            this.catalogUpdatedSinceLastVisit);
     }
 
     /**
@@ -64,7 +75,11 @@ export class CatalogState {
     public initCatalogUpdate(action: InitCatalogUpdateAction): CatalogState {
 
         const { catalogUpdate } = action;
-        return new CatalogState(this.atlas, this.catalog, catalogUpdate, this.init);
+        return new CatalogState(
+            this.atlas, 
+            this.catalog, catalogUpdate, 
+            this.init, 
+            this.catalogUpdatedSinceLastVisit);
     }
 
     /**
@@ -75,7 +90,20 @@ export class CatalogState {
      */
     public setCatalog(catalog: Catalog): CatalogState {
         
-        return new CatalogState(this.atlas, catalog, this.catalogUpdate, this.init);
+        return new CatalogState(
+            this.atlas, 
+            catalog, 
+            this.catalogUpdate, 
+            this.init, 
+            this.catalogUpdatedSinceLastVisit);
+    }
+
+    /**
+     * 
+     */
+    public setCatalogUpdatedSinceLastVisit(action: SetCatalogUpdatedSinceLastVisitAction) {
+
+        return new CatalogState(this.atlas, this.catalog, this.catalogUpdate, this.init, action.updatedSinceLastVisit);
     }
 
     /**
@@ -91,6 +119,6 @@ export class CatalogState {
             runDate: null,
             new: [],
             updated: []
-        },false);
+        },false, false);
     }
 }

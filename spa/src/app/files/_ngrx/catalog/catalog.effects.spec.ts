@@ -28,6 +28,8 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { ViewCatalogAction } from "./view-catalog.action";
 import { selectCatalog } from "./catalog.selectors";
+import { LocalStorageService } from "../../../storage/local-storage.service";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("CatalogEffects", () => {
 
@@ -52,7 +54,7 @@ describe("CatalogEffects", () => {
 
         TestBed.configureTestingModule({
             imports: [
-                // any modules needed
+                RouterTestingModule,
             ],
             providers: [
                 provideMockActions(() => actions$),
@@ -63,6 +65,10 @@ describe("CatalogEffects", () => {
                 {
                     provide: HttpClient,
                     useValue: jasmine.createSpyObj("HttpClient", ["get"])
+                },
+                {
+                    provide: LocalStorageService,
+                    useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
                 },
                 provideMockStore({
                     initialState: {

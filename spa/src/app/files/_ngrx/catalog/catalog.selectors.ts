@@ -36,8 +36,13 @@ export const selectCatalog = createSelector(selectCatalogState, state => state.c
  */
 export const selectCatalogUpdate = createSelector(selectCatalogState, state => state.catalogUpdate);
 
-
 /**
  * Return the default catalog for the current environment.
  */
 export const selectDefaultCatalog = createSelector(selectCatalogState, state => state.atlas.defaultCatalog);
+
+/**
+ * Returns true if the catalog has updated since the user's last visit.
+ */
+export const selectCatalogUpdatedSinceLastVisit = 
+    createSelector(selectCatalogState, state => state.catalogUpdatedSinceLastVisit);

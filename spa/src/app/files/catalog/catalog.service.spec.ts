@@ -21,6 +21,7 @@ import { AtlasName } from "../atlas/atlas-name.model";
 import { Catalog } from "./catalog.model";
 import { CatalogsAPIResponse } from "./catalogs-api-response.model";
 import { DCPCatalog } from "./dcp-catalog.model";
+import { LocalStorageService } from "../../storage/local-storage.service";
 
 describe("CatalogService", () => {
 
@@ -110,11 +111,15 @@ describe("CatalogService", () => {
                     provide: HttpClient,
                     useValue: jasmine.createSpyObj("HttpClient", ["get"])
                 },
+                {
+                    provide: LocalStorageService,
+                    useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
+                },
                 provideMockStore({
                     initialState: {
                         catalog: CatalogState.getDefaultState()
                     }
-                }),
+                })
             ]
         });
 
