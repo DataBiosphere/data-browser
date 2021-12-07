@@ -27,6 +27,7 @@ import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../../_ngrx/app.state";
 import { RoutingService } from "../../../shared/routing/routing.service";
 import { HeaderComponent } from "../../site-config/header.component";
+import { selectCatalogUpdatedSinceLastVisit } from "../../../files/_ngrx/catalog/catalog.selectors";
 
 @Component({
     selector: "hca-toolbar",
@@ -41,6 +42,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     public portalUrl: string;
     public state$ = new BehaviorSubject<HCAToolbarComponentState>({
         authenticated: false,
+        catalogUpdatedSinceLastVisit: false,
         modalOpen: false
     });
 
@@ -227,15 +229,22 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
             select(selectUser),
             takeUntil(this.ngDestroy$)
         );
+        
+        const catalogUpdatedSinceLastVisit$ = this.store.pipe(
+            select(selectCatalogUpdatedSinceLastVisit),
+            takeUntil(this.ngDestroy$)
+        );
 
-        combineLatest(
+        combineLatest([
             authenticated$,
+            catalogUpdatedSinceLastVisit$,
             modalOpen$,
             user$
-        ).pipe(
+            ]).pipe(
             takeUntil(this.ngDestroy$),
-        ).subscribe(([authenticated, modalOpen, user]) => {
-            this.state$.next({authenticated, modalOpen, user})
+        ).subscribe(([authenticated, catalogUpdatedSinceLastVisit, modalOpen, user]) => {
+            console.log(catalogUpdatedSinceLastVisit)
+            this.state$.next({authenticated, catalogUpdatedSinceLastVisit, modalOpen, user})
         });
     }
 }

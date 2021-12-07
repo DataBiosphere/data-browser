@@ -47,7 +47,7 @@ export class InitEffects {
                 private activatedRoute: ActivatedRoute,
                 private router: Router) {
     }
-
+    
     /**
      * Trigger GA/GTM pageview event on navigation.
      */

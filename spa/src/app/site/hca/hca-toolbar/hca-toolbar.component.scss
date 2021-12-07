@@ -232,6 +232,26 @@ mat-toolbar {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    
+    .catalog-update-chip {
+        position: relative;
+    }
+
+    .catalog-update-chip:after {
+        background-color: $hca-orange;
+        border-radius: 50%;
+        content: '';
+        height: 8px;
+        position: absolute;
+        right: -8px;
+        transition: background-color 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
+        top: 20px;
+        width: 8px;
+    }
+
+    .catalog-update-chip:hover::after {
+        background-color: $hca-orange-hover;
+    }
 }
 
 /**

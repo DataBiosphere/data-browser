@@ -7,10 +7,11 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { select, Store } from "@ngrx/store";
-import { of } from "rxjs";
-import { catchError, concatMap, map, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
+import { Action, select, Store } from "@ngrx/store";
+import { Observable, of } from "rxjs";
+import { catchError, concatMap, filter, map, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
 
 // App dependencies
 import { Atlas } from "../../atlas/atlas.model";
@@ -23,6 +24,7 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewCatalogAction } from "./view-catalog.action";
 import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { AppState } from "../../../_ngrx/app.state";
+import { SetCatalogUpdatedSinceLastVisitAction } from "./set-catalog-updated-since-last-visit.action";
 
 @Injectable()
 export class CatalogEffects {
@@ -30,11 +32,13 @@ export class CatalogEffects {
     /**
      * @param {CatalogService} catalogService
      * @param {GTMService} gtmService
+     * @param {Router} router
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
     constructor(private catalogService: CatalogService,
                 private gtmService: GTMService,
+                private router: Router,
                 private store: Store<AppState>,
                 private actions$: Actions) {}
 
@@ -65,6 +69,28 @@ export class CatalogEffects {
         )),
         tap(([action, catalog]) => {
             this.gtmService.trackEvent((action as ViewCatalogAction).asEvent({catalog}));
+        })
+    );
+
+    /**
+     * Determine on load if there is a new catalog since the user's last visit, if any.
+     */
+    @Effect()
+    initCatalogUpdatedSinceLastVisit$: Observable<Action> = this.router.events.pipe(
+        // Exit init if routing to error or not found pages, or if Terra registration is required.
+        filter((evt) => {
+            return evt instanceof NavigationEnd;
+        }),
+        take(1),
+        concatMap(action => of(action).pipe(
+            withLatestFrom(
+                this.store.pipe(select(selectCatalog), take(1))
+            )
+        )),
+        map(([,catalog]) => {
+
+            const updatedSinceLastVisit = this.catalogService.isCatalogUpdatedSinceLastVisit(catalog);
+            return new SetCatalogUpdatedSinceLastVisitAction(updatedSinceLastVisit);
         })
     );
 }

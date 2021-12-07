@@ -15,6 +15,7 @@ import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
 import { InitCatalogUpdateAction } from "./init-catalog-update.action";
 import { SelectCatalogAction } from "./select-catalog.action";
+import { SetCatalogUpdatedSinceLastVisitAction } from "./set-catalog-updated-since-last-visit.action";
 
 export function reducer(state: CatalogState = CatalogState.getDefaultState(), action: Action): CatalogState {
 
@@ -39,6 +40,10 @@ export function reducer(state: CatalogState = CatalogState.getDefaultState(), ac
         // View state has been parsed from URL param on app init
         case SetViewStateAction.ACTION_TYPE:
             return state.setCatalog((action as SetViewStateAction).catalog);
+            
+            // Save flag indicating if catalog has been updated since last visit.
+        case SetCatalogUpdatedSinceLastVisitAction.ACTION_TYPE:
+            return state.setCatalogUpdatedSinceLastVisit(action as SetCatalogUpdatedSinceLastVisitAction);
 
         default:
             return state;
