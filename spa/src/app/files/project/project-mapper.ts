@@ -58,8 +58,9 @@ export class ProjectMapper extends ProjectRowMapper {
             {
                 accessionsByLabel,
                 arrayExpressAccessions: getUnspecifiedIfNullValue(this.projects.arrayExpressAccessions),
-                deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
                 contributors: contributors,
+                deprecated: this.projectOverrides && this.projectOverrides.deprecated, // Check project edits to see if project has been deprecated
+                duplicateOf: this.projectOverrides && this.projectOverrides.duplicateOf,
                 fileType: (this.row.fileTypeSummaries || []).map((fileType: FileTypeSummaryResponse) => fileType.format),
                 geoSeriesAccessions: getUnspecifiedIfNullValue(this.projects.geoSeriesAccessions),
                 insdcProjectAccessions: getUnspecifiedIfNullValue(this.projects.insdcProjectAccessions),

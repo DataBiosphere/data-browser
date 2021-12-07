@@ -9,7 +9,7 @@
 
 // Core dependencies
 import { Component, Inject, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
 import { switchMap, take, takeUntil } from "rxjs/operators";
@@ -21,6 +21,8 @@ import { ViewProjectDeprecatedAction } from "../_ngrx/table/view-project-depreca
 import { ViewProjectWithdrawnAction } from "../_ngrx/table/view-project-withdrawn.action";
 import { ProjectGuardComponentState } from "./project-guard.component.state";
 import { ProjectStatus } from "./project-status.model";
+import { Project } from "../shared/project.model";
+import { EntityName } from "../shared/entity-name.model";
 
 @Component({
     selector: "project-guard",
@@ -43,10 +45,12 @@ export class ProjectGuardComponent implements OnInit {
     /**
      * @param {ActivatedRoute} activatedRoute
      * @param {Store<AppState>} store
+     * @param {Router} router
      * @param {Window} window
      */
     constructor(private activatedRoute: ActivatedRoute,
                 private store: Store<AppState>,
+                private router: Router,
                 @Inject("Window") private window: Window) {}
 
     /**
@@ -104,11 +108,20 @@ export class ProjectGuardComponent implements OnInit {
             switchMap(params =>
                 this.store.pipe(select(selectProjectEditsById, {id: params.id}), take(1))),
             takeUntil(this.ngDestroy$)
-        ).subscribe(projectEdits => {
+        ).subscribe((projectEdits: Project) => {
             
             // Track hits to deprecated project
             const projectId = projectEdits.entryId;
-            const deprecated = projectEdits.deprecated;
+            const {deprecated, duplicateOf} = projectEdits;
+
+            // Check if this project should be automatically redirected to another copy. 
+            if ( duplicateOf ) {
+                this.router.navigate([EntityName.PROJECTS, duplicateOf], {
+                    queryParamsHandling: "preserve"
+                });
+                return;
+            }
+            
             if ( deprecated ) {
                 const action =
                     new ViewProjectDeprecatedAction(projectId, projectEdits.projectShortname, this.window.location.href);

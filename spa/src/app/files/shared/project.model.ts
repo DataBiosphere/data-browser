@@ -16,7 +16,8 @@ export interface Project extends ProjectRow {
     accessionsByLabel: Map<string, Accession[]>;
     analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     arrayExpressAccessions: string[];
-    deprecated: boolean, // Specified in project-edits.json
+    deprecated: boolean, // Specified in project-edits.json - displays deprecated message with link to supersededBy.
+    duplicateOf: string; // Specified in project-edits.json - automatically redirects to duplicateOf (project).
     contributors: Contributor[];
     geoSeriesAccessions: string[];
     insdcProjectAccessions: string[];
@@ -26,5 +27,5 @@ export interface Project extends ProjectRow {
     redirectUrl: string; // Redirect URL is only specified if project has been withdrawn
     supplementaryLinks: string[];
     supersededBy: string; // Specified only if project has been deprecated
-    withdrawn: boolean; // Specified in project-edits.json
+    withdrawn: boolean; // Specified in project-edits.json - displays withdrawn notice.
 }
