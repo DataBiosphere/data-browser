@@ -15,16 +15,16 @@ import { catchError, concatMap, filter, map, switchMap, take, tap, withLatestFro
 
 // App dependencies
 import { Atlas } from "../../atlas/atlas.model";
-import { selectCatalog } from "./catalog.selectors";
+import { selectCatalog, selectDefaultCatalog } from "./catalog.selectors";
 import { CatalogService } from "../../catalog/catalog.service";
+import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { FetchCatalogsRequestAction } from "./fetch-catalogs-request.action";
 import { FetchCatalogsSuccessAction } from "./fetch-catalogs-success.action";
 import { ErrorAction } from "../../../http/_ngrx/error.action";
-import { GTMService } from "../../../shared/analytics/gtm.service";
-import { ViewCatalogAction } from "./view-catalog.action";
-import { FetchCatalogsErrorAction } from "./fetch-catalogs-error.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { SetCatalogUpdatedSinceLastVisitAction } from "./set-catalog-updated-since-last-visit.action";
+import { GTMService } from "../../../shared/analytics/gtm.service";
+import { ViewCatalogAction } from "./view-catalog.action";
 
 @Injectable()
 export class CatalogEffects {
@@ -84,7 +84,7 @@ export class CatalogEffects {
         take(1),
         concatMap(action => of(action).pipe(
             withLatestFrom(
-                this.store.pipe(select(selectCatalog), take(1))
+                this.store.pipe(select(selectDefaultCatalog), take(1))
             )
         )),
         map(([,catalog]) => {
