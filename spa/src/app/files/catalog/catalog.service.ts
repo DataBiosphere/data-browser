@@ -96,24 +96,24 @@ export class CatalogService {
     /**
      * Returns true if there is a new catalog since the user's last visit.
      * 
-     * @param {CatalogService} currentCatalog - The default catalog for this instance.
+     * @param {CatalogService} defaultCatalog - The default catalog for this instance.
      * @returns {boolean}
      */
-    public isCatalogUpdatedSinceLastVisit(currentCatalog: Catalog): boolean {
+    public isCatalogUpdatedSinceLastVisit(defaultCatalog: Catalog): boolean {
 
         const catalogAtLastVisit = this.localStorageService.get(this.STORAGE_KEY_CATALOG_LAST_VISIT);
         
         // This is the user's first visit: set current catalog as the user's catalog at last visit and indicate there
         // are updates.
         if ( !catalogAtLastVisit ) {
-            this.setCatalogAtLastVisit(currentCatalog);
+            this.setCatalogAtLastVisit(defaultCatalog);
             return true;
         }
         
         // If the current catalog does not match the catalog at the last visit, update user's catalog at last visit and
         // indicate updates have occurred.
-        if (catalogAtLastVisit !== currentCatalog ) {
-            this.setCatalogAtLastVisit(currentCatalog);
+        if (catalogAtLastVisit !== defaultCatalog ) {
+            this.setCatalogAtLastVisit(defaultCatalog);
             return true;
         }
         

@@ -243,7 +243,6 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
             ]).pipe(
             takeUntil(this.ngDestroy$),
         ).subscribe(([authenticated, catalogUpdatedSinceLastVisit, modalOpen, user]) => {
-            console.log(catalogUpdatedSinceLastVisit)
             this.state$.next({authenticated, catalogUpdatedSinceLastVisit, modalOpen, user})
         });
     }
