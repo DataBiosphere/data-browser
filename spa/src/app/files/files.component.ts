@@ -182,7 +182,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                     };
                 }));
 
-        this.state$.subscribe((state: FilesComponentState) => 
+        this.state$.pipe(takeUntil(this.ngDestroy$)).subscribe((state: FilesComponentState) => 
             this.titleService.setTitle(`Explore ${state.selectedEntity.displayName}`));
     }
 
