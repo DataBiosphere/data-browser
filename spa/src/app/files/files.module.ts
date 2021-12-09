@@ -94,6 +94,7 @@ import { ResponseTermService } from "./http/response-term.service";
 import { HttpService } from "./http/http.service";
 import { ModalModule } from "../modal/modal.module";
 import { PipeModule } from "../pipe/pipe.module";
+import { ProjectComponent } from "./project/project.component";
 import { ProjectAccessionsComponent } from "./project-accessions/project-accessions.component";
 import { ProjectAnalysisPortalComponent } from "./project-analysis-portal/project-analysis-portal.component";
 import { ProjectAnalysisPortalsComponent } from "./project-analysis-portals/project-analysis-portals.component";
@@ -145,6 +146,7 @@ import { PaginationService } from "./table/pagination/pagination.service";
 import { TableRendererService } from "./table/table-renderer.service";
 import { TableScroll } from "./table-scroll/table-scroll.component";
 import { TerraRegistrationComponent } from "./terra-registration/terra-registration.component";
+import { TitleService } from "./title/title.service";
 import { UrlService } from "./url/url.service";
 import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
 
@@ -233,6 +235,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectAccessionsComponent,
         ProjectAnalysisPortalsComponent,
         ProjectBulkDownloadComponent,
+        ProjectComponent,
         ProjectTerraExportComponent,
         ProjectDataCitationComponent,
         ProjectDeprecatedComponent,
@@ -292,6 +295,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ResponseTermService,
         TermSortService,
         TerraService,
+        TitleService,
         UrlService,
         {provide: "Window", useValue: window} // Required for hamburger functionality
     ],

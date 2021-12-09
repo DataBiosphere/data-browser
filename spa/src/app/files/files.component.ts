@@ -34,6 +34,7 @@ import {
 } from "./_ngrx/search/search.selectors";
 import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
+import { TitleService } from "./title/title.service";
 
 @Component({
     selector: "bw-files",
@@ -52,11 +53,13 @@ export class FilesComponent implements OnInit, OnDestroy {
     /**
      * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
+     * @param {TitleService} titleService
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
     constructor(private configService: ConfigService,
                 private deviceService: DeviceDetectorService,
+                private titleService: TitleService,
                 private store: Store<AppState>,
                 private renderer: Renderer2) {
     }
@@ -178,6 +181,9 @@ export class FilesComponent implements OnInit, OnDestroy {
                         selectedSearchTermsLoading
                     };
                 }));
+
+        this.state$.subscribe((state: FilesComponentState) => 
+            this.titleService.setTitle(`Explore ${state.selectedEntity.displayName}`));
     }
 
     /**

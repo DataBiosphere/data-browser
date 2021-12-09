@@ -24,6 +24,7 @@ import { HCATableSamplesComponent } from "./hca-table-samples/hca-table-samples.
 import { SelectedSearchTermsComponent } from "./search/selected-search-terms/selected-search-terms.component";
 import { HCATabComponent } from "../shared/hca-tab/hca-tab.component";
 import { HCASectionTitleComponent } from "../shared/hca-section-title/hca-section-title.component";
+import { TitleService } from "./title/title.service";
 
 describe("FilesComponent:", () => {
 
@@ -58,6 +59,7 @@ describe("FilesComponent:", () => {
                     provide: Store,
                     useValue: storeSpy
                 },
+                TitleService,
                 {
                     provide: Renderer2,
                     useValue: jasmine.createSpyObj("Renderer2", ["addClass", "removeClass"])
