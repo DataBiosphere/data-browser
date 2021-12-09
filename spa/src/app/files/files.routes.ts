@@ -29,6 +29,7 @@ import { ProjectMatricesComponent } from "./project-matrices/project-matrices.co
 import { ProjectMatrixDownloadModalContainerComponent } from "./project-matrix-download-modal-container/project-matrix-download-modal-container.component";
 import { ProjectGuardComponent } from "./project-guard/project-guard.component";
 import { BrowserCanActivateGuard } from "../shared/routing/browser.can-activate.guard";
+import { ProjectComponent } from "./project/project.component";
 
 export const routes: Route[] = [
     {
@@ -99,40 +100,46 @@ export const routes: Route[] = [
                 children: [
                     {
                         path: "",
-                        pathMatch: "full",
-                        component: ProjectDetailComponent
-                    },
-                    {
-                        path: "get-curl-command",
-                        component: ProjectBulkDownloadComponent
-                    },
-                    {
-                        path: "export-to-terra",
-                        component: ProjectTerraExportComponent
-                    },
-                    {
-                        path: "project-metadata",
-                        component: ProjectMetadataComponent,
-                    },
-                    {
-                        path: "project-matrices",
-                        component: ProjectMatricesComponent
-                    },
-                    {
-                        path: "expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
-                        redirectTo: ""
-                    },
-                    {
-                        path: "external-resources", // Deprecated; maintained for backwards compatibility of bookmarks.
-                        redirectTo: ""
-                    },
-                    {
-                        path: "summary-stats", // Deprecated; maintained for backwards compatibility of bookmarks.
-                        redirectTo: ""
-                    },
-                    {
-                        path: "data-citation", // Deprecated; maintained for backwards compatibility of bookmarks.
-                        redirectTo: ""
+                        component: ProjectComponent,
+                        children: [
+                            {
+                                path: "",
+                                pathMatch: "full",
+                                component: ProjectDetailComponent
+                            },
+                            {
+                                path: "get-curl-command",
+                                component: ProjectBulkDownloadComponent
+                            },
+                            {
+                                path: "export-to-terra",
+                                component: ProjectTerraExportComponent
+                            },
+                            {
+                                path: "project-metadata",
+                                component: ProjectMetadataComponent,
+                            },
+                            {
+                                path: "project-matrices",
+                                component: ProjectMatricesComponent
+                            },
+                            {
+                                path: "expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
+                                redirectTo: ""
+                            },
+                            {
+                                path: "external-resources", // Deprecated; maintained for backwards compatibility of bookmarks.
+                                redirectTo: ""
+                            },
+                            {
+                                path: "summary-stats", // Deprecated; maintained for backwards compatibility of bookmarks.
+                                redirectTo: ""
+                            },
+                            {
+                                path: "data-citation", // Deprecated; maintained for backwards compatibility of bookmarks.
+                                redirectTo: ""
+                            }
+                        ]
                     }
                 ]
             },

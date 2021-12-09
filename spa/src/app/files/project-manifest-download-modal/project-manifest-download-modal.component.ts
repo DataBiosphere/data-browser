@@ -28,6 +28,7 @@ import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-projec
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectManifestDownloadModalComponentState } from "./project-manifest-download-modal.component.state";
 import { EntityName } from "../shared/entity-name.model";
+import { TitleService } from "../title/title.service";
 
 @Component({
     selector: "project-manifest-download-modal",
@@ -46,11 +47,13 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
 
     /**
      * @param {Store<AppState>} store
+     * @param {TitleService} titleService
      * @param {MatDialogRef<ProjectManifestDownloadModalComponent>} dialogRef
      * @param data
      * @param {Router} router
      */
     constructor(private store: Store<AppState>,
+                private titleService: TitleService,
                 private dialogRef: MatDialogRef<ProjectManifestDownloadModalComponent>,
                 @Inject(MAT_DIALOG_DATA) private data: any,
                 private router: Router) {}
@@ -151,6 +154,9 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
                     loaded: !!project,
                     project
                 });
+                
+                // Set document title to be project title.
+                this.titleService.setTitle(project.projectTitle);
             });
     }
 }
