@@ -15,7 +15,7 @@ fs.mkdir(outPath, async () => {
 	
 	const {hits} = await got(apiUrl).json();
 
-	const file = hits.map(e => e.files).flat().filter(f => /^tar(?:\.gz)?$/.test(f.format)).sort((a, b) => a.size - b.size)[0];
+	const file = hits.map(e => e.files).flat().filter(f => f.format === "zip").sort((a, b) => a.size - b.size)[0];
 	
 	console.log(file);
 	
