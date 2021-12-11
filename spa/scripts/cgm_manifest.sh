@@ -1,10 +1,8 @@
 function usage () {
-    echo "USAGE: cgm_manifest.sh <uuid> <version> <tar_file>"
+    echo "USAGE: cgm_manifest.sh <uuid> <version> <archive_file>"
 }
 
 set -e
-
-files_dir="extracted"
 
 if [ $# != 3 ]
 then
@@ -13,14 +11,16 @@ then
    exit 1
 fi
 
-mkdir -p "$files_dir"
+files_dir="TEMP_$3_extracted"
+
+mkdir "$files_dir"
 
 # extract contents and get file list for different archive types
 if [[ "$3" =~ \.[zZ][iI][pP](\.|$) ]]
 then
 	if [[ "$3" =~ \.[gG][zZ]$ ]]
 	then
-		zip_name="$3_ungz.zip"
+		zip_name="TEMP_$3_ungz.zip"
 		gzip -dc "$3" > "$zip_name"
 	else
 		zip_name="$3"
@@ -30,7 +30,7 @@ then
 	unzip -q -d "$files_dir" "$zip_name"
 	
 	if [ ! "$zip_name" == "$3" ]
-		then rm "$zip_name"
+		then rm -- "$zip_name"
 	fi
 else
 	files=$(tar -tf $3)
@@ -38,7 +38,7 @@ else
 fi
 
 archive_file_size=$(wc -c "$3" | tr -s ' ' | cut -f1 -d ' ')
-output_file="$1-$(echo $2 | tr ':' '_').json"
+output_file="$1_$(echo $2 | tr -d ':').json"
 first=1
 printf "{\\n  \"archive\": {\\n    \"name\": \"$3\",\\n    \"size\": $archive_file_size,\\n    \"uuid\": \"$1\",\\n    \"version\": \"$2\"\\n  },\\n  \"files\":[\\n" > $output_file
 
@@ -59,3 +59,5 @@ do
 done <<< "$files"
 
 printf "\n  ]\n}\n" >> $output_file
+
+rm -r -- "$files_dir"
