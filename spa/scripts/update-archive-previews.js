@@ -25,20 +25,20 @@ fs.mkdir(outPath, async () => {
 	
 	console.log(fileUrl);
 	
-	const outFileName = file.uuid + "." + file.format;
-	const fileOutPath = path.resolve(outPath, outFileName);
+	const fileDlName = file.name || file.uuid + "." + file.format;
+	const fileDlPath = path.resolve(outPath, fileDlName);
 	
-	if (fileOutPath.substring(0, outPath.length + 1) === outPath + path.sep) {
+	if (fileDlPath.substring(0, outPath.length + 1) === outPath + path.sep) {
 		await pipeline(
 			got.stream(fileUrl),
-			fs.createWriteStream(fileOutPath)
+			fs.createWriteStream(fileDlPath)
 		);
 		
 		console.log("Processing");
 		
 		// should this make sure there's nothing weird about the strings passed to it?
 		await exec(
-			`"../spa/scripts/cgm_manifest.sh" ${file.uuid} ${file.version} ${outFileName}`,
+			`"../spa/scripts/cgm_manifest.sh" ${JSON.stringify(file.uuid)} ${JSON.stringify(file.version)} ${JSON.stringify(fileDlName)}`,
 			{cwd: outPath}
 		);
 	} else {
