@@ -1,0 +1,195 @@
+/**
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Toolbar portal search styles.
+ */
+
+@import "../../site/theme/hca.vars";
+
+:host {
+    display: inline-flex;
+}
+
+.portal-search {
+    display: none;
+    position: relative; /* Positions icons. */
+
+    &.open {
+        align-items: center;
+        background-color: $hca-white;
+        box-sizing: border-box;
+        display: inline-flex; /* Shows search bar. */
+        height: 60px; /* 64px */
+        left: 0;
+        padding: 0 16px;
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        z-index: 200;
+    }
+
+    /* Input */
+    input {
+        background-color: transparent;
+        border: 1px solid $hca-gray-light;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: $hca-gray-darkest;
+        display: inline-block;
+        font-family: "Montserrat", sans-serif; /* TODO typography */
+        font-size: 16px; /* Required to prevent zoom on focus of <input> on mobile. */
+        font-weight: 400;
+        height: 38px;
+        line-height: 32px;
+        margin: 0;
+        padding: 0 38px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+
+        &[type="text"] {
+            font-size: 16px; /* Required to prevent zoom on focus of <input> on mobile. */
+            line-height: 32px;
+        }
+
+        &:focus {
+            background-color: $hca-white;
+            border: 1px solid $hca-primary;
+            outline: none;
+        }
+
+        &::placeholder {
+            color: $hca-gray-darkest;
+            font-size: 12px;
+            font-weight: 300;
+            line-height: 32px;
+        }
+    }
+
+    /* Search and clear icon */
+    .search-icon,
+    .clear-icon {
+        color: $hca-gray-light;
+        padding: 7px; /* Total icon size 38px. */
+        position: absolute;
+    }
+
+    .search-icon {
+        pointer-events: none;
+    }
+
+    .clear-icon {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        font-size: 20px;
+        justify-content: center;
+        right: 16px; /* Equivalent to header gutter. */
+
+        &:hover {
+            color: $hca-gray-medium;
+        }
+    }
+}
+
+.search-icon-button {
+    color: $hca-gray-light;
+    cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+        color: $hca-gray-medium;
+    }
+}
+
+/* Lungmap specific style overrides. */
+:host-context(lungmap-toolbar) {
+    .portal-search {
+        &.open {
+            background-color: $hca-primary;
+        }
+
+        input {
+            background-color: transparent;
+            border-color: $hca-white;
+            caret-color: $hca-white;
+            color: $hca-white;
+
+            &:focus {
+                border: 2px solid $hca-white;
+            }
+
+            &::placeholder {
+                color: $hca-white;
+            }
+        }
+
+        /* Search and clear icon */
+        .search-icon,
+        .clear-icon {
+            color: $hca-white;
+        }
+    }
+
+    .search-icon-button {
+        color: $hca-white;
+
+        &:hover {
+            color: $hca-white;
+        }
+    }
+}
+
+/**
+ * Small Window
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
+    /* Hide search button. */
+    .search-icon-button {
+        display: none;
+    }
+
+    /* Always show search bar. */
+    .portal-search {
+        display: block;
+
+        &.open {
+            background-color: transparent;
+            height: unset;
+            left: unset;
+            padding: 0;
+            position: relative;
+            top: unset;
+            width: unset;
+            z-index: unset;
+        }
+
+        input {
+            width: 200px;
+        }
+
+        /* Clear icon */
+        .clear-icon {
+            right: 0;
+            top: 0;
+        }
+    }
+}
+
+/**
+ * HCA specific breakpoint
+ */
+@media screen and (min-width: 768px) {
+    .portal-search {
+        input {
+            width: 300px;
+        }
+
+        input,
+        input[type="text"] {
+            font-size: 12px;
+        }
+    }
+}

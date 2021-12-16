@@ -15,23 +15,63 @@
     display: block;
 }
 
+:host-context(.hamburger-open) {
+    mat-toolbar mat-toolbar-row.nav-bar {
+        display: flex; /* Show nav bar */
+    }
+}
+
+@mixin toolbar-link() {
+    color: $hca-black;
+    cursor: pointer; /* Required for "Explore" link. */
+    text-decoration: none;
+    text-transform: capitalize;
+
+    &.active, &:hover {
+        color: $hca-secondary;
+    }
+
+    /* Title */
+    .fontsize-xs {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 20px;
+        margin: 0 0 4px;
+    }
+
+    /* Sub title - hide */
+    .fontsize-xxs {
+        display: block;
+        letter-spacing: 1.2px;
+        line-height: 18px;
+        margin: 0;
+        text-transform: none;
+        white-space: pre-wrap;
+    }
+}
+
 mat-toolbar {
-    color: $hca-white;
     background-color: $hca-primary;
     min-height: 60px !important; /* HCA specific */
     position: relative; /* Positions overlay, nav-toolbar */
 
     mat-toolbar-row {
-        align-items: center;
-        display: flex;
-        height: 60px !important; /* HCA specific */
-        justify-content: space-between; /* RHS menu */
-        margin: 0 auto;
         padding: 0 16px; /* Gutter 16px */
 
-        /* Wrapper around logo */
-        > a {
-            line-height: 0;
+        /* First toolbar row - hero bar */
+        &.hero-bar {
+            height: 60px; /* HCA specific */
+            justify-content: space-between; /* Toolbar tools */
+
+            /* Wrapper around logo */
+            > a {
+                line-height: 0;
+            }
+        }
+
+        &.nav-bar {
+            display: none; /* Default, hide nav bar */
         }
     }
 
@@ -39,128 +79,69 @@ mat-toolbar {
     img {
         height: 30px;
     }
-    
-    toolbar-nav {
-        padding: 12px 0;
-        z-index: 101; /* Positioned above hamburger-overlay */
-    }
 
     /* Hamburger */
-    hamburger .fontsize-s {
-        margin-bottom: 0;
-    }
-    
-    /* Active navigation */
-    toolbar-nav-item.active .link {
-        color: $hca-secondary;
-        opacity: 1;
-        text-decoration: none;
-    }
+    hamburger {
+        color: $hca-white;
 
-    /* Nav link - wrapper */
-    toolbar-nav-item .link {
-        align-items: flex-start;
-        color: $hca-black;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 0 24px;
-        text-transform: capitalize;
-
-        /* Nav link - hover state */
-        &:hover {
-            color: $hca-secondary;
-            opacity: 1;
-        }
-
-        /* Title */
-        .fontsize-xs {
-            font-weight: 600;
-            margin: 0 0 4px;
-        }
-
-        /* Sub title */
-        .fontsize-xxs {
-            letter-spacing: 1.2px;
-            margin: 0;
-            text-align: left;
-            text-transform: none;
-            white-space: pre-wrap;
+        .fontsize-s {
+            margin-bottom: 0;
         }
     }
 
-    /* Nav drop down button */
-    toolbar-nav-item button.link {
-        background-color: transparent;
-        border: none;
-        cursor: default;
-        padding: 0;
-        pointer-events: none;
-    }
-
-    /** Logo in modal */
-    &.modal-open {
-
-        background-color: $hca-primary;
-        position: fixed;
-        top: 0;
-        z-index: 1001;
-
-        mat-toolbar-row > *:not(a) {
-            display: none;
+    /* Nav item */
+    toolbar-nav-item {
+        .link {
+            @include toolbar-link;
+            display: block;
+            margin: 0 24px;
         }
     }
 }
+
 /**
  * Large Tablet +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 840px) {
 
+    @mixin toolbar-link() {
+        color: $hca-white;
+        opacity: 0.8;
+
+        &.active, &:hover {
+            color: $hca-white;
+            opacity: 1;
+        }
+
+        /* Title */
+        .fontsize-xs {
+            font-size: 14px;
+            line-height: 44px;
+            margin: 0;
+        }
+
+        /* Sub title - hide */
+        .fontsize-xxs {
+            display: none;
+        }
+    }
+
     mat-toolbar {
 
-        toolbar-nav {
-            padding: 0;
+        /* Second toolbar row - nav bar */
+        mat-toolbar-row.nav-bar {
+            display: flex; /* Always show nav bar */
+            height: 44px;
+            justify-content: center;
         }
 
         /* Link wrapper */
         toolbar-nav-item {
-            padding: 0 10px;
-
-            &.active .link {
-                color: $hca-white;
-            }
-
-            /* Link */
             .link {
-                color: $hca-white;
-                opacity: .8;
-                text-transform: capitalize;
+                @include toolbar-link();
                 margin: 0;
-
-                /* Title */
-                .fontsize-xs {
-                    font-size: 14px;
-                    line-height: 60px;
-                    margin: 0;
-                    white-space: nowrap;
-                }
-
-                /* Sub title - hide */
-                .fontsize-xxs {
-                    display: none;
-                }
-                
-                &:hover {
-                    color: $hca-white;
-                }
             }
-        }
-
-        /* Nav drop down button */
-        toolbar-nav-item button.link {
-            cursor: pointer;
-            pointer-events: auto;
         }
     }
 }
@@ -170,15 +151,9 @@ mat-toolbar {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1024px) {
-
     mat-toolbar {
-
         img {
             height: 40px;
-        }
-
-        toolbar-nav-item {
-            padding: 0 12px;
         }
     }
 }
@@ -187,9 +162,7 @@ mat-toolbar {
  * Large
  */
 @media (min-width: 1200px) {
-
     mat-toolbar {
-
         mat-toolbar-row {
             padding: 0 30px; /* Gutter 30px */
         }

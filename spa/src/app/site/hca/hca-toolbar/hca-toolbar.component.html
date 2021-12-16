@@ -1,94 +1,99 @@
 <mat-toolbar *ngIf="state$ | async as state" [ngClass]="{'modal-open': state.modalOpen}">
-    <mat-toolbar-row>
+    <mat-toolbar-row class="hero-bar">
         <a href="{{portalUrl}}" *ngIf="!state.modalOpen">
             <img src="assets/images/logos/logo-hca.png"/>
         </a>
         <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
             <img src="assets/images/logos/logo-hca.png"/>
         </a>
-        <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
-        <toolbar-nav>
-            <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
-                <a class="link" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
-                    <span class="fontsize-xs">Explore</span>
-                    <span class="fontsize-xxs">Search for data in the HCA</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/guides">
-                    <span class="fontsize-xs">Guides</span>
-                    <span class="fontsize-xxs">Find user guides and how-to’s here</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/metadata">
-                    <span class="fontsize-xs">Metadata</span>
-                    <span class="fontsize-xxs">Fields used to describe datasets in the Human Cell Atlas</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/pipelines">
-                    <span class="fontsize-xs">Pipelines</span>
-                    <span class="fontsize-xxs">Pipelines</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/analyze">
-                    <span class="fontsize-xs">Analysis Tools</span>
-                    <span class="fontsize-xxs">Find a list of Apps</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/contribute">
-                    <span class="fontsize-xs">Contribute</span>
-                    <span class="fontsize-xxs">Submit your data to the HCA</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/apis">
-                    <span class="fontsize-xs">APIs</span>
-                    <span class="fontsize-xxs">APIs</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/dcp-updates" [class]="{'catalog-update-chip': state.catalogUpdatedSinceLastVisit}">
-                    <span class="fontsize-xs">Updates</span>
-                    <span class="fontsize-xxs">DCP Platform Updates</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item *ngIf="isAuthEnabled()" class="nav-item-auth">
-                <ng-container [ngSwitch]="state.authenticated">
-                    <a class="link" *ngSwitchCase="true" (click)="onLogoutClicked()">
-                        <span class="fontsize-xs">Logout</span>
-                        <span class="fontsize-xxs">You are signed in as {{getFullName(state.user)}}.</span>
-                    </a>
-                    <a class="link" *ngSwitchDefault (click)="onLoginClicked()">
+        <toolbar-tools>
+            <toolbar-portal-search></toolbar-portal-search>
+            <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
+            <ng-container *ngIf="isAuthEnabled()" >
+                <div class="auth" [ngSwitch]="state.authenticated">
+                    <div class="auth-authenticated" *ngSwitchCase="true">
+                        <button class="auth-menu-button" [matMenuTriggerFor]="menuAuth" aria-label="Authentication menu">
+                            <ng-container [ngSwitch]="isProfileImageSpecified(state.user)">
+                                <img class="auth-image auth-image-hover" *ngSwitchCase="true" [src]="getProfileImageUrl(state.user)">
+                                <div class="auth-image-placeholder auth-image-hover" *ngSwitchDefault>{{getNameStartsWith(state.user)}}</div>
+                            </ng-container>
+                        </button>
+                        <mat-menu #menuAuth="matMenu">
+                            <div class="auth-menu-item-profile">
+                                You are signed in as: <strong class="auth-username">{{getFullName(state.user)}}</strong>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
+                        </mat-menu>
+                    </div>
+                    <a class="auth-link" *ngSwitchDefault (click)="onLoginClicked()">
                         <span class="fontsize-xs">Login</span>
                     </a>
-                </ng-container>
-            </toolbar-nav-item>
-        </toolbar-nav>
-        <ng-container *ngIf="isAuthEnabled()" >
-            <div class="auth" [ngSwitch]="state.authenticated">
-                <div class="auth-authenticated" *ngSwitchCase="true">
-                    <button class="auth-menu-button" [matMenuTriggerFor]="menuAuth" aria-label="Authentication menu">
-                        <ng-container [ngSwitch]="isProfileImageSpecified(state.user)">
-                            <img class="auth-image auth-image-hover" *ngSwitchCase="true" [src]="getProfileImageUrl(state.user)">
-                            <div class="auth-image-placeholder auth-image-hover" *ngSwitchDefault>{{getNameStartsWith(state.user)}}</div>
-                        </ng-container>
-                    </button>
-                    <mat-menu #menuAuth="matMenu">
-                        <div class="auth-menu-item-profile">
-                            You are signed in as: <strong class="auth-username">{{getFullName(state.user)}}</strong> 
-                        </div>
-                        <mat-divider></mat-divider>
-                        <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
-                    </mat-menu>
                 </div>
-                <a class="auth-link" *ngSwitchDefault (click)="onLoginClicked()">
+            </ng-container>
+        </toolbar-tools>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="nav-bar">
+        <toolbar-nav>
+        <toolbar-nav-item>
+            <a class="link" [ngClass]="{'active': isExploreActiveUrl()}" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
+                <span class="fontsize-xs">Explore</span>
+                <span class="fontsize-xxs">Search for data in the HCA</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/guides">
+                <span class="fontsize-xs">Guides</span>
+                <span class="fontsize-xxs">Find user guides and how-to’s here</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/metadata">
+                <span class="fontsize-xs">Metadata</span>
+                <span class="fontsize-xxs">Fields used to describe datasets in the Human Cell Atlas</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/pipelines">
+                <span class="fontsize-xs">Pipelines</span>
+                <span class="fontsize-xxs">Pipelines</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/analyze">
+                <span class="fontsize-xs">Analysis Tools</span>
+                <span class="fontsize-xxs">Find a list of Apps</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/contribute">
+                <span class="fontsize-xs">Contribute</span>
+                <span class="fontsize-xxs">Submit your data to the HCA</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/apis">
+                <span class="fontsize-xs">APIs</span>
+                <span class="fontsize-xxs">APIs</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item>
+            <a class="link" href="{{portalUrl}}/dcp-updates" [class]="{'catalog-update-chip': state.catalogUpdatedSinceLastVisit}">
+                <span class="fontsize-xs">Updates</span>
+                <span class="fontsize-xxs">DCP Platform Updates</span>
+            </a>
+        </toolbar-nav-item>
+        <toolbar-nav-item *ngIf="isAuthEnabled()" class="nav-item-auth">
+            <ng-container [ngSwitch]="state.authenticated">
+                <a class="link" *ngSwitchCase="true" (click)="onLogoutClicked()">
+                    <span class="fontsize-xs">Logout</span>
+                    <span class="fontsize-xxs">You are signed in as {{getFullName(state.user)}}.</span>
+                </a>
+                <a class="link" *ngSwitchDefault (click)="onLoginClicked()">
                     <span class="fontsize-xs">Login</span>
                 </a>
-            </div>
-        </ng-container>
+            </ng-container>
+        </toolbar-nav-item>
+    </toolbar-nav>
     </mat-toolbar-row>
 </mat-toolbar>
