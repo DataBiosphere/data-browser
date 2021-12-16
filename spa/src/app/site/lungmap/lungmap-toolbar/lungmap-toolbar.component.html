@@ -1,15 +1,21 @@
 <mat-toolbar *ngIf="state$ | async as state" [ngClass]="{'modal-open': state.modalOpen}">
-    <mat-toolbar-row>
+    <mat-toolbar-row class="hero-bar">
         <a href="https://lungmap.net/" *ngIf="!state.modalOpen">
             <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
         </a>
         <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
             <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
         </a>
-        <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
+        <toolbar-tools>
+            <toolbar-portal-search></toolbar-portal-search>
+            <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
+        </toolbar-tools>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="nav-bar">
         <toolbar-nav>
-            <toolbar-nav-item [ngClass]="{'active': isExploreActiveUrl()}">
-                <a class="link" [routerLink]="['/projects']" queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
+            <toolbar-nav-item>
+                <a class="link" [ngClass]="{'active': isExploreActiveUrl()}" [routerLink]="['/projects']"
+                   queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
                     <span class="fontsize-xs">Explore</span>
                     <span class="fontsize-xxs">Search for data in the HCA</span>
                 </a>

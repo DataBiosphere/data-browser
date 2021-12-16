@@ -1,0 +1,15 @@
+<mat-icon *ngIf="!searchOpen" class="search-icon-button" (click)="onOpenSearch()" role="presentation">search</mat-icon>
+<form [formGroup]="portalSearchGroup" class="portal-search" [class]="{'open' : searchOpen}"
+      (ngSubmit)="onSearchPortal(portalSearch.value)">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input #search
+           (blur)="onInputFocusEvent($event)"
+           (focus)="onInputFocusEvent($event)"
+           [formControl]="portalSearch"
+           matInput
+           placeholder="Search all content"
+           spellCheck="false"
+           type="text">
+    <mat-icon *ngIf="isClearButtonVisible(portalSearch.value)" class="clear-icon" tabindex="-1">close
+    </mat-icon>
+</form>

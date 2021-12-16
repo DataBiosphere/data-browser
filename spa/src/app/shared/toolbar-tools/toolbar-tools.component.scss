@@ -2,14 +2,24 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Toolbar nav item styles.
+ * Toolbar tools styles.
  */
 
 @import "../../site/theme/hca.vars";
-@import "../../site/theme/hca.global";
 
 :host {
-    padding: 12px 0;
+    align-items: center;
+    display: flex;
+}
+
+/**
+ * Small Window
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 600px) {
+    :host {
+        gap: 0 24px;
+    }
 }
 
 /**
@@ -18,6 +28,6 @@
  */
 @media screen and (min-width: 840px) {
     :host {
-        padding: 0;
+        gap: 0 32px;
     }
 }

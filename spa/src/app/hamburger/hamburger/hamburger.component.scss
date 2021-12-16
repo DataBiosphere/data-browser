@@ -50,9 +50,10 @@
 }
 
 /**
- * HCA specific breakpoint
+ * Large Tablet +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 840px) {
 
     // Hide hamburger and overlay
     :host {

@@ -9,9 +9,11 @@
 // Core dependencies
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
@@ -39,8 +41,10 @@ import { StatusPanelComponent } from "./status-panel/status-panel.component";
 import { ToolbarNavComponent } from "./toolbar-nav/toolbar-nav.component";
 import { ToolbarNavDropDownComponent } from "./toolbar-nav-drop-down/toolbar-nav-drop-down.component";
 import { ToolbarNavItemComponent } from "./toolbar-nav-item/toolbar-nav-item.component";
-import { ToolbarNavSubMenuComponent} from "./toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
+import { ToolbarNavSubMenuComponent } from "./toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { ToolbarNavSubMenuItemComponent } from "./toolbar-nav-sub-menu-item/toolbar-nav-sub-menu-item.component";
+import { ToolbarPortalSearchComponent } from "./toolbar-portal-search/toolbar-portal-search.component";
+import { ToolbarToolsComponent } from "./toolbar-tools/toolbar-tools.component";
 import { UtilService } from "./util/util.service";
 import { WarningComponent } from "./warning/warning.component";
 import { WarningContentComponent } from "./warning/warning-content.component";
@@ -52,9 +56,11 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ClipboardModule,
         CommonModule,
         MatIconModule,
+        MatInputModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
-        RouterModule
+        ReactiveFormsModule,
+        RouterModule,
     ],
     declarations: [
         AnnouncementComponent,
@@ -77,9 +83,11 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavItemComponent,
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
+        ToolbarPortalSearchComponent,
+        ToolbarToolsComponent,
         WarningComponent,
         WarningContentComponent,
-        WarningTitleComponent
+        WarningTitleComponent,
     ],
     providers: [
         BrowserCanActivateGuard,
@@ -111,9 +119,11 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavItemComponent,
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
+        ToolbarPortalSearchComponent,
+        ToolbarToolsComponent,
         WarningComponent,
         WarningContentComponent,
-        WarningTitleComponent
+        WarningTitleComponent,
     ]
 })
 export class SharedModule {
