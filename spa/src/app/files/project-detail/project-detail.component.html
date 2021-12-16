@@ -3,7 +3,7 @@
         <ng-container title>Explore Project</ng-container>
         <div content>
             <status-panel class="project-title">
-                <h2 class="fontsize-xl">{{state.project.projectTitle}}</h2>
+                <h1>{{state.project.projectTitle}}</h1>
                 <div class="select-project"
                      (click)="onProjectSelected(state.projectSelected, state.project.entryId, state.project.projectShortname)">
                     <div [ngClass]="getLegendClass(state.projectSelected)">
