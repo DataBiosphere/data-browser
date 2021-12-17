@@ -14,7 +14,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-	"update-archive-previews": "cd scripts && node update-archive-previews.js"
+    "update-archive-previews": "cd scripts && node update-archive-previews.js"
   },
   "husky": {
     "hooks": {
@@ -54,6 +54,7 @@
     "@angular/cli": "^12.2.10",
     "@angular/compiler-cli": "^12.2.10",
     "@angular/language-service": "^12.2.10",
+    "@aws-sdk/client-s3": "^3.44.0",
     "@ngrx/store-devtools": "^12.4.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.54",
