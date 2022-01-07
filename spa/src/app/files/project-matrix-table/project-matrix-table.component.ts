@@ -145,7 +145,12 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     public isArchivePreviewAvailable(projectMatrixView: ProjectMatrixView): boolean {
         
         // Archive preview is currently only available in dev
-        if ( !this.configService.isEnvCGLDev() ) {
+        if ( !(
+            this.configService.isEnvCGLDev() ||
+            this.configService.isEnvLocal() ||
+            this.configService.isEnvDCP2())
+        )
+        {
             return false;
         }
 
