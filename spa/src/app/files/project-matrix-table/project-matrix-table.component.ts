@@ -33,8 +33,8 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     // Locals
     private ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 
-    // Template variables 
-    public columnsToDisplay = 
+    // Template variables
+    public columnsToDisplay =
         ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
     public expandedProjectMatrixView: ProjectMatrixView | undefined | null;
 
@@ -54,7 +54,7 @@ export class ProjectMatrixTableComponent implements OnDestroy {
 
     /**
      * Return the archive preview for the given matrix view.
-     * 
+     *
      * @param {ProjectMatrixView} projectMatrixView
      * @returns {ArchivePreview}
      */
@@ -73,6 +73,18 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     public getFileLocationByFileUrl(fileUrl: string): FileLocation {
 
         return this.projectMatrixFileLocationsByFileUrl.get(fileUrl);
+    }
+
+    /**
+     * Returns the inner html "display text" for the specified file name with
+     * line break opportunity elements inserted before any underscore to improve the position of a line break.
+     *
+     * @param fileName
+     * @returns {string}
+     */
+    public getFileNameInnerHTML(fileName: string): string {
+
+        return fileName.replace(/(\.|_|-)/g, "<wbr>$1");
     }
 
     /**
@@ -116,7 +128,7 @@ export class ProjectMatrixTableComponent implements OnDestroy {
 
     /**
      * Return content descriptions as a comma-separated string.
-     * 
+     *
      * @param {string[]} contentDescription
      * @returns {string}
      */
@@ -127,8 +139,8 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     
     /**
      * Returns true if an specified matrix view is an archive.
-     * 
-     * @param {ProjectMatrixView} projectMatrixView 
+     *
+     * @param {ProjectMatrixView} projectMatrixView
      */
     public isArchivePreviewAvailable(projectMatrixView: ProjectMatrixView): boolean {
         
@@ -174,7 +186,7 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     /**
      * Toggle selected project matrix view to display archives. If view is already expanded, collapse it. If view
      * is not expanded, dispatch action to request archive preview and expand row.
-     * 
+     *
      * @param {ProjectMatrixView} projectMatrixView
      */
     public onArchivePreviewRequested(projectMatrixView: ProjectMatrixView) {

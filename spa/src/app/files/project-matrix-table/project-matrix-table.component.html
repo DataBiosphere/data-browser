@@ -19,13 +19,14 @@
                 <span class="fontsize-xxs bold">File Name</span>
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">
-                <span>{{element.fileName}}</span>
-                <ng-container *ngIf="isArchivePreviewAvailable(element)">
-                    <mat-icon class="column-fileName-preview" (click)="onArchivePreviewRequested(element)">
+                <span [innerHTML]="getFileNameInnerHTML(element.fileName)"></span>
+                <span class="column-fileName-preview" *ngIf="isArchivePreviewAvailable(element)" (click)="onArchivePreviewRequested(element)">
+                    <span>Preview Archive</span>
+                    <mat-icon>
                         <ng-container *ngIf="expandedProjectMatrixView !== element">keyboard_arrow_down</ng-container>
                         <ng-container *ngIf="expandedProjectMatrixView === element">keyboard_arrow_up</ng-container>
                     </mat-icon>
-                </ng-container>
+                </span>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="contentDescription">
@@ -62,7 +63,7 @@
         </ng-container>
         <ng-container matColumnDef="libraryConstructionApproach">
             <mat-header-cell *matHeaderCellDef>
-                <span class="fontsize-xxs bold">Library Construction Method</span>
+                <span class="fontsize-xxs bold"><span>Library</span><span>Construction</span><span>Method</span></span>
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs mat-cell-multi">
                 <span *ngFor="let libraryConstructionApproach of element.libraryConstructionApproach;let last = last;">{{libraryConstructionApproach}}<ng-container
