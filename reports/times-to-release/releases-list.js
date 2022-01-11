@@ -1,7 +1,34 @@
 
-let latestRelease = 11;
+let latestRelease = 12;
 
 let releases = [
+	[
+		"december-20-2021",
+		
+		// New Raw Data, Metadata, and Contributor-generated Matrices (21):
+		"https://data.humancellatlas.org/explore/projects/ef1e3497-515e-4bbe-8d4c-10161854b699",
+		"https://data.humancellatlas.org/explore/projects/5116c081-8be7-49c5-8ce0-73b887328aa9",
+		"https://data.humancellatlas.org/explore/projects/c31fa434-c9ed-4263-a9b6-d9ffb9d44005",
+		"https://data.humancellatlas.org/explore/projects/8ab8726d-81b9-4bd2-acc2-4d50bee786b4",
+		"https://data.humancellatlas.org/explore/projects/04ad400c-58cb-40a5-bc2b-2279e13a910b",
+		"https://data.humancellatlas.org/explore/projects/74493e98-44fc-48b0-a58f-cc7e77268b59",
+		"https://data.humancellatlas.org/explore/projects/2ad191cd-bd7a-409b-9bd1-e72b5e4cce81",
+		"https://data.humancellatlas.org/explore/projects/5bb1f67e-2ff0-4848-bbcf-17d133f0fd2d",
+		"https://data.humancellatlas.org/explore/projects/769a08d1-b8a4-4f1e-95f7-6071a9827555",
+		"https://data.humancellatlas.org/explore/projects/54aaa409-dc28-48c5-be26-d368b4a5d5c6",
+		"https://data.humancellatlas.org/explore/projects/2f676143-80c2-4bc6-b7b4-2613fe0fadf0",
+		"https://data.humancellatlas.org/explore/projects/a60803bb-f7db-45cf-b529-95436152a801",
+		"https://data.humancellatlas.org/explore/projects/2084526b-a66f-4c40-bb89-6fd162f2eb38",
+		"https://data.humancellatlas.org/explore/projects/58028aa8-0ed2-49ca-b60f-15e2ed5989d5",
+		"https://data.humancellatlas.org/explore/projects/5b328561-4a97-40ac-b7ad-6a90fc59d374",
+		"https://data.humancellatlas.org/explore/projects/daf9d982-7ce6-43f6-ab51-272577290606",
+		"https://data.humancellatlas.org/explore/projects/38e44dd0-c3df-418e-9256-d0824748901f",
+		"https://data.humancellatlas.org/explore/projects/68df3629-d2d2-4eed-b0ab-a10e0f019b88",
+		"https://data.humancellatlas.org/explore/projects/591af954-cdcd-4839-96d3-a0d1b1e885ac",
+		"https://data.humancellatlas.org/explore/projects/c5ca43aa-3b2b-4216-8eb3-f57adcbc99a1",
+		"https://data.humancellatlas.org/explore/projects/a991ef15-4d4a-4b80-a93e-c538b4b54127",
+		
+	],
 	[
 		"november-10-2021",
 		
