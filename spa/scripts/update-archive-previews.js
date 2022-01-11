@@ -14,9 +14,13 @@ const {fromIni} = require("@aws-sdk/credential-providers");
 const pipeline = promisify(require("stream").pipeline);
 const exec = promisify(require("child_process").exec);
 
+//TODO: Can we pass in a flag like env = "TEST, DEV, PROD" select, the bucket name, the url, and the authentication mechanism?
+// or how else can we easily switch
+
 //const bucketName = "cc-archive-preview-test";
 //const bucketName = "dev.archive-preview.singlecell.gi.ucsc.edu";
 const bucketName = "archive-preview.humancellatlas.org";
+
 
 
 const hcaApiUrl =
@@ -25,6 +29,9 @@ const hcaApiUrl =
 
 
 const outPath = path.resolve("../../downloads");
+//TODO: Delete downloads content on startup...
+
+//const client = new S3Client({ region: "us-east-1" });
 
 const client = new S3Client(
     {
@@ -45,6 +52,7 @@ const client = new S3Client(
 
     const hits = await getSearchResults();
 
+    //TODO: Remove limits
     let sizeLimit = 5000000,
         countLimit = 1;
 
@@ -176,6 +184,7 @@ async function generateManifest(uuid, version, fileName) {
             await fsPromises.rm(path.resolve(outPath, zipName));
         }
     } else {
+        //TODO: Document what tar -tf and -xf are and why both are needed
         const {stdout} = await exec(`tar -tf ${formatBashString(fileName)}`, {
             cwd: outPath,
         });
@@ -228,5 +237,6 @@ async function generateManifest(uuid, version, fileName) {
 }
 
 function formatBashString(str) {
+    //TODO: Document the inteion here..
     return '"' + str.replace(/[$`"\\\n!]/g, "\\$&") + '"';
 }
