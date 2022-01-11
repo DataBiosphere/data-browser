@@ -17,11 +17,14 @@ const exec = promisify(require("child_process").exec);
 //TODO: Can we pass in a flag like env = "TEST, DEV, PROD" select, the bucket name, the url, and the authentication mechanism?
 // or how else can we easily switch
 
+//TEST
 //const bucketName = "cc-archive-preview-test";
+
+//DEV
 //const bucketName = "dev.archive-preview.singlecell.gi.ucsc.edu";
+
+//PROD
 const bucketName = "archive-preview.humancellatlas.org";
-
-
 
 const hcaApiUrl =
   "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp12";
@@ -31,8 +34,21 @@ const hcaApiUrl =
 const outPath = path.resolve("../../downloads");
 //TODO: Delete downloads content on startup...
 
+//TEST
 //const client = new S3Client({ region: "us-east-1" });
 
+//DEV
+// const client = new S3Client(
+//     {
+//         region: "us-east-1",
+//         credentials: fromIni({
+//             profile: 'platform-hca-dev',
+//             mfaCodeProvider: async (mfaSerial) => {
+//                 return "987629";
+//             },})
+//     });
+
+//PROD
 const client = new S3Client(
     {
         region: "us-east-1",
@@ -41,7 +57,7 @@ const client = new S3Client(
             mfaCodeProvider: async (mfaSerial) => {
                 return "987629";
             },})
-    });
+    })
 
 (async function () {
     try {
@@ -74,6 +90,7 @@ const client = new S3Client(
     console.log("Done");
 })();
 
+//TODO very brief description of what this does
 async function getSearchResults() {
     const allHits = [];
     let url = hcaApiUrl;
@@ -87,6 +104,7 @@ async function getSearchResults() {
     return allHits;
 }
 
+//TODO very brief description of what this does
 async function processFile(file) {
     console.log(file.url);
 
@@ -145,6 +163,7 @@ async function processFile(file) {
     }
 }
 
+//TODO very brief description of what this does
 async function generateManifest(uuid, version, fileName) {
     const filePath = path.resolve(outPath, fileName);
 
@@ -237,6 +256,6 @@ async function generateManifest(uuid, version, fileName) {
 }
 
 function formatBashString(str) {
-    //TODO: Document the inteion here..
+    //TODO: Document the goal here..
     return '"' + str.replace(/[$`"\\\n!]/g, "\\$&") + '"';
 }
