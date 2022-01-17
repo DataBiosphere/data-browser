@@ -12,12 +12,12 @@
 }
 
 .portal-search {
+    background-color: $hca-white;
     display: none;
     position: relative; /* Positions icons. */
 
     &.open {
         align-items: center;
-        background-color: $hca-white;
         box-sizing: border-box;
         display: inline-flex; /* Shows search bar. */
         height: 60px; /* 64px */
@@ -32,7 +32,7 @@
     /* Input */
     input {
         background-color: transparent;
-        border: 1px solid $hca-gray-light;
+        border: 1px solid $hca-blue-darkest;
         border-radius: 3px;
         box-sizing: border-box;
         color: $hca-gray-darkest;
@@ -106,29 +106,31 @@
 /* Lungmap specific style overrides. */
 :host-context(lungmap-toolbar) {
     .portal-search {
+        border-radius: 3px;
+
         &.open {
             background-color: $hca-primary;
         }
 
         input {
-            background-color: transparent;
+            background-color: $hca-white;
             border-color: $hca-white;
-            caret-color: $hca-white;
-            color: $hca-white;
-
-            &:focus {
-                border: 2px solid $hca-white;
-            }
+            caret-color: $hca-secondary;
+            color: $hca-primary;
 
             &::placeholder {
-                color: $hca-white;
+                color: $hca-primary;
             }
         }
 
-        /* Search and clear icon */
-        .search-icon,
+        /* Search icon */
+        .search-icon {
+            color: $hca-primary;
+        }
+
+        /* Clear icon */
         .clear-icon {
-            color: $hca-white;
+            color: $hca-gray-light;
         }
     }
 
@@ -184,12 +186,25 @@
 @media screen and (min-width: 768px) {
     .portal-search {
         input {
-            width: 300px;
+            width: 260px;
         }
 
         input,
         input[type="text"] {
             font-size: 12px;
+        }
+    }
+}
+
+/**
+ * Medium +
+ * HCA custom breakpoint
+ */
+@media screen and (min-width: 1200px) {
+    /* Search bar. */
+    .portal-search {
+        input {
+            width: 344px;
         }
     }
 }
