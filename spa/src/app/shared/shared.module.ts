@@ -44,6 +44,8 @@ import { ToolbarNavItemComponent } from "./toolbar-nav-item/toolbar-nav-item.com
 import { ToolbarNavSubMenuComponent } from "./toolbar-nav-sub-menu/toolbar-nav-sub-menu.component";
 import { ToolbarNavSubMenuItemComponent } from "./toolbar-nav-sub-menu-item/toolbar-nav-sub-menu-item.component";
 import { ToolbarPortalSearchComponent } from "./toolbar-portal-search/toolbar-portal-search.component";
+import { ToolbarSocialComponent } from "./toolbar-social/toolbar-social.component";
+import { ToolbarSocialsComponent } from "./toolbar-socials/toolbar-socials.component";
 import { ToolbarToolsComponent } from "./toolbar-tools/toolbar-tools.component";
 import { UtilService } from "./util/util.service";
 import { WarningComponent } from "./warning/warning.component";
@@ -84,6 +86,8 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
         ToolbarPortalSearchComponent,
+        ToolbarSocialComponent,
+        ToolbarSocialsComponent,
         ToolbarToolsComponent,
         WarningComponent,
         WarningContentComponent,
@@ -120,6 +124,8 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         ToolbarNavSubMenuComponent,
         ToolbarNavSubMenuItemComponent,
         ToolbarPortalSearchComponent,
+        ToolbarSocialComponent,
+        ToolbarSocialsComponent,
         ToolbarToolsComponent,
         WarningComponent,
         WarningContentComponent,
