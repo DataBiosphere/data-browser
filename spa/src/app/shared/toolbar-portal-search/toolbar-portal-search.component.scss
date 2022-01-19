@@ -214,7 +214,7 @@
         }
 
         input {
-            width: 220px;
+            width: 260px;
         }
 
         /* Search actions */
@@ -230,10 +230,6 @@
  */
 @media screen and (min-width: 768px) {
     .portal-search {
-        input {
-            width: 260px;
-        }
-
         input,
         input[type="text"] {
             font-size: 12px;
