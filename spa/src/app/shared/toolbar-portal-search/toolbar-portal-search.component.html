@@ -3,13 +3,17 @@
       (ngSubmit)="onSearchPortal(portalSearch.value)">
     <mat-icon class="search-icon">search</mat-icon>
     <input #search
-           (blur)="onInputFocusEvent($event)"
-           (focus)="onInputFocusEvent($event)"
+           (blur)="onInputBlurEvent($event)"
+           (focus)="onInputFocusEvent()"
            [formControl]="portalSearch"
            matInput
            placeholder="Search all content"
            spellCheck="false"
            type="text">
-    <mat-icon *ngIf="isClearButtonVisible(portalSearch.value)" class="clear-icon" tabindex="-1">close
-    </mat-icon>
+    <div class="search-actions" *ngIf="isClearButtonVisible(portalSearch.value)">
+        <button class="clear" (click)="onClearPortalSearch()" type="button">
+            <mat-icon class="clear-icon" tabindex="-1">close</mat-icon>
+        </button>
+        <button class="apply fontsize-s" type="submit">Go</button>
+    </div>
 </form>

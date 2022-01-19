@@ -6,7 +6,7 @@
  */
 
 // Dependencies
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ConfigService } from "../../config/config.service";
 
@@ -31,8 +31,9 @@ export class ToolbarPortalSearchComponent {
     
     /**
      * @param configService
+     * @param {Window} window
      */
-    constructor(private configService: ConfigService) {
+    constructor(private configService: ConfigService, @Inject("Window") private window: Window) {
         this.portalURL = this.configService.getPortalUrl();
         
         this.portalSearchGroup = new FormGroup({
@@ -49,28 +50,31 @@ export class ToolbarPortalSearchComponent {
     }
     
     /**
-     * On focus event (focus), the input element is "active".
-     * On focus event (blur), if the clear button was clicked:
-     * - the input value is cleared, and
-     * - the input element will remain "active".
-     * Otherwise, the blur event will proceed as expected and the input will become "inactive".
-     * @param event
+     * On clearing the search input value, the search remains open and active and the input element regains focus.
      */
-    public onInputFocusEvent(event: FocusEvent): void {
-        if ( event.type === "focus" ) {
-            /* Search is open, input is active. */
-            this.inputActive = true;
-        } else if ( !!event.relatedTarget ) {
-            /* Search is open, input value is cleared, and refocuses. */
-            this.searchOpen = true;
-            this.inputActive = true;
-            this.portalSearch.setValue("");
-            this.searchEl.nativeElement.focus();
-        } else {
-            /* Search is closed, input is inactive. */
+    public onClearPortalSearch(): void {
+        this.searchOpen = true;
+        this.inputActive = true;
+        this.portalSearch.setValue("");
+        this.searchEl.nativeElement.focus();
+    }
+    
+    /**
+     * The search is closed and inactive when the input blurs from an event external to the form.
+     * i.e. clicking action outside of portal search bar.
+     */
+    public onInputBlurEvent(event: FocusEvent): void {
+        if ( event.relatedTarget === null ) {
             this.inputActive = false;
             this.searchOpen = false;
         }
+    }
+    
+    /**
+     * The search is open and active when the input focuses.
+     */
+    public onInputFocusEvent(): void {
+        this.inputActive = true;
     }
     
     /**
@@ -81,7 +85,7 @@ export class ToolbarPortalSearchComponent {
         if ( searchTerms ) {
             const params = new URLSearchParams();
             params.set("q", searchTerms);
-            window.location.href = `${this.portalURL}/search?${params.toString()}`;
+            this.window.location.href = `${this.portalURL}/search?${params.toString()}`;
         }
     }
     
@@ -90,8 +94,8 @@ export class ToolbarPortalSearchComponent {
      */
     public onOpenSearch(): void {
         this.searchOpen = true;
-        setTimeout(()=>{ // TODO(cc) execute focus after search is open
+        setTimeout(() => { // TODO(cc) execute focus after search is open
             this.searchEl.nativeElement.focus();
-        },0);
+        }, 0);
     }
 }
