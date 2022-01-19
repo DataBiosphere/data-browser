@@ -77,12 +77,12 @@
     .search-actions {
         align-items: center;
         display: flex;
-        right: 17px;
-        top: 11px;
+        right: 16px;
 
         button {
             background-color: transparent;
             border: none;
+            margin: 0; /* Safari */
             padding: 0;
             width: unset;
 
@@ -96,8 +96,8 @@
                 font-weight: 600;
                 height: 36px;
                 letter-spacing: 0.21px;
-                margin: 0;
-                width: 38px;
+                margin: 1px; /* Total height/width 38px */
+                width: 36px;
             }
         }
     }
@@ -200,7 +200,8 @@
 
     /* Always show search bar. */
     .portal-search {
-        display: block;
+        border-radius: 3px;
+        display: inline-flex;
 
         &.open {
             background-color: transparent;
@@ -219,7 +220,7 @@
 
         /* Search actions */
         .search-actions {
-            right: 1px;
+            right: 0;
             top: 0;
         }
     }
