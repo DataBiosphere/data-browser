@@ -41,16 +41,16 @@
         font-size: 16px; /* Required to prevent zoom on focus of <input> on mobile. */
         font-weight: 400;
         height: 38px;
-        line-height: 32px;
+        line-height: 38px;
         margin: 0;
-        padding: 0 38px;
+        padding: 0 76px 0 38px;
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 100%;
 
         &[type="text"] {
             font-size: 16px; /* Required to prevent zoom on focus of <input> on mobile. */
-            line-height: 32px;
+            line-height: 38px;
         }
 
         &:focus {
@@ -63,16 +63,54 @@
             color: $hca-gray-darkest;
             font-size: 12px;
             font-weight: 300;
-            line-height: 32px;
+            line-height: 38px;
+        }
+    }
+
+    /* Search icon and actions */
+    .search-icon,
+    .search-actions {
+        position: absolute;
+    }
+
+    /* Search actions */
+    .search-actions {
+        align-items: center;
+        display: flex;
+        right: 17px;
+        top: 11px;
+
+        button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            width: unset;
+
+            /* Apply button */
+            &.apply {
+                align-self: center;
+                background-color: $hca-blue-light;
+                border: 1px solid $hca-white;
+                border-radius: 3px;
+                color: $hca-gray-medium;
+                font-weight: 600;
+                height: 36px;
+                letter-spacing: 0.21px;
+                margin: 0;
+                width: 38px;
+            }
         }
     }
 
     /* Search and clear icon */
     .search-icon,
     .clear-icon {
+        align-items: center;
         color: $hca-gray-light;
+        display: flex;
+        font-size: 20px;
+        justify-content: center;
         padding: 7px; /* Total icon size 38px. */
-        position: absolute;
     }
 
     .search-icon {
@@ -80,12 +118,7 @@
     }
 
     .clear-icon {
-        align-items: center;
         cursor: pointer;
-        display: flex;
-        font-size: 20px;
-        justify-content: center;
-        right: 16px; /* Equivalent to header gutter. */
 
         &:hover {
             color: $hca-gray-medium;
@@ -120,6 +153,18 @@
 
             &::placeholder {
                 color: $hca-primary;
+            }
+        }
+
+        .search-actions button.apply {
+            background-color: $hca-secondary;
+            border: none;
+            border-radius: 2px;
+            color: $hca-white;
+
+            &:hover {
+                background-color: $hca-secondary-hover;
+                color: $hca-white;
             }
         }
 
@@ -169,12 +214,12 @@
         }
 
         input {
-            width: 200px;
+            width: 220px;
         }
 
-        /* Clear icon */
-        .clear-icon {
-            right: 0;
+        /* Search actions */
+        .search-actions {
+            right: 1px;
             top: 0;
         }
     }
