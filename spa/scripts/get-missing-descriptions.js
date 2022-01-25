@@ -1,6 +1,6 @@
 
 
-const fsPromises = require("fs/promises");
+const fs = require("fs");
 const got = require("got");
 
 const csvOutPath = "./missing-description-files.csv";
@@ -21,7 +21,9 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 		}
 	}
 	
-	let result = "Project,Project UUID,Ingest,File name,File UUID,File extension";
+	const writeStream = fs.createWriteStream(csvOutPath);
+	
+	writeStream.write("Project,Project UUID,Ingest,File name,File UUID,File extension");
 	
 	let limit = 500;
 	
@@ -34,12 +36,12 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 			file.uuid,
 			file.format
 		];
-		result += "\n" + items.map(s => encodeCsvItem(s)).join(",")
+		writeStream.write("\n" + items.map(s => encodeCsvItem(s)).join(","));
 		
 		if (--limit === 0) break;
 	}
 	
-	await fsPromises.writeFile(csvOutPath, result);
+	writeStream.end();
 	
 	console.log("Done");
 })();
