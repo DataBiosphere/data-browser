@@ -14,7 +14,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "update-archive-previews": "cd scripts && node update-archive-previews.js"
+    "update-archive-previews": "cd scripts && node update-archive-previews.js",
+	"get-missing-descriptions": "cd scripts && node get-missing-descriptions.js"
   },
   "husky": {
     "hooks": {
