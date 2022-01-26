@@ -7,7 +7,7 @@ const { SitemapStream } = require("sitemap");
 
 const pipeline = promisify(require("stream").pipeline);
 
-const sitemapOutPath = "./sitemap.xml";
+const sitemapOutPath = "../dist/explore/sitemap.xml";
 
 const scriptArgs = {};
 
