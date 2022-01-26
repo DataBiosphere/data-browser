@@ -10,10 +10,12 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 
 
 (async function() {
+	console.log("Getting projects");
+	
 	const latticeProjects = new Set();
 	
-	for await (let { projects: [project] } of getSearchResults(projectsUrl)) {
-		for (let contrib of project.contributors) {
+	for await (const { projects: [project] } of getSearchResults(projectsUrl)) {
+		for (const contrib of project.contributors) {
 			if (contrib.email === latticeEmail) {
 				latticeProjects.add(project.projectId);
 				break;
@@ -25,20 +27,27 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 	
 	writeStream.write("Project,Project UUID,Ingest,File name,File UUID,File extension");
 	
-	let limit = 500;
+	//const pageLimit = 10;
 	
-	for await (let { files: [file], projects: [project] } of getSearchResults(filesUrl)) {
-		const items = [
-			project.projectTitle[0],
-			project.projectId[0],
-			latticeProjects.has(project.projectId[0]) ? "Lattice" : "EBI",
-			file.name,
-			file.uuid,
-			file.format
-		];
-		writeStream.write("\n" + items.map(s => encodeCsvItem(s)).join(","));
+	console.log("Getting files");
+	
+	let pageNum = 1;
+	
+	for await (const page of getSearchResults(filesUrl, true)) {
+		console.log("Page " + (pageNum++) + "/" + page.pagination.pages);
+		for (const { files: [file], projects: [project] } of page.hits) {
+			const items = [
+				project.projectTitle[0],
+				project.projectId[0],
+				latticeProjects.has(project.projectId[0]) ? "Lattice" : "EBI",
+				file.name,
+				file.uuid,
+				file.format
+			];
+			writeStream.write("\n" + items.map(s => encodeCsvItem(s)).join(","));
+		}
 		
-		if (--limit === 0) break;
+		//if (pageNum > pageLimit) break;
 	}
 	
 	writeStream.end();
@@ -47,12 +56,13 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 })();
 
 
-async function* getSearchResults(url) {
-    // make a request using the url, paginate through the results, and yield each entry
+async function* getSearchResults(url, usePages) {
+    // make a request using the url, paginate through the results, and yield each entry or page
 	while (url) {
-        const { hits, pagination } = await got(url).json();
-		yield* hits;
-        url = pagination.next;
+        const page = await got(url).json();
+		if (usePages) yield page;
+		else yield* page.hits;
+        url = page.pagination.next;
     }
 }
 
