@@ -25,7 +25,7 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 	
 	const writeStream = fs.createWriteStream(csvOutPath);
 	
-	writeStream.write("Project,Project UUID,Ingest,File name,File UUID,File extension");
+	writeStream.write("Project,Project UUID,Ingest,File name,File UUID,File extension,File version");
 	
 	//const pageLimit = 10;
 	
@@ -42,7 +42,8 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 				latticeProjects.has(project.projectId[0]) ? "Lattice" : "EBI",
 				file.name,
 				file.uuid,
-				file.format
+				file.format,
+				file.version
 			];
 			writeStream.write("\n" + items.map(s => encodeCsvItem(s)).join(","));
 		}
