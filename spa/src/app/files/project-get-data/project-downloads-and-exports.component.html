@@ -1,14 +1,20 @@
 <key-value-pair-layout>
     <ng-container key>Metadata</ng-container>
     <ng-container value>
-        <a [routerLink]="['project-metadata']"><img class="download-visit" 
-                                                    src="assets/images/icon/download-primary.png"></a>
+        <a [routerLink]="['project-metadata']"
+           [queryParams]="{catalog}">
+            <img class="download-visit"
+                 src="assets/images/icon/download-primary.png">
+        </a>
     </ng-container>
 </key-value-pair-layout>
 <key-value-pair-layout>
     <ng-container key>Matrices</ng-container>
-    <ng-container value><a [routerLink]="['project-matrices']"><img class="download-visit" 
-                                                                    src="assets/images/icon/download-primary.png"></a></ng-container>
+    <ng-container value><a [routerLink]="['project-matrices']"
+                           [queryParams]="{catalog}">
+        <img class="download-visit"
+             src="assets/images/icon/download-primary.png">
+    </a></ng-container>
 </key-value-pair-layout>
 <key-value-pair-layout>
     <ng-container key>Project Files via curl</ng-container>
