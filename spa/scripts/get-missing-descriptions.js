@@ -8,7 +8,7 @@ const got = require("got");
 const outDir = "../../temp";
 const csvOutName = "missing-description-files.csv";
 const projectsUrl = "https://service.azul.data.humancellatlas.org/index/projects?catalog=dcp12&size=500";
-const filesUrl = "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22contentDescription%22%3A%7B%22is%22%3A%5Bnull%5D%7D%7D&size=500&catalog=dcp12";
+const filesUrl = "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22contentDescription%22%3A%7B%22is%22%3A%5Bnull%5D%7D%7D&size=1000&catalog=dcp12";
 const latticeEmail = "lattice-info@lists.stanford.edu";
 
 
@@ -38,7 +38,7 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 	
 	writeStream.write("Project,Project UUID,Ingest,File name,File extension,File UUID,File version");
 	
-	//const pageLimit = 5;
+	//const pageLimit = 2;
 	
 	console.log("Getting files");
 	
@@ -50,8 +50,10 @@ const latticeEmail = "lattice-info@lists.stanford.edu";
 		console.log("Page " + (pageNum++) + "/" + page.pagination.pages);
 		for (const { files: [file], projects: [project] } of page.hits) {
 			const projectId = project.projectId[0];
-			missingDescriptionProjects.add(projectId);
-			if (latticeProjects.has(projectId)) numMDLatticeProjects++;
+			if (!missingDescriptionProjects.has(projectId)) {
+				missingDescriptionProjects.add(projectId);
+				if (latticeProjects.has(projectId)) numMDLatticeProjects++;
+			}
 			const items = [
 				project.projectShortname[0],
 				projectId,
