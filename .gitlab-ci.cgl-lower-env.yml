@@ -88,6 +88,7 @@ build_lungmap-dev:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-lungmap-dev
+    - npm run update-sitemap -- catalog=lungmap
   only:
     - lungmap-main
 
