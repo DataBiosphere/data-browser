@@ -87,8 +87,9 @@ mat-toolbar {
         top: 0;
         z-index: 1001;
 
-        mat-toolbar-row > *:not(a) {
-            display: none;
+      toolbar-tools,
+      .nav-bar {
+            display: none; /* Hide toolbar tools and nav bar */
         }
     }
 
