@@ -324,7 +324,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      */
     public onTabSelected(projectId: string): void {
 
-        this.router.navigate(["/projects", projectId]);
+        this.router.navigate(["/projects", projectId], {
+            queryParamsHandling: "preserve"
+        });
     }
 
     /**

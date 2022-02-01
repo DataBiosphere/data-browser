@@ -1,8 +1,7 @@
 <key-value-pair-layout>
     <ng-container key>Metadata</ng-container>
     <ng-container value>
-        <a [routerLink]="['project-metadata']"
-           [queryParams]="{catalog}">
+        <a [routerLink]="['project-metadata']" queryParamsHandling="preserve">
             <img class="download-visit"
                  src="assets/images/icon/download-primary.png">
         </a>
@@ -10,8 +9,7 @@
 </key-value-pair-layout>
 <key-value-pair-layout>
     <ng-container key>Matrices</ng-container>
-    <ng-container value><a [routerLink]="['project-matrices']"
-                           [queryParams]="{catalog}">
+    <ng-container value><a [routerLink]="['project-matrices']" queryParamsHandling="preserve">
         <img class="download-visit"
              src="assets/images/icon/download-primary.png">
     </a></ng-container>

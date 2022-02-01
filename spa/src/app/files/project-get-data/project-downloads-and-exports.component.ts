@@ -9,18 +9,12 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
-// App dependencies
-import { Catalog } from "../catalog/catalog.model";
-
 @Component({
     selector: "project-downloads-and-exports",
     templateUrl: "./project-downloads-and-exports.component.html",
     styleUrls: ["./project-downloads-and-exports.component.scss"]
 })
 export class ProjectDownloadsAndExportsComponent {
-
-    // Inputs
-    @Input() catalog: Catalog;
 
     /**
      * @param {ActivatedRoute} activatedRoute
@@ -34,9 +28,7 @@ export class ProjectDownloadsAndExportsComponent {
     public onProjectCurlClicked(): void {
 
         this.router.navigate(["get-curl-command"], {
-            queryParams: {
-                catalog: this.catalog
-            },
+            queryParamsHandling: "preserve",
             relativeTo: this.activatedRoute
         });
     }
@@ -47,9 +39,7 @@ export class ProjectDownloadsAndExportsComponent {
     public onProjectTerraWorkspaceClicked(): void {
 
         this.router.navigate(["export-to-terra"], {
-            queryParams: {
-                catalog: this.catalog
-            },
+            queryParamsHandling: "preserve",
             relativeTo: this.activatedRoute
         });
     }
