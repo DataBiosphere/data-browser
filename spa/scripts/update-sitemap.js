@@ -27,12 +27,13 @@ if (!scriptArgs.catalog) {
 	hcaApiUrl = "https://service.azul.data.humancellatlas.org/index/projects?catalog=" + scriptArgs.catalog + "&size=500"
 	
 	const stream = new SitemapStream({ hostname: "https://data.humancellatlas.org/" });
+	const lastmod = new Date().toISOString();
 	
 	for (let entry of await getSearchResults(hcaApiUrl)) {
 		for (let project of entry.projects) {
 			stream.write({
 				url: "/explore/projects/" + project.projectId,
-				lastmod: project.lastModifiedDate,
+				lastmod,
 				changefreq: "monthly"
 			});
 		}
