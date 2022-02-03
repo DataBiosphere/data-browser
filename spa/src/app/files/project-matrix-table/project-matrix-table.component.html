@@ -70,6 +70,14 @@
                         *ngIf="!last">,</ng-container></span>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="matrixCellCount">
+            <mat-header-cell *matHeaderCellDef>
+                <span class="fontsize-xxs bold">Matrix Cell Count</span>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="fontsize-xxs">
+                <span>{{element.matrixCellCount || element.matrixCellCount === 0 ? (element.matrixCellCount | countSize) : '-'}}</span>
+            </mat-cell>
+        </ng-container>
         <!-- expanded matrix view archive start -->
         <ng-container matColumnDef="archive">
             <mat-cell *matCellDef="let element">

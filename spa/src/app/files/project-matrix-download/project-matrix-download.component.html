@@ -26,6 +26,7 @@
         <p class="fontsize-s">There are currently no DCP generated matrices for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
+                          [columnsToDisplay]="getColumnsToDisplay(false)"
                           [project]="project"
                           [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
@@ -46,6 +47,7 @@
         <p class="fontsize-s">There are currently no contributor files for this project.</p>
     </no-hits>
     <project-matrix-table *ngSwitchDefault
+                          [columnsToDisplay]="getColumnsToDisplay(true)"
                           [project]="project"
                           [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"

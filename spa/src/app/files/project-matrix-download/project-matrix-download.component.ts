@@ -51,6 +51,22 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
     }
 
     /**
+     * Return the columns to display, depending on whether matrices table is to display contributor or DCP matrices.
+     * 
+     * @param {boolean} contributor - true if contributor matrices, false if DCP matrices.
+     * @returns {string[]}
+     */
+    public getColumnsToDisplay(contributor: boolean): string[] {
+
+        const columnsToDisplay = 
+                ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
+        if ( contributor ) {
+            columnsToDisplay.push("matrixCellCount");
+        }
+        return columnsToDisplay;
+    }
+
+    /**
      * Returns true if the atlas for the current environment is HCA.
      * 
      * @returns {boolean}
