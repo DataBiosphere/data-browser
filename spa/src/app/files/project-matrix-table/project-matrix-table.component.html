@@ -38,10 +38,10 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="size">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef class="right">
                 <span class="fontsize-xxs bold">File Size</span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="fontsize-xxs">
+            <mat-cell *matCellDef="let element" class="fontsize-xxs right">
                 <span>{{element.size | fileSize}}</span>
             </mat-cell>
         </ng-container>
@@ -71,10 +71,10 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="matrixCellCount">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef class="right">
                 <span class="fontsize-xxs bold">Matrix Cell Count</span>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="fontsize-xxs">
+            <mat-cell *matCellDef="let element" class="fontsize-xxs right">
                 <span>{{element.matrixCellCount || element.matrixCellCount === 0 ? (element.matrixCellCount | countSize) : '-'}}</span>
             </mat-cell>
         </ng-container>
