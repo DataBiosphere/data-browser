@@ -34,11 +34,10 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     private ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 
     // Template variables
-    public columnsToDisplay =
-        ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
     public expandedProjectMatrixView: ProjectMatrixView | undefined | null;
 
     // Inputs/Outputs
+    @Input() columnsToDisplay: string;
     @Input() project: Project;
     @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();

@@ -13,6 +13,7 @@ export interface ProjectMatrixView {
     contentDescription: string[];
     fileName: string;
     id: string; // Matrix uuid
+    matrixCellCount?: number; // Count can be null or >= 0.
     size: number;
     url: string;
     version: string;
