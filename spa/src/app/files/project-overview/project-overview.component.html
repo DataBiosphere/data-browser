@@ -24,7 +24,10 @@
             <ng-container [ngSwitch]="isAnyPublicationAssociated(project.publications)">
                 <ng-container *ngSwitchCase="true">
                     <ng-container *ngFor="let publication of project.publications">
-                        <p class="fontsize-xxs stack" [innerHTML]="getProjectPublication(publication)"></p>
+                        <p class="fontsize-xxs stack publication">
+                            <span [innerHTML]="getProjectPublication(publication)"></span>
+                            <span *ngIf="publication.officialHcaPublication">(Official HCA Publication)</span>
+                        </p>
                     </ng-container>
                 </ng-container>
                 <p *ngSwitchDefault class="fontsize-xxs">Unspecified</p>

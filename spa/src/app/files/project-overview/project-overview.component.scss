@@ -74,6 +74,11 @@ h4 + .stack {
     padding-top: 0;
 }
 
+/* Publication - add space between title and official publication indicator */
+.publication span+span {
+    margin-left: 4px;
+}
+
 /* Break word */
 .break {
     word-break: break-all;
