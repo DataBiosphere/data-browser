@@ -6,6 +6,7 @@
  */
 
 export interface Publication {
+    officialHcaPublication: boolean;
     publicationTitle: string;
     publicationUrl: string;
 }
