@@ -27,7 +27,7 @@
                             <div>
                                 <catalog-update-chip [catalogUpdate]="catalogUpdate$ | async" [project]="element"></catalog-update-chip>
                                 <a [routerLink]="['/projects', element.entryId]"
-                                   [queryParams]="{catalog: catalog$ | async}"
+                                   [queryParams]="{catalog: getProjectCatalogParam(defaultCatalog$ | async, catalog$ | async)}"
                                    class="fontsize-xxs semi-bold">{{element.projectTitle}}</a>
                             </div>
                         </div>

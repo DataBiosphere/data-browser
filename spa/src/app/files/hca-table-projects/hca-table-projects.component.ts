@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { select, Store } from "@ngrx/store";
@@ -20,7 +20,7 @@ import { Catalog } from "../catalog/catalog.model";
 import { CatalogUpdate } from "../catalog/catalog-update.model";
 import { FileSummary } from "../file-summary/file-summary.model";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog, selectCatalogUpdate } from "../_ngrx/catalog/catalog.selectors";
+import { selectCatalog, selectCatalogUpdate, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -61,6 +61,7 @@ export class HCATableProjectsComponent implements OnInit {
     public catalogUpdate$: Observable<CatalogUpdate>;
     public data$: Observable<any[]>;
     public dataLoaded$: Observable<boolean>;
+    public defaultCatalog$: Observable<Catalog>;
     public defaultSortOrder = {
         sort: "projectTitle",
         order: "asc"
@@ -104,6 +105,19 @@ export class HCATableProjectsComponent implements OnInit {
                 private cdref: ChangeDetectorRef,
                 private elementRef: ElementRef,
                 private router: Router) {
+    }
+
+    /**
+     * Returns the catalog param to include when linking to a project:
+     * 1. Null if selected catalog is default catalog
+     * 2. Selected catalog if catalog is not default catlog.
+     */
+    public getProjectCatalogParam(defaultCatalog: Catalog, selectedCatalog: Catalog): string {
+        
+        if ( defaultCatalog === selectedCatalog ) {
+            return null;
+        }
+        return selectedCatalog;
     }
 
     /**
@@ -284,6 +298,7 @@ export class HCATableProjectsComponent implements OnInit {
         );
 
         this.catalog$ = this.store.pipe(select(selectCatalog));
+        this.defaultCatalog$ = this.store.pipe(select(selectDefaultCatalog));
 
         this.catalogUpdate$ = this.store.pipe(select(selectCatalogUpdate));
     }

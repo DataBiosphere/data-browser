@@ -42,7 +42,7 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { PipeModule } from "../../pipe/pipe.module";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
+import { selectCatalog, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { FilesState } from "../_ngrx/files.state";
 import {
     selectFileSummary,
@@ -70,6 +70,7 @@ import { HCADataUseNotificationComponent } from "../../site/hca/hca-data-use-not
 import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
 import { HCASiteConfigService } from "../../site/hca/hca-site-config.service";
 import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
+import { CatalogUpdateChipComponent } from "../catalog/catalog-update-chip/catalog-update-chip.component";
 
 describe("HCATableProjectsComponent", () => {
 
@@ -78,6 +79,7 @@ describe("HCATableProjectsComponent", () => {
 
     let store: MockStore<FilesState>;
 
+    const defaultCatalog  = DCPCatalog.DCP2;
     const selectedCatalog = DCPCatalog.DCP2;
 
     const INDEX_TABLE_ROW_SINGLE_VALUES = 0;
@@ -139,6 +141,7 @@ describe("HCATableProjectsComponent", () => {
         TestBed.configureTestingModule({
             declarations: [
                 AnalysisProtocolPipelineLinkerComponent,
+                CatalogUpdateChipComponent,
                 CopyToClipboardComponent,
                 DataUseNotificationComponent,
                 DownloadModalButtonComponent,
@@ -217,6 +220,7 @@ describe("HCATableProjectsComponent", () => {
         store.overrideSelector(selectPagination, PROJECTS_TABLE_MODEL.pagination);
         store.overrideSelector(selectTermCountsByFacetName, PROJECTS_TABLE_MODEL.termCountsByFacetName);
         store.overrideSelector(selectFileSummary, FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(selectDefaultCatalog, selectedCatalog);
         store.overrideSelector(selectCatalog, selectedCatalog);
     }));
     
@@ -557,7 +561,7 @@ describe("HCATableProjectsComponent", () => {
         /**
          * Confirm project title entry id is added to router link.
          */
-        it("displays router link with project title entry id", () => {
+        it("renders link to project", () => {
 
             component.selectedProjectIds = [];
 
@@ -566,11 +570,32 @@ describe("HCATableProjectsComponent", () => {
 
             const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
 
-            // Confirm project title entry id is added router link
-            const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${selectedCatalog}`;
+            // Confirm project title entry id is added router link, default catalog is not included in link
+            const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}`;
             expect(projectTitleDE.properties.href).toEqual(expected);
         });
 
+        /**
+         * Confirm project title entry id is added to router link.
+         */
+        it("renders project link with non-default catalog", () => {
+
+            component.selectedProjectIds = [];
+            
+            // Update selected catalog
+            const dcp1Catalog = DCPCatalog.DCP1;
+            store.overrideSelector(selectCatalog, dcp1Catalog);
+
+            // Trigger change detection so template updates accordingly
+            fixture.detectChanges();
+
+            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+
+            // Confirm project title entry id is added router link, default catalog is not included in link
+            const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${dcp1Catalog}`;
+            expect(projectTitleDE.properties.href).toEqual(expected);
+        });
+        
         /**
          * Confirm ngClass "center", "flex-column" and "right" on project title mat header cell are false.
          */
