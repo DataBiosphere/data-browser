@@ -9,6 +9,7 @@ const {
     HeadObjectCommand,
 } = require("@aws-sdk/client-s3");
 
+
 const { fromIni } = require("@aws-sdk/credential-providers");
 
 const pipeline = promisify(require("stream").pipeline);
@@ -39,13 +40,13 @@ let client;
             credentials: fromIni({
                 profile: "platform-hca-dev",
                 mfaCodeProvider: async (mfaSerial) => {
-                    return "987629";
+                    return "357505";
                 },
             }),
         });
     } else {
         hcaApiUrl =
-            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp12";
+            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp13";
         if (env === "test") {
             bucketName = "cc-archive-preview-test";
             client = new S3Client({ region: "us-east-1" });
@@ -56,7 +57,7 @@ let client;
                 credentials: fromIni({
                     profile: "platform-hca-prod",
                     mfaCodeProvider: async (mfaSerial) => {
-                        return "987629";
+                        return "451871";
                     },
                 }),
             });
@@ -80,23 +81,15 @@ let client;
 
         const hits = await getSearchResults();
 
-        //TODO: Remove limits
-        let sizeLimit = 5000000,
-            countLimit = 1;
-
         for (let entry of hits) {
             for (let file of entry.files) {
-                //         if (file.size < sizeLimit) {
                 try {
                     await processFile(file);
                 } catch (e) {
                     console.log(e);
                     continue;
                 }
-                //            if (--countLimit <= 0) break;
-                // }
             }
-            //    if (countLimit <= 0) break;
         }
 
         console.log("Done");
