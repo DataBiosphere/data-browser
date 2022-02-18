@@ -18,5 +18,6 @@ export enum CatalogDisplayName {
     "dcp10" = "DCP 2.0 Data View",
     "dcp11" = "DCP 2.0 Data View",
     "dcp12" = "DCP 2.0 Data View",
+    "dcp13" = "DCP 2.0 Data View",
     "dcp2ebi" = "DCP2EBI"
 }
