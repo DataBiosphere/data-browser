@@ -21,6 +21,7 @@ boardwalk.zip/
 spa/dist
 spa/tmp
 spa/out-tsc
+spa/.angular/cache
 
 # misc
 spa/connect.lock
