@@ -7,6 +7,7 @@ const { SitemapStream } = require("sitemap");
 
 const pipeline = promisify(require("stream").pipeline);
 
+const pageSize = 50;
 const sitemapOutPath = "../../dist/explore/projects-sitemap.xml";
 
 const scriptArgs = {};
@@ -24,7 +25,7 @@ if (!scriptArgs.catalog) {
 	console.log("Missing/invalid arguments");
 	console.log("Usage: npm run-script update-sitemap -- catalog=<catalog> env={dev|prod}");
 } else (async function() {
-	hcaApiUrl = "https://service.azul.data.humancellatlas.org/index/projects?catalog=" + scriptArgs.catalog + "&size=500"
+	hcaApiUrl = "https://service.azul.data.humancellatlas.org/index/projects?catalog=" + scriptArgs.catalog + "&size=" + pageSize;
 	
 	const stream = new SitemapStream({ hostname: "https://data.humancellatlas.org/" });
 	const lastmod = new Date().toISOString();
