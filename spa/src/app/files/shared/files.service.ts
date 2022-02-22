@@ -117,6 +117,10 @@ export class FilesService {
         const totalFileSize = (typeof fileSummaryResponse.totalFileSize === "string") ?
             0 :
             fileSummaryResponse.totalFileSize;
+
+        // Calculate total cell count (as per Azul 3521).
+        const totalCellCount = this.calculateSummaryTotalCellCount(fileSummaryResponse);
+
         return {
             donorCount: fileSummaryResponse.donorCount,
             fileCount: fileSummaryResponse.fileCount,
@@ -133,7 +137,7 @@ export class FilesService {
             organTypes: fileSummaryResponse.organTypes,
             projectCount: fileSummaryResponse.projectCount,
             specimenCount: fileSummaryResponse.specimenCount,
-            totalCellCount: fileSummaryResponse.totalCellCount,
+            totalCellCount,
             totalFileSize: totalFileSize
         };
     }
@@ -263,6 +267,22 @@ export class FilesService {
 
         // Create facet from newly built terms and newly calculated total
         return new FileFacet(facetName, (responseFacet.total || 0), responseTerms);
+    }
+
+    /**
+     * Calculate the summary total cell count using the projects and estimatedCellCount values returned in the response.
+     * @param {FileSummaryResponse} fileSummaryResponse
+     */
+    private calculateSummaryTotalCellCount(fileSummaryResponse: FileSummaryResponse): number {
+        return (fileSummaryResponse.projects ?? []).reduce((accum, {cellSuspensions, projects}) => {
+            if ( projects && (projects.estimatedCellCount || projects.estimatedCellCount === 0) ) {
+                accum += projects.estimatedCellCount;
+            }
+            else if ( cellSuspensions && (cellSuspensions.totalCells || cellSuspensions.totalCells === 0) ) {
+                accum += cellSuspensions.totalCells;
+            }
+            return accum;
+        }, 0);
     }
 
     /**

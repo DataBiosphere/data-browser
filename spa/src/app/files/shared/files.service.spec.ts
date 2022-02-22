@@ -16,6 +16,7 @@ import { PROJECTS_ENTITY_API_RESPONSE } from "./entity-api-response.mock";
 import { EntityName } from "./entity-name.model";
 import { EntityRequestService } from "../entity/entity-request.service";
 import { FilesService } from "./files.service";
+import { FileSummaryResponse } from "../file-summary/file-summary-response.model";
 import { ResponseTermService } from "../http/response-term.service";
 import { HttpService } from "../http/http.service";
 import { SearchTermHttpService } from "../search/http/search-term-http.service";
@@ -195,6 +196,46 @@ describe("FileService:", () => {
                     })
                 }
             );
+        });
+
+        /**
+         * Confirm total cell count is calculated correctly.
+         */
+        it("calculates total cell count", () => {
+            
+            const count0 = 12086;
+            const count1 = 7439535;
+            const count2 = 921060;
+            const stubFileSummaryResponse = {
+                "projects": [
+                    {
+                        "projects": {
+                            "estimatedCellCount": count0 // Add this
+                        },
+                        "cellSuspensions": {
+                            "totalCells": null
+                        }
+                    },
+                    {
+                        "projects": {
+                            "estimatedCellCount": null
+                        },
+                        "cellSuspensions": {
+                            "totalCells": count1 // Plus this
+                        }
+                    },
+                    {
+                        "projects": {
+                            "estimatedCellCount": count2 // Plus this
+                        },
+                        "cellSuspensions": {
+                            "totalCells": 933134.0
+                        }
+                    }
+                ]
+            } as FileSummaryResponse;
+            const actual = fileService["calculateSummaryTotalCellCount"](stubFileSummaryResponse);
+            expect(actual).toEqual(count0 + count1 + count2)
         });
     });
 });

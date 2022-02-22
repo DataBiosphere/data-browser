@@ -7,6 +7,7 @@
  */
 
 // App dependencies
+import { FileSummaryProjectResponse } from "./file-summary-project-response.model";
 import { FileTypeSummaryResponse } from "./file-type-summary-response.model";
 
 export interface FileSummaryResponse {
@@ -14,8 +15,9 @@ export interface FileSummaryResponse {
     fileCount: number;
     fileTypeSummaries: FileTypeSummaryResponse[];
     organTypes: string[];
+    projects: FileSummaryProjectResponse[]
     projectCount: number;
     specimenCount: number;
-    totalCellCount: number;
+    totalCellCount: number; // Deprecated as per DB 2118
     totalFileSize: number;
 }
