@@ -572,7 +572,7 @@ describe("HCATableProjectsComponent", () => {
 
             // Confirm project title entry id is added router link, default catalog is not included in link
             const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}`;
-            expect(projectTitleDE.properties.href).toEqual(expected);
+            expect(projectTitleDE.properties.pathname).toEqual(expected);
         });
 
         /**
@@ -593,7 +593,8 @@ describe("HCATableProjectsComponent", () => {
 
             // Confirm project title entry id is added router link, default catalog is not included in link
             const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${dcp1Catalog}`;
-            expect(projectTitleDE.properties.href).toEqual(expected);
+            const {properties} = projectTitleDE; 
+            expect(`${properties.pathname}${properties.search}`).toEqual(expected);
         });
         
         /**
