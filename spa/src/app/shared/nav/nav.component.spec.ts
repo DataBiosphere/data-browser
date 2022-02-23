@@ -145,7 +145,7 @@ describe("NavComponent", () => {
         fixture.detectChanges();
 
         // Confirm nav router is added to href attribute
-        expect(getNavDEs()[0].properties.href).toEqual(TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION);
+        expect(getNavDEs()[0].properties.pathname).toEqual(TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION);
     });
 
     /**
