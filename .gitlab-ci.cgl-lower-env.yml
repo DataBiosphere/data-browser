@@ -36,7 +36,7 @@ test_trufflehog:
 
 # Test with karma
 test_karma:
-  image: trion/ng-cli-karma
+  image: clevercanary/ng-cli-karma-python3:13.2.5
   stage: test
   script:
     - cd spa
