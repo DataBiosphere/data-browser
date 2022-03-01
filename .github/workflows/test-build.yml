@@ -4,13 +4,12 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: trion/ng-cli-karma
+    container: clevercanary/ng-cli-karma-python3:13.2.5
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: "16.14.0"
-      
+          node-version: "16.14.0
       - run: |
           cd spa
           npm -v
