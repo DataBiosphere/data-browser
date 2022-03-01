@@ -101,7 +101,7 @@ export class FilesService {
         const params = this.httpService.createIndexParams(catalog, {filters});
 
         return this.httpClient.get<FileSummaryResponse>(url, {params}).pipe(
-            map(this.bindFileSummaryResponse)
+            map((fileSummaryResponse: FileSummaryResponse) => this.bindFileSummaryResponse(fileSummaryResponse))
         );
     }
 
