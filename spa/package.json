@@ -57,7 +57,7 @@
     "@angular/language-service": "^13.2.4",
     "@aws-sdk/client-s3": "^3.52.0",
     "@aws-sdk/credential-providers": "^3.52.0",
-    "@ngrx/store-devtools": "^12.5.1",
+    "@ngrx/store-devtools": "^13.0.2",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.54",
     "@types/jasmine": "~3.6.0",
