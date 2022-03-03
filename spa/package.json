@@ -32,7 +32,7 @@
     "@angular/forms": "^13.2.4",
     "@angular/material": "^13.2.4",
     "@angular/platform-browser": "^13.2.4",
-    "@angular/platform-browser-dynamic": "^13.2.4",
+    "@angular/platform-browser-dynamic": "^13.2.5",
     "@angular/platform-server": "^13.2.4",
     "@angular/router": "^13.2.4",
     "@ngrx/effects": "^12.5.1",
