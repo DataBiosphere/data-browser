@@ -27,6 +27,7 @@
     </no-hits>
     <project-matrix-table *ngSwitchDefault
                           [columnsToDisplay]="getColumnsToDisplay(false)"
+                          [contributorMatrices]=false
                           [project]="project"
                           [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
@@ -48,6 +49,7 @@
     </no-hits>
     <project-matrix-table *ngSwitchDefault
                           [columnsToDisplay]="getColumnsToDisplay(true)"
+                          [contributorMatrices]=true
                           [project]="project"
                           [projectMatrixArchivePreviewsByMatrixId]="projectMatrixArchivePreviewsByMatrixId"
                           [projectMatrixFileLocationsByFileUrl]="projectMatrixFileLocationsByFileUrl"
