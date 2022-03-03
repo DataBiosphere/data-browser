@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="project-matrix-table.component.scss">
 <div *ngFor="let tableView of groupProjectMatrixViewsBySpecies(projectMatrixViews); trackBy: trackProjectMatrixTableView">
     <h3 class="fontsize-l">{{getSpeciesDisplayText(tableView.species)}}</h3>
-    <mat-table [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews" multiTemplateDataRows>
+    <mat-table [ngClass]="{'contributor-matrices': contributorMatrices}" [dataSource]="tableView.projectMatrixViews" [trackBy]="trackProjectMatrixViews" multiTemplateDataRows>
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element" class="fontsize-xxs">

@@ -38,6 +38,7 @@ export class ProjectMatrixTableComponent implements OnDestroy {
 
     // Inputs/Outputs
     @Input() columnsToDisplay: string;
+    @Input() contributorMatrices: boolean;
     @Input() project: Project;
     @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
