@@ -387,23 +387,23 @@
                         </hca-table-cell>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="aggregateUpdateDate">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('aggregateUpdateDate')"
-                                     [ngStyle]="getColumnStyle('aggregateUpdateDate')">
+                <ng-container matColumnDef="aggregateLastModifiedDate">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="getColumnClass('aggregateLastModifiedDate')"
+                                     [ngStyle]="getColumnStyle('aggregateLastModifiedDate')">
                         <hca-table-column-header>
-                            <hca-table-column-header-title columnTitle [columnName]="'aggregateUpdateDate'">
-                                {{getColumnDisplayName('aggregateUpdateDate')}}
+                            <hca-table-column-header-title columnTitle [columnName]="'aggregateLastModifiedDate'">
+                                {{getColumnDisplayName('aggregateLastModifiedDate')}}
                             </hca-table-column-header-title>
-                            <hca-table-column-header-count columnSubTitle [columnName]="'aggregateUpdateDate'"
+                            <hca-table-column-header-count columnSubTitle [columnName]="'aggregateLastModifiedDate'"
                                                            [domainCountsByColumnName]="domainCountsByColumnName$ | async"
-                                                           [summaryCount]="(selectFileSummary$ | async).aggregateUpdateDate | countSize"></hca-table-column-header-count>
+                                                           [summaryCount]="(selectFileSummary$ | async).aggregateLastModifiedDate | countSize"></hca-table-column-header-count>
                         </hca-table-column-header>
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('aggregateUpdateDate')"
-                              [ngStyle]="getColumnStyle('aggregateUpdateDate')">
+                    <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('aggregateLastModifiedDate')"
+                              [ngStyle]="getColumnStyle('aggregateLastModifiedDate')">
                         <hca-table-cell>
                             <hca-content-ellipsis>
-                                <span class="fontsize-xxs">{{element.aggregateUpdateDate}}</span>
+                                <span class="fontsize-xxs">{{element.aggregateLastModifiedDate}}</span>
                             </hca-content-ellipsis>
                         </hca-table-cell>
                     </mat-cell>

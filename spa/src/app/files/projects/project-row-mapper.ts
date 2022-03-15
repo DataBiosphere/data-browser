@@ -23,7 +23,7 @@ export class ProjectRowMapper extends EntityRowMapper {
     private DATE_TZ = "GMT";
     
     // Locals
-    private matrixMapper = new ProjectMatrixMapper();
+    private matrixMapper = new ProjectMatrixMapper();r
     private datePipe = new DatePipe("en-US");
 
     /**
@@ -47,12 +47,13 @@ export class ProjectRowMapper extends EntityRowMapper {
         const fileTypeCounts = this.buildFileTypeCounts(this.row.fileTypeSummaries);
         
         // Map dates
-        const aggregateUpdateDate = this.mapDate(this.projects.aggregateUpdateDate);
-        const aggregateSubmissionDate = this.mapDate(this.projects.aggregateSubmissionDate);
+        const dates = this.row.dates?.[0] ?? [];
+        const aggregateLastModifiedDate = this.mapDate(dates.aggregateLastModifiedDate);
+        const aggregateSubmissionDate = this.mapDate(dates.aggregateSubmissionDate);
         
         return Object.assign({}, super.mapRow(), {
+            aggregateLastModifiedDate: getUnspecifiedIfNullValue(aggregateLastModifiedDate),
             aggregateSubmissionDate: getUnspecifiedIfNullValue(aggregateSubmissionDate),
-            aggregateUpdateDate: getUnspecifiedIfNullValue(aggregateUpdateDate),
             contributorMatrices,
             entryId: this.row.entryId,
             fileTypeCounts,
