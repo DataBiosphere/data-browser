@@ -11,9 +11,9 @@
            placeholder="Search all content"
            spellCheck="false"
            type="text">
-    <div class="search-actions" *ngIf="isClearButtonVisible(portalSearch.value)">
+    <div class="search-actions" *ngIf="isClearButtonVisible(portalSearch.value)" tabindex="-1">
         <button class="clear" (click)="onClearPortalSearch()" type="button">
-            <mat-icon class="clear-icon" tabindex="-1">close</mat-icon>
+            <mat-icon class="clear-icon">close</mat-icon>
         </button>
         <button class="apply fontsize-s" type="submit">Go</button>
     </div>
