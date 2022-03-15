@@ -25,7 +25,7 @@ let tableColumns: TableColumn[] = [
         countType: CountType.DOMAIN_COUNT
     },
     {
-        key: "aggregateUpdateDate",
+        key: "aggregateLastModifiedDate",
         userFriendly: "Update Date",
         description: "When project was last updated.",
         alignment: ColumnAlignment.LEFT,
