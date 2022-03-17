@@ -51,14 +51,22 @@ export class ProjectRowMapper extends EntityRowMapper {
         const aggregateLastModifiedDate = this.mapDate(dates.aggregateLastModifiedDate);
         const aggregateSubmissionDate = this.mapDate(dates.aggregateSubmissionDate);
         
-        return Object.assign({}, super.mapRow(), {
+        const row = super.mapRow();
+
+        // Calculate total cells. If there is an estimated cell count for the project, use it. Otherwise use the 
+        // default totalCell values from cellSuspensions.
+        const {estimatedCellCount} = this.projects;
+        const totalCells = estimatedCellCount ?? row.totalCells; 
+
+        return Object.assign({}, row, {
             aggregateLastModifiedDate: getUnspecifiedIfNullValue(aggregateLastModifiedDate),
             aggregateSubmissionDate: getUnspecifiedIfNullValue(aggregateSubmissionDate),
             contributorMatrices,
             entryId: this.row.entryId,
             fileTypeCounts,
             matrices,
-            projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname)
+            projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname),
+            totalCells
         });
     }
 

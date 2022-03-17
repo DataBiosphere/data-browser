@@ -271,7 +271,7 @@ let tableColumns: TableColumn[] = [
         descriptionSamples: "Total estimated number of cells in biomaterial.",
         alignment: ColumnAlignment.RIGHT,
         columnSort: true,
-        columnSortKey: "cellCount",
+        columnSortKey: "cellCount",  // Note, projects sorted by effectiveCellCount. See hca-table-projects.sortTable for project-specific functionality.
         columnTitleWidth: 64,
         countType: CountType.NONE
     },

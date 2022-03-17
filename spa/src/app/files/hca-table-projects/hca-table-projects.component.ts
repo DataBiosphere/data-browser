@@ -222,8 +222,15 @@ export class HCATableProjectsComponent implements OnInit {
      */
     public sortTable(pm: Pagination, sort: Sort) {
 
-        // Get column sort key, when sort key is specified by table config.
-        const tableConfigColumnSortKey = getColumnSortKey(sort.active);
+        // Get column sort key, when sort key is specified by table config. Handle special case for totalCells for
+        // projects: sort by effectiveCellCount instead of cellCount.
+        let tableConfigColumnSortKey;
+        if ( sort.active === "totalCells" ) {
+            tableConfigColumnSortKey = "effectiveCellCount";
+        }
+        else {
+            tableConfigColumnSortKey = getColumnSortKey(sort.active);
+        }
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
         if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
