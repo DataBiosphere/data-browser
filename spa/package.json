@@ -54,7 +54,7 @@
     "@angular-eslint/template-parser": "13.1.0",
     "@angular/cli": "^13.2.5",
     "@angular/compiler-cli": "^13.2.4",
-    "@angular/language-service": "^13.2.4",
+    "@angular/language-service": "^13.3.0",
     "@aws-sdk/client-s3": "^3.52.0",
     "@aws-sdk/credential-providers": "^3.52.0",
     "@ngrx/store-devtools": "^12.5.1",
