@@ -23,7 +23,7 @@ export class ProjectRowMapper extends EntityRowMapper {
     private DATE_TZ = "GMT";
     
     // Locals
-    private matrixMapper = new ProjectMatrixMapper();r
+    private matrixMapper = new ProjectMatrixMapper();
     private datePipe = new DatePipe("en-US");
 
     /**
@@ -47,7 +47,7 @@ export class ProjectRowMapper extends EntityRowMapper {
         const fileTypeCounts = this.buildFileTypeCounts(this.row.fileTypeSummaries);
         
         // Map dates
-        const dates = this.row.dates?.[0] ?? [];
+        const dates = this.row.dates?.[0] ?? {};
         const aggregateLastModifiedDate = this.mapDate(dates.aggregateLastModifiedDate);
         const aggregateSubmissionDate = this.mapDate(dates.aggregateSubmissionDate);
         
