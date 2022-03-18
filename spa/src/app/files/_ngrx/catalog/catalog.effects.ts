@@ -8,7 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { catchError, concatMap, filter, map, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -45,8 +45,8 @@ export class CatalogEffects {
     /**
      * Fetch catalogs on app init.
      */
-    @Effect()
-    fetchCatalogs$ = this.actions$.pipe(
+    
+    fetchCatalogs$ = createEffect(() => this.actions$.pipe(
         ofType(FetchCatalogsRequestAction.ACTION_TYPE),
         switchMap(() => 
             this.catalogService.fetchCatalogs().pipe(
@@ -54,13 +54,13 @@ export class CatalogEffects {
                 catchError((errorMessage) => of(new FetchCatalogsErrorAction(), new ErrorAction(errorMessage)))
             )
         )
-    );
+    ));
 
     /**
      * Track view of catalog from announcement.
      */
-    @Effect({dispatch: false})
-    viewCatalog$ = this.actions$.pipe(
+    
+    viewCatalog$ = createEffect(() => this.actions$.pipe(
         ofType(ViewCatalogAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -70,13 +70,13 @@ export class CatalogEffects {
         tap(([action, catalog]) => {
             this.gtmService.trackEvent((action as ViewCatalogAction).asEvent({catalog}));
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Determine on load if there is a new catalog since the user's last visit, if any.
      */
-    @Effect()
-    initCatalogUpdatedSinceLastVisit$: Observable<Action> = this.router.events.pipe(
+    
+    initCatalogUpdatedSinceLastVisit$: Observable<Action> = createEffect(() => this.router.events.pipe(
         // Exit init if routing to error or not found pages, or if Terra registration is required.
         filter((evt) => {
             return evt instanceof NavigationEnd;
@@ -92,5 +92,5 @@ export class CatalogEffects {
             const updatedSinceLastVisit = this.catalogService.isCatalogUpdatedSinceLastVisit(catalog);
             return new SetCatalogUpdatedSinceLastVisitAction(updatedSinceLastVisit);
         })
-    );
+    ));
 }

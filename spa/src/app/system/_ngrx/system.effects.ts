@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -38,8 +38,8 @@ export class SystemEffects {
      *
      * @type {Observable<Action>}
      */
-    @Effect()
-    systemStatus$: Observable<Action> = this.actions$
+    
+    systemStatus$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(SystemStatusRequestAction.ACTION_TYPE),
             switchMap((action: SystemStatusRequestAction) => 
@@ -48,5 +48,5 @@ export class SystemEffects {
 
                 return new SystemStatusSuccessAction(response.ok, response.indexing);
             })
-        );
+        ));
 }

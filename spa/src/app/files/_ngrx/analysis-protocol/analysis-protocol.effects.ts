@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
 import { of } from "rxjs";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -34,8 +34,8 @@ export class AnalysisProtocolEffects {
     /**
      * Track click of link to analysis protocol in the Data Portal.
      */
-    @Effect({dispatch: false})
-    viewAnalysisProtocol$ = this.actions$.pipe(
+    
+    viewAnalysisProtocol$ = createEffect(() => this.actions$.pipe(
         ofType(ViewAnalysisProtocolAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -49,5 +49,5 @@ export class AnalysisProtocolEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 }

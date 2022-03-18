@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -51,8 +51,8 @@ export class EntityEffects {
      * Handle change in user's authenticated status; clear any cached entities, navigate to projects, init (re-fetch)
      * projects state.
      */
-    @Effect()
-    onLogout$: Observable<Action> = this.actions$.pipe(
+    
+    onLogout$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(
             // LoginSuccessAction.ACTION_TYPE,
             LogoutSuccessAction.ACTION_TYPE
@@ -64,14 +64,14 @@ export class EntityEffects {
                 new SelectEntityAction(EntityName.PROJECTS)
             );
         })
-    )
+    ))
 
     /**
      * Handle change in user's authenticated status; clear any cached entities, navigate to projects, init (re-fetch)
      * projects state.
      */
-    @Effect()
-    onLogin$: Observable<Action> = this.actions$.pipe(
+    
+    onLogin$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(
             LoginSuccessAction.ACTION_TYPE,
         ),
@@ -96,13 +96,13 @@ export class EntityEffects {
             // required page.
             return of(new NoOpAction());
         })
-    );
+    ));
 
     /**
      * Handle action where tab is selected (ie Projects, Samples, Files).
      */
-    @Effect()
-    switchTabs$: Observable<Action> = this.actions$
+    
+    switchTabs$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(
                 SelectEntityAction.ACTION_TYPE,
@@ -131,5 +131,5 @@ export class EntityEffects {
                 // Table data has not been previously loaded and is therefore not cached.
                 return new InitEntityStateAction();
             })
-        );
+        ));
 }

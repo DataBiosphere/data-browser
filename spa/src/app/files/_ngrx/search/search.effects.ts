@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
 import { of } from "rxjs";
@@ -40,8 +40,8 @@ export class SearchEffects {
     /**
      * Track any update to selected search terms.
      */
-    @Effect({dispatch: false})
-    updateSelectedSearchTerms$ = this.actions$.pipe(
+    
+    updateSelectedSearchTerms$ = createEffect(() => this.actions$.pipe(
         ofType(
             ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
             ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
@@ -65,5 +65,5 @@ export class SearchEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 }

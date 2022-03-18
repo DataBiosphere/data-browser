@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
@@ -34,8 +34,8 @@ export class TerraAuthEffects {
     /**
      * User has logged in; check Terra registration status.
      */
-    @Effect()
-    onLogin$: Observable<Action> = this.actions$.pipe(
+    
+    onLogin$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(
             LoginSuccessAction.ACTION_TYPE
         ),
@@ -47,5 +47,5 @@ export class TerraAuthEffects {
             // Wait for Terra registration response, then continue as is.
             return new NoOpAction();
         })
-    );
+    ));
 }

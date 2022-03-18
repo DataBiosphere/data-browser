@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, filter, map, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -50,8 +50,8 @@ export class TerraEffects {
     /**
      * Track copy of Terra URL to clipboard.
      */
-    @Effect({dispatch: false})
-    copyTerraUrlToClipboard$ = this.actions$
+    
+    copyTerraUrlToClipboard$ = createEffect(() => this.actions$
         .pipe(
             ofType(CopyToClipboardTerraUrlAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -68,12 +68,12 @@ export class TerraEffects {
                     currentQuery: queryWhenActionTriggered
                 }));
             })
-        );
+        ), {dispatch: false});
     /**
      * Trigger export to Terra.
      */
-    @Effect()
-    exportToTerra$: Observable<Action> = this.actions$
+    
+    exportToTerra$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(ExportToTerraRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -110,13 +110,13 @@ export class TerraEffects {
                     new ExportToTerraInProgressAction(response) :
                     new ExportToTerraSuccessAction(response)
             })
-        );
+        ));
 
     /**
      * Trigger export to Terra for a specific project.
      */
-    @Effect()
-    exportToTerraProject$: Observable<Action> = this.actions$
+    
+    exportToTerraProject$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(ExportProjectToTerraRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -155,13 +155,13 @@ export class TerraEffects {
                     new ExportToTerraInProgressAction(response) :
                     new ExportToTerraSuccessAction(response)
             })
-        );
+        ));
 
     /**
      * Track launch of Terra.
      */
-    @Effect({dispatch: false})
-    launchTerra$ = this.actions$
+    
+    launchTerra$ = createEffect(() => this.actions$
         .pipe(
             ofType(LaunchTerraAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -178,5 +178,5 @@ export class TerraEffects {
                     currentQuery: queryWhenActionTriggered
                 }));
             })
-        );
+        ), {dispatch: false});
 }

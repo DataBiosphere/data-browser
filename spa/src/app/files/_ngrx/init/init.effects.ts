@@ -8,7 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, filter, map, take, takeUntil, tap, withLatestFrom } from "rxjs/operators";
@@ -50,8 +50,8 @@ export class InitEffects {
     /**
      * Trigger GA/GTM pageview event on navigation.
      */
-    @Effect({dispatch: false})
-    initPageview$ = this.router.events.pipe(
+    
+    initPageview$ = createEffect(() => this.router.events.pipe(
         filter(evt => evt instanceof NavigationEnd),
         // Filter any "intermediate" paths that are always redirected to another route
         filter((evt: NavigationEnd) => evt.url !== "/" && evt.url !== "/explore"),
@@ -68,7 +68,7 @@ export class InitEffects {
                 }
             });
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Set up default table state:
@@ -84,8 +84,8 @@ export class InitEffects {
      * - Updates the filter query string parameter, if a filter is specified
      * - Sets the selected catalog
      */
-    @Effect()
-    initSearchState$: Observable<Action> = this.router.events.pipe(
+    
+    initSearchState$: Observable<Action> = createEffect(() => this.router.events.pipe(
         takeUntil(this.actions$.pipe(ofType(ErrorAction.ACTION_TYPE))),
         // Check if user registration with Terra is required
         concatMap(action => of(action).pipe(
@@ -130,5 +130,5 @@ export class InitEffects {
 
             return new SetViewStateAction(catalog, selectedEntity, filter);
         })
-    );
+    ));
 }

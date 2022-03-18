@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
@@ -34,24 +34,24 @@ export class AuthEffects {
     /**
      * Handle login.
      */
-    @Effect({dispatch: false})
-    login$: Observable<Action> = this.actions$
+    
+    login$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LoginRequestAction.ACTION_TYPE),
             tap(() => {
                 this.authService.login();
             })
-        );
+        ), {dispatch: false});
 
     /**
      * Handle logout.
      */
-    @Effect({dispatch: false})
-    logout$: Observable<Action> = this.actions$
+    
+    logout$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LogoutRequestAction.ACTION_TYPE),
             tap(() => {
                 this.authService.logout();
             })
-        );
+        ), {dispatch: false});
 }

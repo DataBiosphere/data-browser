@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, filter, map, mergeMap, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -71,8 +71,8 @@ export class FilesEffects {
      * 2. on any change of the facet terms (either select or clear all)
      * 3. on switch of tab
      */
-    @Effect()
-    fetchFacetsAndSummary$: Observable<Action> = this.actions$
+    
+    fetchFacetsAndSummary$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(
                 SelectCatalogAction.ACTION_TYPE, // Dev-specific select of catalog
@@ -94,15 +94,15 @@ export class FilesEffects {
                     new FetchFileFacetsRequestAction(true)
                 );
             })
-        );
+        ));
 
     /**
      * Fetch data to populate facet menus, facet summary and potentially table data. If we are currently on the projects
      * tab with a selected project, an additional call to populate the table is called. Track any cases where the result
      * set is empty.
      */
-    @Effect()
-    fetchFacets$: Observable<Action> = this.actions$
+    
+    fetchFacets$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFileFacetsRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -195,14 +195,14 @@ export class FilesEffects {
                     tableDataAction
                 );
             })
-        );
+        ));
 
     /**
      * Project IDs are included in the set of selected search terms on load of app, query for the corresponding
      * project details.
      */
-    @Effect()
-    fetchSelectedProjectsById$ = this.actions$.pipe(
+    
+    fetchSelectedProjectsById$ = createEffect(() => this.actions$.pipe(
         ofType(
             SetViewStateAction.ACTION_TYPE
         ),
@@ -228,14 +228,14 @@ export class FilesEffects {
             
             return new FetchSelectedProjectsSuccessAction(entitySearchResults.searchEntities);
         })
-    );
+    ));
 
     /**
      * Trigger update of file summary if a facet changes (ie term is selected or deselected). File summary includes the
      * donor count, file count etc that is displayed above the facets.
      */
-    @Effect()
-    fetchSummary$: Observable<Action> = this.actions$
+    
+    fetchSummary$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFileSummaryRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -247,7 +247,7 @@ export class FilesEffects {
             switchMap(([action, catalog, searchTerms]) =>
                 this.fileService.fetchFileSummary(catalog, searchTerms)),
             map((fileSummary: FileSummary) => new FetchFileSummarySuccessAction(fileSummary))
-        );
+        ));
 
     /**
      * Returns true if there is currently any projects in the current search terms.

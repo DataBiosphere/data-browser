@@ -8,7 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
 import { filter, switchMap, take, tap } from "rxjs/operators";
 
@@ -45,8 +45,8 @@ export class UrlEffects {
     /**
      * Update catalog query string param if catalog has been selected.
      */
-    @Effect({dispatch: false})
-    updateCatalogQueryParam$ = this.actions$.pipe(
+    
+    updateCatalogQueryParam$ = createEffect(() => this.actions$.pipe(
         ofType(SelectCatalogAction.ACTION_TYPE),
         tap((action: SelectCatalogAction) => {
             
@@ -59,14 +59,14 @@ export class UrlEffects {
                 queryParamsHandling: "merge"
             });
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Navigate to the selected entity, preserving all query params. In the case where query params can't be preserved,
      * for example clicking on the "Explore" link from a project detail page, query params are added by the filter guard.
      */
-    @Effect({dispatch: false})
-    navigateToSelectedEntity$ = this.actions$.pipe(
+    
+    navigateToSelectedEntity$ = createEffect(() => this.actions$.pipe(
         ofType(SelectEntityAction.ACTION_TYPE),
         tap((action: SelectEntityAction) => {
             
@@ -75,13 +75,13 @@ export class UrlEffects {
                 queryParamsHandling: "merge"
             });
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Update filter query string param if selected entity or selected search terms has changed. 
      */
-    @Effect({dispatch: false})
-    updateFilterQueryParam$ = this.actions$.pipe(
+    
+    updateFilterQueryParam$ = createEffect(() => this.actions$.pipe(
         ofType(
             ClearSelectedTermsAction.ACTION_TYPE,
             ClearSelectedAgeRangeAction.ACTION_TYPE,
@@ -110,5 +110,5 @@ export class UrlEffects {
                 queryParamsHandling: "merge"
             });
         })
-    );
+    ), {dispatch: false});
 }
