@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
 
 // App dependencies
@@ -26,11 +26,11 @@ export class SurveyEffects {
     /**
      * Track click on survey launch button.
      */
-    @Effect({dispatch: false})
-    trackTakeSurvey$ = this.actions$.pipe(
+    
+    trackTakeSurvey$ = createEffect(() => this.actions$.pipe(
         ofType(TakeSurveyAction.ACTION_TYPE),
         tap((action) => {
             this.gtmService.trackEvent((action as TakeSurveyAction).asEvent());
         })
-    );
+    ), {dispatch: false});
 }

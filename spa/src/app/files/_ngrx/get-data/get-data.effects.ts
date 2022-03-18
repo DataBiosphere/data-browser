@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
 import { of } from "rxjs";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -38,8 +38,8 @@ export class GetDataEffects {
     /**
      * Trigger tracking of request bulk download, or copy to clipboard of bulk download curl command.
      */
-    @Effect({dispatch: false})
-    trackBulkDownload$ = this.actions$.pipe(
+    
+    trackBulkDownload$ = createEffect(() => this.actions$.pipe(
         ofType(CopyToClipboardBulkDownloadAction.ACTION_TYPE, RequestBulkDownloadAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -55,5 +55,5 @@ export class GetDataEffects {
                 index: selectedEntitySpec.key
             }));
         })
-    );
+    ), {dispatch: false});
 }

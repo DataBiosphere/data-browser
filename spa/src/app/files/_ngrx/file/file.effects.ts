@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, map, mergeMap, take, withLatestFrom, tap } from "rxjs/operators";
@@ -39,8 +39,8 @@ export class FileEffects {
     /**
      * Trigger fetch and store of file file location.
      */
-    @Effect()
-    fetchFileFileLocation$: Observable<Action> = this.actions$
+    
+    fetchFileFileLocation$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFileFileLocationRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -76,5 +76,5 @@ export class FileEffects {
 
                 return new FetchFileFileLocationSuccessAction(fileUrl, fileLocation);
             })
-        );
+        ));
 }

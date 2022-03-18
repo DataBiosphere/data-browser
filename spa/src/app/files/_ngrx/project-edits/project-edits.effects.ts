@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -34,8 +34,8 @@ export class ProjectEditsEffects {
     /**
      * Trigger fetch of project edits.
      */
-    @Effect()
-    fetchProjectEdits: Observable<Action> = this.actions$
+    
+    fetchProjectEdits: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectEditsRequestAction.ACTION_TYPE),
             switchMap(() => {
@@ -46,5 +46,5 @@ export class ProjectEditsEffects {
 
                 return new FetchProjectEditsSuccessAction(projects);
             })
-        );
+        ));
 }

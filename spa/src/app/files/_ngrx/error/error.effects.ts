@@ -8,7 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
-import { Actions, Effect } from "@ngrx/effects";
+import { Actions, createEffect } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
 import { filter, map, switchMap, take } from "rxjs/operators";
 
@@ -30,11 +30,11 @@ export class ErrorEffects {
     /**
      * Clear error on navigate.  
      */
-    @Effect()
-    clearError$ = this.router.events.pipe(
+    
+    clearError$ = createEffect(() => this.router.events.pipe(
         filter(evt => evt instanceof NavigationStart),
         switchMap(() => this.store.pipe(select(selectIsError), take(1))),
         filter(error => error),
         map(() => new ClearErrorStateAction())
-    );
+    ));
 }

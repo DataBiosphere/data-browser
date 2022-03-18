@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -47,8 +47,8 @@ export class SupportRequestEffects {
     /**
      * Create support request.
      */
-    @Effect()
-    createSupportRequest$: Observable<Action> = this.actions$
+    
+    createSupportRequest$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(CreateSupportRequestRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -84,13 +84,13 @@ export class SupportRequestEffects {
 
                 return new CreateSupportRequestSuccessAction(response);
             })
-        );
+        ));
 
     /**
      * Upload attachment to a support request.
      */
-    @Effect()
-    uploadAttachment$: Observable<Action> = this.actions$
+    
+    uploadAttachment$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(UploadAttachmentRequestAction.ACTION_TYPE),
             switchMap((action: UploadAttachmentRequestAction) => {
@@ -104,5 +104,5 @@ export class SupportRequestEffects {
                 }
                 return new UploadAttachmentSuccessAction(response);
             })
-        );
+        ));
 }

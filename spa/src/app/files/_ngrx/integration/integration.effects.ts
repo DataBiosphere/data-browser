@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -36,8 +36,8 @@ export class IntegrationEffects {
     /**
      * Trigger fetch of integrations for the specified project ID.
      */
-    @Effect()
-    fetchIntegrationsByProjectId: Observable<Action> = this.actions$
+    
+    fetchIntegrationsByProjectId: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchIntegrationsByProjectIdRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -59,5 +59,5 @@ export class IntegrationEffects {
                 );
             }),
             map(({projectId, integrations}) => new FetchIntegrationsByProjectIdSuccessAction(projectId, integrations))
-        );
+        ));
 }

@@ -9,7 +9,7 @@
 import { DOCUMENT } from "@angular/common";
 import { Inject, Injectable, Renderer2, RendererFactory2 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { filter, map, switchMap, take, tap } from "rxjs/operators";
@@ -44,21 +44,21 @@ export class HamburgerEffects {
     /**
      * Trigger close of hamburger on navigation end, if currently open.
      */
-    @Effect()
-    closeHamburgerOnNavigation$: Observable<Action> = this.router.events.pipe(
+    
+    closeHamburgerOnNavigation$: Observable<Action> = createEffect(() => this.router.events.pipe(
         filter(evt => evt instanceof NavigationEnd),
         switchMap(() => this.store.pipe(select(selectHamburgerOpen), take(1))),
         filter(open => open),
         map(() => {
             return new CloseHamburgerAction();
         })
-    );
+    ));
 
     /**
      * Handle toggle, or close, of hamburger.
      */
-    @Effect({dispatch: false})
-    toggleHamburger$ = this.actions$.pipe(
+    
+    toggleHamburger$ = createEffect(() => this.actions$.pipe(
         ofType(CloseHamburgerAction.ACTION_TYPE, ToggleHamburgerAction.ACTION_TYPE),
         switchMap(() => this.store.pipe(select(selectHamburgerOpen), take(1))),
         tap((hamburgerOpen) => {
@@ -80,5 +80,5 @@ export class HamburgerEffects {
                 bodyEl.removeEventListener("touchmove", scrollFn);
             }
         })
-    );
+    ), {dispatch: false});
 }

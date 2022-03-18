@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { of, Observable } from "rxjs";
 import { concatMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -38,8 +38,8 @@ export class CohortManifestEffects {
     /**
      * Track request, download and copy URL to clipboard for cohort manifest.
      */
-    @Effect({dispatch: false})
-    trackCohortManifest$ = this.actions$
+    
+    trackCohortManifest$ = createEffect(() => this.actions$
         .pipe(
             ofType(
                 CopyToClipboardCohortManifestURLAction.ACTION_TYPE,
@@ -60,5 +60,5 @@ export class CohortManifestEffects {
                     currentQuery: queryWhenActionTriggered
                 }));
             })
-        );
+        ), {dispatch: false});
 }

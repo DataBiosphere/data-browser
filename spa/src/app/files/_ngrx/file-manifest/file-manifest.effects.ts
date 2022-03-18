@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { of, Observable } from "rxjs";
 import { concatMap, distinct, filter, map, skip, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -65,8 +65,8 @@ export class FileManifestEffects {
      * Fetch facets from files endpoint to populate facet summary and species form in get data and project downloads
      * flows.
      */
-    @Effect()
-    fetchFilesFacets$: Observable<Action> = this.actions$
+    
+    fetchFilesFacets$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFilesFacetsRequestAction.ACTION_TYPE),
             // Prevent dupe hits to fetch files facets. Reset distinct on select of term, or clear of fetch files 
@@ -92,14 +92,14 @@ export class FileManifestEffects {
 
                 return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
             })
-        );
+        ));
 
     /**
      * Fetch file types summaries to populate file type form on selected data downloads. Include all selected facets
      * except any selected file types, in request.
      */
-    @Effect()
-    fetchFileTypeSummaries$: Observable<Action> = this.actions$
+    
+    fetchFileTypeSummaries$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFileManifestFileTypeSummariesRequestAction.ACTION_TYPE),
             concatMap((action: FetchFileManifestFileTypeSummariesRequestAction) => of(action).pipe(
@@ -117,14 +117,14 @@ export class FileManifestEffects {
                 this.fileManifestService.fetchFileManifestFileSummary(catalog, selectedSearchTerms)),
             map((fileSummary: FileSummary) => 
                 new FetchFileManifestFileTypeSummariesSuccessAction(fileSummary.fileTypeSummaries))
-        );
+        ));
 
     /**
      * Fetch facets from files endpoint specific to the specified project, to populate facet summary in project
      * download flows.
      */
-    @Effect()
-    fetchProjectFilesFacets$: Observable<Action> = this.actions$
+    
+    fetchProjectFilesFacets$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectFilesFacetsRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -157,15 +157,15 @@ export class FileManifestEffects {
 
                 return new FetchFilesFacetsSuccessAction(entitySearchResults.facets);
             })
-        );
+        ));
 
     /**
      * Determine number of species for the project file downloads by hitting the files endpoint with the project
      * as the only filter selected. We can't use the species value of the project returned from Azul as CGM
      * species are not currently rolled up to the project level.
      */
-    @Effect()
-    fetchProjectSpeciesCount$: Observable<Action> = this.actions$
+    
+    fetchProjectSpeciesCount$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectSpeciesFacetRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -194,7 +194,7 @@ export class FileManifestEffects {
                     entitySearchResults.facets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
                 return new FetchProjectSpeciesFacetSuccessAction(speciesFacet);
             })
-        );
+        ));
 
     /**
      * Trigger update of project-specific file summary. File summary includes the donor count, file count etc that are
@@ -206,8 +206,8 @@ export class FileManifestEffects {
      * are updated to use download-specific selected search terms rather than the app-wide selected search terms. Also
      * update corresponding request/success actions, state field, selectors etc.
      */
-    @Effect()
-    fetchProjectSummary$: Observable<Action> = this.actions$
+    
+    fetchProjectSummary$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectFileSummaryRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -221,7 +221,7 @@ export class FileManifestEffects {
                 return this.filesService.fetchFileSummary(catalog, selectedSearchTerms);
             }),
             map((fileSummary: FileSummary) => new FetchProjectFileSummarySuccessAction(fileSummary))
-        );    
+        ));    
 
     /**
      * Request manifest URL.
@@ -229,8 +229,8 @@ export class FileManifestEffects {
      * TODO
      * Combine with export to Terra functionality for both get data and project downloads.
      */
-    @Effect()
-    requestFileManifestUrl$: Observable<Action> = this.actions$
+    
+    requestFileManifestUrl$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchFileManifestUrlRequestAction.ACTION_TYPE),
             concatMap((action: FetchFileManifestUrlRequestAction) => of(action).pipe(
@@ -268,5 +268,5 @@ export class FileManifestEffects {
                     catalog, searchTerms, fileFormatsFileFacet as FileFacet, manifestFormat, killSwitch$);
             }),
             map(response => new FetchFileManifestUrlSuccessAction(response))
-        );
+        ));
 }

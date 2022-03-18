@@ -8,7 +8,7 @@
 // Core dependencies
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
@@ -64,8 +64,8 @@ export class TableEffects {
     /**
      * Grab the next page of table result set - update table model data (but not the term counts).
      */
-    @Effect()
-    fetchNextPagedTableData$: Observable<Action> = this.actions$
+    
+    fetchNextPagedTableData$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(TableNextPageAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -92,13 +92,13 @@ export class TableEffects {
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new TableNextPageSuccessAction(entitySearchResults.tableModel))
-        );
+        ));
 
     /**
      * Sort order of entity table has been updated, update table model data (but not the term counts).
      */
-    @Effect()
-    fetchSortedTableData$: Observable<Action> = this.actions$
+    
+    fetchSortedTableData$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchSortedTableDataRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -132,13 +132,13 @@ export class TableEffects {
                 const tableModel = entitySearchResults.tableModel;
                 return new FetchTableDataSuccessAction(tableModel.data, tableModel.pagination, termCountsByFacetName);
             })
-        );
+        ));
 
     /**
      * Grab the previous page of table result set - update table model data (but not the term counts).
      */
-    @Effect()
-    fetchPreviousPagedTableData$: Observable<Action> = this.actions$
+    
+    fetchPreviousPagedTableData$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(TablePreviousPageAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -165,13 +165,13 @@ export class TableEffects {
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new TablePreviousPageSuccessAction(entitySearchResults.tableModel))
-        );
+        ));
 
     /**
      * Fetch table data, to update table data and corresponding pagination details. Update to term counts is not required.
      */
-    @Effect()
-    fetchTableData$: Observable<Action> = this.actions$
+    
+    fetchTableData$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchTableDataRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -204,13 +204,13 @@ export class TableEffects {
                     entitySearchResults.tableModel.data,
                     entitySearchResults.tableModel.pagination,
                     (action as FetchTableDataRequestAction).termCountsByFacetName))
-        );
+        ));
 
     /**
      * Fetch table model, to update table data and corresponding pagination details and term counts.
      */
-    @Effect()
-    fetchTableModel$: Observable<Action> = this.actions$
+    
+    fetchTableModel$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchTableModelRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -235,13 +235,13 @@ export class TableEffects {
             }),
             map((entitySearchResults: EntitySearchResults) =>
                 new FetchTableModelSuccessAction(entitySearchResults.tableModel))
-        );
+        ));
 
     /**
      * Trigger fetch of facets and summary counts on select of project.
      */
-    @Effect()
-    selectProject$: Observable<Action> = this.actions$
+    
+    selectProject$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(SelectProjectIdAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -266,7 +266,7 @@ export class TableEffects {
                     new FetchFileFacetsRequestAction(tableQueryParams.tableState.selectedEntity !== EntityName.PROJECTS)
                 );
             })
-        );
+        ));
 
     /**
      * Convert the selected entity spec key into the corresponding GAIndex value, for tracking.

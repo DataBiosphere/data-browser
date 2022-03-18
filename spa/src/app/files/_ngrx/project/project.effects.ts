@@ -7,7 +7,7 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { concatMap, distinct, filter, map, mergeMap, skip, switchMap, take, tap, withLatestFrom } from "rxjs/operators";
@@ -65,8 +65,8 @@ export class ProjectEffects {
      * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from
      * the store to update publication and contributor details, where specified.
      */
-    @Effect()
-    fetchProject$: Observable<Action> = this.actions$
+    
+    fetchProject$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectRequestAction.ACTION_TYPE),
             // Prevent dupe hits to fetch project. Reset distinct check on clear of project.
@@ -85,13 +85,13 @@ export class ProjectEffects {
                 this.projectService.fetchProjectById(catalog, action.projectId, updatedProject)),
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
-        );
+        ));
 
     /**
      * Trigger fetch and store of manifest file location.
      */
-    @Effect()
-    fetchProjectManifestFileLocation: Observable<Action> = this.actions$
+    
+    fetchProjectManifestFileLocation: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectManifestFileLocationRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -129,13 +129,13 @@ export class ProjectEffects {
                 const {project} = action as FetchProjectManifestFileLocationRequestAction;
                 return new FetchProjectManifestFileLocationSuccessAction(project.entryId, fileLocation);
             })
-        );
+        ));
 
     /**
      * Trigger fetch of project matrix archive preview.
      */
-    @Effect()
-    fetchProjectMatrixArchivePreview: Observable<Action> = this.actions$
+    
+    fetchProjectMatrixArchivePreview: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectMatrixArchivePreviewRequestAction.ACTION_TYPE),
             // Prevent dupe hits to fetch preview if same matrix ID. Reset distinct check on clear of archive preview.
@@ -166,13 +166,13 @@ export class ProjectEffects {
                 const {matrixId, project} = action as FetchProjectMatrixArchivePreviewRequestAction;
                 return new FetchProjectMatrixArchivePreviewSuccessAction(project.entryId, matrixId, archiveFiles);
             })
-        );
+        ));
 
     /**
      * Trigger fetch of project matrix file location.
      */
-    @Effect()
-    fetchProjectMatrixFileLocation: Observable<Action> = this.actions$
+    
+    fetchProjectMatrixFileLocation: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(FetchProjectMatrixFileLocationRequestAction.ACTION_TYPE),
             concatMap(action => of(action).pipe(
@@ -207,13 +207,13 @@ export class ProjectEffects {
                 const {fileUrl, project} = action as FetchProjectMatrixFileLocationRequestAction;
                 return new FetchProjectMatrixFileLocationSuccessAction(project.entryId, fileUrl, fileLocation);
             })
-        );
+        ));
 
     /**
      * Trigger tracking of project download-related action.
      */
-    @Effect({dispatch: false})
-    trackProjectDownload$ = this.actions$.pipe(
+    
+    trackProjectDownload$ = createEffect(() => this.actions$.pipe(
         ofType(
             CopyToClipboardProjectBulkDownloadAction.ACTION_TYPE,
             RequestProjectBulkDownloadAction.ACTION_TYPE,
@@ -235,13 +235,13 @@ export class ProjectEffects {
                 terms
             }));
         })
-    );
+    ), {dispatch: false});
     
     /**
      * Track click on project accession.
      */
-    @Effect({dispatch: false})
-    trackProjectAccessionClicked$ = this.actions$.pipe(
+    
+    trackProjectAccessionClicked$ = createEffect(() => this.actions$.pipe(
         ofType(ViewProjectAccessionAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -251,13 +251,13 @@ export class ProjectEffects {
         tap(([action, catalog]) => {
             this.gtmService.trackEvent((action as ViewProjectAccessionAction).asEvent({catalog}));
         })
-    );
+    ), {dispatch: false});
     
     /**
      * Trigger tracking of view of a deprecated project.
      */
-    @Effect({dispatch: false})
-    viewProjectDeprecated$ = this.actions$.pipe(
+    
+    viewProjectDeprecated$ = createEffect(() => this.actions$.pipe(
         ofType(ViewProjectDeprecatedAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -271,13 +271,13 @@ export class ProjectEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Trigger tracking of view of a project integration.
      */
-    @Effect({dispatch: false})
-    viewProjectIntegration$ = this.actions$.pipe(
+    
+    viewProjectIntegration$ = createEffect(() => this.actions$.pipe(
         ofType(ViewProjectIntegrationAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -291,13 +291,13 @@ export class ProjectEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Trigger tracking of view of a project supplementary link.
      */
-    @Effect({dispatch: false})
-    viewProjectSupplementaryLink$ = this.actions$.pipe(
+    
+    viewProjectSupplementaryLink$ = createEffect(() => this.actions$.pipe(
         ofType(ViewProjectSupplementaryLinkAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -311,13 +311,13 @@ export class ProjectEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 
     /**
      * Trigger tracking of view of a withdrawn project.
      */
-    @Effect({dispatch: false})
-    viewProjectWithdrawn$ = this.actions$.pipe(
+    
+    viewProjectWithdrawn$ = createEffect(() => this.actions$.pipe(
         ofType(ViewProjectWithdrawnAction.ACTION_TYPE),
         concatMap(action => of(action).pipe(
             withLatestFrom(
@@ -331,5 +331,5 @@ export class ProjectEffects {
                 currentQuery: queryWhenActionTriggered
             }));
         })
-    );
+    ), {dispatch: false});
 }
