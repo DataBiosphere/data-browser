@@ -92,7 +92,7 @@ export class ProjectPortalsComponent implements OnDestroy {
 
         // Grab integrations for the selected project
         const integrations$ = this.store.pipe(
-            select(selectProjectIntegrations, {projectId: projectId}),
+            select(selectProjectIntegrations(projectId)),
             takeUntil(this.ngDestroy$),
             filter(integrations => !!integrations),
             take(1)

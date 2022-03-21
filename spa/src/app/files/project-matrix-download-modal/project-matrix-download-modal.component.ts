@@ -138,13 +138,13 @@ export class ProjectMatrixDownloadModalComponent implements OnDestroy, OnInit {
 
         // Get any resolved matrix file locations for the selected projects
         const projectMatrixFileLocationsByFileUrl$ = this.store.pipe(
-            select(selectProjectMatrixFileLocationsByProjectId, {projectId}), 
+            select(selectProjectMatrixFileLocationsByProjectId(projectId)), 
             takeUntil(this.ngDestroy$)
         );
 
         // List archive previews for the selected project's matrices.
         const projectMatrixArchivePreviewsByMatrixId$ =
-            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId, {projectId}));
+            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId(projectId)));
 
         // Check if there are any errors
         const error$ = this.store.pipe(
