@@ -73,7 +73,7 @@ build_lungmap-prod:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-lungmap-prod
-    - npm run update-sitemap -- catalog=lungmap
+    - npm run update-sitemap -- catalog=lm2
   only:
     - lungmap-prod
 
