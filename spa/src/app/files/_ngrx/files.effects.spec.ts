@@ -100,6 +100,11 @@ describe("FilesEffects", () => {
         store = TestBed.inject(Store) as MockStore<FilesState>;
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("fetchFacets$", () => {
 
         describe("Projects", () => {

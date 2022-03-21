@@ -152,6 +152,10 @@ describe("ManifestDownloadComponent", () => {
         component = fixture.componentInstance;
     }));
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
 
     /**
      * Confirm "Select Manifest File Types" is displayed when download status is not started.

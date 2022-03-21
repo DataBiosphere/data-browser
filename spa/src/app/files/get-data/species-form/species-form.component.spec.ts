@@ -81,6 +81,11 @@ describe("SpeciesSelectionComponent", () => {
         store.overrideSelector(selectSystemStatusIndexing, false);
     }));
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     /**
      * Species checkboxes are build if there is one species.
      */

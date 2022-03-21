@@ -190,6 +190,11 @@ describe("ExportToTerraComponent", () => {
         configService = TestBed.inject(ConfigService);
         terraService = fixture.debugElement.injector.get(TerraService);
     }));
+    
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
 
     describe("bdbag", () => {
         

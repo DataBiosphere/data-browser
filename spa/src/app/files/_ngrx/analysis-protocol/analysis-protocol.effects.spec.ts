@@ -66,6 +66,11 @@ describe("AnalysisProtocolEffects", () => {
         store.overrideSelector(selectPreviousQuery, mockSelectPreviousQuery);
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("viewAnalysisProtocol$", () => {
 
         /**

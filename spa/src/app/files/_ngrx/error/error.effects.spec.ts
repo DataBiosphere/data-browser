@@ -52,6 +52,14 @@ describe("ErrorEffects", () => {
 
         effects = TestBed.inject(ErrorEffects);
         store = TestBed.inject(Store) as MockStore<HttpState>;
+
+        // Set error state
+        store.overrideSelector(selectIsError, true);
+    });
+
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
     });
 
     describe("clearError$", () => {
@@ -63,9 +71,6 @@ describe("ErrorEffects", () => {
             
             // Spy on dispatch to check that clear action is dispatched
             spyOn(store, "dispatch");
-            
-            // Set error state
-            store.overrideSelector(selectIsError, true);
 
             // Navigate
             navigation$.next(new NavigationStart(1, "/", ));

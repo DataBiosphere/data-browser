@@ -90,6 +90,11 @@ describe("Init Effects", () => {
         store = TestBed.inject(Store) as MockStore<FilesState>; /* TODO revisit "as xxx" after upgrade to 10 */
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("initPageview$", () => {
 
         /**

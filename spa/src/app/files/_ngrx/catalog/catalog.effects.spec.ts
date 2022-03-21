@@ -92,6 +92,11 @@ describe("CatalogEffects", () => {
         store.overrideSelector(selectCatalog, mockSelectCatalog);
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("fetchCatalogs$", () => {
 
         /**

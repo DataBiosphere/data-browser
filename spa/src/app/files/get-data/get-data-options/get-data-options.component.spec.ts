@@ -100,6 +100,11 @@ describe("GetDataOptionsComponent", () => {
         });
     }));
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     /**
      * Confirm "Bulk Download" is displayed.
      */

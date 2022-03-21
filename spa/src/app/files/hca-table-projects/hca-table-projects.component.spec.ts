@@ -223,7 +223,12 @@ describe("HCATableProjectsComponent", () => {
         store.overrideSelector(selectDefaultCatalog, selectedCatalog);
         store.overrideSelector(selectCatalog, selectedCatalog);
     }));
-    
+
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("Sort", () => {
 
         /**
