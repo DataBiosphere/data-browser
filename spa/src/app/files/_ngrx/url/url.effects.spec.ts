@@ -103,6 +103,11 @@ describe("URL Effects", () => {
         mockSelectUrlSpecState = store.overrideSelector(selectUrlSpecState, defaultSelectUrlSpecState);
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("navigateToSelectedEntity$", () => {
 
         /**

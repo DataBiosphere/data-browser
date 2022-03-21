@@ -110,6 +110,11 @@ describe("Table Effects", () => {
         store = TestBed.inject(Store) as MockStore<FilesState>;
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     describe("selectProject$", () => {
 
         /**

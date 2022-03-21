@@ -90,6 +90,11 @@ describe("FilterCanActivateGuard", () => {
         routerStateSnapshotUrl.and.returnValue("/foo/bar");
     });
 
+    // Reset selectors after each test
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     /**
      * Navigation continues as is if filter is not currently specified in URL and there are currently no selected search
      * terms.

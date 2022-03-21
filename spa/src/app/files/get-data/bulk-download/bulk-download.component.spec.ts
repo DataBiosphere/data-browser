@@ -145,6 +145,11 @@ describe("BulkDownloadComponent", () => {
         store.overrideSelector(selectSystemStatusIndexing, false);
     }));
 
+    // Reset selectors after each test.
+    afterEach(() => {
+        store?.resetSelectors();
+    });
+
     /**
      * Confirm form is considered invalid if execution environment is not selected.
      */
