@@ -77,12 +77,12 @@ export class ProjectEffects {
             concatMap(action => of(action).pipe(
                 withLatestFrom(
                     this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectProjectEditsById, {id: action.projectId}), take(1))
+                    this.store.pipe(select(selectProjectEditsById(action.projectId)), take(1))
                 )
             )),
             // Fetch the project and apply any local overrides
             switchMap(([action, catalog, updatedProject]) =>
-                this.projectService.fetchProjectById(catalog, action.projectId, updatedProject)),
+                this.projectService.fetchProjectById(catalog, action.projectId, updatedProject as Project)),
             // Success - update store with fetched project
             map((project: Project) => new FetchProjectSuccessAction(project))
         ));
@@ -111,7 +111,7 @@ export class ProjectEffects {
                 // created on request of the ProjectManifestUrl and is cleared on destroy of components that initiate the
                 // request.
                 const killSwitch$ = this.store.pipe(
-                    select(selectProjectManifestFileLocation, {projectId}),
+                    select(selectProjectManifestFileLocation(projectId)),
                     skip(1), // Skip the initial undefined value, we need to wait until there's at least an initial response value
                     map(fileLocation => !fileLocation),
                     // Only allow value to emit if project manifest file location response for this project has been cleared from the store

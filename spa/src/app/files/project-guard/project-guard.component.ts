@@ -106,7 +106,7 @@ export class ProjectGuardComponent implements OnInit {
         // Add selected project edits to state - grab the project ID from the URL.
         this.activatedRoute.params.pipe(
             switchMap(params =>
-                this.store.pipe(select(selectProjectEditsById, {id: params.id}), take(1))),
+                this.store.pipe(select(selectProjectEditsById(params.id)), take(1))),
             takeUntil(this.ngDestroy$)
         ).subscribe((projectEdits: Project) => {
             

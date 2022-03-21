@@ -19,28 +19,19 @@ export const selectProject = createFeatureSelector<ProjectState>("project");
 /**
  * Returns map of archive previews keyed by matrix ID, if any, for the specified project.
  */
-export const selectProjectMatrixArchivePreviewsByProjectId =
-    createSelector(selectProject, (state, props) =>
-        state.matrixArchivePreviewsByProjectId.get(props.projectId) || new Map());
+export const selectProjectMatrixArchivePreviewsByProjectId = (projectId: string) => 
+    createSelector(selectProject, (state) =>
+        state.matrixArchivePreviewsByProjectId.get(projectId) || new Map());
 
 /**
  * Returns a map of file locations keyed by file URL, if any, for the specified project.
  */
-export const selectProjectMatrixFileLocationsByProjectId =
-        createSelector(selectProject, (state, props) =>
-            state.matrixFileLocationsByProjectId.get(props.projectId) || new Map());
-
-/**
- * Returns a map of file locations keyed by file URL, if any, for the specified project.
- */
-export const selectProjectMatrixFileLocation =
-    createSelector(selectProject, (state, props) => {
-        const fileLocationsByFileUrl = state.matrixFileLocationsByProjectId.get(props.projectId) || new Map();
-        return fileLocationsByFileUrl.get(props.fileUrl);
-    });
+export const selectProjectMatrixFileLocationsByProjectId = (projectId: string) => 
+        createSelector(selectProject, (state) =>
+            state.matrixFileLocationsByProjectId.get(projectId) || new Map());
 
 /**
  * Returns the manifest file location for the specified project. 
  */
-export const selectProjectManifestFileLocation =
-    createSelector(selectProject, (state, props) => state.manifestFileLocationsByProjectId.get(props.projectId));
+export const selectProjectManifestFileLocation = (projectId: string) => 
+    createSelector(selectProject, (state) => state.manifestFileLocationsByProjectId.get(projectId));

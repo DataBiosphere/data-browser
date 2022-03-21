@@ -101,11 +101,11 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
 
         // Get any resolved matrix file locations for the selected projects
         const projectMatrixFileLocationsByFileUrl$ = 
-            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId, {projectId}));
+            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId(projectId)));
 
         // List archive previews for the selected project's matrices.
         const projectMatrixArchivePreviewsByMatrixId$ = 
-            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId, {projectId}));
+            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId(projectId)));
 
         combineLatest([
             project$,

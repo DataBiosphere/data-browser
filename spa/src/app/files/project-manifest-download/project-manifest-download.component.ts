@@ -75,7 +75,7 @@ export class ProjectManifestDownloadComponent implements OnDestroy {
 
         this.store
             .pipe(
-                select(selectProjectManifestFileLocation, {projectId: this.project.entryId}),
+                select(selectProjectManifestFileLocation(this.project.entryId)),
                 takeUntil(this.ngDestroy$)
             )
             .subscribe(fileLocation => this.state$.next({fileLocation}));
