@@ -2,7 +2,7 @@ const { promisify } = require("util");
 const fs = require("fs");
 const fsPromises = require("fs/promises");
 const path = require("path");
-const got = require("got");
+let got;
 const {
     S3Client,
     PutObjectCommand,
@@ -72,6 +72,8 @@ let client;
     //TODO: Delete downloads content on startup...
 
     (async function () {
+		({got} = await import("got"));
+		
         try {
             await fsPromises.mkdir(outPath);
         } catch (e) {
