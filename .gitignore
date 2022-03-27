@@ -45,3 +45,7 @@ Thumbs.db
 dist
 dist-home
 boardwalk.zip
+
+
+#Python
+__pycache__/
