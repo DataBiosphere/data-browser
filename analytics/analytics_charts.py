@@ -4,6 +4,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def format_fancy_chart(df):
+    df2 = df.copy(deep=True)
+    
+    data_cols = [c for c in df2.columns]
+    
+    df2['Quarter'] = df2.index.quarter
+    df2['Year'] = df2.index.year
+
+    df2 = df2.groupby(['Year','Quarter']).sum()
+    
+    df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
+    
+    for name in data_cols:
+        df2[(name, '% Change')] = df2[name].pct_change().mul(100)
+    
+    df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
+    
+    s = df2.style.format(na_rep='', formatter={(name, '% Change'): '({:.2f}%)' for name in data_cols})
+    s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=[(name, '% Change') for name in data_cols])
+    s = s.set_table_styles([
+        {'selector': 'th.col_heading', 'props': 'text-align: center'},
+        {'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
+        {'selector': 'td.col1, td.col3', 'props': 'text-align: left; padding-left: 0'}
+    ], overwrite=False)
+
+    return s
+
 def plot_users_over_time(ga_property, start_date, end_date):
 
 	metrics = 'ga:1dayUsers, ga:uniquePageviews'
@@ -60,14 +87,7 @@ def plot_users_over_time(ga_property, start_date, end_date):
 	plt.show()
 
 
-	df2 = df.copy(deep=True)
-	df2['Quarter'] = df2.index.quarter
-	df2['Year'] = df2.index.year
-
-	df2 = df2.groupby(['Year','Quarter']).sum()
-	df2['Daily Users % Change'] = df2['Daily Users'].pct_change().mul(100)
-	df2['Unique Pageviews % Change'] = df2['Unique Pageviews'].pct_change().mul(100)
-	display(df2)
+	display(format_fancy_chart(df))
 
 def plot_hbar(ga_property, title, xlabel, ylabel, metric, dimension, start_date, end_date):
 
