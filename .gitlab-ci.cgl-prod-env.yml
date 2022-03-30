@@ -56,7 +56,7 @@ build_prod:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-cgl-dcp2
-    - npm run update-sitemap -- catalog=dcp13
+    - npm run update-sitemap -- catalog=dcp14
   only:
     - prod
 
