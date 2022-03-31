@@ -53,10 +53,8 @@ export class ProjectRowMapper extends EntityRowMapper {
         
         const row = super.mapRow();
 
-        // Calculate total cells. If there is an estimated cell count for the project, use it. Otherwise use the 
-        // default totalCell values from cellSuspensions.
-        const {estimatedCellCount} = this.projects;
-        const totalCells = estimatedCellCount ?? row.totalCells; 
+        // Calculate total cells.
+        const estimatedCellCount = this.calculateEstimatedCellCount(row, this.projects, this.cellSuspensions);
 
         return Object.assign({}, row, {
             aggregateLastModifiedDate: getUnspecifiedIfNullValue(aggregateLastModifiedDate),
@@ -66,8 +64,36 @@ export class ProjectRowMapper extends EntityRowMapper {
             fileTypeCounts,
             matrices,
             projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname),
-            totalCells
+            totalCells: estimatedCellCount
         });
+    }
+
+    /**
+     * Calculate the estimated cell count for this project. The estimated cell count is the greater between the estimated
+     * cell count for the project, if any, and the totalCell value from cellSuspensions.
+     */
+    private calculateEstimatedCellCount(row, project, cellSuspensions): number {
+
+        const {estimatedCellCount} = project;
+        
+        // If there's no estimated cell count for the project, return the total from cell suspensions (the totalCells
+        // value on row has already been formatted for display and can be returned as is).
+        if ( !estimatedCellCount ) {
+            return row.totalCells;
+        }
+        
+        // If there's no totalCell value, return the estimated cell count. Use the totalCell value from cell suspensions
+        // here as this will be the raw number (rather than the formatted display value on row).
+        if ( !cellSuspensions.totalCells ) {
+            return estimatedCellCount;
+        }
+        
+        // Otherwise there's both a totalCells value from cell suspensions and an project estimated cell count: use
+        // the greater value of the two.
+        if ( cellSuspensions.totalCells > estimatedCellCount ) {
+            return cellSuspensions.totalCells;
+        }
+        return estimatedCellCount;
     }
 
     /**
