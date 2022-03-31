@@ -12,9 +12,9 @@ import { EntityRow } from "./entity-row.model";
 
 export class EntityRowMapper {
 
-    private cellSuspensions;
     private organs;
 
+    protected cellSuspensions;
     protected donorOrganisms;
     protected projects;
     protected protocols;
