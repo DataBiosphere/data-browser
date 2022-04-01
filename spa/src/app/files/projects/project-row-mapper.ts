@@ -72,7 +72,7 @@ export class ProjectRowMapper extends EntityRowMapper {
      * Calculate the estimated cell count for this project. The estimated cell count is the greater between the estimated
      * cell count for the project, if any, and the totalCell value from cellSuspensions.
      */
-    private calculateEstimatedCellCount(row, project, cellSuspensions): string {
+    private calculateEstimatedCellCount(row, project, cellSuspensions): string | number {
 
         const {estimatedCellCount} = project;
         
@@ -93,7 +93,7 @@ export class ProjectRowMapper extends EntityRowMapper {
         if ( cellSuspensions.totalCells > estimatedCellCount ) {
             return row.totalCells; // Return the formatted totalCells value from row. 
         }
-        return getUnspecifiedIfNullValue(estimatedCellCount);
+        return estimatedCellCount;
     }
 
     /**
