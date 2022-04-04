@@ -9,8 +9,7 @@
 import { FileLocationStatus } from "./file-location-status.model";
 
 export interface FileLocation {
-
     fileUrl?: string;
     retryAfter?: number;
-    status: FileLocationStatus
+    status: FileLocationStatus;
 }

@@ -14,12 +14,10 @@ import { GADimension } from "./ga-dimension.model";
 
 @Injectable()
 export class GTMService {
-
     /**
      * @param {Window} window
      */
-    constructor(@Inject("Window") private window: Window) {
-    }
+    constructor(@Inject("Window") private window: Window) {}
 
     /**
      * Send custom "download" GTM event.
@@ -27,8 +25,7 @@ export class GTMService {
      * @param {GAEvent} gaEvent
      */
     public trackEvent(gaEvent: GAEvent): void {
-
-        if ( !this.isTracking() ) {
+        if (!this.isTracking()) {
             return;
         }
         this.sendToGA(gaEvent);
@@ -38,17 +35,15 @@ export class GTMService {
      * Return the GTM data layer.
      */
     private getDataLayer(): any[] {
-
         return this.window["dataLayer"];
     }
 
     /**
      * Returns true if GTM is enabled.
-     * 
+     *
      * @returns {boolean}
      */
     private isTracking(): boolean {
-
         return !!this.getDataLayer();
     }
 
@@ -59,28 +54,30 @@ export class GTMService {
      * @param {GAEvent} gaEvent
      */
     private sendToGA(gaEvent: GAEvent): void {
-
-        const eventConfig = Object.assign(this.getDefaultDimensions(), {
-            event: gaEvent.category,
-            eventAction: gaEvent.action,
-            eventLabel: gaEvent.label
-        }, gaEvent.dimensions);
+        const eventConfig = Object.assign(
+            this.getDefaultDimensions(),
+            {
+                event: gaEvent.category,
+                eventAction: gaEvent.action,
+                eventLabel: gaEvent.label,
+            },
+            gaEvent.dimensions
+        );
 
         this.getDataLayer().push(eventConfig);
     }
 
     /**
      * Get the default values for every dimension.
-     * 
+     *
      * @returns {[key: string]: string}
      */
-    private getDefaultDimensions(): {[key: string]: string} {
-
+    private getDefaultDimensions(): { [key: string]: string } {
         const defaultDimensions = {};
-        for ( let i in GADimension ) {
+        for (let i in GADimension) {
             defaultDimensions[GADimension[i]] = undefined;
         }
-        
+
         return defaultDimensions;
     }
 }

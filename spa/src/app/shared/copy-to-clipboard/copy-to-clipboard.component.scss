@@ -36,7 +36,6 @@
 :host-context(project-matrix-download),
 :host-context(project-matrix-table),
 :host-context(project-supplementary-links) {
-
     /* Display - none */
     /* Copy icon */
     .clipboard-copy img {
@@ -51,7 +50,6 @@
 
 /* ProjectSupplementaryLinksComponent */
 :host-context(project-supplementary-links) {
-
     /* Clipboard container */
     .clipboard-copy {
         display: inline-block;

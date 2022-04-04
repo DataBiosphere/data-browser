@@ -10,7 +10,6 @@ import { DropError } from "../../dropzone/drop-error.model";
 import { GASource } from "../../shared/analytics/ga-source.model";
 
 export interface SupportRequest {
-
     active: boolean;
     attachmentRejected: boolean;
     attachmentRejection?: DropError;

@@ -6,14 +6,13 @@
  */
 
 export interface TerraRegistrationStatusHttpResponse {
-
     enabled: {
         allUsersGroup: boolean;
         google: boolean;
         ldap: boolean;
-    }
+    };
     userInfo: {
         userEmail: string;
         userSubjectId: string;
-    }
+    };
 }

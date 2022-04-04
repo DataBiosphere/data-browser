@@ -6,7 +6,6 @@
  */
 
 export interface HealthHttpResponse {
-
     service_name: string;
     status: string;
 }

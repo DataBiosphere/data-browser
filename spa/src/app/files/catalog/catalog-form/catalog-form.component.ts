@@ -19,10 +19,9 @@ import { SelectCatalogAction } from "../../_ngrx/catalog/select-catalog.action";
 @Component({
     selector: "catalog-form",
     templateUrl: "./catalog-form.component.html",
-    styleUrls: ["./catalog-form.component.scss"]
+    styleUrls: ["./catalog-form.component.scss"],
 })
 export class CatalogFormComponent implements OnChanges {
-
     // Locals
     public catalogFormGroup: FormGroup;
 
@@ -32,11 +31,10 @@ export class CatalogFormComponent implements OnChanges {
 
     /**
      * Set up form group and form control backing catalog form.
-     * 
+     *
      * @param {Store<AppState>} store
      */
     constructor(private store: Store<AppState>) {
-
         this.catalogFormGroup = new FormGroup({
             catalog: new FormControl(this.catalog),
         });
@@ -44,11 +42,10 @@ export class CatalogFormComponent implements OnChanges {
 
     /**
      * Handle select of catalog radio button.
-     * 
+     *
      * @param {MatRadioChange} event
      */
     public onCatalogSelected(event: MatRadioChange) {
-
         this.store.dispatch(new SelectCatalogAction(event.value));
     }
 
@@ -56,9 +53,8 @@ export class CatalogFormComponent implements OnChanges {
      * Update radio button value.
      */
     public ngOnChanges(changes: SimpleChanges) {
-
         this.catalogFormGroup.patchValue({
-            catalog: changes.catalog.currentValue
+            catalog: changes.catalog.currentValue,
         });
     }
 }

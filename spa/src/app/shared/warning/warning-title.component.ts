@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "warning-title",
     templateUrl: "./warning-title.component.html",
-    styleUrls: ["./warning-title.component.scss"]
+    styleUrls: ["./warning-title.component.scss"],
 })
-export class WarningTitleComponent {
-}
+export class WarningTitleComponent {}

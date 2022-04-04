@@ -18,10 +18,9 @@ import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 @Component({
     selector: "project-file-type-counts",
     templateUrl: "./project-file-type-counts.component.html",
-    styleUrls: ["./project-file-type-counts.component.scss"]
+    styleUrls: ["./project-file-type-counts.component.scss"],
 })
 export class ProjectFileTypeCountsComponent {
-
     // Inputs
     @Input() keyValuePairs: KeyValuePair[];
 
@@ -32,28 +31,27 @@ export class ProjectFileTypeCountsComponent {
 
     /**
      * Returns true if file type is "Total".
-     * 
+     *
      * @param {string} fileType
      * @returns {boolean}
      */
     public isFileTypeTotal(fileType: string): boolean {
-
         return fileType === "Total";
     }
 
     /**
      * Handle click on file type; update store with selected file type before navigate to bulk download.
-     * 
+     *
      * @param {string} fileType
      */
     public onFileTypeClicked(fileType: string) {
-
         // Dispatch event to select file type
         const action = new SelectProjectFileFacetTermAction(
             FileFacetName.FILE_FORMAT,
             fileType,
             null, // Display value only required for project ID facet
-            true);
+            true
+        );
         this.store.dispatch(action);
     }
 }

@@ -14,8 +14,9 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
-export class CopyToClipboardCohortManifestURLAction implements Action, TrackingAction {
-    
+export class CopyToClipboardCohortManifestURLAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "EXPORT.COPY_TO_CLIPBOARD_COHORT_MANIFEST_URL";
     public readonly type = CopyToClipboardCohortManifestURLAction.ACTION_TYPE;
 
@@ -30,8 +31,7 @@ export class CopyToClipboardCohortManifestURLAction implements Action, TrackingA
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.MANIFEST,
             action: GAAction.COPY_TO_CLIPBOARD,
@@ -39,8 +39,8 @@ export class CopyToClipboardCohortManifestURLAction implements Action, TrackingA
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-                [GADimension.ENTITY_URL]: this.manifestUrl
-            }
+                [GADimension.ENTITY_URL]: this.manifestUrl,
+            },
         };
     }
 }

@@ -9,11 +9,13 @@
 import {
     AfterContentInit,
     ChangeDetectionStrategy,
-    Component, ContentChild,
-    ElementRef, Inject,
+    Component,
+    ContentChild,
+    ElementRef,
+    Inject,
     Input,
     OnDestroy,
-    Renderer2
+    Renderer2,
 } from "@angular/core";
 import { MatTable } from "@angular/material/table";
 import { fromEvent, merge, Observable, Subject } from "rxjs";
@@ -27,11 +29,9 @@ import { ResponsiveService } from "../../shared/responsive/responsive.service";
     selector: "table-scroll",
     templateUrl: "./table-scroll.component.html",
     styleUrls: ["./table-scroll.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class TableScroll implements OnDestroy, AfterContentInit {
-
     // Locals
     private ngDestroy$ = new Subject();
 
@@ -53,16 +53,15 @@ export class TableScroll implements OnDestroy, AfterContentInit {
         private tableRendererService: TableRendererService,
         private elementRef: ElementRef,
         private renderer: Renderer2,
-        @Inject("Window") private window: Window) {
-    }
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * After the table data has been loaded, or window has been resized, explicitly set width on table to ensure correct
      * sizing with respect to its container.
-     * 
+     *
      */
     private addResizeEventListener() {
-
         const loaded$ = this.dataLoaded$.pipe(
             take(1),
             switchMap(() => this.tableRendererService.onRenderCompleted())
@@ -73,22 +72,24 @@ export class TableScroll implements OnDestroy, AfterContentInit {
             map(() => true)
         );
 
-        merge(loaded$, resize$).pipe(
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
+        merge(loaded$, resize$)
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe(() => {
+                const tableEl = this.matTable.nativeElement;
+                const tableWidth = tableEl.scrollWidth;
 
-            const tableEl = this.matTable.nativeElement;
-            const tableWidth = tableEl.scrollWidth;
-
-            const el = this.elementRef.nativeElement;
-            const containerWidth = el.offsetWidth;
-            if ( tableWidth < containerWidth ) {
-                this.renderer.setStyle(tableEl, "width", `${containerWidth}px`);
-            }
-            else {
-                this.renderer.setStyle(tableEl, "width", `${tableWidth}px`);
-            }
-        });
+                const el = this.elementRef.nativeElement;
+                const containerWidth = el.offsetWidth;
+                if (tableWidth < containerWidth) {
+                    this.renderer.setStyle(
+                        tableEl,
+                        "width",
+                        `${containerWidth}px`
+                    );
+                } else {
+                    this.renderer.setStyle(tableEl, "width", `${tableWidth}px`);
+                }
+            });
     }
 
     /**
@@ -97,7 +98,6 @@ export class TableScroll implements OnDestroy, AfterContentInit {
      * class to indicate loading is complete and overflow can now be added.
      */
     ngAfterContentInit() {
-
         this.addResizeEventListener();
     }
 
@@ -105,7 +105,6 @@ export class TableScroll implements OnDestroy, AfterContentInit {
      * Kill subscriptions on destroy of component.
      */
     ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }

@@ -17,8 +17,9 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 
-export class CopyToClipboardBulkDownloadAction implements Action, TrackingAction {
-    
+export class CopyToClipboardBulkDownloadAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "GET_DATA.COPY_TO_CLIPBOARD_BULK_DOWNLOAD";
     public readonly type = CopyToClipboardBulkDownloadAction.ACTION_TYPE;
 
@@ -26,7 +27,10 @@ export class CopyToClipboardBulkDownloadAction implements Action, TrackingAction
      * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} manifestUrl
      */
-    constructor(private shell: BulkDownloadExecutionEnvironment, private manifestUrl: string) {}
+    constructor(
+        private shell: BulkDownloadExecutionEnvironment,
+        private manifestUrl: string
+    ) {}
 
     /**
      * Return the request bulk download action as a GA event.
@@ -34,8 +38,7 @@ export class CopyToClipboardBulkDownloadAction implements Action, TrackingAction
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         return {
             category: GACategory.BULK_DOWNLOAD,
             action: GAAction.COPY_TO_CLIPBOARD,
@@ -45,9 +48,8 @@ export class CopyToClipboardBulkDownloadAction implements Action, TrackingAction
                 [GADimension.ENTITY_TYPE]: GAEntityType.BULK_DOWNLOAD_LINK,
                 [GADimension.ENTITY_URL]: this.manifestUrl,
                 [GADimension.INDEX]: index,
-                [GADimension.TOOL_NAME]: this.shell
-            }
+                [GADimension.TOOL_NAME]: this.shell,
+            },
         };
     }
 }
-

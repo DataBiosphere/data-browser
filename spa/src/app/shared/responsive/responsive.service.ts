@@ -10,7 +10,6 @@ import { Inject, Injectable } from "@angular/core";
 
 @Injectable()
 export class ResponsiveService {
-
     /**
      * @param {Window} window
      */
@@ -22,7 +21,6 @@ export class ResponsiveService {
      * @returns {boolean}
      */
     public isWindowWidthHCAMedium(): boolean {
-
         return this.window.document.body.offsetWidth < 1200;
     }
 
@@ -33,7 +31,6 @@ export class ResponsiveService {
      * @returns {boolean}
      */
     public isWindowWidthSmallTablet(): boolean {
-
         return this.window.document.body.offsetWidth < 960;
     }
 
@@ -43,7 +40,6 @@ export class ResponsiveService {
      * @returns {boolean}
      */
     public isWindowWidthSmall(): boolean {
-
         return this.window.document.body.offsetWidth < 675;
     }
 }

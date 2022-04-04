@@ -13,14 +13,17 @@ import { ConfigState } from "./config.state";
 
 /**
  * Get the config state from the app state.
- * 
+ *
  * @type {MemoizedSelector<object, any>}
  */
 export const selectConfig = createFeatureSelector<ConfigState>("config");
 
 /**
  * Return the config from the config state.
- * 
+ *
  * @type {MemoizedSelector<object, Config>}
  */
-export const selectConfigConfig = createSelector(selectConfig, (state: ConfigState) => state.config);
+export const selectConfigConfig = createSelector(
+    selectConfig,
+    (state: ConfigState) => state.config
+);

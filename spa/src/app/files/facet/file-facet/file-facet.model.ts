@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Model of a facet that contains a list of terms values.
- * 
+ *
  * TODO
  * Refactor this model to be called FacetTerms or FacetTermList to indicate that it is a facet that contains a list of terms.
  */
@@ -13,16 +13,15 @@ import { Facet } from "../facet.model";
 import { Term } from "../../shared/term.model";
 
 export class FileFacet implements Facet {
-
     public readonly name: string;
     public readonly total: number;
     public readonly terms: Term[];
     public readonly selectedTerms: Term[];
     public readonly termsByName: Map<string, Term>;
 
-    public readonly termCount: number;              // number of terms available
-    public readonly selectedTermCount: number;     // number of selected terms
-    public readonly selected: boolean;              // true if any terms are selected
+    public readonly termCount: number; // number of terms available
+    public readonly selectedTermCount: number; // number of selected terms
+    public readonly selected: boolean; // true if any terms are selected
 
     /**
      * @param name {string}
@@ -30,7 +29,6 @@ export class FileFacet implements Facet {
      * @param terms {Term[]}
      */
     constructor(name: string, total: number, terms: Term[]) {
-
         this.name = name;
         this.total = total;
         this.terms = terms;
@@ -58,9 +56,8 @@ export class FileFacet implements Facet {
      * @returns {Term[]}
      */
     public getEffectiveTerms(): Term[] {
-
         // Return an empty array if there are no terms
-        if ( !this.terms || !this.terms.length ) {
+        if (!this.terms || !this.terms.length) {
             return [];
         }
 
@@ -76,17 +73,14 @@ export class FileFacet implements Facet {
      * @returns {boolean}
      */
     public isOnlySelectedTerm(...termNames: string[]): boolean {
-
         // False if there are no terms
-        if ( !this.terms || !this.terms.length ) {
+        if (!this.terms || !this.terms.length) {
             return false;
         }
 
         // Otherwise ensure the list of selected terms only contain the specified terms
         const selected = this.getEffectiveTerms();
-        const termsToSearch = selected.length ?
-            selected :
-            this.terms;
+        const termsToSearch = selected.length ? selected : this.terms;
 
         return !termsToSearch.some((term: Term) => {
             return termNames.indexOf(term.name) === -1;
@@ -100,19 +94,15 @@ export class FileFacet implements Facet {
      * @returns {FileFacet}
      */
     public selectTerm(termName: string): FileFacet {
-
         // Check each term to see if it's the newly selected term. If so, toggle the selected indicator on the term,
         // otherwise keep the term as is.
-        const newTerms = this.terms.map(term => {
-
-            if ( term.name === termName ) {
+        const newTerms = this.terms.map((term) => {
+            if (term.name === termName) {
                 // Flip term selected instead of setting it.
                 return new Term(termName, term.count, !term.selected);
-            }
-            else {
+            } else {
                 return term;
             }
-
         });
 
         // Create new file facet with updated term map

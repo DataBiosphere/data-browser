@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when a link to a project supplementary link is clicked. 
+ * Action triggered when a link to a project supplementary link is clicked.
  */
 
 // Core dependencies
@@ -16,8 +16,9 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GARelatedEntityType } from "../../../shared/analytics/ga-related-entity-type.model";
 
-export class ViewProjectSupplementaryLinkAction implements Action, TrackingAction {
-    
+export class ViewProjectSupplementaryLinkAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "PROJECT.VIEW_SUPPLEMENTARY_LINK";
     public readonly type = ViewProjectSupplementaryLinkAction.ACTION_TYPE;
 
@@ -27,10 +28,12 @@ export class ViewProjectSupplementaryLinkAction implements Action, TrackingActio
      * @param {string} projectShortname
      * @param {string} projectUrl
      */
-    constructor(public supplementaryLink: string,
-                public projectId: string,
-                public projectShortname: string,
-                public projectUrl: string) {}
+    constructor(
+        public supplementaryLink: string,
+        public projectId: string,
+        public projectShortname: string,
+        public projectUrl: string
+    ) {}
 
     /**
      * Return the project integration action as a GA event.
@@ -38,8 +41,7 @@ export class ViewProjectSupplementaryLinkAction implements Action, TrackingActio
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_EXTERNAL_RESOURCE,
@@ -50,9 +52,10 @@ export class ViewProjectSupplementaryLinkAction implements Action, TrackingActio
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_URL]: this.projectUrl,
                 [GADimension.RELATED_ENTITY_ID]: this.supplementaryLink,
-                [GADimension.RELATED_ENTITY_TYPE]: GARelatedEntityType.SUPPLEMENTARY_LINK,
-                [GADimension.RELATED_ENTITY_URL]: this.supplementaryLink
-            }
+                [GADimension.RELATED_ENTITY_TYPE]:
+                    GARelatedEntityType.SUPPLEMENTARY_LINK,
+                [GADimension.RELATED_ENTITY_URL]: this.supplementaryLink,
+            },
         };
     }
 }

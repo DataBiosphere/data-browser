@@ -8,7 +8,10 @@
 // Core dependencies
 import {
     Component,
-    ChangeDetectionStrategy, Input, Output, EventEmitter
+    ChangeDetectionStrategy,
+    Input,
+    Output,
+    EventEmitter,
 } from "@angular/core";
 
 // App dependencies
@@ -20,9 +23,7 @@ import EntitySpec from "../../files/shared/entity-spec";
     styleUrls: ["./hca-tab.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class HCATabComponent {
-
     // Inputs
     @Input() activeTab: EntitySpec;
     @Input() tabs: EntitySpec[];
@@ -37,11 +38,13 @@ export class HCATabComponent {
      * @param {string} tabKey
      * @returns {{[p: string]: boolean}}
      */
-    public getTabClass(selectedTab: string, tabKey: string): { [className: string]: boolean } {
-
+    public getTabClass(
+        selectedTab: string,
+        tabKey: string
+    ): { [className: string]: boolean } {
         return {
-            "active": selectedTab === tabKey,
-            "hca-tab": true
+            active: selectedTab === tabKey,
+            "hca-tab": true,
         };
     }
 
@@ -51,7 +54,6 @@ export class HCATabComponent {
      * @param {string} tab
      */
     public onClickTab(tab: EntitySpec[]): void {
-
         this.tabSelected.emit(tab);
     }
 
@@ -63,8 +65,6 @@ export class HCATabComponent {
      * @returns {string}
      */
     public trackByFn(index: number, tab: EntitySpec): string {
-
         return tab.key;
     }
-
 }

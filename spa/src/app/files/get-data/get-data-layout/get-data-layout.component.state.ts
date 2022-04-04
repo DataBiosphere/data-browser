@@ -11,8 +11,7 @@ import { FileSummary } from "../../file-summary/file-summary.model";
 import { SearchTerm } from "../../search/search-term.model";
 
 export interface GetDataLayoutComponentState {
-
-    filesFacets?: Facet[]
+    filesFacets?: Facet[];
     fileSummary?: FileSummary;
     loaded: boolean;
     selectedSearchTerms?: SearchTerm[];

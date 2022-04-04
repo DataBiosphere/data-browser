@@ -11,6 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "support-request-submitted",
     templateUrl: "support-request-submitted.component.html",
-    styleUrls: ["support-request-submitted.component.scss"]
+    styleUrls: ["support-request-submitted.component.scss"],
 })
 export class SupportRequestSubmittedComponent {}

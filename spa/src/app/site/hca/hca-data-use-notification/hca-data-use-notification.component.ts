@@ -14,10 +14,9 @@ import { ConfigService } from "../../../config/config.service";
 @Component({
     selector: "hca-data-use-notification",
     templateUrl: "./hca-data-use-notification.component.html",
-    styleUrls: ["./hca-data-use-notification.component.scss"]
+    styleUrls: ["./hca-data-use-notification.component.scss"],
 })
 export class HCADataUseNotificationComponent {
-
     // Template variables
     public portalURL: string;
 
@@ -26,8 +25,6 @@ export class HCADataUseNotificationComponent {
      * @param {ConfigService} configService
      */
     public constructor(private configService: ConfigService) {
-
         this.portalURL = this.configService.getPortalUrl();
     }
-
 }

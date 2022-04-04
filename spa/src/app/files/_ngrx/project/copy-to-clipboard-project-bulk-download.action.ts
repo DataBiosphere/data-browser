@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Action triggered when project bulk download curl command is copied.
- * 
+ *
  * TODO
  * - Possibly combine with core project bulk download tracking action.
  * - Move download-related tracking actions and effects to file-manifest.
@@ -21,9 +21,11 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { Project } from "../../shared/project.model";
 
-export class CopyToClipboardProjectBulkDownloadAction implements Action, TrackingAction {
-    
-    public static ACTION_TYPE = "PROJECT.COPY_TO_CLIPBOARD_PROJECT_BULK_DOWNLOAD";
+export class CopyToClipboardProjectBulkDownloadAction
+    implements Action, TrackingAction
+{
+    public static ACTION_TYPE =
+        "PROJECT.COPY_TO_CLIPBOARD_PROJECT_BULK_DOWNLOAD";
     public readonly type = CopyToClipboardProjectBulkDownloadAction.ACTION_TYPE;
 
     /**
@@ -31,9 +33,11 @@ export class CopyToClipboardProjectBulkDownloadAction implements Action, Trackin
      * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} curl
      */
-    constructor(private project: Project,
-                private shell: BulkDownloadExecutionEnvironment,
-                private curl: string) {}
+    constructor(
+        private project: Project,
+        private shell: BulkDownloadExecutionEnvironment,
+        private curl: string
+    ) {}
 
     /**
      * Return the request bulk download action as a GA event.
@@ -41,8 +45,7 @@ export class CopyToClipboardProjectBulkDownloadAction implements Action, Trackin
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, terms}): GAEvent {
-
+    public asEvent({ catalog, terms }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.COPY_PROJECT_CURL,
@@ -51,9 +54,8 @@ export class CopyToClipboardProjectBulkDownloadAction implements Action, Trackin
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.TERM]: terms,
-                [GADimension.TOOL_NAME]: this.shell
-            }
+                [GADimension.TOOL_NAME]: this.shell,
+            },
         };
     }
 }
-

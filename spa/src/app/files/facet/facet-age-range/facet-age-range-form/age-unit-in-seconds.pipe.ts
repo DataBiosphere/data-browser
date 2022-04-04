@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Pipe for formatting age unit to seconds.
  */
 
@@ -13,12 +13,10 @@ import { AgeUnit } from "../age-unit.model";
 import { TimeUnitInSeconds } from "../time-unit-in-seconds.model";
 
 @Pipe({
-    name: "ageUnitInSeconds"
+    name: "ageUnitInSeconds",
 })
 export class AgeUnitInSeconds implements PipeTransform {
-
     transform(age: number, ageUnit: AgeUnit): number {
-
         return age * TimeUnitInSeconds[ageUnit.toUpperCase()];
     }
 }

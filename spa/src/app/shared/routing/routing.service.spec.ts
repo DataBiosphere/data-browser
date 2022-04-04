@@ -17,32 +17,26 @@ import { FooComponent } from "../../test/foo.component";
 import { BarComponent } from "../../test/bar.component";
 
 describe("RoutingService", () => {
-
     let fixture;
     let router;
     let routingService: RoutingService;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                FooComponent
-            ],
+            declarations: [FooComponent],
             imports: [
                 RouterTestingModule.withRoutes([
                     {
                         path: "",
-                        component: BarComponent
+                        component: BarComponent,
                     },
                     {
                         path: "foo",
-                        component: FooComponent
-                    }
-                ])
+                        component: FooComponent,
+                    },
+                ]),
             ],
-            providers: [
-                RoutingService
-            ]
+            providers: [RoutingService],
         });
 
         routingService = TestBed.inject(RoutingService);
@@ -54,20 +48,18 @@ describe("RoutingService", () => {
     }));
 
     describe("isPathActive", () => {
-
         /**
          * Matches path with no query string params
          */
         it("matches path with no query string params", (doneFn: DoneFn) => {
-
             const commands = ["/foo"];
 
-            router.events.pipe(
-                filter(evt => evt instanceof NavigationEnd)
-            ).subscribe(() => {
-                expect(routingService.isPathActive(commands)).toBeTrue();
-                doneFn();
-            });
+            router.events
+                .pipe(filter((evt) => evt instanceof NavigationEnd))
+                .subscribe(() => {
+                    expect(routingService.isPathActive(commands)).toBeTrue();
+                    doneFn();
+                });
 
             fixture.ngZone.run(() => {
                 router.navigate(commands);
@@ -78,19 +70,18 @@ describe("RoutingService", () => {
          * Ignores query string params when path matches.
          */
         it("ignores query string params on matching commands", (doneFn: DoneFn) => {
-
             const commands = ["/foo"];
 
-            router.events.pipe(
-                filter(evt => evt instanceof NavigationEnd)
-            ).subscribe(() => {
-                expect(routingService.isPathActive(commands)).toBeTrue();
-                doneFn();
-            });
+            router.events
+                .pipe(filter((evt) => evt instanceof NavigationEnd))
+                .subscribe(() => {
+                    expect(routingService.isPathActive(commands)).toBeTrue();
+                    doneFn();
+                });
 
             fixture.ngZone.run(() => {
                 router.navigate(commands, {
-                    queryParams: { foo: "bar" }
+                    queryParams: { foo: "bar" },
                 });
             });
         });
@@ -99,16 +90,17 @@ describe("RoutingService", () => {
          * Returns false on non-matching paths.
          */
         it("doesn't match different paths", (doneFn: DoneFn) => {
-
             const navigateToCommands = ["/foo"];
             const expectedCommands = [""];
 
-            router.events.pipe(
-                filter(evt => evt instanceof NavigationEnd)
-            ).subscribe(() => {
-                expect(routingService.isPathActive(expectedCommands)).toBeFalse();
-                doneFn();
-            });
+            router.events
+                .pipe(filter((evt) => evt instanceof NavigationEnd))
+                .subscribe(() => {
+                    expect(
+                        routingService.isPathActive(expectedCommands)
+                    ).toBeFalse();
+                    doneFn();
+                });
 
             fixture.ngZone.run(() => {
                 router.navigate(navigateToCommands);

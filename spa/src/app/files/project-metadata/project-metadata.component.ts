@@ -24,13 +24,12 @@ import { ProjectTab } from "../project-detail/project-tab.model";
 @Component({
     selector: "project-metadata",
     templateUrl: "./project-metadata.component.html",
-    styleUrls: ["./project-metadata.component.scss"]
+    styleUrls: ["./project-metadata.component.scss"],
 })
 export class ProjectMetadataComponent implements OnDestroy, OnInit {
-
     // Template variables
     public state$ = new BehaviorSubject<ProjectMetadataComponentState>({
-        loaded: false
+        loaded: false,
     });
 
     // Locals
@@ -42,22 +41,24 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    public constructor(private projectDetailService: ProjectDetailService,
-                       private store: Store<AppState>,
-                       private activatedRoute: ActivatedRoute,
-                       private router: Router) {
-    }
+    public constructor(
+        private projectDetailService: ProjectDetailService,
+        private store: Store<AppState>,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
+    ) {}
 
     /**
      * Return user to project overview
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Project Overview";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
@@ -66,9 +67,8 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      * @param {string} projectId
      */
     public onTabSelected(projectId: string): void {
-
         this.router.navigate(["/projects", projectId], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -76,7 +76,6 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      * Clear project meta tags.
      */
     public ngOnDestroy() {
-
         // Remove project description meta
         this.projectDetailService.removeProjectMeta();
 
@@ -88,9 +87,9 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
      * Update state with selected project.
      */
     public ngOnInit() {
-
         // Add selected project to state - grab the project ID from the URL.
-        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
+        const projectId =
+            this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
@@ -100,15 +99,17 @@ export class ProjectMetadataComponent implements OnDestroy, OnInit {
                 takeUntil(this.ngDestroy$),
                 filter((project) => !!project)
             )
-            .subscribe(project => {
-
+            .subscribe((project) => {
                 this.state$.next({
                     loaded: true,
-                    project
+                    project,
                 });
 
                 // Update description meta for this project
-                this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_METADATA);
+                this.projectDetailService.addProjectMeta(
+                    project.projectTitle,
+                    ProjectTab.PROJECT_METADATA
+                );
             });
     }
 }

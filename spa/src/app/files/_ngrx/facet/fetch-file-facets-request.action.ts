@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Action dispatched when file fileFacets are to be updated. This can be on load of app, select or clear of fileFacets, or
  * select of project.
  */
@@ -10,7 +10,6 @@
 import { Action } from "@ngrx/store";
 
 export class FetchFileFacetsRequestAction implements Action {
-
     public static ACTION_TYPE = "FILE.FACET.FETCH_REQUEST";
     public readonly type = FetchFileFacetsRequestAction.ACTION_TYPE;
 

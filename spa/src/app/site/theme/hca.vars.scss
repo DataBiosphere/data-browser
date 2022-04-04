@@ -9,11 +9,11 @@
  * CSS variables allowing for environment-specific overrides.
  */
 :root {
-    --color-blue-background: #F4F7F9;
-    --color-orange: #E8AA45;
-    --color-primary: #1C7CC7;
-    --color-secondary: #00D0F4;
-    --color-secondary-hover: #00B7DB;
+    --color-blue-background: #f4f7f9;
+    --color-orange: #e8aa45;
+    --color-primary: #1c7cc7;
+    --color-secondary: #00d0f4;
+    --color-secondary-hover: #00b7db;
 }
 
 /**
@@ -22,8 +22,8 @@
 .lungmap {
     --color-blue-background: #003662;
     --color-primary: #005295;
-    --color-secondary: #00A8BA;
-    --color-secondary-hover: #007E8A;
+    --color-secondary: #00a8ba;
+    --color-secondary-hover: #007e8a;
 }
 
 /**
@@ -32,20 +32,20 @@
 $hca-black: #000000;
 $hca-blue-background: var(--color-blue-background);
 $hca-blue-darkest: #1f6b9a;
-$hca-blue-light: #DAF0F6;
+$hca-blue-light: #daf0f6;
 $hca-orange: var(--color-orange);
-$hca-orange-hover: #CF912C;
+$hca-orange-hover: #cf912c;
 $hca-secondary: var(--color-secondary);
 $hca-secondary-hover: var(--color-secondary-hover);
 $hca-gray-darkest: #333333;
 $hca-gray-dark: #666666;
 $hca-gray-medium: #999999;
-$hca-gray-light: #CCCCCC;
-$hca-gray-lightest: #EAEAEA;
-$hca-off-white: #F8F8F8;
+$hca-gray-light: #cccccc;
+$hca-gray-lightest: #eaeaea;
+$hca-off-white: #f8f8f8;
 $hca-primary: var(--color-primary);
-$hca-primary-hover: #0363AE;
-$hca-white: #FFFFFF;
+$hca-primary-hover: #0363ae;
+$hca-white: #ffffff;
 
 $black-3: rgba(0, 0, 0, 0.03);
 $black-6: rgba(0, 0, 0, 0.06);

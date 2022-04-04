@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of action triggered when action is to be tracked by GA/GTM. 
+ * Model of action triggered when action is to be tracked by GA/GTM.
  */
 
 // Core dependencies
@@ -13,7 +13,6 @@ import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
 export interface TrackingAction extends Action {
-    
     source?: GASource; // Element/component where tracking event originated
 
     /**
@@ -22,5 +21,5 @@ export interface TrackingAction extends Action {
      * @param {{[key: string]: any}} dimensions
      * @returns {string}
      */
-    asEvent(dimensions?: {[key: string]: any}): GAEvent;
+    asEvent(dimensions?: { [key: string]: any }): GAEvent;
 }

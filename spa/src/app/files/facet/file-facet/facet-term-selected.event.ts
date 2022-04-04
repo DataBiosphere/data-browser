@@ -5,7 +5,6 @@
  * Event emitted when term is selected.
  */
 export class FacetTermSelectedEvent {
-
     /**
      * @param {string} facetName
      * @param {string} termName
@@ -14,6 +13,6 @@ export class FacetTermSelectedEvent {
     constructor(
         public readonly facetName: string,
         public readonly termName: string,
-        public readonly selected = true) {
-    }
+        public readonly selected = true
+    ) {}
 }

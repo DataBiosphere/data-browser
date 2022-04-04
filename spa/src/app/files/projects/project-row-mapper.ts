@@ -17,11 +17,10 @@ import { ProjectMatrixMapper } from "../project-matrix/project-matrix-mapper";
 import { getUnspecifiedIfNullValue } from "../table/table-methods";
 
 export class ProjectRowMapper extends EntityRowMapper {
-
     // Constants
     private DATE_FORMAT = "yyyy-MM-dd HH:mm 'GMT'";
     private DATE_TZ = "GMT";
-    
+
     // Locals
     private matrixMapper = new ProjectMatrixMapper();
     private datePipe = new DatePipe("en-US");
@@ -30,7 +29,6 @@ export class ProjectRowMapper extends EntityRowMapper {
      * @param {any} row - data modelling row in current selected table.
      */
     constructor(row: any) {
-
         super(row);
     }
 
@@ -38,33 +36,50 @@ export class ProjectRowMapper extends EntityRowMapper {
      * Return the version of the row, optimized for display in the data table.
      */
     public mapRow(): EntityRow {
-
-        // Bind contributor and CDP generated matrices 
-        const contributorMatrices = this.matrixMapper.bindMatrices(this.projects.contributedAnalyses);
+        // Bind contributor and CDP generated matrices
+        const contributorMatrices = this.matrixMapper.bindMatrices(
+            this.projects.contributedAnalyses
+        );
         const matrices = this.matrixMapper.bindMatrices(this.projects.matrices);
 
         // Calculate file type summaries
-        const fileTypeCounts = this.buildFileTypeCounts(this.row.fileTypeSummaries);
-        
+        const fileTypeCounts = this.buildFileTypeCounts(
+            this.row.fileTypeSummaries
+        );
+
         // Map dates
         const dates = this.row.dates?.[0] ?? {};
-        const aggregateLastModifiedDate = this.mapDate(dates.aggregateLastModifiedDate);
-        const aggregateSubmissionDate = this.mapDate(dates.aggregateSubmissionDate);
-        
+        const aggregateLastModifiedDate = this.mapDate(
+            dates.aggregateLastModifiedDate
+        );
+        const aggregateSubmissionDate = this.mapDate(
+            dates.aggregateSubmissionDate
+        );
+
         const row = super.mapRow();
 
         // Calculate total cells.
-        const estimatedCellCount = this.calculateEstimatedCellCount(row, this.projects, this.cellSuspensions);
+        const estimatedCellCount = this.calculateEstimatedCellCount(
+            row,
+            this.projects,
+            this.cellSuspensions
+        );
 
         return Object.assign({}, row, {
-            aggregateLastModifiedDate: getUnspecifiedIfNullValue(aggregateLastModifiedDate),
-            aggregateSubmissionDate: getUnspecifiedIfNullValue(aggregateSubmissionDate),
+            aggregateLastModifiedDate: getUnspecifiedIfNullValue(
+                aggregateLastModifiedDate
+            ),
+            aggregateSubmissionDate: getUnspecifiedIfNullValue(
+                aggregateSubmissionDate
+            ),
             contributorMatrices,
             entryId: this.row.entryId,
             fileTypeCounts,
             matrices,
-            projectShortname: getUnspecifiedIfNullValue(this.projects.projectShortname),
-            totalCells: estimatedCellCount
+            projectShortname: getUnspecifiedIfNullValue(
+                this.projects.projectShortname
+            ),
+            totalCells: estimatedCellCount,
         });
     }
 
@@ -72,39 +87,41 @@ export class ProjectRowMapper extends EntityRowMapper {
      * Calculate the estimated cell count for this project. The estimated cell count is the greater between the estimated
      * cell count for the project, if any, and the totalCell value from cellSuspensions.
      */
-    private calculateEstimatedCellCount(row, project, cellSuspensions): string | number {
+    private calculateEstimatedCellCount(
+        row,
+        project,
+        cellSuspensions
+    ): string | number {
+        const { estimatedCellCount } = project;
 
-        const {estimatedCellCount} = project;
-        
         // If there's no estimated cell count for the project, return the total from cell suspensions (the totalCells
         // value on row has already been formatted for display and can be returned as is).
-        if ( !estimatedCellCount ) {
+        if (!estimatedCellCount) {
             return row.totalCells; // Formatted totalCells value.
         }
-        
+
         // If there's no totalCell value, return the estimated cell count. Use the totalCell value from cell suspensions
         // here as this will be the raw number (rather than the formatted display value on row).
-        if ( !cellSuspensions.totalCells ) {
+        if (!cellSuspensions.totalCells) {
             return getUnspecifiedIfNullValue(estimatedCellCount);
         }
-        
+
         // Otherwise there's both a totalCells value from cell suspensions and an project estimated cell count: use
         // the greater value of the two.
-        if ( cellSuspensions.totalCells > estimatedCellCount ) {
-            return row.totalCells; // Return the formatted totalCells value from row. 
+        if (cellSuspensions.totalCells > estimatedCellCount) {
+            return row.totalCells; // Return the formatted totalCells value from row.
         }
         return estimatedCellCount;
     }
 
     /**
      * Map specified date as formatted string.
-     * 
+     *
      * @param {string} dateString
      * @returns {string}
      */
     private mapDate(dateString: string): string {
-
-        if ( !dateString ) {
+        if (!dateString) {
             return "";
         }
         const date = new Date(dateString);
@@ -116,23 +133,21 @@ export class ProjectRowMapper extends EntityRowMapper {
      *
      * @param {FileTypeSummaryResponse[]} fileTypeSummaries
      */
-    private buildFileTypeCounts(fileTypeSummaries: FileTypeSummaryResponse[]): Map<string, number> {
-
+    private buildFileTypeCounts(
+        fileTypeSummaries: FileTypeSummaryResponse[]
+    ): Map<string, number> {
         return (fileTypeSummaries || []).reduce((acc, fileTypeSummary) => {
-
             const count = fileTypeSummary.count || 0;
             const fileType = fileTypeSummary.format;
 
-            if ( acc.has(fileType) ) {
+            if (acc.has(fileType)) {
                 const currentCount = acc.get(fileType);
                 acc.set(fileType, currentCount + count);
-            }
-            else {
+            } else {
                 acc.set(fileType, count);
             }
 
             return acc;
-
         }, new Map());
     }
 }

@@ -35,19 +35,17 @@ import { SupportRequestComponent } from "./support-request/support-request.compo
 import { SITE_CONFIG_SERVICE } from "./site/site-config/site-config.token";
 
 describe("AppComponent:", () => {
-
     let component: AppComponent;
     let fixture: ComponentFixture<AppComponent>;
 
     const storeSpy = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
-    
+
     const navigation$ = new ReplaySubject<RouterEvent>(1);
     const routerMock = {
-        events: navigation$.asObservable()
+        events: navigation$.asObservable(),
     };
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 AnnouncementComponent,
@@ -62,37 +60,48 @@ describe("AppComponent:", () => {
                 ToolbarNavItemComponent,
                 ToolbarNavSubMenuComponent,
                 ToolbarNavSubMenuItemComponent,
-                SupportRequestComponent
+                SupportRequestComponent,
             ],
             imports: [
                 RouterTestingModule,
                 MatIconModule,
                 MatToolbarModule,
-                RouterModule
+                RouterModule,
             ],
             providers: [
-            ConfigService,
+                ConfigService,
                 {
-                provide: DeviceDetectorService,
-                useValue: jasmine.createSpyObj("DeviceDetectorService", ["isMobile", "isTablet"])
-            }, {
-                provide: Store,
-                useValue: storeSpy
-            }, {
-                provide: Router,
-                useValue: routerMock
-            }, {
-                provide: LocalStorageService,
-                useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
-            }, {
-                provide: UrlService,
-                useValue: jasmine.createSpyObj("UrlService", [
-                    "isViewingEntities",
-                    "isViewingFiles",
-                    "isViewingProjects",
-                    "isViewingSamples"
-                ])
-            }]
+                    provide: DeviceDetectorService,
+                    useValue: jasmine.createSpyObj("DeviceDetectorService", [
+                        "isMobile",
+                        "isTablet",
+                    ]),
+                },
+                {
+                    provide: Store,
+                    useValue: storeSpy,
+                },
+                {
+                    provide: Router,
+                    useValue: routerMock,
+                },
+                {
+                    provide: LocalStorageService,
+                    useValue: jasmine.createSpyObj("LocalStorageService", [
+                        "get",
+                        "set",
+                    ]),
+                },
+                {
+                    provide: UrlService,
+                    useValue: jasmine.createSpyObj("UrlService", [
+                        "isViewingEntities",
+                        "isViewingFiles",
+                        "isViewingProjects",
+                        "isViewingSamples",
+                    ]),
+                },
+            ],
         });
 
         fixture = TestBed.createComponent(AppComponent);
@@ -102,6 +111,5 @@ describe("AppComponent:", () => {
     /**
      * Tests are incomplete - review component functionality and add necessary tests.
      */
-    xit("TBD", () => {
-    });
+    xit("TBD", () => {});
 });

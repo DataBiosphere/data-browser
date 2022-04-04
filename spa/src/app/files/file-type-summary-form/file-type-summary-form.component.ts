@@ -22,10 +22,9 @@ import { TermSortService } from "../sort/term-sort.service";
 @Component({
     selector: "file-type-summary-form",
     templateUrl: "file-type-summary-form.component.html",
-    styleUrls: ["file-type-summary-form.component.scss"]
+    styleUrls: ["file-type-summary-form.component.scss"],
 })
 export class FileTypeSummaryFormComponent implements OnInit {
-
     // Inputs
     @Input() selectedSearchTermNames: string[];
     @Input() fileTypeSummaries: FileTypeSummary[];
@@ -40,8 +39,10 @@ export class FileTypeSummaryFormComponent implements OnInit {
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
-    constructor(private termSortService: TermSortService, private store: Store<AppState>) {
-    }
+    constructor(
+        private termSortService: TermSortService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Return the list of file types to display, including a "selected" indicator if the corresponding file format
@@ -50,19 +51,24 @@ export class FileTypeSummaryFormComponent implements OnInit {
      * @returns {FileTypeSummaryFormView[]}
      */
     public getDisplayList(): FileTypeSummaryFormView[] {
-
         // Return view model of file type summary
-        const fileTypeSummaryViews = this.fileTypeSummaries
-            .map(fileTypeSummary => {
-
+        const fileTypeSummaryViews = this.fileTypeSummaries.map(
+            (fileTypeSummary) => {
                 return new FileTypeSummaryFormView(
                     fileTypeSummary.fileType,
                     fileTypeSummary.totalSize,
                     fileTypeSummary.count,
-                    this.selectedSearchTermNames.indexOf(fileTypeSummary.fileType) >= 0);
-            });
+                    this.selectedSearchTermNames.indexOf(
+                        fileTypeSummary.fileType
+                    ) >= 0
+                );
+            }
+        );
 
-        this.termSortService.sortTerms(FileFacetName.FILE_FORMAT, fileTypeSummaryViews);
+        this.termSortService.sortTerms(
+            FileFacetName.FILE_FORMAT,
+            fileTypeSummaryViews
+        );
 
         return fileTypeSummaryViews;
     }
@@ -74,13 +80,11 @@ export class FileTypeSummaryFormComponent implements OnInit {
      * @returns {any}
      */
     public getLegendStyle(showLegend: boolean): any {
-
         // If term is selected, set the background color as well
-        if ( showLegend ) {
-
+        if (showLegend) {
             return {
                 "border-color": "#1F6B9A",
-                "background-color": "#1C7CC7"
+                "background-color": "#1C7CC7",
             };
         }
 
@@ -103,7 +107,6 @@ export class FileTypeSummaryFormComponent implements OnInit {
      * @returns {boolean}
      */
     public isTermNameTruncated(termName: string): boolean {
-
         return termName.length > 33;
     }
 
@@ -112,26 +115,31 @@ export class FileTypeSummaryFormComponent implements OnInit {
      *
      * @param facetFileTypeSummary {FileTypeSummaryFormView}
      */
-    public onClickFacetTerm(facetFileTypeSummary: FileTypeSummaryFormView): void {
-
+    public onClickFacetTerm(
+        facetFileTypeSummary: FileTypeSummaryFormView
+    ): void {
         const termName = facetFileTypeSummary.termName;
         const selected = facetFileTypeSummary.selected;
-        this.facetTermSelected.emit(new FacetTermSelectedEvent(FileFacetName.FILE_FORMAT, termName, !selected));
+        this.facetTermSelected.emit(
+            new FacetTermSelectedEvent(
+                FileFacetName.FILE_FORMAT,
+                termName,
+                !selected
+            )
+        );
     }
 
     /**
      * Handle click on "select all" facet file types.
      */
     public onClickSelectAll(): void {
-
         this.selectAll = !this.selectAll;
         this.getDisplayList().map((facetFileTypeSummary) => {
-
-            if ( !this.selectAll && facetFileTypeSummary.selected === false ) {
+            if (!this.selectAll && facetFileTypeSummary.selected === false) {
                 this.onClickFacetTerm(facetFileTypeSummary);
             }
 
-            if ( this.selectAll && facetFileTypeSummary.selected === true ) {
+            if (this.selectAll && facetFileTypeSummary.selected === true) {
                 this.onClickFacetTerm(facetFileTypeSummary);
             }
         });
@@ -141,7 +149,8 @@ export class FileTypeSummaryFormComponent implements OnInit {
      * Set up state of "Select All" text.
      */
     public ngOnInit() {
-
-        this.selectAll = this.getDisplayList().some(facetFileTypeSummary => facetFileTypeSummary.selected === false);
+        this.selectAll = this.getDisplayList().some(
+            (facetFileTypeSummary) => facetFileTypeSummary.selected === false
+        );
     }
 }

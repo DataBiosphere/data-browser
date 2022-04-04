@@ -6,7 +6,14 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+} from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 
@@ -16,10 +23,9 @@ import { ManifestDownloadFormat } from "../../../file-manifest/manifest-download
 @Component({
     selector: "manifest-download-format-form",
     templateUrl: "./manifest-download-format-form.component.html",
-    styleUrls: ["./manifest-download-format-form.component.scss"]
+    styleUrls: ["./manifest-download-format-form.component.scss"],
 })
 export class ManifestDownloadFormatFormComponent implements OnChanges {
-
     // Locals
     public formatFormGroup: FormGroup;
 
@@ -34,7 +40,6 @@ export class ManifestDownloadFormatFormComponent implements OnChanges {
      * Set up form group and form control backing format form.
      */
     constructor() {
-
         this.formatFormGroup = new FormGroup({
             format: new FormControl(this.format),
         });
@@ -46,7 +51,6 @@ export class ManifestDownloadFormatFormComponent implements OnChanges {
      * @param {MatRadioChange} event
      */
     public onFormatSelected(event: MatRadioChange) {
-
         this.formatSelected.emit(event.value);
     }
 
@@ -54,10 +58,9 @@ export class ManifestDownloadFormatFormComponent implements OnChanges {
      * Update radio button value.
      */
     public ngOnChanges(changes: SimpleChanges) {
-
-        if ( changes.format ) {
+        if (changes.format) {
             this.formatFormGroup.patchValue({
-                format: changes.format.currentValue
+                format: changes.format.currentValue,
             });
         }
     }

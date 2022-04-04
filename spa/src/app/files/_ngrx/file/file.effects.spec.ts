@@ -27,7 +27,6 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { selectPreviousQuery } from "../search/search.selectors";
 
 describe("FileEffects", () => {
-
     let fileLocationService: FileLocationService;
     let gtmService: GTMService;
     let effects: FileEffects;
@@ -42,11 +41,8 @@ describe("FileEffects", () => {
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule
-            ],
+            imports: [HttpClientTestingModule],
             providers: [
                 provideMockActions(() => actions$),
                 FileEffects,
@@ -54,16 +50,16 @@ describe("FileEffects", () => {
                 GTMService,
                 provideMockStore({
                     initialState: {
-                        file: FileState.getDefaultState()
-                    }
+                        file: FileState.getDefaultState(),
+                    },
                 }),
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         });
 
         fileLocationService = TestBed.inject(FileLocationService);
@@ -81,16 +77,16 @@ describe("FileEffects", () => {
     });
 
     describe("fetchFileFileLocation$", () => {
-
         /**
          * Confirm file location is requested with URL from request action.
          */
         it("requests file location", () => {
-
             spyOn(fileLocationService, "fetchFileLocation").and.callThrough();
 
             const fileUrl = "http://foo.com";
-            actions$ = of(new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz"));
+            actions$ = of(
+                new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz")
+            );
             effects.fetchFileFileLocation$.subscribe();
             expect(fileLocationService.fetchFileLocation).toHaveBeenCalledWith(
                 fileUrl,
@@ -102,19 +98,27 @@ describe("FileEffects", () => {
          * Confirm success action is dispatched with updated download status.
          */
         it("dispatches success action once file location request is initiated", () => {
-
             const fileLocation = {
-                status: FileLocationStatus.IN_PROGRESS
+                status: FileLocationStatus.IN_PROGRESS,
             };
-            spyOn(fileLocationService, "fetchFileLocation").and.returnValue(of(fileLocation));
+            spyOn(fileLocationService, "fetchFileLocation").and.returnValue(
+                of(fileLocation)
+            );
 
             const fileUrl = "http://foo.com";
             actions$ = hot("--a-", {
-                a: new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz")
+                a: new FetchFileFileLocationRequestAction(
+                    fileUrl,
+                    "bar",
+                    "baz"
+                ),
             });
 
             const expected = cold("--b", {
-                b: new FetchFileFileLocationSuccessAction(fileUrl, fileLocation)
+                b: new FetchFileFileLocationSuccessAction(
+                    fileUrl,
+                    fileLocation
+                ),
             });
             expect(effects.fetchFileFileLocation$).toBeObservable(expected);
         });
@@ -123,16 +127,21 @@ describe("FileEffects", () => {
          * Confirm tracking is called.
          */
         it("tracks file location request", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new FetchFileFileLocationRequestAction("http://foo.com", "bar", "baz");
+            const action = new FetchFileFileLocationRequestAction(
+                "http://foo.com",
+                "bar",
+                "baz"
+            );
             actions$ = of(action);
             effects.fetchFileFileLocation$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
-                catalog: mockSelectCatalog,
-                currentQuery: mockSelectPreviousQuery
-            }));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                action.asEvent({
+                    catalog: mockSelectCatalog,
+                    currentQuery: mockSelectPreviousQuery,
+                })
+            );
         });
     });
 });

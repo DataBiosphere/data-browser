@@ -15,10 +15,11 @@ import { ExportToTerraSuccessAction } from "./export-to-terra-success.action";
 import { ExportProjectToTerraRequestAction } from "../project/export-project-to-terra-request.action";
 import { ResetExportToTerraStatusAction } from "./reset-export-to-terra-status.action";
 
-export function reducer(state: TerraState = TerraState.getDefaultState(), action: Action): TerraState {
-
+export function reducer(
+    state: TerraState = TerraState.getDefaultState(),
+    action: Action
+): TerraState {
     switch (action.type) {
-
         // Reset export to Terra back to its default status
         case ResetExportToTerraStatusAction.ACTION_TYPE:
             return TerraState.getDefaultState();
@@ -30,7 +31,9 @@ export function reducer(state: TerraState = TerraState.getDefaultState(), action
 
         // Export to Terra response has been received from the server.
         case ExportToTerraSuccessAction.ACTION_TYPE:
-            return state.exportToTerraSuccess(action as ExportToTerraSuccessAction);
+            return state.exportToTerraSuccess(
+                action as ExportToTerraSuccessAction
+            );
 
         default:
             return state;

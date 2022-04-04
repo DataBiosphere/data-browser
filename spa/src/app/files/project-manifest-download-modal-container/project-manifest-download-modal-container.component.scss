@@ -38,10 +38,8 @@
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media (min-width: 840px) {
-
     .panel-invisible {
         max-width: 840px !important; /** Override Material default that is added as inline style */
         min-width: 840px;
     }
 }
-

@@ -28,7 +28,6 @@
  * Note that this breakpoint matches resizing functionality in the corresponding component. 
  */
 @media screen and (max-width: $hca-sm-max) {
-
     /* Override Angular Material sticky table on smaller devices: we want all table cells to scroll */
     ::ng-deep .mat-table-sticky {
         position: relative !important;
@@ -40,10 +39,8 @@
  * Note that this breakpoint matches resizing functionality in the corresponding component.
  */
 @media screen and (min-width: $hca-md-min) {
-    
     :host {
         margin: 0 30px;
         width: calc(100vw - 60px); /* Allow for 2 x 30px gutters */
     }
 }
-

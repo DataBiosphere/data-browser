@@ -25,14 +25,12 @@ import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-relea
 import { DataReleasePolicyLinkComponent } from "../../site/data-release-policy-link/data-release-policy-link.component";
 
 describe("ProjectDownloadManifestComponent", () => {
-
     let component: ProjectManifestDownloadComponent;
     let fixture: ComponentFixture<ProjectManifestDownloadComponent>;
 
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
@@ -45,24 +43,20 @@ describe("ProjectDownloadManifestComponent", () => {
                 SectionBarComponent,
                 ProjectManifestDownloadComponent,
             ],
-            imports: [
-                ClipboardModule,
-                MatIconModule,
-                MatProgressSpinnerModule
-            ],
+            imports: [ClipboardModule, MatIconModule, MatProgressSpinnerModule],
             providers: [
                 ConfigService,
                 {
                     provide: Store,
-                    useValue: testStore
+                    useValue: testStore,
                 },
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ProjectManifestDownloadComponent);

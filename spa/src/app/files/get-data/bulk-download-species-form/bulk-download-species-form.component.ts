@@ -15,10 +15,9 @@ import EntitySpec from "../../shared/entity-spec";
 @Component({
     selector: "bulk-download-species-form",
     templateUrl: "./bulk-download-species-form.component.html",
-    styleUrls: ["./bulk-download-species-form.component.scss"]
+    styleUrls: ["./bulk-download-species-form.component.scss"],
 })
 export class BulkDownloadSpeciesFormComponent {
-
     /**
      * @param {Router} router
      */
@@ -28,21 +27,21 @@ export class BulkDownloadSpeciesFormComponent {
      * Return user to export options.
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Export Data";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
         this.router.navigate(["/export"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -50,9 +49,8 @@ export class BulkDownloadSpeciesFormComponent {
      * Species has been selected, navigate to export.
      */
     public onSpeciesSelected(): void {
-
         this.router.navigate(["/export", "get-curl-command"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 }

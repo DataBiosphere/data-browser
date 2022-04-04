@@ -15,20 +15,14 @@ import { GetDataPanelComponent } from "./get-data-panel.component";
 // App components
 
 describe("GetDataPanelComponent", () => {
-
     let component: GetDataPanelComponent;
     let fixture: ComponentFixture<GetDataPanelComponent>;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                GetDataPanelComponent
-            ],
-            imports: [
-            ],
-            providers: [
-            ]
+            declarations: [GetDataPanelComponent],
+            imports: [],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(GetDataPanelComponent);
@@ -39,7 +33,6 @@ describe("GetDataPanelComponent", () => {
      * Smoke test
      */
     it("should create an instance", () => {
-
         expect(component).toBeTruthy();
     });
 
@@ -47,7 +40,6 @@ describe("GetDataPanelComponent", () => {
      * Confirm panel has class "loading" when loading input is set to true.
      */
     it(`should have class "loading" when downloading set to true`, () => {
-
         // Set downloading to true on the component
         component.loading = true;
 
@@ -64,7 +56,6 @@ describe("GetDataPanelComponent", () => {
      * Confirm panel has class "error" when downloadError is set to true.
      */
     it(`should have class "error" when downloadError set to true`, () => {
-
         // Set downloadError to true on the component
         component.downloadError = true;
 

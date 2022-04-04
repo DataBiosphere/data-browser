@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Representation of file manifest-related state. Used for selected data and project data downloads (both bulk and 
+ * Representation of file manifest-related state. Used for selected data and project data downloads (both bulk and
  * export to Terra).
  */
 

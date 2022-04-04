@@ -11,11 +11,10 @@ import { Integrations } from "./integrations.model";
 import { Portal } from "./portal.model";
 
 const DEFAULT_INTEGRATIONS_STATE = {
-    integrationsByProjectId: new Map()
+    integrationsByProjectId: new Map(),
 };
 
 export class IntegrationState implements Integrations {
-
     integrationsByProjectId: Map<string, Portal[]>;
 
     /**
@@ -36,12 +35,16 @@ export class IntegrationState implements Integrations {
      * @param {FetchIntegrationsByProjectIdSuccessAction} action
      * @returns {IntegrationState}
      */
-    public fetchIntegrationsByProjectIdSuccess(action: FetchIntegrationsByProjectIdSuccessAction): IntegrationState {
-        const {projectId, integrations} = action;
-        const updatedIntegrationsByProjectId = new Map(this.integrationsByProjectId);
+    public fetchIntegrationsByProjectIdSuccess(
+        action: FetchIntegrationsByProjectIdSuccessAction
+    ): IntegrationState {
+        const { projectId, integrations } = action;
+        const updatedIntegrationsByProjectId = new Map(
+            this.integrationsByProjectId
+        );
         updatedIntegrationsByProjectId.set(projectId, integrations);
         return new IntegrationState({
-            integrationsByProjectId: updatedIntegrationsByProjectId
+            integrationsByProjectId: updatedIntegrationsByProjectId,
         });
     }
 

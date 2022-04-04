@@ -11,9 +11,8 @@ import { Component, Input } from "@angular/core";
 @Component({
     selector: "toolbar-social",
     templateUrl: "toolbar-social.component.html",
-    styleUrls: ["toolbar-social.component.scss"]
+    styleUrls: ["toolbar-social.component.scss"],
 })
-
 export class ToolbarSocialComponent {
     // Inputs
     @Input() imgSrc: string;

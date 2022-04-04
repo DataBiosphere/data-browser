@@ -11,19 +11,22 @@ import { Action } from "@ngrx/store";
 // App dependencies
 import {
     FetchFileSummaryRequestAction,
-    FetchFileSummarySuccessAction
+    FetchFileSummarySuccessAction,
 } from "./file-summary.actions";
 import { FileSummaryState } from "./file-summary.state";
 
-export function reducer(state: FileSummaryState = FileSummaryState.getDefaultState(), action: Action): FileSummaryState {
-
+export function reducer(
+    state: FileSummaryState = FileSummaryState.getDefaultState(),
+    action: Action
+): FileSummaryState {
     switch (action.type) {
-
         case FetchFileSummaryRequestAction.ACTION_TYPE:
             return state.fetchSummaryRequest();
 
         case FetchFileSummarySuccessAction.ACTION_TYPE:
-            return state.fetchSummarySuccess(action as FetchFileSummarySuccessAction);
+            return state.fetchSummarySuccess(
+                action as FetchFileSummarySuccessAction
+            );
 
         default:
             return state;

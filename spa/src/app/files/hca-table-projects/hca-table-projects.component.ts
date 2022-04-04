@@ -6,7 +6,14 @@
  */
 
 // Core dependencies
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
@@ -20,7 +27,11 @@ import { Catalog } from "../catalog/catalog.model";
 import { CatalogUpdate } from "../catalog/catalog-update.model";
 import { FileSummary } from "../file-summary/file-summary.model";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog, selectCatalogUpdate, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
+import {
+    selectCatalog,
+    selectCatalogUpdate,
+    selectDefaultCatalog,
+} from "../_ngrx/catalog/catalog.selectors";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { ViewAnalysisProtocolAction } from "../_ngrx/analysis-protocol/view-analysis-protocol.action";
 import {
@@ -28,7 +39,7 @@ import {
     selectPagination,
     selectTableData,
     selectTableLoading,
-    selectTermCountsByFacetName
+    selectTermCountsByFacetName,
 } from "../_ngrx/files.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
@@ -45,17 +56,16 @@ import {
     getColumnDisplayName,
     getColumnSortKey,
     getColumnStyle,
-    isElementUnspecified
+    isElementUnspecified,
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 
 @Component({
     selector: "hca-table-projects",
     templateUrl: "./hca-table-projects.component.html",
-    styleUrls: ["./hca-table-projects.component.scss"]
+    styleUrls: ["./hca-table-projects.component.scss"],
 })
 export class HCATableProjectsComponent implements OnInit {
-
     // Template variables
     public catalog$: Observable<Catalog>;
     public catalogUpdate$: Observable<CatalogUpdate>;
@@ -64,13 +74,28 @@ export class HCATableProjectsComponent implements OnInit {
     public defaultCatalog$: Observable<Catalog>;
     public defaultSortOrder = {
         sort: "projectTitle",
-        order: "asc"
+        order: "asc",
     };
     public displayedColumns = [
-        "projectTitle", "getData", "genusSpecies", "sampleEntityType", "organ", "organPart", "modelOrgan", "selectedCellType",
-        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd",
-        "workflow", "disease", "donorDisease", "developmentStage", "donorCount", "totalCells",
-        "aggregateSubmissionDate", "aggregateLastModifiedDate"
+        "projectTitle",
+        "getData",
+        "genusSpecies",
+        "sampleEntityType",
+        "organ",
+        "organPart",
+        "modelOrgan",
+        "selectedCellType",
+        "libraryConstructionApproach",
+        "nucleicAcidSource",
+        "pairedEnd",
+        "workflow",
+        "disease",
+        "donorDisease",
+        "developmentStage",
+        "donorCount",
+        "totalCells",
+        "aggregateSubmissionDate",
+        "aggregateLastModifiedDate",
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getColumnClass = getColumnClass;
@@ -90,7 +115,7 @@ export class HCATableProjectsComponent implements OnInit {
     @Input() selectedSearchTerms: SearchTerm[];
 
     // View child/ren
-    @ViewChild(MatTable, {read: ElementRef}) matTableElementRef: ElementRef;
+    @ViewChild(MatTable, { read: ElementRef }) matTableElementRef: ElementRef;
     @ViewChild(MatSort) matSort: MatSort;
 
     /**
@@ -100,21 +125,24 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {ElementRef} elementRef
      * @param {Router} router
      */
-    constructor(private store: Store<AppState>,
-                private deviceService: DeviceDetectorService,
-                private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef,
-                private router: Router) {
-    }
+    constructor(
+        private store: Store<AppState>,
+        private deviceService: DeviceDetectorService,
+        private cdref: ChangeDetectorRef,
+        private elementRef: ElementRef,
+        private router: Router
+    ) {}
 
     /**
      * Returns the catalog param to include when linking to a project:
      * 1. Null if selected catalog is default catalog
      * 2. Selected catalog if catalog is not default catlog.
      */
-    public getProjectCatalogParam(defaultCatalog: Catalog, selectedCatalog: Catalog): string {
-        
-        if ( defaultCatalog === selectedCatalog ) {
+    public getProjectCatalogParam(
+        defaultCatalog: Catalog,
+        selectedCatalog: Catalog
+    ): string {
+        if (defaultCatalog === selectedCatalog) {
             return null;
         }
         return selectedCatalog;
@@ -127,7 +155,6 @@ export class HCATableProjectsComponent implements OnInit {
      * @returns {boolean}
      */
     public isAnyMatrixAvailable(project: ProjectRow) {
-
         return project.matrices.length || project.contributorMatrices.length;
     }
 
@@ -138,7 +165,6 @@ export class HCATableProjectsComponent implements OnInit {
      * @returns {boolean}
      */
     public isProjectSelected(project: any): boolean {
-
         return this.selectedProjectIds.indexOf(project.entryId) >= 0;
     }
 
@@ -148,11 +174,11 @@ export class HCATableProjectsComponent implements OnInit {
      * @returns {string[]}
      */
     public listColumns(): string[] {
-
-        return this.displayedColumns.filter(columnName => {
-
-            if ( columnName === "getData" &&
-                (this.deviceService.isMobile() || this.deviceService.isTablet()) ) {
+        return this.displayedColumns.filter((columnName) => {
+            if (
+                columnName === "getData" &&
+                (this.deviceService.isMobile() || this.deviceService.isTablet())
+            ) {
                 return false;
             }
 
@@ -166,13 +192,18 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {string} projectId
      * @param {Catalog} catalog
      */
-    public onProjectDownloadManifestClicked(projectId: string, catalog: Catalog) {
-
-        this.router.navigate([EntityName.PROJECTS, projectId, "m", "project-metadata"], {
-            queryParams: {
-                catalog
+    public onProjectDownloadManifestClicked(
+        projectId: string,
+        catalog: Catalog
+    ) {
+        this.router.navigate(
+            [EntityName.PROJECTS, projectId, "m", "project-metadata"],
+            {
+                queryParams: {
+                    catalog,
+                },
             }
-        });
+        );
     }
 
     /**
@@ -182,12 +213,14 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {Catalog} catalog
      */
     public onProjectDownloadMatrixClicked(projectId: string, catalog: Catalog) {
-
-        this.router.navigate([EntityName.PROJECTS, projectId, "m", "project-matrices"], {
-            queryParams: {
-                catalog
+        this.router.navigate(
+            [EntityName.PROJECTS, projectId, "m", "project-matrices"],
+            {
+                queryParams: {
+                    catalog,
+                },
             }
-        });
+        );
     }
 
     /**
@@ -196,9 +229,11 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
-
-        const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
+        const action = new ViewAnalysisProtocolAction(
+            event.analysisProtocol,
+            event.url,
+            GASource.SEARCH_RESULTS
+        );
         this.store.dispatch(action);
     }
 
@@ -209,9 +244,19 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {string} projectName
      * @param {boolean} selected
      */
-    public onProjectSelected(projectId: string, projectName: string, selected: boolean) {
-
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectName, !selected, GASource.SEARCH_RESULTS));
+    public onProjectSelected(
+        projectId: string,
+        projectName: string,
+        selected: boolean
+    ) {
+        this.store.dispatch(
+            new SelectProjectIdAction(
+                projectId,
+                projectName,
+                !selected,
+                GASource.SEARCH_RESULTS
+            )
+        );
     }
 
     /**
@@ -221,20 +266,20 @@ export class HCATableProjectsComponent implements OnInit {
      * @param {Sort} sort
      */
     public sortTable(pm: Pagination, sort: Sort) {
-
         // Get column sort key, when sort key is specified by table config. Handle special case for totalCells for
         // projects: sort by effectiveCellCount instead of cellCount.
         let tableConfigColumnSortKey;
-        if ( sort.active === "totalCells" ) {
+        if (sort.active === "totalCells") {
             tableConfigColumnSortKey = "effectiveCellCount";
-        }
-        else {
+        } else {
             tableConfigColumnSortKey = getColumnSortKey(sort.active);
         }
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
-        if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
-
+        if (
+            tableConfigColumnSortKey &&
+            tableConfigColumnSortKey !== sort.active
+        ) {
             sort.active = tableConfigColumnSortKey;
         }
 
@@ -243,8 +288,10 @@ export class HCATableProjectsComponent implements OnInit {
         // same header clears the sort. We want to force the sort to go back to the default sort - project title. We must
         // use this workaround here (_handleClick) due to a defect in programmatically setting the sort order in
         // Material (https://github.com/angular/components/issues/10242).
-        if ( !sort.direction ) {
-            const defaultSortHeader = this.matSort.sortables.get(this.defaultSortOrder.sort) as MatSortHeader;
+        if (!sort.direction) {
+            const defaultSortHeader = this.matSort.sortables.get(
+                this.defaultSortOrder.sort
+            ) as MatSortHeader;
             defaultSortHeader._handleClick();
             return;
         }
@@ -252,16 +299,18 @@ export class HCATableProjectsComponent implements OnInit {
         let tableParamsModel: TableParams = {
             size: pm.size,
             sort: sort.active,
-            order: sort.direction
+            order: sort.direction,
         };
 
-        const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, GAIndex.PROJECTS, GASource.SEARCH_RESULTS);
+        const action = new FetchSortedTableDataRequestAction(
+            tableParamsModel,
+            GAIndex.PROJECTS,
+            GASource.SEARCH_RESULTS
+        );
         this.store.dispatch(action);
     }
 
     ngAfterContentChecked() {
-
         this.cdref.detectChanges();
     }
 
@@ -269,7 +318,6 @@ export class HCATableProjectsComponent implements OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -278,10 +326,11 @@ export class HCATableProjectsComponent implements OnInit {
      *  Set up table data source and pagination
      */
     ngOnInit() {
-
         // Initialize the new data source with an observable of the table data.
-        this.dataSource =
-            new EntitiesDataSource<ProjectRowMapper>(this.store.pipe(select(selectTableData)), ProjectRowMapper);
+        this.dataSource = new EntitiesDataSource<ProjectRowMapper>(
+            this.store.pipe(select(selectTableData)),
+            ProjectRowMapper
+        );
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));
@@ -294,13 +343,15 @@ export class HCATableProjectsComponent implements OnInit {
 
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
-        this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
+        this.domainCountsByColumnName$ = this.store.pipe(
+            select(selectTermCountsByFacetName)
+        );
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         this.dataLoaded$ = this.data$.pipe(
-            filter(data => !!data.length),
+            filter((data) => !!data.length),
             map(() => true)
         );
 

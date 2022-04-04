@@ -10,5 +10,5 @@ export enum ManifestDownloadFormat {
     "CURL" = "curl",
     "FULL" = "full",
     "TERRA_BDBAG" = "terra.bdbag",
-    "TERRA_PFB" = "terra.pfb"
+    "TERRA_PFB" = "terra.pfb",
 }

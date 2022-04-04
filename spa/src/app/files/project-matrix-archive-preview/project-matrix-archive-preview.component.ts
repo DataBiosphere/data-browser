@@ -14,10 +14,9 @@ import { ArchivePreview } from "../project-matrix/archive-preview.model";
 @Component({
     selector: "project-matrix-archive-preview",
     templateUrl: "./project-matrix-archive-preview.component.html",
-    styleUrls: ["./project-matrix-archive-preview.component.scss"]
+    styleUrls: ["./project-matrix-archive-preview.component.scss"],
 })
 export class ProjectMatrixArchivePreviewComponent {
-    
     // Inputs/Outputs
     @Input() archivePreview: ArchivePreview;
 }

@@ -26,7 +26,6 @@ import { Catalog } from "./catalog.model";
 
 @Injectable()
 export class CatalogService {
-
     private STORAGE_KEY_CATALOG_LAST_VISIT = "CATALOG_LAST_VISIT";
 
     /**
@@ -35,10 +34,12 @@ export class CatalogService {
      * @param {Store<AppState>} store
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService,
-                private localStorageService: LocalStorageService,
-                private store: Store<AppState>, 
-                private httpClient: HttpClient) {}
+    constructor(
+        private configService: ConfigService,
+        private localStorageService: LocalStorageService,
+        private store: Store<AppState>,
+        private httpClient: HttpClient
+    ) {}
 
     /**
      * Fetch catalogs from Azul and filter by the atlas for the current instance.
@@ -46,7 +47,6 @@ export class CatalogService {
      * @returns {Observable<Atlas>}
      */
     public fetchCatalogs(): Observable<Atlas> {
-
         return this.httpClient
             .get<CatalogsAPIResponse>(this.configService.getCatalogsUrl())
             .pipe(
@@ -63,17 +63,17 @@ export class CatalogService {
      * @returns {Promise<void>}
      */
     public initCatalogs(): Promise<void> {
-
         this.store.dispatch(new FetchCatalogsRequestAction());
         return new Promise((resolve) => {
-
-            this.store.pipe(
-                select(selectCatalogsInit),
-                filter(catalog => catalog),
-                take(1)
-            ).subscribe(() => {
-                resolve();
-            })
+            this.store
+                .pipe(
+                    select(selectCatalogsInit),
+                    filter((catalog) => catalog),
+                    take(1)
+                )
+                .subscribe(() => {
+                    resolve();
+                });
         });
     }
 
@@ -83,40 +83,42 @@ export class CatalogService {
      * @returns {Promise<void>}
      */
     public initCatalogUpdate(): Promise<void> {
-
-        this.store.dispatch(new InitCatalogUpdateAction({
-            catalog: catalogUpdate.catalog,
-            new: catalogUpdate.new,
-            runDate: new Date(catalogUpdate.runDate),
-            updated: catalogUpdate.updated
-        }));
+        this.store.dispatch(
+            new InitCatalogUpdateAction({
+                catalog: catalogUpdate.catalog,
+                new: catalogUpdate.new,
+                runDate: new Date(catalogUpdate.runDate),
+                updated: catalogUpdate.updated,
+            })
+        );
         return Promise.resolve();
     }
 
     /**
      * Returns true if there is a new catalog since the user's last visit.
-     * 
+     *
      * @param {CatalogService} defaultCatalog - The default catalog for this instance.
      * @returns {boolean}
      */
     public isCatalogUpdatedSinceLastVisit(defaultCatalog: Catalog): boolean {
+        const catalogAtLastVisit = this.localStorageService.get(
+            this.STORAGE_KEY_CATALOG_LAST_VISIT
+        );
 
-        const catalogAtLastVisit = this.localStorageService.get(this.STORAGE_KEY_CATALOG_LAST_VISIT);
-        
         // This is the user's first visit: set current catalog as the user's catalog at last visit and indicate there
         // are updates.
-        if ( !catalogAtLastVisit ) {
+        if (!catalogAtLastVisit) {
             this.setCatalogAtLastVisit(defaultCatalog);
             return true;
         }
-        
+
         // If the current catalog does not match the catalog at the last visit, update user's catalog at last visit and
         // indicate updates have occurred.
-        if (catalogAtLastVisit !== defaultCatalog ) {
+        if (catalogAtLastVisit !== defaultCatalog) {
             this.setCatalogAtLastVisit(defaultCatalog);
             return true;
         }
-        
+
         // No changes!
         return false;
     }
@@ -127,27 +129,32 @@ export class CatalogService {
      * @param {CatalogsAPIResponse} response
      * @returns {Observable<Atlas>}
      */
-    private bindCatalogsAPIResponse(response: CatalogsAPIResponse): Observable<Atlas> {
-
+    private bindCatalogsAPIResponse(
+        response: CatalogsAPIResponse
+    ): Observable<Atlas> {
         const atlasName = this.configService.getAtlas();
         const { catalogs: allCatalogs } = response;
         const atlasCatalogs = this.bindAtlasCatalogs(atlasName, allCatalogs);
 
         // Error if no catalogs are returned for the current atlas.
-        if ( atlasCatalogs.length === 0 ) {
+        if (atlasCatalogs.length === 0) {
             return throwError(`No catalogs found for atlas "${atlasName}".`);
         }
-        
+
         // Confirm the default catalog for the environment is included in the set of returned catalogs for the atlas
         const defaultCatalog = this.configService.getDefaultCatalog();
-        const validCatalog = atlasCatalogs.some(atlasCatalog => atlasCatalog.catalog === defaultCatalog);
-        if ( !validCatalog ) {
-            return throwError(`Invalid default catalog "${defaultCatalog}" for atlas "${atlasName}".`);
+        const validCatalog = atlasCatalogs.some(
+            (atlasCatalog) => atlasCatalog.catalog === defaultCatalog
+        );
+        if (!validCatalog) {
+            return throwError(
+                `Invalid default catalog "${defaultCatalog}" for atlas "${atlasName}".`
+            );
         }
 
         return of({
-            catalogs: atlasCatalogs.map(atlasCatalog => atlasCatalog.catalog),
-            defaultCatalog
+            catalogs: atlasCatalogs.map((atlasCatalog) => atlasCatalog.catalog),
+            defaultCatalog,
         });
     }
 
@@ -160,18 +167,18 @@ export class CatalogService {
      * @returns {any[]}
      */
     private bindAtlasCatalogs(atlas: string, allCatalogs: any): any[] {
-
-        return Array.from(Object.keys(allCatalogs).reduce((accum, catalogKey) => {
-
-            const catalog = allCatalogs[catalogKey];
-            if ( catalog.atlas === atlas ) {
-                accum.push({
-                    catalog: catalogKey,
-                    internal: catalog.internal
-                });
-            }
-            return accum;
-        }, []));
+        return Array.from(
+            Object.keys(allCatalogs).reduce((accum, catalogKey) => {
+                const catalog = allCatalogs[catalogKey];
+                if (catalog.atlas === atlas) {
+                    accum.push({
+                        catalog: catalogKey,
+                        internal: catalog.internal,
+                    });
+                }
+                return accum;
+            }, [])
+        );
     }
 
     /**
@@ -181,19 +188,21 @@ export class CatalogService {
      * @returns {CatalogsAPIResponse}
      */
     private handleCatalogsAPIResponseError(): Observable<CatalogsAPIResponse> {
-
         return of({
             catalogs: [],
-            default_catalog: ""
+            default_catalog: "",
         });
     }
 
     /**
      * Set the user's catalog as last visit value to the given catalog.
-     * 
+     *
      * @param {Catalog} currentCatalog - The default catalog for this instance.
      */
     private setCatalogAtLastVisit(currentCatalog: Catalog): void {
-        this.localStorageService.set(this.STORAGE_KEY_CATALOG_LAST_VISIT, currentCatalog);
+        this.localStorageService.set(
+            this.STORAGE_KEY_CATALOG_LAST_VISIT,
+            currentCatalog
+        );
     }
 }

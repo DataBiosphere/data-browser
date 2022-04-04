@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when a link to a project integration is clicked. 
+ * Action triggered when a link to a project integration is clicked.
  */
 
 // Core dependencies
@@ -19,7 +19,6 @@ import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GARelatedEntityType } from "../../../shared/analytics/ga-related-entity-type.model";
 
 export class ViewProjectIntegrationAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "PROJECT.VIEW_INTEGRATION";
     public readonly type = ViewProjectIntegrationAction.ACTION_TYPE;
 
@@ -30,11 +29,13 @@ export class ViewProjectIntegrationAction implements Action, TrackingAction {
      * @param {string} projectShortname
      * @param {string} projectUrl
      */
-    constructor(public portal: Portal,
-                public integration: Integration,
-                public projectId: string,
-                public projectShortname: string,
-                public projectUrl: string) {}
+    constructor(
+        public portal: Portal,
+        public integration: Integration,
+        public projectId: string,
+        public projectShortname: string,
+        public projectUrl: string
+    ) {}
 
     /**
      * Return the project integration action as a GA event.
@@ -42,8 +43,7 @@ export class ViewProjectIntegrationAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_EXTERNAL_RESOURCE,
@@ -54,9 +54,10 @@ export class ViewProjectIntegrationAction implements Action, TrackingAction {
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_URL]: this.projectUrl,
                 [GADimension.RELATED_ENTITY_ID]: `${this.portal.portalName} (${this.portal.organizationName})`, // eg Xena (UCSC)
-                [GADimension.RELATED_ENTITY_TYPE]: GARelatedEntityType.INTEGRATION,
-                [GADimension.RELATED_ENTITY_URL]: this.integration.portalUrl
-            }
+                [GADimension.RELATED_ENTITY_TYPE]:
+                    GARelatedEntityType.INTEGRATION,
+                [GADimension.RELATED_ENTITY_URL]: this.integration.portalUrl,
+            },
         };
     }
 }

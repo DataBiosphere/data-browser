@@ -12,7 +12,7 @@ import { ContributorView } from "./contributor-view.model";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 
 export interface ProjectView {
-    accessions: KeyValuePair[],
+    accessions: KeyValuePair[];
     citationLink: string;
     contacts: ContactView[];
     collaboratingOrganizations: CollaboratingOrganizationView[];

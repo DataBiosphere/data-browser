@@ -6,10 +6,9 @@
  */
 
 export interface IndexHttpResponse {
-
     up: boolean;
     progress: {
         unindexed_bundles: number;
         unindexed_documents: number;
-    }
+    };
 }

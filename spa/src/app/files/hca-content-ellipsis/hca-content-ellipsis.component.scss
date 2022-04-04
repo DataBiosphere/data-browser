@@ -22,7 +22,7 @@
 
     /* Hides ellipsis tooltip - Safari only */
     &:after {
-        content: '';
+        content: "";
         display: block;
     }
 }

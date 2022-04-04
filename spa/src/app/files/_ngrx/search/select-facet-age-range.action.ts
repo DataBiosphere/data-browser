@@ -22,8 +22,9 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectFacetAgeRangeAction implements Action, SearchTermAction, TrackingAction {
-
+export class SelectFacetAgeRangeAction
+    implements Action, SearchTermAction, TrackingAction
+{
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_AGE_RANGE";
     public readonly type = SelectFacetAgeRangeAction.ACTION_TYPE;
 
@@ -32,9 +33,11 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
      * @param {AgeRange} ageRange
      * @param {GASource} source
      */
-    constructor(public readonly facetName: string,
-                public readonly ageRange: AgeRange,
-                public source: GASource) {}
+    constructor(
+        public readonly facetName: string,
+        public readonly ageRange: AgeRange,
+        public source: GASource
+    ) {}
 
     /**
      * Return the de/selected term as a GA event.
@@ -42,8 +45,7 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         const term = this.asSearchTerm().getDisplayValue();
         return {
             category: GACategory.SEARCH,
@@ -58,8 +60,8 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,
                 [GADimension.MIN]: `${this.ageRange.ageMin}`,
                 [GADimension.SOURCE]: this.source,
-                [GADimension.TERM]: term
-            }
+                [GADimension.TERM]: term,
+            },
         };
     }
 
@@ -69,7 +71,6 @@ export class SelectFacetAgeRangeAction implements Action, SearchTermAction, Trac
      * @returns {SearchTerm}
      */
     public asSearchTerm(): SearchTerm {
-
         return new SearchAgeRange(this.facetName, this.ageRange);
     }
 }

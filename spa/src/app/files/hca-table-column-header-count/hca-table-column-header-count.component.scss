@@ -26,7 +26,6 @@
 
 /* Right align count content if column is right aligned */
 :host-context(.right) {
-
     .column-count {
         justify-content: flex-end;
     }
@@ -34,7 +33,6 @@
 
 /* Center count if column is centered */
 :host-context(.center) {
-
     .column-count {
         justify-content: center;
         padding: 0 0 2px 0;

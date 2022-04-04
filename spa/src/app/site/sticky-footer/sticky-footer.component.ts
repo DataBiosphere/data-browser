@@ -6,16 +6,12 @@
  */
 
 // Core dependencies
-import {
-    Component,
-    ChangeDetectionStrategy
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: "sticky-footer",
     templateUrl: "./sticky-footer.component.html",
     styleUrls: ["./sticky-footer.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StickyFooterComponent {
-}
+export class StickyFooterComponent {}

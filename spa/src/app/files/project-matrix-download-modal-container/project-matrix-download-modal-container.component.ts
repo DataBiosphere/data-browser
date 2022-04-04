@@ -15,15 +15,13 @@ import { takeUntil } from "rxjs/operators";
 // App dependencies
 import { ProjectMatrixDownloadModalComponent } from "../project-matrix-download-modal/project-matrix-download-modal.component";
 
-
 @Component({
     selector: "project-matrix-download-modal-container",
     template: "",
     styleUrls: ["./project-matrix-download-modal-container.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ProjectMatrixDownloadModalContainerComponent implements OnDestroy {
-
     private CSS_BACKDROP = "backdrop-white";
     private CSS_PANEL = "panel-invisible";
 
@@ -34,19 +32,15 @@ export class ProjectMatrixDownloadModalContainerComponent implements OnDestroy {
      * @param {ActivatedRoute} route
      */
     constructor(dialog: MatDialog, route: ActivatedRoute) {
-
-        route.params.pipe(
-            takeUntil(this.ngDestroy$)
-        ).subscribe(params => {
-
+        route.params.pipe(takeUntil(this.ngDestroy$)).subscribe((params) => {
             dialog.open(ProjectMatrixDownloadModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {
-                    projectId: params.id
+                    projectId: params.id,
                 },
                 disableClose: true,
-                panelClass: this.CSS_PANEL
+                panelClass: this.CSS_PANEL,
             });
         });
     }
@@ -55,7 +49,6 @@ export class ProjectMatrixDownloadModalContainerComponent implements OnDestroy {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }

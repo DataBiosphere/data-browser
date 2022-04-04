@@ -1,4 +1,3 @@
-
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
@@ -13,7 +12,6 @@ import GoogleUser = gapi.auth2.GoogleUser;
 import { Action } from "@ngrx/store";
 
 export class FetchTerraRegistrationSuccessAction implements Action {
-
     public static ACTION_TYPE = "TERRA_AUTH.FETCH_TERRA_REGISTRATION_SUCCESS";
     public readonly type = FetchTerraRegistrationSuccessAction.ACTION_TYPE;
 

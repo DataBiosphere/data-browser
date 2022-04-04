@@ -14,7 +14,6 @@
 
     /* Status banner */
     .status {
-
         mat-icon {
             align-self: center;
             margin-right: 16px;
@@ -22,8 +21,8 @@
     }
 
     /* Status, data re-ingestion banner */
-    .status, .data-re-ingestion {
-
+    .status,
+    .data-re-ingestion {
         p {
             margin: 0;
         }

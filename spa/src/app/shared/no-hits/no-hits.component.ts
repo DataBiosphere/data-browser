@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "no-hits",
     templateUrl: "./no-hits.component.html",
-    styleUrls: ["./no-hits.component.scss"]
+    styleUrls: ["./no-hits.component.scss"],
 })
-export class NoHitsComponent {
-}
+export class NoHitsComponent {}

@@ -18,7 +18,6 @@ import { QueryStringSearchTerm } from "./query-string-search-term.model";
 
 @Injectable()
 export class SearchTermUrlService {
-
     private PARAM_FILTER = "filter";
     private ERROR_TEXT_PARSE = "Unable to parse query string parameter";
     private ERROR_TEXT_SYNTAX = "Invalid query string parameter";
@@ -30,9 +29,10 @@ export class SearchTermUrlService {
      * @param {Params} params
      * @throws {Error}
      */
-    public parseQueryStringSearchTerms(params: Params): QueryStringSearchTerm[] {
-
-        if ( !this.isFilterParamSpecified(params) ) {
+    public parseQueryStringSearchTerms(
+        params: Params
+    ): QueryStringSearchTerm[] {
+        if (!this.isFilterParamSpecified(params)) {
             return [];
         }
 
@@ -41,29 +41,39 @@ export class SearchTermUrlService {
         let filter;
         try {
             filter = JSON.parse(filterParam); // throws SyntaxError
-        }
-        catch(e) {
-            throw Error(this.buildParseErrorMessage(this.PARAM_FILTER, filterParam));
+        } catch (e) {
+            throw Error(
+                this.buildParseErrorMessage(this.PARAM_FILTER, filterParam)
+            );
         }
 
         // Confirm filter was parsed correctly.
-        if ( !filter || !filter.length ) {
-            throw Error(this.buildParseErrorMessage(this.PARAM_FILTER, filterParam));
+        if (!filter || !filter.length) {
+            throw Error(
+                this.buildParseErrorMessage(this.PARAM_FILTER, filterParam)
+            );
         }
-        
+
         // Confirm each filter value has both facetName and terms values
-        if ( !this.isFilterSyntaxValid(filter) ) {
-            throw Error(this.buildSyntaxErrorMessage(this.PARAM_FILTER, filterParam));
+        if (!this.isFilterSyntaxValid(filter)) {
+            throw Error(
+                this.buildSyntaxErrorMessage(this.PARAM_FILTER, filterParam)
+            );
         }
-        
+
         // Confirm terms values are valid
-        if ( !this.isTermsSyntaxValid(filter) ) {
-            throw Error(this.buildSyntaxErrorMessage(this.PARAM_FILTER, filterParam));
+        if (!this.isTermsSyntaxValid(filter)) {
+            throw Error(
+                this.buildSyntaxErrorMessage(this.PARAM_FILTER, filterParam)
+            );
         }
-        
+
         // Convert filter into query string search terms.
         return filter.map((selectedFacet) => {
-            return new QueryStringSearchTerm(selectedFacet[SearchTermUrl.FACET_NAME], selectedFacet[SearchTermUrl.VALUE]);
+            return new QueryStringSearchTerm(
+                selectedFacet[SearchTermUrl.FACET_NAME],
+                selectedFacet[SearchTermUrl.VALUE]
+            );
         });
     }
 
@@ -76,21 +86,24 @@ export class SearchTermUrlService {
      * @param {Map<string, Set<SearchTerm>>} selectedSearchTermsBySearchKey
      * @returns {string}
      */
-    public stringifySearchTerms(selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>): string {
-
+    public stringifySearchTerms(
+        selectedSearchTermsBySearchKey: Map<string, Set<SearchTerm>>
+    ): string {
         // Convert search terms to query string state
-        const filterQueryStringParams =
-            Array.from(selectedSearchTermsBySearchKey.keys()).reduce((accum, facetName) => {
+        const filterQueryStringParams = Array.from(
+            selectedSearchTermsBySearchKey.keys()
+        ).reduce((accum, facetName) => {
+            const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
+            accum.add({
+                [SearchTermUrl.FACET_NAME]: facetName,
+                [SearchTermUrl.VALUE]: Array.from(searchTerms.values()).map(
+                    (searchTerm) => searchTerm.getSearchValue()
+                ),
+            });
+            return accum;
+        }, new Set<any>());
 
-                const searchTerms = selectedSearchTermsBySearchKey.get(facetName);
-                accum.add({
-                    [SearchTermUrl.FACET_NAME]: facetName,
-                    [SearchTermUrl.VALUE]: Array.from(searchTerms.values()).map(searchTerm => searchTerm.getSearchValue())
-                });
-                return accum;
-            }, new Set<any>());
-
-        if ( filterQueryStringParams.size > 0 ) {
+        if (filterQueryStringParams.size > 0) {
             return JSON.stringify(Array.from(filterQueryStringParams));
         }
 
@@ -99,13 +112,15 @@ export class SearchTermUrlService {
 
     /**
      * Build parse error message.
-     * 
+     *
      * @param {string} paramName
      * @param {string} filterParam
      * @returns {string}
      */
-    private buildParseErrorMessage(paramName: string, filterParam: string): string {
-
+    private buildParseErrorMessage(
+        paramName: string,
+        filterParam: string
+    ): string {
         return `${this.ERROR_TEXT_PARSE} "${paramName}": ${filterParam}`;
     }
 
@@ -116,8 +131,10 @@ export class SearchTermUrlService {
      * @param {string} filterParam
      * @returns {string}
      */
-    private buildSyntaxErrorMessage(paramName: string, filterParam: string): string {
-
+    private buildSyntaxErrorMessage(
+        paramName: string,
+        filterParam: string
+    ): string {
         return `${this.ERROR_TEXT_SYNTAX} "${paramName}": ${filterParam}`;
     }
 
@@ -128,18 +145,16 @@ export class SearchTermUrlService {
      * @returns {boolean}
      */
     private isFilterParamSpecified(params: Params): boolean {
-
         return !!params["filter"];
     }
 
     /**
      * Returns true if each value in filter param is valid. That is, each value has both facetName and terms values.
-     * 
+     *
      * @param {any} filter
      */
     private isFilterSyntaxValid(filter): boolean {
-
-        return filter.every(f => {
+        return filter.every((f) => {
             return f.facetName && f.terms;
         });
     }
@@ -150,15 +165,16 @@ export class SearchTermUrlService {
      * @param {any} filter
      */
     private isTermsSyntaxValid(filter): boolean {
-
-        return filter.every(f => {
+        return filter.every((f) => {
             const terms = f.terms;
-            if ( !Array.isArray(terms) ) {
+            if (!Array.isArray(terms)) {
                 return false;
             }
-            return terms.every(t => {
-                return typeof t === "string" || this.isTermAgeRangeSyntaxValid(t);
-            })
+            return terms.every((t) => {
+                return (
+                    typeof t === "string" || this.isTermAgeRangeSyntaxValid(t)
+                );
+            });
         });
     }
 
@@ -168,10 +184,10 @@ export class SearchTermUrlService {
      * @param {any} term
      */
     private isTermAgeRangeSyntaxValid(term): boolean {
-        
-        return (term.ageMax || term.ageMax === 0) &&
+        return (
+            (term.ageMax || term.ageMax === 0) &&
             (term.ageMin || term.ageMin === 0) &&
-            term.ageUnit;
+            term.ageUnit
+        );
     }
 }
-

@@ -6,6 +6,5 @@
  */
 
 export interface FacetDisplayConfig {
-
-    facetName: string,
+    facetName: string;
 }

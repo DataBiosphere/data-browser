@@ -11,8 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "toolbar-nav-item",
     templateUrl: "toolbar-nav-item.component.html",
-    styleUrls: ["toolbar-nav-item.component.scss"]
+    styleUrls: ["toolbar-nav-item.component.scss"],
 })
-
-export class ToolbarNavItemComponent {
-}
+export class ToolbarNavItemComponent {}

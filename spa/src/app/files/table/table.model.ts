@@ -10,7 +10,6 @@
 import { Pagination } from "./pagination/pagination.model";
 
 export interface TableModel {
-
     pagination: Pagination;
     data: any[];
     loading?: boolean;

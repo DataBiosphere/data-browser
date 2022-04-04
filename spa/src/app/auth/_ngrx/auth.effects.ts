@@ -20,38 +20,44 @@ import { LogoutRequestAction } from "./logout-request.action";
 
 @Injectable()
 export class AuthEffects {
-
     /**
      * @param authService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private authService: AuthService,
-                private store: Store<AuthState>,
-                private actions$: Actions) {
-    }
+    constructor(
+        private authService: AuthService,
+        private store: Store<AuthState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Handle login.
      */
-    
-    login$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(LoginRequestAction.ACTION_TYPE),
-            tap(() => {
-                this.authService.login();
-            })
-        ), {dispatch: false});
+
+    login$: Observable<Action> = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(LoginRequestAction.ACTION_TYPE),
+                tap(() => {
+                    this.authService.login();
+                })
+            ),
+        { dispatch: false }
+    );
 
     /**
      * Handle logout.
      */
-    
-    logout$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(LogoutRequestAction.ACTION_TYPE),
-            tap(() => {
-                this.authService.logout();
-            })
-        ), {dispatch: false});
+
+    logout$: Observable<Action> = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(LogoutRequestAction.ACTION_TYPE),
+                tap(() => {
+                    this.authService.logout();
+                })
+            ),
+        { dispatch: false }
+    );
 }

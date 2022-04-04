@@ -6,8 +6,7 @@
  */
 
 export enum SupportRequestType {
-
     "QUESTION" = "question",
     "BUG" = "bug",
-    "FEATURE_REQUEST" = "feature_request"
+    "FEATURE_REQUEST" = "feature_request",
 }

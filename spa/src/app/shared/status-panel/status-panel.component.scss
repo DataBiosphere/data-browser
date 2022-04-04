@@ -12,7 +12,8 @@
     position: relative;
 
     /* Separator */
-    &:before, &.loading:after {
+    &:before,
+    &.loading:after {
         border-radius: 3px;
         bottom: 10px;
         content: "";

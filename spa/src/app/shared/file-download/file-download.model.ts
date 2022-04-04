@@ -7,7 +7,6 @@
  */
 
 export interface FileDownloadLink {
-
     name?: string;
     url: string;
 }

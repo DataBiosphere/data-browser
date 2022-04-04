@@ -7,7 +7,13 @@
  */
 
 // Core dependencies
-import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from "@angular/core";
+import {
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+    EventEmitter,
+    Output,
+} from "@angular/core";
 
 // App dependencies
 import { FacetTermSelectedEvent } from "./facet-term-selected.event";
@@ -20,10 +26,9 @@ import { TermSortService } from "../../sort/term-sort.service";
     selector: "file-facet",
     templateUrl: "./file-facet.component.html",
     styleUrls: ["./file-facet.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileFacetComponent {
-
     // Inputs
     @Input() facetName: string;
     @Input() fileFacet: FileFacet;
@@ -35,8 +40,7 @@ export class FileFacetComponent {
     /**
      * @param {TermSortService} termSortService
      */
-    constructor(private termSortService: TermSortService) {
-    }
+    constructor(private termSortService: TermSortService) {}
 
     /**
      * Returns the name of the activeTab
@@ -45,7 +49,6 @@ export class FileFacetComponent {
      * @returns {string}
      */
     public getLabelName(activeTab: EntitySpec): string {
-
         return activeTab.displayName;
     }
 
@@ -57,7 +60,6 @@ export class FileFacetComponent {
      * @returns {Term[]}
      */
     public getSortedTerms(facetName: string, terms: Term[]): Term[] {
-
         const sortedTerms = [...terms];
         this.termSortService.sortTerms(facetName, sortedTerms);
         return sortedTerms;
@@ -69,7 +71,6 @@ export class FileFacetComponent {
      * @param fileFacetSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(fileFacetSelectedEvent: FacetTermSelectedEvent) {
-
         this.facetTermSelected.emit(fileFacetSelectedEvent);
     }
 }

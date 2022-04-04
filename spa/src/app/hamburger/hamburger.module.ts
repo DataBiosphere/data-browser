@@ -20,17 +20,10 @@ import * as hamburgerReducer from "./_ngrx/hamburger.reducer";
     imports: [
         CommonModule,
         StoreModule.forFeature("hamburger", hamburgerReducer.reducer),
-        EffectsModule.forFeature([HamburgerEffects])
+        EffectsModule.forFeature([HamburgerEffects]),
     ],
-    declarations: [
-        HamburgerComponent
-    ],
-    providers: [
-    ],
-    exports: [
-        HamburgerComponent
-    ]
+    declarations: [HamburgerComponent],
+    providers: [],
+    exports: [HamburgerComponent],
 })
-export class HamburgerModule {
-}
-
+export class HamburgerModule {}

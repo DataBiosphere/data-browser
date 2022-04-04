@@ -9,7 +9,6 @@ const {
     HeadObjectCommand,
 } = require("@aws-sdk/client-s3");
 
-
 const { fromIni } = require("@aws-sdk/credential-providers");
 
 const pipeline = promisify(require("stream").pipeline);
@@ -151,7 +150,10 @@ async function processFile(file) {
         const fileDlName = file.name || file.uuid + "." + file.format;
         const fileDlPath = path.resolve(outPath, fileDlName);
 
-        if (fileDlPath.substring(0, outPath.length + 1) !== outPath + path.sep) {
+        if (
+            fileDlPath.substring(0, outPath.length + 1) !==
+            outPath + path.sep
+        ) {
             throw new Error("Invalid archive name");
         }
 
@@ -204,7 +206,9 @@ async function generateManifest(uuid, version, fileName) {
         if (/\.gz$/i.test(fileName)) {
             zipName = `TEMP_${fileName}_ungz.zip`;
             await exec(
-                `gzip -dc ${formatBashString(fileName)} > ${formatBashString(zipName)}`,
+                `gzip -dc ${formatBashString(fileName)} > ${formatBashString(
+                    zipName
+                )}`,
                 { cwd: outPath }
             );
         } else {
@@ -212,9 +216,12 @@ async function generateManifest(uuid, version, fileName) {
         }
 
         // get file list:
-        const { stdout } = await exec(`unzip -Z1 ${formatBashString(zipName)}`, {
-            cwd: outPath,
-        });
+        const { stdout } = await exec(
+            `unzip -Z1 ${formatBashString(zipName)}`,
+            {
+                cwd: outPath,
+            }
+        );
         filesString = stdout;
         // extract files:
         await exec(

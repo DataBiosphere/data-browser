@@ -6,7 +6,6 @@
  */
 
 export interface CheckboxOption {
-
     label: string;
     selected: boolean;
     value: string;

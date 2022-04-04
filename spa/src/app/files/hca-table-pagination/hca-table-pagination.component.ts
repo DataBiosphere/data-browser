@@ -5,7 +5,6 @@
  * Table pagination component.
  */
 
-
 // Core dependencies
 import { Component, Inject, Input, OnInit } from "@angular/core";
 import { Sort } from "@angular/material/sort";
@@ -23,11 +22,9 @@ import { PaginationService } from "../table/pagination/pagination.service";
 @Component({
     selector: "hca-table-pagination",
     templateUrl: "./hca-table-pagination.component.html",
-    styleUrls: ["./hca-table-pagination.component.scss"]
+    styleUrls: ["./hca-table-pagination.component.scss"],
 })
-
 export class HCATablePaginationComponent implements OnInit {
-
     // Template variables
     pagination$: Observable<Pagination>;
 
@@ -38,8 +35,10 @@ export class HCATablePaginationComponent implements OnInit {
      * @param {PaginationService} paginationService
      * @param {Store<AppState>} store
      */
-    constructor(private paginationService: PaginationService,
-                private store: Store<AppState>) {}
+    constructor(
+        private paginationService: PaginationService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Called when table next page selected.
@@ -47,13 +46,15 @@ export class HCATablePaginationComponent implements OnInit {
      * @param {Pagination} pagination
      */
     public nextPageSelected(pagination: Pagination) {
-
-        if ( !this.hasNext(pagination) ) {
+        if (!this.hasNext(pagination)) {
             return;
         }
-        
-        const tableParams = this.paginationService.buildNextPageTableParams(pagination);
-        this.store.dispatch(new TableNextPageAction(tableParams, pagination.current_page));
+
+        const tableParams =
+            this.paginationService.buildNextPageTableParams(pagination);
+        this.store.dispatch(
+            new TableNextPageAction(tableParams, pagination.current_page)
+        );
     }
 
     /**
@@ -62,13 +63,15 @@ export class HCATablePaginationComponent implements OnInit {
      * @param {Pagination} pagination
      */
     public previousPageSelected(pagination: Pagination) {
-
-        if ( !this.hasPrevious(pagination) ) {
+        if (!this.hasPrevious(pagination)) {
             return;
         }
-        
-        const tableParams = this.paginationService.buildPreviousPageTableParams(pagination);
-        this.store.dispatch(new TablePreviousPageAction(tableParams, pagination.current_page));
+
+        const tableParams =
+            this.paginationService.buildPreviousPageTableParams(pagination);
+        this.store.dispatch(
+            new TablePreviousPageAction(tableParams, pagination.current_page)
+        );
     }
 
     /**
@@ -79,7 +82,6 @@ export class HCATablePaginationComponent implements OnInit {
      * @returns {boolean}
      */
     public hasNext(pagination: Pagination): boolean {
-        
         return !this.paginationService.isLastPage(pagination);
     }
 
@@ -91,8 +93,7 @@ export class HCATablePaginationComponent implements OnInit {
      * @returns {boolean}
      */
     public hasPrevious(pagination: Pagination): boolean {
-        
-        return!this.paginationService.isFirstPage(pagination);
+        return !this.paginationService.isFirstPage(pagination);
     }
 
     /**
@@ -106,11 +107,10 @@ export class HCATablePaginationComponent implements OnInit {
     }
 
     getPages(pm: Pagination): number[] {
-
         let pages = [];
         let pageCount = this.getPageCount(pm);
 
-        for ( let i = 1; i <= pageCount; i++ ) {
+        for (let i = 1; i <= pageCount; i++) {
             pages.push(i);
         }
 
@@ -121,7 +121,6 @@ export class HCATablePaginationComponent implements OnInit {
      *  Set up pagination
      */
     ngOnInit() {
-
         // Get an observable of the pagination model
         this.pagination$ = this.store.pipe(select(selectPagination));
     }

@@ -15,26 +15,23 @@ import { GACategory } from "../../shared/analytics/ga-category.model";
 import { GAAction } from "../../shared/analytics/ga-action.model";
 
 export class TakeSurveyAction implements Action, TrackingAction {
-
     public static ACTION_TYPE = "SURVEY.TAKE_SURVEY";
     public readonly type = TakeSurveyAction.ACTION_TYPE;
 
     /**
      * @param surveyName
      */
-    constructor(private readonly surveyName: string) {
-    }
+    constructor(private readonly surveyName: string) {}
     /**
      * Return the clear action as a GA event.
      *
      * @returns {GAEvent}
      */
     public asEvent(): GAEvent {
-
         return {
             category: GACategory.SURVEY,
             action: GAAction.LAUNCH,
-            label: this.surveyName
+            label: this.surveyName,
         };
     }
 }

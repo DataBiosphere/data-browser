@@ -5,13 +5,11 @@
  * Specs covering pipe for formatting file sizes.
  */
 
-
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 
 import { FileSizePipe } from "./file-size.pipe";
 
 describe("Pipe: FileSize", () => {
-
     it("create an instance", () => {
         let pipe = new FileSizePipe();
         expect(pipe).toBeTruthy();

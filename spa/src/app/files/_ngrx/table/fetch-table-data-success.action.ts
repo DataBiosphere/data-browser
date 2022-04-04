@@ -16,5 +16,6 @@ export class FetchTableDataSuccessAction implements Action {
     constructor(
         public readonly data: any[],
         public readonly pagination: Pagination,
-        public readonly termCountsByFacetName: Map<string, number>) {}
+        public readonly termCountsByFacetName: Map<string, number>
+    ) {}
 }

@@ -20,11 +20,10 @@
 
     /* HCA table */
     .hca-table {
-
         mat-table {
-
             /* Row - header and cell */
-            mat-header-row, mat-row {
+            mat-header-row,
+            mat-row {
                 align-items: stretch;
             }
 
@@ -38,7 +37,8 @@
             }
 
             /* Cell - header and cell */
-            mat-header-cell, mat-cell {
+            mat-header-cell,
+            mat-cell {
                 flex: 1;
                 padding: 0;
             }
@@ -80,8 +80,8 @@
                         width: 12px;
 
                         &.selected {
-                            border-color: #1F6B9A;
-                            background-color: #1C7CC7;
+                            border-color: #1f6b9a;
+                            background-color: #1c7cc7;
                         }
 
                         /* Check */
@@ -104,7 +104,7 @@
                 margin-right: 4px;
             }
 
-            /** Cell containing more than one item, for example the downloads column that is shared by meta and matrix */ 
+            /** Cell containing more than one item, for example the downloads column that is shared by meta and matrix */
             .cell-split {
                 align-items: center;
                 display: flex;

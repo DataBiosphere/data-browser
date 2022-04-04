@@ -31,7 +31,6 @@ import { GASource } from "../../../shared/analytics/ga-source.model";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 
 describe("SearchEffects", () => {
-
     let gtmService: GTMService;
     let effects: SearchEffects;
     let actions$: Observable<any>;
@@ -41,7 +40,7 @@ describe("SearchEffects", () => {
     const mockSelectCatalog = DCPCatalog.DCP3;
     const mockSelectSelectedEntitySpec = {
         key: "foo",
-        displayName: "foo"
+        displayName: "foo",
     };
     const mockSelectPreviousQuery = "";
 
@@ -49,25 +48,22 @@ describe("SearchEffects", () => {
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule
-            ],
+            imports: [HttpClientTestingModule],
             providers: [
                 SearchEffects,
                 provideMockActions(() => actions$),
                 GTMService,
                 provideMockStore({
-                    initialState: {}
+                    initialState: {},
                 }),
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         });
 
         gtmService = TestBed.inject(GTMService);
@@ -75,7 +71,10 @@ describe("SearchEffects", () => {
         store = TestBed.inject(Store) as MockStore;
 
         store.overrideSelector(selectCatalog, mockSelectCatalog);
-        store.overrideSelector(selectSelectedEntitySpec, mockSelectSelectedEntitySpec);
+        store.overrideSelector(
+            selectSelectedEntitySpec,
+            mockSelectSelectedEntitySpec
+        );
         store.overrideSelector(selectPreviousQuery, mockSelectPreviousQuery);
     });
 
@@ -85,96 +84,111 @@ describe("SearchEffects", () => {
     });
 
     describe("updateSelectedSearchTerms$", () => {
-
         /**
          * Confirm tracking is called on clear of search, with catalog dimension.
          */
         it("tracks clear of search with catalog dimension", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new ClearSelectedTermsAction(GASource.SEARCH_RESULTS);
+            const action = new ClearSelectedTermsAction(
+                GASource.SEARCH_RESULTS
+            );
             actions$ = of(action);
             effects.updateSelectedSearchTerms$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
-                category: GACategory.SEARCH,
-                action: GAAction.CLEAR,
-                label: "Clear All",
-                dimensions: jasmine.objectContaining({
-                    [GADimension.CATALOG]: mockSelectCatalog
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                jasmine.objectContaining({
+                    category: GACategory.SEARCH,
+                    action: GAAction.CLEAR,
+                    label: "Clear All",
+                    dimensions: jasmine.objectContaining({
+                        [GADimension.CATALOG]: mockSelectCatalog,
+                    }),
                 })
-            }));
+            );
         });
 
         /**
          * Confirm tracking is called on clear of search, with catalog dimension.
          */
         it("tracks clear of age range with catalog dimension", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new ClearSelectedAgeRangeAction("foo", {
+            const action = new ClearSelectedAgeRangeAction(
+                "foo",
+                {
                     ageMax: 100,
                     ageMin: 0,
-                    ageUnit: AgeUnit.year
-                
-            }, GASource.SEARCH_RESULTS);
+                    ageUnit: AgeUnit.year,
+                },
+                GASource.SEARCH_RESULTS
+            );
             actions$ = of(action);
             effects.updateSelectedSearchTerms$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
-                category: GACategory.SEARCH,
-                action: GAAction.DESELECT,
-                label: action.asSearchTerm().getDisplayValue(),
-                dimensions: jasmine.objectContaining({
-                    [GADimension.CATALOG]: mockSelectCatalog
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                jasmine.objectContaining({
+                    category: GACategory.SEARCH,
+                    action: GAAction.DESELECT,
+                    label: action.asSearchTerm().getDisplayValue(),
+                    dimensions: jasmine.objectContaining({
+                        [GADimension.CATALOG]: mockSelectCatalog,
+                    }),
                 })
-            }));
+            );
         });
 
         /**
          * Confirm tracking is called on clear of search, with catalog dimension.
          */
         it("tracks select of search term with catalog dimension", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action =
-                new SelectFileFacetTermAction("foo", "bar", true, GASource.SEARCH_RESULTS);
+            const action = new SelectFileFacetTermAction(
+                "foo",
+                "bar",
+                true,
+                GASource.SEARCH_RESULTS
+            );
             actions$ = of(action);
             effects.updateSelectedSearchTerms$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
-                category: GACategory.SEARCH,
-                action: GAAction.SELECT,
-                label: action.termName,
-                dimensions: jasmine.objectContaining({
-                    [GADimension.CATALOG]: mockSelectCatalog
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                jasmine.objectContaining({
+                    category: GACategory.SEARCH,
+                    action: GAAction.SELECT,
+                    label: action.termName,
+                    dimensions: jasmine.objectContaining({
+                        [GADimension.CATALOG]: mockSelectCatalog,
+                    }),
                 })
-            }));
+            );
         });
 
         /**
          * Confirm tracking is called on select of age range, with catalog dimension.
          */
         it("tracks select of age range with catalog dimension", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new SelectFacetAgeRangeAction("foo", {
-                ageMax: 100,
-                ageMin: 0,
-                ageUnit: AgeUnit.year
-
-            }, GASource.SEARCH_RESULTS);
+            const action = new SelectFacetAgeRangeAction(
+                "foo",
+                {
+                    ageMax: 100,
+                    ageMin: 0,
+                    ageUnit: AgeUnit.year,
+                },
+                GASource.SEARCH_RESULTS
+            );
             actions$ = of(action);
             effects.updateSelectedSearchTerms$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
-                category: GACategory.SEARCH,
-                action: GAAction.SELECT,
-                label: action.asSearchTerm().getDisplayValue(),
-                dimensions: jasmine.objectContaining({
-                    [GADimension.CATALOG]: mockSelectCatalog
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                jasmine.objectContaining({
+                    category: GACategory.SEARCH,
+                    action: GAAction.SELECT,
+                    label: action.asSearchTerm().getDisplayValue(),
+                    dimensions: jasmine.objectContaining({
+                        [GADimension.CATALOG]: mockSelectCatalog,
+                    }),
                 })
-            }));
+            );
         });
     });
 });

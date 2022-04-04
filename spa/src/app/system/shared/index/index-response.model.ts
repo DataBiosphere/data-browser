@@ -9,7 +9,6 @@
 import { IndexRequestStatus } from "./index-request-status.model";
 
 export interface IndexResponse {
-
     ok: boolean;
     indexing: boolean;
     status: IndexRequestStatus;

@@ -18,7 +18,6 @@ import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 
 export class RequestBulkDownloadAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "GET_DATA.REQUEST_BULK_DOWNLOAD";
     public readonly type = RequestBulkDownloadAction.ACTION_TYPE;
 
@@ -33,8 +32,7 @@ export class RequestBulkDownloadAction implements Action, TrackingAction {
      * param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         return {
             category: GACategory.BULK_DOWNLOAD,
             action: GAAction.REQUEST,
@@ -43,9 +41,8 @@ export class RequestBulkDownloadAction implements Action, TrackingAction {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.BULK_DOWNLOAD,
                 [GADimension.INDEX]: index,
-                [GADimension.TOOL_NAME]: this.shell
-            }
+                [GADimension.TOOL_NAME]: this.shell,
+            },
         };
     }
 }
-

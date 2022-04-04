@@ -6,14 +6,12 @@
  */
 
 export class ModalState {
-
     public readonly open: boolean;
 
     /**
      * @param {boolean} opened
      */
     constructor(open: boolean) {
-
         this.open = open;
     }
 
@@ -23,7 +21,6 @@ export class ModalState {
      * @returns {ModalState}
      */
     public static getDefaultState() {
-
         return new ModalState(false);
     }
 

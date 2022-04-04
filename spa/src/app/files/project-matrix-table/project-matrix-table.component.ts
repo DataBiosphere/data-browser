@@ -6,7 +6,13 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+} from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -26,10 +32,9 @@ import { Project } from "../shared/project.model";
 @Component({
     selector: "project-matrix-table",
     templateUrl: "./project-matrix-table.component.html",
-    styleUrls: ["./project-matrix-table.component.scss"]
+    styleUrls: ["./project-matrix-table.component.scss"],
 })
 export class ProjectMatrixTableComponent implements OnDestroy {
-    
     // Locals
     private ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 
@@ -40,17 +45,26 @@ export class ProjectMatrixTableComponent implements OnDestroy {
     @Input() columnsToDisplay: string;
     @Input() contributorMatrices: boolean;
     @Input() project: Project;
-    @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
-    @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> = new Map();
+    @Input() projectMatrixArchivePreviewsByMatrixId: Map<
+        string,
+        ArchivePreview
+    >;
+    @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation> =
+        new Map();
     @Input() projectMatrixViews: ProjectMatrixView[];
-    @Output() projectMatrixFileLocationRequested = new EventEmitter<FileLocationRequestEvent>();
-    @Output() projectMatrixArchivePreviewRequested = new EventEmitter<ArchivePreviewRequestEvent>();
+    @Output() projectMatrixFileLocationRequested =
+        new EventEmitter<FileLocationRequestEvent>();
+    @Output() projectMatrixArchivePreviewRequested =
+        new EventEmitter<ArchivePreviewRequestEvent>();
 
     /**
      * @param {ConfigService} configService
      * @param {Store<AppState>} store
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>) {}
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Return the archive preview for the given matrix view.
@@ -59,8 +73,9 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @returns {ArchivePreview}
      */
     getArchivePreview(projectMatrixView: ProjectMatrixView): ArchivePreview {
-        
-        return this.projectMatrixArchivePreviewsByMatrixId.get(projectMatrixView.id);
+        return this.projectMatrixArchivePreviewsByMatrixId.get(
+            projectMatrixView.id
+        );
     }
 
     /**
@@ -71,7 +86,6 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @returns {FileLocation}
      */
     public getFileLocationByFileUrl(fileUrl: string): FileLocation {
-
         return this.projectMatrixFileLocationsByFileUrl.get(fileUrl);
     }
 
@@ -83,7 +97,6 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @returns {string}
      */
     public getFileNameInnerHTML(fileName: string): string {
-
         return fileName.replace(/(\.|_|-)/g, "<wbr>$1");
     }
 
@@ -94,7 +107,6 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @returns {string}
      */
     public getSpeciesDisplayText(species: GenusSpecies[]): string {
-
         return species.join(", ");
     }
 
@@ -105,21 +117,26 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @param {ProjectMatrixView[]} projectMatrixViews
      * @returns {ProjectMatrixTableView}
      */
-    public groupProjectMatrixViewsBySpecies(projectMatrixViews: ProjectMatrixView[]): ProjectMatrixTableView[] {
-
-        const viewsBySpecies = projectMatrixViews.reduce((accum, projectMatrixView) => {
-
-            const species = projectMatrixView[FileFacetName.GENUS_SPECIES];
-            const speciesKey = species.join(" ");
-            if ( !accum.has(speciesKey) ) {
-                accum.set(speciesKey, {
-                    species,
-                    projectMatrixViews: []
-                });
-            }
-            accum.get(speciesKey).projectMatrixViews.push(projectMatrixView);
-            return accum;
-        }, new Map<string, ProjectMatrixTableView>());
+    public groupProjectMatrixViewsBySpecies(
+        projectMatrixViews: ProjectMatrixView[]
+    ): ProjectMatrixTableView[] {
+        const viewsBySpecies = projectMatrixViews.reduce(
+            (accum, projectMatrixView) => {
+                const species = projectMatrixView[FileFacetName.GENUS_SPECIES];
+                const speciesKey = species.join(" ");
+                if (!accum.has(speciesKey)) {
+                    accum.set(speciesKey, {
+                        species,
+                        projectMatrixViews: [],
+                    });
+                }
+                accum
+                    .get(speciesKey)
+                    .projectMatrixViews.push(projectMatrixView);
+                return accum;
+            },
+            new Map<string, ProjectMatrixTableView>()
+        );
 
         const groupedViews = Array.from(viewsBySpecies.values());
         this.sortProjectMatrixTableViews(groupedViews);
@@ -133,24 +150,25 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @returns {string}
      */
     public listContentDescriptions(contentDescription: string[]): string {
-
         return contentDescription.join(", ");
     }
-    
+
     /**
      * Returns true if an specified matrix view is an archive.
      *
      * @param {ProjectMatrixView} projectMatrixView
      */
-    public isArchivePreviewAvailable(projectMatrixView: ProjectMatrixView): boolean {
-        
+    public isArchivePreviewAvailable(
+        projectMatrixView: ProjectMatrixView
+    ): boolean {
         // Archive preview is currently only available in dev
-        if ( !(
-            this.configService.isEnvCGLDev() ||
-            this.configService.isEnvLocal() ||
-            this.configService.isEnvDCP2())
-        )
-        {
+        if (
+            !(
+                this.configService.isEnvCGLDev() ||
+                this.configService.isEnvLocal() ||
+                this.configService.isEnvDCP2()
+            )
+        ) {
             return false;
         }
 
@@ -162,25 +180,23 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      *
      * @param {FileLocationRequestEvent} fileLocationRequestEvent
      */
-    public onFileLocationRequested(fileLocationRequestEvent: FileLocationRequestEvent) {
-
+    public onFileLocationRequested(
+        fileLocationRequestEvent: FileLocationRequestEvent
+    ) {
         this.projectMatrixFileLocationRequested.emit(fileLocationRequestEvent);
     }
-    
+
     /**
      * Sort matrix view groups first by species cardinality, then by species alpha.
      */
     private sortProjectMatrixTableViews(views: ProjectMatrixTableView[]) {
-
         views.sort((group0, group1) => {
-
             const speciesCount0 = group0.species.length;
             const speciesCount1 = group1.species.length;
 
-            if ( speciesCount0 > speciesCount1 ) {
+            if (speciesCount0 > speciesCount1) {
                 return 1;
-            }
-            else if ( speciesCount0 < speciesCount1 ) {
+            } else if (speciesCount0 < speciesCount1) {
                 return -1;
             }
 
@@ -195,12 +211,13 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @param {ProjectMatrixView} projectMatrixView
      */
     public onArchivePreviewRequested(projectMatrixView: ProjectMatrixView) {
-
-        if ( this.expandedProjectMatrixView === projectMatrixView ) {
+        if (this.expandedProjectMatrixView === projectMatrixView) {
             this.expandedProjectMatrixView = null;
-        }
-        else {
-            const event = new ArchivePreviewRequestEvent(projectMatrixView.id, projectMatrixView.version);
+        } else {
+            const event = new ArchivePreviewRequestEvent(
+                projectMatrixView.id,
+                projectMatrixView.version
+            );
             this.projectMatrixArchivePreviewRequested.emit(event);
             this.expandedProjectMatrixView = projectMatrixView;
         }
@@ -213,8 +230,10 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @param {ProjectMatrixView} projectMatrixView
      * @returns {string}
      */
-    public trackProjectMatrixViews(index: number, projectMatrixView: ProjectMatrixView): string {
-
+    public trackProjectMatrixViews(
+        index: number,
+        projectMatrixView: ProjectMatrixView
+    ): string {
         return projectMatrixView.url;
     }
 
@@ -225,8 +244,10 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * @param {ProjectMatrixTableView} projectMatrixTableView
      * @returns {string}
      */
-    public trackProjectMatrixTableView(index: number, projectMatrixTableView: ProjectMatrixTableView): string {
-
+    public trackProjectMatrixTableView(
+        index: number,
+        projectMatrixTableView: ProjectMatrixTableView
+    ): string {
         return projectMatrixTableView.species.join("");
     }
 
@@ -234,6 +255,8 @@ export class ProjectMatrixTableComponent implements OnDestroy {
      * Clear archive preview state on destroy.
      */
     public ngOnDestroy() {
-        this.store.dispatch(new ClearProjectMatrixArchivePreviewAction(this.project.entryId));
+        this.store.dispatch(
+            new ClearProjectMatrixArchivePreviewAction(this.project.entryId)
+        );
     }
 }

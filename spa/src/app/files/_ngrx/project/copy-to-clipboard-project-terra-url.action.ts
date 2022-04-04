@@ -20,8 +20,9 @@ import { ToolName } from "../../shared/tool-name.model";
 import { Project } from "../../shared/project.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
-export class CopyToClipboardProjectTerraUrlAction implements Action, TrackingAction {
-    
+export class CopyToClipboardProjectTerraUrlAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "PROJECT.COPY_TO_CLIPBOARD_PROJECT_TERRA_URL";
     public readonly type = CopyToClipboardProjectTerraUrlAction.ACTION_TYPE;
 
@@ -37,8 +38,7 @@ export class CopyToClipboardProjectTerraUrlAction implements Action, TrackingAct
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, terms}): GAEvent {
-
+    public asEvent({ catalog, terms }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.COPY_PROJECT_TERRA_URL,
@@ -48,8 +48,8 @@ export class CopyToClipboardProjectTerraUrlAction implements Action, TrackingAct
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.RELATED_ENTITY_URL]: this.exportToTerraUrl,
                 [GADimension.TERM]: terms,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
+                [GADimension.TOOL_NAME]: ToolName.TERRA,
+            },
         };
     }
 }

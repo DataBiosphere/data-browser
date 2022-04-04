@@ -29,7 +29,7 @@ import { RouterModule } from "@angular/router";
 
 // App dependencies
 import { AnalysisProtocolPipelineLinkerComponent } from "./analysis-protocol-pipeline-linker/analysis-protocol-pipeline-linker.component";
-import { AnnouncementCatalogComponent} from "./announcement-catalog/announcement-catalog.component";
+import { AnnouncementCatalogComponent } from "./announcement-catalog/announcement-catalog.component";
 import { AuthModule } from "../auth/auth.module";
 import { BaseManifestDownloadComponent } from "./get-data/base-manifest-download.component.ts/base-manifest-download.component";
 import { CatalogCanActivateGuard } from "./catalog/catalog.can-activate.guard";
@@ -178,7 +178,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         PipeModule,
         SharedModule,
         SiteModule,
-        SurveyModule
+        SurveyModule,
     ],
     declarations: [
         AgeInAgeUnit,
@@ -270,7 +270,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         SpeciesFormComponent,
         TableScroll,
         TerraRegistrationComponent,
-        WarningDataNormalizationComponent
+        WarningDataNormalizationComponent,
     ],
     providers: [
         CatalogCanActivateGuard,
@@ -297,12 +297,8 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         TerraService,
         TitleService,
         UrlService,
-        {provide: "Window", useValue: window} // Required for hamburger functionality
+        { provide: "Window", useValue: window }, // Required for hamburger functionality
     ],
-    exports: [
-        AnnouncementCatalogComponent,
-        TerraRegistrationComponent
-    ]
+    exports: [AnnouncementCatalogComponent, TerraRegistrationComponent],
 })
-export class FilesModule {
-}
+export class FilesModule {}

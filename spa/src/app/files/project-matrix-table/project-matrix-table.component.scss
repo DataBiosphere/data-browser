@@ -18,13 +18,19 @@ mat-table {
     display: grid;
     gap: 0 20px;
     grid-auto-rows: auto;
-    grid-template-columns: 36px minmax(200px, 1fr) 72px auto repeat(2, minmax(auto, 88px)) minmax(auto, 120px);
+    grid-template-columns: 36px minmax(200px, 1fr) 72px auto repeat(
+            2,
+            minmax(auto, 88px)
+        ) minmax(auto, 120px);
     min-width: 720px; /* Set min width for overflow/scroll; optimized for iPad */
     max-width: 1440px !important; /* Snap width at large window width, override (!important) host context specific
                                              max-widths set on smaller breakpoints */
 
     &.contributor-matrices {
-        grid-template-columns: 36px minmax(200px, 1fr) 72px auto repeat(2, minmax(auto, 88px)) minmax(auto, 120px) auto;
+        grid-template-columns: 36px minmax(200px, 1fr) 72px auto repeat(
+                2,
+                minmax(auto, 88px)
+            ) minmax(auto, 120px) auto;
     }
 
     /** Header row, row */
@@ -57,11 +63,11 @@ mat-table {
         min-width: 0; /* Overrides ng-deep for table-scroll component */
         overflow: visible;
 
-      /* Right align text. */
-      &.right {
-        justify-content: flex-end;
-        text-align: right;
-      }
+        /* Right align text. */
+        &.right {
+            justify-content: flex-end;
+            text-align: right;
+        }
     }
 
     mat-header-cell {
@@ -136,7 +142,6 @@ mat-table {
 
     /** Matrix archive row */
     mat-row.matrix-archive-preview-row {
-
         /** Border */
         &::after {
             content: none;

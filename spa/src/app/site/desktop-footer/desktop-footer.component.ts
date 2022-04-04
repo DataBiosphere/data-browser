@@ -6,16 +6,12 @@
  */
 
 // Core dependencies
-import {
-    Component,
-    ChangeDetectionStrategy
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: "desktop-footer",
     templateUrl: "./desktop-footer.component.html",
     styleUrls: ["./desktop-footer.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DesktopFooterComponent {
-}
+export class DesktopFooterComponent {}

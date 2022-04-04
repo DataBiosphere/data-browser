@@ -19,4 +19,7 @@ export const selectModal = createFeatureSelector<ModalState>("modal");
 /**
  * Returns true if modal is currently open, otherwise false.
  */
-export const selectModalOpen = createSelector(selectModal, (state: ModalState) => state.open);
+export const selectModalOpen = createSelector(
+    selectModal,
+    (state: ModalState) => state.open
+);

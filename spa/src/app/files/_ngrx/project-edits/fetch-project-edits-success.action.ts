@@ -16,4 +16,3 @@ export class FetchProjectEditsSuccessAction implements Action {
     public readonly type = FetchProjectEditsSuccessAction.ACTION_TYPE;
     constructor(public readonly projects: Project[]) {}
 }
-

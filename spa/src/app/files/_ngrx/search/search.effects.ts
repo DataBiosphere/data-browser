@@ -27,43 +27,64 @@ import { GAIndex } from "../../../shared/analytics/ga-index.model";
 
 @Injectable()
 export class SearchEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private store: Store<AppState>,
-                private actions$: Actions) {}
+    constructor(
+        private gtmService: GTMService,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Track any update to selected search terms.
      */
-    
-    updateSelectedSearchTerms$ = createEffect(() => this.actions$.pipe(
-        ofType(
-            ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
-            ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
-            SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "bam"
-            SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
-        ),
-        concatMap(action => of(action).pipe(
-            withLatestFrom(
-                this.store.pipe(select(selectCatalog), take(1)),
-                this.store.pipe(select(selectSelectedEntitySpec), take(1)),
-                this.store.pipe(select(selectPreviousQuery), take(1))
-            )
-        )),
-        tap(([action, catalog, selectedEntitySpec, queryWhenActionTriggered]) => {
 
-            const entityKey = selectedEntitySpec.key;
-            const index = GAIndex[entityKey.toUpperCase()];
-            this.gtmService.trackEvent((action as TrackingAction).asEvent({
-                catalog,
-                index, 
-                currentQuery: queryWhenActionTriggered
-            }));
-        })
-    ), {dispatch: false});
+    updateSelectedSearchTerms$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    ClearSelectedTermsAction.ACTION_TYPE, // Clear all selected terms
+                    ClearSelectedAgeRangeAction.ACTION_TYPE, // Clear age range
+                    SelectFileFacetTermAction.ACTION_TYPE, // Selecting facet term eg file type "bam"
+                    SelectFacetAgeRangeAction.ACTION_TYPE // Setting age range
+                ),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1)),
+                            this.store.pipe(
+                                select(selectSelectedEntitySpec),
+                                take(1)
+                            ),
+                            this.store.pipe(
+                                select(selectPreviousQuery),
+                                take(1)
+                            )
+                        )
+                    )
+                ),
+                tap(
+                    ([
+                        action,
+                        catalog,
+                        selectedEntitySpec,
+                        queryWhenActionTriggered,
+                    ]) => {
+                        const entityKey = selectedEntitySpec.key;
+                        const index = GAIndex[entityKey.toUpperCase()];
+                        this.gtmService.trackEvent(
+                            (action as TrackingAction).asEvent({
+                                catalog,
+                                index,
+                                currentQuery: queryWhenActionTriggered,
+                            })
+                        );
+                    }
+                )
+            ),
+        { dispatch: false }
+    );
 }

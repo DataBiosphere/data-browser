@@ -11,7 +11,6 @@ import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { SelectEntityAction } from "./select-entity.action";
 
 export class BackToEntityAction extends SelectEntityAction {
-    
     public static ACTION_TYPE = "ENTITY.BACK";
     public readonly type = BackToEntityAction.ACTION_TYPE;
 

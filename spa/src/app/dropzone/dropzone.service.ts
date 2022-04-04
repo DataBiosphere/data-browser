@@ -13,55 +13,51 @@ import { DropErrorCode } from "./drop-error-code.model";
 
 @Injectable()
 export class DropzoneService {
-
     // Dropzone errors
     public TOO_MANY_FILES_REJECTION = {
         code: DropErrorCode.TOO_MANY_FILES,
-        message: "Too many files"
+        message: "Too many files",
     };
     public FILE_TOO_LARGE = (maxSize) => ({
         code: DropErrorCode.FILE_TOO_LARGE,
-        message: `File is larger than ${maxSize} bytes`
+        message: `File is larger than ${maxSize} bytes`,
     });
 
     /**
      * Returns the files associated with the specified event.
-     * 
+     *
      * @param {any} evt
      * @returns {boolean}
      */
     public fromEvent(evt): File[] {
-
-        if ( this.isDragEvent(evt) ) {
+        if (this.isDragEvent(evt)) {
             return this.getDraggedFiles(evt);
         }
-        
+
         return [];
     }
 
     /**
      * Return the files associated with the specified drag event.
-     * 
+     *
      * @param {DragEvent} evt
      * @returns {File[]}
      */
     public getDraggedFiles(evt) {
-
         return Array.from(evt.dataTransfer.files) as File[];
     }
 
     /**
      * Return the set of files selected via a file input.
-     * 
+     *
      * @param {any} evt - Triggered from change event on file input.
      * @returns {File[]}
      */
     public getInputFiles(evt: any) {
-
-        if ( evt.target && evt.target.files ) {
+        if (evt.target && evt.target.files) {
             return Array.from(evt.target.files);
         }
-        
+
         return [];
     }
 
@@ -72,25 +68,25 @@ export class DropzoneService {
      * @returns {boolean}
      */
     public isDragEvent(value: any) {
-
         return !!value.dataTransfer;
     }
 
     /**
      * Returns true if the drag event has valid files associated with it.
-     * 
+     *
      * @param {any} evt - DragEvent or Event (from file input change event)
      * @returns {boolean}
      */
     public isEventWithFiles(evt): boolean {
-
         // Handle change event from file input
-        if ( !evt.dataTransfer ) {
+        if (!evt.dataTransfer) {
             return !!evt.target && !!evt.target.files;
         }
 
         // Handle dropped files
-        return evt.dataTransfer.types.some(type => type === "Files" || type === "application/x-moz-file");
+        return evt.dataTransfer.types.some(
+            (type) => type === "Files" || type === "application/x-moz-file"
+        );
     }
 
     /**
@@ -101,8 +97,7 @@ export class DropzoneService {
      * @returns {boolean}
      */
     public isFileCountValid(fileCount: number, multiple: boolean): boolean {
-
-        if ( fileCount > 1 && !multiple ) {
+        if (fileCount > 1 && !multiple) {
             return false;
         }
 
@@ -116,11 +111,10 @@ export class DropzoneService {
      * @returns {boolean}
      */
     public isFileSizeValid(files: File[], maxSize: number): boolean {
-
-        if ( !maxSize ) {
+        if (!maxSize) {
             return true;
         }
 
-        return files.every(file => file.size < maxSize);
+        return files.every((file) => file.size < maxSize);
     }
 }

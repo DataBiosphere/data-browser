@@ -16,7 +16,7 @@ export interface Project extends ProjectRow {
     accessionsByLabel: Map<string, Accession[]>;
     analysisPortals?: ProjectAnalysisPortal[]; // Populated from project edits JSON
     arrayExpressAccessions: string[];
-    deprecated: boolean, // Specified in project-edits.json - displays deprecated message with link to supersededBy.
+    deprecated: boolean; // Specified in project-edits.json - displays deprecated message with link to supersededBy.
     duplicateOf: string; // Specified in project-edits.json - automatically redirects to duplicateOf (project).
     contributors: Contributor[];
     geoSeriesAccessions: string[];

@@ -15,7 +15,6 @@ import { Project } from "./project.model";
 
 @Injectable()
 export class ProjectMockService {
-
     /**
      * Fetch project with the specified ID.
      *
@@ -23,7 +22,6 @@ export class ProjectMockService {
      * @returns {Observable<Project>}
      */
     public fetchProjectById(projectId: string): Observable<Project> {
-
         return of(PROJECT_SINGLE_VALUES as any);
     }
 }

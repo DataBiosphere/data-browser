@@ -15,14 +15,12 @@ import { Project } from "./project.model";
 
 @Injectable()
 export class ProjectEditsService {
-
     /**
      * Fetch project overrides specified in local project-edits file.
      *
      * @returns {Observable<Portal[]>}
      */
     public fetchProjectEdits(): Observable<Project[]> {
-
         return of(projectEdits as Project[]);
     }
 }

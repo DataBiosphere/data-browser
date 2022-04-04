@@ -23,5 +23,7 @@ export const selectTerra = createFeatureSelector<TerraState>("terra");
  *
  * @type {MemoizedSelector<object, TerraState>}
  */
-export const selectExportToTerra =
-    createSelector(selectTerra, (state: TerraState) => state);
+export const selectExportToTerra = createSelector(
+    selectTerra,
+    (state: TerraState) => state
+);

@@ -10,7 +10,6 @@ import { Portal } from "../_ngrx/integration/portal.model";
 import { Project } from "../shared/project.model";
 
 export interface ProjectPortalsState {
-
     loaded: boolean;
     integrations?: Portal[];
     integratedWithTertiaryPortals?: boolean;

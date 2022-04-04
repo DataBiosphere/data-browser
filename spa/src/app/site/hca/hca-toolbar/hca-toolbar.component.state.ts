@@ -10,7 +10,7 @@ import GoogleUser = gapi.auth2.GoogleUser;
 
 export interface HCAToolbarComponentState {
     authenticated: boolean;
-    catalogUpdatedSinceLastVisit: boolean,
+    catalogUpdatedSinceLastVisit: boolean;
     modalOpen: boolean;
     user?: GoogleUser;
 }

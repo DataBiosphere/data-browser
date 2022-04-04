@@ -15,8 +15,7 @@ import { FooterComponent } from "./footer.component";
 import { HeaderComponent } from "./header.component";
 
 export interface SiteConfigService {
-
-    getDataUseNotificationComponent(): Type<DataUseNotificationComponent>
+    getDataUseNotificationComponent(): Type<DataUseNotificationComponent>;
     getDataReleasePolicyLinkComponent(): Type<DataReleasePolicyLinkComponent>;
     getFooter(): Type<FooterComponent>;
     getHeader(): Type<HeaderComponent>;

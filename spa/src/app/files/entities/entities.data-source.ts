@@ -15,20 +15,22 @@ import { map } from "rxjs/operators";
 import { EntityRow } from "./entity-row.model";
 import { EntityRowMapper } from "./entity-row-mapper";
 
-export class EntitiesDataSource<T extends EntityRowMapper> extends DataSource<any> {
-
+export class EntitiesDataSource<
+    T extends EntityRowMapper
+> extends DataSource<any> {
     private readonly rows$: Observable<EntityRow[]>;
 
     /**
      * @param {Observable<any[]>} tableData$
      * @param {{new(row): T}} mapperType
      */
-    constructor(tableData$: Observable<any[]>, mapperType: {new(row): T;}) {
-
+    constructor(tableData$: Observable<any[]>, mapperType: { new (row): T }) {
         super();
 
         this.rows$ = tableData$.pipe(
-            map((rows: any[]) => rows.map((row: any) => new mapperType(row).mapRow()))
+            map((rows: any[]) =>
+                rows.map((row: any) => new mapperType(row).mapRow())
+            )
         );
     }
 
@@ -44,6 +46,5 @@ export class EntitiesDataSource<T extends EntityRowMapper> extends DataSource<an
     /**
      * Clean up.
      */
-    disconnect() {
-    }
+    disconnect() {}
 }

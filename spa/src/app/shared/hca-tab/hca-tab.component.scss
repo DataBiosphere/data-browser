@@ -76,8 +76,9 @@
 /* Back arrow */
 /* ProjectDetailComponent */
 /* GetDataComponent */
-:host-context(project-detail), :host-context(get-data), :host-context(project-download-layout) {
-
+:host-context(project-detail),
+:host-context(get-data),
+:host-context(project-download-layout) {
     /* Back arrow */
     .hca-tab {
         display: flex;
@@ -100,9 +101,7 @@
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     :host {
-
         /* Wrapper */
         .wrapper {
             padding: 0 30px;

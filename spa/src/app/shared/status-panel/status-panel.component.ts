@@ -11,10 +11,9 @@ import { Component, Input } from "@angular/core";
 @Component({
     selector: "status-panel",
     templateUrl: "./status-panel.component.html",
-    styleUrls: ["./status-panel.component.scss"]
+    styleUrls: ["./status-panel.component.scss"],
 })
 export class StatusPanelComponent {
-
     // Inputs
     @Input() error: boolean;
     @Input() loading: boolean;

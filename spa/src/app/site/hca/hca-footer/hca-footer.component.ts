@@ -23,15 +23,13 @@ import { UpdateSupportRequestActiveAction } from "../../../support-request/_ngrx
 @Component({
     selector: "hca-footer",
     templateUrl: "hca-footer.component.html",
-    styleUrls: ["hca-footer.component.scss"]
+    styleUrls: ["hca-footer.component.scss"],
 })
-
 export class HCAFooterComponent implements FooterComponent {
-
     // Template variables
     public portalUrl: string;
     public state$ = new BehaviorSubject<HCAFooterState>({
-        modalOpen: false
+        modalOpen: false,
     });
 
     // Locals
@@ -41,8 +39,10 @@ export class HCAFooterComponent implements FooterComponent {
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
      */
-    constructor(private store: Store<AppState>,
-                private configService: ConfigService) {
+    constructor(
+        private store: Store<AppState>,
+        private configService: ConfigService
+    ) {
         this.portalUrl = this.configService.getPortalUrl();
     }
 
@@ -50,15 +50,15 @@ export class HCAFooterComponent implements FooterComponent {
      * Handle click on feedback link.
      */
     public onFeedbackClicked() {
-
-        this.store.dispatch(new UpdateSupportRequestActiveAction(true, GASource.FOOTER));
+        this.store.dispatch(
+            new UpdateSupportRequestActiveAction(true, GASource.FOOTER)
+        );
     }
 
     /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -67,12 +67,10 @@ export class HCAFooterComponent implements FooterComponent {
      * Listen for changes in modal opened/closed state and update header UI accordingly.
      */
     public ngOnInit() {
-
-        this.store.pipe(
-            select(selectModalOpen),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(modalOpen => {
-            this.state$.next({modalOpen});
-        });
+        this.store
+            .pipe(select(selectModalOpen), takeUntil(this.ngDestroy$))
+            .subscribe((modalOpen) => {
+                this.state$.next({ modalOpen });
+            });
     }
 }

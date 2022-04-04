@@ -12,11 +12,6 @@ import { NgModule } from "@angular/core";
 import { LocalStorageService } from "./local-storage.service";
 
 @NgModule({
-    providers: [
-        LocalStorageService,
-        {provide: "Window", useValue: window}
-    ]
+    providers: [LocalStorageService, { provide: "Window", useValue: window }],
 })
-export class LocalStorageModule {
-}
-
+export class LocalStorageModule {}

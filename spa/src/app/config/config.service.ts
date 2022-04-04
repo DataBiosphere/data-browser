@@ -21,7 +21,6 @@ import { FetchConfigRequestSuccessAction } from "./_ngrx/config.actions";
 
 @Injectable()
 export class ConfigService {
-    
     // Locals
     protected atlas: string;
     protected browserURL: string;
@@ -41,27 +40,24 @@ export class ConfigService {
      * @param store {Store<AppState>}
      */
     constructor(store: Store<AppState>) {
-
         this.store = store;
     }
 
     /**
      * Returns the atlas for the current environment.
-     * 
+     *
      * @returns {string}
      */
     public getAtlas(): string {
-        
         return this.atlas;
     }
 
     /**
      * Returns the browser URL.
-     * 
+     *
      * @returns {string}
      */
     public getBrowserUrl(): string {
-        
         return this.browserURL;
     }
 
@@ -71,51 +67,46 @@ export class ConfigService {
      * @returns {string}
      */
     public getCatalogsUrl(): string {
-
         const path = this.getIndexPath();
         return `${path}${APIEndpoints.CATALOGS}`;
     }
-    
+
     /**
      * Returns the default catalog for the current environment.
-     * 
+     *
      * @returns {Catalog}
      */
     public getDefaultCatalog(): Catalog {
-
         return this.defaultCatalog;
     }
 
     /**
      * Return the auth client ID.
-     * 
+     *
      * @returns {string}
      */
     public getGoogleOAuthClientId(): string {
-        
         return this.googleOAuthClientId;
     }
 
     /**
      * Returns the URL for an entities end point (projects, files, samples).
-     * 
+     *
      * @param {string} entityName
      * @returns {string}
      */
     public getEntitiesUrl(entityName: string): string {
-
         const path = this.getIndexPath();
         return `${path}/${entityName}`;
     }
 
     /**
      * Returns the base path for the DB
-     * 
+     *
      * @returns {string}
      */
     public getExploreBasePath(): string {
-        
-        if ( this.isEnvLocal() ) {
+        if (this.isEnvLocal()) {
             return "";
         }
 
@@ -124,13 +115,12 @@ export class ConfigService {
 
     /**
      * Returns the favicon path for the current environment.
-     * 
+     *
      * @returns {string}
      */
     public getFaviconPath(): string {
-
         const atlas = this.getAtlas();
-        const atlasFaviconPath = atlas === AtlasName.HCA ? "" : `${atlas}/` ;
+        const atlasFaviconPath = atlas === AtlasName.HCA ? "" : `${atlas}/`;
         return `assets/${atlasFaviconPath}images/favicon/`;
     }
 
@@ -140,18 +130,16 @@ export class ConfigService {
      * @returns {string}
      */
     public getFileManifestUrl(): string {
-
         const fileManifestSummaryPath = APIEndpoints.FILE_MANIFEST_SUMMARY;
         return `${this.dataURL}${fileManifestSummaryPath}`;
     }
 
     /**
      * Returns the URL for checking the system status and indexing status of Azul.
-     * 
+     *
      * @returns {string}
      */
     public getIndexStatusUrl(): string {
-        
         return `${this.dataURL}${APIEndpoints.INDEX_STATUS}`;
     }
 
@@ -161,7 +149,6 @@ export class ConfigService {
      * @returns {string}
      */
     public getIntegrationsUrl(): string {
-
         const integrationsPath = APIEndpoints.INTEGRATIONS;
         return `${this.dataURL}${integrationsPath}`;
     }
@@ -172,7 +159,6 @@ export class ConfigService {
      * @returns {string}
      */
     public getPortalUrl(): string {
-
         return this.portalURL;
     }
 
@@ -183,8 +169,10 @@ export class ConfigService {
      * @param {string} matrixVersion
      * @returns {string}
      */
-    public getProjectMatrixArchivePreviewUrl(matrixId: string, matrixVersion: string): string {
-
+    public getProjectMatrixArchivePreviewUrl(
+        matrixId: string,
+        matrixVersion: string
+    ): string {
         const archivePreviewPath = APIEndpoints.PROJECT_MATRIX_ARCHIVE_PREVIEW;
         const sanitizedMatrixVersion = matrixVersion.replace(/:/g, "_");
         return `${this.getBrowserUrl()}${archivePreviewPath}/${matrixId}-${sanitizedMatrixVersion}.json`;
@@ -196,19 +184,19 @@ export class ConfigService {
      * @returns {string}
      */
     public getProjectMetaUrl(): string {
-
         return this.projectMetaURL;
     }
 
     /**
      * Returns the complete URL for the meta download for the specified project.
-     * 
+     *
      * @param {string} projectId
      * @returns {string}
      */
     public getProjectMetaDownloadUrl(projectId: string): string {
-
-        return `${this.getProjectMetaUrl()}${APIEndpoints.PROJECT_METADATA}/${projectId}.tsv`;
+        return `${this.getProjectMetaUrl()}${
+            APIEndpoints.PROJECT_METADATA
+        }/${projectId}.tsv`;
     }
 
     /**
@@ -218,7 +206,6 @@ export class ConfigService {
      * @returns {string}
      */
     public getProjectUrl(projectId: string): string {
-
         const basePath = this.getIndexPath();
         const projectsPath = APIEndpoints.PROJECTS;
         return `${basePath}${projectsPath}/${projectId}`;
@@ -226,11 +213,10 @@ export class ConfigService {
 
     /**
      * Return the base Terra URL.
-     * 
+     *
      * @returns {string}
      */
     public getTerraExportUrl(): string {
-
         return this.terraExportURL;
     }
 
@@ -241,11 +227,13 @@ export class ConfigService {
      * @param {string} encodedUrl
      * @returns {string}
      */
-    public getTerraRedirectUrl(format: ManifestDownloadFormat, encodedUrl: string): string {
-        
+    public getTerraRedirectUrl(
+        format: ManifestDownloadFormat,
+        encodedUrl: string
+    ): string {
         // Build up set of params to be included in export URL.
         const paramTokens = [];
-        if ( format === ManifestDownloadFormat.TERRA_PFB ) {
+        if (format === ManifestDownloadFormat.TERRA_PFB) {
             // Translate Azul PFB format param value to Terra PFB format value. That is, terra.pfb to PFB.
             paramTokens.push("format=PFB");
         }
@@ -254,14 +242,13 @@ export class ConfigService {
 
         return `${this.getTerraExportUrl()}#import-data?${params}`;
     }
-    
+
     /**
      * Returns the URL for the summary end point.
      *
      * @returns {string}
      */
     public getSummaryUrl(): string {
-
         const basePath = this.getIndexPath();
         const summaryPath = APIEndpoints.SUMMARY;
         return `${basePath}${summaryPath}`;
@@ -269,11 +256,10 @@ export class ConfigService {
 
     /**
      * Returns the document title for the current config.
-     * 
+     *
      * @returns {string}
      */
     public getTitle(): string {
-
         return this.title;
     }
 
@@ -286,18 +272,16 @@ export class ConfigService {
      * @returns {Promise<Config>}
      */
     public initConfig(): Promise<Config> {
-
         this.storeConfig(environment as Config);
         return Promise.resolve(environment as Config);
     }
 
     /**
      * Returns true if the atlas for the current environment is HCA.
-     * 
+     *
      * @returns {boolean}
      */
     public isAtlasHCA(): boolean {
-        
         return this.getAtlas() === AtlasName.HCA;
     }
 
@@ -305,7 +289,6 @@ export class ConfigService {
      * Returns true if auth is enabled. Auth is currently only enabled in dev.
      */
     public isAuthEnabled() {
-
         return !!this.getGoogleOAuthClientId();
     }
 
@@ -315,7 +298,6 @@ export class ConfigService {
      * @returns {boolean}
      */
     public isEnvCGLDev(): boolean {
-
         return this.deployment === "cgl-dev";
     }
 
@@ -325,27 +307,24 @@ export class ConfigService {
      * @returns {boolean}
      */
     public isEnvLocal(): boolean {
-
         return this.deployment === "local";
     }
 
     /**
      * Returns true if the current environment is dpc2.
-     * 
+     *
      * @returns {boolean}
      */
     public isEnvDCP2(): boolean {
-
         return this.deployment === "dcp2";
     }
 
     /**
      * Returns the Terra registration status URL for this environment.
-     * 
+     *
      * @returns {string}
      */
     public getTerraUrl(): string {
-
         return this.terraUrl;
     }
 
@@ -355,15 +334,13 @@ export class ConfigService {
      * @returns {string}
      */
     public getZendeskUrl(): string {
-
         return this.zendeskURL;
     }
-    
+
     /**
      * Returns the "base path" for index API calls.
      */
     private getIndexPath(): string {
-
         return `${this.dataURL}/index`;
     }
 
@@ -374,7 +351,6 @@ export class ConfigService {
      * @param config {Config}
      */
     private storeConfig(config: Config): void {
-
         this.atlas = config.atlas;
         this.browserURL = config.browserURL;
         this.dataURL = config.dataURL;

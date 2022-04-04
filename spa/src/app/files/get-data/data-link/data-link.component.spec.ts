@@ -14,19 +14,14 @@ import { By } from "@angular/platform-browser";
 import { DataLinkComponent } from "./data-link.component";
 
 describe("DataLinkComponent", () => {
-
     let component: DataLinkComponent;
     let fixture: ComponentFixture<DataLinkComponent>;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                DataLinkComponent
-            ],
-            imports: [
-            ],
-            providers: []
+            declarations: [DataLinkComponent],
+            imports: [],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DataLinkComponent);
@@ -37,7 +32,6 @@ describe("DataLinkComponent", () => {
      * Smoke test
      */
     it("should create an instance", () => {
-
         expect(component).toBeTruthy();
     });
 
@@ -45,7 +39,6 @@ describe("DataLinkComponent", () => {
      * Confirm link is displayed.
      */
     it(`displays link`, () => {
-
         // Set up initial component state
         component.link = "https://copy-to-clipboard-link.com";
 
@@ -61,7 +54,6 @@ describe("DataLinkComponent", () => {
      * Confirm link is added to href attribute.
      */
     it(`adds link to href`, () => {
-
         // Set up initial component state
         component.link = "https://copy-to-clipboard-link.com";
 
@@ -70,14 +62,15 @@ describe("DataLinkComponent", () => {
 
         // Confirm link is added to href attribute
         const linkDE = getDEBySelector(".link");
-        expect(linkDE.nativeElement.getAttribute("href")).toEqual(component.link);
+        expect(linkDE.nativeElement.getAttribute("href")).toEqual(
+            component.link
+        );
     });
 
     /**
      * Confirm link has attribute target "_blank" when target blank input is set to true.
      */
     it(`has attribute target "_blank" when target blank set to true`, () => {
-
         // Set up initial component state
         component.targetBlank = true;
 
@@ -96,7 +89,6 @@ describe("DataLinkComponent", () => {
      * @returns {DebugElement}
      */
     function getDEBySelector(selector: string): DebugElement {
-
         return fixture.debugElement.query(By.css(selector));
     }
 });

@@ -9,7 +9,6 @@
 
 /** Individual facet term rows (checkbox, title, count) */
 :host {
-
     .facet-term {
         align-items: flex-start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line)
         display: flex;
@@ -72,10 +71,11 @@
                 text-align: right;
             }
         }
-        
+
         &.list-headers {
             .term-summary {
-                .term-name, .term-count {
+                .term-name,
+                .term-count {
                     color: $hca-black;
                     font-weight: 500;
                 }

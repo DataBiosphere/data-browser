@@ -19,22 +19,27 @@ import { AppState } from "../../../_ngrx/app.state";
 
 @Injectable()
 export class ErrorEffects {
-
     /**
      * @param {Router} router
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private router: Router, private store: Store<AppState>, private actions$: Actions) {}
+    constructor(
+        private router: Router,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
-     * Clear error on navigate.  
+     * Clear error on navigate.
      */
-    
-    clearError$ = createEffect(() => this.router.events.pipe(
-        filter(evt => evt instanceof NavigationStart),
-        switchMap(() => this.store.pipe(select(selectIsError), take(1))),
-        filter(error => error),
-        map(() => new ClearErrorStateAction())
-    ));
+
+    clearError$ = createEffect(() =>
+        this.router.events.pipe(
+            filter((evt) => evt instanceof NavigationStart),
+            switchMap(() => this.store.pipe(select(selectIsError), take(1))),
+            filter((error) => error),
+            map(() => new ClearErrorStateAction())
+        )
+    );
 }

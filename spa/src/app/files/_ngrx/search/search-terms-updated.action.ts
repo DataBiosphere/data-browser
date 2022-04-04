@@ -13,7 +13,6 @@ import { Action } from "@ngrx/store";
 import { SearchTerm } from "../../search/search-term.model";
 
 export class SearchTermsUpdatedAction implements Action {
-
     public static ACTION_TYPE = "FILE.SEARCH.SEARCH_TERMS_UPDATED";
     public readonly type = SearchTermsUpdatedAction.ACTION_TYPE;
 
@@ -23,5 +22,8 @@ export class SearchTermsUpdatedAction implements Action {
      * @param {SearchTerm[]} searchEntities - Search terms built from project facet, required for patching selected
      *                       project IDs and project names for display in the selected search terms component.
      */
-    constructor(public readonly searchTerms: SearchTerm[], public readonly searchEntities: SearchTerm[]) {}
+    constructor(
+        public readonly searchTerms: SearchTerm[],
+        public readonly searchEntities: SearchTerm[]
+    ) {}
 }

@@ -6,7 +6,7 @@
  */
 
 export const TimeUnitInSeconds = {
-    "WEEK": 604800,
-    "MONTH": 2628000,
-    "YEAR": 31536000
+    WEEK: 604800,
+    MONTH: 2628000,
+    YEAR: 31536000,
 };

@@ -14,7 +14,10 @@ import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
-import { selectAuthenticated, selectUser } from "../../../auth/_ngrx/auth.selectors";
+import {
+    selectAuthenticated,
+    selectUser,
+} from "../../../auth/_ngrx/auth.selectors";
 import { LoginRequestAction } from "../../../auth/_ngrx/login-request.action";
 import { LogoutRequestAction } from "../../../auth/_ngrx/logout-request.action";
 import { ConfigService } from "../../../config/config.service";
@@ -32,18 +35,16 @@ import { selectCatalogUpdatedSinceLastVisit } from "../../../files/_ngrx/catalog
 @Component({
     selector: "hca-toolbar",
     templateUrl: "hca-toolbar.component.html",
-    styleUrls: ["hca-toolbar.component.scss"]
+    styleUrls: ["hca-toolbar.component.scss"],
 })
-
 export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
-
     // Template variables
     public dropDownMenuOpen = false;
     public portalUrl: string;
     public state$ = new BehaviorSubject<HCAToolbarComponentState>({
         authenticated: false,
         catalogUpdatedSinceLastVisit: false,
-        modalOpen: false
+        modalOpen: false,
     });
 
     // Locals
@@ -57,11 +58,13 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @param {UrlService} urlService
      * @param {Router} router
      */
-    constructor(private store: Store<AppState>,
-                private configService: ConfigService,
-                private routingService: RoutingService,
-                private urlService: UrlService,
-                private router: Router) {
+    constructor(
+        private store: Store<AppState>,
+        private configService: ConfigService,
+        private routingService: RoutingService,
+        private urlService: UrlService,
+        private router: Router
+    ) {
         this.portalUrl = this.configService.getPortalUrl();
     }
 
@@ -72,28 +75,25 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @returns {string}
      */
     public getFullName(user: GoogleUser): string {
-
         return user.getBasicProfile().getName();
     }
 
     /**
      * Return the first letter of the user's given name.
-     * 
+     *
      * @returns {string}
      */
     public getNameStartsWith(user: GoogleUser): string {
-
         return user.getBasicProfile().getGivenName().substring(0, 1);
     }
 
     /**
      * Return the URL to the user's profile image.
-     * 
+     *
      * @param {GoogleUserUser} user
      * @returns {string}
      */
     public getProfileImageUrl(user: GoogleUser): string {
-        
         return user.getBasicProfile().getImageUrl();
     }
 
@@ -101,7 +101,6 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * Returns true if auth is enabled.
      */
     public isAuthEnabled() {
-        
         return this.configService.isAuthEnabled();
     }
 
@@ -111,9 +110,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isExploreActiveUrl(): boolean {
-
-        if ( this.currentUrl ) {
-
+        if (this.currentUrl) {
             const explorePathExists = this.urlService.isViewingEntities();
             const homePathExists = this.currentUrl === "/";
 
@@ -123,13 +120,12 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
 
     /**
      * Returns true if there's a profile image for the current user.
-     * 
+     *
      * @param {GoogleUser} user
      * @returns {boolean}
      */
     public isProfileImageSpecified(user: GoogleUser): boolean {
-
-        return !!this.getProfileImageUrl(user)
+        return !!this.getProfileImageUrl(user);
     }
 
     /**
@@ -138,7 +134,6 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @param event
      */
     public onDropDownMenuOpened(event) {
-
         this.dropDownMenuOpen = event;
     }
 
@@ -148,10 +143,9 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * manually trigger the close here.
      */
     public onExploreLinkClicked() {
-
         this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
 
-        if ( this.routingService.isPathActive([`/${EntityName.PROJECTS}`]) ) {
+        if (this.routingService.isPathActive([`/${EntityName.PROJECTS}`])) {
             this.store.dispatch(new CloseHamburgerAction());
         }
     }
@@ -160,16 +154,13 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * Dispatch event to login user via Google.
      */
     public onLoginClicked() {
-
         this.store.dispatch(new LoginRequestAction());
     }
-
 
     /**
      * Dispatch event to logout user via Google.
      */
     public onLogoutClicked() {
-
         this.store.dispatch(new LogoutRequestAction());
     }
 
@@ -179,7 +170,6 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * @param {MouseEvent} event
      */
     public toggleDropDownMenu(event: MouseEvent) {
-
         event.stopPropagation();
         this.dropDownMenuOpen = !this.dropDownMenuOpen;
     }
@@ -188,21 +178,20 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * Listens for the current url.
      */
     private initCurrentUrl() {
-
-        this.router.events.pipe(
-            filter(evt => evt instanceof NavigationEnd),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((evt: NavigationEnd) => {
-
-            this.currentUrl = evt.url;
-        });
+        this.router.events
+            .pipe(
+                filter((evt) => evt instanceof NavigationEnd),
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe((evt: NavigationEnd) => {
+                this.currentUrl = evt.url;
+            });
     }
 
     /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -211,7 +200,6 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * Listen for changes in modal opened/closed state and update header UI accordingly.
      */
     public ngOnInit() {
-
         // Sets up the current url
         this.initCurrentUrl();
 
@@ -219,7 +207,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
             select(selectModalOpen),
             takeUntil(this.ngDestroy$)
         );
-        
+
         const authenticated$ = this.store.pipe(
             select(selectAuthenticated),
             takeUntil(this.ngDestroy$)
@@ -229,7 +217,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
             select(selectUser),
             takeUntil(this.ngDestroy$)
         );
-        
+
         const catalogUpdatedSinceLastVisit$ = this.store.pipe(
             select(selectCatalogUpdatedSinceLastVisit),
             takeUntil(this.ngDestroy$)
@@ -239,11 +227,23 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
             authenticated$,
             catalogUpdatedSinceLastVisit$,
             modalOpen$,
-            user$
-            ]).pipe(
-            takeUntil(this.ngDestroy$),
-        ).subscribe(([authenticated, catalogUpdatedSinceLastVisit, modalOpen, user]) => {
-            this.state$.next({authenticated, catalogUpdatedSinceLastVisit, modalOpen, user})
-        });
+            user$,
+        ])
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe(
+                ([
+                    authenticated,
+                    catalogUpdatedSinceLastVisit,
+                    modalOpen,
+                    user,
+                ]) => {
+                    this.state$.next({
+                        authenticated,
+                        catalogUpdatedSinceLastVisit,
+                        modalOpen,
+                        user,
+                    });
+                }
+            );
     }
 }

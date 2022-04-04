@@ -21,13 +21,23 @@ import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.com
 import { Term } from "../../shared/term.model";
 
 describe("SelectedDataSummary", () => {
-
     let component: SelectedDataSummaryComponent;
     let fixture: ComponentFixture<SelectedDataSummaryComponent>;
 
     const SUMMARY_DISPLAY_ORDER = [
-        "Estimated Cells", "File Size", "Files","Projects", "Species", "Donors", "Disease Status (Donor)",
-        "Specimens", "Disease Status (Specimen)", "Anatomical Entity", "Organ Part", "Library Construction Method","Paired End"  
+        "Estimated Cells",
+        "File Size",
+        "Files",
+        "Projects",
+        "Species",
+        "Donors",
+        "Disease Status (Donor)",
+        "Specimens",
+        "Disease Status (Specimen)",
+        "Anatomical Entity",
+        "Organ Part",
+        "Library Construction Method",
+        "Paired End",
     ];
 
     // Summary order by index
@@ -46,21 +56,15 @@ describe("SelectedDataSummary", () => {
     const INDEX_PAIRED_END = 12;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                SelectedDataSummaryComponent,
-                HCATooltipComponent
+            declarations: [SelectedDataSummaryComponent, HCATooltipComponent],
+            imports: [MatTooltipModule, PipeModule],
+            providers: [
+                {
+                    provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
+                    useValue: () => new Promise(() => {}),
+                },
             ],
-            imports: [
-                MatTooltipModule,
-                PipeModule
-            ],
-            providers: [{
-                provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
-                useValue: () => new Promise(() => {
-                })
-            }]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SelectedDataSummaryComponent);
@@ -72,7 +76,6 @@ describe("SelectedDataSummary", () => {
      * Confirm display terms method returns "Unspecified" when terms is undefined.
      */
     it(`should return "Unspecified" when terms is undefined`, () => {
-
         // Confirm "Unspecified" is displayed when terms is undefined - first execute the method
         // and then confirm the returned value is "Unspecified".
         const displayTerms = component.displayTerms([]);
@@ -83,11 +86,10 @@ describe("SelectedDataSummary", () => {
      * Confirm display terms method returns a concatenation of all term names.
      */
     it("should return a concatenation of all term names", () => {
-
         const selectedTerms = [
             new Term("Homo sapiens", 22, true),
             new Term("Mus musculus", 123, true),
-            new Term("Fastq", 233, true)
+            new Term("Fastq", 233, true),
         ];
 
         // Confirm term names are concatenated - first execute the method
@@ -100,10 +102,11 @@ describe("SelectedDataSummary", () => {
      * Confirm tooltip disabled returns true, when count size pipe is the same value as locale string pipe.
      */
     it("should return true when count size pipe is the same value as locale string pipe", () => {
-
         // Confirm tooltip disabled returns true, when count size pipe is the same value as locale string pipe -
         // first execute the method and then confirm the returned value is true.
-        const tooltipDisabled = component.isTooltipDisabled(component.summary.projectCount);
+        const tooltipDisabled = component.isTooltipDisabled(
+            component.summary.projectCount
+        );
         expect(tooltipDisabled).toEqual(true);
     });
 
@@ -111,10 +114,11 @@ describe("SelectedDataSummary", () => {
      * Confirm tooltip disabled returns false, where count size pipe is not the same value as locale string pipe.
      */
     it("should return false when count size pipe is not the same value as locale string pipe", () => {
-
         // Confirm tooltip disabled returns false, when count size pipe is not the same value as locale string pipe -
         // first execute the method and then confirm the returned value is false.
-        const tooltipDisabled = component.isTooltipDisabled(component.summary.totalCellCount);
+        const tooltipDisabled = component.isTooltipDisabled(
+            component.summary.totalCellCount
+        );
         expect(tooltipDisabled).toEqual(false);
     });
 
@@ -122,12 +126,13 @@ describe("SelectedDataSummary", () => {
      * Confirm all summary labels are displayed.
      */
     it(`should display all summary labels`, () => {
-
         // Confirm all summary labels are displayed - first execute a query
         // to find all the elements with the class "summary" and then for each element find the element
         // with the class "label" then confirm the label is displayed in the correct order.
         getSummaryEls().forEach((el, index) => {
-            expect(getSummaryLabelInnerHTML(el)).toEqual((SUMMARY_DISPLAY_ORDER[index]));
+            expect(getSummaryLabelInnerHTML(el)).toEqual(
+                SUMMARY_DISPLAY_ORDER[index]
+            );
         });
     });
 
@@ -135,94 +140,99 @@ describe("SelectedDataSummary", () => {
      * Confirm summary project count is displayed.
      */
     it(`should display summary project count`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm project count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Projects"
         // and confirm the value is equal to project count.
-        expect(getCountInnerHTML(INDEX_PROJECT_COUNT)).toEqual(component.summary.projectCount.toLocaleString());
+        expect(getCountInnerHTML(INDEX_PROJECT_COUNT)).toEqual(
+            component.summary.projectCount.toLocaleString()
+        );
     });
 
     /**
      * Confirm summary donor count is displayed.
      */
     it(`should display summary donor count when view mode is "NONE"`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm donor count value is displayed, when view mode is "NONE" - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Donors"
         // and confirm the value is equal to donor count.
-        expect(getCountInnerHTML(INDEX_DONORS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.donorCount));
+        expect(getCountInnerHTML(INDEX_DONORS_COUNT)).toEqual(
+            new CountSizePipe().transform(component.summary.donorCount)
+        );
     });
 
     /**
      * Confirm summary specimen count is displayed.
      */
     it(`should display summary specimen count`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm specimen count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Specimens"
         // and confirm the value is equal to specimen count.
-        expect(getCountInnerHTML(INDEX_SPECIMENS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.specimenCount));
+        expect(getCountInnerHTML(INDEX_SPECIMENS_COUNT)).toEqual(
+            new CountSizePipe().transform(component.summary.specimenCount)
+        );
     });
 
     /**
      * Confirm summary total cell count is displayed.
      */
     it(`should display summary total cell count`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm total cell count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Estimated Cells"
         // and confirm the value is equal to total cell count.
-        expect(getCountInnerHTML(INDEX_ESTIMATED_CELLS_COUNT)).toEqual(new CountSizePipe().transform(component.summary.totalCellCount));
+        expect(getCountInnerHTML(INDEX_ESTIMATED_CELLS_COUNT)).toEqual(
+            new CountSizePipe().transform(component.summary.totalCellCount)
+        );
     });
 
     /**
      * Confirm summary file count is displayed.
      */
     it(`should display summary file count`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm file count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "Files"
         // and confirm the value is equal to file count.
-        expect(getCountInnerHTML(INDEX_FILES_COUNT)).toEqual(new CountSizePipe().transform(component.summary.fileCount));
+        expect(getCountInnerHTML(INDEX_FILES_COUNT)).toEqual(
+            new CountSizePipe().transform(component.summary.fileCount)
+        );
     });
 
     /**
      * Confirm summary file size count is displayed.
      */
     it(`should display summary file size count`, () => {
-
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
         // Confirm file size count value is displayed - first execute a query
         // to find the element with the class "count" where the element with the class "label" is "File Size"
         // and confirm the value is equal to file size count.
-        expect(getCountInnerHTML(INDEX_FILE_SIZE_COUNT)).toEqual(new FileSizePipe().transform(component.summary.totalFileSize));
+        expect(getCountInnerHTML(INDEX_FILE_SIZE_COUNT)).toEqual(
+            new FileSizePipe().transform(component.summary.totalFileSize)
+        );
     });
 
     /**
      * Confirm selected genus species is displayed.
      */
     it(`should display selected genus species`, () => {
-
         const selectedTerms = [
             new Term("Homo sapiens", 22, true),
-            new Term("Mus musculus", 123, true)
+            new Term("Mus musculus", 123, true),
         ];
 
         // Set up initial component state
@@ -234,14 +244,15 @@ describe("SelectedDataSummary", () => {
         // Confirm selected genus species is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Species"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_GENUS_SPECIES)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_GENUS_SPECIES)).toEqual(
+            component.displayTerms(selectedTerms)
+        );
     });
 
     /**
      * Confirm selected library construction approaches is displayed.
      */
     it(`should display selected library construction approaches`, () => {
-
         const selectedTerms = [
             new Term("Drop-seq", 22, true),
             new Term("10x 3' v3 sequencing", 22, true),
@@ -257,17 +268,18 @@ describe("SelectedDataSummary", () => {
         // Confirm selected library construction approaches is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Library Construction Method"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_LIBRARY_CONSTRUCTION_METHOD)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_LIBRARY_CONSTRUCTION_METHOD)).toEqual(
+            component.displayTerms(selectedTerms)
+        );
     });
 
     /**
      * Confirm selected organs is displayed.
      */
     it(`should display selected organs`, () => {
-
         const selectedTerms = [
             new Term("blood", 22, true),
-            new Term("lung", 22, true)
+            new Term("lung", 22, true),
         ];
 
         // Set up initial component state
@@ -279,17 +291,18 @@ describe("SelectedDataSummary", () => {
         // Confirm selected organs is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Anatomical Entity"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_ANATOMICAL_ENTITY)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_ANATOMICAL_ENTITY)).toEqual(
+            component.displayTerms(selectedTerms)
+        );
     });
 
     /**
      * Confirm selected Anatomical Entity parts is displayed.
      */
     it(`should display selected organ parts`, () => {
-
         const selectedTerms = [
             new Term("amygdala", 22, true),
-            new Term("islet of Langerhans", 22, true)
+            new Term("islet of Langerhans", 22, true),
         ];
 
         // Set up initial component state
@@ -301,17 +314,16 @@ describe("SelectedDataSummary", () => {
         // Confirm selected organ parts is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Organ Parts"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_ORGAN_PART)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_ORGAN_PART)).toEqual(
+            component.displayTerms(selectedTerms)
+        );
     });
 
     /**
      * Confirm selected paired ends is displayed.
      */
     it(`should display selected paired ends`, () => {
-
-        const selectedTerms = [
-            new Term("true", 234, true)
-        ];
+        const selectedTerms = [new Term("true", 234, true)];
 
         // Set up initial component state
         component.selectedPairedEnds = selectedTerms;
@@ -322,7 +334,9 @@ describe("SelectedDataSummary", () => {
         // Confirm selected paired Ends is displayed - first execute a query
         // to find the element with the class "terms" where the element with the class "label" is "Paired End"
         // and confirm the value is equal to the concatenated term names.
-        expect(getTermInnerHTML(INDEX_PAIRED_END)).toEqual(component.displayTerms(selectedTerms));
+        expect(getTermInnerHTML(INDEX_PAIRED_END)).toEqual(
+            component.displayTerms(selectedTerms)
+        );
     });
 
     /**
@@ -332,8 +346,9 @@ describe("SelectedDataSummary", () => {
      * @returns {string}
      */
     function getCountInnerHTML(countIndex: number): string {
-
-        const summaryByIndexEl = fixture.debugElement.queryAll(By.css(".summary"))[countIndex];
+        const summaryByIndexEl = fixture.debugElement.queryAll(
+            By.css(".summary")
+        )[countIndex];
 
         return getInnerHTML(summaryByIndexEl, ".count");
     }
@@ -346,7 +361,6 @@ describe("SelectedDataSummary", () => {
      * @returns {string}
      */
     function getInnerHTML(element: DebugElement, selector: string): string {
-
         return element.query(By.css(selector)).nativeElement.innerHTML;
     }
 
@@ -357,8 +371,9 @@ describe("SelectedDataSummary", () => {
      * @returns {string}
      */
     function getTermInnerHTML(countIndex: number): string {
-
-        const summaryByIndexEl = fixture.debugElement.queryAll(By.css(".summary"))[countIndex];
+        const summaryByIndexEl = fixture.debugElement.queryAll(
+            By.css(".summary")
+        )[countIndex];
 
         return getInnerHTML(summaryByIndexEl, ".terms");
     }
@@ -370,8 +385,7 @@ describe("SelectedDataSummary", () => {
      * @returns {string[]}
      */
     function getTermNames(terms: Term[]): string {
-
-        return terms.map(term => term.name).join(", ");
+        return terms.map((term) => term.name).join(", ");
     }
 
     /**
@@ -380,7 +394,6 @@ describe("SelectedDataSummary", () => {
      * @returns {DebugElement[]}
      */
     function getSummaryEls(): DebugElement[] {
-
         return fixture.debugElement.queryAll(By.css(".summary"));
     }
 
@@ -390,7 +403,6 @@ describe("SelectedDataSummary", () => {
      * @returns {string}
      */
     function getSummaryLabelInnerHTML(summaryEl: DebugElement): string {
-
         return summaryEl.query(By.css(".label")).nativeElement.innerHTML;
     }
 });

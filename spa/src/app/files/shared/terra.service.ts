@@ -26,18 +26,18 @@ import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
 export class TerraService {
-
     /**
      * @param {ConfigService} configService
      * @param {FileManifestService} fileManifestService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService,
-                private fileManifestService: FileManifestService,
-                private searchTermHttpService: SearchTermHttpService,
-                private httpClient: HttpClient) {
-    }
+    constructor(
+        private configService: ConfigService,
+        private fileManifestService: FileManifestService,
+        private searchTermHttpService: SearchTermHttpService,
+        private httpClient: HttpClient
+    ) {}
 
     /**
      * Build up the complete export to Terra URL, for opening a Terra workspace in a new tab.
@@ -46,8 +46,10 @@ export class TerraService {
      * @param {string} exportUrl
      * @returns {string}
      */
-    public buildExportToTerraWorkspaceUrl(format: ManifestDownloadFormat, exportUrl: string): string {
-
+    public buildExportToTerraWorkspaceUrl(
+        format: ManifestDownloadFormat,
+        exportUrl: string
+    ): string {
         const encodedExportUrl = encodeURIComponent(exportUrl);
         return this.configService.getTerraRedirectUrl(format, encodedExportUrl);
     }
@@ -58,8 +60,9 @@ export class TerraService {
      * @param {ExportToTerraStatus} status
      * @returns {boolean}
      */
-    public isExportToTerraRequestComplete(status: ExportToTerraStatus): boolean {
-
+    public isExportToTerraRequestComplete(
+        status: ExportToTerraStatus
+    ): boolean {
         return status === ExportToTerraStatus.COMPLETE;
     }
 
@@ -70,7 +73,6 @@ export class TerraService {
      * @returns {boolean}
      */
     public isExportToTerraRequestFailed(status: ExportToTerraStatus): boolean {
-
         return status === ExportToTerraStatus.FAILED;
     }
 
@@ -80,8 +82,9 @@ export class TerraService {
      * @param {ExportToTerraStatus} status
      * @returns {boolean}
      */
-    public isExportToTerraRequestInitiated(status: ExportToTerraStatus): boolean {
-
+    public isExportToTerraRequestInitiated(
+        status: ExportToTerraStatus
+    ): boolean {
         return status === ExportToTerraStatus.INITIATED;
     }
 
@@ -91,8 +94,9 @@ export class TerraService {
      * @param {ExportToTerraStatus} status
      * @returns {boolean}
      */
-    public isExportToTerraRequestInProgress(status: ExportToTerraStatus): boolean {
-
+    public isExportToTerraRequestInProgress(
+        status: ExportToTerraStatus
+    ): boolean {
         return status === ExportToTerraStatus.IN_PROGRESS;
     }
 
@@ -102,8 +106,9 @@ export class TerraService {
      * @param {ExportToTerraStatus} status
      * @returns {boolean}
      */
-    public isExportToTerraRequestNotStarted(status: ExportToTerraStatus): boolean {
-
+    public isExportToTerraRequestNotStarted(
+        status: ExportToTerraStatus
+    ): boolean {
         return status === ExportToTerraStatus.NOT_STARTED;
     }
 
@@ -122,27 +127,39 @@ export class TerraService {
         searchTerms: SearchTerm[],
         fileFormats: FileFacet,
         manifestDownloadFormat: ManifestDownloadFormat,
-        killSwitch$: Observable<boolean>): Observable<ExportToTerraResponse> {
-
-        const manifestSearchTerms = this.fileManifestService.buildManifestSearchTerms(searchTerms, fileFormats);
+        killSwitch$: Observable<boolean>
+    ): Observable<ExportToTerraResponse> {
+        const manifestSearchTerms =
+            this.fileManifestService.buildManifestSearchTerms(
+                searchTerms,
+                fileFormats
+            );
 
         // Set up polling for export completion - if export request is still in progress, continue to poll. Otherwise
         // kill polling subscription and return export URL.
         const exportResponse$ = new Subject<ExportToTerraResponse>();
         exportResponse$.subscribe((response: ExportToTerraResponse) => {
-
-            if ( response.status === ExportToTerraStatus.IN_PROGRESS ) {
-                return this.updateExportToTerraStatus(response, exportResponse$, killSwitch$);
+            if (response.status === ExportToTerraStatus.IN_PROGRESS) {
+                return this.updateExportToTerraStatus(
+                    response,
+                    exportResponse$,
+                    killSwitch$
+                );
             }
 
             exportResponse$.unsubscribe();
         });
 
-        const query =
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), manifestDownloadFormat);
-        let params = new HttpParams({fromObject: query} as any);
+        const query = new ICGCQuery(
+            catalog,
+            this.searchTermHttpService.marshallSearchTerms(searchTerms),
+            manifestDownloadFormat
+        );
+        let params = new HttpParams({ fromObject: query } as any);
         const url = this.configService.getFileManifestUrl();
-        const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {params});
+        const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(url, {
+            params,
+        });
         this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
 
         return exportResponse$.asObservable();
@@ -154,12 +171,13 @@ export class TerraService {
      * @param {ExportToTerraHttpResponse} response
      * @returns {ExportToTerraResponse}
      */
-    private bindExportToTerraResponse(response: ExportToTerraHttpResponse): Observable<ExportToTerraResponse> {
-
+    private bindExportToTerraResponse(
+        response: ExportToTerraHttpResponse
+    ): Observable<ExportToTerraResponse> {
         return of({
             retryAfter: response["Retry-After"],
             status: this.translateExportToTerraStatus(response.Status),
-            url: response.Location
+            url: response.Location,
         });
     }
 
@@ -169,11 +187,10 @@ export class TerraService {
      * @returns {ExportToTerraResponse}
      */
     private handleExportToTerraError(): Observable<ExportToTerraResponse> {
-
         return of({
             retryAfter: 0,
             status: ExportToTerraStatus.FAILED,
-            url: ""
+            url: "",
         });
     }
 
@@ -187,8 +204,8 @@ export class TerraService {
     private requestExportToTerra(
         getRequest: Observable<ExportToTerraHttpResponse>,
         terraResponse: Subject<ExportToTerraResponse>,
-        killSwitch$: Observable<boolean>) {
-
+        killSwitch$: Observable<boolean>
+    ) {
         getRequest
             .pipe(
                 retry(3),
@@ -211,15 +228,20 @@ export class TerraService {
     private updateExportToTerraStatus(
         response: ExportToTerraResponse,
         exportResponse$: Subject<ExportToTerraResponse>,
-        killSwitch$: Observable<boolean>) {
-
+        killSwitch$: Observable<boolean>
+    ) {
         interval(response.retryAfter * 1000)
-            .pipe(
-                take(1)
-            )
+            .pipe(take(1))
             .subscribe(() => {
-                const getRequest = this.httpClient.get<ExportToTerraHttpResponse>(response.url);
-                this.requestExportToTerra(getRequest, exportResponse$, killSwitch$);
+                const getRequest =
+                    this.httpClient.get<ExportToTerraHttpResponse>(
+                        response.url
+                    );
+                this.requestExportToTerra(
+                    getRequest,
+                    exportResponse$,
+                    killSwitch$
+                );
             });
     }
 
@@ -230,11 +252,10 @@ export class TerraService {
      * @returns {ExportToTerraStatus}
      */
     private translateExportToTerraStatus(code: number): ExportToTerraStatus {
-
-        if ( code === 301 ) {
+        if (code === 301) {
             return ExportToTerraStatus.IN_PROGRESS;
         }
-        if ( code === 302 ) {
+        if (code === 302) {
             return ExportToTerraStatus.COMPLETE;
         }
         return ExportToTerraStatus.FAILED;

@@ -24,36 +24,60 @@ import { selectSelectedEntitySpec } from "../files.selectors";
 
 @Injectable()
 export class GetDataEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private store: Store<AppState>,
-                private actions$: Actions) {
-    }
+    constructor(
+        private gtmService: GTMService,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Trigger tracking of request bulk download, or copy to clipboard of bulk download curl command.
      */
-    
-    trackBulkDownload$ = createEffect(() => this.actions$.pipe(
-        ofType(CopyToClipboardBulkDownloadAction.ACTION_TYPE, RequestBulkDownloadAction.ACTION_TYPE),
-        concatMap(action => of(action).pipe(
-            withLatestFrom(
-                this.store.pipe(select(selectCatalog), take(1)),
-                this.store.pipe(select(selectPreviousQuery), take(1)),
-                this.store.pipe(select(selectSelectedEntitySpec), take(1))
-            )
-        )),
-        tap(([action, catalog, queryWhenActionTriggered, selectedEntitySpec]) => {
-            this.gtmService.trackEvent((action as TrackingAction).asEvent({
-                catalog,
-                currentQuery: queryWhenActionTriggered,
-                index: selectedEntitySpec.key
-            }));
-        })
-    ), {dispatch: false});
+
+    trackBulkDownload$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    CopyToClipboardBulkDownloadAction.ACTION_TYPE,
+                    RequestBulkDownloadAction.ACTION_TYPE
+                ),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1)),
+                            this.store.pipe(
+                                select(selectPreviousQuery),
+                                take(1)
+                            ),
+                            this.store.pipe(
+                                select(selectSelectedEntitySpec),
+                                take(1)
+                            )
+                        )
+                    )
+                ),
+                tap(
+                    ([
+                        action,
+                        catalog,
+                        queryWhenActionTriggered,
+                        selectedEntitySpec,
+                    ]) => {
+                        this.gtmService.trackEvent(
+                            (action as TrackingAction).asEvent({
+                                catalog,
+                                currentQuery: queryWhenActionTriggered,
+                                index: selectedEntitySpec.key,
+                            })
+                        );
+                    }
+                )
+            ),
+        { dispatch: false }
+    );
 }

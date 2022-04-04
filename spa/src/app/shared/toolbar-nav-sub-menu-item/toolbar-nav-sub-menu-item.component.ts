@@ -13,9 +13,7 @@ import { Component, Input } from "@angular/core";
     templateUrl: "toolbar-nav-sub-menu-item.component.html",
     styleUrls: ["toolbar-nav-sub-menu-item.component.scss"],
 })
-
 export class ToolbarNavSubMenuItemComponent {
-
     // Inputs
     @Input() link: string;
 }

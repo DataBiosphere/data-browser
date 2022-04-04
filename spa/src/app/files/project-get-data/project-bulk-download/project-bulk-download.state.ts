@@ -14,9 +14,8 @@ import { SearchTerm } from "../../search/search-term.model";
 import { Project } from "../../shared/project.model";
 
 export interface ProjectBulkDownloadState {
-
     loaded: boolean;
-    filesFacets?: Facet[]
+    filesFacets?: Facet[];
     fileSummary?: FileSummary;
     fileTypeSummaries?: FileTypeSummary[];
     manifestResponse?: ManifestResponse;

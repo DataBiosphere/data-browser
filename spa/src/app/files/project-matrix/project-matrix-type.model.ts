@@ -7,5 +7,5 @@
 
 export enum ProjectMatrixType {
     "CGM" = "CGM",
-    "DCP" = "DCP"
+    "DCP" = "DCP",
 }

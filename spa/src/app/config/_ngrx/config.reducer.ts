@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Config reducer, handles actions related to retrieving/setting up config.
  */
 
@@ -17,13 +17,16 @@ import { FetchConfigRequestSuccessAction } from "./config.actions";
  * @param action {Action}
  * @returns {ConfigState}
  */
-export function reducer(state: ConfigState = ConfigState.getDefaultState(), action: Action): ConfigState {
-
+export function reducer(
+    state: ConfigState = ConfigState.getDefaultState(),
+    action: Action
+): ConfigState {
     switch (action.type) {
-
         // Handle case where config has been re/requested and updated config has been returned from end point
         case FetchConfigRequestSuccessAction.ACTION_TYPE:
-            return state.receiveConfig(action as FetchConfigRequestSuccessAction);
+            return state.receiveConfig(
+                action as FetchConfigRequestSuccessAction
+            );
 
         default:
             return state;

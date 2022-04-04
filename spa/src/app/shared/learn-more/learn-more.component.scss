@@ -13,7 +13,8 @@ a {
 }
 
 /* Learn more arrow */
-a:before, a:after {
+a:before,
+a:after {
     background-color: $hca-primary;
     content: "";
     height: 7px;
@@ -36,7 +37,6 @@ a:after {
 
 /* Class "fontsize-xs" */
 :host-context(.fontsize-xs) {
-
     a {
         font: inherit; // Override class "fontsize-s" on "learn more"
     }

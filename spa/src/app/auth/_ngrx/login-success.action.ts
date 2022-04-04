@@ -1,4 +1,3 @@
-
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
@@ -13,7 +12,6 @@ import GoogleUser = gapi.auth2.GoogleUser;
 import { Action } from "@ngrx/store";
 
 export class LoginSuccessAction implements Action {
-
     public static ACTION_TYPE = "AUTH.LOGIN_SUCCESS";
     public readonly type = LoginSuccessAction.ACTION_TYPE;
 

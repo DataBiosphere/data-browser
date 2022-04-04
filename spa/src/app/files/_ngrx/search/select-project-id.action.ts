@@ -23,8 +23,9 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectProjectIdAction implements Action, SelectSearchTermAction, TrackingAction {
-
+export class SelectProjectIdAction
+    implements Action, SelectSearchTermAction, TrackingAction
+{
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_PROJECT_ID";
     public readonly type = SelectProjectIdAction.ACTION_TYPE;
 
@@ -40,7 +41,8 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
         public readonly projectId: string,
         public readonly projectShortname: string,
         public readonly selected = true,
-        public readonly source: GASource) {}
+        public readonly source: GASource
+    ) {}
 
     /**
      * Return the cleared age range action as a GA event.
@@ -48,8 +50,7 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.SEARCH,
             action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
@@ -61,8 +62,8 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.FACET]: this.facetName,
                 [GADimension.SOURCE]: this.source,
-                [GADimension.TERM]: this.projectShortname
-            }
+                [GADimension.TERM]: this.projectShortname,
+            },
         };
     }
 
@@ -72,15 +73,17 @@ export class SelectProjectIdAction implements Action, SelectSearchTermAction, Tr
      * @returns {SearchTerm}
      */
     public asSearchTerm(): SearchTerm {
-
-        return new SearchEntity(this.facetName,  this.projectId, this.projectShortname);
+        return new SearchEntity(
+            this.facetName,
+            this.projectId,
+            this.projectShortname
+        );
     }
 
     /**
      * There is no corresponding facet for project ID - throw error.
      */
     public getTermKey(): string {
-
         throw `No term key for ${this.facetName}`;
     }
 }

@@ -11,7 +11,7 @@ import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
-// App dependencies 
+// App dependencies
 import { UrlService } from "../files/url/url.service";
 import { AppState } from "../_ngrx/app.state";
 import { selectSupportRequestActive } from "./_ngrx/support-request.selectors";
@@ -22,13 +22,12 @@ import { SupportRequestState } from "./support-request.state";
 @Component({
     selector: "support-request",
     templateUrl: "support-request.component.html",
-    styleUrls: ["support-request.component.scss"]
+    styleUrls: ["support-request.component.scss"],
 })
 export class SupportRequestComponent implements OnInit {
-
     // Template variables
     public state$ = new BehaviorSubject<SupportRequestState>({
-        active: false
+        active: false,
     });
 
     // Locals
@@ -38,13 +37,15 @@ export class SupportRequestComponent implements OnInit {
      * @param {UrlService} urlService
      * @param {Store<AppState>} store
      */
-    constructor(private urlService: UrlService, private store: Store<AppState>) {}
+    constructor(
+        private urlService: UrlService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Feedback button is not visible on data table pages.
      */
     public isButtonVisible(): boolean {
-
         return !this.urlService.isViewingEntities();
     }
 
@@ -52,23 +53,30 @@ export class SupportRequestComponent implements OnInit {
      * Handle click on support request button - display support request form.
      */
     public onButtonClicked() {
-
-        this.store.dispatch(new UpdateSupportRequestActiveAction(true, GASource.SUPPORT_REQUEST_BUTTON));
+        this.store.dispatch(
+            new UpdateSupportRequestActiveAction(
+                true,
+                GASource.SUPPORT_REQUEST_BUTTON
+            )
+        );
     }
 
     /**
      * Handle dismiss of form - hide support request form.
      */
     public onFormDismissed() {
-
-        this.store.dispatch(new UpdateSupportRequestActiveAction(false, GASource.SUPPORT_REQUEST_FORM));
+        this.store.dispatch(
+            new UpdateSupportRequestActiveAction(
+                false,
+                GASource.SUPPORT_REQUEST_FORM
+            )
+        );
     }
 
     /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -77,10 +85,11 @@ export class SupportRequestComponent implements OnInit {
      * Determine if support request is currently active.
      */
     public ngOnInit() {
-
-        this.store.pipe(
-            select(selectSupportRequestActive),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(active => this.state$.next({active}));
+        this.store
+            .pipe(
+                select(selectSupportRequestActive),
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe((active) => this.state$.next({ active }));
     }
 }

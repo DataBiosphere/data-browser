@@ -14,21 +14,19 @@ import { SectionBarPosition } from "./section-bar-position.model";
 @Component({
     selector: "section-bar",
     templateUrl: "./section-bar.component.html",
-    styleUrls: ["./section-bar.component.scss"]
+    styleUrls: ["./section-bar.component.scss"],
 })
 export class SectionBarComponent {
-
     @Input() position: SectionBarPosition;
 
     /**
      * Returns true if section is positioned left.
-     * 
+     *
      * @param {SectionBarPosition} positionToCheck
      * @returns {boolean}
      */
     public isPositionLeft(positionToCheck: SectionBarPosition): boolean {
-        
-        return positionToCheck === SectionBarPosition.LEFT
+        return positionToCheck === SectionBarPosition.LEFT;
     }
 
     /**
@@ -38,7 +36,6 @@ export class SectionBarComponent {
      * @returns {boolean}
      */
     public isPositionTop(positionToCheck: SectionBarPosition): boolean {
-
-        return positionToCheck === SectionBarPosition.TOP
+        return positionToCheck === SectionBarPosition.TOP;
     }
 }

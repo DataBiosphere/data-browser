@@ -12,24 +12,25 @@ import { ActivatedRoute, Router } from "@angular/router";
 @Component({
     selector: "project-downloads-and-exports",
     templateUrl: "./project-downloads-and-exports.component.html",
-    styleUrls: ["./project-downloads-and-exports.component.scss"]
+    styleUrls: ["./project-downloads-and-exports.component.scss"],
 })
 export class ProjectDownloadsAndExportsComponent {
-
     /**
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private router: Router
+    ) {}
 
     /**
      * Navigate to project bulk download page.
      */
     public onProjectCurlClicked(): void {
-
         this.router.navigate(["get-curl-command"], {
             queryParamsHandling: "preserve",
-            relativeTo: this.activatedRoute
+            relativeTo: this.activatedRoute,
         });
     }
 
@@ -37,10 +38,9 @@ export class ProjectDownloadsAndExportsComponent {
      * Navigate to project analyze in Terra page.
      */
     public onProjectTerraWorkspaceClicked(): void {
-
         this.router.navigate(["export-to-terra"], {
             queryParamsHandling: "preserve",
-            relativeTo: this.activatedRoute
+            relativeTo: this.activatedRoute,
         });
     }
 }

@@ -12,5 +12,5 @@ import { FileLocation } from "../../file-location/file-location.model";
 export interface Project {
     matrixArchivePreviewsByProjectId: Map<string, Map<string, ArchivePreview>>;
     matrixFileLocationsByProjectId: Map<string, Map<string, FileLocation>>;
-    manifestFileLocationsByProjectId: Map<string, FileLocation>
+    manifestFileLocationsByProjectId: Map<string, FileLocation>;
 }

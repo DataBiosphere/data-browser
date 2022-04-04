@@ -25,16 +25,18 @@ import { Project } from "../shared/project.model";
 @Component({
     selector: "project-matrix-download",
     templateUrl: "./project-matrix-download.component.html",
-    styleUrls: ["./project-matrix-download.component.scss"]
+    styleUrls: ["./project-matrix-download.component.scss"],
 })
 export class ProjectMatrixDownloadComponent implements OnDestroy {
-    
     // Template variables
     public portalUrl: string;
-    public projectMatrixType = ProjectMatrixType; // Allow access to enum values in template 
+    public projectMatrixType = ProjectMatrixType; // Allow access to enum values in template
 
     // Inputs
-    @Input() projectMatrixArchivePreviewsByMatrixId: Map<string, ArchivePreview>;
+    @Input() projectMatrixArchivePreviewsByMatrixId: Map<
+        string,
+        ArchivePreview
+    >;
     @Input() projectMatrixFileLocationsByFileUrl: Map<string, FileLocation>;
     @Input() project: Project;
 
@@ -43,24 +45,31 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
      * @param {Store<AppState>} store
      * @param {Window} window
      */
-    constructor(private configService: ConfigService,
-                private store: Store<AppState>,
-                @Inject("Window") private window: Window) {
-
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AppState>,
+        @Inject("Window") private window: Window
+    ) {
         this.portalUrl = this.configService.getPortalUrl();
     }
 
     /**
      * Return the columns to display, depending on whether matrices table is to display contributor or DCP matrices.
-     * 
+     *
      * @param {boolean} contributor - true if contributor matrices, false if DCP matrices.
      * @returns {string[]}
      */
     public getColumnsToDisplay(contributor: boolean): string[] {
-
-        const columnsToDisplay = 
-                ["actions", "fileName", "contentDescription", "size", "genusSpecies", "organ", "libraryConstructionApproach"];
-        if ( contributor ) {
+        const columnsToDisplay = [
+            "actions",
+            "fileName",
+            "contentDescription",
+            "size",
+            "genusSpecies",
+            "organ",
+            "libraryConstructionApproach",
+        ];
+        if (contributor) {
             columnsToDisplay.push("matrixCellCount");
         }
         return columnsToDisplay;
@@ -68,11 +77,10 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
 
     /**
      * Returns true if the atlas for the current environment is HCA.
-     * 
+     *
      * @returns {boolean}
      */
     public isSurveyVisible(): boolean {
-        
         return this.configService.isAtlasHCA();
     }
 
@@ -83,14 +91,15 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
      * @param {ProjectMatrixType} projectMatrixType
      */
     public onProjectMatrixArchivePreviewRequested(
-        archivePreviewRequest: ArchivePreviewRequestEvent, projectMatrixType: ProjectMatrixType) {
-
-        const action =
-            new FetchProjectMatrixArchivePreviewRequestAction(
-                this.project,
-                archivePreviewRequest.matrixId,
-                archivePreviewRequest.matrixVersion,
-                projectMatrixType);
+        archivePreviewRequest: ArchivePreviewRequestEvent,
+        projectMatrixType: ProjectMatrixType
+    ) {
+        const action = new FetchProjectMatrixArchivePreviewRequestAction(
+            this.project,
+            archivePreviewRequest.matrixId,
+            archivePreviewRequest.matrixVersion,
+            projectMatrixType
+        );
         this.store.dispatch(action);
     }
 
@@ -100,12 +109,19 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
      * @param {FileLocationRequestEvent} event
      * @param {ProjectMatrixType} projectMatrixType
      */
-    public onProjectMatrixFileLocationRequested(event: FileLocationRequestEvent,
-                                                projectMatrixType: ProjectMatrixType) {
-
+    public onProjectMatrixFileLocationRequested(
+        event: FileLocationRequestEvent,
+        projectMatrixType: ProjectMatrixType
+    ) {
         const projectUrl = window.location.href;
         const action = new FetchProjectMatrixFileLocationRequestAction(
-            this.project, projectUrl, projectMatrixType, event.fileUrl, event.fileName, event.trigger);
+            this.project,
+            projectUrl,
+            projectMatrixType,
+            event.fileUrl,
+            event.fileName,
+            event.trigger
+        );
         this.store.dispatch(action);
     }
 
@@ -113,7 +129,8 @@ export class ProjectMatrixDownloadComponent implements OnDestroy {
      * Clear project matrix file locations from store.
      */
     public ngOnDestroy() {
-
-        this.store.dispatch(new ClearProjectMatrixFileLocationsAction(this.project.entryId));
+        this.store.dispatch(
+            new ClearProjectMatrixFileLocationsAction(this.project.entryId)
+        );
     }
 }

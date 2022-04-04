@@ -1,5 +1,3 @@
-
-
 const { promisify } = require("util");
 const fs = require("fs");
 const got = require("got");
@@ -22,31 +20,39 @@ var hcaApiUrl;
 // TODO: add stuff for the "env" argument
 
 if (!scriptArgs.catalog) {
-	console.log("Missing/invalid arguments");
-	console.log("Usage: npm run-script update-sitemap -- catalog=<catalog> env={dev|prod}");
-} else (async function() {
-	hcaApiUrl = "https://service.azul.data.humancellatlas.org/index/projects?catalog=" + scriptArgs.catalog + "&size=" + pageSize;
-	
-	const stream = new SitemapStream({ hostname: "https://data.humancellatlas.org/" });
-	const lastmod = new Date().toISOString();
-	
-	for (let entry of await getSearchResults(hcaApiUrl)) {
-		for (let project of entry.projects) {
-			stream.write({
-				url: "/explore/projects/" + project.projectId,
-				lastmod,
-				changefreq: "monthly"
-			});
-		}
-	}
-	
-	const pl = pipeline(stream, fs.createWriteStream(sitemapOutPath));
-	stream.end();
-	await pl;
-	
-	console.log("Done");
-})();
+    console.log("Missing/invalid arguments");
+    console.log(
+        "Usage: npm run-script update-sitemap -- catalog=<catalog> env={dev|prod}"
+    );
+} else
+    (async function () {
+        hcaApiUrl =
+            "https://service.azul.data.humancellatlas.org/index/projects?catalog=" +
+            scriptArgs.catalog +
+            "&size=" +
+            pageSize;
 
+        const stream = new SitemapStream({
+            hostname: "https://data.humancellatlas.org/",
+        });
+        const lastmod = new Date().toISOString();
+
+        for (let entry of await getSearchResults(hcaApiUrl)) {
+            for (let project of entry.projects) {
+                stream.write({
+                    url: "/explore/projects/" + project.projectId,
+                    lastmod,
+                    changefreq: "monthly",
+                });
+            }
+        }
+
+        const pl = pipeline(stream, fs.createWriteStream(sitemapOutPath));
+        stream.end();
+        await pl;
+
+        console.log("Done");
+    })();
 
 async function getSearchResults(url) {
     // make a request using the url, paginate through the results, and return a combined results array
@@ -61,4 +67,3 @@ async function getSearchResults(url) {
 
     return allHits;
 }
-

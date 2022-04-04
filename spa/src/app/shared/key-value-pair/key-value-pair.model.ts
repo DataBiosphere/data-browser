@@ -6,6 +6,6 @@
  */
 
 export interface KeyValuePair {
-    key: string,
+    key: string;
     value: any;
 }

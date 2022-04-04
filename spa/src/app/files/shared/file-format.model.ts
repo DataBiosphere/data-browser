@@ -8,5 +8,5 @@
 export enum FileFormat {
     "BAI" = "bai",
     "BAM" = "bam",
-    "MATRIX" = "matrix"
+    "MATRIX" = "matrix",
 }

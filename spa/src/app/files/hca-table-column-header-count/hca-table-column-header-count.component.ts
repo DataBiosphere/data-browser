@@ -15,18 +15,17 @@ import { getColumnCountName } from "../table/table-methods";
 @Component({
     selector: "hca-table-column-header-count",
     templateUrl: "./hca-table-column-header-count.component.html",
-    styleUrls: ["./hca-table-column-header-count.component.scss"]
+    styleUrls: ["./hca-table-column-header-count.component.scss"],
 })
-
 export class HCATableColumnHeaderCountComponent {
-
     // Inputs
     @Input() columnName: string;
     @Input() domainCountsByColumnName: Map<string, number>;
     @Input() summaryCount: string;
 
     // Template variables
-    tooltipContentForCount = "Count of distinct values for this facet in the current search result set.";
+    tooltipContentForCount =
+        "Count of distinct values for this facet in the current search result set.";
 
     /**
      * Return a count of the set of values for the specified column.
@@ -35,7 +34,6 @@ export class HCATableColumnHeaderCountComponent {
      * @returns {number}
      */
     public getDomainCount(columnName: string): number {
-
         const columnCountName = getColumnCountName(columnName);
         return this.domainCountsByColumnName.get(columnCountName);
     }
@@ -47,7 +45,6 @@ export class HCATableColumnHeaderCountComponent {
      * @returns {number}
      */
     public getDomainCountDisplayText(columnName: string): string {
-
         return `${this.getDomainCount(columnName)}`;
     }
 
@@ -59,8 +56,10 @@ export class HCATableColumnHeaderCountComponent {
      * @returns {boolean}
      */
     public isDomainCountVisible(columnName: string): boolean {
-
-        return getColumnCountType(columnName) === "DOMAIN_COUNT" && this.getDomainCount(columnName) > 0;
+        return (
+            getColumnCountType(columnName) === "DOMAIN_COUNT" &&
+            this.getDomainCount(columnName) > 0
+        );
     }
 
     /**
@@ -70,7 +69,9 @@ export class HCATableColumnHeaderCountComponent {
      * @returns {boolean}
      */
     public isSummaryCountVisible(columnName: string): boolean {
-
-        return getColumnCountType(columnName) === "SUMMARY_COUNT" && this.summaryCount !== "0";
+        return (
+            getColumnCountType(columnName) === "SUMMARY_COUNT" &&
+            this.summaryCount !== "0"
+        );
     }
 }

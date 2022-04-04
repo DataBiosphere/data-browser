@@ -45,5 +45,5 @@ export const AppEffects = [
     SystemEffects,
     TableEffects,
     TerraEffects,
-    UrlEffects
+    UrlEffects,
 ];

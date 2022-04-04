@@ -20,9 +20,7 @@ import { Term } from "../../shared/term.model";
     styleUrls: ["./selected-data-summary.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class SelectedDataSummaryComponent {
-
     // Inputs
     @Input() selectedDiseases: Term[];
     @Input() selectedDonorDiseases: Term[];
@@ -40,11 +38,9 @@ export class SelectedDataSummaryComponent {
      * @returns {string}
      */
     public displayTerms(terms: Term[]): string {
-
-        if ( terms && terms.length ) {
-            return terms.map(term => term.name.trim()).join(", ");
-        }
-        else {
+        if (terms && terms.length) {
+            return terms.map((term) => term.name.trim()).join(", ");
+        } else {
             return "Unspecified";
         }
     }
@@ -57,7 +53,9 @@ export class SelectedDataSummaryComponent {
      * @returns {boolean}
      */
     public isTooltipDisabled(count: number): boolean {
-
-        return new CountSizePipe().transform(count) === new LocaleStringPipe().transform(count);
+        return (
+            new CountSizePipe().transform(count) ===
+            new LocaleStringPipe().transform(count)
+        );
     }
 }

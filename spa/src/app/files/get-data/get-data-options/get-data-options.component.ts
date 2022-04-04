@@ -7,7 +7,12 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    OnDestroy,
+} from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -24,18 +29,16 @@ import EntitySpec from "../../shared/entity-spec";
     selector: "get-data-options",
     templateUrl: "./get-data-options.component.html",
     styleUrls: ["./get-data-options.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class GetDataOptionsComponent implements OnDestroy, OnInit {
-
     // Locals
     private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
     public portalURL: string;
     public state$ = new BehaviorSubject<GetDataLayoutComponentState>({
-        loaded: false
+        loaded: false,
     });
 
     /**
@@ -43,8 +46,11 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * @param {Store<AppState>} store
      * @param {Router} router
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>, private router: Router) {
-
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AppState>,
+        private router: Router
+    ) {
         this.portalURL = this.configService.getPortalUrl();
     }
 
@@ -52,19 +58,19 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * Return user to export options.
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Back";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Navigate to curl download.
      */
     public onAnalyzeInTerraClicked(): void {
-
         this.router.navigate(["/export", "export-to-terra", "select-species"]);
     }
 
@@ -72,7 +78,6 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * Navigate to curl download.
      */
     public onRequestCurlCommandClicked(): void {
-        
         this.router.navigate(["/export", "get-curl-command", "select-species"]);
     }
 
@@ -80,18 +85,20 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * Navigate to file manifest download.
      */
     public onRequestFileManifestClicked(): void {
-
-        this.router.navigate(["/export", "download-manifest", "select-species"]);
+        this.router.navigate([
+            "/export",
+            "download-manifest",
+            "select-species",
+        ]);
     }
 
     /**
      * Handle click on back button.
      */
     public onTabSelected(selectedEntity): void {
-
         // Otherwise, return to the selected entity
         this.router.navigate(["/" + selectedEntity.key], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -99,7 +106,6 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * Kill subscriptions on exit of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -108,7 +114,6 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
      * Grab the selected entity spec, required for back button functionality.
      */
     public ngOnInit() {
-
         this.store
             .pipe(
                 select(selectSelectedEntitySpec),
@@ -116,9 +121,8 @@ export class GetDataOptionsComponent implements OnDestroy, OnInit {
                 filter((entitySpec) => !!entitySpec)
             )
             .subscribe(() => {
-
                 this.state$.next({
-                    loaded: true
+                    loaded: true,
                 });
             });
     }

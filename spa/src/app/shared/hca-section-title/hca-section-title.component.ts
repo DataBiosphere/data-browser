@@ -6,10 +6,7 @@
  */
 
 // Core dependencies
-import {
-    Component,
-    ChangeDetectionStrategy, Input
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input } from "@angular/core";
 
 // App dependencies
 
@@ -19,6 +16,4 @@ import {
     styleUrls: ["./hca-section-title.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class HCASectionTitleComponent {
-}
+export class HCASectionTitleComponent {}

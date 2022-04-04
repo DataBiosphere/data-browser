@@ -16,8 +16,10 @@ import { selectSelectedSearchTermsBySearchKey } from "../search/search.selectors
  * Return the selected entity spec (required for path-related functionality) and selected search terms (required
  * for filter query string param functionality), combined into a single object.
  */
-export const selectUrlSpecState  = createSelector(
-    selectSelectedEntitySpec, selectSelectedSearchTermsBySearchKey,
+export const selectUrlSpecState = createSelector(
+    selectSelectedEntitySpec,
+    selectSelectedSearchTermsBySearchKey,
     (selectedEntitySpec, selectedSearchTermsBySearchKey) => {
-        return {selectedEntitySpec, selectedSearchTermsBySearchKey};
-    });
+        return { selectedEntitySpec, selectedSearchTermsBySearchKey };
+    }
+);

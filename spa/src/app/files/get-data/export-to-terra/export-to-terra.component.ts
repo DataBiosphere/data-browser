@@ -36,10 +36,9 @@ import { TerraService } from "../../shared/terra.service";
 @Component({
     selector: "export-to-terra",
     templateUrl: "./export-to-terra.component.html",
-    styleUrls: ["./export-to-terra.component.scss"]
+    styleUrls: ["./export-to-terra.component.scss"],
 })
 export class ExportToTerraComponent implements OnDestroy, OnInit {
-
     // Privates
     private ngDestroy$ = new Subject();
 
@@ -56,20 +55,20 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param {Router} router
      * @param {Window} window
      */
-    constructor(private configService: ConfigService,
-                private terraService: TerraService,
-                private store: Store<AppState>,
-                private router: Router,
-                @Inject("Window") window: Window) {
-
+    constructor(
+        private configService: ConfigService,
+        private terraService: TerraService,
+        private store: Store<AppState>,
+        private router: Router,
+        @Inject("Window") window: Window
+    ) {
         this.store = store;
         this.portalURL = this.configService.getPortalUrl();
-        
+
         // Default manifest download format to BDBAG for HCA otherwise PFB for LungMAP.
-        if ( this.configService.isAtlasHCA() ) {
+        if (this.configService.isAtlasHCA()) {
             this.manifestDownloadFormat = ManifestDownloadFormat.TERRA_BDBAG;
-        }
-        else {
+        } else {
             this.manifestDownloadFormat = ManifestDownloadFormat.TERRA_PFB;
         }
     }
@@ -78,24 +77,27 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * Return user to species selection
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Species Selection";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
-     * Return set of possible manifest download formats: BDBAG and PFB for HCA, PFB only for LungMAP. 
+     * Return set of possible manifest download formats: BDBAG and PFB for HCA, PFB only for LungMAP.
      */
     public getManifestDownloadFormats(): ManifestDownloadFormat[] {
-
         // HCA
-        if ( this.configService.isAtlasHCA() ) {
-            return [ManifestDownloadFormat.TERRA_BDBAG, ManifestDownloadFormat.TERRA_PFB];
+        if (this.configService.isAtlasHCA()) {
+            return [
+                ManifestDownloadFormat.TERRA_BDBAG,
+                ManifestDownloadFormat.TERRA_PFB,
+            ];
         }
-        
+
         // LungMAP
         return [ManifestDownloadFormat.TERRA_PFB];
     }
@@ -107,9 +109,14 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param exportToTerraUrl
      * @returns {string}
      */
-    public getTerraServiceUrl(format: ManifestDownloadFormat, exportToTerraUrl): string {
-
-        return this.terraService.buildExportToTerraWorkspaceUrl(format, exportToTerraUrl);
+    public getTerraServiceUrl(
+        format: ManifestDownloadFormat,
+        exportToTerraUrl
+    ): string {
+        return this.terraService.buildExportToTerraWorkspaceUrl(
+            format,
+            exportToTerraUrl
+        );
     }
 
     /**
@@ -119,8 +126,10 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isAnyFileFormatSelected(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return selectedSearchTerms.some(selectedSearchTerm => selectedSearchTerm.getSearchKey() === "fileFormat");
+        return selectedSearchTerms.some(
+            (selectedSearchTerm) =>
+                selectedSearchTerm.getSearchKey() === "fileFormat"
+        );
     }
 
     /**
@@ -130,7 +139,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestComplete(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestComplete(status);
     }
 
@@ -141,7 +149,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestFailed(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestFailed(status);
     }
 
@@ -152,9 +159,10 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestInProgress(status: ExportToTerraStatus): boolean {
-
-        return (this.terraService.isExportToTerraRequestInitiated(status) ||
-            this.terraService.isExportToTerraRequestInProgress(status));
+        return (
+            this.terraService.isExportToTerraRequestInitiated(status) ||
+            this.terraService.isExportToTerraRequestInProgress(status)
+        );
     }
 
     /**
@@ -164,7 +172,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestNotStarted(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestNotStarted(status);
     }
 
@@ -174,7 +181,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param {string} exportToTerraUrl
      */
     public onDataLinkClicked(exportToTerraUrl: string) {
-
         this.store.dispatch(new LaunchTerraAction(exportToTerraUrl));
     }
 
@@ -184,18 +190,20 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param {string} exportToTerraUrl
      */
     public onDataLinkCopied(exportToTerraUrl: string) {
-
-        this.store.dispatch(new CopyToClipboardTerraUrlAction(exportToTerraUrl));
+        this.store.dispatch(
+            new CopyToClipboardTerraUrlAction(exportToTerraUrl)
+        );
     }
 
     /**
      * Dispatch action to export to Terra.
-     * 
+     *
      * @param {ManifestDownloadFormat} manifestDownloadFormat
      */
     public onExportToTerra(manifestDownloadFormat: ManifestDownloadFormat) {
-
-        this.store.dispatch(new ExportToTerraRequestAction(manifestDownloadFormat));
+        this.store.dispatch(
+            new ExportToTerraRequestAction(manifestDownloadFormat)
+        );
     }
 
     /**
@@ -204,20 +212,21 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
-
         const action = new SelectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             facetTermSelectedEvent.selected,
-            GASource.COHORT_EXPORT);
+            GASource.COHORT_EXPORT
+        );
         this.store.dispatch(action);
     }
 
     /**
      * Handle select on manifest download format radio button.
      */
-    public onManifestDownloadFormat(manifestDownloadFormat: ManifestDownloadFormat) {
-
+    public onManifestDownloadFormat(
+        manifestDownloadFormat: ManifestDownloadFormat
+    ) {
         this.manifestDownloadFormat = manifestDownloadFormat;
     }
 
@@ -225,27 +234,28 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
         this.router.navigate(["/export", "export-to-terra", "select-species"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
-    
+
     /**
      * Open new window on completion of export to Terra request.
      */
     private initRequestCompleteSubscriber() {
-
         this.state$
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus)),
+                filter(({ exportToTerraStatus }) =>
+                    this.isRequestComplete(exportToTerraStatus)
+                ),
                 take(1)
             )
             .subscribe((state) => {
-
-                const url = 
-                    this.terraService.buildExportToTerraWorkspaceUrl(this.manifestDownloadFormat, state.exportToTerraUrl);
+                const url = this.terraService.buildExportToTerraWorkspaceUrl(
+                    this.manifestDownloadFormat,
+                    state.exportToTerraUrl
+                );
                 window.open(url);
             });
     }
@@ -254,7 +264,6 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * Reset export to Terra request status and kill subscriptions.
      */
     public ngOnDestroy() {
-
         // Reset export to Terra request status
         this.store.dispatch(new ResetExportToTerraStatusAction());
 
@@ -267,39 +276,43 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
      * Set up selectors and request initial data set.
      */
     public ngOnInit() {
-
         // Kick off request for file summaries, ignoring any currently selected file types. Required for displaying
         // file types form.
-        this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction());
+        this.store.dispatch(
+            new FetchFileManifestFileTypeSummariesRequestAction()
+        );
 
         // Grab the current set of selected search terms. Required for display in ride side stats.
-        const selectedSearchTerms$ = this.store.pipe(select(selectSelectedSearchTerms));
+        const selectedSearchTerms$ = this.store.pipe(
+            select(selectSelectedSearchTerms)
+        );
 
         // Grab file summary for populating file type counts. Required for display in ride side stats.
-        const fileTypeSummaries$ = this.store.pipe(select(selectFileManifestFileTypeSummaries));
+        const fileTypeSummaries$ = this.store.pipe(
+            select(selectFileManifestFileTypeSummaries)
+        );
 
         // Update the UI with any changes in the export to Terra request status and URL
         const exportToTerra$ = this.store.pipe(select(selectExportToTerra));
-        
+
         this.state$ = combineLatest([
             selectedSearchTerms$,
             fileTypeSummaries$,
-            exportToTerra$
-        ])
-            .pipe(
-                map(([selectedSearchTerms, fileTypeSummaries, exportToTerra]) => {
+            exportToTerra$,
+        ]).pipe(
+            map(([selectedSearchTerms, fileTypeSummaries, exportToTerra]) => {
+                const selectedSearchTermNames = selectedSearchTerms.map(
+                    (searchTerm) => searchTerm.getDisplayValue()
+                );
 
-                    const selectedSearchTermNames = selectedSearchTerms
-                        .map(searchTerm => searchTerm.getDisplayValue());
-
-                    return {
-                        selectedSearchTerms,
-                        selectedSearchTermNames,
-                        fileTypeSummaries,
-                        ...exportToTerra
-                    };
-                })
-            );
+                return {
+                    selectedSearchTerms,
+                    selectedSearchTermNames,
+                    fileTypeSummaries,
+                    ...exportToTerra,
+                };
+            })
+        );
 
         this.initRequestCompleteSubscriber();
     }

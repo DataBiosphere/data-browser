@@ -14,21 +14,21 @@ import { ConfigService } from "../../config/config.service";
 import { KeyValuePair } from "../../shared/key-value-pair/key-value-pair.model";
 import {
     getColumnDescription,
-    getColumnDisplayName
+    getColumnDisplayName,
 } from "../table/table-methods";
 
 @Component({
     selector: "project-overview-data-summary",
     templateUrl: "./project-overview-data-summary.component.html",
-    styleUrls: ["./project-overview-data-summary.component.scss"]
+    styleUrls: ["./project-overview-data-summary.component.scss"],
 })
 export class ProjectOverviewDataSummaryComponent {
-
     // Inputs
     @Input() dataSummaries: KeyValuePair[];
 
     // Outputs
-    @Output() analysisProtocolViewed = new EventEmitter<AnalysisProtocolViewedEvent>();
+    @Output() analysisProtocolViewed =
+        new EventEmitter<AnalysisProtocolViewedEvent>();
 
     // Template variables
     public getColumnDescription = getColumnDescription;
@@ -43,13 +43,15 @@ export class ProjectOverviewDataSummaryComponent {
      * @param {string} value
      * @returns {{[p: string]: boolean}}
      */
-    public getValueClassName(key: string, value: string): { [className: string]: boolean } {
-
+    public getValueClassName(
+        key: string,
+        value: string
+    ): { [className: string]: boolean } {
         return {
-            "break": this.breakShortName(key, value),
+            break: this.breakShortName(key, value),
             "fontsize-xxs": true,
-            "rhs": true
-        }
+            rhs: true,
+        };
     }
 
     /**
@@ -59,11 +61,9 @@ export class ProjectOverviewDataSummaryComponent {
      * @returns {string}
      */
     public linkifyValues(values: string): string {
-
         const linkedValue = "Smart-seq2";
 
-        if ( values.includes(linkedValue) ) {
-
+        if (values.includes(linkedValue)) {
             const portalURL = this.configService.getPortalUrl();
             const hrefOfValue = `${portalURL}/pipelines/smart-seq2-workflow`;
             const innerHTMLOfValue = `<a href=${hrefOfValue} target="_blank" rel="noopener">${linkedValue}</a>`;
@@ -76,12 +76,11 @@ export class ProjectOverviewDataSummaryComponent {
 
     /**
      * Let parent components know that analysis pipeline has been viewed.
-     * 
+     *
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
-
-        this.analysisProtocolViewed.emit(event)
+        this.analysisProtocolViewed.emit(event);
     }
 
     /**
@@ -92,14 +91,11 @@ export class ProjectOverviewDataSummaryComponent {
      * @returns {boolean}
      */
     private breakShortName(key: string, value: string): boolean {
-
-        if ( key !== "projectShortname" ) {
-
+        if (key !== "projectShortname") {
             return false;
         }
 
-        if ( !value ) {
-
+        if (!value) {
             return false;
         }
 

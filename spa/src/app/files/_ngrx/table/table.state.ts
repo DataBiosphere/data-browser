@@ -13,7 +13,6 @@ import { Pagination } from "../../table/pagination/pagination.model";
 import { TableModel } from "../../table/table.model";
 import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
 
-
 export interface TableState {
     selectedProject: Project; // Current selected project in table
     selectedEntity: string; // Current selected tab (eg Projects, Samples, Files)
@@ -25,14 +24,13 @@ export interface TableState {
  * @param {TableState} tableState
  * @returns {TableModel[]}
  */
-export function clearUnselectedTableModels(tableState: TableState): TableModel[] {
-
+export function clearUnselectedTableModels(
+    tableState: TableState
+): TableModel[] {
     return tableState.tableModels.map((tm) => {
-
-        if ( tm.tableName !== tableState.selectedEntity ) {
+        if (tm.tableName !== tableState.selectedEntity) {
             return createEmptyTableModel(tm.tableName);
-        }
-        else {
+        } else {
             return tm;
         }
     });
@@ -50,7 +48,7 @@ function createEmptyTableModel(entityName: string): TableModel {
         loading: true,
         pagination: DEFAULT_TABLE_PARAMS as Pagination,
         termCountsByFacetName: new Map<string, number>(),
-        tableName: entityName
+        tableName: entityName,
     };
 }
 
@@ -65,13 +63,13 @@ export function getDefaultTableState(): TableState {
         tableModels: [
             createEmptyTableModel(EntityName.PROJECTS),
             createEmptyTableModel(EntityName.SAMPLES),
-            createEmptyTableModel(EntityName.FILES)
+            createEmptyTableModel(EntityName.FILES),
         ],
         entitySpecs: [
-            {key: EntityName.PROJECTS, displayName: "Projects"},
-            {key: EntityName.SAMPLES, displayName: "Samples"},
-            {key: EntityName.FILES, displayName: "Files"}
-        ]
+            { key: EntityName.PROJECTS, displayName: "Projects" },
+            { key: EntityName.SAMPLES, displayName: "Samples" },
+            { key: EntityName.FILES, displayName: "Files" },
+        ],
     };
 }
 
@@ -81,9 +79,9 @@ export function getDefaultTableState(): TableState {
  * @returns {TableModel}
  */
 export function getSelectedTable(tableState: TableState): TableModel {
-
     return tableState.tableModels.find(
-        tableModel => tableModel.tableName === tableState.selectedEntity);
+        (tableModel) => tableModel.tableName === tableState.selectedEntity
+    );
 }
 
 /**
@@ -92,7 +90,9 @@ export function getSelectedTable(tableState: TableState): TableModel {
  * @returns {EntitySpec}
  */
 export function getSelectedEntitySpec(tableState: TableState): EntitySpec {
-    return tableState.entitySpecs.find(entity => entity.key === tableState.selectedEntity);
+    return tableState.entitySpecs.find(
+        (entity) => entity.key === tableState.selectedEntity
+    );
 }
 
 /**
@@ -102,14 +102,15 @@ export function getSelectedEntitySpec(tableState: TableState): EntitySpec {
  * @param {TableModel} tableModel
  * @returns {TableModel[]}
  */
-export function updateSelectedTableModel(tableState: TableState, tableModel: TableModel): TableModel[] {
-
+export function updateSelectedTableModel(
+    tableState: TableState,
+    tableModel: TableModel
+): TableModel[] {
     return tableState.tableModels.map((tm) => {
-
-        if ( tm.tableName === tableState.selectedEntity ) {
+        if (tm.tableName === tableState.selectedEntity) {
             return tableModel;
         }
-        
+
         return tm;
     });
 }
@@ -124,20 +125,19 @@ export function updateSelectedTableModel(tableState: TableState, tableModel: Tab
  * @returns {TableModel[]}
  */
 export function updateSelectedTableModelData(
-    tableState: TableState, data: any[],
+    tableState: TableState,
+    data: any[],
     pagination: Pagination,
-    termCountsByFacetName: Map<string, number>): TableModel[] {
-
+    termCountsByFacetName: Map<string, number>
+): TableModel[] {
     return tableState.tableModels.map((tm) => {
-
-        if ( tm.tableName === tableState.selectedEntity ) {
-
+        if (tm.tableName === tableState.selectedEntity) {
             return {
                 ...tm,
                 data,
                 loading: false,
                 pagination,
-                termCountsByFacetName
+                termCountsByFacetName,
             };
         }
 
@@ -152,19 +152,18 @@ export function updateSelectedTableModelData(
  * @param {TableModel} termCountsByFacetName
  * @returns {Map<string, number>}
  */
-export function updateSelectedTableTermCounts(tableState: TableState, termCountsByFacetName: Map<string, number>): TableModel[] {
-
+export function updateSelectedTableTermCounts(
+    tableState: TableState,
+    termCountsByFacetName: Map<string, number>
+): TableModel[] {
     return tableState.tableModels.map((tm) => {
-
-        if ( tm.tableName === tableState.selectedEntity ) {
-
+        if (tm.tableName === tableState.selectedEntity) {
             return {
                 ...tm,
-                termCountsByFacetName: termCountsByFacetName
+                termCountsByFacetName: termCountsByFacetName,
             };
         }
 
         return tm;
     });
 }
-

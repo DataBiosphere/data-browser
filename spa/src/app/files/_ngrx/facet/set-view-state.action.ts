@@ -14,7 +14,6 @@ import { Catalog } from "../../catalog/catalog.model";
 import { QueryStringSearchTerm } from "../../search/url/query-string-search-term.model";
 
 export class SetViewStateAction implements Action {
-    
     public static ACTION_TYPE = "FILE.FACET.SET_VIEW_STATE";
     public readonly type = SetViewStateAction.ACTION_TYPE;
 
@@ -23,5 +22,9 @@ export class SetViewStateAction implements Action {
      * @param {string} selectedEntity
      * @param {QueryStringSearchTerm[]} selectedSearchTerms
      */
-    constructor(public catalog: Catalog, public selectedEntity: string, public selectedSearchTerms: QueryStringSearchTerm[]) {}
+    constructor(
+        public catalog: Catalog,
+        public selectedEntity: string,
+        public selectedSearchTerms: QueryStringSearchTerm[]
+    ) {}
 }

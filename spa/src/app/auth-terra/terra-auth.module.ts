@@ -20,10 +20,8 @@ import { SharedModule } from "../shared/shared.module";
     imports: [
         EffectsModule.forFeature([TerraAuthEffects]),
         StoreModule.forFeature("terraAuth", terraAuthReducer.reducer),
-        SharedModule
+        SharedModule,
     ],
-    providers: [
-        TerraAuthService
-    ]
+    providers: [TerraAuthService],
 })
 export class TerraAuthModule {}

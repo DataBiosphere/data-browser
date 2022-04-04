@@ -21,7 +21,6 @@ import { Project } from "../../shared/project.model";
 import { ToolName } from "../../shared/tool-name.model";
 
 export class LaunchProjectTerraAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "PROJECT.LAUNCH_PROJECT_TERRA";
     public readonly type = LaunchProjectTerraAction.ACTION_TYPE;
 
@@ -29,8 +28,7 @@ export class LaunchProjectTerraAction implements Action, TrackingAction {
      * @param {Project} project
      * @param {string} exportToTerraUrl
      */
-    constructor(private project: Project,
-                private exportToTerraUrl: string) {}
+    constructor(private project: Project, private exportToTerraUrl: string) {}
 
     /**
      * Return the launch Terra action as a GA event.
@@ -38,8 +36,7 @@ export class LaunchProjectTerraAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, terms}): GAEvent {
-
+    public asEvent({ catalog, terms }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.LAUNCH_PROJECT_TERRA,
@@ -49,8 +46,8 @@ export class LaunchProjectTerraAction implements Action, TrackingAction {
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.RELATED_ENTITY_URL]: this.exportToTerraUrl,
                 [GADimension.TERM]: terms,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
+                [GADimension.TOOL_NAME]: ToolName.TERRA,
+            },
         };
     }
 }

@@ -7,7 +7,6 @@
 import { HttpParameterCodec } from "@angular/common/http";
 
 export class HCAHttpParameterCodec implements HttpParameterCodec {
-
     /**
      * @param {string} key
      * @returns {string}

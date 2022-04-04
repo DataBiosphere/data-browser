@@ -14,5 +14,5 @@ export enum FileFacetNameDisplay {
     "sampleEntityType" = "Sample Type",
     "specimenOrgan" = "Anatomical Entity",
     "specimenOrganPart" = "Organ Part",
-    "workflow" = "Analysis Protocol"
+    "workflow" = "Analysis Protocol",
 }

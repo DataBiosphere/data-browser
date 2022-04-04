@@ -33,28 +33,38 @@ export const DEFAULT_PROJECTS_STATE = {
     projectEdits: ProjectEditsState.getDefaultState(),
     search: SearchState.getDefaultState(),
     tableState: getDefaultTableState(),
-    terra: TerraState.getDefaultState()
+    terra: TerraState.getDefaultState(),
 };
 
 /**
  * Projects tab with a selected project search term
  */
-export const PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM = selectProject(DEFAULT_PROJECTS_STATE);
+export const PROJECTS_STATE_WITH_PROJECT_SEARCH_TERM = selectProject(
+    DEFAULT_PROJECTS_STATE
+);
 
 /**
  * Default samples state - current tab is samples, no selected search terms
  */
-export const DEFAULT_SAMPLES_STATE = selectEntity(DEFAULT_PROJECTS_STATE, EntityName.SAMPLES);
+export const DEFAULT_SAMPLES_STATE = selectEntity(
+    DEFAULT_PROJECTS_STATE,
+    EntityName.SAMPLES
+);
 
 /**
  * Samples tab with a selected project search term
  */
-export const SAMPLES_STATE_WITH_SEARCH_TERM = selectProject(DEFAULT_SAMPLES_STATE);
+export const SAMPLES_STATE_WITH_SEARCH_TERM = selectProject(
+    DEFAULT_SAMPLES_STATE
+);
 
 /**
  * Default files state - current tab is files, no selected search terms
  */
-export const DEFAULT_FILES_STATE = selectEntity(DEFAULT_PROJECTS_STATE, EntityName.FILES);
+export const DEFAULT_FILES_STATE = selectEntity(
+    DEFAULT_PROJECTS_STATE,
+    EntityName.FILES
+);
 
 /**
  * Files tab with a selected project search term
@@ -63,12 +73,11 @@ export const FILES_STATE_WITH_SEARCH_TERM = selectProject(DEFAULT_FILES_STATE);
 
 /**
  * Add a project search term to the specified state.
- * 
+ *
  * @param {FilesState} fromState
  * @returns {FilesState}
  */
 function selectProject(fromState: FilesState): FilesState {
-
     const updatedState = Object.assign({}, fromState);
     updatedState.search = searchStateMock.selectProject();
     return updatedState;
@@ -81,10 +90,12 @@ function selectProject(fromState: FilesState): FilesState {
  * @param {string} selectedEntity
  * @returns {FilesState}
  */
-function selectEntity(fromState: FilesState, selectedEntity: string): FilesState {
-
+function selectEntity(
+    fromState: FilesState,
+    selectedEntity: string
+): FilesState {
     const updatedState = Object.assign({}, fromState, {
-        tableState: getDefaultTableState()
+        tableState: getDefaultTableState(),
     });
     updatedState.tableState.selectedEntity = selectedEntity;
 

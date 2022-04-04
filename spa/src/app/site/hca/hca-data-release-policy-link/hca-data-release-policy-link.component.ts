@@ -14,6 +14,7 @@ import { DataReleasePolicyLinkComponent } from "../../site-config/data-release-p
 @Component({
     selector: "hca-data-release-policy-link",
     templateUrl: "hca-data-release-policy-link.component.html",
-    styleUrls: ["hca-data-release-policy-link.component.scss"]
+    styleUrls: ["hca-data-release-policy-link.component.scss"],
 })
-export class HCADataReleasePolicyLinkComponent implements DataReleasePolicyLinkComponent {}
+export class HCADataReleasePolicyLinkComponent
+    implements DataReleasePolicyLinkComponent {}

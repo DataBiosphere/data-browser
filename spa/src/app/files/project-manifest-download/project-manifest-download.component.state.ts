@@ -9,6 +9,5 @@
 import { FileLocation } from "../file-location/file-location.model";
 
 export interface ProjectManifestDownloadComponentState {
-    
     fileLocation?: FileLocation;
 }

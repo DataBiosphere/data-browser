@@ -8,5 +8,5 @@
 export enum PairedEnd {
     "TRUE" = "true",
     "FALSE" = "false",
-    "UNSPECIFIED" = "Unspecified"
+    "UNSPECIFIED" = "Unspecified",
 }

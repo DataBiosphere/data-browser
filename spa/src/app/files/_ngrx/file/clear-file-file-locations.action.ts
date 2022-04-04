@@ -9,7 +9,6 @@
 import { Action } from "@ngrx/store";
 
 export class ClearFileFileLocationsAction implements Action {
-
     public static ACTION_TYPE = "FILE.CLEAR_FILE_FILE_LOCATIONS";
     public readonly type = ClearFileFileLocationsAction.ACTION_TYPE;
 }

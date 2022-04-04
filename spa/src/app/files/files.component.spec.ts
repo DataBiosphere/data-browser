@@ -27,14 +27,12 @@ import { HCASectionTitleComponent } from "../shared/hca-section-title/hca-sectio
 import { TitleService } from "./title/title.service";
 
 describe("FilesComponent:", () => {
-
     let component: FilesComponent;
     let fixture: ComponentFixture<FilesComponent>;
 
     const storeSpy = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 CatalogFormComponent,
@@ -45,26 +43,31 @@ describe("FilesComponent:", () => {
                 HCATableFilesComponent,
                 HCATableProjectsComponent,
                 HCATableSamplesComponent,
-                SelectedSearchTermsComponent
+                SelectedSearchTermsComponent,
             ],
-            imports: [
-            ],
+            imports: [],
             providers: [
                 ConfigService,
                 {
                     provide: DeviceDetectorService,
-                    useValue: jasmine.createSpyObj("DeviceDetectorService", ["isMobile", "isTablet"])
+                    useValue: jasmine.createSpyObj("DeviceDetectorService", [
+                        "isMobile",
+                        "isTablet",
+                    ]),
                 },
                 {
                     provide: Store,
-                    useValue: storeSpy
+                    useValue: storeSpy,
                 },
                 TitleService,
                 {
                     provide: Renderer2,
-                    useValue: jasmine.createSpyObj("Renderer2", ["addClass", "removeClass"])
-                }
-            ]
+                    useValue: jasmine.createSpyObj("Renderer2", [
+                        "addClass",
+                        "removeClass",
+                    ]),
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(FilesComponent);
@@ -74,12 +77,10 @@ describe("FilesComponent:", () => {
     /**
      * Confirm catalog is displayed correctly in explore title
      */
-    xit("displays catalog in explore title", () => {
-    });
+    xit("displays catalog in explore title", () => {});
 
     /**
      * Confirm catalog choose is displayed.
      */
-    xit("displays catalog chooser", () => {
-    });
+    xit("displays catalog chooser", () => {});
 });

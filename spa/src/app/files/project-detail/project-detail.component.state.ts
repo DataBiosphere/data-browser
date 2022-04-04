@@ -11,7 +11,6 @@ import EntitySpec from "../shared/entity-spec";
 import { Project } from "../shared/project.model";
 
 export interface ProjectDetailComponentState {
-
     catalog?: Catalog;
     loaded: boolean;
     project?: Project;

@@ -46,8 +46,8 @@ export class FetchProjectFailureAction implements Action {
     constructor(public error: any) {}
 }
 
-export type All
-    = TableSetPageAction
+export type All =
+    | TableSetPageAction
     | TableOrderByAction
     | FetchProjectRequestAction
     | FetchProjectSuccessAction

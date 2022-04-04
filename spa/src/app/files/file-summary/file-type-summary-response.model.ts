@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Model of file type summary Azul response returned as part of /summary response or, /projects or /samples responses.
  */
 

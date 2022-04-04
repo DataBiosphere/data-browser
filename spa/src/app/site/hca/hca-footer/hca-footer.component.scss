@@ -74,9 +74,7 @@
  * Medium +
  */
 @media screen and (min-width: 768px) {
-
     :host {
-
         /* Footer */
         footer {
             height: 96px;
@@ -130,11 +128,8 @@
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     :host {
-
         footer {
-
             /* Wrapper */
             .wrapper {
                 margin: 0 auto;
@@ -144,4 +139,3 @@
         }
     }
 }
-

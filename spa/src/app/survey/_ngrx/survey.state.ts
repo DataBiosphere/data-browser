@@ -6,7 +6,6 @@
  */
 
 export class SurveyState {
-
     /**
      * Create default state.
      */

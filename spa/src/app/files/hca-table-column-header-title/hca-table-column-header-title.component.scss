@@ -27,7 +27,8 @@
         display: block;
         text-align: left;
 
-        hca-tooltip, span {
+        hca-tooltip,
+        span {
             display: inline-block;
         }
 
@@ -40,7 +41,6 @@
 
 /* Title - right aligned if column is right aligned */
 :host-context(.right) {
-
     span {
         text-align: right;
     }
@@ -48,7 +48,6 @@
 
 /* Title - centered if column is centered */
 :host-context(.center) {
-
     span {
         text-align: center;
 

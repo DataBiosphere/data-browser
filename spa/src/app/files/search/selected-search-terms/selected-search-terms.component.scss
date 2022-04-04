@@ -16,7 +16,9 @@
 
     /* Selected facet and selected terms grouped by flex */
     /* Wraps by key groups of results */
-    .filter-result, .filter-result .selected-facets, .filter-result .selected-terms {
+    .filter-result,
+    .filter-result .selected-facets,
+    .filter-result .selected-terms {
         display: flex;
         flex-wrap: wrap;
     }
@@ -79,12 +81,14 @@
         }
 
         /* Facet, term name */
-        .term-name, .facet-name {
+        .term-name,
+        .facet-name {
             cursor: pointer;
         }
 
         /* Selected term/facet - hover state */
-        .term-name:hover, .facet-name:hover {
+        .term-name:hover,
+        .facet-name:hover {
             text-decoration: line-through $hca-black;
             transition: text-decoration 0.5s ease;
         }
@@ -103,20 +107,22 @@
 
     /* Inactive result - elements are inactive and cannot be removed */
     .inactive {
-
-        .term-name, .facet-name {
+        .term-name,
+        .facet-name {
             cursor: auto;
         }
     }
 }
 
 /* Get Data */
-:host-context(get-data-layout), :host-context(project-download-layout) {
-
+:host-context(get-data-layout),
+:host-context(project-download-layout) {
     display: flex;
     flex-direction: column;
 
-    .selected-facets, .selected-terms, .selected-facets span:not(.operator) {
+    .selected-facets,
+    .selected-terms,
+    .selected-facets span:not(.operator) {
         align-items: flex-start;
         display: flex;
     }
@@ -180,7 +186,6 @@
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     /* Wrapper */
     .wrapper {
         padding: 0 30px;
@@ -192,10 +197,9 @@
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1280px) {
-
     /* Get Data */
-    :host-context(get-data-layout), :host-context(project-download-layout) {
-
+    :host-context(get-data-layout),
+    :host-context(project-download-layout) {
         /* Facet - container */
         .selected-facets {
             flex-direction: row;

@@ -12,11 +12,9 @@ import { Component, Input, ViewEncapsulation } from "@angular/core";
     selector: "hca-tooltip",
     templateUrl: "./hca-tooltip.component.html",
     styleUrls: ["./hca-tooltip.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
-
 export class HCATooltipComponent {
-
     // Inputs
     @Input() tableCellContentWrapper: boolean;
     @Input() tooltipClass: string;

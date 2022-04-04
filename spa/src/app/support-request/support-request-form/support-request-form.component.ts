@@ -14,7 +14,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    ViewChild
+    ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { select, Store } from "@ngrx/store";
@@ -38,10 +38,9 @@ import { SupportRequestType } from "../support-request-type.model";
 @Component({
     selector: "support-request-form",
     templateUrl: "support-request-form.component.html",
-    styleUrls: ["support-request-form.component.scss"]
+    styleUrls: ["support-request-form.component.scss"],
 })
 export class SupportRequestFormComponent implements OnDestroy, OnInit {
-
     // Template variables
     public maxAttachmentSize = 20 * 1024 * 1024;
     public state$ = new BehaviorSubject<SupportRequestFormState>({
@@ -50,17 +49,17 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
         attachmentUploading: false,
         submitError: false,
         submitted: false,
-        submitting: false
+        submitting: false,
     });
     public supportRequestGroup: FormGroup;
     public typeOptions: any[];
 
     // Locals
     private ngDestroy$ = new Subject();
-    
+
     // View child/ren
     @ViewChild(DropzoneComponent) dropzoneComponent: DropzoneComponent;
-    
+
     // Output
     @Output() formDismissed = new EventEmitter<boolean>();
 
@@ -69,10 +68,16 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * @param {ElementRef} elementRef
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,  private elementRef: ElementRef, @Inject("Window") private window: Window) {
-        
+    constructor(
+        private store: Store<AppState>,
+        private elementRef: ElementRef,
+        @Inject("Window") private window: Window
+    ) {
         const descriptionFormControl = new FormControl("", Validators.required);
-        const emailFormControl  = new FormControl("", [Validators.email, Validators.required]);
+        const emailFormControl = new FormControl("", [
+            Validators.email,
+            Validators.required,
+        ]);
         const nameFormControl = new FormControl("", Validators.required);
         const subjectFormControl = new FormControl("", Validators.required);
         const typeFormControl = new FormControl(SupportRequestType.QUESTION);
@@ -82,26 +87,27 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
             email: emailFormControl,
             name: nameFormControl,
             subject: subjectFormControl,
-            type: typeFormControl
+            type: typeFormControl,
         });
-        
+
         this.typeOptions = [
-            {value: "question", label: "Question"},
-            {value: "bug", label: "Bug"},
-            {value: "feature_request", label: "Feature Request"}
+            { value: "question", label: "Question" },
+            { value: "bug", label: "Bug" },
+            { value: "feature_request", label: "Feature Request" },
         ];
     }
 
     /**
      * Returns the value of the current selected type drop down option.
-     * 
+     *
      * @param {FormGroup} formGroup
      * @returns {string}
      */
     public getSelectedTypeValue(formGroup: FormGroup): string {
-
         const type = formGroup.get("type").value;
-        const selectedOption = this.typeOptions.find(option => option.value === type);
+        const selectedOption = this.typeOptions.find(
+            (option) => option.value === type
+        );
         return selectedOption.label;
     }
 
@@ -109,17 +115,15 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * Remove attachment from form.
      */
     public onAttachmentDeleted() {
-
         this.store.dispatch(new DeleteAttachmentAction());
     }
 
     /**
      * Handle drop of attachment.
-     * 
+     *
      * @param {FileList} files
      */
     public onAttachmentDropped(files: FileList) {
-
         this.store.dispatch(new UploadAttachmentRequestAction(files[0]));
     }
 
@@ -129,7 +133,6 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * @param {DropError} error
      */
     public onAttachmentRejected(error: DropError) {
-        
         this.store.dispatch(new AttachmentDropRejectAction(error));
     }
 
@@ -137,7 +140,6 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * Handle click on cancel button - hide form.
      */
     public onCancelClicked() {
-
         this.formDismissed.emit(true);
     }
 
@@ -145,36 +147,46 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * Handle dismiss of form.
      */
     public onFormDismissed() {
-
         this.formDismissed.emit(true);
     }
 
     /**
      * Handle submit of support request form.
-     * 
+     *
      * @param {FormGroup} formGroup
      * @param {string} attachmentToken
      */
-    public onSupportRequestSubmitted(formGroup: FormGroup, attachmentToken: string) {
-
-        const supportRequest = this.buildSupportRequest(formGroup, attachmentToken, this.window.location.href);
-        this.store.dispatch(new CreateSupportRequestRequestAction(supportRequest));
+    public onSupportRequestSubmitted(
+        formGroup: FormGroup,
+        attachmentToken: string
+    ) {
+        const supportRequest = this.buildSupportRequest(
+            formGroup,
+            attachmentToken,
+            this.window.location.href
+        );
+        this.store.dispatch(
+            new CreateSupportRequestRequestAction(supportRequest)
+        );
     }
 
     /**
      * Build up model of support request.
-     * 
+     *
      * @param {FormGroup} formGroup
      * @param {string} attachmentToken
      * @param {string} requestedFromUrl
      * @returns {SupportRequestPost}
      */
-    private buildSupportRequest(formGroup: FormGroup, attachmentToken: string, requestedFromUrl: string): SupportRequestPost {
-
+    private buildSupportRequest(
+        formGroup: FormGroup,
+        attachmentToken: string,
+        requestedFromUrl: string
+    ): SupportRequestPost {
         return {
             attachmentToken,
             ...formGroup.value,
-            requestedFromUrl
+            requestedFromUrl,
         };
     }
 
@@ -182,9 +194,8 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.store.dispatch(new ResetSupportRequestAction());
-        
+
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -193,12 +204,10 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
      * Grab current state of support request.
      */
     ngOnInit() {
-
-        this.store.pipe(select(selectSupportRequestSupportRequest))
-            .pipe(
-                takeUntil(this.ngDestroy$)
-            ).subscribe((supportRequest) => {
-
+        this.store
+            .pipe(select(selectSupportRequestSupportRequest))
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe((supportRequest) => {
                 this.state$.next({
                     attachmentRejected: supportRequest.attachmentRejected,
                     attachmentRejection: supportRequest.attachmentRejection,
@@ -208,22 +217,20 @@ export class SupportRequestFormComponent implements OnDestroy, OnInit {
                     attachmentUploading: supportRequest.attachmentUploading,
                     submitError: supportRequest.submitError,
                     submitted: supportRequest.submitted,
-                    submitting: supportRequest.submitting
+                    submitting: supportRequest.submitting,
                 });
 
                 // If form has successfully been submitted, show thank you (potentially scrolling to top of popup)
-                // and then hide the form on a timer. 
-                if ( supportRequest.submitted ) {
-                    const scrollToEl = this.elementRef.nativeElement.querySelector("div");
-                    if ( scrollToEl ) {
+                // and then hide the form on a timer.
+                if (supportRequest.submitted) {
+                    const scrollToEl =
+                        this.elementRef.nativeElement.querySelector("div");
+                    if (scrollToEl) {
                         scrollToEl.scrollTo(0, 0);
                     }
                     interval(3000)
-                        .pipe(
-                            takeUntil(this.ngDestroy$),
-                            take(1)
-                        )
-                        .subscribe(() => this.onFormDismissed())
+                        .pipe(takeUntil(this.ngDestroy$), take(1))
+                        .subscribe(() => this.onFormDismissed());
                 }
             });
     }

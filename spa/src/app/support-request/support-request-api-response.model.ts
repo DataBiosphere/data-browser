@@ -9,6 +9,5 @@
 import { APIErrorResponse } from "./api-error-response.model";
 
 export interface SupportRequestAPIResponse extends APIErrorResponse {
-
     id: number;
 }

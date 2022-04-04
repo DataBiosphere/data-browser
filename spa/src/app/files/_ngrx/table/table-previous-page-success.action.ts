@@ -14,4 +14,3 @@ export class TablePreviousPageSuccessAction implements Action {
     public readonly type = TablePreviousPageSuccessAction.ACTION_TYPE;
     constructor(public readonly tableModel: TableModel) {}
 }
-

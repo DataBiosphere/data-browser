@@ -15,7 +15,7 @@ import { SearchState } from "./search.state";
  */
 export const PROJECT_1M_NEURONS = {
     id: "46c58e08-4518-4e45-acfe-bdab2434975d",
-    name: "1M Neurons"
+    name: "1M Neurons",
 };
 
 /**
@@ -24,14 +24,16 @@ export const PROJECT_1M_NEURONS = {
  * @returns {SearchState}
  */
 export function selectProject(): SearchState {
+    const projectSearchTerm = new SearchEntity(
+        FileFacetName.PROJECT_ID,
+        PROJECT_1M_NEURONS.id,
+        PROJECT_1M_NEURONS.name,
+        1
+    );
 
-    const projectSearchTerm =
-        new SearchEntity(FileFacetName.PROJECT_ID,
-            PROJECT_1M_NEURONS.id,
-            PROJECT_1M_NEURONS.name,
-            1);
-
-    return new SearchState([], new Map([
-        [FileFacetName.PROJECT_ID, new Set([projectSearchTerm])]
-    ]), "");
+    return new SearchState(
+        [],
+        new Map([[FileFacetName.PROJECT_ID, new Set([projectSearchTerm])]]),
+        ""
+    );
 }

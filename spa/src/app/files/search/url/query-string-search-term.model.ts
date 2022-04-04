@@ -7,12 +7,12 @@
  */
 
 export class QueryStringSearchTerm {
-
     /**
      * @param {string} facetName
      * @param {any[]} value - can be an array of string for file facets, or an array of age range values for age range facets.
      */
-    constructor(public readonly facetName: string, public readonly value: any[]) {}
+    constructor(
+        public readonly facetName: string,
+        public readonly value: any[]
+    ) {}
 }
-
-

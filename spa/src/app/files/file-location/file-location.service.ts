@@ -9,7 +9,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { interval, Observable, of, BehaviorSubject } from "rxjs";
-import { catchError, retry, skip, switchMap, take, takeUntil } from "rxjs/operators";
+import {
+    catchError,
+    retry,
+    skip,
+    switchMap,
+    take,
+    takeUntil,
+} from "rxjs/operators";
 
 // App dependencies
 import { FileLocation } from "./file-location.model";
@@ -19,7 +26,6 @@ import { APIEndpoints } from "../../config/api-endpoints.model";
 
 @Injectable()
 export class FileLocationService {
-
     /**
      * @param {HttpClient} httpClient
      */
@@ -27,31 +33,38 @@ export class FileLocationService {
 
     /**
      * Kick off request and corresponding polling of location (signed URL) of specified file.
-     * 
+     *
      * @param {string} fileUrl
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<FileLocation>}
      */
-    public fetchFileLocation(fileUrl: string, killSwitch$: Observable<boolean>): Observable<FileLocation> {
-
+    public fetchFileLocation(
+        fileUrl: string,
+        killSwitch$: Observable<boolean>
+    ): Observable<FileLocation> {
         // Create subject for letting listeners know the current status of the file location request
         const fileLocation$ = new BehaviorSubject<FileLocation>({
-            status: FileLocationStatus.INITIATED
+            status: FileLocationStatus.INITIATED,
         });
-        
-        // Set up polling while file location generation is in progress
-        const polling$ = fileLocation$.pipe(
-            skip(1) // Skip the first INITIATED value
-        ).subscribe((fileLocation: FileLocation) => {
 
-            if ( fileLocation.status === FileLocationStatus.IN_PROGRESS ) {
-                this.pollFileLocation(fileLocation, fileLocation$, killSwitch$);
-                return;
-            }
-            // Unsubscribe for all other status - downloading, completed, failed etc.
-            polling$.unsubscribe();
-        });
-        
+        // Set up polling while file location generation is in progress
+        const polling$ = fileLocation$
+            .pipe(
+                skip(1) // Skip the first INITIATED value
+            )
+            .subscribe((fileLocation: FileLocation) => {
+                if (fileLocation.status === FileLocationStatus.IN_PROGRESS) {
+                    this.pollFileLocation(
+                        fileLocation,
+                        fileLocation$,
+                        killSwitch$
+                    );
+                    return;
+                }
+                // Unsubscribe for all other status - downloading, completed, failed etc.
+                polling$.unsubscribe();
+            });
+
         // Update file URL to include "/fetch", if necessary.
         const fetchFileUrl = this.buildFetchFileUrl(fileUrl);
 
@@ -64,18 +77,17 @@ export class FileLocationService {
 
     /**
      * Prepend "/fetch" to the path of the specified file URL, if not already included. See #1596.
-     * 
+     *
      * @param {string} fileUrl
      * @returns {string}
      */
     private buildFetchFileUrl(fileUrl: string): string {
-        
         const url = new URL(fileUrl);
         const path = url.pathname;
-        if ( path.indexOf(APIEndpoints.FETCH) !== 0 ) {
+        if (path.indexOf(APIEndpoints.FETCH) !== 0) {
             url.pathname = `${APIEndpoints.FETCH}${path}`;
         }
-        
+
         return url.toString();
     }
 
@@ -85,12 +97,13 @@ export class FileLocationService {
      * @param {FileLocationAPIResponse} response
      * @returns {FileLocation}
      */
-    private bindFileLocationAPIResponse(response: FileLocationAPIResponse): Observable<FileLocation> {
-
+    private bindFileLocationAPIResponse(
+        response: FileLocationAPIResponse
+    ): Observable<FileLocation> {
         return of({
             fileUrl: response.Location,
             retryAfter: response["Retry-After"],
-            status: this.translateAPIResponseStatus(response.Status)
+            status: this.translateAPIResponseStatus(response.Status),
         });
     }
 
@@ -101,16 +114,15 @@ export class FileLocationService {
      * @returns {FileLocationAPIResponse}
      */
     private handleFileLocationAPIResponseError(): Observable<FileLocationAPIResponse> {
-
         return of({
             Location: "",
             "Retry-After": 0,
-            Status: 500
+            Status: 500,
         });
     }
 
     /**
-     * Wait for length of time specified in the current file location status and try requesting the file location again. 
+     * Wait for length of time specified in the current file location status and try requesting the file location again.
      *
      * @param {FileLocation} fileLocation
      * @param {BehaviorSubject<FileLocation>} fileLocation$
@@ -119,14 +131,16 @@ export class FileLocationService {
     private pollFileLocation(
         fileLocation: FileLocation,
         fileLocation$: BehaviorSubject<FileLocation>,
-        killSwitch$: Observable<boolean>) {
-
+        killSwitch$: Observable<boolean>
+    ) {
         interval(fileLocation.retryAfter * 1000)
-            .pipe(
-                take(1)
-            )
+            .pipe(take(1))
             .subscribe(() => {
-                this.requestFileLocation(fileLocation.fileUrl, fileLocation$, killSwitch$);
+                this.requestFileLocation(
+                    fileLocation.fileUrl,
+                    fileLocation$,
+                    killSwitch$
+                );
             });
     }
 
@@ -141,8 +155,8 @@ export class FileLocationService {
     private requestFileLocation(
         url: string,
         fileLocation$: BehaviorSubject<FileLocation>,
-        killSwitch$: Observable<boolean>) {
-
+        killSwitch$: Observable<boolean>
+    ) {
         return this.httpClient
             .get<FileLocationAPIResponse>(url)
             .pipe(
@@ -151,8 +165,7 @@ export class FileLocationService {
                 switchMap(this.bindFileLocationAPIResponse.bind(this)),
                 takeUntil(killSwitch$)
             )
-            .subscribe(nextStatus => {
-                
+            .subscribe((nextStatus) => {
                 fileLocation$.next(nextStatus);
             });
     }
@@ -164,11 +177,10 @@ export class FileLocationService {
      * @returns {FileLocationStatus}
      */
     private translateAPIResponseStatus(code: number): FileLocationStatus {
-
-        if ( code === 301 ) {
+        if (code === 301) {
             return FileLocationStatus.IN_PROGRESS;
         }
-        if ( code === 302 ) {
+        if (code === 302) {
             return FileLocationStatus.COMPLETED;
         }
         return FileLocationStatus.FAILED;

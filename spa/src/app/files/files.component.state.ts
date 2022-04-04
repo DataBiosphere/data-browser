@@ -13,7 +13,6 @@ import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
 
 export interface FilesComponentState {
-
     catalog: Catalog;
     catalogs: Catalog[];
     entities: EntitySpec[];

@@ -15,23 +15,26 @@ import { RoutingService } from "../../shared/routing/routing.service";
 
 @Injectable()
 export class UrlService {
-
     /**
      * @param {RoutingService} routingService
      * @param {Router} router
      */
-    constructor(private routingService: RoutingService, private router: Router) {}
+    constructor(
+        private routingService: RoutingService,
+        private router: Router
+    ) {}
 
     /**
      * Returns true if user is currently viewing one of /projects, /files or /samples.
-     * 
+     *
      * @returns {boolean}
      */
     public isViewingEntities(): boolean {
-
-        return this.isViewingFiles() ||
+        return (
+            this.isViewingFiles() ||
             this.isViewingProjects() ||
-            this.isViewingSamples();
+            this.isViewingSamples()
+        );
     }
 
     /**
@@ -40,22 +43,19 @@ export class UrlService {
      * @returns {boolean}
      */
     public isViewingFiles(): boolean {
-
         const path = this.router.url.split("?")[0];
         return path === `/${EntityName.FILES}`;
     }
 
     /**
      * Returns true if user is currently viewing /projects.
-     * 
+     *
      * @returns {boolean}
      */
     public isViewingProjects(): boolean {
-
         const path = this.router.url.split("?")[0];
         return path === `/${EntityName.PROJECTS}`;
     }
-
 
     /**
      * Returns true if user is currently viewing /samples.
@@ -63,7 +63,6 @@ export class UrlService {
      * @returns {boolean}
      */
     public isViewingSamples(): boolean {
-
         const path = this.router.url.split("?")[0];
         return path === `/${EntityName.SAMPLES}`;
     }
@@ -72,10 +71,8 @@ export class UrlService {
      * Returns true if user is currently viewing /export
      */
     public isViewingExport(): boolean {
-
         const path = this.router.url.split("?")[0];
         const pathTokens = path.split(/\/|\?/g);
         return pathTokens.indexOf("export") >= 0;
     }
 }
-

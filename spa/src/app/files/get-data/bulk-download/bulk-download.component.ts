@@ -6,7 +6,7 @@
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit  } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 
@@ -26,33 +26,40 @@ import { SearchTerm } from "../../search/search-term.model";
 @Component({
     selector: "bulk-download",
     templateUrl: "./bulk-download.component.html",
-    styleUrls: ["./bulk-download.component.scss"]
+    styleUrls: ["./bulk-download.component.scss"],
 })
-export class BulkDownloadComponent extends BaseManifestDownloadComponent implements OnDestroy, OnInit {
-
+export class BulkDownloadComponent
+    extends BaseManifestDownloadComponent
+    implements OnDestroy, OnInit
+{
     // Template variables
-    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH;
+    public executionEnvironment: BulkDownloadExecutionEnvironment =
+        BulkDownloadExecutionEnvironment.BASH;
 
     /**
      * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {Router} router
      */
-    constructor(protected configService: ConfigService,
-                protected store: Store<AppState>,
-                private router: Router) {
+    constructor(
+        protected configService: ConfigService,
+        protected store: Store<AppState>,
+        private router: Router
+    ) {
         super(configService, store);
     }
 
     /**
      * Return the curl command for the generated manifest.
-     * 
+     *
      * @param {ManifestResponse} manifestResponse
      * @param {BulkDownloadExecutionEnvironment} executionEnvironment
      * @returns {string}
      */
-    public getCurlCommand(manifestResponse: ManifestResponse, executionEnvironment: BulkDownloadExecutionEnvironment): string {
-
+    public getCurlCommand(
+        manifestResponse: ManifestResponse,
+        executionEnvironment: BulkDownloadExecutionEnvironment
+    ): string {
         return manifestResponse.commandLine[executionEnvironment];
     }
 
@@ -60,24 +67,27 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * Return user to species selection
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Species Selection";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Returns true if bulk download request form is valid. That is, at least one file format as well as the operating
      * system (for the curl command) are selected.
-     * 
+     *
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {BulkDownloadExecutionEnvironment} os
      * @returns {boolean}
      */
-    public isRequestFormValid(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment): boolean {
-        
+    public isRequestFormValid(
+        selectedSearchTerms: SearchTerm[],
+        os: BulkDownloadExecutionEnvironment
+    ): boolean {
         return this.isAnyFileFormatSelected(selectedSearchTerms) && !!os;
     }
 
@@ -88,9 +98,14 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} manifestUrl
      */
-    public onDataLinkCopied(selectedSearchTerms: SearchTerm[],  shell: BulkDownloadExecutionEnvironment, manifestUrl: string) {
-
-        this.store.dispatch(new CopyToClipboardBulkDownloadAction(shell, manifestUrl));
+    public onDataLinkCopied(
+        selectedSearchTerms: SearchTerm[],
+        shell: BulkDownloadExecutionEnvironment,
+        manifestUrl: string
+    ) {
+        this.store.dispatch(
+            new CopyToClipboardBulkDownloadAction(shell, manifestUrl)
+        );
     }
 
     /**
@@ -99,9 +114,13 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * @param {SearchTerm[]} selectedSearchTerms
      * @param {BulkDownloadExecutionEnvironment} shell
      */
-    public onRequestManifest(selectedSearchTerms: SearchTerm[], shell: BulkDownloadExecutionEnvironment) {
-
-        this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL));
+    public onRequestManifest(
+        selectedSearchTerms: SearchTerm[],
+        shell: BulkDownloadExecutionEnvironment
+    ) {
+        this.store.dispatch(
+            new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL)
+        );
         this.store.dispatch(new RequestBulkDownloadAction(shell));
     }
 
@@ -109,10 +128,11 @@ export class BulkDownloadComponent extends BaseManifestDownloadComponent impleme
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
-        this.router.navigate(["/export", "get-curl-command", "select-species"], {
-            queryParamsHandling: "preserve"
-        });
+        this.router.navigate(
+            ["/export", "get-curl-command", "select-species"],
+            {
+                queryParamsHandling: "preserve",
+            }
+        );
     }
-
 }

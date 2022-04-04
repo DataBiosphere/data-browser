@@ -6,7 +6,6 @@
  */
 
 export interface HealthResponse {
-
     serviceName: string;
     ok: boolean;
 }

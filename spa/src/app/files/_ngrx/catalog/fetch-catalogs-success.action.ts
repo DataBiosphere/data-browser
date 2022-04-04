@@ -12,7 +12,6 @@ import { Action } from "@ngrx/store";
 import { Atlas } from "../../atlas/atlas.model";
 
 export class FetchCatalogsSuccessAction implements Action {
-    
     public static ACTION_TYPE = "CATALOG.FETCH_CATALOGS_SUCCESS";
     public readonly type = FetchCatalogsSuccessAction.ACTION_TYPE;
 

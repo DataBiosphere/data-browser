@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Auth reducer, handles actions related to handling auth state.
  */
 
@@ -20,10 +20,11 @@ import { SessionContinueAction } from "./session-continue-action";
  * @param {Action} action
  * @returns {AuthState}
  */
-export function reducer(state: AuthState = AuthState.getDefaultState(), action: Action): AuthState {
-
+export function reducer(
+    state: AuthState = AuthState.getDefaultState(),
+    action: Action
+): AuthState {
     switch (action.type) {
-
         // Update init to indicate auth has been initialized
         case AuthInitAction.ACTION_TYPE:
             return state.onInit(action as AuthInitAction);

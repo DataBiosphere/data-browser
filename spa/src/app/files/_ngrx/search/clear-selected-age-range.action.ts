@@ -20,8 +20,9 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, TrackingAction {
-    
+export class ClearSelectedAgeRangeAction
+    implements Action, SearchTermAction, TrackingAction
+{
     public static ACTION_TYPE = "FILE.SEARCH.CLEAR_SELECTED_AGE_RANGE";
     public readonly type = ClearSelectedAgeRangeAction.ACTION_TYPE;
 
@@ -30,9 +31,11 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
      * @param {AgeRange} ageRange
      * @param {GASource} source
      */
-    constructor(public readonly facetName: string,
-                public readonly ageRange: AgeRange,
-                public source: GASource) {}
+    constructor(
+        public readonly facetName: string,
+        public readonly ageRange: AgeRange,
+        public source: GASource
+    ) {}
 
     /**
      * Return the cleared age range action as a GA event.
@@ -40,8 +43,7 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         const term = this.asSearchTerm().getDisplayValue();
         return {
             category: GACategory.SEARCH,
@@ -56,8 +58,8 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
                 [GADimension.MAX]: `${this.ageRange.ageMax}`,
                 [GADimension.MIN]: `${this.ageRange.ageMin}`,
                 [GADimension.SOURCE]: this.source,
-                [GADimension.TERM]: term
-            }
+                [GADimension.TERM]: term,
+            },
         };
     }
 
@@ -67,7 +69,6 @@ export class ClearSelectedAgeRangeAction implements Action, SearchTermAction, Tr
      * @returns {SearchAgeRange}
      */
     public asSearchTerm(): SearchAgeRange {
-
         return new SearchAgeRange(this.facetName, this.ageRange);
     }
 }

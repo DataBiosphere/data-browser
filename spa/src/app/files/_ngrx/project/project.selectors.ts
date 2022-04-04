@@ -19,19 +19,31 @@ export const selectProject = createFeatureSelector<ProjectState>("project");
 /**
  * Returns map of archive previews keyed by matrix ID, if any, for the specified project.
  */
-export const selectProjectMatrixArchivePreviewsByProjectId = (projectId: string) => 
-    createSelector(selectProject, (state) =>
-        state.matrixArchivePreviewsByProjectId.get(projectId) || new Map());
+export const selectProjectMatrixArchivePreviewsByProjectId = (
+    projectId: string
+) =>
+    createSelector(
+        selectProject,
+        (state) =>
+            state.matrixArchivePreviewsByProjectId.get(projectId) || new Map()
+    );
 
 /**
  * Returns a map of file locations keyed by file URL, if any, for the specified project.
  */
-export const selectProjectMatrixFileLocationsByProjectId = (projectId: string) => 
-        createSelector(selectProject, (state) =>
-            state.matrixFileLocationsByProjectId.get(projectId) || new Map());
+export const selectProjectMatrixFileLocationsByProjectId = (
+    projectId: string
+) =>
+    createSelector(
+        selectProject,
+        (state) =>
+            state.matrixFileLocationsByProjectId.get(projectId) || new Map()
+    );
 
 /**
- * Returns the manifest file location for the specified project. 
+ * Returns the manifest file location for the specified project.
  */
-export const selectProjectManifestFileLocation = (projectId: string) => 
-    createSelector(selectProject, (state) => state.manifestFileLocationsByProjectId.get(projectId));
+export const selectProjectManifestFileLocation = (projectId: string) =>
+    createSelector(selectProject, (state) =>
+        state.manifestFileLocationsByProjectId.get(projectId)
+    );

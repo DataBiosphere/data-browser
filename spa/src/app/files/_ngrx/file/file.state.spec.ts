@@ -14,19 +14,19 @@ import { FetchFileFileLocationRequestAction } from "./fetch-file-file-location-r
 import { FetchFileFileLocationSuccessAction } from "./fetch-file-file-location-success.action";
 
 describe("FileState", () => {
-
     /**
-     * Confirm file locations are reset correctly. 
+     * Confirm file locations are reset correctly.
      */
     it("clears file locations", () => {
-
         const fileState = new FileState({
             fileFileLocationsByFileUrl: new Map<string, FileLocation>([
-                ["foo", {status: FileLocationStatus.REQUESTED}]
-            ])
+                ["foo", { status: FileLocationStatus.REQUESTED }],
+            ]),
         });
-        
-        const updatedFileState = fileState.clearFileFileLocation(new ClearFileFileLocationsAction());
+
+        const updatedFileState = fileState.clearFileFileLocation(
+            new ClearFileFileLocationsAction()
+        );
         expect(updatedFileState.fileFileLocationsByFileUrl.size).toEqual(0);
     });
 
@@ -34,19 +34,24 @@ describe("FileState", () => {
      * Confirm requested state of file location is set correctly.
      */
     it("sets file location as requested", () => {
-
         const fileState = new FileState({
-            fileFileLocationsByFileUrl: new Map<string, FileLocation>()
+            fileFileLocationsByFileUrl: new Map<string, FileLocation>(),
         });
 
         const fileUrl = "foo";
-        const requestAction = new FetchFileFileLocationRequestAction(fileUrl, "bar", "baz");
-        const updatedFileState = fileState.fetchFileFileLocationRequest(requestAction);
-        
-        const fileFileLocationsByFileUrl = updatedFileState.fileFileLocationsByFileUrl; 
+        const requestAction = new FetchFileFileLocationRequestAction(
+            fileUrl,
+            "bar",
+            "baz"
+        );
+        const updatedFileState =
+            fileState.fetchFileFileLocationRequest(requestAction);
+
+        const fileFileLocationsByFileUrl =
+            updatedFileState.fileFileLocationsByFileUrl;
         expect(fileFileLocationsByFileUrl.size).toEqual(1);
-        
-        const fileLocation = fileFileLocationsByFileUrl.get(fileUrl); 
+
+        const fileLocation = fileFileLocationsByFileUrl.get(fileUrl);
         expect(fileLocation).toBeDefined();
         expect(fileLocation.status).toEqual(FileLocationStatus.REQUESTED);
     });
@@ -55,20 +60,21 @@ describe("FileState", () => {
      * Confirm success state of file location is set correctly.
      */
     it("updates file location on fetch success", () => {
-
         const fileState = new FileState({
-            fileFileLocationsByFileUrl: new Map<string, FileLocation>()
+            fileFileLocationsByFileUrl: new Map<string, FileLocation>(),
         });
 
         const fileUrl = "foo"; // Initial request URL
         const downloadUrl = "bar";
         const successAction = new FetchFileFileLocationSuccessAction(fileUrl, {
             fileUrl: downloadUrl,
-            status: FileLocationStatus.COMPLETED
+            status: FileLocationStatus.COMPLETED,
         });
-        const updatedFileState = fileState.fetchFileFileLocationSuccess(successAction);
+        const updatedFileState =
+            fileState.fetchFileFileLocationSuccess(successAction);
 
-        const fileFileLocationsByFileUrl = updatedFileState.fileFileLocationsByFileUrl;
+        const fileFileLocationsByFileUrl =
+            updatedFileState.fileFileLocationsByFileUrl;
         expect(fileFileLocationsByFileUrl.size).toEqual(1);
 
         const fileLocation = fileFileLocationsByFileUrl.get(fileUrl);

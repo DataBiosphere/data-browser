@@ -29,7 +29,6 @@ import { SearchTermHttpService } from "../search/http/search-term-http.service";
 
 @Injectable()
 export class FileManifestService {
-
     /**
      * @param {ConfigService} configService
      * @param {FilesService} filesService
@@ -37,11 +36,12 @@ export class FileManifestService {
      * @param {HttpClient} httpClient
      *
      */
-    constructor(private configService: ConfigService,
-                private filesService: FilesService,
-                private searchTermHttpService: SearchTermHttpService,
-                private httpClient: HttpClient) {
-    }
+    constructor(
+        private configService: ConfigService,
+        private filesService: FilesService,
+        private searchTermHttpService: SearchTermHttpService,
+        private httpClient: HttpClient
+    ) {}
 
     /**
      * Build up set of search terms for manifest-related requests. If not file format is currently selected in the set
@@ -51,17 +51,19 @@ export class FileManifestService {
      * @param {FileFacet} fileFormat
      * @returns {SearchTerm[]}
      */
-    public buildManifestSearchTerms(searchTerms: SearchTerm[], fileFormat: FileFacet): SearchTerm[] {
-
+    public buildManifestSearchTerms(
+        searchTerms: SearchTerm[],
+        fileFormat: FileFacet
+    ): SearchTerm[] {
         // If there are currently no selected file format, add all file formats.
-        return this.isAnyFileFormatSelected(searchTerms) ?
-            searchTerms :
-            this.addAllFileFormatsToSearchTerms(searchTerms, fileFormat);
+        return this.isAnyFileFormatSelected(searchTerms)
+            ? searchTerms
+            : this.addAllFileFormatsToSearchTerms(searchTerms, fileFormat);
     }
 
     /**
      * Request file manifest.
-     * 
+     *
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {FileFacet} fileFormats
@@ -69,14 +71,23 @@ export class FileManifestService {
      * @param {Observable<boolean>} killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
-    public requestFileManifestUrl(catalog: Catalog, 
-                                  searchTerms: SearchTerm[], 
-                                  fileFormats: FileFacet,
-                                  manifestFormat: ManifestDownloadFormat,
-                                  killSwitch$: Observable<boolean>): Observable<ManifestResponse> {
-
-        const manifestSearchTerms = this.buildManifestSearchTerms(searchTerms, fileFormats);
-        return this.sendFileManifestUrlRequest(catalog, manifestSearchTerms, manifestFormat, killSwitch$);
+    public requestFileManifestUrl(
+        catalog: Catalog,
+        searchTerms: SearchTerm[],
+        fileFormats: FileFacet,
+        manifestFormat: ManifestDownloadFormat,
+        killSwitch$: Observable<boolean>
+    ): Observable<ManifestResponse> {
+        const manifestSearchTerms = this.buildManifestSearchTerms(
+            searchTerms,
+            fileFormats
+        );
+        return this.sendFileManifestUrlRequest(
+            catalog,
+            manifestSearchTerms,
+            manifestFormat,
+            killSwitch$
+        );
     }
 
     /**
@@ -87,12 +98,17 @@ export class FileManifestService {
      * @param {SearchTerm[]} searchTerms
      * @returns {Observable<FileSummary>}
      */
-    public fetchFileManifestFileSummary(catalog: Catalog, searchTerms: SearchTerm[]): Observable<FileSummary> {
-
+    public fetchFileManifestFileSummary(
+        catalog: Catalog,
+        searchTerms: SearchTerm[]
+    ): Observable<FileSummary> {
         const searchTermsExceptFileTypes = searchTerms.filter((searchTerm) => {
             return searchTerm.getSearchKey() !== FileFacetName.FILE_FORMAT;
         });
-        return this.filesService.fetchFileSummary(catalog, searchTermsExceptFileTypes);
+        return this.filesService.fetchFileSummary(
+            catalog,
+            searchTermsExceptFileTypes
+        );
     }
 
     /**
@@ -103,11 +119,16 @@ export class FileManifestService {
      * @param {FileFacet} fileFormat
      * @returns {SearchTerm[]}
      */
-    private addAllFileFormatsToSearchTerms(searchTerms: SearchTerm[], fileFormat: FileFacet): SearchTerm[] {
-
+    private addAllFileFormatsToSearchTerms(
+        searchTerms: SearchTerm[],
+        fileFormat: FileFacet
+    ): SearchTerm[] {
         const searchTermsClone = [...searchTerms];
         fileFormat.terms.forEach((term) =>
-            searchTermsClone.push(new SearchFacetTerm(fileFormat.name, term.name)));
+            searchTermsClone.push(
+                new SearchFacetTerm(fileFormat.name, term.name)
+            )
+        );
         return searchTermsClone;
     }
 
@@ -117,13 +138,14 @@ export class FileManifestService {
      * @param {ManifestHttpResponse} response
      * @returns {ManifestResponse}
      */
-    private bindManifestResponse(response: ManifestHttpResponse): Observable<ManifestResponse> {
-
+    private bindManifestResponse(
+        response: ManifestHttpResponse
+    ): Observable<ManifestResponse> {
         return of({
             commandLine: response.CommandLine,
             fileUrl: response.Location,
             retryAfter: response["Retry-After"],
-            status: this.translateFileDownloadStatus(response.Status)
+            status: this.translateFileDownloadStatus(response.Status),
         });
     }
 
@@ -133,35 +155,44 @@ export class FileManifestService {
      * @returns {ManifestResponse}
      */
     private handleManifestError(): Observable<ManifestResponse> {
-
         return of({
             status: ManifestStatus.FAILED,
             fileUrl: "",
-            retryAfter: 0
+            retryAfter: 0,
         });
     }
 
     /**
      * Send HTTP request for file manifest URL, and set up polling to monitor status.
-     * 
+     *
      * @param {Catalog} catalog
      * @param {SearchTerm[]} searchTerms
      * @param {ManifestDownloadFormat} manifestFormat
      * @param killSwitch$
      * @returns {Observable<ManifestResponse>}
      */
-    private sendFileManifestUrlRequest(catalog: Catalog,
-                                       searchTerms: SearchTerm[],
-                                       manifestFormat: ManifestDownloadFormat,
-                                       killSwitch$): Observable<ManifestResponse> {
-
+    private sendFileManifestUrlRequest(
+        catalog: Catalog,
+        searchTerms: SearchTerm[],
+        manifestFormat: ManifestDownloadFormat,
+        killSwitch$
+    ): Observable<ManifestResponse> {
         const manifestResponse$ = new Subject<ManifestResponse>();
 
-        const query =
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), manifestFormat);
-        let params = new HttpParams({fromObject: query} as any);
+        const query = new ICGCQuery(
+            catalog,
+            this.searchTermHttpService.marshallSearchTerms(searchTerms),
+            manifestFormat
+        );
+        let params = new HttpParams({ fromObject: query } as any);
         const url = this.configService.getFileManifestUrl();
-        this.pollRequestFileManifest(url, params, 0, manifestResponse$, killSwitch$);
+        this.pollRequestFileManifest(
+            url,
+            params,
+            0,
+            manifestResponse$,
+            killSwitch$
+        );
 
         return manifestResponse$.asObservable();
     }
@@ -173,9 +204,10 @@ export class FileManifestService {
      * @returns {boolean}
      */
     private isAnyFileFormatSelected(searchTerms: SearchTerm[]): boolean {
-
-        return searchTerms.some((searchTerm) =>
-            searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT);
+        return searchTerms.some(
+            (searchTerm) =>
+                searchTerm.getSearchKey() === FileFacetName.FILE_FORMAT
+        );
     }
 
     /**
@@ -189,14 +221,21 @@ export class FileManifestService {
      * @param {Observable<boolean>} killSwitch$
      */
     private pollRequestFileManifest(
-        url: string, params: HttpParams, delay: number, manifestResponse$: Subject<ManifestResponse>, killSwitch$: Observable<boolean>) {
-
+        url: string,
+        params: HttpParams,
+        delay: number,
+        manifestResponse$: Subject<ManifestResponse>,
+        killSwitch$: Observable<boolean>
+    ) {
         const subscription = interval(delay * 1000)
             .pipe(
                 take(1),
                 switchMap(() => {
-
-                    return this.httpClient.get<ManifestHttpResponse>(url, params ? {params} : {})
+                    return this.httpClient
+                        .get<ManifestHttpResponse>(
+                            url,
+                            params ? { params } : {}
+                        )
                         .pipe(
                             retry(2),
                             catchError(this.handleManifestError.bind(this)),
@@ -206,18 +245,23 @@ export class FileManifestService {
                 takeUntil(killSwitch$)
             )
             .subscribe((response: ManifestResponse) => {
-
                 // Let listeners know the latest status
                 manifestResponse$.next(response);
 
                 // If the request is still in progress, poll again for status
-                if ( response.status === ManifestStatus.IN_PROGRESS ) {
-                    this.pollRequestFileManifest(response.fileUrl, null, response.retryAfter, manifestResponse$, killSwitch$)
+                if (response.status === ManifestStatus.IN_PROGRESS) {
+                    this.pollRequestFileManifest(
+                        response.fileUrl,
+                        null,
+                        response.retryAfter,
+                        manifestResponse$,
+                        killSwitch$
+                    );
                 }
 
                 // Clean up each loop through the poll
                 subscription.unsubscribe();
-            })
+            });
     }
 
     /**
@@ -227,11 +271,10 @@ export class FileManifestService {
      * @returns {ManifestStatus}
      */
     private translateFileDownloadStatus(code: number): ManifestStatus {
-
-        if ( code === 301 ) {
+        if (code === 301) {
             return ManifestStatus.IN_PROGRESS;
         }
-        if ( code === 302 ) {
+        if (code === 302) {
             return ManifestStatus.COMPLETE;
         }
         return ManifestStatus.FAILED;

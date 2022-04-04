@@ -24,10 +24,12 @@ import EntitySpec from "../../shared/entity-spec";
 @Component({
     selector: "manifest-download",
     templateUrl: "./manifest-download.component.html",
-    styleUrls: ["./manifest-download.component.scss"]
+    styleUrls: ["./manifest-download.component.scss"],
 })
-export class ManifestDownloadComponent extends BaseManifestDownloadComponent implements OnDestroy, OnInit {
-
+export class ManifestDownloadComponent
+    extends BaseManifestDownloadComponent
+    implements OnDestroy, OnInit
+{
     @Input() catalog: Catalog;
 
     /**
@@ -35,9 +37,11 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * @param {Store<AppState>} store
      * @param {Router} router
      */
-    constructor(protected configService: ConfigService,
-                protected store: Store<AppState>,
-                private router: Router) {
+    constructor(
+        protected configService: ConfigService,
+        protected store: Store<AppState>,
+        private router: Router
+    ) {
         super(configService, store);
     }
 
@@ -45,12 +49,13 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * Return user to species selection
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Species Selection";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
@@ -59,8 +64,9 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * @param {string} manifestUrl
      */
     public onDataLinkCopied(manifestUrl: string) {
-
-        this.store.dispatch(new CopyToClipboardCohortManifestURLAction(manifestUrl));
+        this.store.dispatch(
+            new CopyToClipboardCohortManifestURLAction(manifestUrl)
+        );
     }
 
     /**
@@ -69,7 +75,6 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * @param {string} manifestUrl
      */
     public onDataLinkClicked(manifestUrl: string) {
-
         this.store.dispatch(new DownloadCohortManifestAction(manifestUrl));
     }
 
@@ -77,7 +82,6 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * Dispatch action to generate manifest summary URL.  Also track request action with GA.
      */
     public onRequestManifest() {
-
         this.store.dispatch(new FetchFileManifestUrlRequestAction());
         this.store.dispatch(new RequestCohortManifestAction());
     }
@@ -86,9 +90,11 @@ export class ManifestDownloadComponent extends BaseManifestDownloadComponent imp
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
-        this.router.navigate(["/export", "download-manifest", "select-species"], {
-            queryParamsHandling: "preserve"
-        });
+        this.router.navigate(
+            ["/export", "download-manifest", "select-species"],
+            {
+                queryParamsHandling: "preserve",
+            }
+        );
     }
 }

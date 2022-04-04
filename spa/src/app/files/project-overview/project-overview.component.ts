@@ -6,7 +6,13 @@
  */
 
 // Core dependencies
-import { Component, Inject, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+    Component,
+    Inject,
+    Input,
+    OnChanges,
+    SimpleChanges,
+} from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -29,13 +35,12 @@ import { Project } from "../shared/project.model";
 @Component({
     selector: "project-overview",
     templateUrl: "./project-overview.component.html",
-    styleUrls: ["./project-overview.component.scss"]
+    styleUrls: ["./project-overview.component.scss"],
 })
 export class ProjectOverviewComponent implements OnChanges {
-
     // Template variables
     public projectView: ProjectView;
-    
+
     // Inputs
     @Input() catalog: Catalog;
     @Input() project: Project;
@@ -45,9 +50,11 @@ export class ProjectOverviewComponent implements OnChanges {
      * @param {Store<AppState>} store
      * @param {Window} window
      */
-    constructor( private projectFactory: ProjectViewFactory,
-                private store: Store<AppState>, 
-                @Inject("Window") private window: Window) {}
+    constructor(
+        private projectFactory: ProjectViewFactory,
+        private store: Store<AppState>,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * Returns publication title with a link to the publication URL, if it exists.
@@ -56,12 +63,10 @@ export class ProjectOverviewComponent implements OnChanges {
      * @returns {string}
      */
     public getProjectPublication(publication: Publication): string {
-
         const url = publication.publicationUrl;
         const title = publication.publicationTitle;
 
-        if ( url ) {
-
+        if (url) {
             return `<a href=${url} target="_blank" rel="noopener">${title}</a>`;
         }
 
@@ -74,9 +79,12 @@ export class ProjectOverviewComponent implements OnChanges {
      * @param {CollaboratingOrganizationView[]} collaboratingOrganizations
      * @returns {boolean}
      */
-    public isAnyCollaboratingOrganizationAssociated(collaboratingOrganizations: CollaboratingOrganizationView[]): boolean {
-
-        return collaboratingOrganizations && collaboratingOrganizations.length > 0;
+    public isAnyCollaboratingOrganizationAssociated(
+        collaboratingOrganizations: CollaboratingOrganizationView[]
+    ): boolean {
+        return (
+            collaboratingOrganizations && collaboratingOrganizations.length > 0
+        );
     }
 
     /**
@@ -86,7 +94,6 @@ export class ProjectOverviewComponent implements OnChanges {
      * @returns {boolean}
      */
     public isAnyContactAssociated(contacts: ContactView[]): boolean {
-
         return contacts && contacts.length > 0;
     }
 
@@ -96,8 +103,9 @@ export class ProjectOverviewComponent implements OnChanges {
      * @param {ContributorView[]} contributors
      * @returns {boolean}
      */
-    public isAnyContributorAssociated(contributors: ContributorView[]): boolean {
-
+    public isAnyContributorAssociated(
+        contributors: ContributorView[]
+    ): boolean {
         return contributors && contributors.length > 0;
     }
 
@@ -108,10 +116,8 @@ export class ProjectOverviewComponent implements OnChanges {
      * @returns {boolean}
      */
     public isAnyDataCuratorAssociated(curators: string[]): boolean {
-
         return curators && curators.length > 0;
     }
-
 
     /**
      * Dispatch action to track view of analysis protocol.
@@ -119,12 +125,14 @@ export class ProjectOverviewComponent implements OnChanges {
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
-
-        const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.PROJECT);
+        const action = new ViewAnalysisProtocolAction(
+            event.analysisProtocol,
+            event.url,
+            GASource.PROJECT
+        );
         this.store.dispatch(action);
     }
-    
+
     /**
      * Returns true if project publications exist.
      *
@@ -132,20 +140,29 @@ export class ProjectOverviewComponent implements OnChanges {
      * @returns {boolean}
      */
     public isAnyPublicationAssociated(publications: Publication[]): boolean {
-
         return publications && publications.length > 0;
     }
 
     /**
      * Track click on accession.
-     * 
+     *
      * @param {string} projectId
      * @param {string} projectTitle
      * @param {KeyValuePair} pair
      */
-    public onAccessionClicked(projectId: string, projectTitle: string, pair: KeyValuePair) {
-
-        this.store.dispatch(new ViewProjectAccessionAction(projectId, projectTitle, pair.key, pair.value));
+    public onAccessionClicked(
+        projectId: string,
+        projectTitle: string,
+        pair: KeyValuePair
+    ) {
+        this.store.dispatch(
+            new ViewProjectAccessionAction(
+                projectId,
+                projectTitle,
+                pair.key,
+                pair.value
+            )
+        );
     }
 
     /**
@@ -155,8 +172,11 @@ export class ProjectOverviewComponent implements OnChanges {
      * @param {string} projectShortname
      * @param {string} supplementaryLink
      */
-    onSupplementaryLinkClicked(projectId: string, projectShortname: string, supplementaryLink: string) {
-
+    onSupplementaryLinkClicked(
+        projectId: string,
+        projectShortname: string,
+        supplementaryLink: string
+    ) {
         const action = new ViewProjectSupplementaryLinkAction(
             supplementaryLink,
             projectId,
@@ -170,9 +190,11 @@ export class ProjectOverviewComponent implements OnChanges {
      * Update state with selected project.
      */
     ngOnChanges(changes: SimpleChanges) {
-
-        if ( changes.project ) {
-            this.projectView = this.projectFactory.getProjectView(this.catalog, changes.project.currentValue);
+        if (changes.project) {
+            this.projectView = this.projectFactory.getProjectView(
+                this.catalog,
+                changes.project.currentValue
+            );
         }
     }
 }

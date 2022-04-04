@@ -20,5 +20,5 @@ export enum FileFacetName {
     "PROJECT" = "project",
     "PROJECT_ID" = "projectId",
     "PUBLICATION_TITLE" = "publicationTitle",
-    "SPECIMEN_DISEASE" = "specimenDisease"
+    "SPECIMEN_DISEASE" = "specimenDisease",
 }

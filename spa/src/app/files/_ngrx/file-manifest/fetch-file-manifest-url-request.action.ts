@@ -12,7 +12,6 @@ import { Action } from "@ngrx/store";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 
 export class FetchFileManifestUrlRequestAction implements Action {
-    
     public static ACTION_TYPE = "FILE_MANIFEST.FETCH_FILE_MANIFEST_URL_REQUEST";
     public readonly type = FetchFileManifestUrlRequestAction.ACTION_TYPE;
 
@@ -22,6 +21,8 @@ export class FetchFileManifestUrlRequestAction implements Action {
      * selected search terms for get data downloads is moved to use the download-specific selected search terms and
      * not the app-wide selected search terms.
      */
-    constructor(public readonly manifestFormat = ManifestDownloadFormat.COMPACT,
-                public readonly projectDownload?: boolean) {}
+    constructor(
+        public readonly manifestFormat = ManifestDownloadFormat.COMPACT,
+        public readonly projectDownload?: boolean
+    ) {}
 }

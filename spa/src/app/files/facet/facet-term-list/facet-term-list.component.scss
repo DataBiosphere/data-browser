@@ -9,9 +9,8 @@
 
 /** Individual facet term rows (checkbox, title, count) */
 :host {
-
     .facet-term {
-        align-items: start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line) 
+        align-items: start; // Align checkbox, term name and count to top (to allow for terms with long names that span multiple line)
         cursor: pointer;
         padding: 6px 0;
 
@@ -49,7 +48,9 @@
             .term-name {
                 font-family: "Montserrat", sans-serif; /* TODO typography */
                 font-size: 13px;
-                max-width: calc(100% - 56px); // Allow count to have at least 56px
+                max-width: calc(
+                    100% - 56px
+                ); // Allow count to have at least 56px
                 padding-right: 4px;
 
                 /** Truncate long term names - where term names are not spaced */
@@ -72,13 +73,12 @@
 
 /* Filter select boxes */
 :host-context(.hca-options, .hca-options-small) {
-
     .facet-term .term-summary {
         margin-top: -3px;
 
-        .term-name, .term-count {
+        .term-name,
+        .term-count {
             line-height: 18px;
         }
     }
 }
-

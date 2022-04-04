@@ -26,37 +26,46 @@ import { SearchTermHttpService } from "../search/http/search-term-http.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 
 describe("FileManifestService", () => {
-
     let httpClientSpy: { get: jasmine.Spy };
     let fileManifestService: FileManifestService;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [],
             imports: [],
-            providers: []
+            providers: [],
         });
 
-        const configService = 
-            jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
+        const configService = jasmine.createSpyObj("ConfigService", [
+            "getEntitiesUrl",
+            "getSummaryUrl",
+            "getFileManifestUrl",
+        ]);
         configService.getEntitiesUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getSummaryUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getFileManifestUrl.and.returnValue(""); // Required for testing catalog params on public methods
-        
+
         const responseTermService = new ResponseTermService();
-        const searchTermHttpService = new SearchTermHttpService(responseTermService);
+        const searchTermHttpService = new SearchTermHttpService(
+            responseTermService
+        );
 
         const httpService = new HttpService();
         const paginationService = new PaginationService();
-        const entityRequestService = new EntityRequestService(configService, httpService, searchTermHttpService, paginationService);
+        const entityRequestService = new EntityRequestService(
+            configService,
+            httpService,
+            searchTermHttpService,
+            paginationService
+        );
         const filesService = new FilesService(
             configService,
             entityRequestService,
             httpService,
             searchTermHttpService,
             responseTermService,
-            <any>httpClientSpy);
+            <any>httpClientSpy
+        );
 
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
@@ -65,94 +74,106 @@ describe("FileManifestService", () => {
             configService,
             filesService,
             searchTermHttpService,
-            <any>httpClientSpy);
+            <any>httpClientSpy
+        );
     }));
 
     describe("requestFileManifestUrl", () => {
-
         /**
          * Confirm catalog param is not included in file manifest URL request if not specified.
          */
         it("doesn't include catalog param if catalog is NONE", (done: DoneFn) => {
+            httpClientSpy.get.and.returnValue(
+                of({
+                    status: ManifestStatus.NOT_STARTED,
+                })
+            );
 
-            httpClientSpy.get.and.returnValue(of({
-                status: ManifestStatus.NOT_STARTED
-            }));
+            fileManifestService
+                .requestFileManifestUrl(
+                    "",
+                    [],
+                    new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+                    ManifestDownloadFormat.COMPACT,
+                    of()
+                )
+                .subscribe(() => {
+                    expect(httpClientSpy.get).toHaveBeenCalled();
+                    expect(httpClientSpy.get).not.toHaveBeenCalledWith(
+                        jasmine.anything(),
+                        {
+                            params: jasmine.stringMatching(/catalog\=dcp1/),
+                        }
+                    );
 
-            fileManifestService.requestFileManifestUrl(
-                "",
-                [],
-                new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
-                ManifestDownloadFormat.COMPACT,
-                of()).subscribe(() => {
-
-                expect(httpClientSpy.get).toHaveBeenCalled();
-                expect(httpClientSpy.get).not.toHaveBeenCalledWith(
-                    jasmine.anything(),
-                    {
-                        params: jasmine.stringMatching(/catalog\=dcp1/)
-                    }
-                );
-
-                done();
-            });
+                    done();
+                });
         });
 
         /**
          * Confirm catalog param is included in file manifest URL request if specified.
          */
         it("includes catalog param if catalog is DCP1", (done: DoneFn) => {
-
-            httpClientSpy.get.and.returnValue(of({
-                status: ManifestStatus.NOT_STARTED
-            }));
+            httpClientSpy.get.and.returnValue(
+                of({
+                    status: ManifestStatus.NOT_STARTED,
+                })
+            );
 
             const catalog = DCPCatalog.DCP1;
-            fileManifestService.requestFileManifestUrl(
-                catalog,
-                [],
-                new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
-                ManifestDownloadFormat.COMPACT,
-                of()).subscribe(() => {
+            fileManifestService
+                .requestFileManifestUrl(
+                    catalog,
+                    [],
+                    new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
+                    ManifestDownloadFormat.COMPACT,
+                    of()
+                )
+                .subscribe(() => {
+                    expect(httpClientSpy.get).toHaveBeenCalledWith(
+                        jasmine.anything(),
+                        {
+                            params: jasmine.stringMatching(/catalog\=dcp1/),
+                        }
+                    );
 
-                expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    jasmine.anything(),
-                    {
-                        params: jasmine.stringMatching(/catalog\=dcp1/)
-                    }
-                );
-
-                done();
-            });
+                    done();
+                });
         });
     });
 
     describe("bindManifestResponse", () => {
-
         /**
          * Confirm command line is parsed correctly from manifest response.
          */
         it("binds command line value from manifest response", (done: DoneFn) => {
-
             const bashCurl = `curl 'http://cmd.exe.com/path/to/file' | curl -K -`;
             const cmdExeCurl = `curl 'http://bash.com/path/to/file' | curl -K -`;
             const manifestHttpResponse = {
                 CommandLine: {
-                    "bash": bashCurl,
-                    "cmd.exe": cmdExeCurl
+                    bash: bashCurl,
+                    "cmd.exe": cmdExeCurl,
                 },
                 Location: "http://location.com",
                 "Retry-After": 4,
-                Status: 201
+                Status: 201,
             };
-            fileManifestService["bindManifestResponse"](manifestHttpResponse)
-                .subscribe((manifestResponse: ManifestResponse) => {
-
-                    expect(manifestResponse.commandLine).toBeTruthy();
-                    expect(manifestResponse.commandLine[BulkDownloadExecutionEnvironment.BASH]).toEqual(bashCurl);
-                    expect(manifestResponse.commandLine[BulkDownloadExecutionEnvironment.CMD_EXE]).toEqual(cmdExeCurl);
-                    done();
-                });
+            fileManifestService["bindManifestResponse"](
+                manifestHttpResponse
+            ).subscribe((manifestResponse: ManifestResponse) => {
+                expect(manifestResponse.commandLine).toBeTruthy();
+                expect(
+                    manifestResponse.commandLine[
+                        BulkDownloadExecutionEnvironment.BASH
+                    ]
+                ).toEqual(bashCurl);
+                expect(
+                    manifestResponse.commandLine[
+                        BulkDownloadExecutionEnvironment.CMD_EXE
+                    ]
+                ).toEqual(cmdExeCurl);
+                done();
+            });
         });
     });
 });

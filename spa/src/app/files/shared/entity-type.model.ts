@@ -8,5 +8,5 @@
 export enum EntityType {
     "FILE" = "file",
     "PROJECT" = "project",
-    "SAMPLE" = "sample"
+    "SAMPLE" = "sample",
 }

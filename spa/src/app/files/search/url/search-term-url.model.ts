@@ -7,5 +7,5 @@
 
 export enum SearchTermUrl {
     "FACET_NAME" = "facetName",
-    "VALUE" = "terms"
+    "VALUE" = "terms",
 }

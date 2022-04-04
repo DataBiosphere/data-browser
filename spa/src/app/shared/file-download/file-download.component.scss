@@ -7,7 +7,8 @@
 
 @import "../../site/theme/hca.vars";
 
-:host, a {
+:host,
+a {
     align-items: baseline;
     display: flex;
 }

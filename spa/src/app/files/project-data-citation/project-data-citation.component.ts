@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "project-data-citation",
     templateUrl: "./project-data-citation.component.html",
-    styleUrls: ["./project-data-citation.component.scss"]
+    styleUrls: ["./project-data-citation.component.scss"],
 })
-export class ProjectDataCitationComponent {
-}
+export class ProjectDataCitationComponent {}

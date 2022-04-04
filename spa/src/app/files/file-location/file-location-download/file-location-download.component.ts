@@ -11,11 +11,12 @@ import {
     ElementRef,
     EventEmitter,
     Input,
-    OnChanges, OnDestroy,
+    OnChanges,
+    OnDestroy,
     OnInit,
     Output,
     SimpleChanges,
-    ViewChild
+    ViewChild,
 } from "@angular/core";
 import { interval, BehaviorSubject, Subject } from "rxjs";
 import { delay, filter, take, takeUntil } from "rxjs/operators";
@@ -29,14 +30,16 @@ import { FileLocationTrigger } from "../file-location-trigger.model";
 @Component({
     selector: "file-location-download",
     templateUrl: "./file-location-download.component.html",
-    styleUrls: ["./file-location-download.component.scss"]
+    styleUrls: ["./file-location-download.component.scss"],
 })
-export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnInit {
-    
+export class FileLocationDownloadComponent
+    implements OnChanges, OnDestroy, OnInit
+{
     // Template variables
     public fileLocationStatus = FileLocationStatus; // Allow access to enum values in template
-    public viewState$ =
-        new BehaviorSubject<FileLocationStatus>(FileLocationStatus.NOT_STARTED);
+    public viewState$ = new BehaviorSubject<FileLocationStatus>(
+        FileLocationStatus.NOT_STARTED
+    );
 
     // Locals
     private ngDestroy$ = new Subject();
@@ -52,7 +55,8 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
     @Input() repeatable: boolean = true;
 
     // Outputs
-    @Output() fileLocationRequested = new EventEmitter<FileLocationRequestEvent>();
+    @Output() fileLocationRequested =
+        new EventEmitter<FileLocationRequestEvent>();
 
     /**
      * Initiate file location request. Update component view state and let parent components know file download has
@@ -62,9 +66,12 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
      * @param {string} fileName
      */
     public onFileLocationRequested(fileUrl: string, fileName: string): void {
-
         this.viewState$.next(FileLocationStatus.REQUESTED);
-        const requestEvent = new FileLocationRequestEvent(fileUrl, fileName, FileLocationTrigger.DOWNLOAD);
+        const requestEvent = new FileLocationRequestEvent(
+            fileUrl,
+            fileName,
+            FileLocationTrigger.DOWNLOAD
+        );
         this.fileLocationRequested.emit(requestEvent);
     }
 
@@ -75,9 +82,8 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
      * @returns {FileLocationStatus}
      */
     private getViewState(status: FileLocationStatus): FileLocationStatus {
-
         // File location request is considered in progress if in the INITIATED state.
-        if ( status === FileLocationStatus.INITIATED ) {
+        if (status === FileLocationStatus.INITIATED) {
             return FileLocationStatus.IN_PROGRESS;
         }
 
@@ -89,34 +95,32 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
      * of view state.
      */
     private initOnFileLocationRequestCompleted() {
+        this.viewState$
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                filter((state) => state === FileLocationStatus.COMPLETED),
+                delay(0) // Allow view to update such that download is visible
+            )
+            .subscribe(() => {
+                // Trigger download of file by browser
+                this.downloadFile(this.fileLocation.fileUrl);
 
-        this.viewState$.pipe(
-            takeUntil(this.ngDestroy$),
-            filter(state => state === FileLocationStatus.COMPLETED),
-            delay(0), // Allow view to update such that download is visible
-        ).subscribe(() => {
-
-            // Trigger download of file by browser
-            this.downloadFile(this.fileLocation.fileUrl);
-
-            // Reset view state
-            if ( this.repeatable ) {
-                this.resetViewState();
-            }
-        });
+                // Reset view state
+                if (this.repeatable) {
+                    this.resetViewState();
+                }
+            });
     }
 
     /**
      * Set up reset of component state after a two second delay.
      */
     private resetViewState() {
-
-        interval(2000).pipe(
-            takeUntil(this.ngDestroy$),
-            take(1)
-        ).subscribe(() => {
-            this.viewState$.next(FileLocationStatus.NOT_STARTED)
-        });
+        interval(2000)
+            .pipe(takeUntil(this.ngDestroy$), take(1))
+            .subscribe(() => {
+                this.viewState$.next(FileLocationStatus.NOT_STARTED);
+            });
     }
 
     /**
@@ -125,7 +129,6 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
      * @param {string} url
      */
     private downloadFile(url: string): void {
-
         const el = this.downloadEl.nativeElement;
         el.href = url;
         el.click();
@@ -133,29 +136,34 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
 
     /**
      * Update view state on changes in file location status. Ignore changes in file location if the current view state
-     * is either NOT_STARTED or COMPLETED as this indicates the updates are being triggered from another component. 
+     * is either NOT_STARTED or COMPLETED as this indicates the updates are being triggered from another component.
      *
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
-
-        this.viewState$.pipe(
-            takeUntil(this.ngDestroy$),
-            take(1),
-            filter(state => state !== FileLocationStatus.NOT_STARTED && state !== FileLocationStatus.COMPLETED)
-        ).subscribe(() => {
-            const currentStatus = changes.fileLocation?.currentValue?.status;
-            if ( currentStatus ) {
-                this.viewState$.next(this.getViewState(currentStatus));
-            }
-        });
+        this.viewState$
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                take(1),
+                filter(
+                    (state) =>
+                        state !== FileLocationStatus.NOT_STARTED &&
+                        state !== FileLocationStatus.COMPLETED
+                )
+            )
+            .subscribe(() => {
+                const currentStatus =
+                    changes.fileLocation?.currentValue?.status;
+                if (currentStatus) {
+                    this.viewState$.next(this.getViewState(currentStatus));
+                }
+            });
     }
 
     /**
      * Kill subscriptions.
      */
     ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -164,7 +172,6 @@ export class FileLocationDownloadComponent implements OnChanges, OnDestroy, OnIn
      * Trigger copy to clipboard if file location request completes.
      */
     ngOnInit() {
-
         this.initOnFileLocationRequestCompleted();
     }
 }

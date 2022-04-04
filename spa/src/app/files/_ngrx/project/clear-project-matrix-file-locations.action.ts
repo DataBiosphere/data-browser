@@ -10,7 +10,6 @@
 import { Action } from "@ngrx/store";
 
 export class ClearProjectMatrixFileLocationsAction implements Action {
-
     public static ACTION_TYPE = "PROJECT.CLEAR_PROJECT_MATRIX_FILE_LOCATIONS";
     public readonly type = ClearProjectMatrixFileLocationsAction.ACTION_TYPE;
 

@@ -7,7 +7,6 @@
  */
 
 export class ClearEntitiesAction {
-    
     public static ACTION_TYPE = "ENTITY.CLEAR_ENTITIES";
     public readonly type = ClearEntitiesAction.ACTION_TYPE;
 }

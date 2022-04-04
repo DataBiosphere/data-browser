@@ -18,20 +18,25 @@ import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { Project } from "../../shared/project.model";
 
-export class FetchProjectMatrixArchivePreviewRequestAction implements Action, TrackingAction {
-
-    public static ACTION_TYPE = "PROJECT.FETCH_PROJECT_MATRIX_ARCHIVE_PREVIEW_REQUEST";
-    public readonly type = FetchProjectMatrixArchivePreviewRequestAction.ACTION_TYPE;
+export class FetchProjectMatrixArchivePreviewRequestAction
+    implements Action, TrackingAction
+{
+    public static ACTION_TYPE =
+        "PROJECT.FETCH_PROJECT_MATRIX_ARCHIVE_PREVIEW_REQUEST";
+    public readonly type =
+        FetchProjectMatrixArchivePreviewRequestAction.ACTION_TYPE;
 
     /**
      * @param {Project} project
      * @param {string} matrixId
      * @param {ProjectMatrixType} projectMatrixType
      */
-    constructor(public readonly project: Project,
-                public readonly matrixId: string,
-                public readonly matrixVersion: string,
-                public readonly projectMatrixType: ProjectMatrixType) {}
+    constructor(
+        public readonly project: Project,
+        public readonly matrixId: string,
+        public readonly matrixVersion: string,
+        public readonly projectMatrixType: ProjectMatrixType
+    ) {}
 
     /**
      * Return the file location request action as a GA event.
@@ -39,14 +44,12 @@ export class FetchProjectMatrixArchivePreviewRequestAction implements Action, Tr
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
+    public asEvent({ catalog }): GAEvent {
         // Currently only two types of matrices - CGM and DCP
         let relatedEntityType;
-        if ( this.projectMatrixType === ProjectMatrixType.CGM ) {
+        if (this.projectMatrixType === ProjectMatrixType.CGM) {
             relatedEntityType = GAEntityType.PROJECT_CGM_MATRIX;
-        }
-        else {
+        } else {
             relatedEntityType = GAEntityType.PROJECT_DCP_MATRIX;
         }
 
@@ -58,8 +61,8 @@ export class FetchProjectMatrixArchivePreviewRequestAction implements Action, Tr
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.RELATED_ENTITY_ID]: this.matrixId,
-                [GADimension.RELATED_ENTITY_TYPE]: relatedEntityType
-            }
-        }
+                [GADimension.RELATED_ENTITY_TYPE]: relatedEntityType,
+            },
+        };
     }
 }

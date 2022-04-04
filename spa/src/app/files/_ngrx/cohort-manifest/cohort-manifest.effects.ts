@@ -19,46 +19,52 @@ import { CopyToClipboardCohortManifestURLAction } from "./copy-to-clipboard-coho
 import { DownloadCohortManifestAction } from "./download-cohort-manifest.action";
 import { AppState } from "../../../_ngrx/app.state";
 import { RequestCohortManifestAction } from "./request-cohort-manifest.action";
-import { selectPreviousQuery  } from "../search/search.selectors";
+import { selectPreviousQuery } from "../search/search.selectors";
 import { GTMService } from "../../../shared/analytics/gtm.service";
 
 @Injectable()
 export class CohortManifestEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private store: Store<AppState>,
-                private actions$: Actions) {
-    }
+    constructor(
+        private gtmService: GTMService,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Track request, download and copy URL to clipboard for cohort manifest.
      */
-    
-    trackCohortManifest$ = createEffect(() => this.actions$
-        .pipe(
-            ofType(
-                CopyToClipboardCohortManifestURLAction.ACTION_TYPE,
-                DownloadCohortManifestAction.ACTION_TYPE,
-                RequestCohortManifestAction.ACTION_TYPE
-            ),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectPreviousQuery))
-                )
-            )),
-            tap(([action, catalog, queryWhenActionTriggered]) => {
 
-                // Track request action
-                this.gtmService.trackEvent((action as TrackingAction).asEvent({
-                    catalog,
-                    currentQuery: queryWhenActionTriggered
-                }));
-            })
-        ), {dispatch: false});
+    trackCohortManifest$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    CopyToClipboardCohortManifestURLAction.ACTION_TYPE,
+                    DownloadCohortManifestAction.ACTION_TYPE,
+                    RequestCohortManifestAction.ACTION_TYPE
+                ),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1)),
+                            this.store.pipe(select(selectPreviousQuery))
+                        )
+                    )
+                ),
+                tap(([action, catalog, queryWhenActionTriggered]) => {
+                    // Track request action
+                    this.gtmService.trackEvent(
+                        (action as TrackingAction).asEvent({
+                            catalog,
+                            currentQuery: queryWhenActionTriggered,
+                        })
+                    );
+                })
+            ),
+        { dispatch: false }
+    );
 }

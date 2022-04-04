@@ -9,13 +9,11 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: "fileNameShortener"
+    name: "fileNameShortener",
 })
 export class FileNameShortenerPipe implements PipeTransform {
-
     transform(value: string): string {
-
-        if ( !value ) {
+        if (!value) {
             return "";
         }
 

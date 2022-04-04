@@ -9,7 +9,6 @@
 import { APIErrorResponse } from "./api-error-response.model";
 
 export interface AttachmentAPIResponse extends APIErrorResponse {
-
     upload: any;
     attachment: any;
 }

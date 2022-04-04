@@ -35,7 +35,6 @@ import { selectUrlSpecState } from "./url.selectors";
 import { UrlService } from "../../url/url.service";
 
 describe("URL Effects", () => {
-
     let actions$: Observable<any>;
     let effects: UrlEffects;
     let mockSelectUrlSpecState;
@@ -44,42 +43,41 @@ describe("URL Effects", () => {
     let urlService; // No type to enable jasmine mocking (eg .and.returnValue)
 
     const routerMock = {
-        navigate: jasmine.createSpy("navigate")
+        navigate: jasmine.createSpy("navigate"),
     };
-    
+
     const defaultSelectUrlSpecState = {
         selectedEntitySpec: {} as any,
-        selectedSearchTermsBySearchKey: {} as any
+        selectedSearchTermsBySearchKey: {} as any,
     };
-    
+
     const defaultAgeRange = {
         ageMin: 0,
         ageMax: 1,
-        ageUnit: AgeUnit.year
+        ageUnit: AgeUnit.year,
     };
 
     /**
      * Setup for each test in suite.
      */
     beforeEach(() => {
-        
         TestBed.configureTestingModule({
-            imports: [
-            ],
+            imports: [],
             providers: [
                 provideMockActions(() => actions$),
                 RoutingService,
-                provideMockStore({initialState: DEFAULT_PROJECTS_STATE}), {
+                provideMockStore({ initialState: DEFAULT_PROJECTS_STATE }),
+                {
                     provide: Router,
-                    useValue: routerMock
+                    useValue: routerMock,
                 },
                 {
                     provide: SearchTermUrlService,
                     useValue: jasmine.createSpyObj("SearchTermUrlService", [
                         "getDefaultSearchState",
                         "parseQueryStringSearchTerms",
-                        "stringifySearchTerms"
-                    ])
+                        "stringifySearchTerms",
+                    ]),
                 },
                 {
                     provide: UrlService,
@@ -88,11 +86,11 @@ describe("URL Effects", () => {
                         "isViewingExport",
                         "isViewingFiles",
                         "isViewingProjects",
-                        "isViewingSamples"
-                    ])
+                        "isViewingSamples",
+                    ]),
                 },
-                UrlEffects
-            ]
+                UrlEffects,
+            ],
         });
 
         effects = TestBed.inject(UrlEffects);
@@ -100,7 +98,10 @@ describe("URL Effects", () => {
         store = TestBed.inject(Store) as MockStore<AppState>;
         urlService = TestBed.inject(UrlService);
 
-        mockSelectUrlSpecState = store.overrideSelector(selectUrlSpecState, defaultSelectUrlSpecState);
+        mockSelectUrlSpecState = store.overrideSelector(
+            selectUrlSpecState,
+            defaultSelectUrlSpecState
+        );
     });
 
     // Reset selectors after each test
@@ -109,12 +110,10 @@ describe("URL Effects", () => {
     });
 
     describe("navigateToSelectedEntity$", () => {
-
         /**
          * Select entity action triggers update to location.
          */
         it("select entity action triggers update to location", () => {
-
             actions$ = of(new SelectEntityAction(EntityName.PROJECTS));
             effects.navigateToSelectedEntity$.subscribe();
             expect(routerMock.navigate).toHaveBeenCalled();
@@ -124,7 +123,6 @@ describe("URL Effects", () => {
          * Select entity action triggers update to path.
          */
         it("select entity action triggers update to path", () => {
-
             const selectedEntityName = EntityName.PROJECTS;
             actions$ = of(new SelectEntityAction(selectedEntityName));
             effects.navigateToSelectedEntity$.subscribe();
@@ -136,24 +134,24 @@ describe("URL Effects", () => {
     });
 
     describe("updateFilterQueryParam$", () => {
-
         /**
          * Location is updated if user currently viewing /projects, /samples or /files.
          */
         it("location updated if viewing entity data table", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create clear action
-            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS); // Use any matching action here 
+            const action = new ClearSelectedTermsAction(
+                GASource.SELECTED_TERMS
+            ); // Use any matching action here
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -167,19 +165,20 @@ describe("URL Effects", () => {
          * Location is updated if user currently viewing /export.
          */
         it("location updated if viewing export flow", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingExport.and.returnValue(true);
 
             // Create clear action
-            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS); // Use any matching action here 
+            const action = new ClearSelectedTermsAction(
+                GASource.SELECTED_TERMS
+            ); // Use any matching action here
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -193,13 +192,12 @@ describe("URL Effects", () => {
          * Location is not updated unless user is currently viewing /projects, /samples or /files, or /get-data.
          */
         it("location not updated if not viewing entity data table or export flow", () => {
-
             // Return false from isViewingEntities to fail filter in effect
             urlService.isViewingEntities.and.returnValue(false);
             urlService.isViewingExport.and.returnValue(false);
 
             actions$ = hot("-a", {
-                a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS) // Use any matching action here
+                a: new ClearSelectedTermsAction(GASource.SELECTED_TERMS), // Use any matching action here
             });
 
             // Effect is not completed as filter on current path should fail
@@ -211,19 +209,20 @@ describe("URL Effects", () => {
          * Location is not updated unless user is currently viewing /projects, /samples or /files.
          */
         it("clear selected terms action triggers update to location", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create clear action
-            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS);
+            const action = new ClearSelectedTermsAction(
+                GASource.SELECTED_TERMS
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -237,8 +236,8 @@ describe("URL Effects", () => {
                 [],
                 jasmine.objectContaining({
                     queryParams: {
-                        filter: null // Null is an explicit clear of the catalog filter
-                    }
+                        filter: null, // Null is an explicit clear of the catalog filter
+                    },
                 })
             );
         });
@@ -247,19 +246,20 @@ describe("URL Effects", () => {
          * Path is not updated on clear of search terms.
          */
         it("does not update path on clear of search terms", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create clear action
-            const action = new ClearSelectedTermsAction(GASource.SELECTED_TERMS);
+            const action = new ClearSelectedTermsAction(
+                GASource.SELECTED_TERMS
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -276,7 +276,6 @@ describe("URL Effects", () => {
          * Clear age range action triggers update to location.
          */
         it("clear selected age range action triggers update to location", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
@@ -284,14 +283,15 @@ describe("URL Effects", () => {
             const action = new ClearSelectedAgeRangeAction(
                 FileFacetName.ORGANISM_AGE,
                 defaultAgeRange,
-                GASource.FACET_BROWSER);
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -305,7 +305,6 @@ describe("URL Effects", () => {
          * Clear age range action does not trigger update to path.
          */
         it("does not update path on clear of age range", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
@@ -313,19 +312,20 @@ describe("URL Effects", () => {
             const action = new ClearSelectedAgeRangeAction(
                 FileFacetName.ORGANISM_AGE,
                 defaultAgeRange,
-                GASource.FACET_BROWSER);
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
             expect(effects.updateFilterQueryParam$).toBeObservable(expected);
-            
+
             // Expect navigate to have been called with update path
             expect(routerMock.navigate).toHaveBeenCalledWith(
                 [], // No update to path
@@ -337,19 +337,22 @@ describe("URL Effects", () => {
          * Select age range action triggers update to location.
          */
         it("select age range action triggers update to location", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create select age range action
-            const action = new SelectFacetAgeRangeAction(FileFacetName.ORGANISM_AGE, defaultAgeRange, GASource.FACET_BROWSER);
+            const action = new SelectFacetAgeRangeAction(
+                FileFacetName.ORGANISM_AGE,
+                defaultAgeRange,
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -363,19 +366,22 @@ describe("URL Effects", () => {
          * Select age range action does not trigger update to path.
          */
         it("does not update path on select of age range", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create select age range action
-            const action = new SelectFacetAgeRangeAction(FileFacetName.ORGANISM_AGE, defaultAgeRange, GASource.FACET_BROWSER);
+            const action = new SelectFacetAgeRangeAction(
+                FileFacetName.ORGANISM_AGE,
+                defaultAgeRange,
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -392,20 +398,23 @@ describe("URL Effects", () => {
          * Select project ID action triggers update to location.
          */
         it("select project ID action triggers update to location", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create select project ID action
-            const action =
-                new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER);
+            const action = new SelectProjectIdAction(
+                "123abc",
+                "short name",
+                false,
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -419,20 +428,23 @@ describe("URL Effects", () => {
          * Select project ID action does not trigger update to path.
          */
         it("does not update path on select of project ID", () => {
-
             // Return true from isViewingEntities to pass filter in effect
             urlService.isViewingEntities.and.returnValue(true);
 
             // Create select project ID action
-            const action =
-                new SelectProjectIdAction("123abc", "short name", false, GASource.FACET_BROWSER);
+            const action = new SelectProjectIdAction(
+                "123abc",
+                "short name",
+                false,
+                GASource.FACET_BROWSER
+            );
 
             actions$ = hot("-a", {
-                a: action
+                a: action,
             });
 
             const expected = hot("-b", {
-                b: defaultSelectUrlSpecState
+                b: defaultSelectUrlSpecState,
             });
 
             // Pass through of URL spec state from concatMap/combineWithLatest before tap
@@ -447,15 +459,13 @@ describe("URL Effects", () => {
     });
 
     describe("updateCatalogQueryParam$", () => {
-
         /**
          * Catalog param set in query string.
          */
         it("updates query stirng with new catalog value", () => {
-
             const selectedCatalog = DCPCatalog.DCP1;
             actions$ = hot("-a", {
-                a: new SelectCatalogAction(selectedCatalog)
+                a: new SelectCatalogAction(selectedCatalog),
             });
 
             // Dispatch false - straight pass-through of actions
@@ -469,8 +479,8 @@ describe("URL Effects", () => {
                 [],
                 jasmine.objectContaining({
                     queryParams: {
-                        catalog: selectedCatalog
-                    }
+                        catalog: selectedCatalog,
+                    },
                 })
             );
         });

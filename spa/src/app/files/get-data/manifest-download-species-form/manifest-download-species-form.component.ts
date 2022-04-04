@@ -15,10 +15,9 @@ import EntitySpec from "../../shared/entity-spec";
 @Component({
     selector: "manifest-download-species-form",
     templateUrl: "./manifest-download-species-form.component.html",
-    styleUrls: ["./manifest-download-species-form.component.scss"]
+    styleUrls: ["./manifest-download-species-form.component.scss"],
 })
 export class ManifestDownloadSpeciesFormComponent {
-
     /**
      * @param {Router} router
      */
@@ -28,21 +27,21 @@ export class ManifestDownloadSpeciesFormComponent {
      * Return user to export options.
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Export Data";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
         this.router.navigate(["/export"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -50,9 +49,8 @@ export class ManifestDownloadSpeciesFormComponent {
      * Species has been selected, navigate to export.
      */
     public onSpeciesSelected(): void {
-
         this.router.navigate(["/export", "download-manifest"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 }

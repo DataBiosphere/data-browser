@@ -18,7 +18,6 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class ViewCatalogAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "CATALOG.VIEW_CATALOG";
     public readonly type = ViewCatalogAction.ACTION_TYPE;
 
@@ -30,8 +29,7 @@ export class ViewCatalogAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
+    public asEvent({ catalog }): GAEvent {
         return {
             category: GACategory.CATALOG,
             action: GAAction.VIEW_CATALOG,
@@ -39,7 +37,7 @@ export class ViewCatalogAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.CATALOG,
-            }
+            },
         };
     }
 }

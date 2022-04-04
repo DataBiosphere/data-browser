@@ -6,7 +6,6 @@
  */
 
 export interface MatrixResponseFile {
-
     contentDescription: string[];
     matrixCellCount?: number;
     name: string;

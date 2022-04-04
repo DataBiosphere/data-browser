@@ -9,6 +9,6 @@
 import { Action } from "@ngrx/store";
 
 export class LogoutRequestAction implements Action {
-public static ACTION_TYPE = "AUTH.LOGOUT_REQUEST";
+    public static ACTION_TYPE = "AUTH.LOGOUT_REQUEST";
     public readonly type = LogoutRequestAction.ACTION_TYPE;
 }

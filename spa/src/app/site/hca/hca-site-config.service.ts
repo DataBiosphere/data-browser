@@ -21,12 +21,10 @@ import { SiteConfigService } from "../site-config/site-config.service";
 
 @Injectable()
 export class HCASiteConfigService implements SiteConfigService {
-
     /**
      * Return the data release policy link component.
      */
     public getDataReleasePolicyLinkComponent(): Type<DataReleasePolicyLinkComponent> {
-
         return HCADataReleasePolicyLinkComponent;
     }
 
@@ -34,7 +32,6 @@ export class HCASiteConfigService implements SiteConfigService {
      * Return the data use notification component.
      */
     getDataUseNotificationComponent(): Type<DataUseNotificationComponent> {
-
         return HCADataUseNotificationComponent;
     }
 
@@ -42,7 +39,6 @@ export class HCASiteConfigService implements SiteConfigService {
      * Return the footer for the site.
      */
     public getFooter(): Type<FooterComponent> {
-
         return HCAFooterComponent;
     }
 
@@ -50,15 +46,13 @@ export class HCASiteConfigService implements SiteConfigService {
      * Returns true - support requests are enabled for this site.
      */
     public isSupportRequestEnabled(): boolean {
-
         return true;
     }
-    
+
     /**
      * Return the header for the site.
      */
     public getHeader(): Type<HeaderComponent> {
-
         return HCAToolbarComponent;
     }
 }

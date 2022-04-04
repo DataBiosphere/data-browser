@@ -12,10 +12,9 @@ import { Component, Input, ViewEncapsulation } from "@angular/core";
     selector: "get-data-panel",
     templateUrl: "./get-data-panel.component.html",
     styleUrls: ["./get-data-panel.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class GetDataPanelComponent {
-
     // Inputs
     @Input() downloadError: boolean;
     @Input() loading: boolean;

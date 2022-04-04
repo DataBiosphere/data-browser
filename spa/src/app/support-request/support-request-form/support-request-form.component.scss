@@ -62,7 +62,8 @@
 }
 
 /* Form controls */
-.support-request-form input, .support-request-form textarea {
+.support-request-form input,
+.support-request-form textarea {
     @include dp-font;
     border: 1px solid $hca-gray-light;
     border-radius: 2px;
@@ -73,7 +74,8 @@
     width: 100%;
 }
 
-.support-request-form input:focus, .support-request-form textarea:focus {
+.support-request-form input:focus,
+.support-request-form textarea:focus {
     outline: 0;
 }
 
@@ -111,7 +113,6 @@
     transition: all 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
     width: 100%;
 }
-
 
 .support-request-form .input-attachment directory-button {
     align-items: center;
@@ -160,7 +161,8 @@
     width: 30px;
 }
 
-.support-request-form .input-attachment-delete:before, .support-request-form .input-attachment-delete:after {
+.support-request-form .input-attachment-delete:before,
+.support-request-form .input-attachment-delete:after {
     background-color: $hca-primary;
     content: " ";
     height: 2px;
@@ -171,7 +173,8 @@
     top: 50%;
 }
 
-.support-request-form .input-attachment-delete:hover:before, .support-request-form .input-attachment-delete:hover:after {
+.support-request-form .input-attachment-delete:hover:before,
+.support-request-form .input-attachment-delete:hover:after {
     background-color: $hca-secondary;
 }
 
@@ -226,7 +229,7 @@
 }
 
 .support-request-form .support-request-buttons button {
-    font-family: 'din-2014', sans-serif;
+    font-family: "din-2014", sans-serif;
     text-transform: uppercase;
     transition: background-color 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -236,16 +239,22 @@
     margin-right: 8px;
 }
 
-.support-request-form .support-request-buttons .support-request-button-cancel:hover {
+.support-request-form
+    .support-request-buttons
+    .support-request-button-cancel:hover {
     background-color: $hca-gray-lightest;
 }
 
-.support-request-form .support-request-buttons .support-request-button-submit:not([disabled]) {
+.support-request-form
+    .support-request-buttons
+    .support-request-button-submit:not([disabled]) {
     background-color: $hca-blue-light;
     color: $hca-primary;
 }
 
-.support-request-form .support-request-buttons .support-request-button-submit:not([disabled]):hover {
+.support-request-form
+    .support-request-buttons
+    .support-request-button-submit:not([disabled]):hover {
     background-color: rgba(218, 240, 246, 0.54);
 }
 
@@ -253,7 +262,6 @@
  * Custom breakpoint - width of support request + left/right gutters 
  */
 @media screen and (max-width: 547px) {
-
     .support-request-form {
         bottom: 0;
         box-sizing: border-box;

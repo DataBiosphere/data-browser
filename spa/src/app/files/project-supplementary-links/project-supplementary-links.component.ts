@@ -11,11 +11,9 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 @Component({
     selector: "project-supplementary-links",
     templateUrl: "./project-supplementary-links.component.html",
-    styleUrls: ["./project-supplementary-links.component.scss"]
+    styleUrls: ["./project-supplementary-links.component.scss"],
 })
-
 export class ProjectSupplementaryLinksComponent {
-
     // Inputs/Outputs
     @Input() supplementaryLinks: string[];
     @Output() supplementaryLinkClicked = new EventEmitter<string>();
@@ -26,14 +24,15 @@ export class ProjectSupplementaryLinksComponent {
      * @param {string[]} supplementaryLinks
      * @returns {boolean}
      */
-    public isAnySupplementaryLinkAssociated(supplementaryLinks: string[]): boolean {
-
-        if ( !supplementaryLinks ) {
+    public isAnySupplementaryLinkAssociated(
+        supplementaryLinks: string[]
+    ): boolean {
+        if (!supplementaryLinks) {
             return false;
         }
-        
+
         // Handle [null] case returned from Azul.
-        return supplementaryLinks.filter(link => !!link).length > 0;
+        return supplementaryLinks.filter((link) => !!link).length > 0;
     }
 
     /**
@@ -43,12 +42,10 @@ export class ProjectSupplementaryLinksComponent {
      * @returns {boolean}
      */
     public isValidUrl(link: string): boolean {
-
         try {
             new URL(link);
             return true;
-        }
-        catch (_) {
+        } catch (_) {
             return false;
         }
     }
@@ -59,7 +56,6 @@ export class ProjectSupplementaryLinksComponent {
      * @param {string} supplementaryLink
      */
     onSupplementaryLinkClicked(supplementaryLink: string) {
-
         this.supplementaryLinkClicked.emit(supplementaryLink);
     }
 }

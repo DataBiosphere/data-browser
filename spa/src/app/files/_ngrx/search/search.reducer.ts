@@ -24,10 +24,11 @@ import { SelectProjectIdAction } from "./select-project-id.action";
  * @param action {Action}
  * @returns {SearchState}
  */
-export function reducer(state: SearchState = SearchState.getDefaultState(), action: Action): SearchState {
-
+export function reducer(
+    state: SearchState = SearchState.getDefaultState(),
+    action: Action
+): SearchState {
     switch (action.type) {
-
         // Age range has been cleared
         case ClearSelectedAgeRangeAction.ACTION_TYPE:
             return state.clearAgeRange(action as ClearSelectedAgeRangeAction);
@@ -35,11 +36,13 @@ export function reducer(state: SearchState = SearchState.getDefaultState(), acti
         // Clear all search terms
         case ClearSelectedTermsAction.ACTION_TYPE:
             return state.clearAllSelectedSearchTerms();
-            
+
         // Selected projects have been retrieved from the server, patch selected search terms
         case FetchSelectedProjectsSuccessAction.ACTION_TYPE:
-            return state.patchSelectedProjectSearchTerms(action as FetchSelectedProjectsSuccessAction);
-            
+            return state.patchSelectedProjectSearchTerms(
+                action as FetchSelectedProjectsSuccessAction
+            );
+
         // Term or project has been selected/deselected
         case SelectFileFacetTermAction.ACTION_TYPE:
         case SelectProjectIdAction.ACTION_TYPE:
@@ -48,7 +51,7 @@ export function reducer(state: SearchState = SearchState.getDefaultState(), acti
         // Age range has been selected
         case SelectFacetAgeRangeAction.ACTION_TYPE:
             return state.selectAgeRange(action as SelectFacetAgeRangeAction);
-            
+
         // Set of possible search terms to select from has been updated
         case SearchTermsUpdatedAction.ACTION_TYPE:
             return state.setSearchTerms(action as SearchTermsUpdatedAction);
@@ -56,7 +59,9 @@ export function reducer(state: SearchState = SearchState.getDefaultState(), acti
         // View state has been parsed from URL param on app init - must do this here to set the initial set of search
         // terms.
         case SetViewStateAction.ACTION_TYPE:
-            return state.setSelectedSearchTermsFromViewState(action as SetViewStateAction);
+            return state.setSelectedSearchTermsFromViewState(
+                action as SetViewStateAction
+            );
 
         default:
             return state;

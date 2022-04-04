@@ -7,6 +7,5 @@
 
 export enum BulkDownloadExecutionEnvironment {
     "BASH" = "bash",
-    "CMD_EXE" = "cmd.exe"
-    
+    "CMD_EXE" = "cmd.exe",
 }

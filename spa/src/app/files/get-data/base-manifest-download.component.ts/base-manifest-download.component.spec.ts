@@ -27,7 +27,6 @@ import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { TermSortService } from "../../sort/term-sort.service";
 
 describe("BaseManifestDownloadComponent", () => {
-
     let component: BaseManifestDownloadComponent;
     let fixture: ComponentFixture<BaseManifestDownloadComponent>;
 
@@ -37,64 +36,70 @@ describe("BaseManifestDownloadComponent", () => {
     const SEARCH_TERMS_WITH_FILE_FORMAT = [
         new SearchFacetTerm("fileFormat", "fastq", 123),
         new SearchFacetTerm("disease", "ESRD", 8),
-        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20),
     ];
-    
+
     // Empty file summary
     const FILE_SUMMARY_EMPTY = {
-        "donorCount": 0,
-        "fileCount": 0,
-        "fileTypeSummaries": [],
-        "organTypes": [],
-        "projectCount": 0,
-        "specimenCount": 0,
-        "totalCellCount": 0,
-        "totalFileSize": 0
+        donorCount: 0,
+        fileCount: 0,
+        fileTypeSummaries: [],
+        organTypes: [],
+        projectCount: 0,
+        specimenCount: 0,
+        totalCellCount: 0,
+        totalFileSize: 0,
     };
 
     /**
      * Setup before each test.
      */
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
                 DataLinkComponent,
                 FileTypeSummaryFormComponent,
                 GetDataPanelComponent,
-                BaseManifestDownloadComponent
+                BaseManifestDownloadComponent,
             ],
             imports: [
                 ClipboardModule,
                 MatIconModule,
                 MatTooltipModule,
-                PipeModule
+                PipeModule,
             ],
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", [
+                        "getPortalUrl",
+                    ]),
                 },
                 {
                     provide: GTMService,
                     useValue: jasmine.createSpyObj("GTMService", [
-                        "trackEvent"
-                    ])
+                        "trackEvent",
+                    ]),
                 },
                 {
                     provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
+                    useValue: jasmine.createSpyObj("SearchTermHttpService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms",
+                    ]),
                 },
                 {
                     provide: Store,
-                    useValue: testStore
+                    useValue: testStore,
                 },
                 {
                     provide: TermSortService,
-                    useValue: jasmine.createSpyObj("TermSortService", ["sortTerms"])
-                }
-            ]
+                    useValue: jasmine.createSpyObj("TermSortService", [
+                        "sortTerms",
+                    ]),
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(BaseManifestDownloadComponent);
@@ -105,7 +110,6 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm get file type summaries returns an empty array when file summaries is empty.
      */
     it("returns empty array of file type summaries when file summaries is empty", () => {
-
         // Confirm get file type summaries returns an empty array, when file summaries is empty - first execute the
         // method and then confirm the returned value is an empty array.
         const fileTypeSummaries = FILE_SUMMARY_EMPTY.fileTypeSummaries;
@@ -116,7 +120,6 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm get file type summaries returns file type summaries when file summaries is not empty.
      */
     it("returns file type summaries array when file summaries is not empty", () => {
-
         // Confirm get file type summaries returns file type summaries, when file summaries is not empty - first execute the
         // method and then confirm the returned value is equal to the DEFAULT_FILE_SUMMARY file type summaries.
         const fileTypeSummaries = FILE_SUMMARY.fileTypeSummaries;
@@ -127,7 +130,6 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm any file format selected returns false when no "fileFormat" facet terms are selected.
      */
     it(`returns false when no "fileFormat" facet terms are selected`, () => {
-
         // Confirm any file format selected returns false, when no "fileFormat" facet terms are selected - first execute the
         // method and then confirm the returned value is false.
         const anyFormatSelected = component.isAnyFileFormatSelected([]);
@@ -138,10 +140,11 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm any file format selected returns true when "fileFormat" facet terms are selected.
      */
     it(`returns true when "fileFormat" facet terms are selected`, () => {
-
         // Confirm any file format selected returns true, when "fileFormat" facet terms are selected - first execute the
         // method and then confirm the returned value is true.
-        const anyFormatSelected = component.isAnyFileFormatSelected(SEARCH_TERMS_WITH_FILE_FORMAT);
+        const anyFormatSelected = component.isAnyFileFormatSelected(
+            SEARCH_TERMS_WITH_FILE_FORMAT
+        );
         expect(anyFormatSelected).toEqual(true);
     });
 
@@ -149,10 +152,11 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm file type summaries empty returns true when file summary is empty.
      */
     it("returns true when file summary is empty", () => {
-
         // Confirm file type summaries empty returns true, when file summary is empty - first execute the
         // method and then confirm the returned value is true.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY_EMPTY.fileTypeSummaries);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(
+            FILE_SUMMARY_EMPTY.fileTypeSummaries
+        );
         expect(fileTypeSummariesEmpty).toEqual(true);
     });
 
@@ -160,10 +164,11 @@ describe("BaseManifestDownloadComponent", () => {
      * Confirm file type summaries empty returns false when file summary is not empty.
      */
     it("returns false when file summary is not empty", () => {
-
         // Confirm file type summaries empty returns false, when file summary is not empty - first execute the
         // method and then confirm the returned value is false.
-        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(FILE_SUMMARY.fileTypeSummaries);
+        const fileTypeSummariesEmpty = component.isFileTypeSummariesEmpty(
+            FILE_SUMMARY.fileTypeSummaries
+        );
         expect(fileTypeSummariesEmpty).toEqual(false);
     });
 });

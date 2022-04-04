@@ -19,27 +19,34 @@ export const selectAuth = createFeatureSelector<AuthState>("auth");
 /**
  * Return true if the auth state has been initialized.
  */
-export const selectAuthInit =
-    createSelector(selectAuth, (state: AuthState) => state.init);
+export const selectAuthInit = createSelector(
+    selectAuth,
+    (state: AuthState) => state.init
+);
 
 /**
  * Returns object representing init and authenticated states.
  */
-export const selectAuthInitAndAuthenticated =
-    createSelector(selectAuth, (state: AuthState) => ({
+export const selectAuthInitAndAuthenticated = createSelector(
+    selectAuth,
+    (state: AuthState) => ({
         authenticated: state.authenticated,
-        init: state.init
-    }));
-
+        init: state.init,
+    })
+);
 
 /**
  * Return true if the user is authenticated
  */
-export const selectAuthenticated =
-    createSelector(selectAuth, (state: AuthState) => state.authenticated);
+export const selectAuthenticated = createSelector(
+    selectAuth,
+    (state: AuthState) => state.authenticated
+);
 
 /**
  * Returns the current authenticated user, if any.
  */
-export const selectUser =
-    createSelector(selectAuth, (state: AuthState) => state.user);
+export const selectUser = createSelector(
+    selectAuth,
+    (state: AuthState) => state.user
+);

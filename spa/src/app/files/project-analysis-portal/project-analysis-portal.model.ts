@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model of an project-level analysis portal.  
+ * Model of an project-level analysis portal.
  */
 
 // App dependencies

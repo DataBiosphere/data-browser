@@ -13,15 +13,18 @@ import { FetchProjectEditsRequestAction } from "./fetch-project-edits-request.ac
 import { FetchProjectEditsSuccessAction } from "./fetch-project-edits-success.action";
 import { ProjectEditsState } from "./project-edits.state";
 
-export function reducer(state: ProjectEditsState = ProjectEditsState.getDefaultState(), action: Action): ProjectEditsState {
-
+export function reducer(
+    state: ProjectEditsState = ProjectEditsState.getDefaultState(),
+    action: Action
+): ProjectEditsState {
     switch (action.type) {
-
         case FetchProjectEditsRequestAction.ACTION_TYPE:
             return state.fetchProjectEditsRequest();
 
         case FetchProjectEditsSuccessAction.ACTION_TYPE:
-            return state.fetchProjectEditsSuccess(action as FetchProjectEditsSuccessAction);
+            return state.fetchProjectEditsSuccess(
+                action as FetchProjectEditsSuccessAction
+            );
 
         default:
             return state;

@@ -13,7 +13,8 @@
     min-width: 338px; /* Required for snap */
 
     /* Query, summary */
-    .data-query, .data-file-summary {
+    .data-query,
+    .data-file-summary {
         padding: 16px 0 24px;
         position: relative; /* Positions separator */
 
@@ -36,8 +37,8 @@
     }
 
     /* Query, summary */
-    .data-query, .data-file-summary {
-
+    .data-query,
+    .data-file-summary {
         h4 {
             margin: 0 0 8px;
         }

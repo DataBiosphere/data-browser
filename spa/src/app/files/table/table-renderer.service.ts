@@ -12,17 +12,15 @@ import { map, take } from "rxjs/operators";
 
 @Injectable()
 export class TableRendererService {
-
     /**
      * Simulated calculation of end of change detection.
      *
      * @returns {Observable<boolean>}
      */
     public onRenderCompleted(): Observable<boolean> {
-
         return interval(0).pipe(
             take(1),
             map(() => true)
-        )
+        );
     }
 }

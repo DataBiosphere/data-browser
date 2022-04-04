@@ -21,9 +21,7 @@ import { LocaleStringPipe } from "../../pipe/locale-string/locale-string.pipe";
     styleUrls: ["./hca-file-summary.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class HCAFileSummaryComponent {
-
     // Inputs
     @Input() showDownload: boolean;
     @Input() summary: FileSummary;
@@ -41,7 +39,9 @@ export class HCAFileSummaryComponent {
      * @returns {boolean}
      */
     public isTooltipDisabled(count: number): boolean {
-
-        return new CountSizePipe().transform(count) === new LocaleStringPipe().transform(count);
+        return (
+            new CountSizePipe().transform(count) ===
+            new LocaleStringPipe().transform(count)
+        );
     }
 }

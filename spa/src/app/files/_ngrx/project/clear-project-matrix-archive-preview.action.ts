@@ -10,7 +10,6 @@
 import { Action } from "@ngrx/store";
 
 export class ClearProjectMatrixArchivePreviewAction implements Action {
-
     public static ACTION_TYPE = "PROJECT.CLEAR_PROJECT_MATRIX_ARCHIVE_PREVIEW";
     public readonly type = ClearProjectMatrixArchivePreviewAction.ACTION_TYPE;
 

@@ -18,7 +18,6 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
 export class ClearSelectedTermsAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "FILE.SEARCH.CLEAR_SELECTED_TERMS";
     public readonly type = ClearSelectedTermsAction.ACTION_TYPE;
 
@@ -33,8 +32,7 @@ export class ClearSelectedTermsAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         return {
             category: GACategory.SEARCH,
             action: GAAction.CLEAR,
@@ -44,8 +42,8 @@ export class ClearSelectedTermsAction implements Action, TrackingAction {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_TYPE]: GAEntityType.FACET,
                 [GADimension.INDEX]: index,
-                [GADimension.SOURCE]: this.source
-            }
+                [GADimension.SOURCE]: this.source,
+            },
         };
     }
 }

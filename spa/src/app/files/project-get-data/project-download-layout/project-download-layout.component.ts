@@ -20,14 +20,13 @@ import { Project } from "../../shared/project.model";
     animations: [
         trigger("fadeIn", [
             transition(":enter", [
-                style({opacity: 0}),
-                animate("750ms ease-out", style({opacity: 1}))
-            ])
-        ])
-    ]
+                style({ opacity: 0 }),
+                animate("750ms ease-out", style({ opacity: 1 })),
+            ]),
+        ]),
+    ],
 })
 export class ProjectDownloadLayoutComponent {
-    
     // Inputs
     @Input() fullWidth: boolean;
     @Input() loaded: boolean;
@@ -37,11 +36,10 @@ export class ProjectDownloadLayoutComponent {
 
     /**
      * Handle click on back button.
-     * 
+     *
      * @param {EntitySpec} entitySpec
      */
     public onTabSelected(entitySpec: EntitySpec): void {
-        
         this.tabSelected.emit(entitySpec);
     }
 }

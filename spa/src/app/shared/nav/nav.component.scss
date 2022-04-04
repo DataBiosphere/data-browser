@@ -15,7 +15,7 @@
 .nav {
     color: $hca-gray-dark;
     display: block;
-    font-family: Montserrat,sans-serif;
+    font-family: Montserrat, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 18px;
@@ -45,7 +45,8 @@
 }
 
 /* Nav with sub items */
-.sub-nav, .sub-nav-item {
+.sub-nav,
+.sub-nav-item {
     position: relative; /* Positions line */
 }
 
@@ -56,7 +57,8 @@
 
 /* Line indicator */
 /* Nav with sub items line indicator */
-.sub-nav:before, .sub-nav-item:before {
+.sub-nav:before,
+.sub-nav-item:before {
     background-color: $hca-gray-lightest;
     content: "";
     height: 100%;

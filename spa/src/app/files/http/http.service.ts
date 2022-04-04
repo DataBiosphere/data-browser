@@ -13,20 +13,17 @@ import { Catalog } from "../catalog/catalog.model";
 
 @Injectable()
 export class HttpService {
-
     /**
      * Modify the set of request params by adding a catalog param, if specified.
      */
     public createIndexParams(catalog: Catalog, params: any): any {
-
-        if ( catalog ) {
+        if (catalog) {
             return {
                 ...params,
-                catalog
-            }
+                catalog,
+            };
         }
-        
+
         return params;
     }
 }
-

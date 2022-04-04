@@ -11,8 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "hca-table-cell",
     templateUrl: "./hca-table-cell.component.html",
-    styleUrls: ["./hca-table-cell.component.scss"]
+    styleUrls: ["./hca-table-cell.component.scss"],
 })
-
-export class HCATableCellComponent {
-}
+export class HCATableCellComponent {}

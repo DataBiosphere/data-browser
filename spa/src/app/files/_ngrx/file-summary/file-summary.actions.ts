@@ -20,6 +20,4 @@ export class FetchFileSummarySuccessAction implements Action {
     constructor(public readonly fileSummary) {}
 }
 
-export type All
-    = FetchFileSummaryRequestAction
-    | FetchFileSummarySuccessAction;
+export type All = FetchFileSummaryRequestAction | FetchFileSummarySuccessAction;

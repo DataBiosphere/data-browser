@@ -14,17 +14,11 @@ import { FileSizePipe } from "./file-size/file-size.pipe";
 import { LocaleStringPipe } from "./locale-string/locale-string.pipe";
 import { CamelToSpacePipe } from "./camel-to-space/camel-to-space.pipe";
 
-const pipes = [
-    CamelToSpacePipe,
-    CountSizePipe,
-    FileSizePipe,
-    LocaleStringPipe
-];
+const pipes = [CamelToSpacePipe, CountSizePipe, FileSizePipe, LocaleStringPipe];
 
 @NgModule({
     imports: [],
     declarations: pipes,
-    exports: pipes
+    exports: pipes,
 })
-export class PipeModule {
-}
+export class PipeModule {}

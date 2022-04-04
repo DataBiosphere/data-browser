@@ -8,5 +8,5 @@
 export enum Deployment {
     "LOCAL" = "local",
     "DEVELOP" = "develop",
-    "PROD" = "prod"
+    "PROD" = "prod",
 }
